@@ -30,6 +30,7 @@ import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+@SuppressWarnings("WeakerAccess")
 public class Contract {
     public static final String CONTENT_AUTHORITY = "info.pelleritoudacity.android.rcapstone";
 

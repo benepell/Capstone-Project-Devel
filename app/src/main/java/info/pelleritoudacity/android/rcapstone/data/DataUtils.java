@@ -33,13 +33,10 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 
-import java.util.Timer;
-
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.model.Data;
 import info.pelleritoudacity.android.rcapstone.model.Reddit;
 import info.pelleritoudacity.android.rcapstone.model.T5Data;
-import timber.log.Timber;
 
 
 public class DataUtils {
@@ -287,10 +284,7 @@ public class DataUtils {
         final Uri uriData = mContext.getContentResolver().insert(Contract.DataEntry.CONTENT_URI, dataCV);
         int countT5Data = mContext.getContentResolver().bulkInsert(Contract.T5dataEntry.CONTENT_URI, arrT5CV);
 
-        if ((uriReddit == null) || (uriData == null) || (countT5Data == 0)) {
-            return false;
-        }
-        return true;
+        return (uriReddit != null) && (uriData != null) && (countT5Data != 0);
     }
 
     private void putNullCV(ContentValues contentValues, String contractEntry, Object strObject) {

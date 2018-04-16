@@ -45,6 +45,7 @@ public class Data implements Parcelable
     }
             ;
 
+    @SuppressWarnings("WeakerAccess")
     protected Data(Parcel in) {
         this.after = ((String) in.readValue((String.class.getClassLoader())));
         this.dist = ((Integer) in.readValue((Integer.class.getClassLoader())));

@@ -220,6 +220,7 @@ public class T5Data implements Parcelable
     }
     ;
 
+    @SuppressWarnings("WeakerAccess")
     protected T5Data(Parcel in) {
         this.suggestedCommentSort = in.readValue((Object.class.getClassLoader()));
         this.hideAds = ((Boolean) in.readValue((Boolean.class.getClassLoader())));

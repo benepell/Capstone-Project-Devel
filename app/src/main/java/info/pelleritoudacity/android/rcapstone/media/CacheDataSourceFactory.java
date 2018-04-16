@@ -116,7 +116,7 @@ public class CacheDataSourceFactory implements DataSource.Factory {
             path = Environment.getExternalStoragePublicDirectory(context.getPackageName()) + Costants.PATH_SEPARATOR +
                     context.getCacheDir().getName() + Costants.PATH_SEPARATOR + Costants.CACHE_VIDEO_DIR;
 
-        } else if ((Build.VERSION.SDK_INT >= 23) && (Utility.isPermissionExtStorage(context))) {
+        } else if (Utility.isPermissionExtStorage(context)) {
             path = Environment.getExternalStoragePublicDirectory(context.getPackageName()) + Costants.PATH_SEPARATOR +
                     context.getCacheDir().getName() + Costants.PATH_SEPARATOR + Costants.CACHE_VIDEO_DIR;
 

@@ -30,8 +30,6 @@ package info.pelleritoudacity.android.rcapstone.rest;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import java.util.ArrayList;
-
 import info.pelleritoudacity.android.rcapstone.data.DataUtils;
 import info.pelleritoudacity.android.rcapstone.model.Reddit;
 import retrofit2.Call;

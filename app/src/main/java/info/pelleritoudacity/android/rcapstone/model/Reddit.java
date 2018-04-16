@@ -33,6 +33,7 @@ public class Reddit implements Parcelable
     }
     ;
 
+    @SuppressWarnings("WeakerAccess")
     protected Reddit(Parcel in) {
         this.kind = ((String) in.readValue((String.class.getClassLoader())));
         this.data = ((Data) in.readValue((Data.class.getClassLoader())));

@@ -33,6 +33,7 @@ public class Children implements Parcelable
     }
     ;
 
+    @SuppressWarnings("WeakerAccess")
     protected Children(Parcel in) {
         this.kind = ((String) in.readValue((String.class.getClassLoader())));
         this.data = ((T5Data) in.readValue((T5Data.class.getClassLoader())));

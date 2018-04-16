@@ -28,10 +28,8 @@ package info.pelleritoudacity.android.rcapstone.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 
@@ -54,7 +52,6 @@ public class MainActivity extends BaseActivity implements RestExecute.RestData, 
     @BindView(R.id.swipe_refresh_layout)
     public SwipeRefreshLayout mSwipeRefreshLayout;
 
-
     private Context mContext;
     private boolean mIsRefreshing;
 
@@ -74,14 +71,6 @@ public class MainActivity extends BaseActivity implements RestExecute.RestData, 
 
         dataClearSnackBar(R.string.text_dialog_confirm_reset);
 
-        /*Cursor cursor = mContext.getContentResolver().query(Contract.T5dataEntry.CONTENT_URI, null, null, null, null);
-        boolean isRecord = ((cursor != null) && (cursor.getCount() > 0));
-        if (isRecord) {
-            int val = cursor.getCount();
-            Timber.d("record data count: %s", val);
-        }
-        if (cursor != null) cursor.close();
-*/
     }
 
     @Override
@@ -89,36 +78,27 @@ public class MainActivity extends BaseActivity implements RestExecute.RestData, 
         if (listenerData != null) {
             DataUtils dataUtils = new DataUtils(mContext);
             if (dataUtils.saveDB(listenerData)) {
-//                startFragmentDb();
+                // todo start Fragment Db
             } else {
-                shownError(R.string.error_state_critical, "Insert Data");
+                Snackbar.make(findViewById(R.id.main_container), R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
             }
         }
     }
-
 
     @Override
     public void onErrorData(Throwable t) {
         Timber.d("onErrorData %s ", t.getMessage() + Arrays.toString(t.getStackTrace()));
     }
 
-    private void shownError(int resourceError, String details) {
-//        mErrorText.setVisibility(View.VISIBLE);
-        if (details == null) details = "...";
-//        mErrorText.setText(getString(resourceError, details));
-//        mErrorText.setTag(resourceError);
-    }
-
     @Override
     public void onRefresh() {
         if (Utility.isOnline(getApplicationContext())) {
-//            startService(new Intent(this, UpdaterService.class));
-
+            new RestExecute().loadData(this);
         } else {
             mIsRefreshing = false;
             Snackbar.make(findViewById(R.id.main_container), R.string.list_snackbar_offline_text, Snackbar.LENGTH_LONG).show();
-            updateRefreshingUI();
         }
+        updateRefreshingUI();
 
     }
 

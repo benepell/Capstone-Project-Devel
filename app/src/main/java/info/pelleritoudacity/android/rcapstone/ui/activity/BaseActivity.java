@@ -315,7 +315,7 @@ public class BaseActivity extends AppCompatActivity
     }
 
 
-    void openHomeActivity() {
+    private void openHomeActivity() {
         startActivity(new Intent(this, MainActivity.class)
                 .setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION));
     }
