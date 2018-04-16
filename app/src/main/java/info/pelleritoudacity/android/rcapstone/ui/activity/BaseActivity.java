@@ -23,7 +23,6 @@
 
 package info.pelleritoudacity.android.rcapstone.ui.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -34,21 +33,16 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
-import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 
-import java.lang.ref.WeakReference;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
@@ -60,14 +54,10 @@ public class BaseActivity extends AppCompatActivity
 
     private int mLayoutResource;
 
-    private static int sPosition;
-    private static WeakReference<Context> sWeakReference;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sWeakReference = new WeakReference<>(getApplicationContext());
 
         ViewStub mStub;
 
@@ -126,10 +116,10 @@ public class BaseActivity extends AppCompatActivity
 
         switch (getLayoutResource()) {
             case R.layout.activity_main:
-                inflater.inflate(R.menu.list_menu, menu);
+                inflater.inflate(R.menu.main, menu);
                 break;
             default:
-                inflater.inflate(R.menu.base_menu, menu);
+                inflater.inflate(R.menu.main, menu);
         }
 
 
@@ -139,19 +129,12 @@ public class BaseActivity extends AppCompatActivity
     @Override
     protected boolean onPrepareOptionsPanel(View view, Menu menu) {
 
-        MenuItem menuItemShare;
-        MenuItem menuItemHome;
-        MenuItem menuItemSingle;
-        MenuItem menuItemMulti;
-        MenuItem menuItemTextShort;
-        MenuItem menuItemTextFull;
+        MenuItem menuItemLogin;
 
         if (getLayoutResource() == R.layout.activity_main) {
 
-            menuItemHome = menu.findItem(R.id.menu_action_home);
-            /*menuItemSingle = menu.findItem(R.id.menu_action_single);
-            menuItemMulti = menu.findItem(R.id.menu_action_multi);
-*/
+            menuItemLogin = menu.findItem(R.id.menu_action_login);
+
 
             switch (PrefManager.getIntPref(getApplicationContext(), R.string.pref_type_mode)) {
   /*              case Costants.NAV_MODE_SINGLE:
@@ -165,7 +148,7 @@ public class BaseActivity extends AppCompatActivity
                 case 0:
                     break;
                 default:
-                    menuItemHome.setChecked(false);
+                    menuItemLogin.setChecked(false);
             }
 
 
@@ -206,7 +189,7 @@ public class BaseActivity extends AppCompatActivity
         if (getLayoutResource() == R.layout.activity_main) {
             int id = item.getItemId();
             switch (id) {
-                case R.id.menu_action_home:
+                case R.id.menu_action_login:
                     openHomeActivity();
                     return true;
                 /*case R.id.menu_action_single:
@@ -293,7 +276,7 @@ public class BaseActivity extends AppCompatActivity
         MenuItem itemModeAllText = menu.findItem(R.id.nav_mode_all);
         MenuItem itemModeSearchText = menu.findItem(R.id.nav_mode_search);
         MenuItem itemModeSubscriptions = menu.findItem(R.id.nav_mode_subscriptions);
-        MenuItem itemModeNight = menu.findItem(R.id.nav_mode_night);
+        MenuItem itemModeRefresh = menu.findItem(R.id.nav_mode_refresh);
         MenuItem itemModeSettings = menu.findItem(R.id.nav_mode_settings);
 
         itemHome.setIcon(new IconicsDrawable(this, MaterialDesignIconic.Icon.gmi_home)
@@ -311,7 +294,7 @@ public class BaseActivity extends AppCompatActivity
         itemModeSubscriptions.setIcon(new IconicsDrawable(this, MaterialDesignIconic.Icon.gmi_view_headline)
                 .respectFontBounds(true));
 
-        itemModeNight.setIcon(new IconicsDrawable(this, MaterialDesignIconic.Icon.gmi_wb_iridescent)
+        itemModeRefresh.setIcon(new IconicsDrawable(this, MaterialDesignIconic.Icon.gmi_refresh)
                 .respectFontBounds(true));
 
         itemModeSettings.setIcon(new IconicsDrawable(this, MaterialDesignIconic.Icon.gmi_settings)
@@ -322,9 +305,9 @@ public class BaseActivity extends AppCompatActivity
                 itemModeSubscriptions.setChecked(true);
                 itemModeSubscriptions.setEnabled(false);
                 break;
-            case Costants.NAV_MODE_NIGHT:
-                itemModeNight.setChecked(true);
-                itemModeNight.setEnabled(false);
+            case Costants.NAV_MODE_REFRESH:
+                itemModeRefresh.setChecked(false);
+                itemModeRefresh.setEnabled(false);
                 break;
             default:
                 itemHome.setChecked(false);
@@ -346,27 +329,6 @@ public class BaseActivity extends AppCompatActivity
         return mLayoutResource;
     }
 
-
-    static void setPosition(int position) {
-        sPosition = position;
-    }
-
-    public static int getPosition() {
-        return sPosition;
-    }
-
-    private void activityShareText(Context context, String title, String text) {
-        if ((context == null) && (TextUtils.isEmpty(text))) return;
-
-        if (context != null) {
-            Intent shareIntent = new Intent(Intent.ACTION_SEND);
-            shareIntent.setType("text/plain");
-            shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
-            shareIntent.putExtra(Intent.EXTRA_TEXT, text);
-            shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            context.startActivity(shareIntent);
-        }
-    }
 
 
 }

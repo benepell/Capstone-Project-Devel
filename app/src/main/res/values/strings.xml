@@ -1,16 +1,13 @@
-<!DOCTYPE resources [
-    <!ENTITY app_name "RcapStone">
-    <!ENTITY app_package "info.pelleritoudacity.android.rcapstone">
-    ]>
+<!DOCTYPE resources [<!ENTITY app_name "RcapStone"><!ENTITY app_package "info.pelleritoudacity.android.rcapstone">]>
 <resources>
     <string name="app_name">&app_name;</string>
 
+    <string name="title_activity_settings">Settings</string>
+
     <string name="content_authority" translatable="false">&app_package;</string>
-    <string name="pref_insert_data" translatable="false">&app_package;.insertdata</string>
+    <string name="pref_insert_data" translatable="false">&app_package;.pref.insert.data</string>
 
     <string name="error_state_critical">Unable to start &app_name;\n cause: %1$s\n Please, start factory data reset in menu settings or restart app. </string>
-
-    <string name="title_menu_home">Home</string>
 
     <string name="pref_type_mode" translatable="false">&app_package;.pref.type.mode</string>
 
@@ -25,12 +22,6 @@
     <string name="url_app" translatable="false">http://android.pelleritoudacity.info/rcapstone</string>
 
     <string name="list_snackbar_offline_text">No Internet connection &#8230; \n swipe here to try again.</string>
-    <string name="title_menu_mode_popular">popular</string>
-    <string name="title_menu_mode_all">all</string>
-    <string name="title_menu_mode_search">search</string>
-    <string name="title_menu_subscriptions">subscriptions</string>
-    <string name="title_menu_mode_night">night</string>
-    <string name="title_menu_mode_settings">settings</string>
     <string name="summary_drawer_night">drawer night summary</string>
 
     <string name="pref_app_version" translatable="false">pref_app_version</string>
@@ -52,20 +43,19 @@
     <string name="pref_widget_id" translatable="false">&app_package;.pref.widget.it</string>
     <string name="pref_widget_name" translatable="false">&app_package;.pref.widget.name</string>
 
+    <string name="pref_night_mode" translatable="false">&app_package;.pref_night_mode</string>
+    <string name="title_night_mode">Night Mode</string>
+    <string name="summary_night_mode">Switch the &app_name; app to the Dark theme, displaying white text on black for a comfortable viewing experience at night</string>
 
-    <string name="pref_tab_layout" translatable="false">pref_tab_layout</string>
-    <string name="title_tab_layout">Tab Layout</string>
-    <string name="summary_tab_layout">Tab Layout provides a horizontal layout to display ingredients and steps</string>
+    <string name="pref_adult_filter" translatable="false">&app_package;.pref_adult_filter</string>
+    <string name="title_adult_filter">Adult Filter</string>
+    <string name="summary_adult_filter">Prevent access to certain items, search for gifs and count the number of results marked age +18.</string>
 
-    <string name="pref_video_notification" translatable="false">pref_video_notification</string>
-    <string name="title_video_notification">Video Notification</string>
-    <string name="summary_video_notification">Continue video playback in background when turning device screen off or click Home button.</string>
-
-    <string name="pref_rendering_video" translatable="false">pref_resume_video</string>
+    <string name="pref_rendering_video" translatable="false">&app_package;.pref_resume_video</string>
     <string name="title_rendering_video">Video Rendering</string>
     <string name="summary_rendering_video">Allow use of extension renderers.</string>
 
-    <string name="pref_sync_frequency" translatable="false">pref_sync_frequency</string>
+    <string name="pref_sync_frequency" translatable="false">&app_package;pref_sync_frequency</string>
     <string name="pref_title_sync_frequency" translatable="false">Sync Data</string>
     <string-array name="pref_sync_frequency_titles">
         <item>15 minutes</item>
@@ -88,11 +78,29 @@
     <string name="summary_clear_data">Delete all data stored on device.</string>
     <string name="pref_clear_data">&app_package;.pref.clear.data</string>
     <string name="text_clear_data">This action will delete all your data. Are you sure you want to continue?</string>
-    <string name="text_dialog_confirm_reset">Delete All Data DONE.</string>
-    <string name="title_dialog_confirm">Factory data reset</string>
+    <string name="text_dialog_confirm_reset">Factory Data Reset: Delete All Data.</string>
+    <string name="title_dialog_confirm">Factory Data Reset</string>
     <string name="text_dialog_confirm_no_reset">Cancel</string>
     <string name="text_positive_dialog_confirm">Delete</string>
-    <string name="title_activity_settings">settings</string>
+
+    <string name="title_menu_home">Home</string>
+    <string name="title_menu_mode_popular">Popular</string>
+    <string name="title_menu_mode_all">All</string>
+    <string name="title_menu_mode_search">Search</string>
+
+    <string name="title_menu_subscriptions">Subscriptions</string>
+    <string name="title_menu_mode_refresh">Refresh</string>
+    <string name="title_menu_mode_settings">Settings</string>
+
+    <string name="title_menu_login">Login</string>
+    <string name="title_menu_filter">Filter posts</string>
+    <string name="title_submenu_best">Best</string>
+    <string name="title_submenu_top">Top</string>
+    <string name="title_submenu_new">New</string>
+    <string name="title_submenu_old">Old</string>
+    <string name="title_submenu_controver">Controver</string>
+
+    <string name="title_menu_create">Create Post</string>
 
 
 </resources>

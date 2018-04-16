@@ -2,15 +2,15 @@
 
     <SwitchPreferenceCompat
         android:defaultValue="false"
-        android:key="@string/pref_tab_layout"
-        android:summary="@string/summary_tab_layout"
-        android:title="@string/title_tab_layout" />
+        android:key="@string/pref_night_mode"
+        android:summary="@string/summary_night_mode"
+        android:title="@string/title_night_mode" />
 
     <SwitchPreferenceCompat
-        android:defaultValue="false"
-        android:key="@string/pref_video_notification"
-        android:summary="@string/summary_video_notification"
-        android:title="@string/title_video_notification" />
+        android:defaultValue="true"
+        android:key="@string/pref_adult_filter"
+        android:summary="@string/summary_adult_filter"
+        android:title="@string/title_adult_filter" />
 
     <SwitchPreferenceCompat
         android:defaultValue="false"

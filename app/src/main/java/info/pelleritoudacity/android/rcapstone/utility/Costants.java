@@ -32,12 +32,11 @@ public interface Costants {
 
     String REDDIT_SYNC_TAG = "baking-sync";
 
-
     int NAV_MODE_POPULAR_TEXT = 1;
     int NAV_MODE_ALL_TEXT = 2;
     int NAV_MODE_SEARCH_TEXT = 3;
     int NAV_MODE_SUBSCRIPTIONS = 4;
-    int NAV_MODE_NIGHT = 5;
+    int NAV_MODE_REFRESH = 5;
     int NAV_MODE_SETTINGS = 6;
 
     String PATH_SEPARATOR = "/";
