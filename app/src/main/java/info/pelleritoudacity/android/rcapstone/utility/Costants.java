@@ -28,9 +28,7 @@ package info.pelleritoudacity.android.rcapstone.utility;
 
 public interface Costants {
 
-    String REDDIT_BASE_URL = "https://www.reddit.com/";
-
-    String REDDIT_SYNC_TAG = "baking-sync";
+    String REDDIT_SYNC_TAG = "rcapstone-sync";
 
     int NAV_MODE_POPULAR_TEXT = 1;
     int NAV_MODE_ALL_TEXT = 2;
@@ -49,4 +47,9 @@ public interface Costants {
     long CACHE_FILE_SIZE_MAX = 20 * 1024 * 1024;
 
     int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 10;
+
+    int OK_HTTP_CONNECTION_TIMEOUT = 1 * 60;
+    int OK_HTTP_CONNECTION_READ_TIMEOUT = 30;
+    int OK_HTTP_CONNECTION_WRITE_TIMEOUT = 15;
+
 }

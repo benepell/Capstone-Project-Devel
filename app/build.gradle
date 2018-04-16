@@ -13,8 +13,8 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes.each {
-        //  UDACITY URL
-        it.buildConfigField 'String', 'BASE_URL', '\"https://www\"'
+        //  REDDIT BASE URL
+        it.buildConfigField 'String', 'REDDIT_BASE_URL', '\"https://www.reddit.com/\"'
     }
     buildTypes {
         release {
