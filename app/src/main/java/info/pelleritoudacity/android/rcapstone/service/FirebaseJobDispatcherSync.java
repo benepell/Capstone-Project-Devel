@@ -67,16 +67,14 @@ public class FirebaseJobDispatcherSync {
                     .build();
 
             dispatcher.schedule(syncJob);
-            Timber.d("run Firebase JobDispatcer " );
+            Timber.d("run Firebase JobDispatcer ");
         }
     }
 
     public static void initialize(Context context) {
         if (sInitialized) return;
         sInitialized = true;
-        // todo add menu settings interval  - manuals setting value frequency job
-        //        int interval = PrefManager.getIntGeneralSettings(context, R.string.pref_sync_frequency);
-        int interval = 2;
+        int interval = PrefManager.getIntGeneralSettings(context, R.string.pref_sync_frequency);
         scheduleFirebaseJobDispatcherSync(context, interval);
     }
 }

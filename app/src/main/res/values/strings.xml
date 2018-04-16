@@ -1,13 +1,69 @@
 <!DOCTYPE resources [
     <!ENTITY app_name "RcapStone">
+    <!ENTITY app_package "info.pelleritoudacity.android.rcapstone">
     ]>
 <resources>
     <string name="app_name">&app_name;</string>
 
-    <string name="content_authority" translatable="false">info.pelleritoudacity.android.rcapstone</string>
-    <string name="pref_insert_data" translatable="false">info.pelleritoudacity.android.rcapstone.insertdata</string>
+    <string name="content_authority" translatable="false">&app_package;</string>
+    <string name="pref_insert_data" translatable="false">&app_package;.insertdata</string>
 
     <string name="error_state_critical">Unable to start &app_name;\n cause: %1$s\n Please, start factory data reset in menu settings or restart app. </string>
+
+    <string name="title_menu_home">Home</string>
+
+    <string name="pref_type_mode" translatable="false">&app_package;.pref.type.mode</string>
+
+    <string name="pref_drawer_night" translatable="false">&app_package;.pref.drawer.night</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_activity_base">&app_name; base </string>
+
+    <string name="image_description_app">&app_name; Android Nano degree </string>
+    <string name="image_description_image">&app_name; Android Nanodegree Image</string>
+    <string name="url_app" translatable="false">http://android.pelleritoudacity.info/rcapstone</string>
+
+    <string name="list_snackbar_offline_text">No Internet connection &#8230; \n swipe here to try again.</string>
+    <string name="title_menu_mode_popular">popular</string>
+    <string name="title_menu_mode_all">all</string>
+    <string name="title_menu_mode_search">search</string>
+    <string name="title_menu_subscriptions">subscriptions</string>
+    <string name="title_menu_mode_night">night</string>
+    <string name="title_menu_mode_settings">settings</string>
+    <string name="summary_drawer_night">drawer night summary</string>
+
+    <string name="pref_app_version" translatable="false">pref_app_version</string>
+    <string name="title_app_version">Version</string>
+
+    <string name="pref_privacy" translatable="false">pref_privacy_version</string>
+    <string name="app_url_privacy" translatable="false">https://www.apache.org/licenses/LICENSE-2.0</string>
+
+
+    <string name="app_support_mail" translatable="false">support@pelleritoudacity.info</string>
+    <string name="subject_support_mail">Problem with</string>
+    <string name="text_mail_intent">Select email application.</string>
+
+    <string name="pref_request_permission" translatable="false">&app_package;.request.permission.external.storage</string>
+    <string name="pref_write_external_storage" translatable="false">&app_package;.write.external.storage</string>
+
+    <string name="pref_video_uri" translatable="false">&app_package;.prefVideoUri</string>
+
+    <string name="pref_widget_id" translatable="false">&app_package;.pref.widget.it</string>
+    <string name="pref_widget_name" translatable="false">&app_package;.pref.widget.name</string>
+
+
+    <string name="pref_tab_layout" translatable="false">pref_tab_layout</string>
+    <string name="title_tab_layout">Tab Layout</string>
+    <string name="summary_tab_layout">Tab Layout provides a horizontal layout to display ingredients and steps</string>
+
+    <string name="pref_video_notification" translatable="false">pref_video_notification</string>
+    <string name="title_video_notification">Video Notification</string>
+    <string name="summary_video_notification">Continue video playback in background when turning device screen off or click Home button.</string>
+
+    <string name="pref_rendering_video" translatable="false">pref_resume_video</string>
+    <string name="title_rendering_video">Video Rendering</string>
+    <string name="summary_rendering_video">Allow use of extension renderers.</string>
 
     <string name="pref_sync_frequency" translatable="false">pref_sync_frequency</string>
     <string name="pref_title_sync_frequency" translatable="false">Sync Data</string>
@@ -27,5 +83,16 @@
         <item>172800</item>
         <item>0</item>
     </string-array>
+
+    <string name="title_clear_data">Factory data reset</string>
+    <string name="summary_clear_data">Delete all data stored on device.</string>
+    <string name="pref_clear_data">&app_package;.pref.clear.data</string>
+    <string name="text_clear_data">This action will delete all your data. Are you sure you want to continue?</string>
+    <string name="text_dialog_confirm_reset">Delete All Data DONE.</string>
+    <string name="title_dialog_confirm">Factory data reset</string>
+    <string name="text_dialog_confirm_no_reset">Cancel</string>
+    <string name="text_positive_dialog_confirm">Delete</string>
+    <string name="title_activity_settings">settings</string>
+
 
 </resources>

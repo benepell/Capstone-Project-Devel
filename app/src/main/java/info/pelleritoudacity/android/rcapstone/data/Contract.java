@@ -31,7 +31,6 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 public class Contract {
-    // todo use autorithy in res/string
     public static final String CONTENT_AUTHORITY = "info.pelleritoudacity.android.rcapstone";
 
     @SuppressWarnings("WeakerAccess")

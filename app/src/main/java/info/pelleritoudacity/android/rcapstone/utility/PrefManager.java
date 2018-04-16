@@ -94,6 +94,12 @@ public class PrefManager {
         return sharedPreferences.getInt(context.getString(key), 0);
     }
 
+    public static boolean getBoolPref(Context context, @SuppressWarnings("SameParameterValue") int key) {
+        SharedPreferences sharedPreferences;
+        sharedPreferences = context.getSharedPreferences(context.getString(key), Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(context.getString(key), false);
+    }
+
     public static String getStringPref(Context context, int key) {
         SharedPreferences sharedPreferences;
         sharedPreferences = context.getSharedPreferences(context.getString(key), Context.MODE_PRIVATE);
