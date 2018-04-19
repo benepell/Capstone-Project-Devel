@@ -11,6 +11,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/fragment_list_container"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <include layout="@layout/inc_swipe" />
 

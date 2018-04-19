@@ -135,18 +135,16 @@ public class BaseActivity extends AppCompatActivity
 
             menuItemLogin = menu.findItem(R.id.menu_action_login);
 
+            int prefMenu = 0;
 
-            switch (PrefManager.getIntPref(getApplicationContext(), R.string.pref_type_mode)) {
-  /*              case Costants.NAV_MODE_SINGLE:
-                    menuItemSingle.setChecked(true);
-                    menuItemSingle.setEnabled(false);
-                    break;
-                case Costants.NAV_MODE_MULTI:
-                    menuItemMulti.setChecked(true);
-                    menuItemMulti.setEnabled(false);
-  */
-                case 0:
-                    break;
+            if (getApplicationContext() != null) {
+                prefMenu = PrefManager.getIntPref(getApplicationContext(), R.string.pref_type_mode);
+
+            }
+
+            switch (prefMenu) {
+
+                case Costants.NAV_MODE_HOME:
                 default:
                     menuItemLogin.setChecked(false);
             }
@@ -243,6 +241,7 @@ public class BaseActivity extends AppCompatActivity
         int id = item.getItemId();
         switch (id) {
             case R.id.nav_home:
+                PrefManager.putIntPref(getApplicationContext(), R.string.pref_type_mode, Costants.NAV_MODE_HOME);
                 openHomeActivity();
                 break;
             case R.id.nav_mode_settings:
@@ -328,7 +327,6 @@ public class BaseActivity extends AppCompatActivity
     private int getLayoutResource() {
         return mLayoutResource;
     }
-
 
 
 }

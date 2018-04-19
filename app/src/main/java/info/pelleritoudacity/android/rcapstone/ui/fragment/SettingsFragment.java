@@ -24,7 +24,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
     }
 
-    private void prefMail(){
+    private void prefMail() {
         final Preference mailTo = findPreference("pref_contact");
         mailTo.setOnPreferenceClickListener(preference -> {
             int androidVersionCode = 0;
@@ -32,7 +32,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             try {
                 androidVersionCode = Util.SDK_INT;
                 hwInfo = Util.MANUFACTURER + " - " + Util.MODEL;
-                mAppVersionName = new Utility(getActivity()).appVersionName();
+                mAppVersionName = Utility.appVersionName(getActivity());
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }
@@ -42,7 +42,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                     "Model: " +
                     hwInfo + "\n" +
                     "Api: " +
-                    String.valueOf(androidVersionCode)+"\n\n";
+                    String.valueOf(androidVersionCode) + "\n\n";
 
             Intent mailIntent = new Intent(Intent.ACTION_SEND);
             mailIntent.setType("message/rfc822");
@@ -55,11 +55,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
     }
 
-    private void prefVersion(){
+    private void prefVersion() {
         final Preference prefVersion = findPreference(getString(R.string.pref_app_version));
 
         try {
-            mAppVersionName = new Utility(getActivity()).appVersionName();
+            mAppVersionName = Utility.appVersionName(getActivity());
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }

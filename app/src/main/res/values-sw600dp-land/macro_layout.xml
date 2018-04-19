@@ -10,6 +10,7 @@
     <dimen name="list_side_padding_bottom">24dp</dimen>
     <dimen name="list_card_horiz_margin">8dp</dimen>
     <dimen name="list_card_elevation">2dp</dimen>
+    <dimen name="list_card_radius">8dp</dimen>
 
     <!-- detail -->
 

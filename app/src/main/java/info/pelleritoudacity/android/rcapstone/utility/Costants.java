@@ -30,6 +30,9 @@ public interface Costants {
 
     String REDDIT_SYNC_TAG = "rcapstone-sync";
 
+    int REDDIT_LOADER_ID = 1;
+
+    int NAV_MODE_HOME = 0;
     int NAV_MODE_POPULAR_TEXT = 1;
     int NAV_MODE_ALL_TEXT = 2;
     int NAV_MODE_SEARCH_TEXT = 3;
@@ -38,6 +41,9 @@ public interface Costants {
     int NAV_MODE_SETTINGS = 6;
 
     String PATH_SEPARATOR = "/";
+    String STRING_SEPARATOR = ",";
+
+
 
     String USER_AGENT_CACHE = "CacheDataSourceFactory";
     String CACHE_VIDEO_DIR = "media";

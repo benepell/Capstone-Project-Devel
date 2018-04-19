@@ -36,16 +36,16 @@ import android.net.NetworkInfo;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import info.pelleritoudacity.android.rcapstone.R;
 
 
 @SuppressWarnings("ALL")
 public class Utility {
-    private  final Context mContext;
 
-    public Utility(Context context) {
-        mContext = context;
-    }
+    private Utility() { }
 
     public static boolean isOnline(Context context) {
         ConnectivityManager connMgr = (ConnectivityManager)
@@ -61,8 +61,8 @@ public class Utility {
         return context != null && (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
-    public String appVersionName() throws PackageManager.NameNotFoundException {
-        return mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionName;
+    public static String appVersionName(Context context) throws PackageManager.NameNotFoundException {
+        return context != null ? context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName : "";
     }
 
     public static boolean isPermissionExtStorage(Context context) {
@@ -84,5 +84,26 @@ public class Utility {
         }
     }
 
+    public static String arrayToString(ArrayList<String> arrayList) {
+        if (arrayList != null) {
+            StringBuilder builder = new StringBuilder();
+            for (String s : arrayList) {
+                builder.append(s).append(Costants.STRING_SEPARATOR);
+            }
+            String str = builder.toString();
+
+            if(str.length()>0){
+                str = str.substring(0,str.length()-1);
+            }
+            return str;
+        }
+        return "";
+    }
+
+    public static ArrayList<String> stringToArray(String string) {
+        ArrayList<String> arrayList = new ArrayList<>();
+        Collections.addAll(arrayList, string.split(Costants.STRING_SEPARATOR));
+        return arrayList;
+    }
 
 }

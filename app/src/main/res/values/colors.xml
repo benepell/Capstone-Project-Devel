@@ -8,6 +8,9 @@
     <color name="textColorBackground">@color/white</color>
     <color name="textColorHyperLink">@color/light_blue_A700</color>
 
+    <color name="colorBackgroundImage">@color/white</color>
+    <color name="colorBackgroundCard">@color/white</color>
+
     <!-- Red -->
     <color name="red_500">#F44336</color>
     <color name="red_700">#D32F2F</color>
