@@ -19,7 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".ui.activity.SplashActivity">
+        <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -38,8 +38,6 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".ui.activity.MainActivity" />
 
         <activity android:name=".ui.activity.BaseActivity" />
 

@@ -31,12 +31,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.view.ContextThemeWrapper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,7 +46,6 @@ import java.util.Collections;
 import info.pelleritoudacity.android.rcapstone.R;
 
 
-@SuppressWarnings("ALL")
 public class Utility {
 
     private Utility() { }
@@ -113,7 +114,7 @@ public class Utility {
             return ctx.getColor(colorResource);
         }
         else {
-            return ctx.getResources().getColor(colorResource);
+            return ctx.getResources().getColor(colorResource, ctx.getTheme());
         }
     }
 }

@@ -29,16 +29,13 @@ import timber.log.Timber;
 import static info.pelleritoudacity.android.rcapstone.utility.Costants.REDDIT_LOADER_ID;
 
 public class SubScriptionsFragment extends Fragment
-        implements
-//        SubScriptionsAdapter.ListItemClickListener,
-        OnStartDragListener,LoaderManager.LoaderCallbacks<Cursor> {
+        implements OnStartDragListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.rv_fragment_reddit)
     RecyclerView mRecyclerView;
 
     private SubScriptionsAdapter mAdapter;
-    private FragmentInteractionListener mListener;
     private ItemTouchHelper mItemTouchHelper;
 
 
@@ -66,9 +63,7 @@ public class SubScriptionsFragment extends Fragment
 
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new SubScriptionsAdapter(getContext(),this
-//                ,this
-        );
+        mAdapter = new SubScriptionsAdapter(getContext(), this);
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -98,27 +93,6 @@ public class SubScriptionsFragment extends Fragment
         mAdapter.swapCursor(null);
     }
 
-    /*@Override
-    public void onListItemClick(int clickItemIndex, String RedditName) {
-
-    }
-*/
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            mListener = (FragmentInteractionListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(getActivity().getLocalClassName() + "must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
 
     @Override
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
@@ -130,7 +104,7 @@ public class SubScriptionsFragment extends Fragment
 
         Cursor mRedditData = null;
 
-        public RedditFragmentAsyncTask(@NonNull Context context) {
+        RedditFragmentAsyncTask(@NonNull Context context) {
             super(context);
         }
 
@@ -172,9 +146,5 @@ public class SubScriptionsFragment extends Fragment
         }
     }
 
-
-    public interface FragmentInteractionListener {
-        void onFragmentInteraction(int id, String redditName);
-    }
 
 }

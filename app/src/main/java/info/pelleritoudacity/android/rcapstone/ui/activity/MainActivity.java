@@ -31,7 +31,6 @@ import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
-import android.widget.Toast;
 
 
 import java.util.Arrays;
@@ -49,7 +48,7 @@ import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
 
 public class MainActivity extends BaseActivity
-        implements RestExecute.RestData, SwipeRefreshLayout.OnRefreshListener,SubScriptionsFragment.FragmentInteractionListener {
+        implements RestExecute.RestData, SwipeRefreshLayout.OnRefreshListener {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.swipe_refresh_layout)
@@ -73,8 +72,7 @@ public class MainActivity extends BaseActivity
         new RestExecute().loadData(this);
 
         dataClearSnackBar(R.string.text_dialog_confirm_reset);
-        String s = PrefManager.getStringPref(getApplicationContext(),R.string.pref_subreddit_key);
-        Timber.d("bennx " + s);
+        String s = PrefManager.getStringPref(getApplicationContext(), R.string.pref_subreddit_key);
 
     }
 
@@ -83,7 +81,6 @@ public class MainActivity extends BaseActivity
         if (listenerData != null) {
             DataUtils dataUtils = new DataUtils(mContext);
             if (dataUtils.saveDB(listenerData)) {
-                // todo start Fragment Db
                 startFragmentDb();
             } else {
                 Snackbar.make(findViewById(R.id.main_container), R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
@@ -93,7 +90,7 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onErrorData(Throwable t) {
-        Timber.d("onErrorData %s ", t.getMessage() + Arrays.toString(t.getStackTrace()));
+        Timber.d("onErrorData %s", Arrays.toString(t.getStackTrace()));
     }
 
     @Override
@@ -126,15 +123,11 @@ public class MainActivity extends BaseActivity
 
     }
 
-    private void startFragmentDb(){
+    private void startFragmentDb() {
         SubScriptionsFragment subScriptionsFragment = new SubScriptionsFragment();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_list_container, subScriptionsFragment).commit();
 
     }
 
-    @Override
-    public void onFragmentInteraction(int id, String redditName) {
-        Toast.makeText(getApplicationContext(),redditName,Toast.LENGTH_LONG).show();
-    }
 }

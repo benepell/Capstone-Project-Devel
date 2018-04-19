@@ -2,8 +2,6 @@ package info.pelleritoudacity.android.rcapstone.ui.adapter;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -30,27 +28,23 @@ import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHold
 import info.pelleritoudacity.android.rcapstone.ui.helper.OnStartDragListener;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
-import timber.log.Timber;
 
 public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdapter.RedditHolder> implements ItemTouchHelperAdapter {
 
-    //    private final ListItemClickListener mOnClickListener;
     private final OnStartDragListener mDragStartListener;
     // todo remove static arraylist use persistant
-    private  ArrayList<String> mArrayList;
+    private final ArrayList<String> mArrayList;
     private Context mContext;
     private Cursor mCursor;
     private Handler mHandler = null;
 
     public SubScriptionsAdapter(Context context,
-//            ListItemClickListener onClickListener,
                                 OnStartDragListener dragStartListener) {
-//        mOnClickListener = onClickListener;
         mDragStartListener = dragStartListener;
         mContext = context;
         mArrayList = new ArrayList<>();
-        if(!TextUtils.isEmpty(PrefManager.getStringPref(mContext,R.string.pref_subreddit_key))){
-            mArrayList.addAll(Utility.stringToArray(PrefManager.getStringPref(mContext,R.string.pref_subreddit_key)));
+        if (!TextUtils.isEmpty(PrefManager.getStringPref(mContext, R.string.pref_subreddit_key))) {
+            mArrayList.addAll(Utility.stringToArray(PrefManager.getStringPref(mContext, R.string.pref_subreddit_key)));
         }
 
     }
@@ -73,17 +67,16 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
 
         int idReddit = mCursor.getInt(mCursor.getColumnIndex(Contract.T5dataEntry._ID));
         String nameIdReddit = mCursor.getString(mCursor.getColumnIndex(Contract.T5dataEntry.COLUMN_NAME_ID));
+
         String titleReddit = null;
-
-
-        if(TextUtils.isEmpty(PrefManager.getStringPref(mContext,R.string.pref_subreddit_key))){
+        if (TextUtils.isEmpty(PrefManager.getStringPref(mContext, R.string.pref_subreddit_key))) {
 
             titleReddit = mCursor.getString(mCursor.getColumnIndex(Contract.T5dataEntry.COLUMN_NAME_TITLE));
             mArrayList.add(position, titleReddit);
-        }else {
-            if(position<mArrayList.size()){
+        } else {
+            if (position < mArrayList.size()) {
                 titleReddit = mArrayList.get(position);
-            }else {
+            } else {
                 titleReddit = mCursor.getString(mCursor.getColumnIndex(Contract.T5dataEntry.COLUMN_NAME_TITLE));
                 mArrayList.add(position, titleReddit);
             }
@@ -102,11 +95,10 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
             }
         });
 
-
-        holder.bind(idReddit, titleReddit);
         holder.mTextViewRedditName.setText(titleReddit);
 
     }
+
 
     @Override
     public int getItemCount() {
@@ -114,26 +106,14 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
     }
 
     @Override
-    public boolean onItemMove(int fromPosition, int toPosition) {
+    public void onItemMove(int fromPosition, int toPosition) {
         Collections.swap(mArrayList, fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
         String string = Utility.arrayToString(mArrayList);
 
-
-        if (TextUtils.isEmpty(string)) {
-            Timber.d("bennn onItemMove: empty");
-
-        } else {
-            Timber.d("bennn onItemMove: " + string);
-
-        }
-
         if (!TextUtils.isEmpty(string)) {
             PrefManager.putStringPref(mContext, R.string.pref_subreddit_key, string);
-            return true;
         }
-
-        return false;
 
     }
 
@@ -150,7 +130,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
     }
 
     public class RedditHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener, ItemTouchHelperViewHolder {
+            implements ItemTouchHelperViewHolder {
 
         @SuppressWarnings("unused")
         @BindView(R.id.tv_reddit_name)
@@ -161,35 +141,21 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
         ImageView mImageViewRedditHandle;
 
 
-        private int mIdData;
-        private String mRedditName;
-
-        public RedditHolder(View itemView) {
+        RedditHolder(View itemView) {
             super(itemView);
 
             ButterKnife.bind(this, itemView);
 
-            itemView.setOnClickListener(this);
-        }
-
-        void bind(int idData, String redditName) {
-            mIdData = idData;
-            mRedditName = redditName;
-        }
-
-        @Override
-        public void onClick(View v) {
-//            mOnClickListener.onListItemClick(mIdData,mRedditName);
         }
 
         @Override
         public void onItemSelected() {
-            itemView.setBackgroundColor(Utility.getColor(mContext,R.color.colorBackgroundItemSelected));
+            itemView.setBackgroundColor(Utility.getColor(mContext, R.color.colorBackgroundItemSelected));
         }
 
         @Override
         public void onItemClear() {
-            itemView.setBackgroundColor(Utility.getColor(mContext,R.color.colorBackgroundItemNoSelected));
+            itemView.setBackgroundColor(Utility.getColor(mContext, R.color.colorBackgroundItemNoSelected));
         }
     }
 
@@ -206,9 +172,5 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
         }
         return temp;
     }
-/*
-    public interface ListItemClickListener {
-        void onListItemClick(int clickItemIndex, String RedditName);
-    }*/
 
 }
