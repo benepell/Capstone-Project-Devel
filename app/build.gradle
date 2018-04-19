@@ -43,6 +43,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    implementation "com.android.support:customtabs:${rootProject.ext.androidSupportVersion}"
     implementation "com.android.support:appcompat-v7:${rootProject.ext.androidSupportVersion}"
     implementation "com.android.support.constraint:constraint-layout:${rootProject.ext.androidSupportConstraintVersion}"
 

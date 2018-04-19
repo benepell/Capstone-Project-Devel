@@ -34,8 +34,10 @@ import android.support.v7.preference.PreferenceManager;
 import info.pelleritoudacity.android.rcapstone.R;
 
 
+@SuppressWarnings("unused")
 public class PrefManager {
 
+    @SuppressWarnings("unused")
     public static boolean isGeneralSettings(Context context, String key) {
         PreferenceManager.setDefaultValues(context, R.xml.pref_general_settings, false);
 

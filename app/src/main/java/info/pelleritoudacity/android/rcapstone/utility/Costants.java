@@ -33,9 +33,6 @@ public interface Costants {
     int REDDIT_LOADER_ID = 1;
 
     int NAV_MODE_HOME = 0;
-    int NAV_MODE_POPULAR_TEXT = 1;
-    int NAV_MODE_ALL_TEXT = 2;
-    int NAV_MODE_SEARCH_TEXT = 3;
     int NAV_MODE_SUBSCRIPTIONS = 4;
     int NAV_MODE_REFRESH = 5;
     int NAV_MODE_SETTINGS = 6;

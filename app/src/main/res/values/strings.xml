@@ -103,6 +103,7 @@
     <string name="title_submenu_controver">Controver</string>
 
     <string name="title_menu_create">Create Post</string>
+    <string name="text_handle_description">handle image</string>
 
 
 </resources>

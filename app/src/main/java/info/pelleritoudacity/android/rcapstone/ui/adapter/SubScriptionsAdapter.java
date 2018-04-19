@@ -1,5 +1,6 @@
 package info.pelleritoudacity.android.rcapstone.ui.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Handler;
@@ -61,6 +62,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
         return new RedditHolder(view);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(@NonNull RedditHolder holder, int position) {
         mCursor.moveToPosition(position);
@@ -68,7 +70,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
         int idReddit = mCursor.getInt(mCursor.getColumnIndex(Contract.T5dataEntry._ID));
         String nameIdReddit = mCursor.getString(mCursor.getColumnIndex(Contract.T5dataEntry.COLUMN_NAME_ID));
 
-        String titleReddit = null;
+        String titleReddit;
         if (TextUtils.isEmpty(PrefManager.getStringPref(mContext, R.string.pref_subreddit_key))) {
 
             titleReddit = mCursor.getString(mCursor.getColumnIndex(Contract.T5dataEntry.COLUMN_NAME_TITLE));
@@ -85,14 +87,12 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
         holder.mImageViewRedditHandle.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_view_headline)
                 .respectFontBounds(true));
 
-        holder.mImageViewRedditHandle.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent motionEvent) {
-                if (motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN) {
-                    mDragStartListener.onStartDrag(holder);
-                }
-                return false;
+        holder.mImageViewRedditHandle.setOnTouchListener((v, motionEvent) -> {
+            if (motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                mDragStartListener.onStartDrag(holder);
             }
+            v.getParent().requestDisallowInterceptTouchEvent(true);
+            return false;
         });
 
         holder.mTextViewRedditName.setText(titleReddit);

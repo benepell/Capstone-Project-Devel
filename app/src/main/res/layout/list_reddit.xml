@@ -32,6 +32,7 @@
             android:layout_width="?listPreferredItemHeight"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical|end"
+            android:contentDescription="@string/text_handle_description"
             android:scaleType="center" />
 
 

@@ -72,7 +72,6 @@ public class MainActivity extends BaseActivity
         new RestExecute().loadData(this);
 
         dataClearSnackBar(R.string.text_dialog_confirm_reset);
-        String s = PrefManager.getStringPref(getApplicationContext(), R.string.pref_subreddit_key);
 
     }
 

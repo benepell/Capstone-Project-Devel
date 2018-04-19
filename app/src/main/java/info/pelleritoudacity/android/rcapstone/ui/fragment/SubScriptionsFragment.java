@@ -16,6 +16,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
@@ -78,7 +80,7 @@ public class SubScriptionsFragment extends Fragment
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        return new RedditFragmentAsyncTask(getActivity());
+        return new RedditFragmentAsyncTask(Objects.requireNonNull(getActivity()));
     }
 
     @Override
