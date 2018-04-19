@@ -2,6 +2,8 @@ package info.pelleritoudacity.android.rcapstone.ui.adapter;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +26,7 @@ import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperAdapter;
+import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
 import info.pelleritoudacity.android.rcapstone.ui.helper.OnStartDragListener;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
@@ -146,7 +149,8 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
         }
     }
 
-    public class RedditHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class RedditHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener, ItemTouchHelperViewHolder {
 
         @SuppressWarnings("unused")
         @BindView(R.id.tv_reddit_name)
@@ -176,6 +180,16 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
         @Override
         public void onClick(View v) {
 //            mOnClickListener.onListItemClick(mIdData,mRedditName);
+        }
+
+        @Override
+        public void onItemSelected() {
+            itemView.setBackgroundColor(Utility.getColor(mContext,R.color.colorBackgroundItemSelected));
+        }
+
+        @Override
+        public void onItemClear() {
+            itemView.setBackgroundColor(Utility.getColor(mContext,R.color.colorBackgroundItemNoSelected));
         }
     }
 

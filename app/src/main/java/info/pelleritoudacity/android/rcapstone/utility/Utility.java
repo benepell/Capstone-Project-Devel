@@ -31,8 +31,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
@@ -106,4 +108,12 @@ public class Utility {
         return arrayList;
     }
 
+    public static int getColor(Context ctx, int colorResource){
+        if (Build.VERSION.SDK_INT >= 23) {
+            return ctx.getColor(colorResource);
+        }
+        else {
+            return ctx.getResources().getColor(colorResource);
+        }
+    }
 }
