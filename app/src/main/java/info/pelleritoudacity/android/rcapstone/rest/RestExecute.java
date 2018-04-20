@@ -81,8 +81,7 @@ public class RestExecute {
                 if (response.isSuccessful()) {
                     Timber.d("fireb: start sync data");
                     DataUtils dataUtils = new DataUtils(context);
-                    dataUtils.saveDB(mReddit);
-
+                    dataUtils.saveData(mReddit);
                 }
             }
 

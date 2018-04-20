@@ -23,6 +23,7 @@
 
 package info.pelleritoudacity.android.rcapstone.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -33,6 +34,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -43,10 +45,13 @@ import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 
 
+import java.util.ArrayList;
+
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
 
 public class BaseActivity extends AppCompatActivity
@@ -150,34 +155,7 @@ public class BaseActivity extends AppCompatActivity
             }
 
 
-        } /*else if (getLayoutResource() == R.layout.activity_article_detail) {
-
-            menuItemShare = menu.findItem(R.id.menu_action_share);
-            menuItemShare.setIcon(
-                    new IconicsDrawable(getApplicationContext(), MaterialDesignIconic.Icon.gmi_share)
-                            .colorRes(R.color.white)
-                            .sizeDp(24)
-                            .respectFontBounds(true));
-            menuItemShare.setVisible(true);
-
-            menuItemHome = menu.findItem(R.id.menu_action_home);
-            menuItemTextShort = menu.findItem(R.id.menu_action_text_small);
-            menuItemTextFull = menu.findItem(R.id.menu_action_text_full);
-
-            switch (PrefManager.getIntPref(getApplicationContext(), R.string.pref_type_mode)) {
-                case Costants.NAV_MODE_SMALL_TEXT:
-                    menuItemTextShort.setChecked(true);
-                    menuItemTextShort.setEnabled(false);
-                    break;
-                case Costants.NAV_MODE_FULL_TEXT:
-                    menuItemTextFull.setChecked(true);
-                    menuItemTextFull.setEnabled(false);
-                    break;
-                default:
-                    menuItemHome.setChecked(false);
-            }
-
-        }*/
+        }
         return true;
     }
 
@@ -190,48 +168,12 @@ public class BaseActivity extends AppCompatActivity
                 case R.id.menu_action_login:
                     openHomeActivity();
                     return true;
-                /*case R.id.menu_action_single:
-                    PrefManager.putIntPref(getApplicationContext(), R.string.pref_type_mode, Costants.NAV_MODE_SINGLE);
-                    openHomeActivity();
-                    return true;
-                case R.id.menu_action_multi:
-                    PrefManager.putIntPref(getApplicationContext(), R.string.pref_type_mode, Costants.NAV_MODE_MULTI);
-                    openHomeActivity();
-                    return true;
-                */
                 default:
                     return super.onOptionsItemSelected(item);
             }
 
-        } /*else if (getLayoutResource() == R.layout.activity_article_detail) {
-
-            switch (item.getItemId()) {
-                case R.id.menu_action_share:
-                    String title = PrefManager.getStringPref(getApplicationContext(), R.string.pref_share_title);
-                    String text = PrefManager.getStringPref(getApplicationContext(), R.string.pref_share_text);
-                    activityShareText(getApplicationContext(), title, text);
-
-                    Toast.makeText(getApplicationContext(), "share", Toast.LENGTH_LONG).show();
-                    return true;
-                case R.id.menu_action_home:
-                    openHomeActivity();
-                    return true;
-                case R.id.menu_action_text_small:
-                    PrefManager.putIntPref(getApplicationContext(), R.string.pref_type_mode, Costants.NAV_MODE_SMALL_TEXT);
-                    openHomeActivity();
-                    return true;
-                case R.id.menu_action_text_full:
-                    PrefManager.putIntPref(getApplicationContext(), R.string.pref_type_mode, Costants.NAV_MODE_FULL_TEXT);
-                    openHomeActivity();
-                    return true;
-                default:
-                    return super.onOptionsItemSelected(item);
-            }
-
-        } */ else {
-            return true;
         }
-
+        return true;
 
     }
 
@@ -243,6 +185,11 @@ public class BaseActivity extends AppCompatActivity
             case R.id.nav_home:
                 PrefManager.putIntPref(getApplicationContext(), R.string.pref_type_mode, Costants.NAV_MODE_HOME);
                 openHomeActivity();
+                break;
+            case R.id.nav_mode_subscriptions:
+                PrefManager.putIntPref(getApplicationContext(), R.string.pref_type_mode, Costants.NAV_MODE_SUBSCRIPTIONS);
+                item.setEnabled(true);
+                startActivity(new Intent(this, SubManageActivity.class));
                 break;
             case R.id.nav_mode_settings:
                 PrefManager.putIntPref(getApplicationContext(), R.string.pref_type_mode, Costants.NAV_MODE_SETTINGS);
@@ -261,56 +208,84 @@ public class BaseActivity extends AppCompatActivity
             case R.layout.activity_main:
             default:
                 navigationView.inflateMenu(R.menu.activity_base_drawer_main);
-                menuItemBase(navigationView.getMenu());
+                menuItemBase(getApplicationContext(), navigationView.getMenu());
+                menuGroupSubs(getApplicationContext(), navigationView.getMenu());
         }
 
         navigationView.setNavigationItemSelectedListener(this);
 
     }
 
-    private void menuItemBase(Menu menu) {
-        MenuItem itemHome = menu.findItem(R.id.nav_home);
+    private void menuItemBase(Context context, Menu menu) {
+        if ((context != null) && (menu != null)) {
+            MenuItem itemHome = menu.findItem(R.id.nav_home);
 
-        MenuItem itemModePopularText = menu.findItem(R.id.nav_mode_popular);
-        MenuItem itemModeAllText = menu.findItem(R.id.nav_mode_all);
-        MenuItem itemModeSearchText = menu.findItem(R.id.nav_mode_search);
-        MenuItem itemModeSubscriptions = menu.findItem(R.id.nav_mode_subscriptions);
-        MenuItem itemModeRefresh = menu.findItem(R.id.nav_mode_refresh);
-        MenuItem itemModeSettings = menu.findItem(R.id.nav_mode_settings);
+            MenuItem itemModePopularText = menu.findItem(R.id.nav_mode_popular);
+            MenuItem itemModeAllText = menu.findItem(R.id.nav_mode_all);
+            MenuItem itemModeSearchText = menu.findItem(R.id.nav_mode_search);
+            MenuItem itemModeSubscriptions = menu.findItem(R.id.nav_mode_subscriptions);
+            MenuItem itemModeRefresh = menu.findItem(R.id.nav_mode_refresh);
+            MenuItem itemModeSettings = menu.findItem(R.id.nav_mode_settings);
 
-        itemHome.setIcon(new IconicsDrawable(this, MaterialDesignIconic.Icon.gmi_home)
-                .respectFontBounds(true));
+            itemHome.setIcon(new IconicsDrawable(context, MaterialDesignIconic.Icon.gmi_home)
+                    .respectFontBounds(true));
 
-        itemModePopularText.setIcon(new IconicsDrawable(this, MaterialDesignIconic.Icon.gmi_trending_up)
-                .respectFontBounds(true));
+            itemModePopularText.setIcon(new IconicsDrawable(context, MaterialDesignIconic.Icon.gmi_trending_up)
+                    .respectFontBounds(true));
 
-        itemModeAllText.setIcon(new IconicsDrawable(this, MaterialDesignIconic.Icon.gmi_view_comfy)
-                .respectFontBounds(true));
+            itemModeAllText.setIcon(new IconicsDrawable(context, MaterialDesignIconic.Icon.gmi_view_comfy)
+                    .respectFontBounds(true));
 
-        itemModeSearchText.setIcon(new IconicsDrawable(this, MaterialDesignIconic.Icon.gmi_search)
-                .respectFontBounds(true));
+            itemModeSearchText.setIcon(new IconicsDrawable(context, MaterialDesignIconic.Icon.gmi_search)
+                    .respectFontBounds(true));
 
-        itemModeSubscriptions.setIcon(new IconicsDrawable(this, MaterialDesignIconic.Icon.gmi_view_headline)
-                .respectFontBounds(true));
+            itemModeSubscriptions.setIcon(new IconicsDrawable(context, MaterialDesignIconic.Icon.gmi_view_headline)
+                    .respectFontBounds(true));
 
-        itemModeRefresh.setIcon(new IconicsDrawable(this, MaterialDesignIconic.Icon.gmi_refresh)
-                .respectFontBounds(true));
+            itemModeRefresh.setIcon(new IconicsDrawable(context, MaterialDesignIconic.Icon.gmi_refresh)
+                    .respectFontBounds(true));
 
-        itemModeSettings.setIcon(new IconicsDrawable(this, MaterialDesignIconic.Icon.gmi_settings)
-                .respectFontBounds(true));
+            itemModeSettings.setIcon(new IconicsDrawable(context, MaterialDesignIconic.Icon.gmi_settings)
+                    .respectFontBounds(true));
 
-        switch (PrefManager.getIntPref(getApplicationContext(), R.string.pref_type_mode)) {
-            case Costants.NAV_MODE_SUBSCRIPTIONS:
-                itemModeSubscriptions.setChecked(true);
-                itemModeSubscriptions.setEnabled(false);
-                break;
-            case Costants.NAV_MODE_REFRESH:
-                itemModeRefresh.setChecked(false);
-                itemModeRefresh.setEnabled(false);
-                break;
-            default:
-                itemHome.setChecked(false);
+            switch (PrefManager.getIntPref(context, R.string.pref_type_mode)) {
+                case Costants.NAV_MODE_SUBSCRIPTIONS:
+                    itemModeSubscriptions.setChecked(false);
+                    itemModeSubscriptions.setEnabled(true);
+                    break;
+                case Costants.NAV_MODE_REFRESH:
+                    itemModeRefresh.setChecked(false);
+                    itemModeRefresh.setEnabled(true);
+                    break;
+                default:
+                    itemHome.setChecked(false);
+            }
         }
+
+    }
+
+    private void menuGroupSubs(Context context, Menu menu) {
+        if ((context != null) && (menu != null)) {
+            String prefString = PrefManager.getStringPref(getApplicationContext(), R.string.pref_subreddit_key);
+
+            if (!TextUtils.isEmpty(prefString)) {
+                ArrayList<String> arrayList = Utility.stringToArray(prefString);
+
+                int groupId = menu.findItem(R.id.nav_mode_subs).getGroupId();
+
+                for (String string : arrayList) {
+                    MenuItem menuItem = menu.add(groupId, Menu.NONE, Menu.NONE, string);
+                    menuItem.setIcon(new IconicsDrawable(this, MaterialDesignIconic.Icon.gmi_account_circle)
+                            .respectFontBounds(true));
+
+                }
+
+            } else {
+                MenuItem menuItem = menu.findItem(R.id.nav_mode_subs);
+                menuItem.setVisible(false);
+            }
+        }
+
     }
 
 

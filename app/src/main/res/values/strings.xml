@@ -90,7 +90,7 @@
     <string name="title_menu_mode_all">All</string>
     <string name="title_menu_mode_search">Search</string>
 
-    <string name="title_menu_subscriptions">Subscriptions</string>
+    <string name="title_menu_subscriptions">Subscription:</string>
     <string name="title_menu_mode_refresh">Refresh</string>
     <string name="title_menu_mode_settings">Settings</string>
 
@@ -104,6 +104,8 @@
 
     <string name="title_menu_create">Create Post</string>
     <string name="text_handle_description">handle image</string>
+    <string name="title_menu_managesubs">Manage Subscriptions</string>
+    <string name="title_activity_submanage">Manage SubScriptions</string>
 
 
 </resources>

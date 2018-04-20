@@ -10,7 +10,6 @@
 
     <supports-screens android:xlargeScreens="true" />
 
-
     <application
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
@@ -22,6 +21,7 @@
         <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter
@@ -38,9 +38,7 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
-
         <activity android:name=".ui.activity.BaseActivity" />
-
         <activity
             android:name=".ui.activity.SettingsActivity"
             android:excludeFromRecents="true"
@@ -68,7 +66,17 @@
             </intent-filter>
         </service>
 
-
+        <activity android:name=".ui.activity.SubManageActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_submanage"
+            android:launchMode="singleTop"
+            android:noHistory="true"
+            android:parentActivityName=".ui.activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activity.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

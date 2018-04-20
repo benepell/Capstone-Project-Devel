@@ -42,7 +42,6 @@ import info.pelleritoudacity.android.rcapstone.data.DataUtils;
 import info.pelleritoudacity.android.rcapstone.model.Reddit;
 import info.pelleritoudacity.android.rcapstone.rest.RestExecute;
 import info.pelleritoudacity.android.rcapstone.service.FirebaseJobDispatcherSync;
-import info.pelleritoudacity.android.rcapstone.ui.fragment.SubScriptionsFragment;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
@@ -79,8 +78,9 @@ public class MainActivity extends BaseActivity
     public void onRestData(Reddit listenerData) {
         if (listenerData != null) {
             DataUtils dataUtils = new DataUtils(mContext);
-            if (dataUtils.saveDB(listenerData)) {
-                startFragmentDb();
+            //noinspection StatementWithEmptyBody
+            if (dataUtils.saveData(listenerData)) {
+                // todo start fragment main
             } else {
                 Snackbar.make(findViewById(R.id.main_container), R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
             }
@@ -119,14 +119,7 @@ public class MainActivity extends BaseActivity
             Snackbar.make(findViewById(R.id.main_container), resource, Snackbar.LENGTH_LONG).show();
             PrefManager.putBoolPref(mContext, R.string.pref_clear_data, false);
         }
-
     }
 
-    private void startFragmentDb() {
-        SubScriptionsFragment subScriptionsFragment = new SubScriptionsFragment();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_list_container, subScriptionsFragment).commit();
-
-    }
 
 }

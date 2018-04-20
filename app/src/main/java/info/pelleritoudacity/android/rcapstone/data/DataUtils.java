@@ -33,10 +33,14 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 
+import java.util.ArrayList;
+
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.model.Data;
 import info.pelleritoudacity.android.rcapstone.model.Reddit;
 import info.pelleritoudacity.android.rcapstone.model.T5Data;
+import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import info.pelleritoudacity.android.rcapstone.utility.Utility;
 
 
 public class DataUtils {
@@ -312,9 +316,10 @@ public class DataUtils {
         editor.apply();
     }
 
-    public boolean saveDB(Reddit reddits) {
+    public boolean saveData(Reddit reddits) {
         if (isRecordData()) clearData();
         if (insertData(reddits)) {
+            savePrefSub(reddits);
             prefInsertDb();
             return true;
         }
@@ -324,5 +329,17 @@ public class DataUtils {
     public void ClearDataPrivacy() {
         clearData();
         clearPreferenceDb();
+    }
+
+    private void savePrefSub(Reddit reddits){
+        int size = reddits.getData().getChildren().size();
+        ArrayList<String> arrayList =  new ArrayList<>(size);
+
+        for (int i = 0; i <size ; i++) {
+           arrayList.add(reddits.getData().getChildren().get(i).getData().getTitle());
+        }
+
+        String strPref = Utility.arrayToString(arrayList);
+        PrefManager.putStringPref(mContext,R.string.pref_subreddit_key,strPref);
     }
 }
