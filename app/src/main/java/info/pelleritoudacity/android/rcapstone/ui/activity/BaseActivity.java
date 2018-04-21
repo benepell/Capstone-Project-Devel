@@ -166,7 +166,7 @@ public class BaseActivity extends AppCompatActivity
             int id = item.getItemId();
             switch (id) {
                 case R.id.menu_action_login:
-                    openHomeActivity();
+                    startActivity(new Intent(this, LoginActivity.class));
                     return true;
                 default:
                     return super.onOptionsItemSelected(item);

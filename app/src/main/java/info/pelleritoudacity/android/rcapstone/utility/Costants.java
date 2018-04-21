@@ -32,7 +32,10 @@ public interface Costants {
 
     int REDDIT_LOADER_ID = 1;
 
+    int LOGIN_REQUEST_SIGNUP = 0;
+
     int NAV_MODE_HOME = 0;
+    int NAV_MODE_LOGIN = 1;
     int NAV_MODE_SUBSCRIPTIONS = 4;
     int NAV_MODE_REFRESH = 5;
     int NAV_MODE_SETTINGS = 6;
@@ -40,7 +43,13 @@ public interface Costants {
     String PATH_SEPARATOR = "/";
     String STRING_SEPARATOR = ",";
 
+    String REDDIT_BASE_URL = "https://www.reddit.com/r/";
+    String LOGIN_API_URL = "https://www.reddit.com/api/login/";
 
+    String CONTENT_TYPE = "Content-Type";
+    String APPLICATION_JSON = "application/json";
+    String JSON_TYPE = "json";
+    String LOGIN_API_USERNAME = "username";
 
     String USER_AGENT_CACHE = "CacheDataSourceFactory";
     String CACHE_VIDEO_DIR = "media";

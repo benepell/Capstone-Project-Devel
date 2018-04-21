@@ -77,6 +77,19 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />
         </activity>
+
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_login"
+            android:launchMode="singleTop"
+            android:noHistory="true"
+            android:parentActivityName=".ui.activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activity.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

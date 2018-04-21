@@ -42,6 +42,10 @@
 
     <string name="pref_video_uri" translatable="false">info.pelleritoudacity.android.rcapstone.prefVideoUri</string>
 
+    <string name="pref_session_username" translatable="false">info.pelleritoudacity.android.rcapstone.session.username</string>
+    <string name="pref_session_modhash" translatable="false">info.pelleritoudacity.android.rcapstone.session.modhash</string>
+    <string name="pref_session_cookie" translatable="false">info.pelleritoudacity.android.rcapstone.session.cookie</string>
+
     <string name="pref_widget_id" translatable="false">info.pelleritoudacity.android.rcapstone.pref.widget.it</string>
     <string name="pref_widget_name" translatable="false">info.pelleritoudacity.android.rcapstone.pref.widget.name</string>
 
@@ -106,6 +110,13 @@
     <string name="text_handle_description">handle image</string>
     <string name="title_menu_managesubs">Manage Subscriptions</string>
     <string name="title_activity_submanage">Manage SubScriptions</string>
+    <string name="no_account_text">No account yet? Create one</string>
+    <string name="description_reddit_logo">Reddit logo and wordmark – Snoo</string>
+    <string name="text_username_hint">Username</string>
+    <string name="text_password_hint">Password</string>
+    <string name="text_login_hint">Login</string>
+    <string name="title_activity_login">Login</string>
+    <string name="progress_login_text">Authenticating...</string>
 
 
 </resources>
