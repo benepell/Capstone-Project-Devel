@@ -72,7 +72,16 @@
                     android:path="/my_redirect"
                     android:scheme="http" />
             </intent-filter>
+        </activity>
 
+        <activity
+            android:name=".ui.activity.LogoutActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_logout"
+            android:launchMode="singleTop"
+            android:noHistory="true"
+            android:parentActivityName=".ui.activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />

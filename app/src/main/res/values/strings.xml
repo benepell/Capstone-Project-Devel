@@ -15,6 +15,10 @@
 
     <string name="pref_drawer_night" translatable="false">info.pelleritoudacity.android.rcapstone.pref.drawer.night</string>
 
+    <string name="pref_login_start" translatable="false">info.pelleritoudacity.android.rcapstone.pref.login.start</string>
+    <string name="pref_login_name" translatable="false">info.pelleritoudacity.android.rcapstone.pref.login.name</string>
+    <string name="pref_login_over18" translatable="false">info.pelleritoudacity.android.rcapstone.pref.login.over18</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title_activity_base">&app_name; base </string>
@@ -121,6 +125,10 @@
 
     <string name="reddit_about_url">rcapstone.android.pelleritoudacity.info</string>
     <string name="text_login_success">You have successfully logged in</string>
+    <string name="text_nav_anonymous">Anonymous</string>
+    <string name="title_menu_logout">Logout</string>
+    <string name="title_activity_logout">Logout</string>
+    <string name="text_logout_success">Logout successfly. Anonymous mode is actived</string>
 
 
 </resources>

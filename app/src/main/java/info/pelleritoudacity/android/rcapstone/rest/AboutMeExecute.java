@@ -16,7 +16,7 @@ public class AboutMeExecute {
         aboutMeManager = AboutMeManager.getInstance(code);
     }
 
-    public void loginData(final RestToken myCallBack) {
+    public void loginData(final RestAboutMe myCallBack) {
         Callback<RedditAboutMe> callback = new Callback<RedditAboutMe>() {
             @Override
             public void onResponse(@NonNull Call<RedditAboutMe> call, @NonNull Response<RedditAboutMe> response) {
@@ -37,7 +37,7 @@ public class AboutMeExecute {
         aboutMeManager.getAboutMeAPI(callback);
     }
 
-    public interface RestToken {
+    public interface RestAboutMe {
 
         void onRestAboutMe(RedditAboutMe listenerData);
         void onErrorAboutMe(Throwable t);

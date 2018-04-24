@@ -27,7 +27,7 @@
         android:layout_gravity="start"
         android:layout_marginEnd="?actionBarSize"
         android:fitsSystemWindows="false"
-        app:headerLayout="@layout/nav_header_base" />
-
+         />
+    <!--app:headerLayout="@layout/nav_header_base"-->
 
 </android.support.v4.widget.DrawerLayout>

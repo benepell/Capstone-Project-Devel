@@ -36,7 +36,7 @@ public interface Costants {
     String REDDIT_BEARER = "Bearer ";
     String REDDIT_ABOUT_URL = "rcapstone.android.pelleritoudacity.info";
     String REDDIT_REDIRECT_URL = "http://rcapstone.android.pelleritoudacity.info/my_redirect";
-
+    int REDDIT_REVOKE_SUCCESS = 204;
     String REDDIT_STATE_RANDOM = "RANDOM_STRING_RCAP";
     String REDDIT_AUTH_URL = "www.reddit.com";
     String REDDIT_USER_AGENT = "android:info.pelleritoudacity.android.rcapstone:v1.0";
@@ -58,6 +58,7 @@ public interface Costants {
 
 
     String EXTRA_LOGIN_SUCCESS = "info.pelleritoudacity.android.rcapstone.extra.login.success";
+    String EXTRA_LOGOUT_SUCCESS = "info.pelleritoudacity.android.rcapstone.extra.logout.success";
 
 
 

@@ -40,6 +40,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
+import android.widget.TextView;
 
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
@@ -49,22 +50,25 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
+import info.pelleritoudacity.android.rcapstone.model.RedditAboutMe;
+import info.pelleritoudacity.android.rcapstone.rest.AboutMeExecute;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
 
 public class BaseActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, AboutMeExecute.RestAboutMe {
 
     private int mLayoutResource;
-
+    private View mNavHeaderView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         ViewStub mStub;
+
 
         setContentView(R.layout.activity_base);
 
@@ -96,7 +100,15 @@ public class BaseActivity extends AppCompatActivity
 
         if (navigationView != null) {
             menuNavigation(navigationView);
+            mNavHeaderView = navigationView.inflateHeaderView(R.layout.nav_header_base);
         }
+
+        String accessToken = PrefManager.getStringPref(this, R.string.pref_session_access_token);
+
+        if (!TextUtils.isEmpty(accessToken)) {
+            new AboutMeExecute(accessToken).loginData(this);
+        }
+
 
         Timber.plant(new Timber.DebugTree());
         ButterKnife.bind(this);
@@ -135,10 +147,20 @@ public class BaseActivity extends AppCompatActivity
     protected boolean onPrepareOptionsPanel(View view, Menu menu) {
 
         MenuItem menuItemLogin;
+        MenuItem menuItemLogout;
 
         if (getLayoutResource() == R.layout.activity_main) {
 
             menuItemLogin = menu.findItem(R.id.menu_action_login);
+            menuItemLogout = menu.findItem(R.id.menu_action_logout);
+
+            if(PrefManager.getBoolPref(getApplicationContext(),R.string.pref_login_start)){
+                menuItemLogin.setVisible(false);
+                menuItemLogout.setVisible(true);
+            }else {
+                menuItemLogin.setVisible(true);
+                menuItemLogout.setVisible(false);
+            }
 
             int prefMenu = 0;
 
@@ -167,6 +189,9 @@ public class BaseActivity extends AppCompatActivity
             switch (id) {
                 case R.id.menu_action_login:
                     startActivity(new Intent(this, LoginActivity.class));
+                    return true;
+                    case R.id.menu_action_logout:
+                    startActivity(new Intent(this, LogoutActivity.class));
                     return true;
                 default:
                     return super.onOptionsItemSelected(item);
@@ -303,6 +328,25 @@ public class BaseActivity extends AppCompatActivity
         return mLayoutResource;
     }
 
+    @Override
+    public void onRestAboutMe(RedditAboutMe listenerData) {
+        if (listenerData != null) {
+            String name = listenerData.getName();
+            boolean isOver18 = listenerData.isOver18();
+            if (!TextUtils.isEmpty(name)) {
+                PrefManager.putStringPref(getApplicationContext(), R.string.pref_login_name, name);
+                PrefManager.putBoolPref(getApplicationContext(), R.string.pref_login_over18, isOver18);
+
+                TextView loginNameNavHeader = mNavHeaderView.findViewById(R.id.tv_nav_name);
+                loginNameNavHeader.setText(name);
+            }
+        }
+    }
+
+    @Override
+    public void onErrorAboutMe(Throwable t) {
+
+    }
 
 }
 

@@ -9,6 +9,7 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 import com.google.android.exoplayer2.util.Util;
 
 import info.pelleritoudacity.android.rcapstone.R;
+import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
@@ -21,7 +22,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         prefMail();
         prefVersion();
-
+        prefOver18();
     }
 
     private void prefMail() {
@@ -66,5 +67,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         if (mAppVersionName != null) {
             prefVersion.setTitle("Version: " + mAppVersionName);
         }
+    }
+
+    private void prefOver18(){
+        final Preference prefAdultFilter = findPreference(getString(R.string.pref_adult_filter));
+        boolean isOver18 = PrefManager.getBoolPref(getActivity(),R.string.pref_login_over18);
+        prefAdultFilter.setEnabled(isOver18);
     }
 }

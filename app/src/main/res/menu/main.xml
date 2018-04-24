@@ -6,6 +6,11 @@
         android:enabled="true"
         android:title="@string/title_menu_login"
         android:visible="true" />
+    <item
+        android:id="@+id/menu_action_logout"
+        android:enabled="true"
+        android:title="@string/title_menu_logout"
+        android:visible="false" />
 
     <item
         android:id="@+id/menu_action_filter"
