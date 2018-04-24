@@ -28,9 +28,12 @@ package info.pelleritoudacity.android.rcapstone.utility;
 
 public interface Costants {
 
-    String REDDIT_CLIENT_ID = "";
+    String REDDIT_CLIENT_ID = "gHRoCv5jZXeEBw";
     // todo add reddit client id - url: https://www.reddit.com/prefs/apps/
     String REDDIT_TOKEN_URL = "https://www.reddit.com";
+    String REDDIT_OAUTH_URL = "https://oauth.reddit.com";
+    String REDDIT_AUTHORIZATION = "Authorization";
+    String REDDIT_BEARER = "Bearer ";
     String REDDIT_ABOUT_URL = "rcapstone.android.pelleritoudacity.info";
     String REDDIT_REDIRECT_URL = "http://rcapstone.android.pelleritoudacity.info/my_redirect";
 

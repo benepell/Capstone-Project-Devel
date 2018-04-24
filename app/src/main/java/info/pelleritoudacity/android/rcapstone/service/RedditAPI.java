@@ -57,5 +57,5 @@ public interface RedditAPI {
 
     @GET("/api/v1/me")
     Call<RedditAboutMe> getAboutMe(
-            @Query("Authorization") String authorization);
+            @Header("Authorization") String authorization);
 }

@@ -39,7 +39,7 @@ public class AboutMeManager {
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Costants.REDDIT_TOKEN_URL)
+                .baseUrl(Costants.REDDIT_OAUTH_URL)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -57,7 +57,8 @@ public class AboutMeManager {
     }
 
     public void getAboutMeAPI(Callback<RedditAboutMe> callback) {
-        mCall = sRedditAPI.getAboutMe(mAccessToken);
+        String headerAuth = Costants.REDDIT_BEARER + mAccessToken;
+        mCall = sRedditAPI.getAboutMe(headerAuth);
         mCall.enqueue(callback);
     }
 
