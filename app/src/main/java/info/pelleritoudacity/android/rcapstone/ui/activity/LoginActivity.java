@@ -1,47 +1,32 @@
 package info.pelleritoudacity.android.rcapstone.ui.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.model.Login;
+import info.pelleritoudacity.android.rcapstone.model.Reddit;
+import info.pelleritoudacity.android.rcapstone.model.RedditAboutMe;
+import info.pelleritoudacity.android.rcapstone.model.RedditAccessToken;
+import info.pelleritoudacity.android.rcapstone.rest.AboutMeExecute;
 import info.pelleritoudacity.android.rcapstone.rest.LoginExecute;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import timber.log.Timber;
 
 public class LoginActivity extends BaseActivity
-        implements LoginExecute.RestLogin {
+        implements LoginExecute.RestToken, AboutMeExecute.RestToken {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
-    @BindView(R.id.input_username)
-    EditText mUsernameText;
+    @BindView(R.id.webview)
+    WebView mWebView;
 
-    @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
-    @BindView(R.id.input_password)
-    EditText mPasswordText;
-
-    @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
-    @BindView(R.id.btn_login)
-    Button mLoginButton;
-
-    @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
-    @BindView(R.id.link_signup)
-    TextView mSignupLink;
-
-    private String mUsername = "benepell";
-    private String mModHash;
-    private String mCookie;
+    private boolean isStartWebView = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,117 +36,105 @@ public class LoginActivity extends BaseActivity
         ButterKnife.bind(this);
         Timber.plant(new Timber.DebugTree());
 
-
-        mLoginButton.setOnClickListener(v -> login());
-
-        mSignupLink.setOnClickListener(v -> {
-
-            // Start the Signup activity
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivityForResult(intent, Costants.LOGIN_REQUEST_SIGNUP);
-            finish();
-        });
-
-
-    }
-
-    public void login() {
-        if (!validate()) {
-            onLoginFailed();
-            return;
+        if (TextUtils.isEmpty(PrefManager.getStringPref(getApplicationContext(), R.string.pref_session_access_token))) {
+            loadWebView();
+        } else {
+//            startActivity(new Intent(this, MainActivity.class));
+        new AboutMeExecute(PrefManager.getStringPref(getApplicationContext(),R.string.pref_session_access_token)).loginData(this);
         }
-
-        mLoginButton.setEnabled(false);
-
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
-                R.style.AppTheme_NoActionBar);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage(getString(R.string.progress_login_text));
-        progressDialog.show();
-
-        mUsername = mUsernameText.getText().toString();
-        String password = mPasswordText.getText().toString();
-
-        new LoginExecute(mUsername, password).loginData(this);
-
     }
 
+    public void loadWebView() {
+
+        Uri.Builder builder = new Uri.Builder();
+
+        builder
+                .scheme("https")
+                .authority(Costants.REDDIT_AUTH_URL)
+                .appendPath("login.compact")
+                .appendQueryParameter("dest", new Uri.Builder()
+
+                        .scheme("https")
+                        .authority(Costants.REDDIT_AUTH_URL)
+                        .appendPath("api")
+                        .appendPath("v1")
+                        .appendPath("authorize.compact")
+                        .appendQueryParameter("client_id", Costants.REDDIT_CLIENT_ID)
+                        .appendQueryParameter("response_type", "code")
+                        .appendQueryParameter("state", Costants.REDDIT_STATE_RANDOM)
+
+                        .appendQueryParameter("redirect_uri", new Uri.Builder()
+
+                                .scheme("http")
+                                .authority(Costants.REDDIT_ABOUT_URL)
+                                .appendPath("my_redirect").build().toString()
+                        )
+
+                        .appendQueryParameter("duration", "permanent")
+                        .appendQueryParameter("scope", "identity").build().toString()
+                );
+
+        String url = builder.build().toString();
+        Timber.d("loaduri %s", url);
+
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.loadUrl(url);
+
+    }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Costants.LOGIN_REQUEST_SIGNUP) {
-            if (resultCode == RESULT_OK) {
-
-                // TODO: Implement successful signup logic here
-                // By default we just finish the Activity and log them in automatically
-                this.finish();
+    protected void onResume() {
+        super.onResume();
+        if ((getIntent() != null) && (getIntent().getAction() != null) && (getIntent().getAction().equals(Intent.ACTION_VIEW))) {
+            Uri uri = getIntent().getData();
+            if (uri.getQueryParameter("error") != null) {
+                String error = uri.getQueryParameter("error");
+                Timber.e("An error has occurred :%s ", error);
+            } else {
+                String state = uri.getQueryParameter("state");
+                if (state.equals(Costants.REDDIT_STATE_RANDOM)) {
+                    String code = uri.getQueryParameter("code");
+                    if (!TextUtils.isEmpty(code)) {
+                        new LoginExecute(code).loginData(this);
+                    }
+                }
             }
         }
     }
 
     @Override
-    public void onBackPressed() {
-        // Disable going back to the MainActivity
-        moveTaskToBack(true);
-    }
+    public void onRestToken(RedditAccessToken listenerData) {
+        if (listenerData != null) {
+            String strAccessToken = listenerData.getAccess_token();
+            if (!TextUtils.isEmpty(strAccessToken)) {
+                PrefManager.putStringPref(getApplicationContext(), R.string.pref_session_access_token, strAccessToken);
 
-    public void onLoginSuccess(String username, String modHash, String cookie) {
-        mLoginButton.setEnabled(true);
-        PrefManager.putStringPref(getApplicationContext(), R.string.pref_session_username, username);
-        PrefManager.putStringPref(getApplicationContext(), R.string.pref_session_modhash, modHash);
-        PrefManager.putStringPref(getApplicationContext(), R.string.pref_session_cookie, cookie);
-        Timber.d("login success " + username + " " + modHash + " " + cookie);
-        finish();
-    }
-
-    public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-        mLoginButton.setEnabled(true);
-    }
-
-    public boolean validate() {
-        boolean valid = true;
-
-        String username = mUsernameText.getText().toString();
-        String password = mPasswordText.getText().toString();
-
-        if (TextUtils.isEmpty(username) && (username.length() < 6)) {
-            mUsernameText.setError("enter a valid username ");
-            valid = false;
-        } else {
-            mUsernameText.setError(null);
-        }
-
-        if (password.isEmpty() || password.length() < 6) {
-            mPasswordText.setError("between > 6 alphanumeric characters");
-            valid = false;
-        } else {
-            mPasswordText.setError(null);
-        }
-
-        return valid;
-    }
-
-    @Override
-    public void onRestLogin(Login listenerData) {
-
-        if (listenerData.getJson().getData() != null) {
-            mModHash = listenerData.getJson().getData().getModhash();
-            mCookie = listenerData.getJson().getData().getCookie();
-        }
-
-        Timber.d("login %s", listenerData.getJson().toString());
-
-        if (!TextUtils.isEmpty(mUsername) && (!TextUtils.isEmpty(mModHash) && (!TextUtils.isEmpty(mCookie)))) {
-            onLoginSuccess(mUsername, mModHash, mCookie);
-        } else {
-            onLoginFailed();
+               /* Intent intent = new Intent(this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                intent.putExtra(Costants.EXTRA_LOGIN_SUCCESS, true);
+                startActivity(intent);*/
+            }
         }
     }
 
     @Override
-    public void onErrorLogin(Throwable t) {
-        Timber.d("login error %s ", t.getMessage());
+    public void onErrorToken(Throwable t) {
+        Timber.e("Error Login %s", t.getMessage());
+    }
+
+    @Override
+    public void onRestAboutMe(RedditAboutMe listenerData) {
+        if (listenerData != null) {
+            String name = listenerData.getName();
+            if(!TextUtils.isEmpty(name)){
+                Timber.d("benName %s" ,name);
+            }
+        }
+    }
+
+    @Override
+    public void onErrorAboutMe(Throwable t) {
+
     }
 }
 

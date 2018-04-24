@@ -39,7 +39,6 @@ class DbHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
 
-
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -60,7 +59,7 @@ class DbHelper extends SQLiteOpenHelper {
                         Contract.DataEntry.COLUMN_NAME_AFTER + " TEXT NOT NULL, " +
                         Contract.DataEntry.COLUMN_NAME_DIST + " INTEGER NOT NULL, " +
                         Contract.DataEntry.COLUMN_NAME_MODHASH + " TEXT, " +
-                        Contract.DataEntry.COLUMN_NAME_WHITELIST_STATUS + " TEXT NOT NULL, " +
+                        Contract.DataEntry.COLUMN_NAME_WHITELIST_STATUS + " TEXT, " +
                         Contract.DataEntry.COLUMN_NAME_CHILDRENS + " INTEGER NOT NULL, " +
                         Contract.DataEntry.COLUMN_NAME_BEFORE + " BLOB  " +
                         ");";

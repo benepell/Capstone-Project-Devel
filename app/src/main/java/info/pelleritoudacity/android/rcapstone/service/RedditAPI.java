@@ -30,11 +30,16 @@ package info.pelleritoudacity.android.rcapstone.service;
 
 import java.util.Map;
 
-import info.pelleritoudacity.android.rcapstone.model.Login;
 import info.pelleritoudacity.android.rcapstone.model.Reddit;
+import info.pelleritoudacity.android.rcapstone.model.RedditAboutMe;
+import info.pelleritoudacity.android.rcapstone.model.RedditAccessToken;
 import retrofit2.Call;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.HeaderMap;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -43,13 +48,14 @@ public interface RedditAPI {
     @GET("/r/.json")
     Call<Reddit> getReddit();
 
-    @POST("{user}")
-    Call<Login> getLogin(
+    @FormUrlEncoded
+    @POST("/api/v1/access_token")
+    Call<RedditAccessToken> getLogin(
             @HeaderMap Map<String, String> headers,
-            @Path("user") String username,
-            @Query("user") String user,
-            @Query("passwd") String password,
-            @Query("api_type") String type
+            @FieldMap Map<String, String> fields
     );
 
+    @GET("/api/v1/me")
+    Call<RedditAboutMe> getAboutMe(
+            @Query("Authorization") String authorization);
 }

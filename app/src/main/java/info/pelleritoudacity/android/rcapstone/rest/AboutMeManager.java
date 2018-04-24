@@ -5,7 +5,7 @@ import android.util.Base64;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
-import info.pelleritoudacity.android.rcapstone.model.RedditAccessToken;
+import info.pelleritoudacity.android.rcapstone.model.RedditAboutMe;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import okhttp3.OkHttpClient;
@@ -14,33 +14,23 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class LoginManager {
+public class AboutMeManager {
 
     private static RedditAPI sRedditAPI;
-    private static LoginManager sLoginManager;
-    private final String mCode;
-    private Call<RedditAccessToken> mCall;
+    private static AboutMeManager sAboutMeManager;
+    private final String mAccessToken;
+    private Call<RedditAboutMe> mCall;
 
 
-    HashMap<String, String> headerMap;
-    HashMap<String, String> fieldMap;
+//    HashMap<String, String> headerMap;
 
 
-    private LoginManager(String code) {
+    private AboutMeManager(String accessToken) {
 
-        mCode = code;
-        String authString = Costants.REDDIT_CLIENT_ID + ":";
-        String encodedAuthString = Base64.encodeToString(authString.getBytes(), Base64.NO_WRAP);
+        mAccessToken = accessToken;
 
-
-        headerMap = new HashMap<>();
-        headerMap.put("Authorization", "Basic " + encodedAuthString);
-
-        fieldMap = new HashMap<>();
-        fieldMap.put("grant_type", "authorization_code");
-        fieldMap.put("User-Agent", Costants.REDDIT_USER_AGENT);
-        fieldMap.put("code", mCode);
-        fieldMap.put("redirect_uri", Costants.REDDIT_REDIRECT_URL);
+//        headerMap = new HashMap<>();
+//        headerMap.put("User-Agent", Costants.REDDIT_USER_AGENT);
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(Costants.OK_HTTP_CONNECTION_TIMEOUT, TimeUnit.SECONDS)
@@ -58,16 +48,16 @@ public class LoginManager {
 
     }
 
-    public static LoginManager getInstance(String code) {
-        if (sLoginManager == null) {
-            sLoginManager = new LoginManager(code);
+    public static AboutMeManager getInstance(String accessToken) {
+        if (sAboutMeManager == null) {
+            sAboutMeManager = new AboutMeManager(accessToken);
         }
 
-        return sLoginManager;
+        return sAboutMeManager;
     }
 
-    public void getLoginAPI(Callback<RedditAccessToken> callback) {
-        mCall = sRedditAPI.getLogin(headerMap, fieldMap);
+    public void getAboutMeAPI(Callback<RedditAboutMe> callback) {
+        mCall = sRedditAPI.getAboutMe(mAccessToken);
         mCall.enqueue(callback);
     }
 

@@ -43,7 +43,8 @@
     <string name="pref_video_uri" translatable="false">info.pelleritoudacity.android.rcapstone.prefVideoUri</string>
 
     <string name="pref_session_username" translatable="false">info.pelleritoudacity.android.rcapstone.session.username</string>
-    <string name="pref_session_modhash" translatable="false">info.pelleritoudacity.android.rcapstone.session.modhash</string>
+    <string name="pref_session_access_token" translatable="false">info.pelleritoudacity.android.rcapstone.session.access.token</string>
+    <string name="pref_session_refresh_token" translatable="false">info.pelleritoudacity.android.rcapstone.session.refresh.token</string>
     <string name="pref_session_cookie" translatable="false">info.pelleritoudacity.android.rcapstone.session.cookie</string>
 
     <string name="pref_widget_id" translatable="false">info.pelleritoudacity.android.rcapstone.pref.widget.it</string>
@@ -117,6 +118,9 @@
     <string name="text_login_hint">Login</string>
     <string name="title_activity_login">Login</string>
     <string name="progress_login_text">Authenticating...</string>
+
+    <string name="reddit_about_url">rcapstone.android.pelleritoudacity.info</string>
+    <string name="text_login_success">You have successfully logged in</string>
 
 
 </resources>

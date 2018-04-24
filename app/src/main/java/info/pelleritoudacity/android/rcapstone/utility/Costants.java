@@ -28,6 +28,16 @@ package info.pelleritoudacity.android.rcapstone.utility;
 
 public interface Costants {
 
+    String REDDIT_CLIENT_ID = "";
+    // todo add reddit client id - url: https://www.reddit.com/prefs/apps/
+    String REDDIT_TOKEN_URL = "https://www.reddit.com";
+    String REDDIT_ABOUT_URL = "rcapstone.android.pelleritoudacity.info";
+    String REDDIT_REDIRECT_URL = "http://rcapstone.android.pelleritoudacity.info/my_redirect";
+
+    String REDDIT_STATE_RANDOM = "RANDOM_STRING_RCAP";
+    String REDDIT_AUTH_URL = "www.reddit.com";
+    String REDDIT_USER_AGENT = "android:info.pelleritoudacity.android.rcapstone:v1.0";
+
     String REDDIT_SYNC_TAG = "rcapstone-sync";
 
     int REDDIT_LOADER_ID = 1;
@@ -43,8 +53,11 @@ public interface Costants {
     String PATH_SEPARATOR = "/";
     String STRING_SEPARATOR = ",";
 
-    String REDDIT_BASE_URL = "https://www.reddit.com/r/";
-    String LOGIN_API_URL = "https://www.reddit.com/api/login/";
+
+    String EXTRA_LOGIN_SUCCESS = "info.pelleritoudacity.android.rcapstone.extra.login.success";
+
+
+
 
     String CONTENT_TYPE = "Content-Type";
     String APPLICATION_JSON = "application/json";

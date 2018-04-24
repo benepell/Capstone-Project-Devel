@@ -82,7 +82,13 @@ public class DataUtils {
         dataCV.put(Contract.DataEntry.COLUMN_NAME_AFTER, dataModel.getAfter());
         dataCV.put(Contract.DataEntry.COLUMN_NAME_DIST, dataModel.getDist());
         dataCV.put(Contract.DataEntry.COLUMN_NAME_MODHASH, dataModel.getModhash());
-        dataCV.put(Contract.DataEntry.COLUMN_NAME_WHITELIST_STATUS, dataModel.getWhitelistStatus());
+
+        if (dataModel.getWhitelistStatus() == null) {
+            dataCV.putNull(Contract.DataEntry.COLUMN_NAME_WHITELIST_STATUS);
+        } else {
+            dataCV.put(Contract.DataEntry.COLUMN_NAME_WHITELIST_STATUS, dataModel.getWhitelistStatus());
+        }
+
         dataCV.put(Contract.DataEntry.COLUMN_NAME_CHILDRENS, 0);
 
         if (dataModel.getBefore() == null) {

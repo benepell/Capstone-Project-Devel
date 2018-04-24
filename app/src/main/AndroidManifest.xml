@@ -24,21 +24,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter
-                android:autoVerify="true"
-                tools:targetApi="m">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="android.pelleritoudacity.info"
-                    android:path="/rcapstone"
-                    android:scheme="http" />
-            </intent-filter>
         </activity>
         <activity android:name=".ui.activity.BaseActivity" />
+
         <activity
             android:name=".ui.activity.SettingsActivity"
             android:excludeFromRecents="true"
@@ -52,21 +40,8 @@
                 android:value=".ui.activity.MainActivity" />
         </activity>
 
-        <provider
-            android:name=".data.ContentProvider"
-            android:authorities="@string/content_authority"
-            android:exported="false"
-            tools:ignore="ManifestResource" />
-
-        <service
-            android:name=".service.FirebaseJobService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
-            </intent-filter>
-        </service>
-
-        <activity android:name=".ui.activity.SubManageActivity"
+        <activity
+            android:name=".ui.activity.SubManageActivity"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_submanage"
             android:launchMode="singleTop"
@@ -86,10 +61,37 @@
             android:noHistory="true"
             android:parentActivityName=".ui.activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="@string/reddit_about_url"
+                    android:path="/my_redirect"
+                    android:scheme="http" />
+            </intent-filter>
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />
         </activity>
+
+        <provider
+            android:name=".data.ContentProvider"
+            android:authorities="@string/content_authority"
+            android:exported="false"
+            tools:ignore="ManifestResource" />
+
+        <service
+            android:name=".service.FirebaseJobService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

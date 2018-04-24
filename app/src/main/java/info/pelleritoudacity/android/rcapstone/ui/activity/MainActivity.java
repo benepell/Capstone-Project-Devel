@@ -31,6 +31,7 @@ import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 
 import java.util.Arrays;
@@ -42,6 +43,7 @@ import info.pelleritoudacity.android.rcapstone.data.DataUtils;
 import info.pelleritoudacity.android.rcapstone.model.Reddit;
 import info.pelleritoudacity.android.rcapstone.rest.RestExecute;
 import info.pelleritoudacity.android.rcapstone.service.FirebaseJobDispatcherSync;
+import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
@@ -71,6 +73,16 @@ public class MainActivity extends BaseActivity
         new RestExecute().loadData(this);
 
         dataClearSnackBar(R.string.text_dialog_confirm_reset);
+
+        Intent intent = getIntent();
+
+        if (intent != null) {
+            boolean isLogged = intent.getBooleanExtra(Costants.EXTRA_LOGIN_SUCCESS, false);
+            if ((isLogged) &&
+                    (!TextUtils.isEmpty(PrefManager.getStringPref(this, R.string.pref_session_access_token)))){
+                Snackbar.make(findViewById(R.id.main_container), R.string.text_login_success, Snackbar.LENGTH_LONG).show();
+            }
+        }
 
     }
 
@@ -122,4 +134,7 @@ public class MainActivity extends BaseActivity
     }
 
 
+    private void isLogged(boolean isLogged){
+
+    }
 }
