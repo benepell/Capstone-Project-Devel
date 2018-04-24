@@ -33,6 +33,7 @@ import java.util.Map;
 import info.pelleritoudacity.android.rcapstone.model.Reddit;
 import info.pelleritoudacity.android.rcapstone.model.RedditAboutMe;
 import info.pelleritoudacity.android.rcapstone.model.RedditAccessToken;
+import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import retrofit2.Call;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -57,5 +58,5 @@ public interface RedditAPI {
 
     @GET("/api/v1/me")
     Call<RedditAboutMe> getAboutMe(
-            @Header("Authorization") String authorization);
+            @Header(Costants.REDDIT_AUTHORIZATION) String authorization);
 }
