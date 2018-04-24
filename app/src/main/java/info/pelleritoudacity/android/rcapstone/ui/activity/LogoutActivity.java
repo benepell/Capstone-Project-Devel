@@ -50,6 +50,9 @@ public class LogoutActivity extends BaseActivity
         for (int pref : prefStrArrays) {
             getApplicationContext().getSharedPreferences(getApplicationContext().getString(pref), 0).edit().clear().apply();
         }
+
+        Timber.d("valoreben %s" ,PrefManager.getStringPref(getApplicationContext(),R.string.pref_session_access_token));
+
     }
 
     public void openHomeActivity() {

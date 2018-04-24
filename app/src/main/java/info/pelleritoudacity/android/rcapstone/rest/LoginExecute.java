@@ -6,6 +6,7 @@ import info.pelleritoudacity.android.rcapstone.model.RedditAccessToken;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 public class LoginExecute {
     private final LoginManager loginManager;
@@ -21,6 +22,8 @@ public class LoginExecute {
             public void onResponse(@NonNull Call<RedditAccessToken> call, @NonNull Response<RedditAccessToken> response) {
                 if (response.isSuccessful()) {
                     mLogin = response.body();
+                    //todo bug: if login ... logout.... and then login ..... value  in %s is null
+                    Timber.d("second authentication problem value %s",mLogin.getAccess_token()  );
                     myCallBack.onRestToken(mLogin);
                 }
             }

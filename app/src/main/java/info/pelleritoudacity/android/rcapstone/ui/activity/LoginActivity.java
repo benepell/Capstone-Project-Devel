@@ -16,6 +16,7 @@ import timber.log.Timber;
 public class LoginActivity extends BaseActivity
         implements LoginExecute.RestToken {
 
+    private static boolean isLoadUrl = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,11 +25,6 @@ public class LoginActivity extends BaseActivity
         ButterKnife.bind(this);
         Timber.plant(new Timber.DebugTree());
 
-        String accessToken = PrefManager.getStringPref(getApplicationContext(), R.string.pref_session_access_token);
-
-        if (TextUtils.isEmpty(accessToken)) {
-            loadUrl();
-        }
     }
 
     public void loadUrl() {
@@ -56,9 +52,7 @@ public class LoginActivity extends BaseActivity
                 .appendQueryParameter("scope", "identity");
 
         String url = builder.build().toString();
-
-        PrefManager.putBoolPref(getApplicationContext(), R.string.pref_login_start, true);
-
+        isLoadUrl = false;
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
 
     }
@@ -80,6 +74,9 @@ public class LoginActivity extends BaseActivity
                     }
                 }
             }
+        }else {
+            loadUrl();
+            finish();
         }
     }
 
@@ -89,6 +86,7 @@ public class LoginActivity extends BaseActivity
             String strAccessToken = listenerData.getAccess_token();
             if (!TextUtils.isEmpty(strAccessToken)) {
                 PrefManager.putStringPref(getApplicationContext(), R.string.pref_session_access_token, strAccessToken);
+                PrefManager.putBoolPref(getApplicationContext(), R.string.pref_login_start, true);
                 openHomeActivity();
             }
         }
