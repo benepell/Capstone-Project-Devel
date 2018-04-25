@@ -42,7 +42,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RestManager {
 
 
-    private static RedditAPI sRedditAPI;
+    private static RedditAPI sRestAPI;
     private static RestManager sRestManager;
     private Call<Reddit> mCall;
 
@@ -60,7 +60,7 @@ public class RestManager {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        sRedditAPI = retrofit.create(RedditAPI.class);
+        sRestAPI = retrofit.create(RedditAPI.class);
 
     }
 
@@ -72,7 +72,7 @@ public class RestManager {
     }
 
     public void getRedditAPI(Callback<Reddit> callback) {
-        mCall = sRedditAPI.getReddit();
+        mCall = sRestAPI.getReddit();
         mCall.enqueue(callback);
     }
 

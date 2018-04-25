@@ -7,14 +7,14 @@ import android.text.TextUtils;
 
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.model.RedditAccessToken;
-import info.pelleritoudacity.android.rcapstone.rest.LoginExecute;
+import info.pelleritoudacity.android.rcapstone.model.RedditToken;
+import info.pelleritoudacity.android.rcapstone.rest.AccessTokenExecute;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import timber.log.Timber;
 
 public class LoginActivity extends BaseActivity
-        implements LoginExecute.RestToken {
+        implements AccessTokenExecute.RestAccessToken {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,11 +39,12 @@ public class LoginActivity extends BaseActivity
                 .appendQueryParameter("response_type", "code")
                 .appendQueryParameter("state", Costants.REDDIT_STATE_RANDOM)
 
-                .appendQueryParameter("redirect_uri", new Uri.Builder()
+                .appendQueryParameter("redirect_uri",
+                        new Uri.Builder()
 
-                        .scheme("http")
-                        .authority(Costants.REDDIT_ABOUT_URL)
-                        .appendPath("my_redirect").build().toString()
+                                .scheme("http")
+                                .authority(Costants.REDDIT_ABOUT_URL)
+                                .appendPath("my_redirect").build().toString()
                 )
 
                 .appendQueryParameter("duration", "permanent")
@@ -66,19 +67,26 @@ public class LoginActivity extends BaseActivity
                 String state = uri.getQueryParameter("state");
                 if (state.equals(Costants.REDDIT_STATE_RANDOM)) {
                     String code = uri.getQueryParameter("code");
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_session_cookie, code);
                     if (!TextUtils.isEmpty(code)) {
-                        new LoginExecute(code).loginData(this);
+                        new AccessTokenExecute(code).loginData(this);
+
                     }
                 }
             }
-        }else {
-            loadUrl();
-            finish();
+        } else {
+            String token = PrefManager.getStringPref(getApplicationContext(), R.string.pref_session_access_token);
+            if (TextUtils.isEmpty(token)) {
+                loadUrl();
+                finish();
+            }
+
+
         }
     }
 
     @Override
-    public void onRestToken(RedditAccessToken listenerData) {
+    public void onRestAccessToken(RedditToken listenerData) {
         if (listenerData != null) {
             String strAccessToken = listenerData.getAccess_token();
             if (!TextUtils.isEmpty(strAccessToken)) {
@@ -90,7 +98,7 @@ public class LoginActivity extends BaseActivity
     }
 
     @Override
-    public void onErrorToken(Throwable t) {
+    public void onErrorAccessToken(Throwable t) {
         Timber.e("Error Login %s", t.getMessage());
     }
 
@@ -101,5 +109,6 @@ public class LoginActivity extends BaseActivity
         intent.putExtra(Costants.EXTRA_LOGIN_SUCCESS, true);
         startActivity(intent);
     }
+
 }
 

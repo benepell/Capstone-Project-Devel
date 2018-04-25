@@ -32,7 +32,7 @@ import java.util.Map;
 
 import info.pelleritoudacity.android.rcapstone.model.Reddit;
 import info.pelleritoudacity.android.rcapstone.model.RedditAboutMe;
-import info.pelleritoudacity.android.rcapstone.model.RedditAccessToken;
+import info.pelleritoudacity.android.rcapstone.model.RedditToken;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import retrofit2.Call;
 import retrofit2.http.FieldMap;
@@ -48,10 +48,10 @@ public interface RedditAPI {
 
     @FormUrlEncoded
     @POST("/api/v1/access_token")
-    Call<RedditAccessToken> getLogin(
+    Call<RedditToken> getAccessToken(
             @HeaderMap Map<String, String> headers,
-            @FieldMap Map<String, String> fields
-    );
+            @FieldMap Map<String, String> fields);
+
 
     @FormUrlEncoded
     @POST("/api/v1/revoke_token")

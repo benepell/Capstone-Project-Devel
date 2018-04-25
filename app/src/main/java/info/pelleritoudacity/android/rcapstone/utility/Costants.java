@@ -31,11 +31,11 @@ import info.pelleritoudacity.android.rcapstone.BuildConfig;
 public interface Costants {
 
     String REDDIT_CLIENT_ID = BuildConfig.REDDIT_CLIENT_ID;
-    // todo add reddit client id - url: https://www.reddit.com/prefs/apps/
     String REDDIT_TOKEN_URL = BuildConfig.REDDIT_BASE_URL;
     String REDDIT_OAUTH_URL = BuildConfig.REDDIT_OAUTH_URL;
     String REDDIT_AUTHORIZATION = "Authorization";
     String REDDIT_BEARER = "Bearer ";
+    String REDDIT_ACCESS_TOKEN = "access_token";
     String REDDIT_ABOUT_URL = "rcapstone.android.pelleritoudacity.info";
     String REDDIT_REDIRECT_URL = "http://rcapstone.android.pelleritoudacity.info/my_redirect";
     int REDDIT_REVOKE_SUCCESS = 204;
@@ -61,8 +61,6 @@ public interface Costants {
 
     String EXTRA_LOGIN_SUCCESS = "info.pelleritoudacity.android.rcapstone.extra.login.success";
     String EXTRA_LOGOUT_SUCCESS = "info.pelleritoudacity.android.rcapstone.extra.logout.success";
-
-
 
 
     String CONTENT_TYPE = "Content-Type";

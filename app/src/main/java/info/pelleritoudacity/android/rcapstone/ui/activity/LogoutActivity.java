@@ -23,9 +23,8 @@ public class LogoutActivity extends BaseActivity
         Timber.plant(new Timber.DebugTree());
 
         String token = PrefManager.getStringPref(getApplicationContext(), R.string.pref_session_access_token);
-        String accessToken = "access_token";
         if (!TextUtils.isEmpty(token)) {
-            new RevokeTokenExecute(token, accessToken).RevokeTokenData(this);
+            new RevokeTokenExecute(token, Costants.REDDIT_ACCESS_TOKEN).RevokeTokenData(this);
         }
     }
 
@@ -49,8 +48,6 @@ public class LogoutActivity extends BaseActivity
         for (int pref : prefStrArrays) {
             getApplicationContext().getSharedPreferences(getApplicationContext().getString(pref), 0).edit().clear().apply();
         }
-
-        Timber.d("valoreben %s" ,PrefManager.getStringPref(getApplicationContext(),R.string.pref_session_access_token));
 
     }
 

@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AboutMeManager {
 
-    private static RedditAPI sRedditAPI;
+    private static RedditAPI sAboutMeAPI;
     private static AboutMeManager sAboutMeManager;
     private final String mAccessToken;
     private Call<RedditAboutMe> mCall;
@@ -41,7 +41,7 @@ public class AboutMeManager {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        sRedditAPI = retrofit.create(RedditAPI.class);
+        sAboutMeAPI = retrofit.create(RedditAPI.class);
 
     }
 
@@ -55,7 +55,7 @@ public class AboutMeManager {
 
     public void getAboutMeAPI(Callback<RedditAboutMe> callback) {
         String headerAuth = Costants.REDDIT_BEARER + mAccessToken;
-        mCall = sRedditAPI.getAboutMe(headerAuth);
+        mCall = sAboutMeAPI.getAboutMe(headerAuth);
         mCall.enqueue(callback);
     }
 

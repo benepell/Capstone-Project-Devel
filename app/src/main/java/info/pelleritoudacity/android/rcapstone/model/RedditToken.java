@@ -3,7 +3,7 @@ package info.pelleritoudacity.android.rcapstone.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class RedditAccessToken {
+public class RedditToken {
  
     @SerializedName("scope")
     @Expose
@@ -71,7 +71,7 @@ public class RedditAccessToken {
  
     @Override 
     public String toString() {
-        return "RedditAccessToken{" + 
+        return "RedditToken{" + 
                 "scope='" + scope + '\'' +
                 ", token_type='" + token_type + '\'' +
                 ", error='" + error + '\'' +

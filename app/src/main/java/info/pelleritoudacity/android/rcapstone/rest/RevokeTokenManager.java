@@ -15,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RevokeTokenManager {
 
-    private static RedditAPI sRedditAPI;
+    private static RedditAPI sRevokeTokenAPI;
     private static RevokeTokenManager sRevokeTokenManager;
     private Call<String> mCall;
     private HashMap<String, String> headerMap;
@@ -29,8 +29,8 @@ public class RevokeTokenManager {
 
 
         headerMap = new HashMap<>();
-        headerMap.put("Authorization", "Basic " + encodedAuthString);
 
+        headerMap.put("Authorization", "Basic " + encodedAuthString);
         fieldMap = new HashMap<>();
         fieldMap.put("token", token);
         fieldMap.put("token_type_hint", typeToken);
@@ -51,7 +51,7 @@ public class RevokeTokenManager {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        sRedditAPI = retrofit.create(RedditAPI.class);
+        sRevokeTokenAPI = retrofit.create(RedditAPI.class);
 
     }
 
@@ -64,7 +64,7 @@ public class RevokeTokenManager {
     }
 
     public void getLoginAPI(Callback<String> callback) {
-        mCall = sRedditAPI.getRevokeToken(headerMap,fieldMap);
+        mCall = sRevokeTokenAPI.getRevokeToken(headerMap,fieldMap);
         mCall.enqueue(callback);
     }
 

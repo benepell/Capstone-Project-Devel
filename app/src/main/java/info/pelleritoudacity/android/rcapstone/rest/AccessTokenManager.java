@@ -5,7 +5,7 @@ import android.util.Base64;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
-import info.pelleritoudacity.android.rcapstone.model.RedditAccessToken;
+import info.pelleritoudacity.android.rcapstone.model.RedditToken;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import okhttp3.OkHttpClient;
@@ -14,18 +14,18 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class LoginManager {
+public class AccessTokenManager {
 
-    private static RedditAPI sRedditAPI;
-    private static LoginManager sLoginManager;
-    private Call<RedditAccessToken> mCall;
+    private static RedditAPI sAccessTokenAPI;
+    private static AccessTokenManager sAccessTokenManager;
+    private Call<RedditToken> mCall;
 
 
     HashMap<String, String> headerMap;
     HashMap<String, String> fieldMap;
 
 
-    private LoginManager(String code) {
+    private AccessTokenManager(String code) {
 
 
         String authString = Costants.REDDIT_CLIENT_ID + ":";
@@ -53,20 +53,20 @@ public class LoginManager {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        sRedditAPI = retrofit.create(RedditAPI.class);
+        sAccessTokenAPI = retrofit.create(RedditAPI.class);
 
     }
 
-    public static LoginManager getInstance(String code) {
-        if (sLoginManager == null) {
-            sLoginManager = new LoginManager(code);
+    public static AccessTokenManager getInstance(String code) {
+        if (sAccessTokenManager == null) {
+            sAccessTokenManager = new AccessTokenManager(code);
         }
 
-        return sLoginManager;
+        return sAccessTokenManager;
     }
 
-    public void getLoginAPI(Callback<RedditAccessToken> callback) {
-        mCall = sRedditAPI.getLogin(headerMap, fieldMap);
+    public void getLoginAPI(Callback<RedditToken> callback) {
+        mCall = sAccessTokenAPI.getAccessToken(headerMap, fieldMap);
         mCall.enqueue(callback);
     }
 
