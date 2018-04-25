@@ -3,7 +3,6 @@ package info.pelleritoudacity.android.rcapstone.rest;
 import android.support.annotation.NonNull;
 
 import info.pelleritoudacity.android.rcapstone.model.RedditAboutMe;
-import info.pelleritoudacity.android.rcapstone.model.RedditAccessToken;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

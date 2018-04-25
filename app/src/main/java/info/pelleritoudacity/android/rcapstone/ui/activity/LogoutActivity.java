@@ -6,7 +6,6 @@ import android.text.TextUtils;
 
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.rest.LoginExecute;
 import info.pelleritoudacity.android.rcapstone.rest.RevokeTokenExecute;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;

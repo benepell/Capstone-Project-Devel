@@ -18,7 +18,6 @@ public class LoginManager {
 
     private static RedditAPI sRedditAPI;
     private static LoginManager sLoginManager;
-    private final String mCode;
     private Call<RedditAccessToken> mCall;
 
 
@@ -28,7 +27,7 @@ public class LoginManager {
 
     private LoginManager(String code) {
 
-        mCode = code;
+
         String authString = Costants.REDDIT_CLIENT_ID + ":";
         String encodedAuthString = Base64.encodeToString(authString.getBytes(), Base64.NO_WRAP);
 
@@ -39,7 +38,7 @@ public class LoginManager {
         fieldMap = new HashMap<>();
         fieldMap.put("grant_type", "authorization_code");
         fieldMap.put("User-Agent", Costants.REDDIT_USER_AGENT);
-        fieldMap.put("code", mCode);
+        fieldMap.put("code", code);
         fieldMap.put("redirect_uri", Costants.REDDIT_REDIRECT_URL);
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()

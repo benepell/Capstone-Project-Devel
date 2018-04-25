@@ -1,8 +1,5 @@
 package info.pelleritoudacity.android.rcapstone.rest;
 
-import android.util.Base64;
-
-import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import info.pelleritoudacity.android.rcapstone.model.RedditAboutMe;

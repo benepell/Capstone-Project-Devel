@@ -2,7 +2,6 @@ package info.pelleritoudacity.android.rcapstone.rest;
 
 import android.support.annotation.NonNull;
 
-import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

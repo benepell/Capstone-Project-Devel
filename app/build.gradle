@@ -13,8 +13,10 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes.each {
-        //  REDDIT BASE URL
+        //  REDDIT BASE URL  - url: https://www.reddit.com/prefs/apps/
         it.buildConfigField 'String', 'REDDIT_BASE_URL', '\"https://www.reddit.com/\"'
+        it.buildConfigField 'String', 'REDDIT_OAUTH_URL', '\"https://oauth.reddit.com/\"'
+        it.buildConfigField 'String', 'REDDIT_CLIENT_ID', '\"[SECRET_REDDIT_CLIENT_ID]\"'
     }
     buildTypes {
         release {

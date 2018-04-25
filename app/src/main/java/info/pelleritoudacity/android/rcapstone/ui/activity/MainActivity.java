@@ -31,8 +31,6 @@ import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.widget.TextView;
 
 
 import java.util.Arrays;
@@ -42,8 +40,6 @@ import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.DataUtils;
 import info.pelleritoudacity.android.rcapstone.model.Reddit;
-import info.pelleritoudacity.android.rcapstone.model.RedditAboutMe;
-import info.pelleritoudacity.android.rcapstone.rest.AboutMeExecute;
 import info.pelleritoudacity.android.rcapstone.rest.RestExecute;
 import info.pelleritoudacity.android.rcapstone.service.FirebaseJobDispatcherSync;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;

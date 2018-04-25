@@ -121,7 +121,7 @@
     <string name="text_password_hint">Password</string>
     <string name="text_login_hint">Login</string>
     <string name="title_activity_login">Login</string>
-    <string name="progress_login_text">Authenticating...</string>
+    <string name="progress_login_text">Authenticating…</string>
 
     <string name="reddit_about_url">rcapstone.android.pelleritoudacity.info</string>
     <string name="text_login_success">You have successfully logged in</string>

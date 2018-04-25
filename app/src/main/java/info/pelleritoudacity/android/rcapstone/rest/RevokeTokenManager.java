@@ -2,12 +2,9 @@ package info.pelleritoudacity.android.rcapstone.rest;
 
 import android.util.Base64;
 
-import com.google.gson.reflect.TypeToken;
-
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
-import info.pelleritoudacity.android.rcapstone.model.RedditAccessToken;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import okhttp3.OkHttpClient;
@@ -20,17 +17,12 @@ public class RevokeTokenManager {
 
     private static RedditAPI sRedditAPI;
     private static RevokeTokenManager sRevokeTokenManager;
-    private final String mTypeToken;
-    private final String mToken;
     private Call<String> mCall;
     private HashMap<String, String> headerMap;
     private HashMap<String, String> fieldMap;
 
 
     private RevokeTokenManager(String token, String typeToken) {
-
-        mToken = token;
-        mTypeToken = typeToken;
 
         String authString = Costants.REDDIT_CLIENT_ID + ":";
         String encodedAuthString = Base64.encodeToString(authString.getBytes(), Base64.NO_WRAP);
@@ -40,6 +32,8 @@ public class RevokeTokenManager {
         headerMap.put("Authorization", "Basic " + encodedAuthString);
 
         fieldMap = new HashMap<>();
+        fieldMap.put("token", token);
+        fieldMap.put("token_type_hint", typeToken);
         fieldMap.put("grant_type", "authorization_code");
         fieldMap.put("User-Agent", Costants.REDDIT_USER_AGENT);
         fieldMap.put("redirect_uri", Costants.REDDIT_REDIRECT_URL);
@@ -70,7 +64,7 @@ public class RevokeTokenManager {
     }
 
     public void getLoginAPI(Callback<String> callback) {
-        mCall = sRedditAPI.getRevokeToken(headerMap,fieldMap,mToken, mTypeToken);
+        mCall = sRedditAPI.getRevokeToken(headerMap,fieldMap);
         mCall.enqueue(callback);
     }
 

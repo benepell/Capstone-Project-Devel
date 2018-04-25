@@ -16,8 +16,6 @@ import timber.log.Timber;
 public class LoginActivity extends BaseActivity
         implements LoginExecute.RestToken {
 
-    private static boolean isLoadUrl = true;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setLayoutResource(R.layout.activity_login);
@@ -52,7 +50,6 @@ public class LoginActivity extends BaseActivity
                 .appendQueryParameter("scope", "identity");
 
         String url = builder.build().toString();
-        isLoadUrl = false;
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
 
     }

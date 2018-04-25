@@ -28,8 +28,6 @@
 package info.pelleritoudacity.android.rcapstone.service;
 
 
-import android.database.Observable;
-
 import java.util.Map;
 
 import info.pelleritoudacity.android.rcapstone.model.Reddit;
@@ -37,14 +35,12 @@ import info.pelleritoudacity.android.rcapstone.model.RedditAboutMe;
 import info.pelleritoudacity.android.rcapstone.model.RedditAccessToken;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import retrofit2.Call;
-import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 
 public interface RedditAPI {
     @GET("/r/.json")
@@ -61,9 +57,7 @@ public interface RedditAPI {
     @POST("/api/v1/revoke_token")
     Call<String> getRevokeToken(
             @HeaderMap Map<String, String> headers,
-            @FieldMap Map<String, String> fields,
-            @Field("token") String token,
-            @Field("token_type_hint") String tokenType);
+            @FieldMap Map<String, String> fields);
 
     @GET("/api/v1/me")
     Call<RedditAboutMe> getAboutMe(

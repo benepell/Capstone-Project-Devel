@@ -69,9 +69,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         }
     }
 
-    private void prefOver18(){
+    private void prefOver18() {
         final Preference prefAdultFilter = findPreference(getString(R.string.pref_adult_filter));
-        boolean isOver18 = PrefManager.getBoolPref(getActivity(),R.string.pref_login_over18);
-        prefAdultFilter.setEnabled(isOver18);
+        if (getActivity() != null) {
+            boolean isOver18 = PrefManager.getBoolPref(getActivity(), R.string.pref_login_over18);
+            prefAdultFilter.setEnabled(isOver18);
+        }
     }
 }
