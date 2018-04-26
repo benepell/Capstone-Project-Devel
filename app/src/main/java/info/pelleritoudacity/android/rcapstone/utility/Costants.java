@@ -62,6 +62,8 @@ public interface Costants {
     String EXTRA_LOGIN_SUCCESS = "info.pelleritoudacity.android.rcapstone.extra.login.success";
     String EXTRA_LOGOUT_SUCCESS = "info.pelleritoudacity.android.rcapstone.extra.logout.success";
 
+    String EXTRA_TOKEN_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.token.refresh";
+
 
     String CONTENT_TYPE = "Content-Type";
     String APPLICATION_JSON = "application/json";

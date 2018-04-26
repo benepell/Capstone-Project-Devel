@@ -9,12 +9,15 @@ import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.model.RedditToken;
 import info.pelleritoudacity.android.rcapstone.rest.AccessTokenExecute;
+import info.pelleritoudacity.android.rcapstone.rest.RefreshTokenExecute;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import timber.log.Timber;
 
 public class LoginActivity extends BaseActivity
-        implements AccessTokenExecute.RestAccessToken {
+        implements AccessTokenExecute.RestAccessToken, RefreshTokenExecute.RestRefreshToken {
+
+    private boolean isStartRefresh;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -22,6 +25,17 @@ public class LoginActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         Timber.plant(new Timber.DebugTree());
+
+        Intent intent = getIntent();
+
+
+        if (intent != null) {
+            isStartRefresh = intent.getBooleanExtra(Costants.EXTRA_TOKEN_REFRESH, false);
+            if (isStartRefresh) {
+                inizializeTokenRefresh();
+            }
+        }
+
 
     }
 
@@ -58,30 +72,30 @@ public class LoginActivity extends BaseActivity
     @Override
     protected void onResume() {
         super.onResume();
-        if ((getIntent() != null) && (getIntent().getAction() != null) && (getIntent().getAction().equals(Intent.ACTION_VIEW))) {
-            Uri uri = getIntent().getData();
-            if (uri.getQueryParameter("error") != null) {
-                String error = uri.getQueryParameter("error");
-                Timber.e("An error has occurred :%s ", error);
-            } else {
-                String state = uri.getQueryParameter("state");
-                if (state.equals(Costants.REDDIT_STATE_RANDOM)) {
-                    String code = uri.getQueryParameter("code");
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_session_cookie, code);
-                    if (!TextUtils.isEmpty(code)) {
-                        new AccessTokenExecute(code).loginData(this);
+        if (!isStartRefresh) {
+            if ((getIntent() != null) && (getIntent().getAction() != null) && (getIntent().getAction().equals(Intent.ACTION_VIEW))) {
+                Uri uri = getIntent().getData();
+                if (uri.getQueryParameter("error") != null) {
+                    String error = uri.getQueryParameter("error");
+                    Timber.e("An error has occurred :%s ", error);
+                } else {
+                    String state = uri.getQueryParameter("state");
+                    if (state.equals(Costants.REDDIT_STATE_RANDOM)) {
+                        String code = uri.getQueryParameter("code");
+                        PrefManager.putStringPref(getApplicationContext(), R.string.pref_session_cookie, code);
+                        if (!TextUtils.isEmpty(code)) {
+                            new AccessTokenExecute(code).loginData(this);
 
+                        }
                     }
                 }
+            } else {
+                String accessToken = PrefManager.getStringPref(getApplicationContext(), R.string.pref_session_access_token);
+                if (TextUtils.isEmpty(accessToken)) {
+                    loadUrl();
+                    finish();
+                }
             }
-        } else {
-            String token = PrefManager.getStringPref(getApplicationContext(), R.string.pref_session_access_token);
-            if (TextUtils.isEmpty(token)) {
-                loadUrl();
-                finish();
-            }
-
-
         }
     }
 
@@ -89,8 +103,11 @@ public class LoginActivity extends BaseActivity
     public void onRestAccessToken(RedditToken listenerData) {
         if (listenerData != null) {
             String strAccessToken = listenerData.getAccess_token();
-            if (!TextUtils.isEmpty(strAccessToken)) {
+            String strRefreshToken = listenerData.getRefresh_token();
+            if (!TextUtils.isEmpty(strAccessToken) && !TextUtils.isEmpty(strRefreshToken)) {
                 PrefManager.putStringPref(getApplicationContext(), R.string.pref_session_access_token, strAccessToken);
+                PrefManager.putStringPref(getApplicationContext(), R.string.pref_session_refresh_token, strRefreshToken);
+
                 PrefManager.putBoolPref(getApplicationContext(), R.string.pref_login_start, true);
                 openHomeActivity();
             }
@@ -110,5 +127,28 @@ public class LoginActivity extends BaseActivity
         startActivity(intent);
     }
 
+    @Override
+    public void onRestRefreshToken(RedditToken listenerData) {
+        String newRefreshToken = listenerData.getRefresh_token();
+        String newAccessToken = listenerData.getAccess_token();
+
+        PrefManager.putStringPref(getApplicationContext(), R.string.pref_session_access_token, newAccessToken);
+        PrefManager.putStringPref(getApplicationContext(), R.string.pref_session_refresh_token, newRefreshToken);
+        Timber.d("inizialize Refresh Token done %s", newAccessToken);
+    }
+
+    @Override
+    public void onErrorRefreshToken(Throwable t) {
+
+    }
+
+    private void inizializeTokenRefresh() {
+        String refreshToken = PrefManager.getStringPref(getApplicationContext(), R.string.pref_session_refresh_token);
+        if (!TextUtils.isEmpty(refreshToken)) {
+            new RefreshTokenExecute(refreshToken).loginData(this);
+        } else {
+            Timber.e("Refresh Token is Empty");
+        }
+    }
 }
 
