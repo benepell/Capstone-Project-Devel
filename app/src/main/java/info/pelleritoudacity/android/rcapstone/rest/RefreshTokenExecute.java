@@ -56,9 +56,11 @@ public class RefreshTokenExecute {
                     String strAccessToken = Objects.requireNonNull(mRedditToken).getAccess_token();
                     String strRefreshToken = mRedditToken.getRefresh_token();
                     long expired = mRedditToken.getExpires_in();
-                    if (!TextUtils.isEmpty(strAccessToken) && !TextUtils.isEmpty(strRefreshToken) && expired > 0) {
+                    if (!TextUtils.isEmpty(strAccessToken) && expired > 0) {
                         PrefManager.putStringPref(context, R.string.pref_session_access_token, strAccessToken);
-                        PrefManager.putStringPref(context, R.string.pref_session_refresh_token, strRefreshToken);
+                        if (!TextUtils.isEmpty(strRefreshToken)) {
+                            PrefManager.putStringPref(context, R.string.pref_session_refresh_token, strRefreshToken);
+                        }
                         PrefManager.putIntPref(context, R.string.pref_session_expired, (int) expired);
                     }
                 }

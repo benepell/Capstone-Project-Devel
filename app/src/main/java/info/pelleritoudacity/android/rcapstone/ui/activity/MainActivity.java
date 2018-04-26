@@ -66,7 +66,8 @@ public class MainActivity extends BaseActivity
         mContext = getApplicationContext();
         Timber.plant(new Timber.DebugTree());
         ButterKnife.bind(this);
-        FirebaseJobDispatcherSync.initialize(this);
+
+        inizializeFirebaseDispatcherService();
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
@@ -81,7 +82,6 @@ public class MainActivity extends BaseActivity
             boolean isLogout = intent.getBooleanExtra(Costants.EXTRA_LOGOUT_SUCCESS, false);
 
             if (isLogged) {
-                FirebaseRefreshTokenSync.initialize(this);
                 Snackbar.make(findViewById(R.id.main_container), R.string.text_login_success, Snackbar.LENGTH_LONG).show();
             } else if (isLogout) {
                 Snackbar.make(findViewById(R.id.main_container), R.string.text_logout_success, Snackbar.LENGTH_LONG).show();
@@ -139,5 +139,11 @@ public class MainActivity extends BaseActivity
         }
     }
 
+    private void inizializeFirebaseDispatcherService() {
+        FirebaseJobDispatcherSync.initialize(this);
+        if(PrefManager.getBoolPref(getApplicationContext(),R.string.pref_login_start)){
+            FirebaseRefreshTokenSync.initialize(this);
+        }
+    }
 
 }

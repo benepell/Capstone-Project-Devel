@@ -73,7 +73,6 @@ public class LoginActivity extends BaseActivity
                     String code = uri.getQueryParameter("code");
                     if (!TextUtils.isEmpty(code)) {
                         new AccessTokenExecute(code).loginData(this);
-
                     }
                 }
             }
