@@ -23,7 +23,6 @@ public class AccessTokenExecute {
                 if (response.isSuccessful()) {
                     mLogin = response.body();
                     //todo bug: if login ... logout.... and then login ..... value  in %s is null
-                    Timber.d("second authentication problem value %s",mLogin.getAccess_token()  );
                     myCallBack.onRestAccessToken(mLogin);
                 }
             }

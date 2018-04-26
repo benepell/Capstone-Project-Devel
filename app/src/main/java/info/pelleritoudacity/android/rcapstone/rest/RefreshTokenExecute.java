@@ -4,8 +4,9 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import java.util.Objects;
+
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.model.Reddit;
 import info.pelleritoudacity.android.rcapstone.model.RedditToken;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import retrofit2.Call;
@@ -52,7 +53,7 @@ public class RefreshTokenExecute {
                 Timber.d("second refresh authentication problem value %s", response.raw().toString());
                 if (response.isSuccessful()) {
                     mRedditToken = response.body();
-                    String strAccessToken = mRedditToken.getAccess_token();
+                    String strAccessToken = Objects.requireNonNull(mRedditToken).getAccess_token();
                     String strRefreshToken = mRedditToken.getRefresh_token();
                     long expired = mRedditToken.getExpires_in();
                     if (!TextUtils.isEmpty(strAccessToken) && !TextUtils.isEmpty(strRefreshToken) && expired > 0) {

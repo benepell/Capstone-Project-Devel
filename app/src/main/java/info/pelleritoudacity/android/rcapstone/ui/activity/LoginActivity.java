@@ -5,11 +5,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import java.util.Objects;
+
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.model.RedditToken;
 import info.pelleritoudacity.android.rcapstone.rest.AccessTokenExecute;
-import info.pelleritoudacity.android.rcapstone.rest.RefreshTokenExecute;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import timber.log.Timber;
@@ -63,7 +64,7 @@ public class LoginActivity extends BaseActivity
         super.onResume();
         if ((getIntent() != null) && (getIntent().getAction() != null) && (getIntent().getAction().equals(Intent.ACTION_VIEW))) {
             Uri uri = getIntent().getData();
-            if (uri.getQueryParameter("error") != null) {
+            if (Objects.requireNonNull(uri).getQueryParameter("error") != null) {
                 String error = uri.getQueryParameter("error");
                 Timber.e("An error has occurred :%s ", error);
             } else {
