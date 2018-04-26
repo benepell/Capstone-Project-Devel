@@ -18,16 +18,9 @@ public class AboutMeManager {
     private final String mAccessToken;
     private Call<RedditAboutMe> mCall;
 
-
-//    HashMap<String, String> headerMap;
-
-
     private AboutMeManager(String accessToken) {
 
         mAccessToken = accessToken;
-
-//        headerMap = new HashMap<>();
-//        headerMap.put("User-Agent", Costants.REDDIT_USER_AGENT);
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(Costants.OK_HTTP_CONNECTION_TIMEOUT, TimeUnit.SECONDS)

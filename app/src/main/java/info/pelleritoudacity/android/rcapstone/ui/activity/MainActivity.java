@@ -106,7 +106,7 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onErrorData(Throwable t) {
-        Timber.d("onErrorData %s", Arrays.toString(t.getStackTrace()));
+        Timber.e("onErrorData %s", Arrays.toString(t.getStackTrace()));
     }
 
     @Override

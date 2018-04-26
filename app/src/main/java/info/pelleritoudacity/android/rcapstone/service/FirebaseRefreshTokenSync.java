@@ -14,12 +14,11 @@ import com.firebase.jobdispatcher.Trigger;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
-import timber.log.Timber;
 
 public class FirebaseRefreshTokenSync {
     private static boolean sInit;
 
-    private static void scheduleFirebaseJobDispatcherSync(@NonNull final Context context,int sync_interval) {
+    private static void scheduleFirebaseJobDispatcherSync(@NonNull final Context context, int sync_interval) {
 
         if (sync_interval > 0) {
             int sync_flex = sync_interval / 2;
@@ -39,19 +38,17 @@ public class FirebaseRefreshTokenSync {
                     .build();
 
             dispatcher.schedule(syncJob);
-
-            Timber.d("run Firebase Token Refresh JobDispatcer ");
         }
     }
 
     public static void initialize(Context context) {
         if (sInit) return;
         sInit = true;
-        int interval = PrefManager.getIntPref(context,R.string.pref_session_expired);
+        int interval = PrefManager.getIntPref(context, R.string.pref_session_expired);
         scheduleFirebaseJobDispatcherSync(context, interval);
     }
 
-    public static void stopJobRefreshToken(Context context,String tag){
+    public static void stopJobRefreshToken(Context context, String tag) {
         Driver driver = new GooglePlayDriver(context);
         FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(driver);
         dispatcher.cancel(tag);

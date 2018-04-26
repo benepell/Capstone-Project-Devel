@@ -14,7 +14,6 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-// todo error retrofit state code 400
 public class RefreshTokenManager {
 
     private static RedditAPI sRefreshTokenAPI;
@@ -28,10 +27,8 @@ public class RefreshTokenManager {
 
     private RefreshTokenManager(String refreshToken) {
 
-
         String authString = Costants.REDDIT_CLIENT_ID + ":";
         String encodedAuthString = Base64.encodeToString(authString.getBytes(), Base64.NO_WRAP);
-
 
         headerMap = new HashMap<>();
         headerMap.put("Authorization", "Basic " + encodedAuthString);
@@ -39,9 +36,7 @@ public class RefreshTokenManager {
         fieldMap = new HashMap<>();
         fieldMap.put("grant_type", "refresh_token");
         fieldMap.put("refresh_token", refreshToken);
-     /*   fieldMap.put("User-Agent", Costants.REDDIT_USER_AGENT);
-        fieldMap.put("redirect_uri", Costants.REDDIT_REDIRECT_URL);
-*/
+
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(Costants.OK_HTTP_CONNECTION_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(Costants.OK_HTTP_CONNECTION_READ_TIMEOUT, TimeUnit.SECONDS)

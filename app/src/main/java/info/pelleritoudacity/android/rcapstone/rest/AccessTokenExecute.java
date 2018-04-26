@@ -6,7 +6,6 @@ import info.pelleritoudacity.android.rcapstone.model.RedditToken;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import timber.log.Timber;
 
 public class AccessTokenExecute {
     private final AccessTokenManager accessTokenManager;
@@ -39,8 +38,8 @@ public class AccessTokenExecute {
     }
 
     public interface RestAccessToken {
-
         void onRestAccessToken(RedditToken listenerData);
+
         void onErrorAccessToken(Throwable t);
     }
 }

@@ -35,7 +35,6 @@ import info.pelleritoudacity.android.rcapstone.model.Reddit;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import timber.log.Timber;
 
 
 public class RestExecute {
@@ -52,9 +51,7 @@ public class RestExecute {
         Callback<Reddit> callback = new Callback<Reddit>() {
             @Override
             public void onResponse(@NonNull Call<Reddit> call, @NonNull Response<Reddit> response) {
-
                 mReddit = response.body();
-
                 if (response.isSuccessful()) {
                     myCallBack.onRestData(mReddit);
                 }
@@ -75,11 +72,8 @@ public class RestExecute {
         Callback<Reddit> callback = new Callback<Reddit>() {
             @Override
             public void onResponse(@NonNull Call<Reddit> call, @NonNull Response<Reddit> response) {
-
                 mReddit = response.body();
-
                 if (response.isSuccessful()) {
-                    Timber.d("fireb: start sync data");
                     DataUtils dataUtils = new DataUtils(context);
                     dataUtils.saveData(mReddit);
                 }
@@ -100,9 +94,9 @@ public class RestExecute {
         }
     }
 
-
     public interface RestData {
         void onRestData(Reddit listenerData);
+
         void onErrorData(Throwable t);
     }
 }

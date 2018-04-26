@@ -52,7 +52,6 @@ public interface RedditAPI {
             @HeaderMap Map<String, String> headers,
             @FieldMap Map<String, String> fields);
 
-
     @FormUrlEncoded
     @POST("/api/v1/revoke_token")
     Call<String> getRevokeToken(

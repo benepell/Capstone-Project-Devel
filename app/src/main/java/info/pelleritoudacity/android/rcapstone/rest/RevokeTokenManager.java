@@ -27,10 +27,9 @@ public class RevokeTokenManager {
         String authString = Costants.REDDIT_CLIENT_ID + ":";
         String encodedAuthString = Base64.encodeToString(authString.getBytes(), Base64.NO_WRAP);
 
-
         headerMap = new HashMap<>();
-
         headerMap.put("Authorization", "Basic " + encodedAuthString);
+
         fieldMap = new HashMap<>();
         fieldMap.put("token", token);
         fieldMap.put("token_type_hint", typeToken);

@@ -40,10 +40,8 @@ import com.firebase.jobdispatcher.Trigger;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
-import timber.log.Timber;
 
 public class FirebaseJobDispatcherSync {
-
 
     private static boolean sInitialized;
 
@@ -67,7 +65,6 @@ public class FirebaseJobDispatcherSync {
                     .build();
 
             dispatcher.schedule(syncJob);
-            Timber.d("run Firebase JobDispatcer ");
         }
     }
 

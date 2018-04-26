@@ -39,6 +39,7 @@ public class AboutMeExecute {
     public interface RestAboutMe {
 
         void onRestAboutMe(RedditAboutMe listenerData);
+
         void onErrorAboutMe(Throwable t);
     }
 }
