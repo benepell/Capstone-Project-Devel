@@ -1,8 +1,13 @@
 package info.pelleritoudacity.android.rcapstone.rest;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
+import info.pelleritoudacity.android.rcapstone.R;
+import info.pelleritoudacity.android.rcapstone.model.Reddit;
 import info.pelleritoudacity.android.rcapstone.model.RedditToken;
+import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -21,7 +26,7 @@ public class RefreshTokenExecute {
         Callback<RedditToken> callback = new Callback<RedditToken>() {
             @Override
             public void onResponse(@NonNull Call<RedditToken> call, @NonNull Response<RedditToken> response) {
-                Timber.d("second refresh authentication problem value %s",response.raw().toString()  );
+                Timber.d("second refresh authentication problem value %s", response.raw().toString());
                 if (response.isSuccessful()) {
                     mRedditToken = response.body();
                     //todo bug: if login ... logout.... and then login ..... value  in %s is null
@@ -40,9 +45,44 @@ public class RefreshTokenExecute {
         refreshTokenManager.getLoginAPI(callback);
     }
 
+    public void syncData(final Context context) {
+        Callback<RedditToken> callback = new Callback<RedditToken>() {
+            @Override
+            public void onResponse(@NonNull Call<RedditToken> call, @NonNull Response<RedditToken> response) {
+                Timber.d("second refresh authentication problem value %s", response.raw().toString());
+                if (response.isSuccessful()) {
+                    mRedditToken = response.body();
+                    String strAccessToken = mRedditToken.getAccess_token();
+                    String strRefreshToken = mRedditToken.getRefresh_token();
+                    long expired = mRedditToken.getExpires_in();
+                    if (!TextUtils.isEmpty(strAccessToken) && !TextUtils.isEmpty(strRefreshToken) && expired > 0) {
+                        PrefManager.putStringPref(context, R.string.pref_session_access_token, strAccessToken);
+                        PrefManager.putStringPref(context, R.string.pref_session_refresh_token, strRefreshToken);
+                        PrefManager.putIntPref(context, R.string.pref_session_expired, (int) expired);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<RedditToken> call, @NonNull Throwable t) {
+                call.cancel();
+                Timber.e("Sync Data Token Refresh failure %s", t.getMessage());
+            }
+        };
+        refreshTokenManager.getLoginAPI(callback);
+    }
+
+    public void cancelRequest() {
+        if (refreshTokenManager != null) {
+            refreshTokenManager.cancelRequest();
+        }
+    }
+
+
     public interface RestRefreshToken {
 
         void onRestRefreshToken(RedditToken listenerData);
+
         void onErrorRefreshToken(Throwable t);
     }
 }

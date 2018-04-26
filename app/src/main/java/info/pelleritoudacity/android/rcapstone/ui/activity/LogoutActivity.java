@@ -4,9 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.rest.RevokeTokenExecute;
+import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenService;
+import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import timber.log.Timber;
@@ -34,6 +38,7 @@ public class LogoutActivity extends BaseActivity
         if (listenerData == Costants.REDDIT_REVOKE_SUCCESS) {
             clearPreference();
             openHomeActivity();
+            stopRefreshTokenService();
         }
     }
 
@@ -56,6 +61,10 @@ public class LogoutActivity extends BaseActivity
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
         intent.putExtra(Costants.EXTRA_LOGOUT_SUCCESS, true);
         startActivity(intent);
+    }
+
+    private  void stopRefreshTokenService(){
+        FirebaseRefreshTokenSync.stopJobRefreshToken(getApplicationContext(),Costants.TOKEN_SYNC_TAG);
     }
 }
 

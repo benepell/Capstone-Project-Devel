@@ -44,6 +44,7 @@ public interface Costants {
     String REDDIT_USER_AGENT = "android:info.pelleritoudacity.android.rcapstone:v1.0";
 
     String REDDIT_SYNC_TAG = "rcapstone-sync";
+    String TOKEN_SYNC_TAG = "rcapstone-token-sync";
 
     int REDDIT_LOADER_ID = 1;
 

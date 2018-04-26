@@ -42,6 +42,7 @@ import info.pelleritoudacity.android.rcapstone.data.DataUtils;
 import info.pelleritoudacity.android.rcapstone.model.Reddit;
 import info.pelleritoudacity.android.rcapstone.rest.RestExecute;
 import info.pelleritoudacity.android.rcapstone.service.FirebaseJobDispatcherSync;
+import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
@@ -80,6 +81,7 @@ public class MainActivity extends BaseActivity
             boolean isLogout = intent.getBooleanExtra(Costants.EXTRA_LOGOUT_SUCCESS, false);
 
             if (isLogged) {
+                FirebaseRefreshTokenSync.initialize(this);
                 Snackbar.make(findViewById(R.id.main_container), R.string.text_login_success, Snackbar.LENGTH_LONG).show();
             } else if (isLogout) {
                 Snackbar.make(findViewById(R.id.main_container), R.string.text_logout_success, Snackbar.LENGTH_LONG).show();
