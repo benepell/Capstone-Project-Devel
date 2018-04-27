@@ -84,10 +84,6 @@ public class DialogConfirm extends DialogPreference {
                 PrefManager.clearGeneralSettings(context);
                 PrefManager.clearPref(context);
 
-
-//                BaseActivity.clearRecipeId();
-//                UpdateWidgetService.startWidgetService(context.getApplicationContext());
-
             }
         }
 
