@@ -41,10 +41,9 @@ public class FirebaseRefreshTokenSync {
         }
     }
 
-    public static void initialize(Context context) {
+    public static void initialize(Context context,int interval) {
         if (sInit) return;
         sInit = true;
-        int interval = PrefManager.getIntPref(context, R.string.pref_session_expired);
         scheduleFirebaseJobDispatcherSync(context, interval);
     }
 

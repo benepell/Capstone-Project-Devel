@@ -42,6 +42,8 @@ public class LogoutActivity extends BaseActivity
     private void clearPreference() {
         int[] prefStrArrays = {
                 R.string.pref_login_start,
+                R.string.pref_session_expired,
+                R.string.pref_time_logged,
                 R.string.pref_session_access_token,
                 R.string.pref_login_name,
                 R.string.pref_login_over18

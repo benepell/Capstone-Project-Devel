@@ -95,6 +95,7 @@ public class LoginActivity extends BaseActivity
                 PrefManager.putStringPref(getApplicationContext(), R.string.pref_session_access_token, strAccessToken);
                 PrefManager.putStringPref(getApplicationContext(), R.string.pref_session_refresh_token, strRefreshToken);
                 PrefManager.putIntPref(getApplicationContext(), R.string.pref_session_expired, (int) expired);
+                PrefManager.putLongPref(getApplicationContext(), R.string.pref_time_logged, System.currentTimeMillis());
 
                 PrefManager.putBoolPref(getApplicationContext(), R.string.pref_login_start, true);
                 openHomeActivity();

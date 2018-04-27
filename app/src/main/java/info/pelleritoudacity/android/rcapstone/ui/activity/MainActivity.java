@@ -87,8 +87,6 @@ public class MainActivity extends BaseActivity
                 Snackbar.make(findViewById(R.id.main_container), R.string.text_logout_success, Snackbar.LENGTH_LONG).show();
             }
         }
-
-
     }
 
     @Override
@@ -121,7 +119,6 @@ public class MainActivity extends BaseActivity
 
     }
 
-
     private void updateRefreshingUI() {
         mSwipeRefreshLayout.setRefreshing(mIsRefreshing);
     }
@@ -141,9 +138,11 @@ public class MainActivity extends BaseActivity
 
     private void inizializeFirebaseDispatcherService() {
         FirebaseJobDispatcherSync.initialize(this);
+
         if(PrefManager.getBoolPref(getApplicationContext(),R.string.pref_login_start)){
-            FirebaseRefreshTokenSync.initialize(this);
+            FirebaseRefreshTokenSync.initialize(this,Utility.getIntervalLogin(getApplicationContext()));
         }
     }
+
 
 }

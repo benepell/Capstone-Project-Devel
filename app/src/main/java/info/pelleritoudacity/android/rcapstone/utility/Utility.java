@@ -45,7 +45,8 @@ import info.pelleritoudacity.android.rcapstone.R;
 
 public class Utility {
 
-    private Utility() { }
+    private Utility() {
+    }
 
     public static boolean isOnline(Context context) {
         ConnectivityManager connMgr = (ConnectivityManager)
@@ -92,8 +93,8 @@ public class Utility {
             }
             String str = builder.toString();
 
-            if(str.length()>0){
-                str = str.substring(0,str.length()-1);
+            if (str.length() > 0) {
+                str = str.substring(0, str.length() - 1);
             }
             return str;
         }
@@ -106,12 +107,25 @@ public class Utility {
         return arrayList;
     }
 
-    public static int getColor(Context ctx, int colorResource){
+    public static int getColor(Context ctx, int colorResource) {
         if (Build.VERSION.SDK_INT >= 23) {
             return ctx.getColor(colorResource);
-        }
-        else {
+        } else {
             return ctx.getResources().getColor(colorResource, ctx.getTheme());
         }
+    }
+
+    public static int getIntervalLogin(Context context) {
+        if (context != null) {
+            Long now = System.currentTimeMillis();
+            Long lastTimeLogin = PrefManager.getLongPref(context, R.string.pref_time_logged);
+            int expiredRedditAuth = PrefManager.getIntPref(context, R.string.pref_session_expired);
+            int sessionTimeout = Costants.SESSION_TIMEOUT_DEFAULT;
+            if ((now > 0) && (lastTimeLogin > 0) && (lastTimeLogin < now) && (expiredRedditAuth > 0)) {
+                sessionTimeout = (int) (expiredRedditAuth - ((now - lastTimeLogin) / 1000));
+            }
+            return (sessionTimeout < Costants.SESSION_TIMEOUT_DEFAULT) ? Costants.SESSION_TIMEOUT_DEFAULT : sessionTimeout;
+        }
+        return 0;
     }
 }

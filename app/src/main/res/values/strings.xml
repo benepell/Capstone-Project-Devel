@@ -50,6 +50,7 @@
     <string name="pref_session_access_token" translatable="false">info.pelleritoudacity.android.rcapstone.session.access.token</string>
     <string name="pref_session_refresh_token" translatable="false">info.pelleritoudacity.android.rcapstone.session.refresh.token</string>
     <string name="pref_session_expired" translatable="false">info.pelleritoudacity.android.rcapstone.session.expired</string>
+    <string name="pref_time_logged" translatable="false">info.pelleritoudacity.android.rcapstone.time.logged</string>
 
     <string name="pref_widget_id" translatable="false">info.pelleritoudacity.android.rcapstone.pref.widget.it</string>
     <string name="pref_widget_name" translatable="false">info.pelleritoudacity.android.rcapstone.pref.widget.name</string>

@@ -72,6 +72,15 @@ public class PrefManager {
 
     }
 
+    public static void putLongPref(Context context, @SuppressWarnings("SameParameterValue") int key, long value) {
+        SharedPreferences prefId = context
+                .getSharedPreferences(context.getString(key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefId.edit();
+        editor.putLong(context.getString(key), value);
+        editor.apply();
+
+    }
+
     public static void putStringPref(Context context, int key, String value) {
         SharedPreferences prefId = context
                 .getSharedPreferences(context.getString(key), Context.MODE_PRIVATE);
@@ -94,6 +103,12 @@ public class PrefManager {
         SharedPreferences sharedPreferences;
         sharedPreferences = context.getSharedPreferences(context.getString(key), Context.MODE_PRIVATE);
         return sharedPreferences.getInt(context.getString(key), 0);
+    }
+
+    public static long getLongPref(Context context, @SuppressWarnings("SameParameterValue") int key) {
+        SharedPreferences sharedPreferences;
+        sharedPreferences = context.getSharedPreferences(context.getString(key), Context.MODE_PRIVATE);
+        return sharedPreferences.getLong(context.getString(key), 0);
     }
 
     public static boolean getBoolPref(Context context, @SuppressWarnings("SameParameterValue") int key) {
