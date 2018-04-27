@@ -16,7 +16,7 @@ android {
         //  REDDIT BASE URL  - url: https://www.reddit.com/prefs/apps/
         it.buildConfigField 'String', 'REDDIT_BASE_URL', '\"https://www.reddit.com/\"'
         it.buildConfigField 'String', 'REDDIT_OAUTH_URL', '\"https://oauth.reddit.com/\"'
-        it.buildConfigField 'String', 'REDDIT_CLIENT_ID', '\"gHRoCv5jZXeEBw"'
+        it.buildConfigField 'String', 'REDDIT_CLIENT_ID', '\"[CLIENTID]"'
     }
     buildTypes {
         release {
