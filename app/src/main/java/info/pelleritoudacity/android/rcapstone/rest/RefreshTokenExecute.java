@@ -58,6 +58,8 @@ public class RefreshTokenExecute {
                             PrefManager.putStringPref(context, R.string.pref_session_refresh_token, strRefreshToken);
                         }
                         PrefManager.putIntPref(context, R.string.pref_session_expired, (int) expired);
+                        PrefManager.putLongPref(context, R.string.pref_time_token, System.currentTimeMillis());
+
                     }
                 }
             }
