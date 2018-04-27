@@ -115,7 +115,7 @@ public class Utility {
         }
     }
 
-    public static int getIntervalLogin(Context context) {
+    public static int getRedditSessionExpired(Context context) {
         if (context != null) {
             Long now = System.currentTimeMillis();
             Long lastTimeLogin = PrefManager.getLongPref(context, R.string.pref_time_logged);

@@ -140,7 +140,7 @@ public class MainActivity extends BaseActivity
         FirebaseJobDispatcherSync.initialize(this);
 
         if(PrefManager.getBoolPref(getApplicationContext(),R.string.pref_login_start)){
-            FirebaseRefreshTokenSync.initialize(this,Utility.getIntervalLogin(getApplicationContext()));
+            FirebaseRefreshTokenSync.initialize(this,Utility.getRedditSessionExpired(getApplicationContext()));
         }
     }
 
