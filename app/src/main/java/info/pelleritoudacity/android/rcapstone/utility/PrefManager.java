@@ -132,7 +132,15 @@ public class PrefManager {
 
     public static void clearPref(Context context) {
         int[] prefArrays = {
-                R.string.pref_title_sync_frequency};
+                R.string.pref_title_sync_frequency,
+                R.string.pref_login_start,
+                R.string.pref_session_username,
+                R.string.pref_session_access_token,
+                R.string.pref_session_refresh_token,
+                R.string.pref_session_expired,
+                R.string.pref_time_token
+
+        };
 
         for (int pref : prefArrays) {
             context.getSharedPreferences(context.getString(pref), 0).edit().clear().apply();

@@ -138,6 +138,7 @@ public class MainActivity extends BaseActivity
     }
 
     private void inizializeFirebaseDispatcherService() {
+
         FirebaseJobDispatcherSync.initialize(this);
 
         if (PrefManager.getBoolPref(getApplicationContext(), R.string.pref_login_start)) {

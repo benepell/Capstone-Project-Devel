@@ -40,8 +40,11 @@ import java.lang.ref.WeakReference;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.DataUtils;
 import info.pelleritoudacity.android.rcapstone.media.CacheDataSourceFactory;
+import info.pelleritoudacity.android.rcapstone.rest.RevokeTokenExecute;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
+import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import timber.log.Timber;
 
 public class DialogConfirm extends DialogPreference {
 
@@ -72,13 +75,22 @@ public class DialogConfirm extends DialogPreference {
             super.onPreExecute();
             Context context = sWeakReference.get();
             if (context != null) {
+
+                if (PrefManager.getBoolPref(context, R.string.pref_login_start)) {
+                    String token = PrefManager.getStringPref(context, R.string.pref_session_access_token);
+                    new RevokeTokenExecute(token, Costants.REDDIT_ACCESS_TOKEN).RevokeTokenSync(context);
+                }
+
                 PrefManager.clearGeneralSettings(context);
                 PrefManager.clearPref(context);
+
+
 //                BaseActivity.clearRecipeId();
 //                UpdateWidgetService.startWidgetService(context.getApplicationContext());
 
             }
         }
+
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -87,7 +99,7 @@ public class DialogConfirm extends DialogPreference {
                 CacheDataSourceFactory.getClearData(context);
                 new DataUtils(context).ClearDataPrivacy();
                 Glide.get(context).clearDiskCache();
-                }
+            }
 
             return null;
         }
@@ -98,7 +110,7 @@ public class DialogConfirm extends DialogPreference {
             super.onPostExecute(aVoid);
             Context context = sWeakReference.get();
             if (context != null) {
-                PrefManager.putBoolPref(context,R.string.pref_clear_data,true);
+                PrefManager.putBoolPref(context, R.string.pref_clear_data, true);
                 MainActivity.homeActivity(context);
             }
         }
