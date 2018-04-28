@@ -119,10 +119,11 @@ public class Utility {
         if (context != null) {
             Long now = System.currentTimeMillis();
             Long lastTimeLogin = PrefManager.getLongPref(context, R.string.pref_time_token);
+            Long secondTime = (now - lastTimeLogin) / 1000;
             int expiredRedditAuth = PrefManager.getIntPref(context, R.string.pref_session_expired);
             int sessionTimeout = Costants.SESSION_TIMEOUT_DEFAULT;
             if ((now > 0) && (lastTimeLogin > 0) && (lastTimeLogin < now) && (expiredRedditAuth > 0)) {
-                sessionTimeout = (int) (expiredRedditAuth - ((now - lastTimeLogin) / 1000));
+                sessionTimeout =  expiredRedditAuth - secondTime.intValue();
             }
             return (sessionTimeout < Costants.SESSION_TIMEOUT_DEFAULT) ? Costants.SESSION_TIMEOUT_DEFAULT : sessionTimeout;
         }
