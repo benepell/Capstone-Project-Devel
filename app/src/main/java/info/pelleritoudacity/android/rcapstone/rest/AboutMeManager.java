@@ -39,9 +39,12 @@ public class AboutMeManager {
     }
 
     public static AboutMeManager getInstance(String accessToken) {
-        if (sAboutMeManager == null) {
-            sAboutMeManager = new AboutMeManager(accessToken);
+        if (sAboutMeManager != null) {
+            sAboutMeManager.cancelRequest();
         }
+
+        sAboutMeManager = new AboutMeManager(accessToken);
+
 
         return sAboutMeManager;
     }

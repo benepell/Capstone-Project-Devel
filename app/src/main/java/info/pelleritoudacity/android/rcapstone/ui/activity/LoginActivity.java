@@ -1,5 +1,7 @@
 package info.pelleritoudacity.android.rcapstone.ui.activity;
 
+import android.app.Activity;
+import android.app.VoiceInteractor;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -80,7 +82,6 @@ public class LoginActivity extends BaseActivity
             String accessToken = PrefManager.getStringPref(getApplicationContext(), R.string.pref_session_access_token);
             if (TextUtils.isEmpty(accessToken)) {
                 loadUrl();
-                finish();
             }
         }
     }
@@ -99,6 +100,9 @@ public class LoginActivity extends BaseActivity
 
                 PrefManager.putBoolPref(getApplicationContext(), R.string.pref_login_start, true);
                 openHomeActivity();
+            }else {
+                // todo redirect error loading page
+
             }
         }
     }

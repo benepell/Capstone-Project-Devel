@@ -54,9 +54,10 @@ public class RefreshTokenManager {
     }
 
     public static RefreshTokenManager getInstance(String refreshToken) {
-        if (sRefreshTokenManager == null) {
-            sRefreshTokenManager = new RefreshTokenManager(refreshToken);
+        if (sRefreshTokenManager != null) {
+            sRefreshTokenManager.cancelRequest();
         }
+        sRefreshTokenManager = new RefreshTokenManager(refreshToken);
 
         return sRefreshTokenManager;
     }

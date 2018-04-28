@@ -55,9 +55,10 @@ public class RevokeTokenManager {
     }
 
     public static RevokeTokenManager getInstance(String token, String typeToken) {
-        if (sRevokeTokenManager == null) {
-            sRevokeTokenManager = new RevokeTokenManager(token, typeToken);
+        if (sRevokeTokenManager != null) {
+            sRevokeTokenManager.cancelRequest();
         }
+        sRevokeTokenManager = new RevokeTokenManager(token, typeToken);
 
         return sRevokeTokenManager;
     }

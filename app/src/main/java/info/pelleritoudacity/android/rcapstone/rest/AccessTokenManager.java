@@ -58,9 +58,10 @@ public class AccessTokenManager {
     }
 
     public static AccessTokenManager getInstance(String code) {
-        if (sAccessTokenManager == null) {
-            sAccessTokenManager = new AccessTokenManager(code);
+        if (sAccessTokenManager != null) {
+            sAccessTokenManager.cancelRequest();
         }
+        sAccessTokenManager = new AccessTokenManager(code);
 
         return sAccessTokenManager;
     }

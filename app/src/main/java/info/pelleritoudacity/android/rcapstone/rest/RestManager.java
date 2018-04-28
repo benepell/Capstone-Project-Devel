@@ -64,9 +64,10 @@ public class RestManager {
     }
 
     public static RestManager getInstance() {
-        if (sRestManager == null) {
-            sRestManager = new RestManager();
+        if (sRestManager != null) {
+            sRestManager.cancelRequest();
         }
+        sRestManager = new RestManager();
         return sRestManager;
     }
 
