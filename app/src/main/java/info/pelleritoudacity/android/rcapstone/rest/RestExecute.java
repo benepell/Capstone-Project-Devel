@@ -31,7 +31,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import info.pelleritoudacity.android.rcapstone.data.DataUtils;
-import info.pelleritoudacity.android.rcapstone.model.Reddit;
+import info.pelleritoudacity.android.rcapstone.model.T5;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,7 +40,7 @@ import retrofit2.Response;
 public class RestExecute {
 
     private final RestManager restManager;
-    private Reddit mReddit;
+    private T5 mReddit;
 
     public RestExecute() {
         restManager = RestManager.getInstance();
@@ -48,9 +48,9 @@ public class RestExecute {
 
     public void loadData(final RestData myCallBack) {
 
-        Callback<Reddit> callback = new Callback<Reddit>() {
+        Callback<T5> callback = new Callback<T5>() {
             @Override
-            public void onResponse(@NonNull Call<Reddit> call, @NonNull Response<Reddit> response) {
+            public void onResponse(@NonNull Call<T5> call, @NonNull Response<T5> response) {
                 mReddit = response.body();
                 if (response.isSuccessful()) {
                     myCallBack.onRestData(mReddit);
@@ -58,7 +58,7 @@ public class RestExecute {
             }
 
             @Override
-            public void onFailure(@NonNull Call<Reddit> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<T5> call, @NonNull Throwable t) {
                 call.cancel();
                 if (call.isCanceled()) {
                     myCallBack.onErrorData(t);
@@ -69,18 +69,18 @@ public class RestExecute {
     }
 
     public void syncData(final Context context) {
-        Callback<Reddit> callback = new Callback<Reddit>() {
+        Callback<T5> callback = new Callback<T5>() {
             @Override
-            public void onResponse(@NonNull Call<Reddit> call, @NonNull Response<Reddit> response) {
+            public void onResponse(@NonNull Call<T5> call, @NonNull Response<T5> response) {
                 mReddit = response.body();
                 if (response.isSuccessful()) {
                     DataUtils dataUtils = new DataUtils(context);
-                    dataUtils.saveData(mReddit);
+                    dataUtils.saveDataT5(mReddit);
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<Reddit> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<T5> call, @NonNull Throwable t) {
                 call.cancel();
             }
         };
@@ -95,7 +95,7 @@ public class RestExecute {
     }
 
     public interface RestData {
-        void onRestData(Reddit listenerData);
+        void onRestData(T5 listenerData);
 
         void onErrorData(Throwable t);
     }

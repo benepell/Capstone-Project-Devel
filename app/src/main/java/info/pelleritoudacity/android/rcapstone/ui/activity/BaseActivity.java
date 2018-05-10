@@ -62,7 +62,6 @@ public class BaseActivity extends AppCompatActivity
 
     private int mLayoutResource;
     private View mNavHeaderView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,15 +148,16 @@ public class BaseActivity extends AppCompatActivity
         MenuItem menuItemLogin;
         MenuItem menuItemLogout;
 
-        if (getLayoutResource() == R.layout.activity_main) {
+        if ((getLayoutResource() == R.layout.activity_main) ||
+                (getLayoutResource() == R.layout.activity_subreddit)) {
 
             menuItemLogin = menu.findItem(R.id.menu_action_login);
             menuItemLogout = menu.findItem(R.id.menu_action_logout);
 
-            if(PrefManager.getBoolPref(getApplicationContext(),R.string.pref_login_start)){
+            if (PrefManager.getBoolPref(getApplicationContext(), R.string.pref_login_start)) {
                 menuItemLogin.setVisible(false);
                 menuItemLogout.setVisible(true);
-            }else {
+            } else {
                 menuItemLogin.setVisible(true);
                 menuItemLogout.setVisible(false);
             }
@@ -175,8 +175,6 @@ public class BaseActivity extends AppCompatActivity
                 default:
                     menuItemLogin.setChecked(false);
             }
-
-
         }
         return true;
     }
@@ -184,15 +182,21 @@ public class BaseActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (getLayoutResource() == R.layout.activity_main) {
+        if ((getLayoutResource() == R.layout.activity_main) ||
+                (getLayoutResource() == R.layout.activity_subreddit)) {
+
             int id = item.getItemId();
             switch (id) {
                 case R.id.menu_action_login:
                     startActivity(new Intent(this, LoginActivity.class));
                     return true;
-                    case R.id.menu_action_logout:
+                case R.id.menu_action_logout:
                     startActivity(new Intent(this, LogoutActivity.class));
                     return true;
+                case R.id.menu_action_settings:
+                    startActivity(new Intent(this, SettingsActivity.class));
+                    return true;
+
                 default:
                     return super.onOptionsItemSelected(item);
             }
@@ -201,6 +205,7 @@ public class BaseActivity extends AppCompatActivity
         return true;
 
     }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -291,30 +296,39 @@ public class BaseActivity extends AppCompatActivity
 
     private void menuGroupSubs(Context context, Menu menu) {
         if ((context != null) && (menu != null)) {
+
+            String stringLink = Costants.DEFAULT_SUBREDDIT_CATEGORY;
+
             String prefString = PrefManager.getStringPref(getApplicationContext(), R.string.pref_subreddit_key);
 
             if (!TextUtils.isEmpty(prefString)) {
-                ArrayList<String> arrayList = Utility.stringToArray(prefString);
-
-                int groupId = menu.findItem(R.id.nav_mode_subs).getGroupId();
-
-                for (String string : arrayList) {
-                    MenuItem menuItem = menu.add(groupId, Menu.NONE, Menu.NONE, string);
-                    menuItem.setIcon(new IconicsDrawable(this, MaterialDesignIconic.Icon.gmi_account_circle)
-                            .respectFontBounds(true));
-
-                }
-
-            } else {
-                MenuItem menuItem = menu.findItem(R.id.nav_mode_subs);
-                menuItem.setVisible(false);
+                stringLink = prefString;
             }
-        }
 
+            ArrayList<String> arrayList = Utility.stringToArray(stringLink);
+
+            int groupId = menu.findItem(R.id.nav_mode_subs).getGroupId();
+
+            for (String string : arrayList) {
+                MenuItem menuItem = menu.add(groupId, Menu.NONE, Menu.NONE, string);
+                menuItem.setIcon(new IconicsDrawable(this, MaterialDesignIconic.Icon.gmi_account_circle)
+                        .respectFontBounds(true));
+
+                menuItem.setOnMenuItemClickListener(item -> {
+                    Intent intent = new Intent(getApplication(), SubRedditActivity.class);
+                    intent.putExtra(Costants.EXTRA_SUBREDDIT_CATEGORY, item.getTitle().toString());
+                    startActivity(intent);
+
+                    return true;
+                });
+
+            }
+
+        }
     }
 
 
-    private void openHomeActivity() {
+    protected void openHomeActivity() {
         startActivity(new Intent(this, MainActivity.class)
                 .setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION));
     }

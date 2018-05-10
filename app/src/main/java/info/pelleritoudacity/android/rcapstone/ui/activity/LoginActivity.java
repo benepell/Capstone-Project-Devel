@@ -1,24 +1,32 @@
 package info.pelleritoudacity.android.rcapstone.ui.activity;
 
-import android.app.Activity;
-import android.app.VoiceInteractor;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import java.util.Objects;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.model.RedditToken;
 import info.pelleritoudacity.android.rcapstone.rest.AccessTokenExecute;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
 
-public class LoginActivity extends BaseActivity
-        implements AccessTokenExecute.RestAccessToken {
+public class LoginActivity extends BaseActivity {
+
+    //    @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
+    @BindView(R.id.login_webview)
+    public WebView mWebview;
 
 
     @Override
@@ -28,10 +36,18 @@ public class LoginActivity extends BaseActivity
         ButterKnife.bind(this);
         Timber.plant(new Timber.DebugTree());
 
+        if ((Utility.isOnline(getApplicationContext())) &&
+                (!PrefManager.getBoolPref(getApplicationContext(), R.string.pref_login_start))) {
+
+            createWebview(loadUrl());
+
+        } else {
+            openHomeActivity(false);
+        }
 
     }
 
-    public void loadUrl() {
+    private String loadUrl() {
 
         Uri.Builder builder = new Uri.Builder();
 
@@ -56,66 +72,75 @@ public class LoginActivity extends BaseActivity
                 .appendQueryParameter("duration", "permanent")
                 .appendQueryParameter("scope", "identity");
 
-        String url = builder.build().toString();
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
-
+        return builder.build().toString();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if ((getIntent() != null) && (getIntent().getAction() != null) && (getIntent().getAction().equals(Intent.ACTION_VIEW))) {
-            Uri uri = getIntent().getData();
-            if (Objects.requireNonNull(uri).getQueryParameter("error") != null) {
-                String error = uri.getQueryParameter("error");
-                Timber.e("An error has occurred :%s ", error);
-            } else {
-                String state = uri.getQueryParameter("state");
-                if (state.equals(Costants.REDDIT_STATE_RANDOM)) {
-                    String code = uri.getQueryParameter("code");
-                    if (!TextUtils.isEmpty(code)) {
-                        new AccessTokenExecute(code).loginData(this);
+    private void createWebview(String url) {
+
+        mWebview.clearCache(true);
+        mWebview.clearHistory();
+
+        CookieManager.getInstance().removeAllCookies(null);
+        CookieManager.getInstance().flush();
+
+        mWebview.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                if (url.contains("code=")) {
+                    Uri uri = Uri.parse(url);
+
+                    if (Objects.requireNonNull(uri).getQueryParameter("error") != null) {
+                        String error = uri.getQueryParameter("error");
+                        Timber.e("An error has occurred :%s ", error);
+
+                    } else {
+
+                        String state = uri.getQueryParameter("state");
+                        if (state.equals(Costants.REDDIT_STATE_RANDOM)) {
+
+                            String code = uri.getQueryParameter("code");
+                            new AccessTokenExecute(code).loginData(new AccessTokenExecute.RestAccessToken() {
+                                @Override
+                                public void onRestAccessToken(RedditToken listenerData) {
+
+                                    if (listenerData != null) {
+                                        String strAccessToken = listenerData.getAccess_token();
+                                        String strRefreshToken = listenerData.getRefresh_token();
+                                        long expired = listenerData.getExpires_in();
+
+                                        if (!TextUtils.isEmpty(strAccessToken) && !TextUtils.isEmpty(strRefreshToken)) {
+                                            PrefManager.putStringPref(getApplicationContext(), R.string.pref_session_access_token, strAccessToken);
+                                            PrefManager.putStringPref(getApplicationContext(), R.string.pref_session_refresh_token, strRefreshToken);
+                                            PrefManager.putIntPref(getApplicationContext(), R.string.pref_session_expired, (int) expired);
+                                            PrefManager.putLongPref(getApplicationContext(), R.string.pref_time_token, System.currentTimeMillis());
+
+                                            PrefManager.putBoolPref(getApplicationContext(), R.string.pref_login_start, true);
+
+                                            openHomeActivity(true);
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onErrorAccessToken(Throwable t) {
+                                    Timber.e("Error Login %s", t.getMessage());
+                                }
+                            });
+                        }
                     }
+                    mWebview.stopLoading();
+                    mWebview.setVisibility(View.GONE);
+
                 }
             }
-        } else {
-            String accessToken = PrefManager.getStringPref(getApplicationContext(), R.string.pref_session_access_token);
-            if (TextUtils.isEmpty(accessToken)) {
-                loadUrl();
-            }
-        }
+        });
+        mWebview.loadUrl(url);
     }
 
-    @Override
-    public void onRestAccessToken(RedditToken listenerData) {
-        if (listenerData != null) {
-            String strAccessToken = listenerData.getAccess_token();
-            String strRefreshToken = listenerData.getRefresh_token();
-            long expired = listenerData.getExpires_in();
-            if (!TextUtils.isEmpty(strAccessToken) && !TextUtils.isEmpty(strRefreshToken)) {
-                PrefManager.putStringPref(getApplicationContext(), R.string.pref_session_access_token, strAccessToken);
-                PrefManager.putStringPref(getApplicationContext(), R.string.pref_session_refresh_token, strRefreshToken);
-                PrefManager.putIntPref(getApplicationContext(), R.string.pref_session_expired, (int) expired);
-                PrefManager.putLongPref(getApplicationContext(), R.string.pref_time_token, System.currentTimeMillis());
-
-                PrefManager.putBoolPref(getApplicationContext(), R.string.pref_login_start, true);
-                openHomeActivity();
-            }else {
-                // todo redirect error loading page
-
-            }
-        }
-    }
-
-    @Override
-    public void onErrorAccessToken(Throwable t) {
-        Timber.e("Error Login %s", t.getMessage());
-    }
-
-    public void openHomeActivity() {
+    private void openHomeActivity(boolean success) {
         Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        intent.putExtra(Costants.EXTRA_LOGIN_SUCCESS, true);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra(Costants.EXTRA_LOGIN_SUCCESS, success);
         startActivity(intent);
     }
 }

@@ -16,6 +16,26 @@
         android:orientation="horizontal"
         android:foreground="?android:attr/selectableItemBackground">
 
+        <ImageView
+
+            android:id="@+id/img_handle"
+            android:layout_width="?android:attr/listPreferredItemHeight"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical|start"
+            android:contentDescription="@string/text_handle_description"
+            android:scaleType="center" />
+
+        <ImageView
+
+            android:id="@+id/img_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@string/text_icon_description"
+            android:scaleType="centerCrop" />
+
+
+
         <TextView
             android:id="@+id/tv_reddit_name"
             android:layout_width="0dp"
@@ -26,14 +46,6 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@android:color/black" />
 
-        <ImageView
-
-            android:id="@+id/img_handle"
-            android:layout_width="?android:attr/listPreferredItemHeight"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical|end"
-            android:contentDescription="@string/text_handle_description"
-            android:scaleType="center" />
 
 
     </LinearLayout>

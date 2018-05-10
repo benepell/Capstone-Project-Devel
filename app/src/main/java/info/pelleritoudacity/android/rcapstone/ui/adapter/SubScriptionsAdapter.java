@@ -3,8 +3,13 @@ package info.pelleritoudacity.android.rcapstone.ui.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,6 +19,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 
@@ -24,16 +32,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
+import info.pelleritoudacity.android.rcapstone.data.DataUtils;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperAdapter;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
 import info.pelleritoudacity.android.rcapstone.ui.helper.OnStartDragListener;
+import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 
 public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdapter.RedditHolder> implements ItemTouchHelperAdapter {
 
     private final OnStartDragListener mDragStartListener;
-    // todo remove static arraylist use persistant
     private final ArrayList<String> mArrayList;
     private Context mContext;
     private Cursor mCursor;
@@ -44,6 +53,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
         mDragStartListener = dragStartListener;
         mContext = context;
         mArrayList = new ArrayList<>();
+
         if (!TextUtils.isEmpty(PrefManager.getStringPref(mContext, R.string.pref_subreddit_key))) {
             mArrayList.addAll(Utility.stringToArray(PrefManager.getStringPref(mContext, R.string.pref_subreddit_key)));
         }
@@ -54,7 +64,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
     @Override
     public RedditHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         mContext = parent.getContext();
-        int layoutId = R.layout.list_reddit;
+        int layoutId = R.layout.list_manage_subreddit;
         LayoutInflater inflater = LayoutInflater.from(mContext);
 
         View view = inflater.inflate(layoutId, parent, false);
@@ -67,25 +77,24 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
     public void onBindViewHolder(@NonNull RedditHolder holder, int position) {
         mCursor.moveToPosition(position);
 
-        int idReddit = mCursor.getInt(mCursor.getColumnIndex(Contract.T5dataEntry._ID));
-        String nameIdReddit = mCursor.getString(mCursor.getColumnIndex(Contract.T5dataEntry.COLUMN_NAME_ID));
-
-        String titleReddit;
+        String name;
         if (TextUtils.isEmpty(PrefManager.getStringPref(mContext, R.string.pref_subreddit_key))) {
 
-            titleReddit = mCursor.getString(mCursor.getColumnIndex(Contract.T5dataEntry.COLUMN_NAME_TITLE));
-            mArrayList.add(position, titleReddit);
+            name = mCursor.getString(mCursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME));
+            mArrayList.add(position, name);
         } else {
             if (position < mArrayList.size()) {
-                titleReddit = mArrayList.get(position);
+                name = mArrayList.get(position);
             } else {
-                titleReddit = mCursor.getString(mCursor.getColumnIndex(Contract.T5dataEntry.COLUMN_NAME_TITLE));
-                mArrayList.add(position, titleReddit);
+                name = mCursor.getString(mCursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME));
+                mArrayList.add(position, name);
             }
         }
 
+
         holder.mImageViewRedditHandle.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_view_headline)
                 .respectFontBounds(true));
+
 
         holder.mImageViewRedditHandle.setOnTouchListener((v, motionEvent) -> {
             if (motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN) {
@@ -95,20 +104,95 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
             return false;
         });
 
-        holder.mTextViewRedditName.setText(titleReddit);
+        String iconUrl = mCursor.getString(mCursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_IMAGE));
+        // *****************************************************
+        /*Glide.with(holder.itemView.getContext().getApplicationContext())
+                .setDefaultRequestOptions(new RequestOptions().centerCrop())
+                .load(iconUrl)
+                .into(holder.mImageViewRedditIcon);
+        */
+        /*Glide.with(holder.itemView.getContext().getApplicationContext()).load(iconUrl)
+                .into(new BitmapImageViewTarget(holder.mImageViewRedditIcon) {
+            @Override
+            protected void setResource(Bitmap resource) {
+                RoundedBitmapDrawable circularBitmapDrawable =
+                        RoundedBitmapDrawableFactory.create(holder.itemView.getContext().getApplicationContext().getResources(), resource);
+                circularBitmapDrawable.setCircular(true);
+                holder.mImageViewRedditIcon.setImageDrawable(circularBitmapDrawable);
+            }
+        });
+*/
+
+        Glide.with(holder.itemView.getContext().getApplicationContext())
+                .asBitmap()
+                .load(iconUrl)
+//                .apply(requestOptions)
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                        super.onLoadFailed(errorDrawable);
+                        holder.mImageViewRedditIcon.setBackgroundResource(R.drawable.logo);
+                    }
+
+                    @Override
+                    public void onLoadStarted(@Nullable Drawable placeholder) {
+                        super.onLoadStarted(placeholder);
+                        holder.mImageViewRedditIcon.setBackgroundResource(R.drawable.logo);
+                    }
+
+                    @Override
+                    public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+//                        Drawable drawable = new BitmapDrawable(mContext.getResources(), resource);
+                        RoundedBitmapDrawable circularBitmapDrawable =
+                                RoundedBitmapDrawableFactory.create(holder.itemView.getContext().getApplicationContext().getResources(), resource);
+                        circularBitmapDrawable.setCircular(true);
+
+                        holder.mImageViewRedditIcon.setImageDrawable(circularBitmapDrawable);
+                    }
+                });
+
+
+
+
+
+
+
+
+        holder.mImageViewRedditIcon.setContentDescription(name);
+
+
+        // *******************************************
+
+        holder.mTextViewRedditName.setText(name);
 
     }
 
 
     @Override
     public int getItemCount() {
-        return (mCursor == null) ? 0 : mCursor.getCount();
+        if (mCursor != null) {
+            if ((mArrayList != null) &&
+                    (mArrayList.size() < mCursor.getCount())) {
+
+                return mArrayList.size();
+
+            } else {
+                return mCursor.getCount();
+            }
+        }
+        return 0;
     }
+
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
-        Collections.swap(mArrayList, fromPosition, toPosition);
-        notifyItemMoved(fromPosition, toPosition);
+        DataUtils moveData = new DataUtils(mContext);
+
+        if (moveData.moveManage(fromPosition, toPosition)) {
+            Collections.swap(mArrayList, fromPosition, toPosition);
+            notifyItemMoved(fromPosition, toPosition);
+        }
+
         String string = Utility.arrayToString(mArrayList);
 
         if (!TextUtils.isEmpty(string)) {
@@ -119,15 +203,24 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
 
     @Override
     public void onItemDismiss(int position) {
-        mArrayList.remove(position);
-        notifyItemRemoved(position);
+        if (getItemCount() > Costants.DEFAULT_SUBREDDIT_ITEMS) {
 
-        String string = Utility.arrayToString(mArrayList);
+            String description = mArrayList.get(position);
+            DataUtils dataUtils = new DataUtils(mContext);
 
-        if (!TextUtils.isEmpty(string)) {
-            PrefManager.putStringPref(mContext, R.string.pref_subreddit_key, string);
+            if (dataUtils.updateManageRemoved(description)) {
+                mArrayList.remove(position);
+                notifyItemRemoved(position);
+            }
+            String string = Utility.arrayToString(mArrayList);
+
+            if (!TextUtils.isEmpty(string)) {
+                PrefManager.putStringPref(mContext, R.string.pref_subreddit_key, string);
+            }
+
         }
     }
+
 
     public class RedditHolder extends RecyclerView.ViewHolder
             implements ItemTouchHelperViewHolder {
@@ -139,6 +232,10 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
         @SuppressWarnings("unused")
         @BindView(R.id.img_handle)
         ImageView mImageViewRedditHandle;
+
+        @SuppressWarnings("unused")
+        @BindView(R.id.img_icon)
+        ImageView mImageViewRedditIcon;
 
 
         RedditHolder(View itemView) {
@@ -172,5 +269,6 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
         }
         return temp;
     }
+
 
 }

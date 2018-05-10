@@ -28,21 +28,22 @@ package info.pelleritoudacity.android.rcapstone.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
 
-
-import java.util.Arrays;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.DataUtils;
-import info.pelleritoudacity.android.rcapstone.model.Reddit;
+import info.pelleritoudacity.android.rcapstone.data.Contract;
 import info.pelleritoudacity.android.rcapstone.rest.RefreshTokenExecute;
 import info.pelleritoudacity.android.rcapstone.rest.RestExecute;
-import info.pelleritoudacity.android.rcapstone.service.FirebaseJobDispatcherSync;
 import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
@@ -50,13 +51,14 @@ import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
 
 public class MainActivity extends BaseActivity
-        implements RestExecute.RestData, SwipeRefreshLayout.OnRefreshListener {
+        implements SwipeRefreshLayout.OnRefreshListener {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.swipe_refresh_layout)
     public SwipeRefreshLayout mSwipeRefreshLayout;
 
     private Context mContext;
+    private static WeakReference<Context> sWeakReference;
     private boolean mIsRefreshing;
 
     @Override
@@ -65,20 +67,25 @@ public class MainActivity extends BaseActivity
         super.onCreate(savedInstanceState);
 
         mContext = getApplicationContext();
+        sWeakReference = new WeakReference<>(mContext);
+
         Timber.plant(new Timber.DebugTree());
         ButterKnife.bind(this);
 
-        inizializeFirebaseDispatcherService();
+        initializeFirebaseDispatcherService();
+
+        getDataT5(getApplicationContext());
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
-        new RestExecute().loadData(this);
-
-        dataClearSnackBar(R.string.text_dialog_confirm_reset);
+        dataClearSnackBar();
 
         Intent intent = getIntent();
 
-        if (intent != null) {
+
+        if (intent != null)
+
+        {
             boolean isLogged = intent.getBooleanExtra(Costants.EXTRA_LOGIN_SUCCESS, false);
             boolean isLogout = intent.getBooleanExtra(Costants.EXTRA_LOGOUT_SUCCESS, false);
 
@@ -90,28 +97,11 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    @Override
-    public void onRestData(Reddit listenerData) {
-        if (listenerData != null) {
-            DataUtils dataUtils = new DataUtils(mContext);
-            //noinspection StatementWithEmptyBody
-            if (dataUtils.saveData(listenerData)) {
-                // todo start fragment main
-            } else {
-                Snackbar.make(findViewById(R.id.main_container), R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    @Override
-    public void onErrorData(Throwable t) {
-        Timber.e("onErrorData %s", Arrays.toString(t.getStackTrace()));
-    }
 
     @Override
     public void onRefresh() {
         if (Utility.isOnline(getApplicationContext())) {
-            new RestExecute().loadData(this);
+            getDataT5(getApplicationContext());
         } else {
             mIsRefreshing = false;
             Snackbar.make(findViewById(R.id.main_container), R.string.list_snackbar_offline_text, Snackbar.LENGTH_LONG).show();
@@ -130,16 +120,14 @@ public class MainActivity extends BaseActivity
                         | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY));
     }
 
-    private void dataClearSnackBar(int resource) {
+    private void dataClearSnackBar() {
         if (PrefManager.getBoolPref(mContext, R.string.pref_clear_data)) {
-            Snackbar.make(findViewById(R.id.main_container), resource, Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(R.id.main_container), R.string.text_dialog_confirm_reset, Snackbar.LENGTH_LONG).show();
             PrefManager.putBoolPref(mContext, R.string.pref_clear_data, false);
         }
     }
 
-    private void inizializeFirebaseDispatcherService() {
-
-        FirebaseJobDispatcherSync.initialize(this);
+    private void initializeFirebaseDispatcherService() {
 
         if (PrefManager.getBoolPref(getApplicationContext(), R.string.pref_login_start)) {
 
@@ -156,5 +144,67 @@ public class MainActivity extends BaseActivity
         }
     }
 
+    private void getDataT5(Context context) {
+        if (context != null) {
+            new RestExecute().syncData(context);
+            new RemovedItemSubRedditAsyncTask().execute();
+        }
+    }
+
+
+    private static class RemovedItemSubRedditAsyncTask extends AsyncTask<Void, Void, Cursor> {
+
+        @Override
+        protected Cursor doInBackground(Void... voids) {
+            try {
+                Context context = sWeakReference.get();
+                Uri uri = Contract.PrefSubRedditEntry.CONTENT_URI;
+                String selection = Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED + " =?";
+                String[] selectionArgs = {String.valueOf(0)};
+                return context.getContentResolver().query(uri,
+                        null,
+                        selection,
+                        selectionArgs,
+                        null);
+
+            } catch (Exception e) {
+                Timber.e("Failed to asynchronously load data. ");
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Cursor cursor) {
+            super.onPostExecute(cursor);
+            Context context = sWeakReference.get();
+
+            try {
+
+                int size = cursor.getCount();
+                ArrayList<String> arrayList = new ArrayList<>(size);
+
+                String name;
+                if (!cursor.isClosed()) {
+                    while (cursor.moveToNext()) {
+                        name = cursor.getString(cursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME));
+                        name = Utility.normalizeSubRedditLink(name);
+                        arrayList.add(name);
+
+                        String strPref = Utility.arrayToString(arrayList);
+                        PrefManager.putStringPref(context, R.string.pref_subreddit_key, strPref);
+                    }
+                }
+            } finally {
+
+                if ((cursor != null) && (!cursor.isClosed())) {
+                    cursor.close();
+                }
+
+            }
+
+        }
+
+    }
 
 }

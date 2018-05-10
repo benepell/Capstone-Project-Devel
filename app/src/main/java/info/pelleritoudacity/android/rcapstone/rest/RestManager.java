@@ -29,8 +29,7 @@ package info.pelleritoudacity.android.rcapstone.rest;
 
 import java.util.concurrent.TimeUnit;
 
-import info.pelleritoudacity.android.rcapstone.BuildConfig;
-import info.pelleritoudacity.android.rcapstone.model.Reddit;
+import info.pelleritoudacity.android.rcapstone.model.T5;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import okhttp3.OkHttpClient;
@@ -43,7 +42,7 @@ public class RestManager {
 
     private static RedditAPI sRestAPI;
     private static RestManager sRestManager;
-    private Call<Reddit> mCall;
+    private Call<T5> mCall;
 
     private RestManager() {
 
@@ -54,7 +53,7 @@ public class RestManager {
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BuildConfig.REDDIT_BASE_URL)
+                .baseUrl(Costants.REDDIT_BASE_URL)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -71,7 +70,7 @@ public class RestManager {
         return sRestManager;
     }
 
-    public void getRedditAPI(Callback<Reddit> callback) {
+    public void getRedditAPI(Callback<T5> callback) {
         mCall = sRestAPI.getReddit();
         mCall.enqueue(callback);
     }

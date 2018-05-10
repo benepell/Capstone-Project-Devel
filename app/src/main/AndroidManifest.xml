@@ -21,11 +21,11 @@
         <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.BaseActivity" />
-
         <activity
             android:name=".ui.activity.SettingsActivity"
             android:excludeFromRecents="true"
@@ -38,7 +38,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />
         </activity>
-
         <activity
             android:name=".ui.activity.SubManageActivity"
             android:excludeFromRecents="true"
@@ -51,7 +50,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />
         </activity>
-
         <activity
             android:name=".ui.activity.LoginActivity"
             android:excludeFromRecents="true"
@@ -60,19 +58,7 @@
             android:noHistory="true"
             android:parentActivityName=".ui.activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="@string/reddit_about_url"
-                    android:path="/my_redirect"
-                    android:scheme="http" />
-            </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.activity.LogoutActivity"
             android:excludeFromRecents="true"
@@ -93,13 +79,6 @@
             tools:ignore="ManifestResource" />
 
         <service
-            android:name=".service.FirebaseJobService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
-            </intent-filter>
-        </service>
-        <service
             android:name=".service.FirebaseRefreshTokenService"
             android:exported="false">
             <intent-filter>
@@ -107,6 +86,7 @@
             </intent-filter>
         </service>
 
+        <activity android:name=".ui.activity.SubRedditActivity"></activity>
     </application>
 
 </manifest>

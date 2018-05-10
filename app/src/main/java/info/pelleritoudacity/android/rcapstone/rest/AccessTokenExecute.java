@@ -21,7 +21,6 @@ public class AccessTokenExecute {
             public void onResponse(@NonNull Call<RedditToken> call, @NonNull Response<RedditToken> response) {
                 if (response.isSuccessful()) {
                     mLogin = response.body();
-                    //todo bug: if login ... logout.... and then login ..... value  in %s is null
                     myCallBack.onRestAccessToken(mLogin);
                 }
             }

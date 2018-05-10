@@ -19,7 +19,7 @@
         android:title="@string/title_rendering_video" />
 
     <ListPreference
-        android:defaultValue="86400"
+        android:defaultValue="900"
         android:entries="@array/pref_sync_frequency_titles"
         android:entryValues="@array/pref_sync_frequency_values"
         android:key="@string/pref_sync_frequency"

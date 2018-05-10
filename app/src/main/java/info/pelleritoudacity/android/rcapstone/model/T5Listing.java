@@ -7,7 +7,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Data implements Parcelable
+public class T5Listing implements Parcelable
 {
 
     @SerializedName("after")
@@ -24,38 +24,38 @@ public class Data implements Parcelable
     private String whitelistStatus;
     @SerializedName("children")
     @Expose
-    private List<Children> children = null;
+    private List<T5ListingData> children = null;
     @SerializedName("before")
     @Expose
     private Object before;
-    public final static Parcelable.Creator<Data> CREATOR = new Creator<Data>() {
+    public final static Parcelable.Creator<T5Listing> CREATOR = new Creator<T5Listing>() {
 
 
         @SuppressWarnings({
                 "unchecked"
         })
-        public Data createFromParcel(Parcel in) {
-            return new Data(in);
+        public T5Listing createFromParcel(Parcel in) {
+            return new T5Listing(in);
         }
 
-        public Data[] newArray(int size) {
-            return (new Data[size]);
+        public T5Listing[] newArray(int size) {
+            return (new T5Listing[size]);
         }
 
     }
             ;
 
     @SuppressWarnings("WeakerAccess")
-    protected Data(Parcel in) {
+    protected T5Listing(Parcel in) {
         this.after = ((String) in.readValue((String.class.getClassLoader())));
         this.dist = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.modhash = ((String) in.readValue((String.class.getClassLoader())));
         this.whitelistStatus = ((String) in.readValue((String.class.getClassLoader())));
-        in.readList(this.children, (info.pelleritoudacity.android.rcapstone.model.Children.class.getClassLoader()));
+        in.readList(this.children, (T5ListingData.class.getClassLoader()));
         this.before = in.readValue((Object.class.getClassLoader()));
     }
 
-    public Data() {
+    public T5Listing() {
     }
 
     public String getAfter() {
@@ -90,11 +90,11 @@ public class Data implements Parcelable
         this.whitelistStatus = whitelistStatus;
     }
 
-    public List<Children> getChildren() {
+    public List<T5ListingData> getChildren() {
         return children;
     }
 
-    public void setChildren(List<Children> children) {
+    public void setChildren(List<T5ListingData> children) {
         this.children = children;
     }
 

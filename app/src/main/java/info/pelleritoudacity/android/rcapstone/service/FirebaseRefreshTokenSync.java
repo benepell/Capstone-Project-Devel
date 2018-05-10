@@ -11,9 +11,7 @@ import com.firebase.jobdispatcher.Job;
 import com.firebase.jobdispatcher.Lifetime;
 import com.firebase.jobdispatcher.Trigger;
 
-import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
-import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 
 public class FirebaseRefreshTokenSync {
     private static boolean sInit;

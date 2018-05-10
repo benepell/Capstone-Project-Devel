@@ -30,18 +30,22 @@ import info.pelleritoudacity.android.rcapstone.BuildConfig;
 
 public interface Costants {
 
+    String REDDIT_BASE_URL = "https://www.reddit.com/";
+    String REDDIT_TOKEN_URL = "https://www.reddit.com/";
+    String REDDIT_OAUTH_URL = "https://oauth.reddit.com/";
+
     String REDDIT_CLIENT_ID = BuildConfig.REDDIT_CLIENT_ID;
-    String REDDIT_TOKEN_URL = BuildConfig.REDDIT_BASE_URL;
-    String REDDIT_OAUTH_URL = BuildConfig.REDDIT_OAUTH_URL;
+    String REDDIT_REDIRECT_URL = BuildConfig.REDDIT_REDIRECT_URL;
+    String REDDIT_ABOUT_URL = BuildConfig.REDDIT_ABOUT_URL;
+    String REDDIT_STATE_RANDOM = BuildConfig.REDDIT_SECRET_STATE;
+
+
     String REDDIT_AUTHORIZATION = "Authorization";
     String REDDIT_BEARER = "Bearer ";
     String REDDIT_ACCESS_TOKEN = "access_token";
-    String REDDIT_ABOUT_URL = "rcapstone.android.pelleritoudacity.info";
-    String REDDIT_REDIRECT_URL = "http://rcapstone.android.pelleritoudacity.info/my_redirect";
     int REDDIT_REVOKE_SUCCESS = 204;
-    String REDDIT_STATE_RANDOM = "RANDOM_STRING_RCAP";
     String REDDIT_AUTH_URL = "www.reddit.com";
-    String REDDIT_USER_AGENT = "android:info.pelleritoudacity.android.rcapstone:v1.0";
+    String REDDIT_USER_AGENT = "android:info.pelleritoudacity.android.rcapstone:v1.0.0 (by /u/benedettopellerito)";
 
     int SESSION_TIMEOUT_DEFAULT = 60;
 
@@ -49,6 +53,7 @@ public interface Costants {
     String TOKEN_SYNC_TAG = "rcapstone-token-sync";
 
     int REDDIT_LOADER_ID = 1;
+    int SUBREDDIT_LOADER_ID = 2;
 
     int LOGIN_REQUEST_SIGNUP = 0;
 
@@ -64,6 +69,10 @@ public interface Costants {
 
     String EXTRA_LOGIN_SUCCESS = "info.pelleritoudacity.android.rcapstone.extra.login.success";
     String EXTRA_LOGOUT_SUCCESS = "info.pelleritoudacity.android.rcapstone.extra.logout.success";
+
+    String EXTRA_SUBREDDIT_CATEGORY = "info.pelleritoudacity.android.rcapstone.extra.subreddit.category";
+    String EXTRA_FRAGMENT_SUBREDDIT = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit";
+    String EXTRA_FRAGMENT_STATE = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit";
 
     String EXTRA_TOKEN_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.token.refresh";
 
@@ -85,5 +94,14 @@ public interface Costants {
     int OK_HTTP_CONNECTION_TIMEOUT = 60;
     int OK_HTTP_CONNECTION_READ_TIMEOUT = 30;
     int OK_HTTP_CONNECTION_WRITE_TIMEOUT = 15;
+
+    String TEXT_SEPARATOR = " - ";
+
+    String DEFAULT_SUBREDDIT_CATEGORY = "ASKREDDIT,POLITICS,THEDONALD,WORLDNEWS,NBA,VIDEOS,FUNNY," +
+            "TODAYILEARNED,SOCCER,CFB,GAMING,MOVIES,NEWS,GIFS,AWW,WTF,SHOWERTHOUGHTS,TECHNOLOGY";
+
+    int DEFAULT_SUBREDDIT_ITEMS = 3;
+    int REMOVED_SUBREDDIT_ITEMS = 1;
+
 
 }

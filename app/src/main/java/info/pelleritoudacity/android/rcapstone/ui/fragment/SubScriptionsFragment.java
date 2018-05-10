@@ -44,11 +44,29 @@ public class SubScriptionsFragment extends Fragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         if (getActivity() != null) {
             getActivity().getSupportLoaderManager().initLoader(REDDIT_LOADER_ID, null, this);
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        restartLoader();
+
+    }
+
+    public void restartLoader(){
+        if (getActivity() != null) {
+            getActivity().getSupportLoaderManager().restartLoader(REDDIT_LOADER_ID, null, this);
+        }
+    }
 
     @Nullable
     @Override
@@ -124,11 +142,20 @@ public class SubScriptionsFragment extends Fragment
         @Override
         public Cursor loadInBackground() {
             try {
-                return getContext().getContentResolver().query(Contract.T5dataEntry.CONTENT_URI,
-                        null,
-                        null,
-                        null,
-                        null);
+                String[] projection = {
+                        " Distinct ".concat(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME),
+                        Contract.PrefSubRedditEntry.COLUMN_NAME_IMAGE,
+                        Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE,
+                        Contract.PrefSubRedditEntry.COLUMN_NAME_TIME_LAST_MODIFIED
+                };
+
+
+
+                return getContext().getContentResolver().query(Contract.PrefSubRedditEntry.CONTENT_URI,
+                        projection,
+                        Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED + " =?",
+                        new String[]{"0"},
+                        Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION + " ASC");
 
             } catch (Exception e) {
                 Timber.e("Failed to asynchronously load data. ");

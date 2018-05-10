@@ -36,9 +36,18 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
+import java.util.NavigableMap;
+import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
 
 import info.pelleritoudacity.android.rcapstone.R;
 
@@ -88,6 +97,7 @@ public class Utility {
     public static String arrayToString(ArrayList<String> arrayList) {
         if (arrayList != null) {
             StringBuilder builder = new StringBuilder();
+
             for (String s : arrayList) {
                 builder.append(s).append(Costants.STRING_SEPARATOR);
             }
@@ -123,10 +133,80 @@ public class Utility {
             int expiredRedditAuth = PrefManager.getIntPref(context, R.string.pref_session_expired);
             int sessionTimeout = Costants.SESSION_TIMEOUT_DEFAULT;
             if ((now > 0) && (lastTimeLogin > 0) && (lastTimeLogin < now) && (expiredRedditAuth > 0)) {
-                sessionTimeout =  expiredRedditAuth - secondTime.intValue();
+                sessionTimeout = expiredRedditAuth - secondTime.intValue();
             }
             return (sessionTimeout < Costants.SESSION_TIMEOUT_DEFAULT) ? Costants.SESSION_TIMEOUT_DEFAULT : sessionTimeout;
         }
         return 0;
     }
+
+    public static int getHourCurrentCreatedUtc(long createdUtc) {
+        Long now = System.currentTimeMillis();
+        Long diffTime = now / 1000 - createdUtc;
+        return Math.round(diffTime / 3600);
+    }
+
+    public static int getSecondsTimeStamp(String timestamp) {
+
+        Date date;
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat(
+                    "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            date = dateFormat.parse(timestamp);
+            Long diffTime = System.currentTimeMillis() - date.getTime();
+
+            return (int) TimeUnit.MILLISECONDS.toSeconds(diffTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+
+    public static String normalizeSubRedditLink(String link) {
+
+        return (!TextUtils.isEmpty(link)) ?
+                link.replace("/r/", "")
+                        .replaceAll("[^a-zA-Z0-9]", "")
+                        .toUpperCase().trim() : "";
+
+
+    }
+
+    private static final NavigableMap<Long, String> suffixes = new TreeMap<>();
+
+    static {
+        suffixes.put(1_000L, "k");
+        suffixes.put(1_000_000L, "M");
+        suffixes.put(1_000_000_000L, "G");
+        suffixes.put(1_000_000_000_000L, "T");
+        suffixes.put(1_000_000_000_000_000L, "P");
+        suffixes.put(1_000_000_000_000_000_000L, "E");
+    }
+
+    public static String numberformat(long value) {
+        if (value == Long.MIN_VALUE) return numberformat(Long.MIN_VALUE + 1);
+        if (value < 0) return "-" + numberformat(-value);
+        if (value < 1000) return Long.toString(value);
+
+        Map.Entry<Long, String> e = suffixes.floorEntry(value);
+        Long divideBy = e.getKey();
+        String suffix = e.getValue();
+
+        long truncated = value / (divideBy / 10);
+        boolean hasDecimal = truncated < 100 && (truncated / 10d) != (truncated / 10);
+        return hasDecimal ? (truncated / 10d) + suffix : (truncated / 10) + suffix;
+    }
+
+    public static int boolToInt(boolean b) {
+        return b ? 1 : 0;
+    }
+
+    public static int toInt(Object object) {
+        if (object instanceof Integer) {
+            return (Integer) object;
+        }
+        return 0;
+    }
+
 }

@@ -73,7 +73,22 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         final Preference prefAdultFilter = findPreference(getString(R.string.pref_adult_filter));
         if (getActivity() != null) {
             boolean isOver18 = PrefManager.getBoolPref(getActivity(), R.string.pref_login_over18);
-            prefAdultFilter.setEnabled(isOver18);
+            boolean isLogged = PrefManager.getBoolPref(getActivity(), R.string.pref_login_start);
+
+            if(isLogged){
+
+                if(isOver18){
+                    prefAdultFilter.setEnabled(true);
+
+                }else {
+                    prefAdultFilter.setEnabled(false);
+                    prefAdultFilter.setSummary(R.string.reddit_adultcontent_text);
+                }
+            }else {
+                prefAdultFilter.setEnabled(false);
+                prefAdultFilter.setSummary(R.string.reddit_nologinadultcontent_text);
+            }
+
         }
     }
 }

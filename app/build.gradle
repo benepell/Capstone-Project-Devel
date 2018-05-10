@@ -14,9 +14,10 @@ android {
     }
     buildTypes.each {
         //  REDDIT BASE URL  - url: https://www.reddit.com/prefs/apps/
-        it.buildConfigField 'String', 'REDDIT_BASE_URL', '\"https://www.reddit.com/\"'
-        it.buildConfigField 'String', 'REDDIT_OAUTH_URL', '\"https://oauth.reddit.com/\"'
         it.buildConfigField 'String', 'REDDIT_CLIENT_ID', '\"[CLIENTID]"'
+        it.buildConfigField 'String', 'REDDIT_SECRET_STATE', '\"https://www.reddit.com/\"'
+        it.buildConfigField 'String', 'REDDIT_ABOUT_URL', '\"rcapstone.android.pelleritoudacity.info"'
+        it.buildConfigField 'String', 'REDDIT_REDIRECT_URL', '\"http://rcapstone.android.pelleritoudacity.info/my_redirect"'
     }
     buildTypes {
         release {
@@ -78,10 +79,12 @@ dependencies {
     implementation "com.mikepenz:material-design-iconic-typeface:${rootProject.ext.mikepenzMaterialDesignIconicsVersion}"
 
     implementation "com.firebase:firebase-jobdispatcher:${rootProject.ext.firebaseJobDispVersion}"
+/*
     implementation "com.google.firebase:firebase-core:${rootProject.ext.firebaseCoreVersion}"
     implementation "com.google.firebase:firebase-crash:${rootProject.ext.firebaseCrashVersion}"
 
     freeImplementation "com.google.firebase:firebase-ads:${rootProject.ext.firebaseAdsVersion}"
+*/
 
     implementation "com.android.support.test.espresso:espresso-idling-resource:${rootProject.ext.espressoVersion}"
 
@@ -95,5 +98,6 @@ dependencies {
 
     androidTestImplementation "com.android.support.test:rules:${rootProject.ext.testRulesVersion}"
     androidTestImplementation "com.android.support.test:runner:${rootProject.ext.testRulesVersion}"
+
 
 }

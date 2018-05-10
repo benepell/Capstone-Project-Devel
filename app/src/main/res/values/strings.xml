@@ -9,7 +9,7 @@
 
     <string name="error_state_critical">Unable to start &app_name;\n cause: %1$s\n Please, start factory data reset in menu settings or restart app. </string>
 
-    <string name="pref_subreddit_key" translatable="false">info.pelleritoudacity.android.rcapstone.pref.type.mode</string>
+    <string name="pref_subreddit_key" translatable="false">info.pelleritoudacity.android.rcapstone.pref.subreddit.key</string>
 
     <string name="pref_type_mode" translatable="false">pref.type.mode</string>
 
@@ -70,20 +70,20 @@
     <string name="pref_sync_frequency" translatable="false">info.pelleritoudacity.android.rcapstonepref_sync_frequency</string>
     <string name="pref_title_sync_frequency" translatable="false">Sync Data</string>
     <string-array name="pref_sync_frequency_titles">
+        <item>5 minutes</item>
         <item>15 minutes</item>
         <item>6 hours</item>
         <item>12 hours</item>
         <item>24 hours</item>
         <item>48 hours</item>
-        <item>Never</item>
     </string-array>
     <string-array name="pref_sync_frequency_values" translatable="false">
+        <item>300</item>
         <item>900</item>
         <item>21600</item>
         <item>43200</item>
         <item>86400</item>
         <item>172800</item>
-        <item>0</item>
     </string-array>
 
     <string name="title_clear_data">Factory data reset</string>
@@ -130,6 +130,14 @@
     <string name="title_menu_logout">Logout</string>
     <string name="title_activity_logout">Logout</string>
     <string name="text_logout_success">Logout successfly. Anonymous mode is actived</string>
+    <string name="reddit_adultcontent_text">Item not available - Enable NSFW content on Reddit</string>
+    <string name="reddit_nologinadultcontent_text">Click on the log in to retrieve your personal login information</string>
+
+    <string name="text_comments_subreddit">comments</string>
+    <string name="text_manage_nolinks">No Archive Available for Manage Subscriptions.</string>
+    <string name="abbr_hour_text">h</string>
+    <string name="abbr_day_text">d</string>
+    <string name="text_icon_description">icon link description</string>
 
 
 </resources>

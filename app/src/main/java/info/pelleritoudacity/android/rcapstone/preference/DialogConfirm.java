@@ -44,7 +44,6 @@ import info.pelleritoudacity.android.rcapstone.rest.RevokeTokenExecute;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
-import timber.log.Timber;
 
 public class DialogConfirm extends DialogPreference {
 
@@ -83,6 +82,7 @@ public class DialogConfirm extends DialogPreference {
 
                 PrefManager.clearGeneralSettings(context);
                 PrefManager.clearPref(context);
+                new DataUtils(context).clearDataPrivacy();
 
             }
         }
@@ -93,7 +93,6 @@ public class DialogConfirm extends DialogPreference {
             Context context = sWeakReference.get();
             if (context != null) {
                 CacheDataSourceFactory.getClearData(context);
-                new DataUtils(context).ClearDataPrivacy();
                 Glide.get(context).clearDiskCache();
             }
 

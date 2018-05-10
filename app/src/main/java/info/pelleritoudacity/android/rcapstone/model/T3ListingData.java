@@ -7,7 +7,7 @@ import android.os.Parcelable.Creator;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Reddit implements Parcelable
+public class T3ListingData implements Parcelable
 {
 
     @SerializedName("kind")
@@ -15,31 +15,30 @@ public class Reddit implements Parcelable
     private String kind;
     @SerializedName("data")
     @Expose
-    private Data data;
-    public final static Parcelable.Creator<Reddit> CREATOR = new Creator<Reddit>() {
+    private T3Data data;
+    public final static Parcelable.Creator<T3ListingData> CREATOR = new Creator<T3ListingData>() {
 
 
         @SuppressWarnings({
             "unchecked"
         })
-        public Reddit createFromParcel(Parcel in) {
-            return new Reddit(in);
+        public T3ListingData createFromParcel(Parcel in) {
+            return new T3ListingData(in);
         }
 
-        public Reddit[] newArray(int size) {
-            return (new Reddit[size]);
+        public T3ListingData[] newArray(int size) {
+            return (new T3ListingData[size]);
         }
 
     }
     ;
 
-    @SuppressWarnings("WeakerAccess")
-    protected Reddit(Parcel in) {
+    protected T3ListingData(Parcel in) {
         this.kind = ((String) in.readValue((String.class.getClassLoader())));
-        this.data = ((Data) in.readValue((Data.class.getClassLoader())));
+        this.data = ((T3Data) in.readValue((T3Data.class.getClassLoader())));
     }
 
-    public Reddit() {
+    public T3ListingData() {
     }
 
     public String getKind() {
@@ -50,11 +49,11 @@ public class Reddit implements Parcelable
         this.kind = kind;
     }
 
-    public Data getData() {
+    public T3Data getData() {
         return data;
     }
 
-    public void setData(Data data) {
+    public void setData(T3Data data) {
         this.data = data;
     }
 

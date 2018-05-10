@@ -52,6 +52,12 @@ public class ContentProvider extends android.content.ContentProvider {
     private static final int T5DATAS = 300;
     private static final int T5DATA_WITH_ID = 301;
 
+    private static final int T3DATAS = 400;
+    private static final int T3DATA_WITH_ID = 401;
+
+    private static final int PREFSUBREDDITS = 500;
+    private static final int PREFSUBREDDIT_WITH_ID = 501;
+
     private static final UriMatcher sUriMatMATCHER = buildURIMatcher();
 
     private static UriMatcher buildURIMatcher() {
@@ -66,6 +72,12 @@ public class ContentProvider extends android.content.ContentProvider {
 
         uriMatcher.addURI(Contract.CONTENT_AUTHORITY, Contract.PATH_T5DATAS, T5DATAS);
         uriMatcher.addURI(Contract.CONTENT_AUTHORITY, Contract.PATH_T5DATAS + "/#", T5DATA_WITH_ID);
+
+        uriMatcher.addURI(Contract.CONTENT_AUTHORITY, Contract.PATH_T3DATAS, T3DATAS);
+        uriMatcher.addURI(Contract.CONTENT_AUTHORITY, Contract.PATH_T3DATAS + "/#", T3DATA_WITH_ID);
+
+        uriMatcher.addURI(Contract.CONTENT_AUTHORITY, Contract.PATH_PREFSUBREDDIT, PREFSUBREDDITS);
+        uriMatcher.addURI(Contract.CONTENT_AUTHORITY, Contract.PATH_T3DATAS + "/#", PREFSUBREDDIT_WITH_ID);
 
         return uriMatcher;
     }
@@ -178,6 +190,60 @@ public class ContentProvider extends android.content.ContentProvider {
 
                 break;
 
+            case T3DATAS:
+                returnCursor = db.query(Contract.T3dataEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+
+                break;
+
+            case T3DATA_WITH_ID:
+
+                id = uri.getPathSegments().get(1);
+
+                mSelection = "_id=?";
+                mSelectionArgs = new String[]{id};
+
+                returnCursor = db.query(Contract.T3dataEntry.TABLE_NAME,
+                        projection,
+                        mSelection,
+                        mSelectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+
+            case PREFSUBREDDITS:
+                returnCursor = db.query(Contract.PrefSubRedditEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+
+                break;
+
+            case PREFSUBREDDIT_WITH_ID:
+
+                id = uri.getPathSegments().get(1);
+
+                mSelection = "_id=?";
+                mSelectionArgs = new String[]{id};
+
+                returnCursor = db.query(Contract.PrefSubRedditEntry.TABLE_NAME,
+                        projection,
+                        mSelection,
+                        mSelectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+
+                break;
+
 
             default:
                 throw new UnsupportedOperationException("Uri not found: " + uri);
@@ -217,6 +283,18 @@ public class ContentProvider extends android.content.ContentProvider {
 
             case T5DATA_WITH_ID:
                 return Contract.T5dataEntry.CONTENT_ITEM_TYPE;
+
+            case T3DATAS:
+                return Contract.T3dataEntry.CONTENT_TYPE;
+
+            case T3DATA_WITH_ID:
+                return Contract.T3dataEntry.CONTENT_ITEM_TYPE;
+
+            case PREFSUBREDDITS:
+                return Contract.PrefSubRedditEntry.CONTENT_TYPE;
+
+            case PREFSUBREDDIT_WITH_ID:
+                return Contract.PrefSubRedditEntry.CONTENT_ITEM_TYPE;
 
             default:
                 throw new UnsupportedOperationException("Uri not found: " + uri);
@@ -261,6 +339,28 @@ public class ContentProvider extends android.content.ContentProvider {
                 id = db.insert(Contract.T5dataEntry.TABLE_NAME, null, values);
                 if (id > 0) {
                     returnUri = ContentUris.withAppendedId(Contract.T5dataEntry.CONTENT_URI, id);
+                } else {
+                    throw new android.database.SQLException("Failed to insert row .." + uri);
+                }
+
+                break;
+
+            case T3DATAS:
+
+                id = db.insert(Contract.T3dataEntry.TABLE_NAME, null, values);
+                if (id > 0) {
+                    returnUri = ContentUris.withAppendedId(Contract.T3dataEntry.CONTENT_URI, id);
+                } else {
+                    throw new android.database.SQLException("Failed to insert row .." + uri);
+                }
+
+                break;
+
+            case PREFSUBREDDITS:
+
+                id = db.insert(Contract.PrefSubRedditEntry.TABLE_NAME, null, values);
+                if (id > 0) {
+                    returnUri = ContentUris.withAppendedId(Contract.PrefSubRedditEntry.CONTENT_URI, id);
                 } else {
                     throw new android.database.SQLException("Failed to insert row .." + uri);
                 }
@@ -335,6 +435,36 @@ public class ContentProvider extends android.content.ContentProvider {
                         new String[]{String.valueOf(id)});
                 break;
 
+            case T3DATAS:
+                recordDelete = db.delete(Contract.T3dataEntry.TABLE_NAME,
+                        selection,
+                        selectionArgs);
+                break;
+
+            case T3DATA_WITH_ID:
+
+                id = Integer.parseInt(uri.getPathSegments().get(1));
+
+                recordDelete = db.delete(Contract.T3dataEntry.TABLE_NAME,
+                        "_id=?",
+                        new String[]{String.valueOf(id)});
+                break;
+
+            case PREFSUBREDDITS:
+                recordDelete = db.delete(Contract.PrefSubRedditEntry.TABLE_NAME,
+                        selection,
+                        selectionArgs);
+                break;
+
+            case PREFSUBREDDIT_WITH_ID:
+
+                id = Integer.parseInt(uri.getPathSegments().get(1));
+
+                recordDelete = db.delete(Contract.PrefSubRedditEntry.TABLE_NAME,
+                        "_id=?",
+                        new String[]{String.valueOf(id)});
+                break;
+
             default:
                 throw new UnsupportedOperationException("Uri not found: " + uri);
         }
@@ -404,6 +534,40 @@ public class ContentProvider extends android.content.ContentProvider {
                 id = Integer.parseInt(uri.getPathSegments().get(1));
 
                 rowsUpdate = db.update(Contract.T5dataEntry.TABLE_NAME,
+                        values,
+                        "_id=?",
+                        new String[]{String.valueOf(id)});
+                break;
+
+            case T3DATAS:
+                rowsUpdate = db.update(Contract.T3dataEntry.TABLE_NAME,
+                        values,
+                        selection,
+                        selectionArgs);
+                break;
+
+            case T3DATA_WITH_ID:
+
+                id = Integer.parseInt(uri.getPathSegments().get(1));
+
+                rowsUpdate = db.update(Contract.T3dataEntry.TABLE_NAME,
+                        values,
+                        "_id=?",
+                        new String[]{String.valueOf(id)});
+                break;
+
+            case PREFSUBREDDITS:
+                rowsUpdate = db.update(Contract.PrefSubRedditEntry.TABLE_NAME,
+                        values,
+                        selection,
+                        selectionArgs);
+                break;
+
+            case PREFSUBREDDIT_WITH_ID:
+
+                id = Integer.parseInt(uri.getPathSegments().get(1));
+
+                rowsUpdate = db.update(Contract.PrefSubRedditEntry.TABLE_NAME,
                         values,
                         "_id=?",
                         new String[]{String.valueOf(id)});
@@ -508,6 +672,64 @@ public class ContentProvider extends android.content.ContentProvider {
                         }
 
                         long _id = db.insertOrThrow(Contract.T5dataEntry.TABLE_NAME, null, value);
+                        if (_id != -1) {
+                            rowsInserted++;
+                        }
+                    }
+                    db.setTransactionSuccessful();
+
+                } catch (SQLiteException e) {
+                    Timber.v("Attempting to insert %s", e.getMessage());
+                } finally {
+                    db.endTransaction();
+                }
+                if ((getContext() != null) && (rowsInserted > 0)) {
+                    getContext().getContentResolver().notifyChange(uri, null);
+                }
+
+                return rowsInserted;
+
+            case T3DATAS:
+                db.beginTransaction();
+                rowsInserted = 0;
+
+                try {
+                    for (ContentValues value : values) {
+
+                        if (value == null) {
+                            throw new IllegalArgumentException("Cannot have null content values");
+                        }
+
+                        long _id = db.insertOrThrow(Contract.T3dataEntry.TABLE_NAME, null, value);
+                        if (_id != -1) {
+                            rowsInserted++;
+                        }
+                    }
+                    db.setTransactionSuccessful();
+
+                } catch (SQLiteException e) {
+                    Timber.v("Attempting to insert %s", e.getMessage());
+                } finally {
+                    db.endTransaction();
+                }
+                if ((getContext() != null) && (rowsInserted > 0)) {
+                    getContext().getContentResolver().notifyChange(uri, null);
+                }
+
+                return rowsInserted;
+
+            case PREFSUBREDDITS:
+                db.beginTransaction();
+                rowsInserted = 0;
+
+                try {
+                    for (ContentValues value : values) {
+
+                        if (value == null) {
+                            throw new IllegalArgumentException("Cannot have null content values");
+                        }
+
+                        long _id = db.insertOrThrow(Contract.PrefSubRedditEntry.TABLE_NAME, null, value);
                         if (_id != -1) {
                             rowsInserted++;
                         }

@@ -7,8 +7,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-@SuppressWarnings("ALL")
-public class Children implements Parcelable
+public class T5 implements Parcelable
 {
 
     @SerializedName("kind")
@@ -16,31 +15,31 @@ public class Children implements Parcelable
     private String kind;
     @SerializedName("data")
     @Expose
-    private T5Data data;
-    public final static Parcelable.Creator<Children> CREATOR = new Creator<Children>() {
+    private T5Listing data;
+    public final static Parcelable.Creator<T5> CREATOR = new Creator<T5>() {
 
 
         @SuppressWarnings({
             "unchecked"
         })
-        public Children createFromParcel(Parcel in) {
-            return new Children(in);
+        public T5 createFromParcel(Parcel in) {
+            return new T5(in);
         }
 
-        public Children[] newArray(int size) {
-            return (new Children[size]);
+        public T5[] newArray(int size) {
+            return (new T5[size]);
         }
 
     }
     ;
 
     @SuppressWarnings("WeakerAccess")
-    protected Children(Parcel in) {
+    protected T5(Parcel in) {
         this.kind = ((String) in.readValue((String.class.getClassLoader())));
-        this.data = ((T5Data) in.readValue((T5Data.class.getClassLoader())));
+        this.data = ((T5Listing) in.readValue((T5Listing.class.getClassLoader())));
     }
 
-    public Children() {
+    public T5() {
     }
 
     public String getKind() {
@@ -51,11 +50,11 @@ public class Children implements Parcelable
         this.kind = kind;
     }
 
-    public T5Data getData() {
+    public T5Listing getData() {
         return data;
     }
 
-    public void setData(T5Data data) {
+    public void setData(T5Listing data) {
         this.data = data;
     }
 

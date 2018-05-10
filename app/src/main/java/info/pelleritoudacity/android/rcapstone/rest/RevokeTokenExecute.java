@@ -1,7 +1,6 @@
 package info.pelleritoudacity.android.rcapstone.rest;
 
 import android.content.Context;
-import android.provider.SyncStateContract;
 import android.support.annotation.NonNull;
 
 import info.pelleritoudacity.android.rcapstone.R;

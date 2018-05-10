@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubScriptionsFragment;
+import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import timber.log.Timber;
 
 public class SubManageActivity extends AppCompatActivity {
@@ -22,7 +24,12 @@ public class SubManageActivity extends AppCompatActivity {
 
         initializeToolBar();
 
-        startFragment();
+        if(PrefManager.getBoolPref(getApplicationContext(),R.string.pref_insert_data)){
+            startFragment();
+        }else {
+            Toast.makeText(getApplicationContext(),getText(R.string.text_manage_nolinks),Toast.LENGTH_LONG).show();
+        }
+
     }
 
     private void initializeToolBar() {
