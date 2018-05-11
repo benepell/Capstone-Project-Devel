@@ -97,11 +97,14 @@ public interface Costants {
 
     String TEXT_SEPARATOR = " - ";
 
-    String DEFAULT_SUBREDDIT_CATEGORY = "ASKREDDIT,POLITICS,THEDONALD,WORLDNEWS,NBA,VIDEOS,FUNNY," +
-            "TODAYILEARNED,SOCCER,CFB,GAMING,MOVIES,NEWS,GIFS,AWW,WTF,SHOWERTHOUGHTS,TECHNOLOGY";
+    String DEFAULT_SUBREDDIT_CATEGORY = "AskReddit,politics,worldnews,nba,videos,funny," +
+            "todayilearned,soccer,cfb,gaming,movies,news,gifs,aww,wtf,showerthoughts,technology";
 
     int DEFAULT_SUBREDDIT_ITEMS = 3;
     int REMOVED_SUBREDDIT_ITEMS = 1;
+    int RESTORE_SUBREDDIT_ITEMS = 0;
 
+    String MORE_SPACE = "\u202F\u202F\u202F";
 
+    int DEFAULT_SUBREDDIT_VISIBLE = 1;
 }

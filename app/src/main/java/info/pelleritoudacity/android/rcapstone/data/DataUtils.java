@@ -32,6 +32,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.SyncStateContract;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -321,6 +322,7 @@ public class DataUtils {
         ContentValues[] arrCV = new ContentValues[t5Size];
         for (int i = 0; i < t5Size; i++) {
 
+
             T5Data t5Model = reddits.getData().getChildren().get(i).getData();
 
             arrCV[i] = new ContentValues();
@@ -332,11 +334,10 @@ public class DataUtils {
                     t5Model.getIconImg());
 
             arrCV[i].put(Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE,
-                    View.VISIBLE);
+                    Costants.DEFAULT_SUBREDDIT_VISIBLE);
 
             arrCV[i].put(Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION,
                     i);
-
         }
 
         int countPrefSubData = mContext.getContentResolver().bulkInsert(Contract.PrefSubRedditEntry.CONTENT_URI, arrCV);
@@ -698,7 +699,7 @@ public class DataUtils {
         return count > 0;
     }
 
-    public boolean updateManageRemoved(String category) {
+    public boolean updateManageRemoved(String category, int removeItem) {
 
         int count = 0;
 
@@ -707,7 +708,23 @@ public class DataUtils {
         String[] selectionArgs = {category};
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED, Costants.REMOVED_SUBREDDIT_ITEMS);
+        contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED, removeItem);
+
+        count = mContext.getContentResolver().update(uri, contentValues, where, selectionArgs);
+
+        return count > 0;
+    }
+
+    public boolean updateVisibleStar(int visible,String category) {
+
+        int count = 0;
+
+        Uri uri = Contract.PrefSubRedditEntry.CONTENT_URI;
+        String where = Contract.PrefSubRedditEntry.COLUMN_NAME_NAME + " =?";
+        String[] selectionArgs = {category};
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE, visible);
 
         count = mContext.getContentResolver().update(uri, contentValues, where, selectionArgs);
 

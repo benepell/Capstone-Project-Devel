@@ -37,12 +37,15 @@ import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.widget.LinearLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.NavigableMap;
@@ -50,6 +53,7 @@ import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
 import info.pelleritoudacity.android.rcapstone.R;
+import timber.log.Timber;
 
 
 public class Utility {
@@ -168,7 +172,7 @@ public class Utility {
         return (!TextUtils.isEmpty(link)) ?
                 link.replace("/r/", "")
                         .replaceAll("[^a-zA-Z0-9]", "")
-                        .toUpperCase().trim() : "";
+                        .trim() : "";
 
 
     }
@@ -209,4 +213,38 @@ public class Utility {
         return 0;
     }
 
+    public static void addElementPrefSubreddit(Context context, String e) {
+        String string = PrefManager.getStringPref(context, R.string.pref_subreddit_key);
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList = Utility.stringToArray(string);
+        arrayList.add(e);
+        ArrayList<String> arrayListNoDup = new ArrayList<>();
+        arrayListNoDup  = new ArrayList<>((new LinkedHashSet<String>(arrayList)));
+        string = Utility.arrayToString(arrayListNoDup);
+        context.getSharedPreferences(context.getString(R.string.pref_subreddit_key), 0).edit().clear().apply();
+        PrefManager.putStringPref(context, R.string.pref_subreddit_key, string);
+    }
+
+    public static void removeElementPrefSubreddit(Context context, String e) {
+        String string = PrefManager.getStringPref(context, R.string.pref_subreddit_key);
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList = Utility.stringToArray(string);
+        arrayList.remove(e);
+        for (String str:arrayList){
+            Timber.d("element: %s",str);
+        }
+        ArrayList<String> arrayListNoDup = new ArrayList<>();
+        arrayListNoDup  = new ArrayList<>((new LinkedHashSet<String>(arrayList)));
+        string = Utility.arrayToString(arrayListNoDup);
+        context.getSharedPreferences(context.getString(R.string.pref_subreddit_key), 0).edit().clear().apply();
+        PrefManager.putStringPref(context, R.string.pref_subreddit_key, string);
+
+    }
+
+
+    public static ArrayList<String> removeArrayListDuplicate(ArrayList<String> arrayList){
+        ArrayList<String> arrayListNoDup = new ArrayList<>();
+        arrayListNoDup  = new ArrayList<>((new LinkedHashSet<String>(arrayList)));
+        return  arrayListNoDup;
+    }
 }

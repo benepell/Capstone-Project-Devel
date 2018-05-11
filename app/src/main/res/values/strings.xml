@@ -138,6 +138,7 @@
     <string name="abbr_hour_text">h</string>
     <string name="abbr_day_text">d</string>
     <string name="text_icon_description">icon link description</string>
+    <string name="manage_stars_description">enable subreddit link</string>
 
 
 </resources>

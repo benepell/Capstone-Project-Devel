@@ -25,16 +25,23 @@ package info.pelleritoudacity.android.rcapstone.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.TypefaceSpan;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -42,6 +49,7 @@ import android.view.View;
 import android.view.ViewStub;
 import android.widget.TextView;
 
+import com.google.android.exoplayer2.C;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 
@@ -62,6 +70,7 @@ public class BaseActivity extends AppCompatActivity
 
     private int mLayoutResource;
     private View mNavHeaderView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -236,6 +245,7 @@ public class BaseActivity extends AppCompatActivity
 
         switch (getLayoutResource()) {
             case R.layout.activity_main:
+            case R.layout.activity_subreddit:
             default:
                 navigationView.inflateMenu(R.menu.activity_base_drawer_main);
                 menuItemBase(getApplicationContext(), navigationView.getMenu());
@@ -310,7 +320,14 @@ public class BaseActivity extends AppCompatActivity
             int groupId = menu.findItem(R.id.nav_mode_subs).getGroupId();
 
             for (String string : arrayList) {
-                MenuItem menuItem = menu.add(groupId, Menu.NONE, Menu.NONE, string);
+
+                TypefaceSpan typefaceSpan = new TypefaceSpan("/font/roboto_thin.ttf"); // OR  THIS
+                SpannableStringBuilder title = new SpannableStringBuilder(string);
+                title.setSpan(typefaceSpan, 0, title.length(), 0);
+                title.setSpan(new ForegroundColorSpan(Color.DKGRAY), 0, title.length(), 0);
+
+                MenuItem menuItem = menu.add(groupId, Menu.NONE, Menu.NONE, title);
+
                 menuItem.setIcon(new IconicsDrawable(this, MaterialDesignIconic.Icon.gmi_account_circle)
                         .respectFontBounds(true));
 

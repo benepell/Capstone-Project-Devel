@@ -63,8 +63,8 @@ class DbHelper extends SQLiteOpenHelper {
                         Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION + " INTEGER, " +
                         Contract.PrefSubRedditEntry.COLUMN_NAME_TIME_LAST_MODIFIED + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
 
-                        " UNIQUE (" + Contract.PrefSubRedditEntry.COLUMN_NAME_NAME + ")" + " ON CONFLICT IGNORE, " +
-                        " UNIQUE (" + Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION + ")" + " ON CONFLICT REPLACE " +
+                        " UNIQUE (" + Contract.PrefSubRedditEntry.COLUMN_NAME_NAME + ")" + " ON CONFLICT IGNORE " +
+//                        " UNIQUE (" + Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION + ")" + " ON CONFLICT REPLACE " +
                         ");";
 
         final String SQL_CREATE_DATA_TABLE =

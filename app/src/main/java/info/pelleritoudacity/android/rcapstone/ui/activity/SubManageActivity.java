@@ -12,17 +12,17 @@ import info.pelleritoudacity.android.rcapstone.ui.fragment.SubScriptionsFragment
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import timber.log.Timber;
 
-public class SubManageActivity extends AppCompatActivity {
+public class SubManageActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setLayoutResource(R.layout.activity_submanage);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_submanage);
 
         Timber.plant(new Timber.DebugTree());
         ButterKnife.bind(this);
 
-        initializeToolBar();
+//        initializeToolBar();
 
         if(PrefManager.getBoolPref(getApplicationContext(),R.string.pref_insert_data)){
             startFragment();

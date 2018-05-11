@@ -4,8 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
@@ -43,15 +43,17 @@ import info.pelleritoudacity.android.rcapstone.utility.Utility;
 public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdapter.RedditHolder> implements ItemTouchHelperAdapter {
 
     private final OnStartDragListener mDragStartListener;
-    private final ArrayList<String> mArrayList;
+    private final OnSubScriptionClick onSubScriptionClick;
+    private ArrayList<String> mArrayList;
     private Context mContext;
     private Cursor mCursor;
-    private Handler mHandler = null;
+    private static boolean mRestore;
 
-    public SubScriptionsAdapter(Context context,
+    public SubScriptionsAdapter(Context context, OnSubScriptionClick subScriptionClick,
                                 OnStartDragListener dragStartListener) {
-        mDragStartListener = dragStartListener;
         mContext = context;
+        onSubScriptionClick = subScriptionClick;
+        mDragStartListener = dragStartListener;
         mArrayList = new ArrayList<>();
 
         if (!TextUtils.isEmpty(PrefManager.getStringPref(mContext, R.string.pref_subreddit_key))) {
@@ -78,7 +80,12 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
         mCursor.moveToPosition(position);
 
         String name;
-        if (TextUtils.isEmpty(PrefManager.getStringPref(mContext, R.string.pref_subreddit_key))) {
+        name = mCursor.getString(mCursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME));
+
+        mArrayList.add(position, name);
+        mArrayList = Utility.removeArrayListDuplicate(mArrayList);
+
+    /*    if (TextUtils.isEmpty(PrefManager.getStringPref(mContext, R.string.pref_subreddit_key))) {
 
             name = mCursor.getString(mCursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME));
             mArrayList.add(position, name);
@@ -90,7 +97,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
                 mArrayList.add(position, name);
             }
         }
-
+*/
 
         holder.mImageViewRedditHandle.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_view_headline)
                 .respectFontBounds(true));
@@ -105,23 +112,6 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
         });
 
         String iconUrl = mCursor.getString(mCursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_IMAGE));
-        // *****************************************************
-        /*Glide.with(holder.itemView.getContext().getApplicationContext())
-                .setDefaultRequestOptions(new RequestOptions().centerCrop())
-                .load(iconUrl)
-                .into(holder.mImageViewRedditIcon);
-        */
-        /*Glide.with(holder.itemView.getContext().getApplicationContext()).load(iconUrl)
-                .into(new BitmapImageViewTarget(holder.mImageViewRedditIcon) {
-            @Override
-            protected void setResource(Bitmap resource) {
-                RoundedBitmapDrawable circularBitmapDrawable =
-                        RoundedBitmapDrawableFactory.create(holder.itemView.getContext().getApplicationContext().getResources(), resource);
-                circularBitmapDrawable.setCircular(true);
-                holder.mImageViewRedditIcon.setImageDrawable(circularBitmapDrawable);
-            }
-        });
-*/
 
         Glide.with(holder.itemView.getContext().getApplicationContext())
                 .asBitmap()
@@ -142,7 +132,6 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
 
                     @Override
                     public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-//                        Drawable drawable = new BitmapDrawable(mContext.getResources(), resource);
                         RoundedBitmapDrawable circularBitmapDrawable =
                                 RoundedBitmapDrawableFactory.create(holder.itemView.getContext().getApplicationContext().getResources(), resource);
                         circularBitmapDrawable.setCircular(true);
@@ -151,17 +140,40 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
                     }
                 });
 
+        int visible = mCursor.getInt(mCursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE));
 
+        if (visible != 0) {
+            holder.mImageViewRedditStars.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_star).color(Color.RED)
+                    .respectFontBounds(true));
 
+        } else {
+            holder.mImageViewRedditStars.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_star_border).color(Color.RED)
+                    .respectFontBounds(true));
 
+        }
 
-
-
+        holder.mImageViewRedditStars.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSubScriptionClick.onClickStar(visible, name);
+            }
+        });
 
         holder.mImageViewRedditIcon.setContentDescription(name);
 
 
-        // *******************************************
+        holder.mImageViewRedditRestore.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_undo).color(Color.DKGRAY)
+                .respectFontBounds(true));
+
+        holder.mImageViewRedditRestore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mRestore = true;
+                DataUtils dataUtils = new DataUtils(mContext);
+                dataUtils.updateManageRemoved(name, Costants.RESTORE_SUBREDDIT_ITEMS);
+            }
+        });
+
 
         holder.mTextViewRedditName.setText(name);
 
@@ -171,15 +183,16 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
     @Override
     public int getItemCount() {
         if (mCursor != null) {
-            if ((mArrayList != null) &&
-                    (mArrayList.size() < mCursor.getCount())) {
+            if ((mArrayList != null) && (!mRestore)) {
 
                 return mArrayList.size();
 
             } else {
+
                 return mCursor.getCount();
             }
         }
+
         return 0;
     }
 
@@ -204,14 +217,15 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
     @Override
     public void onItemDismiss(int position) {
         if (getItemCount() > Costants.DEFAULT_SUBREDDIT_ITEMS) {
-
+            mRestore = false;
             String description = mArrayList.get(position);
             DataUtils dataUtils = new DataUtils(mContext);
 
-            if (dataUtils.updateManageRemoved(description)) {
+            if (dataUtils.updateManageRemoved(description, Costants.REMOVED_SUBREDDIT_ITEMS)) {
                 mArrayList.remove(position);
                 notifyItemRemoved(position);
             }
+            mArrayList = Utility.removeArrayListDuplicate(mArrayList);
             String string = Utility.arrayToString(mArrayList);
 
             if (!TextUtils.isEmpty(string)) {
@@ -237,6 +251,14 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
         @BindView(R.id.img_icon)
         ImageView mImageViewRedditIcon;
 
+        @SuppressWarnings("unused")
+        @BindView(R.id.img_manage_stars)
+        ImageView mImageViewRedditStars;
+
+        @SuppressWarnings("unused")
+        @BindView(R.id.img_manage_restore)
+        ImageView mImageViewRedditRestore;
+
 
         RedditHolder(View itemView) {
             super(itemView);
@@ -254,6 +276,12 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
         public void onItemClear() {
             itemView.setBackgroundColor(Utility.getColor(mContext, R.color.colorBackgroundItemNoSelected));
         }
+
+        public void bind() {
+
+        }
+
+
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -270,5 +298,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
         return temp;
     }
 
-
+    public interface OnSubScriptionClick {
+        void onClickStar(int visible, String name);
+    }
 }

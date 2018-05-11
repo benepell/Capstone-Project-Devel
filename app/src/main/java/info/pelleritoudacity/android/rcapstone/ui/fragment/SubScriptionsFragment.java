@@ -1,5 +1,6 @@
 package info.pelleritoudacity.android.rcapstone.ui.fragment;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -16,22 +17,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
+import info.pelleritoudacity.android.rcapstone.data.DataUtils;
 import info.pelleritoudacity.android.rcapstone.ui.helper.OnStartDragListener;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SimpleItemTouchHelperCallback;
 import info.pelleritoudacity.android.rcapstone.ui.adapter.SubScriptionsAdapter;
 
+import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.Costants.REDDIT_LOADER_ID;
 
 public class SubScriptionsFragment extends Fragment
-        implements OnStartDragListener, LoaderManager.LoaderCallbacks<Cursor> {
+        implements SubScriptionsAdapter.OnSubScriptionClick, OnStartDragListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.rv_fragment_reddit)
@@ -62,7 +67,7 @@ public class SubScriptionsFragment extends Fragment
 
     }
 
-    public void restartLoader(){
+    public void restartLoader() {
         if (getActivity() != null) {
             getActivity().getSupportLoaderManager().restartLoader(REDDIT_LOADER_ID, null, this);
         }
@@ -83,7 +88,7 @@ public class SubScriptionsFragment extends Fragment
 
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new SubScriptionsAdapter(getContext(), this);
+        mAdapter = new SubScriptionsAdapter(getContext(), this, this);
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -93,6 +98,10 @@ public class SubScriptionsFragment extends Fragment
 
 
         return view;
+    }
+
+    public void updateUI(){
+        mAdapter.notifyDataSetChanged();
     }
 
     @NonNull
@@ -117,6 +126,25 @@ public class SubScriptionsFragment extends Fragment
     @Override
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
         mItemTouchHelper.startDrag(viewHolder);
+    }
+
+    @Override
+    public void onClickStar(int visible, String name) {
+        DataUtils utils = new DataUtils(getActivity());
+        int updateVisibleValue = (visible != 0) ? 0 : 1;
+        utils.updateVisibleStar(updateVisibleValue, name);
+        if (utils.updateVisibleStar(updateVisibleValue, name)) {
+
+            if (visible != 0) {
+                Utility.removeElementPrefSubreddit(getActivity(), name);
+            } else {
+                Utility.addElementPrefSubreddit(getActivity(), name);
+            }
+
+            restartLoader();
+
+        }
+
     }
 
 
@@ -150,11 +178,10 @@ public class SubScriptionsFragment extends Fragment
                 };
 
 
-
                 return getContext().getContentResolver().query(Contract.PrefSubRedditEntry.CONTENT_URI,
-                        projection,
-                        Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED + " =?",
-                        new String[]{"0"},
+                        projection,null,null,
+//                        Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED + " =?",
+//                        new String[]{"0"},
                         Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION + " ASC");
 
             } catch (Exception e) {

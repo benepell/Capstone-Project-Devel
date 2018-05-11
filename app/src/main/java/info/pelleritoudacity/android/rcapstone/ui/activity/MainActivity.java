@@ -37,6 +37,7 @@ import android.os.Bundle;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -159,8 +160,8 @@ public class MainActivity extends BaseActivity
             try {
                 Context context = sWeakReference.get();
                 Uri uri = Contract.PrefSubRedditEntry.CONTENT_URI;
-                String selection = Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED + " =?";
-                String[] selectionArgs = {String.valueOf(0)};
+                String selection = Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED + " =? AND " + Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE + " =?";
+                String[] selectionArgs = {String.valueOf(0),String.valueOf(1)};
                 return context.getContentResolver().query(uri,
                         null,
                         selection,
@@ -190,7 +191,6 @@ public class MainActivity extends BaseActivity
                         name = cursor.getString(cursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME));
                         name = Utility.normalizeSubRedditLink(name);
                         arrayList.add(name);
-
                         String strPref = Utility.arrayToString(arrayList);
                         PrefManager.putStringPref(context, R.string.pref_subreddit_key, strPref);
                     }
