@@ -60,7 +60,7 @@ class DbHelper extends SQLiteOpenHelper {
                         Contract.PrefSubRedditEntry.COLUMN_NAME_IMAGE + " TEXT NULL, " +
                         Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE + " INTEGER DEFAULT 0, " +
                         Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED + " INTEGER DEFAULT 0, " +
-                        Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION + " INTEGER, " +
+                        Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION + " INTEGER DEFAULT 0, " +
                         Contract.PrefSubRedditEntry.COLUMN_NAME_TIME_LAST_MODIFIED + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
 
                         " UNIQUE (" + Contract.PrefSubRedditEntry.COLUMN_NAME_NAME + ")" + " ON CONFLICT IGNORE " +

@@ -100,7 +100,7 @@ public class SubScriptionsFragment extends Fragment
         return view;
     }
 
-    public void updateUI(){
+    public void updateUI() {
         mAdapter.notifyDataSetChanged();
     }
 
@@ -174,14 +174,15 @@ public class SubScriptionsFragment extends Fragment
                         " Distinct ".concat(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME),
                         Contract.PrefSubRedditEntry.COLUMN_NAME_IMAGE,
                         Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE,
+                        Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION,
                         Contract.PrefSubRedditEntry.COLUMN_NAME_TIME_LAST_MODIFIED
                 };
 
 
                 return getContext().getContentResolver().query(Contract.PrefSubRedditEntry.CONTENT_URI,
-                        projection,null,null,
-//                        Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED + " =?",
-//                        new String[]{"0"},
+                        projection,
+                        Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED + " =?",
+                        new String[]{"0"},
                         Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION + " ASC");
 
             } catch (Exception e) {

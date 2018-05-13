@@ -85,20 +85,6 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
         mArrayList.add(position, name);
         mArrayList = Utility.removeArrayListDuplicate(mArrayList);
 
-    /*    if (TextUtils.isEmpty(PrefManager.getStringPref(mContext, R.string.pref_subreddit_key))) {
-
-            name = mCursor.getString(mCursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME));
-            mArrayList.add(position, name);
-        } else {
-            if (position < mArrayList.size()) {
-                name = mArrayList.get(position);
-            } else {
-                name = mCursor.getString(mCursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME));
-                mArrayList.add(position, name);
-            }
-        }
-*/
-
         holder.mImageViewRedditHandle.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_view_headline)
                 .respectFontBounds(true));
 
@@ -170,12 +156,12 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
             public void onClick(View v) {
                 mRestore = true;
                 DataUtils dataUtils = new DataUtils(mContext);
-                dataUtils.updateManageRemoved(name, Costants.RESTORE_SUBREDDIT_ITEMS);
+                dataUtils.updateManageRestore();
             }
         });
 
-
-        holder.mTextViewRedditName.setText(name);
+        int posix = mCursor.getInt(mCursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION));
+        holder.mTextViewRedditName.setText(name + " " + posix);
 
     }
 
@@ -221,7 +207,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
             String description = mArrayList.get(position);
             DataUtils dataUtils = new DataUtils(mContext);
 
-            if (dataUtils.updateManageRemoved(description, Costants.REMOVED_SUBREDDIT_ITEMS)) {
+            if (dataUtils.updateManageRemoved(description)) {
                 mArrayList.remove(position);
                 notifyItemRemoved(position);
             }
@@ -269,12 +255,12 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
 
         @Override
         public void onItemSelected() {
-            itemView.setBackgroundColor(Utility.getColor(mContext, R.color.colorBackgroundItemSelected));
+//            itemView.setBackgroundColor(Utility.getColor(mContext, R.color.colorBackgroundItemSelected));
         }
 
         @Override
         public void onItemClear() {
-            itemView.setBackgroundColor(Utility.getColor(mContext, R.color.colorBackgroundItemNoSelected));
+//            itemView.setBackgroundColor(Utility.getColor(mContext, R.color.colorBackgroundItemNoSelected));
         }
 
         public void bind() {

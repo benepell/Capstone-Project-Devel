@@ -37,6 +37,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.model.T3;
@@ -318,10 +319,11 @@ public class DataUtils {
         if (reddits == null) return false;
 
         int t5Size = reddits.getData().getChildren().size();
-
+        int position;
         ContentValues[] arrCV = new ContentValues[t5Size];
         for (int i = 0; i < t5Size; i++) {
 
+            position = i + 1;
 
             T5Data t5Model = reddits.getData().getChildren().get(i).getData();
 
@@ -337,7 +339,7 @@ public class DataUtils {
                     Costants.DEFAULT_SUBREDDIT_VISIBLE);
 
             arrCV[i].put(Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION,
-                    i);
+                    position);
         }
 
         int countPrefSubData = mContext.getContentResolver().bulkInsert(Contract.PrefSubRedditEntry.CONTENT_URI, arrCV);
@@ -624,7 +626,7 @@ public class DataUtils {
         if (isRecordData()) clearDataT5();
         if (insertDataT5(reddits)) {
 
-            if(!PrefManager.getBoolPref(mContext,R.string.pref_insert_data)){
+            if (!PrefManager.getBoolPref(mContext, R.string.pref_insert_data)) {
                 insertDataPrefSubReddit(reddits);
             }
 
@@ -699,23 +701,77 @@ public class DataUtils {
         return count > 0;
     }
 
-    public boolean updateManageRemoved(String category, int removeItem) {
+    public boolean updateManageRemoved(String category) {
 
         int count = 0;
 
         Uri uri = Contract.PrefSubRedditEntry.CONTENT_URI;
-        String where = Contract.PrefSubRedditEntry.COLUMN_NAME_NAME + " =?";
+        String where = Contract.PrefSubRedditEntry.COLUMN_NAME_NAME + " =? " ;
         String[] selectionArgs = {category};
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED, removeItem);
+        contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED, Costants.REMOVED_SUBREDDIT_ITEMS);
 
         count = mContext.getContentResolver().update(uri, contentValues, where, selectionArgs);
 
         return count > 0;
     }
 
-    public boolean updateVisibleStar(int visible,String category) {
+    public boolean updateManageRestore() {
+
+        int count = 0;
+
+        Uri uri = Contract.PrefSubRedditEntry.CONTENT_URI;
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED, Costants.RESTORE_SUBREDDIT_ITEMS);
+
+        count = mContext.getContentResolver().update(uri, contentValues, null, null);
+        String stringPref = restorePrefFromDb();
+
+        if (!TextUtils.isEmpty(restorePrefFromDb())) {
+            PrefManager.putStringPref(mContext, R.string.pref_subreddit_key, stringPref);
+        }else {
+            return false;
+        }
+
+        return count > 0;
+    }
+
+    private String restorePrefFromDb() {
+        Cursor cursor = null;
+
+        try {
+            String stringPref = "";
+            cursor = mContext.getContentResolver().query(Contract.PrefSubRedditEntry.CONTENT_URI, null, null, null, null);
+            if ((cursor != null) && (!cursor.isClosed())) {
+                String name;
+                int i = 0;
+                while (cursor.moveToNext()) {
+                    i += 1;
+                    name = cursor.getString(cursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME));
+                    if (!TextUtils.isEmpty(name)) {
+                        if (i < cursor.getCount()) {
+                            stringPref += name + Costants.STRING_SEPARATOR;
+                        } else {
+                            stringPref += name;
+                        }
+                    }
+                }
+            }
+            return stringPref;
+
+        } catch (Exception e) {
+            Timber.e("restore pref from db error %s", e.getCause());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return null;
+    }
+
+    public boolean updateVisibleStar(int visible, String category) {
 
         int count = 0;
 
@@ -734,23 +790,75 @@ public class DataUtils {
 
     public boolean moveManage(int fromPosition, int toPosition) {
 
+        Cursor cursor = null;
         int count = 0;
+        Uri uri;
 
-        Uri uri = Contract.PrefSubRedditEntry.CONTENT_URI;
-        String where = Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION + " =?";
-        String[] selectionArgs = {String.valueOf(fromPosition)};
+        if ((fromPosition == 0) && (toPosition == 0)) {
+            return false;
+        } else {
+            fromPosition += 1;
+            toPosition += 1;
+            uri = Contract.PrefSubRedditEntry.CONTENT_URI;
+        }
 
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION, toPosition);
+        try {
 
-        if (mContext.getContentResolver().update(uri, contentValues, where, selectionArgs) > 0) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION, toPosition);
+            contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_TIME_LAST_MODIFIED, System.currentTimeMillis());
 
-            selectionArgs[0] = String.valueOf(toPosition);
-
-            ContentValues swapContentValues = new ContentValues();
-            swapContentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION, fromPosition);
+            String where = Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION + " =?";
+            String[] selectionArgs = {String.valueOf(fromPosition)};
 
             count = mContext.getContentResolver().update(uri, contentValues, where, selectionArgs);
+
+            if (count > 0) {
+
+                int idPosix = 0;
+
+                String selection = Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION + " =?";
+                selectionArgs[0] = String.valueOf(toPosition);
+                String sortOrder = Contract.PrefSubRedditEntry.COLUMN_NAME_TIME_LAST_MODIFIED + " DESC";
+
+                cursor = mContext.getContentResolver().query(uri, null,
+                        selection,
+                        selectionArgs,
+                        sortOrder);
+
+                if ((cursor != null) && (!cursor.isClosed())) {
+
+                    cursor.moveToFirst();
+                    idPosix = cursor.getInt(cursor.getColumnIndex(Contract.PrefSubRedditEntry._ID));
+
+                }
+
+                if (idPosix != 0) {
+
+                    where = Contract.PrefSubRedditEntry._ID + " =?";
+                    selectionArgs[0] = String.valueOf(idPosix);
+
+                    ContentValues updateDuplicateCV = new ContentValues();
+                    updateDuplicateCV.put(Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION, fromPosition);
+
+                    count = mContext.getContentResolver().update(uri, updateDuplicateCV, where, selectionArgs);
+
+                }
+
+            } else {
+
+                count = 0;
+            }
+
+        } catch (Exception e) {
+
+            Timber.e("Move Manage Db error %s", e.getCause());
+
+        } finally {
+
+            if (cursor != null) {
+                cursor.close();
+            }
         }
 
         return count > 0;
