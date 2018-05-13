@@ -34,6 +34,8 @@ import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -43,6 +45,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
+import info.pelleritoudacity.android.rcapstone.data.DataUtils;
 import info.pelleritoudacity.android.rcapstone.rest.RefreshTokenExecute;
 import info.pelleritoudacity.android.rcapstone.rest.RestExecute;
 import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
@@ -83,17 +86,20 @@ public class MainActivity extends BaseActivity
 
         Intent intent = getIntent();
 
-
         if (intent != null)
 
         {
             boolean isLogged = intent.getBooleanExtra(Costants.EXTRA_LOGIN_SUCCESS, false);
             boolean isLogout = intent.getBooleanExtra(Costants.EXTRA_LOGOUT_SUCCESS, false);
-
+            boolean isRestore = intent.getBooleanExtra(Costants.EXTRA_RESTORE_MANAGE,false);
             if (isLogged) {
                 Snackbar.make(findViewById(R.id.main_container), R.string.text_login_success, Snackbar.LENGTH_LONG).show();
             } else if (isLogout) {
                 Snackbar.make(findViewById(R.id.main_container), R.string.text_logout_success, Snackbar.LENGTH_LONG).show();
+            }
+            if(isRestore){
+                PrefManager.putBoolPref(getApplicationContext(),R.string.pref_restore_manage,true);
+                startActivity(new Intent(this,SubManageActivity.class).putExtra(Costants.EXTRA_RESTORE_MANAGE,true));
             }
         }
     }
@@ -161,7 +167,7 @@ public class MainActivity extends BaseActivity
                 Context context = sWeakReference.get();
                 Uri uri = Contract.PrefSubRedditEntry.CONTENT_URI;
                 String selection = Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED + " =? AND " + Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE + " =?";
-                String[] selectionArgs = {String.valueOf(0),String.valueOf(1)};
+                String[] selectionArgs = {String.valueOf(0), String.valueOf(1)};
                 return context.getContentResolver().query(uri,
                         null,
                         selection,

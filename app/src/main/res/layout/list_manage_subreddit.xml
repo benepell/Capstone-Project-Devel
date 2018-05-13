@@ -51,15 +51,5 @@
         android:paddingStart="@dimen/base_navigation_padding_horizontal"
         android:scaleType="center" />
 
-    <ImageView
-        android:id="@+id/img_manage_restore"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_gravity="center_vertical|end"
-        android:contentDescription="@string/manage_stars_description"
-        android:paddingEnd="@dimen/base_navigation_padding_horizontal"
-        android:paddingStart="@dimen/base_navigation_padding_horizontal"
-        android:scaleType="center" />
-
 </LinearLayout>
 

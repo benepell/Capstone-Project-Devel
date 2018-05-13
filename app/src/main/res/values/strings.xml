@@ -95,6 +95,14 @@
     <string name="text_dialog_confirm_no_reset">Cancel</string>
     <string name="text_positive_dialog_confirm">Delete</string>
 
+    <string name="pref_restore_manage" translatable="false">info.pelleritoudacity.android.rcapstone.pref.restore.manage</string>
+
+    <string name="text_restore_data">This action will restore all your SubScription. Are you sure you want to continue?</string>
+    <string name="text_restore_confirm_reset">Restore SubScription Reset: Restore All Items.</string>
+    <string name="title_restore_confirm">Restore SubScription Reset</string>
+    <string name="text_restore_confirm_no_reset">Cancel</string>
+    <string name="text_positive_restore_confirm">Restore</string>
+
     <string name="title_menu_home">Home</string>
     <string name="title_menu_mode_popular">Popular</string>
     <string name="title_menu_mode_all">All</string>
@@ -139,6 +147,7 @@
     <string name="abbr_day_text">d</string>
     <string name="text_icon_description">icon link description</string>
     <string name="manage_stars_description">enable subreddit link</string>
+    <string name="title_menu_restore">restore</string>
 
 
 </resources>

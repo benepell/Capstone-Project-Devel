@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -47,19 +48,22 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
     private ArrayList<String> mArrayList;
     private Context mContext;
     private Cursor mCursor;
-    private static boolean mRestore;
+    private final boolean mIsRestart;
 
     public SubScriptionsAdapter(Context context, OnSubScriptionClick subScriptionClick,
-                                OnStartDragListener dragStartListener) {
+                                OnStartDragListener dragStartListener, boolean isRestart) {
         mContext = context;
         onSubScriptionClick = subScriptionClick;
         mDragStartListener = dragStartListener;
         mArrayList = new ArrayList<>();
 
+
         if (!TextUtils.isEmpty(PrefManager.getStringPref(mContext, R.string.pref_subreddit_key))) {
             mArrayList.addAll(Utility.stringToArray(PrefManager.getStringPref(mContext, R.string.pref_subreddit_key)));
         }
 
+
+        this.mIsRestart = isRestart;
     }
 
     @NonNull
@@ -102,7 +106,6 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
         Glide.with(holder.itemView.getContext().getApplicationContext())
                 .asBitmap()
                 .load(iconUrl)
-//                .apply(requestOptions)
                 .into(new SimpleTarget<Bitmap>() {
                     @Override
                     public void onLoadFailed(@Nullable Drawable errorDrawable) {
@@ -148,20 +151,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
         holder.mImageViewRedditIcon.setContentDescription(name);
 
 
-        holder.mImageViewRedditRestore.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_undo).color(Color.DKGRAY)
-                .respectFontBounds(true));
-
-        holder.mImageViewRedditRestore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mRestore = true;
-                DataUtils dataUtils = new DataUtils(mContext);
-                dataUtils.updateManageRestore();
-            }
-        });
-
-        int posix = mCursor.getInt(mCursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION));
-        holder.mTextViewRedditName.setText(name + " " + posix);
+        holder.mTextViewRedditName.setText(name );
 
     }
 
@@ -169,7 +159,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
     @Override
     public int getItemCount() {
         if (mCursor != null) {
-            if ((mArrayList != null) && (!mRestore)) {
+            if ((mArrayList != null) && (!mIsRestart)) {
 
                 return mArrayList.size();
 
@@ -203,7 +193,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
     @Override
     public void onItemDismiss(int position) {
         if (getItemCount() > Costants.DEFAULT_SUBREDDIT_ITEMS) {
-            mRestore = false;
+//            mRestore = false;
             String description = mArrayList.get(position);
             DataUtils dataUtils = new DataUtils(mContext);
 
@@ -241,10 +231,6 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
         @BindView(R.id.img_manage_stars)
         ImageView mImageViewRedditStars;
 
-        @SuppressWarnings("unused")
-        @BindView(R.id.img_manage_restore)
-        ImageView mImageViewRedditRestore;
-
 
         RedditHolder(View itemView) {
             super(itemView);
@@ -269,6 +255,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
 
 
     }
+
 
     @SuppressWarnings("UnusedReturnValue")
     public Cursor swapCursor(Cursor c) {

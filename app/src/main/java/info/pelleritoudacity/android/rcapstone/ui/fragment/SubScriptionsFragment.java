@@ -1,8 +1,11 @@
 package info.pelleritoudacity.android.rcapstone.ui.fragment;
 
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,13 +13,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
+
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -25,10 +33,14 @@ import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
 import info.pelleritoudacity.android.rcapstone.data.DataUtils;
+import info.pelleritoudacity.android.rcapstone.media.CacheDataSourceFactory;
+import info.pelleritoudacity.android.rcapstone.rest.RevokeTokenExecute;
+import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
 import info.pelleritoudacity.android.rcapstone.ui.helper.OnStartDragListener;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SimpleItemTouchHelperCallback;
 import info.pelleritoudacity.android.rcapstone.ui.adapter.SubScriptionsAdapter;
 
+import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
@@ -44,11 +56,13 @@ public class SubScriptionsFragment extends Fragment
 
     private SubScriptionsAdapter mAdapter;
     private ItemTouchHelper mItemTouchHelper;
-
+    private boolean mIsRestart;
+    private static WeakReference<Context> sWeakReference;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sWeakReference = new WeakReference<>(getActivity());
 
     }
 
@@ -58,6 +72,11 @@ public class SubScriptionsFragment extends Fragment
         if (getActivity() != null) {
             getActivity().getSupportLoaderManager().initLoader(REDDIT_LOADER_ID, null, this);
         }
+        if (PrefManager.getBoolPref(getActivity(), R.string.pref_restore_manage)) {
+            mIsRestart = true;
+            alerDialog();
+        }
+
     }
 
     @Override
@@ -88,7 +107,7 @@ public class SubScriptionsFragment extends Fragment
 
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new SubScriptionsAdapter(getContext(), this, this);
+        mAdapter = new SubScriptionsAdapter(getContext(), this, this, mIsRestart);
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -147,6 +166,25 @@ public class SubScriptionsFragment extends Fragment
 
     }
 
+    public void alerDialog() {
+        PrefManager.putBoolPref(getActivity(), R.string.pref_restore_manage, false);
+        final boolean[] isRestart = new boolean[1];
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity(), R.style.confirmDialog);
+        dialog.setTitle(R.string.title_restore_confirm);
+        dialog.setMessage(R.string.text_restore_data);
+        dialog.setCancelable(true);
+        dialog.setPositiveButton(R.string.text_positive_restore_confirm, (dialog1, which) -> {
+            isRestart[0] = new DataUtils(getActivity()).updateManageRestore();
+            if (isRestart[0]) {
+                restartLoader();
+            }
+        });
+        dialog.setNegativeButton(R.string.text_restore_confirm_no_reset, (dlg, which) -> dlg.cancel());
+
+        AlertDialog al = dialog.create();
+        al.show();
+
+    }
 
     private static class RedditFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
 

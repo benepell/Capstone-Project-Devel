@@ -706,7 +706,7 @@ public class DataUtils {
         int count = 0;
 
         Uri uri = Contract.PrefSubRedditEntry.CONTENT_URI;
-        String where = Contract.PrefSubRedditEntry.COLUMN_NAME_NAME + " =? " ;
+        String where = Contract.PrefSubRedditEntry.COLUMN_NAME_NAME + " =? ";
         String[] selectionArgs = {category};
 
         ContentValues contentValues = new ContentValues();
@@ -731,14 +731,14 @@ public class DataUtils {
 
         if (!TextUtils.isEmpty(restorePrefFromDb())) {
             PrefManager.putStringPref(mContext, R.string.pref_subreddit_key, stringPref);
-        }else {
+        } else {
             return false;
         }
 
         return count > 0;
     }
 
-    private String restorePrefFromDb() {
+    public String restorePrefFromDb() {
         Cursor cursor = null;
 
         try {

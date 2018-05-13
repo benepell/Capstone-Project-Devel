@@ -1,18 +1,23 @@
 package info.pelleritoudacity.android.rcapstone.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubScriptionsFragment;
+import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import timber.log.Timber;
 
 public class SubManageActivity extends BaseActivity {
+
+    private boolean isRestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +27,8 @@ public class SubManageActivity extends BaseActivity {
         Timber.plant(new Timber.DebugTree());
         ButterKnife.bind(this);
 
-//        initializeToolBar();
+
+        //        initializeToolBar();
 
         if(PrefManager.getBoolPref(getApplicationContext(),R.string.pref_insert_data)){
             startFragment();
@@ -51,5 +57,6 @@ public class SubManageActivity extends BaseActivity {
                 .replace(R.id.fragment_list_container, subScriptionsFragment).commit();
 
     }
+
 
 }

@@ -35,6 +35,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableStringBuilder;
@@ -58,8 +59,11 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
+import info.pelleritoudacity.android.rcapstone.data.DataUtils;
 import info.pelleritoudacity.android.rcapstone.model.RedditAboutMe;
+import info.pelleritoudacity.android.rcapstone.preference.DialogConfirm;
 import info.pelleritoudacity.android.rcapstone.rest.AboutMeExecute;
+import info.pelleritoudacity.android.rcapstone.ui.adapter.SubScriptionsAdapter;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
@@ -143,6 +147,16 @@ public class BaseActivity extends AppCompatActivity
             case R.layout.activity_main:
                 inflater.inflate(R.menu.main, menu);
                 break;
+            case R.layout.activity_submanage:
+                inflater.inflate(R.menu.manage_menu, menu);
+                MenuItem menuItemRestore;
+                menuItemRestore = menu.findItem(R.id.menu_action_restore);
+                menuItemRestore.setIcon(
+                        new IconicsDrawable(getApplicationContext(), MaterialDesignIconic.Icon.gmi_undo)
+                                .colorRes(R.color.white)
+                                .sizeDp(24)
+                                .respectFontBounds(true));
+                break;
             default:
                 inflater.inflate(R.menu.main, menu);
         }
@@ -184,6 +198,9 @@ public class BaseActivity extends AppCompatActivity
                 default:
                     menuItemLogin.setChecked(false);
             }
+        } else if (getLayoutResource() == R.layout.activity_submanage) {
+            // todo resume here
+
         }
         return true;
     }
@@ -192,10 +209,15 @@ public class BaseActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if ((getLayoutResource() == R.layout.activity_main) ||
-                (getLayoutResource() == R.layout.activity_subreddit)) {
+                (getLayoutResource() == R.layout.activity_subreddit) ||
+                (getLayoutResource() == R.layout.activity_submanage)) {
 
             int id = item.getItemId();
             switch (id) {
+
+                 case R.id.menu_action_restore:
+                     startActivity(new Intent(this, MainActivity.class).putExtra(Costants.EXTRA_RESTORE_MANAGE,true));
+                     return true;
                 case R.id.menu_action_login:
                     startActivity(new Intent(this, LoginActivity.class));
                     return true;
