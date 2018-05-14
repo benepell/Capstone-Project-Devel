@@ -23,6 +23,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
     private Cursor mCursor;
     private Context mContext;
 
+
     public SubRedditAdapter(Context context) {
         mContext = context;
         // todo add listener ....
@@ -74,7 +75,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         holder.mTextViewTitle.setText(title);
         holder.mTextViewSubReddit.setText(subReddit);
         holder.mTextViewDomain.setText(domain.replaceAll("\\..*$", ""));
-        holder.mTextViewScore.setText(Utility.numberformat(score));
+        holder.mTextViewScore.setText(Utility.numberFormat(score));
         holder.mTextViewNumComments.setText(String.format("%s %s", String.valueOf(numComments), mContext.getString(R.string.text_comments_subreddit)));
 
         holder.bind(holder.getAdapterPosition());

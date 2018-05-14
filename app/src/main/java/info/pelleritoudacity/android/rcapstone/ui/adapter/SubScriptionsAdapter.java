@@ -242,12 +242,12 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
 
         @Override
         public void onItemSelected() {
-//            itemView.setBackgroundColor(Utility.getColor(mContext, R.color.colorBackgroundItemSelected));
+            itemView.setBackgroundColor(Utility.getColor(mContext, R.color.colorBackgroundItemSelected));
         }
 
         @Override
         public void onItemClear() {
-//            itemView.setBackgroundColor(Utility.getColor(mContext, R.color.colorBackgroundItemNoSelected));
+            itemView.setBackgroundColor(Utility.getColor(mContext, R.color.colorBackgroundItemNoSelected));
         }
 
         public void bind() {

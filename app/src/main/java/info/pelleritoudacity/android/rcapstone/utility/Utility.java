@@ -36,8 +36,8 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.text.TextUtils;
-import android.widget.LinearLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -45,7 +45,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.NavigableMap;
@@ -125,7 +124,7 @@ public class Utility {
         if (Build.VERSION.SDK_INT >= 23) {
             return ctx.getColor(colorResource);
         } else {
-            return ctx.getResources().getColor(colorResource, ctx.getTheme());
+            return ResourcesCompat.getColor(ctx.getResources(),colorResource,ctx.getTheme());
         }
     }
 
@@ -188,9 +187,9 @@ public class Utility {
         suffixes.put(1_000_000_000_000_000_000L, "E");
     }
 
-    public static String numberformat(long value) {
-        if (value == Long.MIN_VALUE) return numberformat(Long.MIN_VALUE + 1);
-        if (value < 0) return "-" + numberformat(-value);
+    public static String numberFormat(long value) {
+        if (value == Long.MIN_VALUE) return numberFormat(Long.MIN_VALUE + 1);
+        if (value < 0) return "-" + numberFormat(-value);
         if (value < 1000) return Long.toString(value);
 
         Map.Entry<Long, String> e = suffixes.floorEntry(value);
@@ -215,11 +214,11 @@ public class Utility {
 
     public static void addElementPrefSubreddit(Context context, String e) {
         String string = PrefManager.getStringPref(context, R.string.pref_subreddit_key);
-        ArrayList<String> arrayList = new ArrayList<>();
+        ArrayList<String> arrayList;
         arrayList = Utility.stringToArray(string);
         arrayList.add(e);
-        ArrayList<String> arrayListNoDup = new ArrayList<>();
-        arrayListNoDup  = new ArrayList<>((new LinkedHashSet<String>(arrayList)));
+        ArrayList<String> arrayListNoDup;
+        arrayListNoDup  = new ArrayList<>((new LinkedHashSet<>(arrayList)));
         string = Utility.arrayToString(arrayListNoDup);
         context.getSharedPreferences(context.getString(R.string.pref_subreddit_key), 0).edit().clear().apply();
         PrefManager.putStringPref(context, R.string.pref_subreddit_key, string);
@@ -227,14 +226,14 @@ public class Utility {
 
     public static void removeElementPrefSubreddit(Context context, String e) {
         String string = PrefManager.getStringPref(context, R.string.pref_subreddit_key);
-        ArrayList<String> arrayList = new ArrayList<>();
+        ArrayList<String> arrayList;
         arrayList = Utility.stringToArray(string);
         arrayList.remove(e);
         for (String str:arrayList){
             Timber.d("element: %s",str);
         }
-        ArrayList<String> arrayListNoDup = new ArrayList<>();
-        arrayListNoDup  = new ArrayList<>((new LinkedHashSet<String>(arrayList)));
+        ArrayList<String> arrayListNoDup;
+        arrayListNoDup  = new ArrayList<>((new LinkedHashSet<>(arrayList)));
         string = Utility.arrayToString(arrayListNoDup);
         context.getSharedPreferences(context.getString(R.string.pref_subreddit_key), 0).edit().clear().apply();
         PrefManager.putStringPref(context, R.string.pref_subreddit_key, string);
@@ -243,8 +242,8 @@ public class Utility {
 
 
     public static ArrayList<String> removeArrayListDuplicate(ArrayList<String> arrayList){
-        ArrayList<String> arrayListNoDup = new ArrayList<>();
-        arrayListNoDup  = new ArrayList<>((new LinkedHashSet<String>(arrayList)));
+        ArrayList<String> arrayListNoDup;
+        arrayListNoDup  = new ArrayList<>((new LinkedHashSet<>(arrayList)));
         return  arrayListNoDup;
     }
 }
