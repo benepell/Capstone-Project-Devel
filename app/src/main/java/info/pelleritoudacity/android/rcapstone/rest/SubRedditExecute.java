@@ -23,6 +23,11 @@ public class SubRedditExecute {
                 int b = response.code();
                 if (response.isSuccessful()) {
                     mReddit = response.body();
+                    if(mReddit.getData().getChildren().get(0).getData().getPreview().getImages() != null){
+                        // todo bug retrofit
+//                        mReddit.getData().getChildren().get(0).getData().getPreview().getImages().get(0).getSource().getUrl();
+
+                    }
                     myCallBack.onRestSubReddit(mReddit);
                 }
             }

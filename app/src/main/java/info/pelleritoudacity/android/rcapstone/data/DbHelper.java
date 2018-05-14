@@ -235,6 +235,9 @@ class DbHelper extends SQLiteOpenHelper {
                         Contract.T3dataEntry.COLUMN_NAME_WHITELIST_STATUS + " TEXT, " +
                         Contract.T3dataEntry.COLUMN_NAME_WLS + " INTEGER DEFAULT 0, " +
 
+                        Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_URL + " TEXT, " +
+                        Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_WIDTH + " INTEGER DEFAULT 0, " +
+                        Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_HEIGHT + " INTEGER DEFAULT 0, " +
 
                         " FOREIGN KEY (" + Contract.T3dataEntry.COLUMN_NAME_CHILDREN_ID + ") REFERENCES " +
                         Contract.DataEntry.TABLE_NAME + "(" + Contract.DataEntry._ID + ")" +

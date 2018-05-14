@@ -33,6 +33,11 @@
             android:paddingTop="@dimen/list_padding_vertical_title"
             android:textColor="@color/textColorPrimary" />
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/img_subreddit" />
+
         <LinearLayout
 
             android:layout_width="match_parent"
@@ -120,6 +125,7 @@
                 android:textColor="@color/textColorSecondary"
                 android:textStyle="normal"/>
         </LinearLayout>
+
 
     </LinearLayout>
 

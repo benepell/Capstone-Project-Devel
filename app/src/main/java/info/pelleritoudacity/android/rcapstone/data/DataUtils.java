@@ -31,10 +31,16 @@ package info.pelleritoudacity.android.rcapstone.data;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.media.Image;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import info.pelleritoudacity.android.rcapstone.R;
+import info.pelleritoudacity.android.rcapstone.model.Source;
 import info.pelleritoudacity.android.rcapstone.model.T3;
 import info.pelleritoudacity.android.rcapstone.model.T3Data;
 import info.pelleritoudacity.android.rcapstone.model.T3Listing;
@@ -609,6 +615,7 @@ public class DataUtils {
             String stringCategoryNormalizeSub = Utility.normalizeSubRedditLink(t3Model.getSubreddit());
             putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT,
                     stringCategoryNormalizeSub);
+
 
         }
 

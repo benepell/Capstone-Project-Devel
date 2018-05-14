@@ -98,6 +98,10 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         TextView mTextViewSubReddit;
 
         @SuppressWarnings("unused")
+        @BindView(R.id.img_subreddit)
+        TextView mImageViewSubReddit;
+
+        @SuppressWarnings("unused")
         @BindView(R.id.tv_domain)
         TextView mTextViewDomain;
 

@@ -275,6 +275,13 @@ public class Contract {
         public static final String COLUMN_NAME_IS_VIDEO = "_is_video";
         public static final String COLUMN_NAME_DISTINGUISHED = "_distinguished";
         public static final String COLUMN_NAME_CHILDREN_ID = "_children_id";
+        public static final String COLUMN_NAME_PREVIEW_IMAGE_SOURCE_URL = "_preview_image_source_url";
+        public static final String COLUMN_NAME_PREVIEW_IMAGE_SOURCE_WIDTH = "_preview_image_source_width";
+        public static final String COLUMN_NAME_PREVIEW_IMAGE_SOURCE_HEIGHT = "_preview_image_source_height";
+
+
+
+
         public static final String COLUMN_NAME_TIME_LAST_MODIFIED = "_time_last_modified";
 
     }
