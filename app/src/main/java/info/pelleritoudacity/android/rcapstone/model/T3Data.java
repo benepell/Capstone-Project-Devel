@@ -7,14 +7,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.os.Parcelable.Creator;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
-public class T3Data implements Parcelable
+public class T3Data  implements Parcelable
 {
 
     @SerializedName("is_crosspostable")
@@ -43,16 +36,13 @@ public class T3Data implements Parcelable
     private Object removalReason;
     @SerializedName("thumbnail_width")
     @Expose
-    private Integer thumbnailWidth;
+    private Object thumbnailWidth;
     @SerializedName("subreddit")
     @Expose
     private String subreddit;
     @SerializedName("selftext_html")
     @Expose
-    private Object selftextHtml;
-    @SerializedName("author_flair_template_id")
-    @Expose
-    private Object authorFlairTemplateId;
+    private String selftextHtml;
     @SerializedName("selftext")
     @Expose
     private String selftext;
@@ -140,15 +130,17 @@ public class T3Data implements Parcelable
     @SerializedName("thumbnail")
     @Expose
     private String thumbnail;
+
     @SerializedName("edited")
     @Expose
-    private Boolean edited;
+    private Object edited;
+
     @SerializedName("link_flair_css_class")
     @Expose
     private Object linkFlairCssClass;
     @SerializedName("author_flair_css_class")
     @Expose
-    private Object authorFlairCssClass;
+    private String authorFlairCssClass;
     @SerializedName("contest_mode")
     @Expose
     private Boolean contestMode;
@@ -173,9 +165,6 @@ public class T3Data implements Parcelable
     @SerializedName("media_embed")
     @Expose
     private MediaEmbed mediaEmbed;
-    @SerializedName("post_hint")
-    @Expose
-    private String postHint;
     @SerializedName("stickied")
     @Expose
     private Boolean stickied;
@@ -187,7 +176,7 @@ public class T3Data implements Parcelable
     private Boolean canGild;
     @SerializedName("thumbnail_height")
     @Expose
-    private Integer thumbnailHeight;
+    private Object thumbnailHeight;
     @SerializedName("name")
     @Expose
     private String name;
@@ -214,7 +203,7 @@ public class T3Data implements Parcelable
     private String url;
     @SerializedName("author_flair_text")
     @Expose
-    private Object authorFlairText;
+    private String authorFlairText;
     @SerializedName("quarantine")
     @Expose
     private Boolean quarantine;
@@ -250,28 +239,25 @@ public class T3Data implements Parcelable
     private Boolean isVideo;
     @SerializedName("distinguished")
     @Expose
-    private Object distinguished;
-    @SerializedName("post_categories")
-    @Expose
-    private Object postCategories;
-    public final static Parcelable.Creator<T3Data> CREATOR = new Creator<T3Data>() {
+    private String distinguished;
+    public final static Parcelable.Creator<T3Data > CREATOR = new Creator<T3Data >() {
 
 
         @SuppressWarnings({
                 "unchecked"
         })
-        public T3Data createFromParcel(Parcel in) {
-            return new T3Data(in);
+        public T3Data  createFromParcel(Parcel in) {
+            return new T3Data (in);
         }
 
-        public T3Data[] newArray(int size) {
-            return (new T3Data[size]);
+        public T3Data [] newArray(int size) {
+            return (new T3Data [size]);
         }
 
     }
             ;
 
-    protected T3Data(Parcel in) {
+    protected T3Data (Parcel in) {
         this.isCrosspostable = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         this.subredditId = ((String) in.readValue((String.class.getClassLoader())));
         this.approvedAtUtc = ((Object) in.readValue((Object.class.getClassLoader())));
@@ -280,10 +266,9 @@ public class T3Data implements Parcelable
         this.bannedBy = ((Object) in.readValue((Object.class.getClassLoader())));
         this.numReports = ((Object) in.readValue((Object.class.getClassLoader())));
         this.removalReason = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.thumbnailWidth = ((Integer) in.readValue((Integer.class.getClassLoader())));
+        this.thumbnailWidth = ((Object) in.readValue((Object.class.getClassLoader())));
         this.subreddit = ((String) in.readValue((String.class.getClassLoader())));
-        this.selftextHtml = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.authorFlairTemplateId = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.selftextHtml = ((String) in.readValue((String.class.getClassLoader())));
         this.selftext = ((String) in.readValue((String.class.getClassLoader())));
         this.likes = ((Object) in.readValue((Object.class.getClassLoader())));
         this.suggestedSort = ((Object) in.readValue((Object.class.getClassLoader())));
@@ -313,9 +298,9 @@ public class T3Data implements Parcelable
         this.preview = ((Preview) in.readValue((Preview.class.getClassLoader())));
         this.pwls = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.thumbnail = ((String) in.readValue((String.class.getClassLoader())));
-        this.edited = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
+        this.edited = ((Object) in.readValue((Integer.class.getClassLoader())));
         this.linkFlairCssClass = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.authorFlairCssClass = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.authorFlairCssClass = ((String) in.readValue((String.class.getClassLoader())));
         this.contestMode = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         this.gilded = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.locked = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
@@ -324,11 +309,10 @@ public class T3Data implements Parcelable
         this.subredditSubscribers = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.secureMediaEmbed = ((SecureMediaEmbed) in.readValue((SecureMediaEmbed.class.getClassLoader())));
         this.mediaEmbed = ((MediaEmbed) in.readValue((MediaEmbed.class.getClassLoader())));
-        this.postHint = ((String) in.readValue((String.class.getClassLoader())));
         this.stickied = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         this.visited = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         this.canGild = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
-        this.thumbnailHeight = ((Integer) in.readValue((Integer.class.getClassLoader())));
+        this.thumbnailHeight = ((Object) in.readValue((Object.class.getClassLoader())));
         this.name = ((String) in.readValue((String.class.getClassLoader())));
         this.spoiler = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         this.permalink = ((String) in.readValue((String.class.getClassLoader())));
@@ -337,7 +321,7 @@ public class T3Data implements Parcelable
         this.hideScore = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         this.created = ((Double) in.readValue((Double.class.getClassLoader())));
         this.url = ((String) in.readValue((String.class.getClassLoader())));
-        this.authorFlairText = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.authorFlairText = ((String) in.readValue((String.class.getClassLoader())));
         this.quarantine = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         this.title = ((String) in.readValue((String.class.getClassLoader())));
         this.createdUtc = ((Double) in.readValue((Double.class.getClassLoader())));
@@ -349,11 +333,10 @@ public class T3Data implements Parcelable
         this.whitelistStatus = ((String) in.readValue((String.class.getClassLoader())));
         this.modNote = ((Object) in.readValue((Object.class.getClassLoader())));
         this.isVideo = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
-        this.distinguished = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.postCategories = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.distinguished = ((String) in.readValue((String.class.getClassLoader())));
     }
 
-    public T3Data() {
+    public T3Data () {
     }
 
     public Boolean getIsCrosspostable() {
@@ -420,11 +403,11 @@ public class T3Data implements Parcelable
         this.removalReason = removalReason;
     }
 
-    public Integer getThumbnailWidth() {
+    public Object getThumbnailWidth() {
         return thumbnailWidth;
     }
 
-    public void setThumbnailWidth(Integer thumbnailWidth) {
+    public void setThumbnailWidth(Object thumbnailWidth) {
         this.thumbnailWidth = thumbnailWidth;
     }
 
@@ -436,20 +419,12 @@ public class T3Data implements Parcelable
         this.subreddit = subreddit;
     }
 
-    public Object getSelftextHtml() {
+    public String getSelftextHtml() {
         return selftextHtml;
     }
 
-    public void setSelftextHtml(Object selftextHtml) {
+    public void setSelftextHtml(String selftextHtml) {
         this.selftextHtml = selftextHtml;
-    }
-
-    public Object getAuthorFlairTemplateId() {
-        return authorFlairTemplateId;
-    }
-
-    public void setAuthorFlairTemplateId(Object authorFlairTemplateId) {
-        this.authorFlairTemplateId = authorFlairTemplateId;
     }
 
     public String getSelftext() {
@@ -668,6 +643,7 @@ public class T3Data implements Parcelable
         this.preview = preview;
     }
 
+
     public Integer getPwls() {
         return pwls;
     }
@@ -684,11 +660,11 @@ public class T3Data implements Parcelable
         this.thumbnail = thumbnail;
     }
 
-    public Boolean getEdited() {
+    public Object getEdited() {
         return edited;
     }
 
-    public void setEdited(Boolean edited) {
+    public void setEdited(Object edited) {
         this.edited = edited;
     }
 
@@ -700,11 +676,11 @@ public class T3Data implements Parcelable
         this.linkFlairCssClass = linkFlairCssClass;
     }
 
-    public Object getAuthorFlairCssClass() {
+    public String getAuthorFlairCssClass() {
         return authorFlairCssClass;
     }
 
-    public void setAuthorFlairCssClass(Object authorFlairCssClass) {
+    public void setAuthorFlairCssClass(String authorFlairCssClass) {
         this.authorFlairCssClass = authorFlairCssClass;
     }
 
@@ -772,14 +748,6 @@ public class T3Data implements Parcelable
         this.mediaEmbed = mediaEmbed;
     }
 
-    public String getPostHint() {
-        return postHint;
-    }
-
-    public void setPostHint(String postHint) {
-        this.postHint = postHint;
-    }
-
     public Boolean getStickied() {
         return stickied;
     }
@@ -804,11 +772,11 @@ public class T3Data implements Parcelable
         this.canGild = canGild;
     }
 
-    public Integer getThumbnailHeight() {
+    public Object getThumbnailHeight() {
         return thumbnailHeight;
     }
 
-    public void setThumbnailHeight(Integer thumbnailHeight) {
+    public void setThumbnailHeight(Object thumbnailHeight) {
         this.thumbnailHeight = thumbnailHeight;
     }
 
@@ -876,11 +844,11 @@ public class T3Data implements Parcelable
         this.url = url;
     }
 
-    public Object getAuthorFlairText() {
+    public String getAuthorFlairText() {
         return authorFlairText;
     }
 
-    public void setAuthorFlairText(Object authorFlairText) {
+    public void setAuthorFlairText(String authorFlairText) {
         this.authorFlairText = authorFlairText;
     }
 
@@ -972,20 +940,12 @@ public class T3Data implements Parcelable
         this.isVideo = isVideo;
     }
 
-    public Object getDistinguished() {
+    public String getDistinguished() {
         return distinguished;
     }
 
-    public void setDistinguished(Object distinguished) {
+    public void setDistinguished(String distinguished) {
         this.distinguished = distinguished;
-    }
-
-    public Object getPostCategories() {
-        return postCategories;
-    }
-
-    public void setPostCategories(Object postCategories) {
-        this.postCategories = postCategories;
     }
 
     public void writeToParcel(Parcel dest, int flags) {
@@ -1000,7 +960,6 @@ public class T3Data implements Parcelable
         dest.writeValue(thumbnailWidth);
         dest.writeValue(subreddit);
         dest.writeValue(selftextHtml);
-        dest.writeValue(authorFlairTemplateId);
         dest.writeValue(selftext);
         dest.writeValue(likes);
         dest.writeValue(suggestedSort);
@@ -1027,7 +986,6 @@ public class T3Data implements Parcelable
         dest.writeValue(reportReasons);
         dest.writeValue(domain);
         dest.writeValue(hidden);
-        dest.writeValue(preview);
         dest.writeValue(pwls);
         dest.writeValue(thumbnail);
         dest.writeValue(edited);
@@ -1041,7 +999,6 @@ public class T3Data implements Parcelable
         dest.writeValue(subredditSubscribers);
         dest.writeValue(secureMediaEmbed);
         dest.writeValue(mediaEmbed);
-        dest.writeValue(postHint);
         dest.writeValue(stickied);
         dest.writeValue(visited);
         dest.writeValue(canGild);
@@ -1067,7 +1024,6 @@ public class T3Data implements Parcelable
         dest.writeValue(modNote);
         dest.writeValue(isVideo);
         dest.writeValue(distinguished);
-        dest.writeValue(postCategories);
     }
 
     public int describeContents() {
