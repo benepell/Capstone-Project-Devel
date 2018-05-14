@@ -24,8 +24,6 @@ public class SubRedditExecute {
                 if (response.isSuccessful()) {
                     mReddit = response.body();
                         // todo bug retrofit
-//                        mReddit.getData().getChildren().get(0).getData().getPreview().getImages().get(0).getSource().getUrl();
-
 
                     myCallBack.onRestSubReddit(mReddit);
                 }
