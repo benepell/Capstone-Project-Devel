@@ -81,17 +81,17 @@ public class MainActivity extends BaseActivity
         {
             boolean isLogged = intent.getBooleanExtra(Costants.EXTRA_LOGIN_SUCCESS, false);
             boolean isLogout = intent.getBooleanExtra(Costants.EXTRA_LOGOUT_SUCCESS, false);
-            int restore = intent.getIntExtra(Costants.EXTRA_RESTORE_MANAGE,0);
+            int restore = intent.getIntExtra(Costants.EXTRA_RESTORE_MANAGE, 0);
             if (isLogged) {
                 Snackbar.make(findViewById(R.id.main_container), R.string.text_login_success, Snackbar.LENGTH_LONG).show();
             } else if (isLogout) {
                 Snackbar.make(findViewById(R.id.main_container), R.string.text_logout_success, Snackbar.LENGTH_LONG).show();
             }
-            if(restore == Costants.RESTORE_MANAGE_RESTORE){
-                PrefManager.putIntPref(mContext,R.string.pref_restore_manage,Costants.RESTORE_MANAGE_RESTORE);
-                startActivity(new Intent(this,SubManageActivity.class).putExtra(Costants.EXTRA_RESTORE_MANAGE,Costants.RESTORE_MANAGE_RESTORE));
-            }else if(restore == Costants.RESTORE_MANAGE_REDIRECT){
-                startActivity(new Intent(this,SubManageActivity.class).putExtra(Costants.EXTRA_RESTORE_MANAGE,Costants.RESTORE_MANAGE_REDIRECT));
+            if (restore == Costants.RESTORE_MANAGE_RESTORE) {
+                PrefManager.putIntPref(mContext, R.string.pref_restore_manage, Costants.RESTORE_MANAGE_RESTORE);
+                startActivity(new Intent(this, SubManageActivity.class).putExtra(Costants.EXTRA_RESTORE_MANAGE, Costants.RESTORE_MANAGE_RESTORE));
+            } else if (restore == Costants.RESTORE_MANAGE_REDIRECT) {
+                startActivity(new Intent(this, SubManageActivity.class).putExtra(Costants.EXTRA_RESTORE_MANAGE, Costants.RESTORE_MANAGE_REDIRECT));
             }
         }
     }
@@ -118,7 +118,6 @@ public class MainActivity extends BaseActivity
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION
                         | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY));
     }
-
 
 
     private void dataClearSnackBar() {
@@ -150,7 +149,6 @@ public class MainActivity extends BaseActivity
             new RestExecute().syncData(context);
         }
     }
-
 
 
 }

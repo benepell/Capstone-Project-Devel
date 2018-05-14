@@ -58,7 +58,7 @@ public class SubManageActivity extends BaseActivity {
     }
 
     private void startFragment() {
-        SubScriptionsFragment subScriptionsFragment = new SubScriptionsFragment();
+        SubScriptionsFragment subScriptionsFragment =  SubScriptionsFragment.newInstance();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_list_container, subScriptionsFragment).commit();
 
@@ -116,7 +116,6 @@ public class SubManageActivity extends BaseActivity {
 
                 }
             } finally {
-
                 if ((cursor != null) && (!cursor.isClosed())) {
                     cursor.close();
                 }
@@ -127,8 +126,7 @@ public class SubManageActivity extends BaseActivity {
 
     public static void manageToMainActivity(Context context) {
         context.startActivity(new Intent(context, MainActivity.class).putExtra(Costants.EXTRA_RESTORE_MANAGE,Costants.RESTORE_MANAGE_REDIRECT)
-                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION
-                        | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY));
+                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY));
     }
 
 }

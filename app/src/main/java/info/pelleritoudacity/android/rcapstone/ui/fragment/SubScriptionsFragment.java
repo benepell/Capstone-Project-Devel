@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -60,6 +61,18 @@ public class SubScriptionsFragment extends Fragment
     private ItemTouchHelper mItemTouchHelper;
     private boolean mIsRestart;
     private static WeakReference<Context> sWeakReference;
+    private static Parcelable sListState;
+    private static String sSubFragment;
+    private LinearLayoutManager mLayoutManager;
+
+    public SubScriptionsFragment() {
+    }
+
+    public static SubScriptionsFragment newInstance() {
+        SubScriptionsFragment fragment = new SubScriptionsFragment();
+        return fragment;
+    }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,6 +93,8 @@ public class SubScriptionsFragment extends Fragment
                 alerDialog(getActivity());
             }
 
+        } else {
+            sListState = savedInstanceState.getParcelable(Costants.EXTRA_SUBSCRIPTION_STATE);
         }
 
     }
@@ -88,6 +103,9 @@ public class SubScriptionsFragment extends Fragment
     public void onResume() {
         super.onResume();
         restartLoader();
+        if (sListState != null) {
+            mLayoutManager.onRestoreInstanceState(sListState);
+        }
 
     }
 
@@ -106,8 +124,8 @@ public class SubScriptionsFragment extends Fragment
         ButterKnife.bind(this, view);
 
         if ((getActivity() != null) && (getActivity().findViewById(R.id.fragment_list_container) != null)) {
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-            mRecyclerView.setLayoutManager(layoutManager);
+            mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+            mRecyclerView.setLayoutManager(mLayoutManager);
         }
 
         mRecyclerView.setHasFixedSize(true);
@@ -197,6 +215,14 @@ public class SubScriptionsFragment extends Fragment
 
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        sListState = mLayoutManager.onSaveInstanceState();
+        outState.putParcelable(Costants.EXTRA_FRAGMENT_STATE, sListState);
+    }
+
+
     private static class RedditFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
 
         Cursor mRedditData = null;
@@ -252,6 +278,5 @@ public class SubScriptionsFragment extends Fragment
             }
         }
     }
-
 
 }

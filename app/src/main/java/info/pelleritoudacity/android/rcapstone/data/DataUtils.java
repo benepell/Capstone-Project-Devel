@@ -67,7 +67,7 @@ public class DataUtils {
             Timber.d( "DATABASE isRecordData %s",e.getMessage());
 
         } finally {
-            if ((cursor != null) && !cursor.isClosed()) {
+            if (cursor != null) {
                 cursor.close();
             }
         }
