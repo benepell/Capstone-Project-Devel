@@ -30,6 +30,7 @@ package info.pelleritoudacity.android.rcapstone.data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import timber.log.Timber;
 
@@ -261,5 +262,16 @@ class DbHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    @Override
+    public synchronized void close() {
+        super.close();
+        Log.d("DbHelper","DATABASE close");
 
+    }
+
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        Log.d("DbHelper","DATABASE open");
+    }
 }

@@ -216,7 +216,7 @@ public class BaseActivity extends AppCompatActivity
             switch (id) {
 
                  case R.id.menu_action_restore:
-                     startActivity(new Intent(this, MainActivity.class).putExtra(Costants.EXTRA_RESTORE_MANAGE,true));
+                     startActivity(new Intent(this, MainActivity.class).putExtra(Costants.EXTRA_RESTORE_MANAGE,Costants.RESTORE_MANAGE_RESTORE));
                      return true;
                 case R.id.menu_action_login:
                     startActivity(new Intent(this, LoginActivity.class));

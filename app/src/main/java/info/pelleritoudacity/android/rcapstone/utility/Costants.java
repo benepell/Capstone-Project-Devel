@@ -66,6 +66,8 @@ public interface Costants {
     String PATH_SEPARATOR = "/";
     String STRING_SEPARATOR = ",";
 
+    int RESTORE_MANAGE_RESTORE = 1;
+    int RESTORE_MANAGE_REDIRECT = 2;
 
     String EXTRA_LOGIN_SUCCESS = "info.pelleritoudacity.android.rcapstone.extra.login.success";
     String EXTRA_LOGOUT_SUCCESS = "info.pelleritoudacity.android.rcapstone.extra.logout.success";

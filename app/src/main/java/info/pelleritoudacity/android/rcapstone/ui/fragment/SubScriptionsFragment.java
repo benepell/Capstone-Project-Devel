@@ -3,6 +3,7 @@ package info.pelleritoudacity.android.rcapstone.ui.fragment;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -36,6 +37,7 @@ import info.pelleritoudacity.android.rcapstone.data.DataUtils;
 import info.pelleritoudacity.android.rcapstone.media.CacheDataSourceFactory;
 import info.pelleritoudacity.android.rcapstone.rest.RevokeTokenExecute;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
+import info.pelleritoudacity.android.rcapstone.ui.activity.SubManageActivity;
 import info.pelleritoudacity.android.rcapstone.ui.helper.OnStartDragListener;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SimpleItemTouchHelperCallback;
 import info.pelleritoudacity.android.rcapstone.ui.adapter.SubScriptionsAdapter;
@@ -70,11 +72,14 @@ public class SubScriptionsFragment extends Fragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getActivity() != null) {
+
             getActivity().getSupportLoaderManager().initLoader(REDDIT_LOADER_ID, null, this);
-        }
-        if (PrefManager.getBoolPref(getActivity(), R.string.pref_restore_manage)) {
-            mIsRestart = true;
-            alerDialog();
+
+            if (PrefManager.getIntPref(getActivity(), R.string.pref_restore_manage) == Costants.RESTORE_MANAGE_RESTORE) {
+                mIsRestart = true;
+                alerDialog(getActivity());
+            }
+
         }
 
     }
@@ -134,6 +139,7 @@ public class SubScriptionsFragment extends Fragment
         if ((data != null) && (mAdapter != null)) {
             mAdapter.swapCursor(data);
         }
+
     }
 
     @Override
@@ -166,23 +172,28 @@ public class SubScriptionsFragment extends Fragment
 
     }
 
-    public void alerDialog() {
-        PrefManager.putBoolPref(getActivity(), R.string.pref_restore_manage, false);
-        final boolean[] isRestart = new boolean[1];
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity(), R.style.confirmDialog);
-        dialog.setTitle(R.string.title_restore_confirm);
-        dialog.setMessage(R.string.text_restore_data);
-        dialog.setCancelable(true);
-        dialog.setPositiveButton(R.string.text_positive_restore_confirm, (dialog1, which) -> {
-            isRestart[0] = new DataUtils(getActivity()).updateManageRestore();
-            if (isRestart[0]) {
-                restartLoader();
-            }
-        });
-        dialog.setNegativeButton(R.string.text_restore_confirm_no_reset, (dlg, which) -> dlg.cancel());
+    public void alerDialog(Context context) {
 
-        AlertDialog al = dialog.create();
-        al.show();
+        if (context != null) {
+
+            PrefManager.putIntPref(context, R.string.pref_restore_manage, 0);
+            AlertDialog.Builder dialog = new AlertDialog.Builder(context, R.style.confirmDialog);
+            dialog.setTitle(R.string.title_restore_confirm);
+            dialog.setMessage(R.string.text_restore_data);
+            dialog.setCancelable(true);
+
+            dialog.setPositiveButton(R.string.text_positive_restore_confirm, (dialog1, which) -> {
+                if (new DataUtils(context).updateManageRestore()) {
+                    SubManageActivity.manageToMainActivity(context);
+                }
+            });
+
+            dialog.setNegativeButton(R.string.text_restore_confirm_no_reset, (dlg, which) -> dlg.cancel());
+
+            AlertDialog al = dialog.create();
+            al.show();
+
+        }
 
     }
 
@@ -222,6 +233,7 @@ public class SubScriptionsFragment extends Fragment
                         Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED + " =?",
                         new String[]{"0"},
                         Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION + " ASC");
+
 
             } catch (Exception e) {
                 Timber.e("Failed to asynchronously load data. ");

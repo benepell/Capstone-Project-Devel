@@ -28,18 +28,9 @@ package info.pelleritoudacity.android.rcapstone.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.widget.Toast;
-
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,7 +53,6 @@ public class MainActivity extends BaseActivity
     public SwipeRefreshLayout mSwipeRefreshLayout;
 
     private Context mContext;
-    private static WeakReference<Context> sWeakReference;
     private boolean mIsRefreshing;
 
     @Override
@@ -71,13 +61,13 @@ public class MainActivity extends BaseActivity
         super.onCreate(savedInstanceState);
 
         mContext = getApplicationContext();
-        sWeakReference = new WeakReference<>(mContext);
 
         Timber.plant(new Timber.DebugTree());
         ButterKnife.bind(this);
 
-        initializeFirebaseDispatcherService();
 
+        initializeFirebaseDispatcherService();
+        // todo remove
         getDataT5(getApplicationContext());
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -91,15 +81,17 @@ public class MainActivity extends BaseActivity
         {
             boolean isLogged = intent.getBooleanExtra(Costants.EXTRA_LOGIN_SUCCESS, false);
             boolean isLogout = intent.getBooleanExtra(Costants.EXTRA_LOGOUT_SUCCESS, false);
-            boolean isRestore = intent.getBooleanExtra(Costants.EXTRA_RESTORE_MANAGE,false);
+            int restore = intent.getIntExtra(Costants.EXTRA_RESTORE_MANAGE,0);
             if (isLogged) {
                 Snackbar.make(findViewById(R.id.main_container), R.string.text_login_success, Snackbar.LENGTH_LONG).show();
             } else if (isLogout) {
                 Snackbar.make(findViewById(R.id.main_container), R.string.text_logout_success, Snackbar.LENGTH_LONG).show();
             }
-            if(isRestore){
-                PrefManager.putBoolPref(getApplicationContext(),R.string.pref_restore_manage,true);
-                startActivity(new Intent(this,SubManageActivity.class).putExtra(Costants.EXTRA_RESTORE_MANAGE,true));
+            if(restore == Costants.RESTORE_MANAGE_RESTORE){
+                PrefManager.putIntPref(mContext,R.string.pref_restore_manage,Costants.RESTORE_MANAGE_RESTORE);
+                startActivity(new Intent(this,SubManageActivity.class).putExtra(Costants.EXTRA_RESTORE_MANAGE,Costants.RESTORE_MANAGE_RESTORE));
+            }else if(restore == Costants.RESTORE_MANAGE_REDIRECT){
+                startActivity(new Intent(this,SubManageActivity.class).putExtra(Costants.EXTRA_RESTORE_MANAGE,Costants.RESTORE_MANAGE_REDIRECT));
             }
         }
     }
@@ -126,6 +118,8 @@ public class MainActivity extends BaseActivity
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION
                         | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY));
     }
+
+
 
     private void dataClearSnackBar() {
         if (PrefManager.getBoolPref(mContext, R.string.pref_clear_data)) {
@@ -154,63 +148,9 @@ public class MainActivity extends BaseActivity
     private void getDataT5(Context context) {
         if (context != null) {
             new RestExecute().syncData(context);
-            new RemovedItemSubRedditAsyncTask().execute();
         }
     }
 
 
-    private static class RemovedItemSubRedditAsyncTask extends AsyncTask<Void, Void, Cursor> {
-
-        @Override
-        protected Cursor doInBackground(Void... voids) {
-            try {
-                Context context = sWeakReference.get();
-                Uri uri = Contract.PrefSubRedditEntry.CONTENT_URI;
-                String selection = Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED + " =? AND " + Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE + " =?";
-                String[] selectionArgs = {String.valueOf(0), String.valueOf(1)};
-                return context.getContentResolver().query(uri,
-                        null,
-                        selection,
-                        selectionArgs,
-                        null);
-
-            } catch (Exception e) {
-                Timber.e("Failed to asynchronously load data. ");
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Cursor cursor) {
-            super.onPostExecute(cursor);
-            Context context = sWeakReference.get();
-
-            try {
-
-                int size = cursor.getCount();
-                ArrayList<String> arrayList = new ArrayList<>(size);
-
-                String name;
-                if (!cursor.isClosed()) {
-                    while (cursor.moveToNext()) {
-                        name = cursor.getString(cursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME));
-                        name = Utility.normalizeSubRedditLink(name);
-                        arrayList.add(name);
-                        String strPref = Utility.arrayToString(arrayList);
-                        PrefManager.putStringPref(context, R.string.pref_subreddit_key, strPref);
-                    }
-                }
-            } finally {
-
-                if ((cursor != null) && (!cursor.isClosed())) {
-                    cursor.close();
-                }
-
-            }
-
-        }
-
-    }
 
 }

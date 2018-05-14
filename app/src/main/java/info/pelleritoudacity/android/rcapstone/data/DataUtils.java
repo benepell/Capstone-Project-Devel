@@ -32,12 +32,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.provider.SyncStateContract;
 import android.text.TextUtils;
-import android.view.View;
-
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.model.T3;
@@ -61,10 +56,22 @@ public class DataUtils {
 
     private boolean isRecordData() {
 
-        Cursor cursor = mContext.getContentResolver().query(Contract.RedditEntry.CONTENT_URI, null, null, null, null);
-        boolean isRecord = cursor != null && cursor.getCount() > 0;
+        Cursor cursor = null;
+        boolean isRecord = false;
 
-        if (cursor != null) cursor.close();
+        try {
+            cursor = mContext.getContentResolver().query(Contract.RedditEntry.CONTENT_URI, null, null, null, null);
+            isRecord = cursor != null && cursor.getCount() > 0;
+
+        } catch (Exception e) {
+            Timber.d( "DATABASE isRecordData %s",e.getMessage());
+
+        } finally {
+            if ((cursor != null) && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+
         return isRecord;
     }
 
@@ -627,10 +634,11 @@ public class DataUtils {
         if (insertDataT5(reddits)) {
 
             if (!PrefManager.getBoolPref(mContext, R.string.pref_insert_data)) {
-                insertDataPrefSubReddit(reddits);
+                if (insertDataPrefSubReddit(reddits)) {
+                    PrefManager.putBoolPref(mContext, R.string.pref_insert_data, true);
+                }
             }
 
-            PrefManager.putBoolPref(mContext, R.string.pref_insert_data, true);
             return true;
         }
         return false;
@@ -652,23 +660,38 @@ public class DataUtils {
         String selection = Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " =?";
         String[] selectionArgs = {category};
 
-        Cursor cursor = mContext.getContentResolver().query(uri, null, selection, selectionArgs, null);
-        if (cursor != null && cursor.getCount() > 0) {
-            cursor.moveToFirst();
-            timestamp = cursor.getString(cursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_TIME_LAST_MODIFIED));
+        Cursor cursor = null;
+        boolean isDeleted = false;
+        try {
+
+            cursor = mContext.getContentResolver().query(uri, null, selection, selectionArgs, null);
+
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                timestamp = cursor.getString(cursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_TIME_LAST_MODIFIED));
+            }
+
+            if (!TextUtils.isEmpty(timestamp)) {
+                int timeUpdateDatabase = PrefManager.getIntGeneralSettings(mContext, R.string.pref_sync_frequency);
+                isDeleted = Utility.getSecondsTimeStamp(timestamp) > timeUpdateDatabase;
+            }
+
+        } catch (Exception e) {
+
+            Timber.d( "DATABASE isDeleteT3 %s",e.getMessage());
+
+        } finally {
+            if ((cursor != null) && (!cursor.isClosed())) {
+                cursor.close();
+            }
+
         }
 
-        if (cursor != null) cursor.close();
-
-        if (!TextUtils.isEmpty(timestamp)) {
-            int timeUpdateDatabase = PrefManager.getIntGeneralSettings(mContext, R.string.pref_sync_frequency);
-            return Utility.getSecondsTimeStamp(timestamp) > timeUpdateDatabase;
-        }
-        return false;
+        return isDeleted;
     }
 
 
-    public boolean deleteCategory(String contractPath, String category) {
+    public void deleteCategory(String contractPath, String category) {
         String where;
         Uri uri;
         String[] selectionArgs = {category};
@@ -698,12 +721,11 @@ public class DataUtils {
                     where, selectionArgs);
         }
 
-        return count > 0;
     }
 
     public boolean updateManageRemoved(String category) {
 
-        int count = 0;
+        int count;
 
         Uri uri = Contract.PrefSubRedditEntry.CONTENT_URI;
         String where = Contract.PrefSubRedditEntry.COLUMN_NAME_NAME + " =? ";
@@ -719,7 +741,7 @@ public class DataUtils {
 
     public boolean updateManageRestore() {
 
-        int count = 0;
+        int count;
 
         Uri uri = Contract.PrefSubRedditEntry.CONTENT_URI;
 
@@ -730,50 +752,61 @@ public class DataUtils {
         String stringPref = restorePrefFromDb();
 
         if (!TextUtils.isEmpty(restorePrefFromDb())) {
+
             PrefManager.putStringPref(mContext, R.string.pref_subreddit_key, stringPref);
+
         } else {
+
             return false;
         }
 
         return count > 0;
     }
 
-    public String restorePrefFromDb() {
+    private String restorePrefFromDb() {
         Cursor cursor = null;
-
+        String stringPref = "";
         try {
-            String stringPref = "";
             cursor = mContext.getContentResolver().query(Contract.PrefSubRedditEntry.CONTENT_URI, null, null, null, null);
+
             if ((cursor != null) && (!cursor.isClosed())) {
+
                 String name;
                 int i = 0;
+
                 while (cursor.moveToNext()) {
                     i += 1;
                     name = cursor.getString(cursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME));
                     if (!TextUtils.isEmpty(name)) {
                         if (i < cursor.getCount()) {
+                            //noinspection StringConcatenationInLoop
                             stringPref += name + Costants.STRING_SEPARATOR;
                         } else {
+                            //noinspection StringConcatenationInLoop
                             stringPref += name;
                         }
                     }
                 }
             }
-            return stringPref;
 
         } catch (Exception e) {
-            Timber.e("restore pref from db error %s", e.getCause());
+
+            Timber.e( "restore pref from db error %s",e.getMessage());
+
         } finally {
-            if (cursor != null) {
+
+            if ((cursor != null) && (!cursor.isClosed())) {
                 cursor.close();
             }
+
         }
-        return null;
+
+        return stringPref;
     }
 
     public boolean updateVisibleStar(int visible, String category) {
 
-        int count = 0;
+        int count;
 
         Uri uri = Contract.PrefSubRedditEntry.CONTENT_URI;
         String where = Contract.PrefSubRedditEntry.COLUMN_NAME_NAME + " =?";
@@ -796,7 +829,9 @@ public class DataUtils {
 
         if ((fromPosition == 0) && (toPosition == 0)) {
             return false;
+
         } else {
+
             fromPosition += 1;
             toPosition += 1;
             uri = Contract.PrefSubRedditEntry.CONTENT_URI;
@@ -852,11 +887,11 @@ public class DataUtils {
 
         } catch (Exception e) {
 
-            Timber.e("Move Manage Db error %s", e.getCause());
+            Timber.e("DATABASE Move Manage Db error %s", e.getMessage());
 
         } finally {
 
-            if (cursor != null) {
+            if ((cursor != null) && (!cursor.isClosed())) {
                 cursor.close();
             }
         }
@@ -870,7 +905,7 @@ public class DataUtils {
         PrefManager.putBoolPref(mContext, R.string.pref_insert_data, false);
     }
 
-    private void savePrefSub(T5 reddits) {
+   /* private void savePrefSub(T5 reddits) {
         int size = reddits.getData().getChildren().size();
         ArrayList<String> arrayList = new ArrayList<>(size);
         String url;
@@ -882,5 +917,5 @@ public class DataUtils {
         String strPref = Utility.arrayToString(arrayList);
         PrefManager.putStringPref(mContext, R.string.pref_subreddit_key, strPref);
     }
-
+*/
 }
