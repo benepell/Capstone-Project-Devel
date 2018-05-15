@@ -71,7 +71,7 @@ public class DataUtils {
             isRecord = cursor != null && cursor.getCount() > 0;
 
         } catch (Exception e) {
-            Timber.d( "DATABASE isRecordData %s",e.getMessage());
+            Timber.d("DATABASE isRecordData %s", e.getMessage());
 
         } finally {
             if (cursor != null) {
@@ -396,6 +396,13 @@ public class DataUtils {
 
             T3Data t3Model = subReddits.getData().getChildren().get(i).getData();
 
+            /*if(subReddits.getData().getChildren().get(i).getData().getPreview()!=null){
+                Timber.d("preview NOT NULL");
+            }else {
+                Timber.d("preview " + subReddits.getData().getChildren().get(i).getData().getPermalink());
+            }
+*/
+
             dataCV.put(Contract.DataEntry.COLUMN_NAME_CHILDRENS, childrenId);
 
             arrT3CV[i] = new ContentValues();
@@ -617,7 +624,22 @@ public class DataUtils {
             putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT,
                     stringCategoryNormalizeSub);
 
+            if (t3Model.getPreview() != null) {
 
+                String previewUrl = t3Model.getPreview().getImages().get(0).getSource().getUrl();
+                int previewWidth =  t3Model.getPreview().getImages().get(0).getSource().getWidth();
+                int previewHeight = t3Model.getPreview().getImages().get(0).getSource().getHeight();
+
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_URL,
+                        previewUrl);
+
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_WIDTH,
+                        previewWidth);
+
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_HEIGHT,
+                        previewHeight);
+
+            }
 
 
         }
@@ -637,7 +659,6 @@ public class DataUtils {
             contentValues.put(contractEntry, String.valueOf(strObject));
         }
     }
-
 
     public boolean saveDataT5(T5 reddits) {
         if (isRecordData()) clearDataT5();
@@ -688,7 +709,7 @@ public class DataUtils {
 
         } catch (Exception e) {
 
-            Timber.d( "DATABASE isDeleteT3 %s",e.getMessage());
+            Timber.d("DATABASE isDeleteT3 %s", e.getMessage());
 
         } finally {
             if ((cursor != null) && (!cursor.isClosed())) {
@@ -801,7 +822,7 @@ public class DataUtils {
 
         } catch (Exception e) {
 
-            Timber.e( "restore pref from db error %s",e.getMessage());
+            Timber.e("restore pref from db error %s", e.getMessage());
 
         } finally {
 

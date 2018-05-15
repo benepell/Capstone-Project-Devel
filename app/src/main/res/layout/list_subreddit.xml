@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+
         <TextView
             android:id="@+id/tv_title"
             style="@style/TextAppearance.AppCompat.Title"
@@ -36,6 +37,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
             android:id="@+id/img_subreddit" />
 
         <LinearLayout
