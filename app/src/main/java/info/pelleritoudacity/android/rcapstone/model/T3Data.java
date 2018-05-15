@@ -121,7 +121,7 @@ public class T3Data  implements Parcelable
     @SerializedName("hidden")
     @Expose
     private Boolean hidden;
-    @SerializedName("preview")
+    @SerializedName("previews")
     @Expose
     private Preview preview;
     @SerializedName("pwls")

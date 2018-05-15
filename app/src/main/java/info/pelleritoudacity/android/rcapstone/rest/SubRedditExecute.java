@@ -1,7 +1,13 @@
 package info.pelleritoudacity.android.rcapstone.rest;
 
 import android.support.annotation.NonNull;
+import android.widget.LinearLayout;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import info.pelleritoudacity.android.rcapstone.model.Image;
+import info.pelleritoudacity.android.rcapstone.model.Preview;
 import info.pelleritoudacity.android.rcapstone.model.T3;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,8 +29,6 @@ public class SubRedditExecute {
                 int b = response.code();
                 if (response.isSuccessful()) {
                     mReddit = response.body();
-                        // todo bug retrofit
-
                     myCallBack.onRestSubReddit(mReddit);
                 }
             }
