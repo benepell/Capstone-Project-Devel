@@ -34,6 +34,7 @@ import android.database.Cursor;
 import android.media.Image;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,7 @@ import java.util.concurrent.TimeUnit;
 
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.model.Preview;
+import info.pelleritoudacity.android.rcapstone.model.Resolution;
 import info.pelleritoudacity.android.rcapstone.model.Source;
 import info.pelleritoudacity.android.rcapstone.model.T3;
 import info.pelleritoudacity.android.rcapstone.model.T3Data;
@@ -626,9 +628,14 @@ public class DataUtils {
 
             if (t3Model.getPreview() != null) {
 
-                String previewUrl = t3Model.getPreview().getImages().get(0).getSource().getUrl();
-                int previewWidth =  t3Model.getPreview().getImages().get(0).getSource().getWidth();
-                int previewHeight = t3Model.getPreview().getImages().get(0).getSource().getHeight();
+                ArrayList<ImageOptimize> imageOptimizeArrayList = new ArrayList<>();
+                imageOptimizeArrayList.addAll(showThumbnailImagesContent(mContext, t3Model, true));
+
+
+                String previewUrl = imageOptimizeArrayList.get(0).url;
+                int previewWidth = imageOptimizeArrayList.get(0).width;
+                int previewHeight = imageOptimizeArrayList.get(0).height;
+
 
                 putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_URL,
                         previewUrl);
@@ -639,8 +646,8 @@ public class DataUtils {
                 putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_HEIGHT,
                         previewHeight);
 
-            }
 
+            }
 
         }
 
@@ -649,6 +656,119 @@ public class DataUtils {
         int countT3Data = mContext.getContentResolver().bulkInsert(Contract.T3dataEntry.CONTENT_URI, arrT3CV);
 
         return uriReddit != null && uriData != null && countT3Data != 0;
+    }
+
+
+    private ArrayList<ImageOptimize> showThumbnailImagesContent(Context context, T3Data t3DataChild, boolean originalSize) {
+
+        int sizeResolution = 0;
+        ArrayList<ImageOptimize> optimizeArrayList;
+        ImageOptimize imageOptimize;
+
+        if ((context == null) && (t3DataChild == null) && (t3DataChild.getPreview() == null)) {
+            return null;
+        }
+
+        int densityDpi = context.getResources().getDisplayMetrics().densityDpi;
+
+
+        if ((t3DataChild.getPreview().getImages() != null) && (!originalSize)) {
+
+            sizeResolution = t3DataChild.getPreview().getImages().get(0).getResolutions().size();
+
+        }
+
+        optimizeArrayList = new ArrayList<>(1);
+        imageOptimize = new ImageOptimize();
+        List<Resolution> dataResolution = t3DataChild.getPreview().getImages().get(0).getResolutions();
+        Source dataSource = t3DataChild.getPreview().getImages().get(0).getSource();
+
+        int index;
+        switch (densityDpi) {
+            case DisplayMetrics.DENSITY_XXXHIGH:
+            case DisplayMetrics.DENSITY_560:
+                // XXXHDPI
+                if (sizeResolution >= 6) {
+                    index = 5;
+                    imageOptimize.url = dataResolution.get(index).getUrl();
+                    imageOptimize.width = dataResolution.get(index).getWidth();
+                    imageOptimize.height = dataResolution.get(index).getHeight();
+                    optimizeArrayList.add(imageOptimize);
+                    return optimizeArrayList;
+                }
+
+            case DisplayMetrics.DENSITY_XXHIGH:
+            case DisplayMetrics.DENSITY_360:
+            case DisplayMetrics.DENSITY_400:
+            case DisplayMetrics.DENSITY_420:
+                // XXHDPI
+                if (sizeResolution >= 5) {
+                    index = 4;
+                    imageOptimize.url = dataResolution.get(index).getUrl();
+                    imageOptimize.width = dataResolution.get(index).getWidth();
+                    imageOptimize.height = dataResolution.get(index).getHeight();
+                    optimizeArrayList.add(imageOptimize);
+                    return optimizeArrayList;
+                }
+
+
+            case DisplayMetrics.DENSITY_XHIGH:
+            case DisplayMetrics.DENSITY_280:
+                // XHDPI
+                if (sizeResolution >= 4) {
+                    index = 3;
+                    imageOptimize.url = dataResolution.get(index).getUrl();
+                    imageOptimize.width = dataResolution.get(index).getWidth();
+                    imageOptimize.height = dataResolution.get(index).getHeight();
+                    optimizeArrayList.add(imageOptimize);
+                    return optimizeArrayList;
+                }
+
+
+            case DisplayMetrics.DENSITY_TV:
+            case DisplayMetrics.DENSITY_HIGH:
+                // HDPI
+                if (sizeResolution >= 3) {
+                    index = 2;
+                    imageOptimize.url = dataResolution.get(index).getUrl();
+                    imageOptimize.width = dataResolution.get(index).getWidth();
+                    imageOptimize.height = dataResolution.get(index).getHeight();
+                    optimizeArrayList.add(imageOptimize);
+                    return optimizeArrayList;
+                }
+
+
+            case DisplayMetrics.DENSITY_MEDIUM:
+                // MDPI
+                if (sizeResolution >= 2) {
+                    index = 1;
+                    imageOptimize.url = dataResolution.get(index).getUrl();
+                    imageOptimize.width = dataResolution.get(index).getWidth();
+                    imageOptimize.height = dataResolution.get(index).getHeight();
+                    optimizeArrayList.add(imageOptimize);
+                    return optimizeArrayList;
+                }
+
+
+            case DisplayMetrics.DENSITY_LOW:
+                if (sizeResolution >= 1) {
+                    index = 0;
+                    imageOptimize.url = dataResolution.get(index).getUrl();
+                    imageOptimize.width = dataResolution.get(index).getWidth();
+                    imageOptimize.height = dataResolution.get(index).getHeight();
+                    optimizeArrayList.add(imageOptimize);
+                    return optimizeArrayList;
+                }
+
+
+            default:
+
+                imageOptimize.url = dataSource.getUrl();
+                imageOptimize.width = dataSource.getWidth();
+                imageOptimize.height = dataSource.getHeight();
+                optimizeArrayList.add(imageOptimize);
+                return optimizeArrayList;
+        }
     }
 
 
