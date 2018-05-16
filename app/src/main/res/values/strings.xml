@@ -148,6 +148,7 @@
     <string name="text_icon_description">icon link description</string>
     <string name="manage_stars_description">enable subreddit link</string>
     <string name="title_menu_restore">restore</string>
+    <string name="error_video">Error Video</string>
 
 
 </resources>

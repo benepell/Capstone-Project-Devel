@@ -113,4 +113,11 @@ public interface Costants {
     String MORE_SPACE = "\u202F\u202F\u202F";
 
     int DEFAULT_SUBREDDIT_VISIBLE = 1;
+
+    int EXO_PROGRESSBAR_DELAY = 200;
+
+    String EXO_PLAYER_MANAGER_TAG = "info.pelleritoudacity.android.rcapstone.exo.player.tag.subreddit";
+
+
+
 }

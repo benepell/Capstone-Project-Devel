@@ -239,6 +239,21 @@ class DbHelper extends SQLiteOpenHelper {
                         Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_WIDTH + " INTEGER DEFAULT 0, " +
                         Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_HEIGHT + " INTEGER DEFAULT 0, " +
 
+                        Contract.T3dataEntry.COLUMN_NAME_PREVIEW_VIDEO_HLS_URL + " TEXT, " +
+                        Contract.T3dataEntry.COLUMN_NAME_PREVIEW_VIDEO_DASH_URL + " TEXT, " +
+                        Contract.T3dataEntry.COLUMN_NAME_PREVIEW_VIDEO_SCRUBBER_MEDIA_URL + " TEXT, " +
+                        Contract.T3dataEntry.COLUMN_NAME_PREVIEW_VIDEO_FALLBACK_URL + " TEXT, " +
+                        Contract.T3dataEntry.COLUMN_NAME_PREVIEW_VIDEO_TRANSCODING_STATUS + " TEXT, " +
+                        Contract.T3dataEntry.COLUMN_NAME_PREVIEW_VIDEO_DURATION + " INTEGER DEFAULT 0, " +
+                        Contract.T3dataEntry.COLUMN_NAME_PREVIEW_VIDEO_WIDTH + " INTEGER DEFAULT 0, " +
+                        Contract.T3dataEntry.COLUMN_NAME_PREVIEW_VIDEO_HEIGHT + " INTEGER DEFAULT 0, " +
+                        Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IS_VIDEO_GIF + " INTEGER DEFAULT 0, " +
+
+                        Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_URL + " TEXT, " +
+                        Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_WIDTH + " INTEGER DEFAULT 0, " +
+                        Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_HEIGHT + " INTEGER DEFAULT 0, " +
+
+
                         " FOREIGN KEY (" + Contract.T3dataEntry.COLUMN_NAME_CHILDREN_ID + ") REFERENCES " +
                         Contract.DataEntry.TABLE_NAME + "(" + Contract.DataEntry._ID + ")" +
                         ");";
@@ -268,13 +283,13 @@ class DbHelper extends SQLiteOpenHelper {
     @Override
     public synchronized void close() {
         super.close();
-        Log.d("DbHelper","DATABASE close");
+        Log.d("DbHelper", "DATABASE close");
 
     }
 
     @Override
     public void onOpen(SQLiteDatabase db) {
         super.onOpen(db);
-        Log.d("DbHelper","DATABASE open");
+        Log.d("DbHelper", "DATABASE open");
     }
 }

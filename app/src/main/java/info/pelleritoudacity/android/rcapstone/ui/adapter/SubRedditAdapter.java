@@ -17,9 +17,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -90,8 +92,6 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         holder.mTextViewCreatedUtc.setText(strDiffCurrentUtc);
 
         if(!TextUtils.isEmpty(imagePreviewUrl)){
-
-            Timber.d("imageurl %s",imagePreviewUrl);
 
             Glide.with(holder.itemView.getContext().getApplicationContext())
                     .asBitmap()

@@ -14,9 +14,13 @@ public class Preview implements Parcelable
     @SerializedName("images")
     @Expose
     private List<Image> images = null;
+    @SerializedName("reddit_video_preview")
+    @Expose
+    private RedditVideoPreview redditVideoPreview;
     @SerializedName("enabled")
     @Expose
     private Boolean enabled;
+
     public final static Parcelable.Creator<Preview> CREATOR = new Creator<Preview>() {
 
 
@@ -37,6 +41,7 @@ public class Preview implements Parcelable
     protected Preview(Parcel in) {
         in.readList(this.images, (Image.class.getClassLoader()));
         this.enabled = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
+        this.redditVideoPreview = ((RedditVideoPreview) in.readValue((RedditVideoPreview.class.getClassLoader())));
     }
 
     public Preview() {
@@ -50,6 +55,14 @@ public class Preview implements Parcelable
         this.images = images;
     }
 
+    public RedditVideoPreview getRedditVideoPreview() {
+        return redditVideoPreview;
+    }
+
+    public void setRedditVideoPreview(RedditVideoPreview redditVideoPreview) {
+        this.redditVideoPreview = redditVideoPreview;
+    }
+
     public Boolean getEnabled() {
         return enabled;
     }
@@ -60,6 +73,7 @@ public class Preview implements Parcelable
 
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeList(images);
+        dest.writeValue(redditVideoPreview);
         dest.writeValue(enabled);
     }
 

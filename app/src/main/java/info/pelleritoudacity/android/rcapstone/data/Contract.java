@@ -275,11 +275,24 @@ public class Contract {
         public static final String COLUMN_NAME_IS_VIDEO = "_is_video";
         public static final String COLUMN_NAME_DISTINGUISHED = "_distinguished";
         public static final String COLUMN_NAME_CHILDREN_ID = "_children_id";
+
         public static final String COLUMN_NAME_PREVIEW_IMAGE_SOURCE_URL = "_preview_image_source_url";
         public static final String COLUMN_NAME_PREVIEW_IMAGE_SOURCE_WIDTH = "_preview_image_source_width";
         public static final String COLUMN_NAME_PREVIEW_IMAGE_SOURCE_HEIGHT = "_preview_image_source_height";
 
+        public static final String COLUMN_NAME_PREVIEW_VIDEO_HLS_URL = "_preview_video_hls_url";
+        public static final String COLUMN_NAME_PREVIEW_VIDEO_DASH_URL = "_preview_video_dash_url";
+        public static final String COLUMN_NAME_PREVIEW_VIDEO_SCRUBBER_MEDIA_URL = "_preview_video_scrubber_media_url";
+        public static final String COLUMN_NAME_PREVIEW_VIDEO_FALLBACK_URL = "_preview_video_fallback_url";
+        public static final String COLUMN_NAME_PREVIEW_VIDEO_TRANSCODING_STATUS = "_preview_video_transcoding_status";
+        public static final String COLUMN_NAME_PREVIEW_VIDEO_DURATION = "_preview_video_duration";
+        public static final String COLUMN_NAME_PREVIEW_VIDEO_WIDTH = "_preview_video_width";
+        public static final String COLUMN_NAME_PREVIEW_VIDEO_HEIGHT = "_preview_video_height";
+        public static final String COLUMN_NAME_PREVIEW_IS_VIDEO_GIF = "_is_video_gif";
 
+        public static final String COLUMN_NAME_VARIANT_VIDEO_URL = "_variant_is_video_gif";
+        public static final String COLUMN_NAME_VARIANT_VIDEO_WIDTH = "_variant_video_width";
+        public static final String COLUMN_NAME_VARIANT_VIDEO_HEIGHT = "_variant_video_height";
 
 
         public static final String COLUMN_NAME_TIME_LAST_MODIFIED = "_time_last_modified";

@@ -39,14 +39,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import info.pelleritoudacity.android.rcapstone.R;
+import info.pelleritoudacity.android.rcapstone.model.Mp4;
+import info.pelleritoudacity.android.rcapstone.model.RedditVideoPreview;
 import info.pelleritoudacity.android.rcapstone.model.Resolution;
+import info.pelleritoudacity.android.rcapstone.model.ResolutionMp4;
 import info.pelleritoudacity.android.rcapstone.model.Source;
+import info.pelleritoudacity.android.rcapstone.model.SourceMp4;
 import info.pelleritoudacity.android.rcapstone.model.T3;
 import info.pelleritoudacity.android.rcapstone.model.T3Data;
 import info.pelleritoudacity.android.rcapstone.model.T3Listing;
 import info.pelleritoudacity.android.rcapstone.model.T5;
 import info.pelleritoudacity.android.rcapstone.model.T5Data;
 import info.pelleritoudacity.android.rcapstone.model.T5Listing;
+import info.pelleritoudacity.android.rcapstone.model.Variants;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
@@ -625,7 +630,6 @@ public class DataUtils {
                     //noinspection CollectionAddAllCanBeReplacedWithConstructor
                     imageOptimizeArrayList.addAll(showThumbnailImagesContent(mContext, t3Model, true));
 
-
                     String previewUrl = imageOptimizeArrayList.get(0).url;
                     int previewWidth = imageOptimizeArrayList.get(0).width;
                     int previewHeight = imageOptimizeArrayList.get(0).height;
@@ -639,6 +643,88 @@ public class DataUtils {
 
                     putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_HEIGHT,
                             previewHeight);
+
+
+                    RedditVideoPreview redditVideoPreview = t3Model.getPreview().getRedditVideoPreview();
+
+                    String videoHlsUrl = null;
+                    String videoDashUrl = null;
+                    String videoScrubberMediaUrl = null;
+                    String videoFallbackUrl = null;
+                    String videoTranscodingStatus = null;
+                    int videoDuration = 0;
+                    int videoWidth = 0;
+                    int videoHeight = 0;
+                    boolean isVideoGif;
+                    if (redditVideoPreview != null) {
+                        videoHlsUrl = redditVideoPreview.getHlsUrl();
+                        videoDashUrl = redditVideoPreview.getDashUrl();
+                        videoScrubberMediaUrl = redditVideoPreview.getScrubberMediaUrl();
+                        videoFallbackUrl = redditVideoPreview.getFallbackUrl();
+                        videoTranscodingStatus = redditVideoPreview.getTranscodingStatus();
+                        videoDuration = redditVideoPreview.getDuration();
+                        videoWidth = redditVideoPreview.getHeight();
+                        videoHeight = redditVideoPreview.getWidth();
+                        isVideoGif = redditVideoPreview.getIsGif();
+
+                        putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_PREVIEW_VIDEO_HLS_URL,
+                                videoHlsUrl);
+
+                        putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_PREVIEW_VIDEO_DASH_URL,
+                                videoDashUrl);
+
+                        putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_PREVIEW_VIDEO_SCRUBBER_MEDIA_URL,
+                                videoScrubberMediaUrl);
+
+                        putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_PREVIEW_VIDEO_FALLBACK_URL,
+                                videoFallbackUrl);
+
+                        putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_PREVIEW_VIDEO_TRANSCODING_STATUS,
+                                videoTranscodingStatus);
+
+                        putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_PREVIEW_VIDEO_DURATION,
+                                videoDuration);
+
+                        putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_PREVIEW_VIDEO_WIDTH,
+                                videoWidth);
+
+                        putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_PREVIEW_VIDEO_HEIGHT,
+                                videoHeight);
+
+                        putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IS_VIDEO_GIF,
+                                isVideoGif);
+
+
+                    }
+
+                    Variants variants = t3Model.getPreview().getImages().get(0).getVariants();
+
+                    if (variants != null) {
+//                        variants.getMp4()
+
+                        ArrayList<VideoOptimize> videoOptimizeArrayList = new ArrayList<>();
+                        //noinspection CollectionAddAllCanBeReplacedWithConstructor
+                        ArrayList<VideoOptimize> arrayList = showVideosContent(mContext, t3Model, true);
+                        if (arrayList != null) {
+                            videoOptimizeArrayList.add(arrayList.get(0));
+
+                            String videoMp4Url = videoOptimizeArrayList.get(0).url;
+                            int videoMp4Width = videoOptimizeArrayList.get(0).width;
+                            int videoMp4Height = videoOptimizeArrayList.get(0).height;
+
+                            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_URL,
+                                    videoMp4Url);
+
+                            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_WIDTH,
+                                    videoMp4Width);
+
+                            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_HEIGHT,
+                                    videoMp4Height);
+
+
+                        }
+                    }
+
                 }
 
             }
@@ -763,6 +849,133 @@ public class DataUtils {
                 optimizeArrayList.add(imageOptimize);
                 return optimizeArrayList;
         }
+    }
+
+    private ArrayList<VideoOptimize> showVideosContent(Context context, T3Data t3DataChild, @SuppressWarnings("SameParameterValue") boolean originalSize) {
+
+        int sizeResolution = 0;
+        ArrayList<VideoOptimize> optimizeArrayList;
+        VideoOptimize videoOptimize;
+
+        if ((context == null) || (t3DataChild == null) || (t3DataChild.getPreview() == null)) {
+            return null;
+        }
+
+        int densityDpi = context.getResources().getDisplayMetrics().densityDpi;
+
+
+        if ((t3DataChild.getPreview().getImages() != null) && (!originalSize)) {
+
+            sizeResolution = t3DataChild.getPreview().getImages().get(0).getVariants().getMp4().getResolutions().size();
+
+        }
+
+        optimizeArrayList = new ArrayList<>(1);
+        videoOptimize = new VideoOptimize();
+
+
+        Variants variants = t3DataChild.getPreview().getImages().get(0).getVariants();
+        Mp4 mp4 = null;
+
+        if (variants != null) {
+            mp4 = t3DataChild.getPreview().getImages().get(0).getVariants().getMp4();
+        }
+
+        List<ResolutionMp4> dataResolutionMp4s = null;
+        SourceMp4 dataSourceMp4;
+        if (mp4 != null) {
+
+            dataResolutionMp4s = mp4.getResolutions();
+            dataSourceMp4 = mp4.getSource();
+
+            int index;
+            switch (densityDpi) {
+                case DisplayMetrics.DENSITY_XXXHIGH:
+                case DisplayMetrics.DENSITY_560:
+                    // XXXHDPI
+                    if (sizeResolution >= 6) {
+                        index = 5;
+                        videoOptimize.url = dataResolutionMp4s.get(index).getUrl();
+                        videoOptimize.width = dataResolutionMp4s.get(index).getWidth();
+                        videoOptimize.height = dataResolutionMp4s.get(index).getHeight();
+                        optimizeArrayList.add(videoOptimize);
+                        return optimizeArrayList;
+                    }
+
+                case DisplayMetrics.DENSITY_XXHIGH:
+                case DisplayMetrics.DENSITY_360:
+                case DisplayMetrics.DENSITY_400:
+                case DisplayMetrics.DENSITY_420:
+                    // XXHDPI
+                    if (sizeResolution >= 5) {
+                        index = 4;
+                        videoOptimize.url = dataResolutionMp4s.get(index).getUrl();
+                        videoOptimize.width = dataResolutionMp4s.get(index).getWidth();
+                        videoOptimize.height = dataResolutionMp4s.get(index).getHeight();
+                        optimizeArrayList.add(videoOptimize);
+                        return optimizeArrayList;
+                    }
+
+
+                case DisplayMetrics.DENSITY_XHIGH:
+                case DisplayMetrics.DENSITY_280:
+                    // XHDPI
+                    if (sizeResolution >= 4) {
+                        index = 3;
+                        videoOptimize.url = dataResolutionMp4s.get(index).getUrl();
+                        videoOptimize.width = dataResolutionMp4s.get(index).getWidth();
+                        videoOptimize.height = dataResolutionMp4s.get(index).getHeight();
+                        optimizeArrayList.add(videoOptimize);
+                        return optimizeArrayList;
+                    }
+
+
+                case DisplayMetrics.DENSITY_TV:
+                case DisplayMetrics.DENSITY_HIGH:
+                    // HDPI
+                    if (sizeResolution >= 3) {
+                        index = 2;
+                        videoOptimize.url = dataResolutionMp4s.get(index).getUrl();
+                        videoOptimize.width = dataResolutionMp4s.get(index).getWidth();
+                        videoOptimize.height = dataResolutionMp4s.get(index).getHeight();
+                        optimizeArrayList.add(videoOptimize);
+                        return optimizeArrayList;
+                    }
+
+
+                case DisplayMetrics.DENSITY_MEDIUM:
+                    // MDPI
+                    if (sizeResolution >= 2) {
+                        index = 1;
+                        videoOptimize.url = dataResolutionMp4s.get(index).getUrl();
+                        videoOptimize.width = dataResolutionMp4s.get(index).getWidth();
+                        videoOptimize.height = dataResolutionMp4s.get(index).getHeight();
+                        optimizeArrayList.add(videoOptimize);
+                        return optimizeArrayList;
+                    }
+
+
+                case DisplayMetrics.DENSITY_LOW:
+                    if (sizeResolution >= 1) {
+                        index = 0;
+                        videoOptimize.url = dataResolutionMp4s.get(index).getUrl();
+                        videoOptimize.width = dataResolutionMp4s.get(index).getWidth();
+                        videoOptimize.height = dataResolutionMp4s.get(index).getHeight();
+                        optimizeArrayList.add(videoOptimize);
+                        return optimizeArrayList;
+                    }
+
+
+                default:
+
+                    videoOptimize.url = dataSourceMp4.getUrl();
+                    videoOptimize.width = dataSourceMp4.getWidth();
+                    videoOptimize.height = dataSourceMp4.getHeight();
+                    optimizeArrayList.add(videoOptimize);
+                    return optimizeArrayList;
+            }
+        }
+        return null;
     }
 
 
