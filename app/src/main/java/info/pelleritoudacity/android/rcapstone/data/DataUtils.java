@@ -31,17 +31,14 @@ package info.pelleritoudacity.android.rcapstone.data;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.media.Image;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.model.Preview;
 import info.pelleritoudacity.android.rcapstone.model.Resolution;
 import info.pelleritoudacity.android.rcapstone.model.Source;
 import info.pelleritoudacity.android.rcapstone.model.T3;
@@ -398,254 +395,251 @@ public class DataUtils {
 
             T3Data t3Model = subReddits.getData().getChildren().get(i).getData();
 
-            /*if(subReddits.getData().getChildren().get(i).getData().getPreview()!=null){
-                Timber.d("preview NOT NULL");
-            }else {
-                Timber.d("preview " + subReddits.getData().getChildren().get(i).getData().getPermalink());
-            }
-*/
-
             dataCV.put(Contract.DataEntry.COLUMN_NAME_CHILDRENS, childrenId);
 
             arrT3CV[i] = new ContentValues();
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_IS_CROSSPOSTABLE,
-                    Utility.boolToInt(t3Model.getIsCrosspostable()));
+            if (t3Model != null) {
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_ID,
-                    t3Model.getSubredditId());
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_APPROVED_AT_UTC,
-                    t3Model.getApprovedAtUtc());
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_IS_CROSSPOSTABLE,
+                        Utility.boolToInt(t3Model.getIsCrosspostable()));
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_WLS,
-                    t3Model.getWls());
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_ID,
+                        t3Model.getSubredditId());
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_MOD_REASON_BY,
-                    t3Model.getModReasonBy());
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_APPROVED_AT_UTC,
+                        t3Model.getApprovedAtUtc());
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_BANNED_BY,
-                    t3Model.getBannedBy());
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_WLS,
+                        t3Model.getWls());
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_NUM_REPORTS,
-                    t3Model.getNumReports());
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_MOD_REASON_BY,
+                        t3Model.getModReasonBy());
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_REMOVAL_REASON,
-                    t3Model.getRemovalReason());
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_BANNED_BY,
+                        t3Model.getBannedBy());
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_THUMBNAIL_WIDTH,
-                    t3Model.getThumbnailWidth());
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_NUM_REPORTS,
+                        t3Model.getNumReports());
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT,
-                    t3Model.getSubreddit());
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_REMOVAL_REASON,
+                        t3Model.getRemovalReason());
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SELFTEXT_HTML,
-                    t3Model.getSelftextHtml());
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_THUMBNAIL_WIDTH,
+                        t3Model.getThumbnailWidth());
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SELFTEXT,
-                    t3Model.getSelftext());
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT,
+                        t3Model.getSubreddit());
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_LIKES,
-                    t3Model.getLikes());
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SELFTEXT_HTML,
+                        t3Model.getSelftextHtml());
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SUGGESTED_SORT,
-                    t3Model.getSuggestedSort());
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SELFTEXT,
+                        t3Model.getSelftext());
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SECURE_MEDIA,
-                    t3Model.getSecureMedia());
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_LIKES,
+                        t3Model.getLikes());
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_IS_REDDIT_MEDIA_DOMAIN,
-                    Utility.boolToInt(t3Model.getIsRedditMediaDomain()));
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SUGGESTED_SORT,
+                        t3Model.getSuggestedSort());
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_SAVED,
-                    Utility.boolToInt(t3Model.getSaved()));
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SECURE_MEDIA,
+                        t3Model.getSecureMedia());
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_CHILDREN_ID,
-                    childrenId);
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_IS_REDDIT_MEDIA_DOMAIN,
+                        Utility.boolToInt(t3Model.getIsRedditMediaDomain()));
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_ID,
-                    t3Model.getId());
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_SAVED,
+                        Utility.boolToInt(t3Model.getSaved()));
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_BANNED_AT_UTC,
-                    t3Model.getBannedAtUtc());
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_CHILDREN_ID,
+                        childrenId);
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_MOD_REASON_TITLE,
-                    t3Model.getModReasonTitle());
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_ID,
+                        t3Model.getId());
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_VIEW_COUNT,
-                    t3Model.getViewCount());
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_BANNED_AT_UTC,
+                        t3Model.getBannedAtUtc());
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_ARCHIVED,
-                    Utility.boolToInt(t3Model.getArchived()));
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_MOD_REASON_TITLE,
+                        t3Model.getModReasonTitle());
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_CLICKED,
-                    Utility.boolToInt(t3Model.getClicked()));
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_VIEW_COUNT,
+                        t3Model.getViewCount());
 
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_ARCHIVED,
+                        Utility.boolToInt(t3Model.getArchived()));
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_NO_FOLLOW,
-                    Utility.boolToInt(t3Model.getNoFollow()));
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_CLICKED,
+                        Utility.boolToInt(t3Model.getClicked()));
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_AUTHOR,
-                    t3Model.getAuthor());
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_NUM_CROSSPOSTS,
-                    t3Model.getNumCrossposts());
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_NO_FOLLOW,
+                        Utility.boolToInt(t3Model.getNoFollow()));
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_LINK_FLAIR_TEXT,
-                    t3Model.getLinkFlairText());
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_AUTHOR,
+                        t3Model.getAuthor());
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_CAN_MOD_POST,
-                    Utility.boolToInt(t3Model.getCanModPost()));
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_NUM_CROSSPOSTS,
+                        t3Model.getNumCrossposts());
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_SEND_REPLIES,
-                    Utility.boolToInt(t3Model.getSendReplies()));
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_LINK_FLAIR_TEXT,
+                        t3Model.getLinkFlairText());
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_PINNED,
-                    Utility.boolToInt(t3Model.getPinned()));
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_CAN_MOD_POST,
+                        Utility.boolToInt(t3Model.getCanModPost()));
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_SCORE,
-                    t3Model.getScore());
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_SEND_REPLIES,
+                        Utility.boolToInt(t3Model.getSendReplies()));
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_APPROVED_BY,
-                    t3Model.getApprovedBy());
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_PINNED,
+                        Utility.boolToInt(t3Model.getPinned()));
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_OVER_18,
-                    t3Model.getOver18());
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_SCORE,
+                        t3Model.getScore());
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_REPORT_REASONS,
-                    t3Model.getReportReasons());
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_APPROVED_BY,
+                        t3Model.getApprovedBy());
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_DOMAIN,
-                    t3Model.getDomain());
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_OVER_18,
+                        t3Model.getOver18());
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_HIDDEN,
-                    Utility.boolToInt(t3Model.getHidden()));
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_REPORT_REASONS,
+                        t3Model.getReportReasons());
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_PWLS,
-                    t3Model.getPwls());
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_DOMAIN,
+                        t3Model.getDomain());
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_THUMBNAIL,
-                    t3Model.getThumbnail());
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_HIDDEN,
+                        Utility.boolToInt(t3Model.getHidden()));
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_EDITED,
-                    Utility.toInt(t3Model.getEdited()));
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_PWLS,
+                        t3Model.getPwls());
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_LINK_FLAIR_CSS_CLASS,
-                    t3Model.getLinkFlairCssClass());
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_THUMBNAIL,
+                        t3Model.getThumbnail());
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_AUTHOR_FLAIR_CSS_CLASS,
-                    t3Model.getAuthorFlairCssClass());
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_EDITED,
+                        Utility.toInt(t3Model.getEdited()));
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_CONTEST_MODE,
-                    Utility.boolToInt(t3Model.getContestMode()));
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_LINK_FLAIR_CSS_CLASS,
+                        t3Model.getLinkFlairCssClass());
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_GILDED,
-                    t3Model.getGilded());
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_AUTHOR_FLAIR_CSS_CLASS,
+                        t3Model.getAuthorFlairCssClass());
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_LOCKED,
-                    Utility.boolToInt(t3Model.getLocked()));
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_CONTEST_MODE,
+                        Utility.boolToInt(t3Model.getContestMode()));
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_DOWNS,
-                    t3Model.getDowns());
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_GILDED,
+                        t3Model.getGilded());
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_STICKIED,
-                    Utility.boolToInt(t3Model.getStickied()));
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_LOCKED,
+                        Utility.boolToInt(t3Model.getLocked()));
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_VISITED,
-                    Utility.boolToInt(t3Model.getVisited()));
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_DOWNS,
+                        t3Model.getDowns());
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_CAN_GILD,
-                    Utility.boolToInt(t3Model.getCanGild()));
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_STICKIED,
+                        Utility.boolToInt(t3Model.getStickied()));
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_THUMBNAIL_HEIGHT,
-                    t3Model.getThumbnailHeight());
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_VISITED,
+                        Utility.boolToInt(t3Model.getVisited()));
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_NAME,
-                    t3Model.getName());
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_CAN_GILD,
+                        Utility.boolToInt(t3Model.getCanGild()));
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_SPOILER,
-                    Utility.boolToInt(t3Model.getSpoiler()));
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_THUMBNAIL_HEIGHT,
+                        t3Model.getThumbnailHeight());
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_PERMALINK,
-                    t3Model.getPermalink());
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_NAME,
+                        t3Model.getName());
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_TYPE,
-                    t3Model.getSubredditType());
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_SPOILER,
+                        Utility.boolToInt(t3Model.getSpoiler()));
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_PARENT_WHITELIST_STATUS,
-                    t3Model.getParentWhitelistStatus());
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_PERMALINK,
+                        t3Model.getPermalink());
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_HIDE_SCORE,
-                    Utility.boolToInt(t3Model.getHideScore()));
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_TYPE,
+                        t3Model.getSubredditType());
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_CREATED,
-                    t3Model.getCreated());
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_PARENT_WHITELIST_STATUS,
+                        t3Model.getParentWhitelistStatus());
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_AUTHOR_FLAIR_TEXT,
-                    t3Model.getAuthorFlairText());
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_HIDE_SCORE,
+                        Utility.boolToInt(t3Model.getHideScore()));
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_QUARANTINE,
-                    Utility.boolToInt(t3Model.getQuarantine()));
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_CREATED,
+                        t3Model.getCreated());
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_TITLE,
-                    t3Model.getTitle());
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_AUTHOR_FLAIR_TEXT,
+                        t3Model.getAuthorFlairText());
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_CREATED_UTC,
-                    t3Model.getCreatedUtc());
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_QUARANTINE,
+                        Utility.boolToInt(t3Model.getQuarantine()));
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_NAME_PREFIXE,
-                    t3Model.getSubredditNamePrefixed());
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_TITLE,
+                        t3Model.getTitle());
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_UPS,
-                    t3Model.getUps());
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_CREATED_UTC,
+                        t3Model.getCreatedUtc());
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_NUM_COMMENTS,
-                    t3Model.getNumComments());
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_NAME_PREFIXE,
+                        t3Model.getSubredditNamePrefixed());
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_MEDIA,
-                    t3Model.getMedia());
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_UPS,
+                        t3Model.getUps());
 
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_NUM_COMMENTS,
+                        t3Model.getNumComments());
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_IS_SELF,
-                    Utility.boolToInt(t3Model.getIsSelf()));
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_MEDIA,
+                        t3Model.getMedia());
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_WHITELIST_STATUS,
-                    t3Model.getWhitelistStatus());
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_MOD_NOTE,
-                    t3Model.getModNote());
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_IS_SELF,
+                        Utility.boolToInt(t3Model.getIsSelf()));
 
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_WHITELIST_STATUS,
+                        t3Model.getWhitelistStatus());
 
-            arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_IS_VIDEO,
-                    Utility.boolToInt(t3Model.getIsVideo()));
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_MOD_NOTE,
+                        t3Model.getModNote());
 
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_DISTINGUISHED,
-                    t3Model.getDistinguished());
 
-            String stringCategoryNormalizeSub = Utility.normalizeSubRedditLink(t3Model.getSubreddit());
-            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT,
-                    stringCategoryNormalizeSub);
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_IS_VIDEO,
+                        Utility.boolToInt(t3Model.getIsVideo()));
 
-            if (t3Model.getPreview() != null) {
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_DISTINGUISHED,
+                        t3Model.getDistinguished());
 
-                ArrayList<ImageOptimize> imageOptimizeArrayList = new ArrayList<>();
-                imageOptimizeArrayList.addAll(showThumbnailImagesContent(mContext, t3Model, true));
+                String stringCategoryNormalizeSub = Utility.normalizeSubRedditLink(t3Model.getSubreddit());
+                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT,
+                        stringCategoryNormalizeSub);
 
+                if (t3Model.getPreview() != null) {
 
-                String previewUrl = imageOptimizeArrayList.get(0).url;
-                int previewWidth = imageOptimizeArrayList.get(0).width;
-                int previewHeight = imageOptimizeArrayList.get(0).height;
+                    ArrayList<ImageOptimize> imageOptimizeArrayList = new ArrayList<>();
+                    //noinspection CollectionAddAllCanBeReplacedWithConstructor
+                    imageOptimizeArrayList.addAll(showThumbnailImagesContent(mContext, t3Model, true));
 
 
-                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_URL,
-                        previewUrl);
+                    String previewUrl = imageOptimizeArrayList.get(0).url;
+                    int previewWidth = imageOptimizeArrayList.get(0).width;
+                    int previewHeight = imageOptimizeArrayList.get(0).height;
 
-                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_WIDTH,
-                        previewWidth);
 
-                putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_HEIGHT,
-                        previewHeight);
+                    putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_URL,
+                            previewUrl);
 
+                    putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_WIDTH,
+                            previewWidth);
+
+                    putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_HEIGHT,
+                            previewHeight);
+                }
 
             }
 
@@ -659,13 +653,13 @@ public class DataUtils {
     }
 
 
-    private ArrayList<ImageOptimize> showThumbnailImagesContent(Context context, T3Data t3DataChild, boolean originalSize) {
+    private ArrayList<ImageOptimize> showThumbnailImagesContent(Context context, T3Data t3DataChild, @SuppressWarnings("SameParameterValue") boolean originalSize) {
 
         int sizeResolution = 0;
         ArrayList<ImageOptimize> optimizeArrayList;
         ImageOptimize imageOptimize;
 
-        if ((context == null) && (t3DataChild == null) && (t3DataChild.getPreview() == null)) {
+        if ((context == null) || (t3DataChild == null) || (t3DataChild.getPreview() == null)) {
             return null;
         }
 
@@ -842,11 +836,10 @@ public class DataUtils {
     }
 
 
-    public void deleteCategory(String contractPath, String category) {
+    public boolean deleteCategory(String contractPath, String category) {
         String where;
         Uri uri;
         String[] selectionArgs = {category};
-        int count = 0;
 
         switch (contractPath) {
 
@@ -866,11 +859,7 @@ public class DataUtils {
                 where = null;
         }
 
-        if (uri != null) {
-
-            count = mContext.getContentResolver().delete(uri,
-                    where, selectionArgs);
-        }
+        return uri != null && mContext.getContentResolver().delete(uri, where, selectionArgs) > 0;
 
     }
 
