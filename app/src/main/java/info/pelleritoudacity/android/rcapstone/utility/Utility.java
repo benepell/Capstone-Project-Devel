@@ -269,23 +269,17 @@ public class Utility {
 
             DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
 
-            float density  = context.getResources().getDisplayMetrics().density;
             float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
             float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
 
-            if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-                if ((dpWidth*0.3)>dpW) return true;
+            if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                if ((dpWidth * 0.3) > dpW) return true;
 
-            }else {
-                if ((dpHeight*0.5)>dpH) return true;
+            } else {
+                if ((dpHeight * 0.3) > dpH) return true;
 
             }
-
-
-
         }
-
-
         return false;
     }
 }
