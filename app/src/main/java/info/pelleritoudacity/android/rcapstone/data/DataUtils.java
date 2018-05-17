@@ -627,8 +627,14 @@ public class DataUtils {
                 if (t3Model.getPreview() != null) {
 
                     ArrayList<ImageOptimize> imageOptimizeArrayList = new ArrayList<>();
-                    //noinspection CollectionAddAllCanBeReplacedWithConstructor
-                    imageOptimizeArrayList.addAll(showThumbnailImagesContent(mContext, t3Model, false));
+
+                    boolean isOriginalSizeImage = PrefManager.isGeneralSettings(mContext,mContext.getString(R.string.pref_original_size_image) );
+
+                    ArrayList<ImageOptimize> optimizeArrayList = showThumbnailImagesContent(mContext, t3Model, isOriginalSizeImage);
+
+                    if (optimizeArrayList != null) {
+                        imageOptimizeArrayList.add(optimizeArrayList.get(0));
+                    }
 
                     String previewUrl = imageOptimizeArrayList.get(0).url;
                     int previewWidth = imageOptimizeArrayList.get(0).width;
@@ -647,14 +653,14 @@ public class DataUtils {
 
                     RedditVideoPreview redditVideoPreview = t3Model.getPreview().getRedditVideoPreview();
 
-                    String videoHlsUrl = null;
-                    String videoDashUrl = null;
-                    String videoScrubberMediaUrl = null;
-                    String videoFallbackUrl = null;
-                    String videoTranscodingStatus = null;
-                    int videoDuration = 0;
-                    int videoWidth = 0;
-                    int videoHeight = 0;
+                    String videoHlsUrl;
+                    String videoDashUrl;
+                    String videoScrubberMediaUrl;
+                    String videoFallbackUrl;
+                    String videoTranscodingStatus;
+                    int videoDuration;
+                    int videoWidth;
+                    int videoHeight;
                     boolean isVideoGif;
                     if (redditVideoPreview != null) {
                         videoHlsUrl = redditVideoPreview.getHlsUrl();
@@ -881,7 +887,7 @@ public class DataUtils {
             mp4 = t3DataChild.getPreview().getImages().get(0).getVariants().getMp4();
         }
 
-        List<ResolutionMp4> dataResolutionMp4s = null;
+        List<ResolutionMp4> dataResolutionMp4s;
         SourceMp4 dataSourceMp4;
         if (mp4 != null) {
 

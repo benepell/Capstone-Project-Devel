@@ -63,9 +63,9 @@
     <string name="title_adult_filter">Adult Filter</string>
     <string name="summary_adult_filter">Prevent access to certain items, search for gifs and count the number of results marked age +18.</string>
 
-    <string name="pref_rendering_video" translatable="false">info.pelleritoudacity.android.rcapstone.pref_resume_video</string>
-    <string name="title_rendering_video">Video Rendering</string>
-    <string name="summary_rendering_video">Allow use of extension renderers.</string>
+    <string name="pref_original_size_image" translatable="false">info.pelleritoudacity.android.rcapstone.pref.original.size.image</string>
+    <string name="title_original_size_image">Upload HD Photos</string>
+    <string name="summary_original_size_image">Enabled high definition image.</string>
 
     <string name="pref_sync_frequency" translatable="false">info.pelleritoudacity.android.rcapstonepref_sync_frequency</string>
     <string name="pref_title_sync_frequency" translatable="false">Sync Data</string>

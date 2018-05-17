@@ -26,6 +26,7 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
+import timber.log.Timber;
 
 public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubRedditHolder> {
 
@@ -85,7 +86,6 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         holder.mTextViewCreatedUtc.setText(strDiffCurrentUtc);
 
         if(!TextUtils.isEmpty(imagePreviewUrl)){
-
 
             Glide.with(holder.itemView.getContext().getApplicationContext())
                     .asBitmap()
