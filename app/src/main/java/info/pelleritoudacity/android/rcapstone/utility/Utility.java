@@ -39,6 +39,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.view.Display;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -259,4 +261,31 @@ public class Utility {
         }
     }
 
+
+    public static boolean isSmallImage(Context context, int widthPixel, int heightPixel) {
+        if ((context != null) || (widthPixel != 0) || (heightPixel != 0)) {
+            int dpW = widthPixel / (int) context.getResources().getDisplayMetrics().density;
+            int dpH = heightPixel / (int) context.getResources().getDisplayMetrics().density;
+
+            DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+
+            float density  = context.getResources().getDisplayMetrics().density;
+            float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+            float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+
+            if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+                if ((dpWidth*0.3)>dpW) return true;
+
+            }else {
+                if ((dpHeight*0.5)>dpH) return true;
+
+            }
+
+
+
+        }
+
+
+        return false;
+    }
 }

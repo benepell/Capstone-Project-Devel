@@ -76,21 +76,21 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         int hourCurrentUtc = Utility.getHourCurrentCreatedUtc(createdUtc);
         String strDiffCurrentUtc;
 
-        if(hourCurrentUtc<24){
-            if(hourCurrentUtc<1) hourCurrentUtc = 1;
-            strDiffCurrentUtc = String.valueOf(hourCurrentUtc)+ " " + mContext.getString(R.string.abbr_hour_text);
-        }else {
-            strDiffCurrentUtc = String.valueOf(Math.round(hourCurrentUtc/24))+ " " + mContext.getString(R.string.abbr_day_text);
+        if (hourCurrentUtc < 24) {
+            if (hourCurrentUtc < 1) hourCurrentUtc = 1;
+            strDiffCurrentUtc = String.valueOf(hourCurrentUtc) + " " + mContext.getString(R.string.abbr_hour_text);
+        } else {
+            strDiffCurrentUtc = String.valueOf(Math.round(hourCurrentUtc / 24)) + " " + mContext.getString(R.string.abbr_day_text);
         }
 
         holder.mTextViewCreatedUtc.setText(strDiffCurrentUtc);
 
-        if(!TextUtils.isEmpty(imagePreviewUrl)){
+        if (!TextUtils.isEmpty(imagePreviewUrl)) {
 
             Glide.with(holder.itemView.getContext().getApplicationContext())
                     .asBitmap()
-                    .load(Utility.textFromHtml(imagePreviewUrl) )
-                    .into(new SimpleTarget<Bitmap>(imagePreviewWidth,imagePreviewHeight) {
+                    .load(Utility.textFromHtml(imagePreviewUrl))
+                    .into(new SimpleTarget<Bitmap>(imagePreviewWidth, imagePreviewHeight) {
                         @Override
                         public void onLoadFailed(@Nullable Drawable errorDrawable) {
                             super.onLoadFailed(errorDrawable);
@@ -105,32 +105,28 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
                         @Override
                         public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                            holder.mImageViewSubReddit.setImageBitmap(resource);
+                            if (Utility.isSmallImage(mContext,imagePreviewWidth,imagePreviewHeight)) {
+                                holder.mImageViewSubRedditSmall.setImageBitmap(resource);
+                            } else {
+                                holder.mImageViewSubReddit.setImageBitmap(resource);
+                            }
+
                         }
                     });
 
-            holder.mImageViewSubReddit.setVisibility(View.VISIBLE);
+            if (Utility.isSmallImage(mContext,imagePreviewWidth,imagePreviewHeight)) {
+                holder.mImageViewSubReddit.setVisibility(View.GONE);
+                holder.mImageViewSubRedditSmall.setVisibility(View.VISIBLE);
+            } else {
+                holder.mImageViewSubRedditSmall.setVisibility(View.GONE);
+                holder.mImageViewSubReddit.setVisibility(View.VISIBLE);
 
-        }else {
+            }
+
+        } else {
+            holder.mImageViewSubRedditSmall.setVisibility(View.GONE);
             holder.mImageViewSubReddit.setVisibility(View.GONE);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         holder.mTextViewTitle.setText(title);
         holder.mTextViewSubReddit.setText(subReddit);
@@ -154,8 +150,13 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         TextView mTextViewTitle;
 
         @SuppressWarnings("unused")
+        @BindView(R.id.img_subreddit_small)
+        ImageView mImageViewSubRedditSmall;
+
+        @SuppressWarnings("unused")
         @BindView(R.id.tv_subreddit)
         TextView mTextViewSubReddit;
+
 
         @SuppressWarnings("unused")
         @BindView(R.id.img_subreddit)
@@ -186,7 +187,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
         }
 
-        public void bind(int position){
+        public void bind(int position) {
             mPosition = position;
         }
 
