@@ -37,6 +37,7 @@ import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
+import android.text.Html;
 import android.text.TextUtils;
 
 import java.text.ParseException;
@@ -124,7 +125,7 @@ public class Utility {
         if (Build.VERSION.SDK_INT >= 23) {
             return ctx.getColor(colorResource);
         } else {
-            return ResourcesCompat.getColor(ctx.getResources(),colorResource,ctx.getTheme());
+            return ResourcesCompat.getColor(ctx.getResources(), colorResource, ctx.getTheme());
         }
     }
 
@@ -218,7 +219,7 @@ public class Utility {
         arrayList = Utility.stringToArray(string);
         arrayList.add(e);
         ArrayList<String> arrayListNoDup;
-        arrayListNoDup  = new ArrayList<>((new LinkedHashSet<>(arrayList)));
+        arrayListNoDup = new ArrayList<>((new LinkedHashSet<>(arrayList)));
         string = Utility.arrayToString(arrayListNoDup);
         context.getSharedPreferences(context.getString(R.string.pref_subreddit_key), 0).edit().clear().apply();
         PrefManager.putStringPref(context, R.string.pref_subreddit_key, string);
@@ -229,11 +230,11 @@ public class Utility {
         ArrayList<String> arrayList;
         arrayList = Utility.stringToArray(string);
         arrayList.remove(e);
-        for (String str:arrayList){
-            Timber.d("element: %s",str);
+        for (String str : arrayList) {
+            Timber.d("element: %s", str);
         }
         ArrayList<String> arrayListNoDup;
-        arrayListNoDup  = new ArrayList<>((new LinkedHashSet<>(arrayList)));
+        arrayListNoDup = new ArrayList<>((new LinkedHashSet<>(arrayList)));
         string = Utility.arrayToString(arrayListNoDup);
         context.getSharedPreferences(context.getString(R.string.pref_subreddit_key), 0).edit().clear().apply();
         PrefManager.putStringPref(context, R.string.pref_subreddit_key, string);
@@ -241,9 +242,21 @@ public class Utility {
     }
 
 
-    public static ArrayList<String> removeArrayListDuplicate(ArrayList<String> arrayList){
+    public static ArrayList<String> removeArrayListDuplicate(ArrayList<String> arrayList) {
         ArrayList<String> arrayListNoDup;
-        arrayListNoDup  = new ArrayList<>((new LinkedHashSet<>(arrayList)));
-        return  arrayListNoDup;
+        arrayListNoDup = new ArrayList<>((new LinkedHashSet<>(arrayList)));
+        return arrayListNoDup;
     }
+
+    public static String textFromHtml(String text) {
+
+        if (TextUtils.isEmpty(text)) return "";
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY).toString();
+        } else {
+            return Html.fromHtml(text).toString();
+        }
+    }
+
 }

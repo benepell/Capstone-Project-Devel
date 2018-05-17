@@ -628,7 +628,7 @@ public class DataUtils {
 
                     ArrayList<ImageOptimize> imageOptimizeArrayList = new ArrayList<>();
                     //noinspection CollectionAddAllCanBeReplacedWithConstructor
-                    imageOptimizeArrayList.addAll(showThumbnailImagesContent(mContext, t3Model, true));
+                    imageOptimizeArrayList.addAll(showThumbnailImagesContent(mContext, t3Model, false));
 
                     String previewUrl = imageOptimizeArrayList.get(0).url;
                     int previewWidth = imageOptimizeArrayList.get(0).width;

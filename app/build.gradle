@@ -14,10 +14,10 @@ android {
     }
     buildTypes.each {
         //  REDDIT BASE URL  - url: https://www.reddit.com/prefs/apps/
-        it.buildConfigField 'String', 'REDDIT_CLIENT_ID', '\"gHRoCv5jZXeEBw"'
-        it.buildConfigField 'String', 'REDDIT_SECRET_STATE', '\"https://www.reddit.com/\"'
-        it.buildConfigField 'String', 'REDDIT_ABOUT_URL', '\"rcapstone.android.pelleritoudacity.info"'
-        it.buildConfigField 'String', 'REDDIT_REDIRECT_URL', '\"http://rcapstone.android.pelleritoudacity.info/my_redirect"'
+        it.buildConfigField 'String', 'REDDIT_CLIENT_ID', '\"[CLIENT_ID]"'
+        it.buildConfigField 'String', 'REDDIT_SECRET_STATE', '\"[SECRET_CODE]"'
+        it.buildConfigField 'String', 'REDDIT_ABOUT_URL', '\"[ABOUT_URL]"'
+        it.buildConfigField 'String', 'REDDIT_REDIRECT_URL', '\"[REDIRECT_URL]"'
     }
     buildTypes {
         release {
