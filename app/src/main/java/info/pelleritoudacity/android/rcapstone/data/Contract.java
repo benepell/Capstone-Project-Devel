@@ -290,9 +290,9 @@ public class Contract {
         public static final String COLUMN_NAME_PREVIEW_VIDEO_HEIGHT = "_preview_video_height";
         public static final String COLUMN_NAME_PREVIEW_IS_VIDEO_GIF = "_is_video_gif";
 
-        public static final String COLUMN_NAME_VARIANT_VIDEO_URL = "_variant_is_video_gif";
-        public static final String COLUMN_NAME_VARIANT_VIDEO_WIDTH = "_variant_video_width";
-        public static final String COLUMN_NAME_VARIANT_VIDEO_HEIGHT = "_variant_video_height";
+        public static final String COLUMN_NAME_VARIANT_VIDEO_MP4_URL = "_variant_is_video_mp4_gif";
+        public static final String COLUMN_NAME_VARIANT_VIDEO_MP4_WIDTH = "_variant_video_mp4_width";
+        public static final String COLUMN_NAME_VARIANT_VIDEO_MP4_HEIGHT = "_variant_video_mp4_height";
 
 
         public static final String COLUMN_NAME_TIME_LAST_MODIFIED = "_time_last_modified";

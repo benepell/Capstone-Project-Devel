@@ -26,7 +26,6 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
-import timber.log.Timber;
 
 public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubRedditHolder> {
 
@@ -52,6 +51,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         return new SubRedditHolder(view);
     }
 
+    @Deprecated
     @Override
     public void onBindViewHolder(@NonNull SubRedditHolder holder, int position) {
         mCursor.moveToPosition(position);
@@ -62,16 +62,19 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         String subRedditIdText = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_ID));
         String subReddit = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT));
         int subRedditSubscriptions = mCursor.getInt(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_SUBSCRIBERS));
-
-
         String title = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_TITLE));
-        String imagePreviewUrl = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_URL));
-        int imagePreviewWidth = mCursor.getInt(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_WIDTH));
-        int imagePreviewHeight = mCursor.getInt(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_HEIGHT));
         String domain = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_DOMAIN));
         Long createdUtc = mCursor.getLong(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_CREATED_UTC));
         int score = mCursor.getInt(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SCORE));
         int numComments = mCursor.getInt(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_NUM_COMMENTS));
+
+        String imagePreviewUrl = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_URL));
+        int imagePreviewWidth = mCursor.getInt(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_WIDTH));
+        int imagePreviewHeight = mCursor.getInt(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_HEIGHT));
+
+        String videoPreviewUrl = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_URL));
+        String videoPreviewWidth = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_WIDTH));
+        String videoPreviewHeight = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_HEIGHT));
 
         int hourCurrentUtc = Utility.getHourCurrentCreatedUtc(createdUtc);
         String strDiffCurrentUtc;
@@ -104,8 +107,8 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
                         }
 
                         @Override
-                        public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                            if (Utility.isSmallImage(mContext,imagePreviewWidth,imagePreviewHeight)) {
+                        public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
+                            if (Utility.isSmallImage(mContext, imagePreviewWidth, imagePreviewHeight)) {
                                 holder.mImageViewSubRedditSmall.setImageBitmap(resource);
                             } else {
                                 holder.mImageViewSubReddit.setImageBitmap(resource);
@@ -114,7 +117,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
                         }
                     });
 
-            if (Utility.isSmallImage(mContext,imagePreviewWidth,imagePreviewHeight)) {
+            if (Utility.isSmallImage(mContext, imagePreviewWidth, imagePreviewHeight)) {
                 holder.mImageViewSubReddit.setVisibility(View.GONE);
                 holder.mImageViewSubRedditSmall.setVisibility(View.VISIBLE);
             } else {

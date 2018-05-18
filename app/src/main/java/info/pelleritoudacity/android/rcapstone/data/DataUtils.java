@@ -628,9 +628,9 @@ public class DataUtils {
 
                     ArrayList<ImageOptimize> imageOptimizeArrayList = new ArrayList<>();
 
-                    boolean isOriginalSizeImage = PrefManager.isGeneralSettings(mContext,mContext.getString(R.string.pref_original_size_image) );
+                    boolean isOriginalSizeContent = PrefManager.isGeneralSettings(mContext, mContext.getString(R.string.pref_original_size_content));
 
-                    ArrayList<ImageOptimize> optimizeArrayList = showThumbnailImagesContent(mContext, t3Model, isOriginalSizeImage);
+                    ArrayList<ImageOptimize> optimizeArrayList = showThumbnailImagesContent(mContext, t3Model, isOriginalSizeContent);
 
                     if (optimizeArrayList != null) {
                         imageOptimizeArrayList.add(optimizeArrayList.get(0));
@@ -710,7 +710,8 @@ public class DataUtils {
 
                         ArrayList<VideoOptimize> videoOptimizeArrayList = new ArrayList<>();
                         //noinspection CollectionAddAllCanBeReplacedWithConstructor
-                        ArrayList<VideoOptimize> arrayList = showVideosContent(mContext, t3Model, true);
+                        ArrayList<VideoOptimize> arrayList = showVideosContent(mContext, t3Model,
+                                isOriginalSizeContent);
                         if (arrayList != null) {
                             videoOptimizeArrayList.add(arrayList.get(0));
 
@@ -718,13 +719,13 @@ public class DataUtils {
                             int videoMp4Width = videoOptimizeArrayList.get(0).width;
                             int videoMp4Height = videoOptimizeArrayList.get(0).height;
 
-                            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_URL,
+                            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_URL,
                                     videoMp4Url);
 
-                            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_WIDTH,
+                            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_WIDTH,
                                     videoMp4Width);
 
-                            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_HEIGHT,
+                            putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_HEIGHT,
                                     videoMp4Height);
 
 
@@ -860,41 +861,40 @@ public class DataUtils {
     private ArrayList<VideoOptimize> showVideosContent(Context context, T3Data t3DataChild, @SuppressWarnings("SameParameterValue") boolean originalSize) {
 
         int sizeResolution = 0;
-        ArrayList<VideoOptimize> optimizeArrayList;
+
+        Mp4 mp4 = null;
+        SourceMp4 dataSourceMp4 = null;
+        Variants variants;
         VideoOptimize videoOptimize;
+
+        ArrayList<VideoOptimize> optimizeArrayList;
+        List<ResolutionMp4> dataResolutionMp4s = null;
 
         if ((context == null) || (t3DataChild == null) || (t3DataChild.getPreview() == null)) {
             return null;
         }
 
-        int densityDpi = context.getResources().getDisplayMetrics().densityDpi;
-
-
-        if ((t3DataChild.getPreview().getImages() != null) && (!originalSize)) {
-
-            sizeResolution = t3DataChild.getPreview().getImages().get(0).getVariants().getMp4().getResolutions().size();
-
-        }
-
         optimizeArrayList = new ArrayList<>(1);
         videoOptimize = new VideoOptimize();
 
-
-        Variants variants = t3DataChild.getPreview().getImages().get(0).getVariants();
-        Mp4 mp4 = null;
+        variants = t3DataChild.getPreview().getImages().get(0).getVariants();
 
         if (variants != null) {
             mp4 = t3DataChild.getPreview().getImages().get(0).getVariants().getMp4();
         }
 
-        List<ResolutionMp4> dataResolutionMp4s;
-        SourceMp4 dataSourceMp4;
         if (mp4 != null) {
-
-            dataResolutionMp4s = mp4.getResolutions();
             dataSourceMp4 = mp4.getSource();
+            dataResolutionMp4s = mp4.getResolutions();
 
+            if ((dataResolutionMp4s != null) && (!originalSize)) {
+                sizeResolution = t3DataChild.getPreview().getImages().get(0).getVariants().getMp4().getResolutions().size();
+            }
+        }
+
+        if ((dataResolutionMp4s != null) || (dataSourceMp4 != null)) {
             int index;
+            int densityDpi = context.getResources().getDisplayMetrics().densityDpi;
             switch (densityDpi) {
                 case DisplayMetrics.DENSITY_XXXHIGH:
                 case DisplayMetrics.DENSITY_560:
@@ -973,7 +973,6 @@ public class DataUtils {
 
 
                 default:
-
                     videoOptimize.url = dataSourceMp4.getUrl();
                     videoOptimize.width = dataSourceMp4.getWidth();
                     videoOptimize.height = dataSourceMp4.getHeight();

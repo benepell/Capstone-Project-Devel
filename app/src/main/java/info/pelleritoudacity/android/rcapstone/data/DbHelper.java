@@ -249,9 +249,9 @@ class DbHelper extends SQLiteOpenHelper {
                         Contract.T3dataEntry.COLUMN_NAME_PREVIEW_VIDEO_HEIGHT + " INTEGER DEFAULT 0, " +
                         Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IS_VIDEO_GIF + " INTEGER DEFAULT 0, " +
 
-                        Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_URL + " TEXT, " +
-                        Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_WIDTH + " INTEGER DEFAULT 0, " +
-                        Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_HEIGHT + " INTEGER DEFAULT 0, " +
+                        Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_URL + " TEXT, " +
+                        Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_WIDTH + " INTEGER DEFAULT 0, " +
+                        Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_HEIGHT + " INTEGER DEFAULT 0, " +
 
 
                         " FOREIGN KEY (" + Contract.T3dataEntry.COLUMN_NAME_CHILDREN_ID + ") REFERENCES " +

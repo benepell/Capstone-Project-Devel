@@ -250,6 +250,7 @@ public class Utility {
         return arrayListNoDup;
     }
 
+    @Deprecated
     public static String textFromHtml(String text) {
 
         if (TextUtils.isEmpty(text)) return "";
@@ -257,6 +258,7 @@ public class Utility {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             return Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY).toString();
         } else {
+            //noinspection deprecation
             return Html.fromHtml(text).toString();
         }
     }
