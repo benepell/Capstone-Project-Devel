@@ -6,12 +6,12 @@ import android.util.DisplayMetrics;
 import java.util.ArrayList;
 import java.util.List;
 
-import info.pelleritoudacity.android.rcapstone.model.ModelContentVideo;
-import info.pelleritoudacity.android.rcapstone.model.Mp4;
-import info.pelleritoudacity.android.rcapstone.model.ResolutionMp4;
-import info.pelleritoudacity.android.rcapstone.model.SourceMp4;
-import info.pelleritoudacity.android.rcapstone.model.T3Data;
-import info.pelleritoudacity.android.rcapstone.model.Variants;
+import info.pelleritoudacity.android.rcapstone.model.data.ModelContentVideo;
+import info.pelleritoudacity.android.rcapstone.model.rest.Mp4;
+import info.pelleritoudacity.android.rcapstone.model.rest.ResolutionMp4;
+import info.pelleritoudacity.android.rcapstone.model.rest.SourceMp4;
+import info.pelleritoudacity.android.rcapstone.model.rest.T3Data;
+import info.pelleritoudacity.android.rcapstone.model.rest.Variants;
 
 public class VideoContentOperation {
 

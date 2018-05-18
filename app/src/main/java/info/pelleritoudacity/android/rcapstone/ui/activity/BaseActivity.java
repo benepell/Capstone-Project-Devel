@@ -54,7 +54,7 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.model.RedditAboutMe;
+import info.pelleritoudacity.android.rcapstone.model.rest.RedditAboutMe;
 import info.pelleritoudacity.android.rcapstone.rest.AboutMeExecute;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;

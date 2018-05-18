@@ -31,7 +31,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import info.pelleritoudacity.android.rcapstone.data.T5Operation;
-import info.pelleritoudacity.android.rcapstone.model.T5;
+import info.pelleritoudacity.android.rcapstone.model.rest.T5;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

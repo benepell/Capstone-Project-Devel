@@ -1,4 +1,4 @@
-package info.pelleritoudacity.android.rcapstone.model;
+package info.pelleritoudacity.android.rcapstone.model.data;
 
 public class ModelContentVideo {
 

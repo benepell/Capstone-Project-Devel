@@ -30,10 +30,10 @@ package info.pelleritoudacity.android.rcapstone.service;
 
 import java.util.Map;
 
-import info.pelleritoudacity.android.rcapstone.model.T3;
-import info.pelleritoudacity.android.rcapstone.model.T5;
-import info.pelleritoudacity.android.rcapstone.model.RedditAboutMe;
-import info.pelleritoudacity.android.rcapstone.model.RedditToken;
+import info.pelleritoudacity.android.rcapstone.model.rest.T3;
+import info.pelleritoudacity.android.rcapstone.model.rest.T5;
+import info.pelleritoudacity.android.rcapstone.model.rest.RedditAboutMe;
+import info.pelleritoudacity.android.rcapstone.model.rest.RedditToken;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import retrofit2.Call;
 import retrofit2.http.FieldMap;

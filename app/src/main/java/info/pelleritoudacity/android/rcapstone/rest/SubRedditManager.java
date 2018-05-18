@@ -2,7 +2,7 @@ package info.pelleritoudacity.android.rcapstone.rest;
 
 import java.util.concurrent.TimeUnit;
 
-import info.pelleritoudacity.android.rcapstone.model.T3;
+import info.pelleritoudacity.android.rcapstone.model.rest.T3;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import okhttp3.OkHttpClient;

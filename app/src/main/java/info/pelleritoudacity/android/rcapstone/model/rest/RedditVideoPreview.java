@@ -1,4 +1,4 @@
-package info.pelleritoudacity.android.rcapstone.model;
+package info.pelleritoudacity.android.rcapstone.model.rest;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

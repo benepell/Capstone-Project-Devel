@@ -33,28 +33,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.model.Mp4;
-import info.pelleritoudacity.android.rcapstone.model.RedditVideoPreview;
-import info.pelleritoudacity.android.rcapstone.model.Resolution;
-import info.pelleritoudacity.android.rcapstone.model.ResolutionMp4;
-import info.pelleritoudacity.android.rcapstone.model.Source;
-import info.pelleritoudacity.android.rcapstone.model.SourceMp4;
-import info.pelleritoudacity.android.rcapstone.model.T3;
-import info.pelleritoudacity.android.rcapstone.model.T3Data;
-import info.pelleritoudacity.android.rcapstone.model.T3Listing;
-import info.pelleritoudacity.android.rcapstone.model.T5;
-import info.pelleritoudacity.android.rcapstone.model.T5Data;
-import info.pelleritoudacity.android.rcapstone.model.T5Listing;
-import info.pelleritoudacity.android.rcapstone.model.Variants;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
-import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
 
 public class DataUtils {

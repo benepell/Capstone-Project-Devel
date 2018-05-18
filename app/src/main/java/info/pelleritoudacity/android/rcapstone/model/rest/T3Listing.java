@@ -1,10 +1,10 @@
 
-package info.pelleritoudacity.android.rcapstone.model;
+package info.pelleritoudacity.android.rcapstone.model.rest;
 
 import java.util.List;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -46,7 +46,7 @@ public class T3Listing implements Parcelable
     protected T3Listing(Parcel in) {
         this.modhash = ((String) in.readValue((String.class.getClassLoader())));
         this.dist = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        in.readList(this.children, (info.pelleritoudacity.android.rcapstone.model.T3ListingData.class.getClassLoader()));
+        in.readList(this.children, (T3ListingData.class.getClassLoader()));
         this.after = ((String) in.readValue((String.class.getClassLoader())));
         this.before = ((Object) in.readValue((Object.class.getClassLoader())));
     }

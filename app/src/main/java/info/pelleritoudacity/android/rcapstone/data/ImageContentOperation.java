@@ -6,10 +6,10 @@ import android.util.DisplayMetrics;
 import java.util.ArrayList;
 import java.util.List;
 
-import info.pelleritoudacity.android.rcapstone.model.ModelContentImage;
-import info.pelleritoudacity.android.rcapstone.model.Resolution;
-import info.pelleritoudacity.android.rcapstone.model.Source;
-import info.pelleritoudacity.android.rcapstone.model.T3Data;
+import info.pelleritoudacity.android.rcapstone.model.data.ModelContentImage;
+import info.pelleritoudacity.android.rcapstone.model.rest.Resolution;
+import info.pelleritoudacity.android.rcapstone.model.rest.Source;
+import info.pelleritoudacity.android.rcapstone.model.rest.T3Data;
 
 public class ImageContentOperation {
 

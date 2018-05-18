@@ -7,9 +7,8 @@ import android.text.TextUtils;
 
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.T3Operation;
-import info.pelleritoudacity.android.rcapstone.model.T3;
+import info.pelleritoudacity.android.rcapstone.model.rest.T3;
 import info.pelleritoudacity.android.rcapstone.rest.SubRedditExecute;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditFragment;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
