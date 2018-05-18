@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.DataUtils;
+import info.pelleritoudacity.android.rcapstone.data.T3Operation;
 import info.pelleritoudacity.android.rcapstone.model.T3;
 import info.pelleritoudacity.android.rcapstone.rest.SubRedditExecute;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditFragment;
@@ -44,10 +45,10 @@ public class SubRedditActivity extends BaseActivity
     public void onRestSubReddit(T3 listenerData) {
 
         if (listenerData != null) {
-            DataUtils dataUtils = new DataUtils(getApplicationContext());
-            dataUtils.saveDataT3(listenerData,mRedditCategory);
+            T3Operation data = new T3Operation(getApplicationContext(),listenerData);
+            data.saveData(mRedditCategory);
 
-            if (dataUtils.saveDataT3(listenerData,mRedditCategory)) {
+            if (data.saveData(mRedditCategory)) {
                 startFragment(mRedditCategory);
             } else {
                 Snackbar.make(findViewById(R.id.subreddit_container), R.string.error_state_critical, Snackbar.LENGTH_LONG).show();

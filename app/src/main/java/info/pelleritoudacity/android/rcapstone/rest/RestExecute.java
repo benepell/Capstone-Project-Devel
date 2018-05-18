@@ -30,7 +30,7 @@ package info.pelleritoudacity.android.rcapstone.rest;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import info.pelleritoudacity.android.rcapstone.data.DataUtils;
+import info.pelleritoudacity.android.rcapstone.data.T5Operation;
 import info.pelleritoudacity.android.rcapstone.model.T5;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -74,8 +74,8 @@ public class RestExecute {
             public void onResponse(@NonNull Call<T5> call, @NonNull Response<T5> response) {
                 mReddit = response.body();
                 if (response.isSuccessful()) {
-                    DataUtils dataUtils = new DataUtils(context);
-                    dataUtils.saveDataT5(mReddit);
+                    T5Operation data = new T5Operation(context,mReddit);
+                    data.saveData();
                 }
             }
 
