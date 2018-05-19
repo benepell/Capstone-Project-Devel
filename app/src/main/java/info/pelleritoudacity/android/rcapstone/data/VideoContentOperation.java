@@ -6,7 +6,7 @@ import android.util.DisplayMetrics;
 import java.util.ArrayList;
 import java.util.List;
 
-import info.pelleritoudacity.android.rcapstone.model.data.ModelContentVideo;
+import info.pelleritoudacity.android.rcapstone.model.mediaOperation.ModelContentVideo;
 import info.pelleritoudacity.android.rcapstone.model.rest.Mp4;
 import info.pelleritoudacity.android.rcapstone.model.rest.ResolutionMp4;
 import info.pelleritoudacity.android.rcapstone.model.rest.SourceMp4;
