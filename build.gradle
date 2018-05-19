@@ -32,7 +32,7 @@ allprojects {
 
         apacheCommonsVersion = "2.6"
 
-        exoPlayerVersion = "2.7.0"
+        exoPlayerVersion = "2.8.0"
 
         glideVersion = "4.6.1"
         glideOkHttpIntegretionVersion = glideVersion + "@aar"

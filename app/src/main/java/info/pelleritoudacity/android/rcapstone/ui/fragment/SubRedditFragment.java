@@ -17,6 +17,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.ui.PlayerView;
+
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -29,7 +32,7 @@ import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.Costants.SUBREDDIT_LOADER_ID;
 
-public class SubRedditFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class SubRedditFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, SubRedditAdapter.MediaExoplayer {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.rv_fragment_subreddit)
@@ -40,6 +43,9 @@ public class SubRedditFragment extends Fragment implements LoaderManager.LoaderC
 
     private LinearLayoutManager mLayoutManager;
     private SubRedditAdapter mAdapter;
+
+    private SimpleExoPlayer mPlayer;
+    private PlayerView mPlayerView;
 
     public SubRedditFragment() {
     }
@@ -56,7 +62,7 @@ public class SubRedditFragment extends Fragment implements LoaderManager.LoaderC
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null){
+        if (getArguments() != null) {
             sSubReddit = getArguments().getString(Costants.EXTRA_FRAGMENT_SUBREDDIT);
         }
     }
@@ -76,7 +82,7 @@ public class SubRedditFragment extends Fragment implements LoaderManager.LoaderC
 
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new SubRedditAdapter(getContext());
+        mAdapter = new SubRedditAdapter(this, getContext());
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -130,6 +136,19 @@ public class SubRedditFragment extends Fragment implements LoaderManager.LoaderC
         mAdapter.swapCursor(null);
     }
 
+    @Override
+    public void onMediaResources(SimpleExoPlayer player, PlayerView playerView) {
+        mPlayer = player;
+        mPlayerView = playerView;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAdapter != null) {
+            mAdapter.mediaReleaseResourse(mPlayer, mPlayerView);
+        }
+    }
 
     private static class SubRedditFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
 

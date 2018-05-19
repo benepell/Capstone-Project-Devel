@@ -4,11 +4,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,6 +19,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
 
 import java.util.ArrayList;
 
@@ -25,15 +34,19 @@ import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
+import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 
 public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubRedditHolder> {
 
     private Cursor mCursor;
     private Context mContext;
+    private MediaExoplayer iMediaExoplayer;
+    private SimpleExoPlayer mPlayer;
 
 
-    public SubRedditAdapter(Context context) {
+    public SubRedditAdapter(MediaExoplayer listener, Context context) {
+        iMediaExoplayer = listener;
         mContext = context;
         // todo add listener ....
         ArrayList<String> arrayList = new ArrayList<>();
@@ -62,17 +75,24 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         String subRedditIdText = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_ID));
         String subReddit = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT));
         int subRedditSubscriptions = mCursor.getInt(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_SUBSCRIBERS));
-        String title = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_TITLE));
+
+        String title = Utility.textFromHtml(
+                mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_TITLE)));
+
         String domain = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_DOMAIN));
         Long createdUtc = mCursor.getLong(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_CREATED_UTC));
         int score = mCursor.getInt(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SCORE));
         int numComments = mCursor.getInt(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_NUM_COMMENTS));
 
-        String imagePreviewUrl = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_URL));
+        String imagePreviewUrl = Utility.textFromHtml(
+                mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_URL)));
+
         int imagePreviewWidth = mCursor.getInt(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_WIDTH));
         int imagePreviewHeight = mCursor.getInt(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_HEIGHT));
 
-        String videoPreviewUrl = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_URL));
+        String videoPreviewUrl = Utility.textFromHtml(
+                mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_URL)));
+
         String videoPreviewWidth = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_WIDTH));
         String videoPreviewHeight = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_HEIGHT));
 
@@ -92,7 +112,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
             Glide.with(holder.itemView.getContext().getApplicationContext())
                     .asBitmap()
-                    .load(Utility.textFromHtml(imagePreviewUrl))
+                    .load(imagePreviewUrl)
                     .into(new SimpleTarget<Bitmap>(imagePreviewWidth, imagePreviewHeight) {
                         @Override
                         public void onLoadFailed(@Nullable Drawable errorDrawable) {
@@ -131,6 +151,22 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
             holder.mImageViewSubReddit.setVisibility(View.GONE);
         }
 
+        if (!TextUtils.isEmpty(videoPreviewUrl)) {
+
+            mediaStart(holder.mPlayerView,videoPreviewUrl, false);
+
+            holder.mImageViewSubReddit.setVisibility(View.GONE);
+            holder.mPlayerView.setVisibility(View.VISIBLE);
+
+
+
+        } else {
+
+            holder.mPlayerView.setVisibility(View.GONE);
+
+        }
+
+
         holder.mTextViewTitle.setText(title);
         holder.mTextViewSubReddit.setText(subReddit);
         holder.mTextViewDomain.setText(domain.replaceAll("\\..*$", ""));
@@ -160,10 +196,13 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         @BindView(R.id.tv_subreddit)
         TextView mTextViewSubReddit;
 
-
         @SuppressWarnings("unused")
         @BindView(R.id.img_subreddit)
         ImageView mImageViewSubReddit;
+
+        @SuppressWarnings("unused")
+        @BindView(R.id.pv_subreddit)
+        PlayerView mPlayerView;
 
         @SuppressWarnings("unused")
         @BindView(R.id.tv_domain)
@@ -182,6 +221,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         TextView mTextViewNumComments;
 
         private int mPosition;
+
 
         SubRedditHolder(View itemView) {
             super(itemView);
@@ -221,5 +261,39 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         return temp;
     }
 
+    public void mediaReleaseResourse(SimpleExoPlayer player, PlayerView playerView) {
+        if ((player != null) && (playerView != null)) {
+            playerView.setPlayer(null);
+            player.release();
+            player = null;
+        }
+    }
 
+    public void mediaStart(PlayerView playerView,String uri, boolean autorun) {
+
+        if  (!TextUtils.isEmpty(uri) && playerView !=null) {
+
+            mPlayer = ExoPlayerFactory.newSimpleInstance(mContext,
+                    new DefaultTrackSelector());
+
+            playerView.setPlayer(mPlayer);
+
+                iMediaExoplayer.onMediaResources(mPlayer, playerView);
+
+            DefaultDataSourceFactory defaultDataSourceFactory = new DefaultDataSourceFactory(mContext,
+                    Util.getUserAgent(mContext, Costants.USER_AGENT_CACHE));
+
+            ExtractorMediaSource extractorMediaSource = new ExtractorMediaSource.Factory(defaultDataSourceFactory)
+                    .createMediaSource(Uri.parse(uri));
+
+            mPlayer.prepare(extractorMediaSource);
+            mPlayer.setPlayWhenReady(autorun);
+        }
+
+    }
+
+
+    public interface MediaExoplayer {
+        void onMediaResources(SimpleExoPlayer player, PlayerView playerView);
+    }
 }

@@ -88,7 +88,7 @@ public interface Costants {
     String JSON_TYPE = "json";
     String LOGIN_API_USERNAME = "username";
 
-    String USER_AGENT_CACHE = "CacheDataSourceFactory";
+    String USER_AGENT_CACHE = "info.pelleritoudacity.android.rcapstone.exo.player.CacheDataSourceFactory";
     String CACHE_VIDEO_DIR = "media";
     long EXT_CACHE_SIZE_MAX = 500 * 1024 * 1024;
     long EXT_CACHE_FILE_SIZE_MAX = 40 * 1024 * 1024;
