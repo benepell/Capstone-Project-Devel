@@ -1,4 +1,4 @@
-package info.pelleritoudacity.android.rcapstone.model.rest;
+package info.pelleritoudacity.android.rcapstone.model.reddit;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class SourceGif implements Parcelable
+public class ResolutionMp4 implements Parcelable
 {
 
     @SerializedName("url")
@@ -18,30 +18,30 @@ public class SourceGif implements Parcelable
     @SerializedName("height")
     @Expose
     private Integer height;
-    public final static Parcelable.Creator<SourceGif> CREATOR = new Creator<SourceGif>() {
+    public final static Parcelable.Creator<ResolutionMp4> CREATOR = new Creator<ResolutionMp4>() {
 
 
         @SuppressWarnings({
             "unchecked"
         })
-        public SourceGif createFromParcel(Parcel in) {
-            return new SourceGif(in);
+        public ResolutionMp4 createFromParcel(Parcel in) {
+            return new ResolutionMp4(in);
         }
 
-        public SourceGif[] newArray(int size) {
-            return (new SourceGif[size]);
+        public ResolutionMp4[] newArray(int size) {
+            return (new ResolutionMp4[size]);
         }
 
     }
     ;
 
-    protected SourceGif(Parcel in) {
+    protected ResolutionMp4(Parcel in) {
         this.url = ((String) in.readValue((String.class.getClassLoader())));
         this.width = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.height = ((Integer) in.readValue((Integer.class.getClassLoader())));
     }
 
-    public SourceGif() {
+    public ResolutionMp4() {
     }
 
     public String getUrl() {

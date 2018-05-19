@@ -5,7 +5,7 @@ import android.util.Base64;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
-import info.pelleritoudacity.android.rcapstone.model.rest.RedditToken;
+import info.pelleritoudacity.android.rcapstone.model.reddit.RedditToken;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import okhttp3.OkHttpClient;

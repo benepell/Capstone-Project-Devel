@@ -1,5 +1,5 @@
 
-package info.pelleritoudacity.android.rcapstone.model.rest;
+package info.pelleritoudacity.android.rcapstone.model.reddit;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -7,7 +7,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class T5 implements Parcelable
+public class T3ListingData implements Parcelable
 {
 
     @SerializedName("kind")
@@ -15,31 +15,30 @@ public class T5 implements Parcelable
     private String kind;
     @SerializedName("data")
     @Expose
-    private T5Listing data;
-    public final static Parcelable.Creator<T5> CREATOR = new Creator<T5>() {
+    private T3Data data;
+    public final static Parcelable.Creator<T3ListingData> CREATOR = new Creator<T3ListingData>() {
 
 
         @SuppressWarnings({
             "unchecked"
         })
-        public T5 createFromParcel(Parcel in) {
-            return new T5(in);
+        public T3ListingData createFromParcel(Parcel in) {
+            return new T3ListingData(in);
         }
 
-        public T5[] newArray(int size) {
-            return (new T5[size]);
+        public T3ListingData[] newArray(int size) {
+            return (new T3ListingData[size]);
         }
 
     }
     ;
 
-    @SuppressWarnings("WeakerAccess")
-    protected T5(Parcel in) {
+    protected T3ListingData(Parcel in) {
         this.kind = ((String) in.readValue((String.class.getClassLoader())));
-        this.data = ((T5Listing) in.readValue((T5Listing.class.getClassLoader())));
+        this.data = ((T3Data) in.readValue((T3Data.class.getClassLoader())));
     }
 
-    public T5() {
+    public T3ListingData() {
     }
 
     public String getKind() {
@@ -50,11 +49,11 @@ public class T5 implements Parcelable
         this.kind = kind;
     }
 
-    public T5Listing getData() {
+    public T3Data getData() {
         return data;
     }
 
-    public void setData(T5Listing data) {
+    public void setData(T3Data data) {
         this.data = data;
     }
 

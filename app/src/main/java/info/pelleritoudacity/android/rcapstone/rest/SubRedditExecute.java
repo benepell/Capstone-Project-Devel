@@ -2,7 +2,7 @@ package info.pelleritoudacity.android.rcapstone.rest;
 
 import android.support.annotation.NonNull;
 
-import info.pelleritoudacity.android.rcapstone.model.rest.T3;
+import info.pelleritoudacity.android.rcapstone.model.reddit.T3;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

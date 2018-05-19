@@ -6,12 +6,12 @@ import android.util.DisplayMetrics;
 import java.util.ArrayList;
 import java.util.List;
 
-import info.pelleritoudacity.android.rcapstone.model.mediaOperation.ModelContentVideo;
-import info.pelleritoudacity.android.rcapstone.model.rest.Mp4;
-import info.pelleritoudacity.android.rcapstone.model.rest.ResolutionMp4;
-import info.pelleritoudacity.android.rcapstone.model.rest.SourceMp4;
-import info.pelleritoudacity.android.rcapstone.model.rest.T3Data;
-import info.pelleritoudacity.android.rcapstone.model.rest.Variants;
+import info.pelleritoudacity.android.rcapstone.model.ModelContent;
+import info.pelleritoudacity.android.rcapstone.model.reddit.Mp4;
+import info.pelleritoudacity.android.rcapstone.model.reddit.ResolutionMp4;
+import info.pelleritoudacity.android.rcapstone.model.reddit.SourceMp4;
+import info.pelleritoudacity.android.rcapstone.model.reddit.T3Data;
+import info.pelleritoudacity.android.rcapstone.model.reddit.Variants;
 
 public class VideoContentOperation {
 
@@ -21,16 +21,16 @@ public class VideoContentOperation {
         mContext = context;
     }
 
-    public ArrayList<ModelContentVideo> showVideoContent(T3Data t3DataChild, boolean originalSize) {
+    public ArrayList<ModelContent> showVideoContent(T3Data t3DataChild, boolean originalSize) {
 
         int sizeResolution = 0;
 
         Mp4 mp4 = null;
         SourceMp4 dataSourceMp4 = null;
         Variants variants;
-        ModelContentVideo modelContentVideo;
+        ModelContent modelContent;
 
-        ArrayList<ModelContentVideo> optimizeArrayList;
+        ArrayList<ModelContent> optimizeArrayList;
         List<ResolutionMp4> dataResolutionMp4s = null;
 
         if ((mContext == null) || (t3DataChild == null) || (t3DataChild.getPreview() == null)) {
@@ -38,7 +38,7 @@ public class VideoContentOperation {
         }
 
         optimizeArrayList = new ArrayList<>(1);
-        modelContentVideo = new ModelContentVideo();
+        modelContent = new ModelContent();
 
         variants = t3DataChild.getPreview().getImages().get(0).getVariants();
 
@@ -64,10 +64,10 @@ public class VideoContentOperation {
                     // XXXHDPI
                     if (sizeResolution >= 6) {
                         index = 5;
-                        modelContentVideo.setUrl( dataResolutionMp4s.get(index).getUrl());
-                        modelContentVideo.setWidth(dataResolutionMp4s.get(index).getWidth());
-                        modelContentVideo.setHeight(dataResolutionMp4s.get(index).getHeight());
-                        optimizeArrayList.add(modelContentVideo);
+                        modelContent.setUrl( dataResolutionMp4s.get(index).getUrl());
+                        modelContent.setWidth(dataResolutionMp4s.get(index).getWidth());
+                        modelContent.setHeight(dataResolutionMp4s.get(index).getHeight());
+                        optimizeArrayList.add(modelContent);
                         return optimizeArrayList;
                     }
 
@@ -78,10 +78,10 @@ public class VideoContentOperation {
                     // XXHDPI
                     if (sizeResolution >= 5) {
                         index = 4;
-                        modelContentVideo.setUrl( dataResolutionMp4s.get(index).getUrl());
-                        modelContentVideo.setWidth(dataResolutionMp4s.get(index).getWidth());
-                        modelContentVideo.setHeight(dataResolutionMp4s.get(index).getHeight());
-                        optimizeArrayList.add(modelContentVideo);
+                        modelContent.setUrl( dataResolutionMp4s.get(index).getUrl());
+                        modelContent.setWidth(dataResolutionMp4s.get(index).getWidth());
+                        modelContent.setHeight(dataResolutionMp4s.get(index).getHeight());
+                        optimizeArrayList.add(modelContent);
                         return optimizeArrayList;
                     }
 
@@ -91,10 +91,10 @@ public class VideoContentOperation {
                     // XHDPI
                     if (sizeResolution >= 4) {
                         index = 3;
-                        modelContentVideo.setUrl( dataResolutionMp4s.get(index).getUrl());
-                        modelContentVideo.setWidth(dataResolutionMp4s.get(index).getWidth());
-                        modelContentVideo.setHeight(dataResolutionMp4s.get(index).getHeight());
-                        optimizeArrayList.add(modelContentVideo);
+                        modelContent.setUrl( dataResolutionMp4s.get(index).getUrl());
+                        modelContent.setWidth(dataResolutionMp4s.get(index).getWidth());
+                        modelContent.setHeight(dataResolutionMp4s.get(index).getHeight());
+                        optimizeArrayList.add(modelContent);
                         return optimizeArrayList;
                     }
 
@@ -104,10 +104,10 @@ public class VideoContentOperation {
                     // HDPI
                     if (sizeResolution >= 3) {
                         index = 2;
-                        modelContentVideo.setUrl( dataResolutionMp4s.get(index).getUrl());
-                        modelContentVideo.setWidth(dataResolutionMp4s.get(index).getWidth());
-                        modelContentVideo.setHeight(dataResolutionMp4s.get(index).getHeight());
-                        optimizeArrayList.add(modelContentVideo);
+                        modelContent.setUrl( dataResolutionMp4s.get(index).getUrl());
+                        modelContent.setWidth(dataResolutionMp4s.get(index).getWidth());
+                        modelContent.setHeight(dataResolutionMp4s.get(index).getHeight());
+                        optimizeArrayList.add(modelContent);
                         return optimizeArrayList;
                     }
 
@@ -116,10 +116,10 @@ public class VideoContentOperation {
                     // MDPI
                     if (sizeResolution >= 2) {
                         index = 1;
-                        modelContentVideo.setUrl( dataResolutionMp4s.get(index).getUrl());
-                        modelContentVideo.setWidth(dataResolutionMp4s.get(index).getWidth());
-                        modelContentVideo.setHeight(dataResolutionMp4s.get(index).getHeight());
-                        optimizeArrayList.add(modelContentVideo);
+                        modelContent.setUrl( dataResolutionMp4s.get(index).getUrl());
+                        modelContent.setWidth(dataResolutionMp4s.get(index).getWidth());
+                        modelContent.setHeight(dataResolutionMp4s.get(index).getHeight());
+                        optimizeArrayList.add(modelContent);
                         return optimizeArrayList;
                     }
 
@@ -127,20 +127,20 @@ public class VideoContentOperation {
                 case DisplayMetrics.DENSITY_LOW:
                     if (sizeResolution >= 1) {
                         index = 0;
-                        modelContentVideo.setUrl( dataResolutionMp4s.get(index).getUrl());
-                        modelContentVideo.setWidth(dataResolutionMp4s.get(index).getWidth());
-                        modelContentVideo.setHeight(dataResolutionMp4s.get(index).getHeight());
-                        optimizeArrayList.add(modelContentVideo);
+                        modelContent.setUrl( dataResolutionMp4s.get(index).getUrl());
+                        modelContent.setWidth(dataResolutionMp4s.get(index).getWidth());
+                        modelContent.setHeight(dataResolutionMp4s.get(index).getHeight());
+                        optimizeArrayList.add(modelContent);
                         return optimizeArrayList;
                     }
 
 
                 default:
                     index = 0;
-                    modelContentVideo.setUrl( dataResolutionMp4s.get(index).getUrl());
-                    modelContentVideo.setWidth(dataResolutionMp4s.get(index).getWidth());
-                    modelContentVideo.setHeight(dataResolutionMp4s.get(index).getHeight());
-                    optimizeArrayList.add(modelContentVideo);
+                    modelContent.setUrl( dataResolutionMp4s.get(index).getUrl());
+                    modelContent.setWidth(dataResolutionMp4s.get(index).getWidth());
+                    modelContent.setHeight(dataResolutionMp4s.get(index).getHeight());
+                    optimizeArrayList.add(modelContent);
                     return optimizeArrayList;
             }
         }

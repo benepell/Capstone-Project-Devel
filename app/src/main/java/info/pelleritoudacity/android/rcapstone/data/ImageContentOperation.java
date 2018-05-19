@@ -6,10 +6,10 @@ import android.util.DisplayMetrics;
 import java.util.ArrayList;
 import java.util.List;
 
-import info.pelleritoudacity.android.rcapstone.model.mediaOperation.ModelContentImage;
-import info.pelleritoudacity.android.rcapstone.model.rest.Resolution;
-import info.pelleritoudacity.android.rcapstone.model.rest.Source;
-import info.pelleritoudacity.android.rcapstone.model.rest.T3Data;
+import info.pelleritoudacity.android.rcapstone.model.ModelContent;
+import info.pelleritoudacity.android.rcapstone.model.reddit.Resolution;
+import info.pelleritoudacity.android.rcapstone.model.reddit.Source;
+import info.pelleritoudacity.android.rcapstone.model.reddit.T3Data;
 
 public class ImageContentOperation {
 
@@ -20,11 +20,11 @@ public class ImageContentOperation {
     }
 
 
-    public ArrayList<ModelContentImage> showImageT3(T3Data t3DataChild, boolean originalSize) {
+    public ArrayList<ModelContent> showImageT3(T3Data t3DataChild, boolean originalSize) {
 
         int sizeResolution = 0;
-        ArrayList<ModelContentImage> optimizeArrayList;
-        ModelContentImage modelContentImage;
+        ArrayList<ModelContent> optimizeArrayList;
+        ModelContent modelContentImage;
 
         if ((mContext == null) || (t3DataChild == null) || (t3DataChild.getPreview() == null)) {
             return null;
@@ -40,7 +40,7 @@ public class ImageContentOperation {
         }
 
         optimizeArrayList = new ArrayList<>(1);
-        modelContentImage = new ModelContentImage();
+        modelContentImage = new ModelContent();
         List<Resolution> dataResolution = t3DataChild.getPreview().getImages().get(0).getResolutions();
         Source dataSource = t3DataChild.getPreview().getImages().get(0).getSource();
 

@@ -1,5 +1,5 @@
 
-package info.pelleritoudacity.android.rcapstone.model.rest;
+package info.pelleritoudacity.android.rcapstone.model.reddit;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -7,7 +7,8 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class T3 implements Parcelable
+@SuppressWarnings("ALL")
+public class T5ListingData implements Parcelable
 {
 
     @SerializedName("kind")
@@ -15,31 +16,31 @@ public class T3 implements Parcelable
     private String kind;
     @SerializedName("data")
     @Expose
-    private T3Listing data;
-    public final static Parcelable.Creator<T3> CREATOR = new Creator<T3>() {
+    private T5Data data;
+    public final static Parcelable.Creator<T5ListingData> CREATOR = new Creator<T5ListingData>() {
 
 
         @SuppressWarnings({
             "unchecked"
         })
-        public T3 createFromParcel(Parcel in) {
-            return new T3(in);
+        public T5ListingData createFromParcel(Parcel in) {
+            return new T5ListingData(in);
         }
 
-        public T3[] newArray(int size) {
-            return (new T3[size]);
+        public T5ListingData[] newArray(int size) {
+            return (new T5ListingData[size]);
         }
 
     }
     ;
 
     @SuppressWarnings("WeakerAccess")
-    protected T3(Parcel in) {
+    protected T5ListingData(Parcel in) {
         this.kind = ((String) in.readValue((String.class.getClassLoader())));
-        this.data = ((T3Listing) in.readValue((T3Listing.class.getClassLoader())));
+        this.data = ((T5Data) in.readValue((T5Data.class.getClassLoader())));
     }
 
-    public T3() {
+    public T5ListingData() {
     }
 
     public String getKind() {
@@ -50,11 +51,11 @@ public class T3 implements Parcelable
         this.kind = kind;
     }
 
-    public T3Listing getData() {
+    public T5Data getData() {
         return data;
     }
 
-    public void setData(T3Listing data) {
+    public void setData(T5Data data) {
         this.data = data;
     }
 

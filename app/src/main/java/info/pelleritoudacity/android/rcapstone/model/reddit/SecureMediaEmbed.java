@@ -1,5 +1,5 @@
 
-package info.pelleritoudacity.android.rcapstone.model.rest;
+package info.pelleritoudacity.android.rcapstone.model.reddit;
 
 import android.os.Parcel;
 import android.os.Parcelable;

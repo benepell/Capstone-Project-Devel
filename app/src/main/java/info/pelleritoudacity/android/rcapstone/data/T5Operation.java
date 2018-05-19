@@ -5,9 +5,9 @@ import android.content.Context;
 import android.net.Uri;
 
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.model.rest.T5;
-import info.pelleritoudacity.android.rcapstone.model.rest.T5Data;
-import info.pelleritoudacity.android.rcapstone.model.rest.T5Listing;
+import info.pelleritoudacity.android.rcapstone.model.reddit.T5;
+import info.pelleritoudacity.android.rcapstone.model.reddit.T5Data;
+import info.pelleritoudacity.android.rcapstone.model.reddit.T5Listing;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;

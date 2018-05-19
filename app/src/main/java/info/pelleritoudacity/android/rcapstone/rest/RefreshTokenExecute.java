@@ -7,7 +7,7 @@ import android.text.TextUtils;
 import java.util.Objects;
 
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.model.rest.RedditToken;
+import info.pelleritoudacity.android.rcapstone.model.reddit.RedditToken;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import retrofit2.Call;
 import retrofit2.Callback;

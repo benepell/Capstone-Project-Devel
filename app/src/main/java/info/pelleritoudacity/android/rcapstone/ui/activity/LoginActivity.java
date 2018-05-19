@@ -15,7 +15,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.model.rest.RedditToken;
+import info.pelleritoudacity.android.rcapstone.model.reddit.RedditToken;
 import info.pelleritoudacity.android.rcapstone.rest.AccessTokenExecute;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
