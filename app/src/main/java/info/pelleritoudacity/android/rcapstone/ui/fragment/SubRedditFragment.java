@@ -17,8 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.C;
 
 import java.util.Objects;
 
@@ -26,26 +25,32 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
+import info.pelleritoudacity.android.rcapstone.media.ExoPlayerManager;
 import info.pelleritoudacity.android.rcapstone.ui.adapter.SubRedditAdapter;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.Costants.SUBREDDIT_LOADER_ID;
 
-public class SubRedditFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, SubRedditAdapter.MediaExoplayer {
+public class SubRedditFragment extends Fragment
+        implements LoaderManager.LoaderCallbacks<Cursor>, SubRedditAdapter.OnPlayerListener {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.rv_fragment_subreddit)
     RecyclerView mRecyclerView;
 
+    private Context mContext;
+
     private static Parcelable sListState;
+    private static int sWindowPlayer;
+    private static boolean sIsAutoRun;
+    private static long sPositionPlayer;
+
     private static String sSubReddit;
+    private ExoPlayerManager mExoPlayerManager;
 
     private LinearLayoutManager mLayoutManager;
     private SubRedditAdapter mAdapter;
-
-    private SimpleExoPlayer mPlayer;
-    private PlayerView mPlayerView;
 
     public SubRedditFragment() {
     }
@@ -62,10 +67,14 @@ public class SubRedditFragment extends Fragment implements LoaderManager.LoaderC
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mContext = getActivity();
+
         if (getArguments() != null) {
             sSubReddit = getArguments().getString(Costants.EXTRA_FRAGMENT_SUBREDDIT);
         }
+
     }
+
 
     @Nullable
     @Override
@@ -82,7 +91,7 @@ public class SubRedditFragment extends Fragment implements LoaderManager.LoaderC
 
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new SubRedditAdapter(this, getContext());
+        mAdapter = new SubRedditAdapter(mContext, this);
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -97,9 +106,41 @@ public class SubRedditFragment extends Fragment implements LoaderManager.LoaderC
             if (getActivity() != null) {
                 getActivity().getSupportLoaderManager().initLoader(SUBREDDIT_LOADER_ID, null, this);
             }
+
+
         } else {
             sListState = savedInstanceState.getParcelable(Costants.EXTRA_FRAGMENT_STATE);
+
+            sWindowPlayer = savedInstanceState.getInt(Costants.BUNDLE_EXOPLAYER_WINDOW, C.INDEX_UNSET);
+            sPositionPlayer = savedInstanceState.getLong(Costants.BUNDLE_EXOPLAYER_POSITION, C.TIME_UNSET);
+            sIsAutoRun = savedInstanceState.getBoolean(Costants.BUNDLE_EXOPLAYER_AUTOPLAY, false);
+
         }
+
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mExoPlayerManager != null) {
+            mExoPlayerManager.releasePlayer();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        if (mExoPlayerManager != null) {
+            mExoPlayerManager.updateResumePosition();
+        }
+
+/* todo video in background see it
+        if (!mIsVideoBackground) {
+            destroyVideo();
+        }
+*/
 
     }
 
@@ -108,6 +149,13 @@ public class SubRedditFragment extends Fragment implements LoaderManager.LoaderC
         super.onSaveInstanceState(outState);
         sListState = mLayoutManager.onSaveInstanceState();
         outState.putParcelable(Costants.EXTRA_FRAGMENT_STATE, sListState);
+
+        if (mExoPlayerManager != null) {
+            outState.putInt(Costants.BUNDLE_EXOPLAYER_WINDOW,mExoPlayerManager.getResumeWindow());
+            outState.putLong(Costants.BUNDLE_EXOPLAYER_POSITION,mExoPlayerManager.getResumePosition());
+            outState.putBoolean(Costants.BUNDLE_EXOPLAYER_AUTOPLAY,mExoPlayerManager.isAutoPlay());
+        }
+
     }
 
     @Override
@@ -137,18 +185,14 @@ public class SubRedditFragment extends Fragment implements LoaderManager.LoaderC
     }
 
     @Override
-    public void onMediaResources(SimpleExoPlayer player, PlayerView playerView) {
-        mPlayer = player;
-        mPlayerView = playerView;
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAdapter != null) {
-            mAdapter.mediaReleaseResourse(mPlayer, mPlayerView);
+    public void exoPlayer(ExoPlayerManager exoPlayerManager) {
+        mExoPlayerManager = exoPlayerManager;
+        if(mExoPlayerManager!=null){
+            mExoPlayerManager.setResume(sWindowPlayer,sPositionPlayer);
+            mExoPlayerManager.setAutoPlay(sIsAutoRun);
         }
     }
+
 
     private static class SubRedditFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
 
@@ -172,8 +216,9 @@ public class SubRedditFragment extends Fragment implements LoaderManager.LoaderC
         public Cursor loadInBackground() {
             try {
                 Uri uri = Contract.T3dataEntry.CONTENT_URI;
-                String selection = Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " =?";
+                String selection = Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " LIKE ?";
                 String[] selectionArgs = {sSubReddit};
+
                 return getContext().getContentResolver().query(uri,
                         null,
                         selection,
@@ -197,5 +242,6 @@ public class SubRedditFragment extends Fragment implements LoaderManager.LoaderC
             }
         }
     }
+
 
 }

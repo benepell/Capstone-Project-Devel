@@ -89,6 +89,7 @@ public interface Costants {
     String LOGIN_API_USERNAME = "username";
 
     String USER_AGENT_CACHE = "info.pelleritoudacity.android.rcapstone.exo.player.CacheDataSourceFactory";
+    String USER_AGENT_MEDIA = "info.pelleritoudacity.android.rcapstone.exo.player.media";
     String CACHE_VIDEO_DIR = "media";
     long EXT_CACHE_SIZE_MAX = 500 * 1024 * 1024;
     long EXT_CACHE_FILE_SIZE_MAX = 40 * 1024 * 1024;
@@ -118,6 +119,14 @@ public interface Costants {
 
     String EXO_PLAYER_MANAGER_TAG = "info.pelleritoudacity.android.rcapstone.exo.player.tag.subreddit";
 
+    int NOTIFICATION_ID = 1;
 
+    String NOTIFICATION_CHANNEL_ID = "info.pelleritoudacity.android.rcapstone.exo.player.tag.one";
+    String NOTIFICATION_CHANNEL_NAME = "Channel Media Exoplayer";
+
+    String BUNDLE_EXOPLAYER_WINDOW = "info.pelleritoudacity.android.rcapstone.exo.player.window";
+    String BUNDLE_EXOPLAYER_POSITION = "info.pelleritoudacity.android.rcapstone.exo.player.position";
+    String BUNDLE_EXOPLAYER_AUTOPLAY = "info.pelleritoudacity.android.rcapstone.exo.player.autoplay";
+    String BUNDLE_EXOPLAYER_CONTENT = "info.pelleritoudacity.android.rcapstone.exo.player.content";
 
 }

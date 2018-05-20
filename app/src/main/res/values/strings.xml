@@ -148,7 +148,17 @@
     <string name="text_icon_description">icon link description</string>
     <string name="manage_stars_description">enable subreddit link</string>
     <string name="title_menu_restore">restore</string>
-    <string name="error_video">Error Video</string>
 
+    <string name="notification_text">click here for more information</string>
+    <string name="play">Play</string>
+    <string name="pause">Pause</string>
+    <string name="restart">Restart</string>
+
+    <string name="title_widget_remove">Remove Widget</string>
+    <string name="title_widget_add">Add Widget</string>
+    <string name="title_navigation_back">Back Step</string>
+    <string name="title_navigation_forward">Step Forward</string>
+
+    <string name="error_video">Error loading player: no playable video</string>
 
 </resources>

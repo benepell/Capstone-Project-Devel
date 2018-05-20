@@ -105,7 +105,7 @@ public class T3Operation {
                         t3Model.getThumbnailWidth());
 
                 dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT,
-                        t3Model.getSubreddit());
+                         t3Model.getSubreddit());
 
                 dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SELFTEXT_HTML,
                         t3Model.getSelftextHtml());
@@ -400,8 +400,8 @@ public class T3Operation {
                         }
                     }
 
-                }
 
+                }
             }
 
         }
