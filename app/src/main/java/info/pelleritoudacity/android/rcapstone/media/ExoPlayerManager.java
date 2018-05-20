@@ -26,7 +26,9 @@ package info.pelleritoudacity.android.rcapstone.media;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -60,6 +62,8 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import timber.log.Timber;
 
+import static info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity.sMediaSessionCompat;
+
 public class ExoPlayerManager implements Player.EventListener {
 
     private final Context mContext;
@@ -78,7 +82,7 @@ public class ExoPlayerManager implements Player.EventListener {
     TextView mTvErrorPlayer;
 
     private ExoPlayerListener iExoPlayer;
-
+    private MediaSession mMediaSession;
 
     public ExoPlayerManager(Context context, ExoPlayerListener listener, PlayerView playerView, ProgressBar progressBar, String shortDescription, TextView tvErrorPlayer) {
         mContext = context;
@@ -128,6 +132,10 @@ public class ExoPlayerManager implements Player.EventListener {
 
             mPlayer.prepare(mediaSource, !isResume, false);
             mPlayer.setPlayWhenReady(isAutoPlay);
+
+            mMediaSession = new MediaSession(mContext, mPlayer);
+            mMediaSession.setDescription(mShortDescription);
+            mMediaSession.initializeMediaSession();
 
         }
         iExoPlayer.onPlayer(mPlayer);
@@ -180,23 +188,23 @@ public class ExoPlayerManager implements Player.EventListener {
             showPlayer();
 
             if (playWhenReady) {
-              /*  if (mStateBuilder != null) {
-                    mStateBuilder.setState(PlaybackStateCompat.STATE_PLAYING,
-                            mPlayer.getCurrentPosition(), 1f);
+                if (mMediaSession != null) {
+
+                    if (mMediaSession.getStateBuilder() != null) {
+                        mMediaSession.setStateBuilder(mMediaSession.getStateBuilder().setState(PlaybackStateCompat.STATE_PLAYING,
+                                mPlayer.getCurrentPosition(), 1f));
+                    }
+                    setAutoPlay(true);
+                } else {
+                    if (mMediaSession.getStateBuilder() != null) {
+                        mMediaSession.setStateBuilder(mMediaSession.getStateBuilder().setState(PlaybackStateCompat.STATE_PAUSED,
+                                mPlayer.getCurrentPosition(), 1f));
+                    }
+                    setAutoPlay(false);
                 }
-              */
-                setAutoPlay(true);
-            } else {
-            /*    if (mStateBuilder != null) {
-                    mStateBuilder.setState(PlaybackStateCompat.STATE_PAUSED,
-                            mPlayer.getCurrentPosition(), 1f);
-                }
-            */
-                setAutoPlay(false);
             }
 
         }
-
 
         if ((playbackState == Player.STATE_ENDED) && (!playWhenReady)) {
 
@@ -207,7 +215,13 @@ public class ExoPlayerManager implements Player.EventListener {
                 mPlayer.seekToDefaultPosition();
 
             }
+        }
 
+        if ((mMediaSession != null) &&
+                (mMediaSession.getStateBuilder() != null)) {
+
+            sMediaSessionCompat.setPlaybackState(mMediaSession.getStateBuilder().build());
+            mMediaSession.showNotification(mMediaSession.getStateBuilder().build());
         }
 
 
@@ -278,7 +292,10 @@ public class ExoPlayerManager implements Player.EventListener {
         mResumePosition = C.TIME_UNSET;
     }
 
+
     public interface ExoPlayerListener {
         void onPlayer(SimpleExoPlayer player);
     }
+
+
 }

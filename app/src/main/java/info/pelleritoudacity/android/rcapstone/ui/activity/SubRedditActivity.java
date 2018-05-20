@@ -1,8 +1,12 @@
 package info.pelleritoudacity.android.rcapstone.ui.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.media.session.MediaButtonReceiver;
+import android.support.v4.media.session.MediaSessionCompat;
 import android.text.TextUtils;
 
 import butterknife.ButterKnife;
@@ -19,6 +23,8 @@ public class SubRedditActivity extends BaseActivity
         implements SubRedditExecute.RestSubReddit{
 
         private String mRedditCategory;
+        public static MediaSessionCompat sMediaSessionCompat;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,4 +78,19 @@ public class SubRedditActivity extends BaseActivity
             new SubRedditExecute(link).getData(this);
         }
     }
+
+    public static class MediaReceiver extends BroadcastReceiver {
+
+        public MediaReceiver() {
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (sMediaSessionCompat != null) {
+                MediaButtonReceiver.handleIntent(sMediaSessionCompat, intent);
+            }
+        }
+
+    }
+
 }

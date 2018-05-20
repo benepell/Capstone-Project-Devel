@@ -30,6 +30,7 @@ import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
 import info.pelleritoudacity.android.rcapstone.media.ExoPlayerManager;
+import info.pelleritoudacity.android.rcapstone.media.MediaSession;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 
@@ -159,9 +160,12 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
                     holder.mExoProgressBar,
                     title, holder.mTVErrorPlayer);
 
+
             iPlayerListener.exoPlayer(mExoPlayerManager);
 
             mExoPlayerManager.initializePlayer(Uri.parse(videoPreviewUrl));
+
+
 
         }
 
