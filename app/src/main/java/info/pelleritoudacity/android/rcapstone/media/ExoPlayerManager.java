@@ -60,7 +60,6 @@ import com.google.android.exoplayer2.util.Util;
 
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
-import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity.sMediaSessionCompat;
 
@@ -133,9 +132,12 @@ public class ExoPlayerManager implements Player.EventListener {
             mPlayer.prepare(mediaSource, !isResume, false);
             mPlayer.setPlayWhenReady(isAutoPlay);
 
-            mMediaSession = new MediaSession(mContext, mPlayer);
-            mMediaSession.setDescription(mShortDescription);
-            mMediaSession.initializeMediaSession();
+            if (Costants.IS_MEDIA_SESSION) {
+                mMediaSession = new MediaSession(mContext, mPlayer);
+                mMediaSession.setDescription(mShortDescription);
+                mMediaSession.initializeMediaSession();
+
+            }
 
         }
         iExoPlayer.onPlayer(mPlayer);
@@ -179,51 +181,22 @@ public class ExoPlayerManager implements Player.EventListener {
     @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
 
-        if (playbackState == Player.STATE_BUFFERING) {
-            visibilityProgressBar(true);
-        }
+        switch (playbackState) {
 
-        if (playbackState == Player.STATE_READY) {
+            case Player.STATE_BUFFERING:
+                visibilityProgressBar(true);
+                break;
 
-            showPlayer();
-
-            if (playWhenReady) {
-                if (mMediaSession != null) {
-
-                    if (mMediaSession.getStateBuilder() != null) {
-                        mMediaSession.setStateBuilder(mMediaSession.getStateBuilder().setState(PlaybackStateCompat.STATE_PLAYING,
-                                mPlayer.getCurrentPosition(), 1f));
-                    }
-                    setAutoPlay(true);
-                } else {
-                    if (mMediaSession.getStateBuilder() != null) {
-                        mMediaSession.setStateBuilder(mMediaSession.getStateBuilder().setState(PlaybackStateCompat.STATE_PAUSED,
-                                mPlayer.getCurrentPosition(), 1f));
-                    }
-                    setAutoPlay(false);
-                }
-            }
-
-        }
-
-        if ((playbackState == Player.STATE_ENDED) && (!playWhenReady)) {
-
-            if (playWhenReady) {
+            case Player.STATE_READY:
                 showPlayer();
+                break;
 
-            } else {
-                mPlayer.seekToDefaultPosition();
-
-            }
+            default:
         }
 
-        if ((mMediaSession != null) &&
-                (mMediaSession.getStateBuilder() != null)) {
-
-            sMediaSessionCompat.setPlaybackState(mMediaSession.getStateBuilder().build());
-            mMediaSession.showNotification(mMediaSession.getStateBuilder().build());
+        if (Costants.IS_MEDIA_SESSION) {
+            mediaSessionState(playWhenReady, playbackState);
         }
-
 
     }
 
@@ -258,6 +231,55 @@ public class ExoPlayerManager implements Player.EventListener {
     public void onSeekProcessed() {
 
     }
+
+    private void mediaSessionState(boolean playWhenReady, int state) {
+
+        switch (state) {
+            case Player.STATE_READY:
+
+                if (playWhenReady) {
+
+                    if (mMediaSession != null) {
+
+                        if (mMediaSession.getStateBuilder() != null) {
+                            mMediaSession.setStateBuilder(mMediaSession.getStateBuilder().setState(PlaybackStateCompat.STATE_PLAYING,
+                                    mPlayer.getCurrentPosition(), 1f));
+                        }
+                        setAutoPlay(true);
+
+                    } else {
+
+                        if (mMediaSession.getStateBuilder() != null) {
+                            mMediaSession.setStateBuilder(mMediaSession.getStateBuilder().setState(PlaybackStateCompat.STATE_PAUSED,
+                                    mPlayer.getCurrentPosition(), 1f));
+                        }
+                        setAutoPlay(false);
+                    }
+                }
+
+                break;
+
+            case Player.STATE_ENDED:
+
+                if (playWhenReady) {
+                    showPlayer();
+                } else {
+                    mPlayer.seekToDefaultPosition();
+                }
+                break;
+
+            default:
+        }
+
+        if ((mMediaSession != null) &&
+                (mMediaSession.getStateBuilder() != null)) {
+
+            sMediaSessionCompat.setPlaybackState(mMediaSession.getStateBuilder().build());
+            mMediaSession.showNotification(mMediaSession.getStateBuilder().build());
+        }
+
+    }
+
 
     public void setAutoPlay(boolean autoPlay) {
         isAutoPlay = autoPlay;

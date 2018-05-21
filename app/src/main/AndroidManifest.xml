@@ -75,6 +75,18 @@
                 android:value=".ui.activity.MainActivity" />
         </activity>
 
+        <activity
+            android:name=".ui.activity.SubRedditActivity"
+            android:label="@string/title_activity_submanage"
+            android:launchMode="singleTop"
+            android:parentActivityName=".ui.activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activity.MainActivity" />
+        </activity>
+
+
         <provider
             android:name=".data.ContentProvider"
             android:authorities="@string/content_authority"
@@ -96,7 +108,6 @@
         </receiver>
 
 
-        <activity android:name=".ui.activity.SubRedditActivity"></activity>
     </application>
 
 </manifest>

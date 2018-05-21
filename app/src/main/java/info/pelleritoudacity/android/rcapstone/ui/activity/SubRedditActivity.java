@@ -20,11 +20,10 @@ import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
 
 public class SubRedditActivity extends BaseActivity
-        implements SubRedditExecute.RestSubReddit{
+        implements SubRedditExecute.RestSubReddit {
 
-        private String mRedditCategory;
-        public static MediaSessionCompat sMediaSessionCompat;
-
+    private String mRedditCategory;
+    public static MediaSessionCompat sMediaSessionCompat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,23 +33,25 @@ public class SubRedditActivity extends BaseActivity
         Timber.plant(new Timber.DebugTree());
         ButterKnife.bind(this);
 
-        Intent intentCategoty = getIntent();
+        Intent intentCategory = getIntent();
 
-        if(intentCategoty != null){
-            mRedditCategory = intentCategoty.getStringExtra(Costants.EXTRA_SUBREDDIT_CATEGORY);
+        if (intentCategory != null) {
+            mRedditCategory = intentCategory.getStringExtra(Costants.EXTRA_SUBREDDIT_CATEGORY);
         }
+
         initializeRestSubReddit(mRedditCategory);
 
-        if(!Utility.isOnline(getApplicationContext())){
+        if (!Utility.isOnline(getApplicationContext())) {
             startFragment(mRedditCategory);
         }
+
     }
 
     @Override
     public void onRestSubReddit(T3 listenerData) {
 
         if (listenerData != null) {
-            T3Operation data = new T3Operation(getApplicationContext(),listenerData);
+            T3Operation data = new T3Operation(getApplicationContext(), listenerData);
             data.saveData(mRedditCategory);
 
             if (data.saveData(mRedditCategory)) {
@@ -73,8 +74,8 @@ public class SubRedditActivity extends BaseActivity
 
     }
 
-    private void initializeRestSubReddit(String link){
-        if(!TextUtils.isEmpty(link)){
+    private void initializeRestSubReddit(String link) {
+        if (!TextUtils.isEmpty(link)) {
             new SubRedditExecute(link).getData(this);
         }
     }

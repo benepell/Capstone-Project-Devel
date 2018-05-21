@@ -124,6 +124,7 @@
     <string name="text_handle_description">handle image</string>
     <string name="title_menu_managesubs">Manage Subscriptions</string>
     <string name="title_activity_submanage">Manage SubScriptions</string>
+    <string name="title_activity_subreddit">SubReddit </string>
     <string name="no_account_text">No account yet? Create one</string>
     <string name="description_reddit_logo">Reddit logo and wordmark – Snoo</string>
     <string name="text_username_hint">Username</string>

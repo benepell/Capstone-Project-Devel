@@ -40,7 +40,6 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.view.Display;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

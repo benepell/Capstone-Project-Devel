@@ -283,13 +283,13 @@ class DbHelper extends SQLiteOpenHelper {
     @Override
     public synchronized void close() {
         super.close();
-        Log.d("DbHelper", "DATABASE close");
+        Timber.tag("DbHelper").d("DATABASE close");
 
     }
 
     @Override
     public void onOpen(SQLiteDatabase db) {
         super.onOpen(db);
-        Log.d("DbHelper", "DATABASE open");
+        Timber.d("DATABASE open");
     }
 }

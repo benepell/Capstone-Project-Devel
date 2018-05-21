@@ -1,6 +1,8 @@
 package info.pelleritoudacity.android.rcapstone.ui.fragment;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,11 +29,11 @@ import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
 import info.pelleritoudacity.android.rcapstone.media.ExoPlayerManager;
-import info.pelleritoudacity.android.rcapstone.media.MediaSession;
 import info.pelleritoudacity.android.rcapstone.ui.adapter.SubRedditAdapter;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import timber.log.Timber;
 
+import static info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity.sMediaSessionCompat;
 import static info.pelleritoudacity.android.rcapstone.utility.Costants.SUBREDDIT_LOADER_ID;
 
 public class SubRedditFragment extends Fragment
@@ -119,14 +122,10 @@ public class SubRedditFragment extends Fragment
         }
 
 
-    }
+//        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mYourBroadcastReceiver,
+//                new IntentFilter(<YOUR INTENT FILTER>));
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mExoPlayerManager != null) {
-            mExoPlayerManager.releasePlayer();
-        }
+
     }
 
     @Override
@@ -164,6 +163,14 @@ public class SubRedditFragment extends Fragment
         super.onResume();
         if (sListState != null) {
             mLayoutManager.onRestoreInstanceState(sListState);
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mExoPlayerManager != null) {
+            mExoPlayerManager.releasePlayer();
         }
     }
 
@@ -244,5 +251,18 @@ public class SubRedditFragment extends Fragment
         }
     }
 
+    public static class MediaReceiver extends BroadcastReceiver {
+
+        public MediaReceiver() {
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (sMediaSessionCompat != null) {
+                MediaButtonReceiver.handleIntent(sMediaSessionCompat, intent);
+            }
+        }
+
+    }
 
 }

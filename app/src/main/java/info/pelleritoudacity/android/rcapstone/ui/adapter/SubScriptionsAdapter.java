@@ -140,12 +140,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
 
         }
 
-        holder.mImageViewRedditStars.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onSubScriptionClick.onClickStar(visible, name);
-            }
-        });
+        holder.mImageViewRedditStars.setOnClickListener(v -> onSubScriptionClick.onClickStar(visible, name));
 
         holder.mImageViewRedditIcon.setContentDescription(name);
 

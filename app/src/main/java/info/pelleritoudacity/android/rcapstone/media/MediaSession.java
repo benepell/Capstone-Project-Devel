@@ -6,15 +6,15 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.mikepenz.iconics.IconicsDrawable;
-import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 
+import info.pelleritoudacity.android.rcapstone.BuildConfig;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
@@ -37,13 +37,14 @@ public class MediaSession {
         mPlayer = player;
     }
 
-
     public void initializeMediaSession() {
-     sMediaSessionCompat = new MediaSessionCompat(mContext, Costants.EXO_PLAYER_MANAGER_TAG);
+
+
+        sMediaSessionCompat = new MediaSessionCompat(mContext, Costants.EXO_PLAYER_MANAGER_TAG);
         sMediaSessionCompat.setFlags(
                 MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS |
-                        MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS |
-                        Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
         sMediaSessionCompat.setMediaButtonReceiver(null);
         mStateBuilder = new PlaybackStateCompat.Builder()
                 .setActions(
@@ -61,6 +62,7 @@ public class MediaSession {
 
         int icon;
         String play_pause;
+
         if (state.getState() == PlaybackStateCompat.STATE_PLAYING) {
             icon = R.drawable.exo_controls_pause;
             play_pause = mContext.getString(R.string.pause);
@@ -100,7 +102,6 @@ public class MediaSession {
 
         }
 
-
         builder.setContentTitle(mDescription)
                 .setContentText(mContext.getString(R.string.notification_text))
                 .setAutoCancel(true)
@@ -135,7 +136,6 @@ public class MediaSession {
 
 
     private class MySessionCallback extends MediaSessionCompat.Callback implements MediaSessionCallback {
-
 
         @Override
         public void onSimplePlayer(SimpleExoPlayer simpleExoPlayer) {

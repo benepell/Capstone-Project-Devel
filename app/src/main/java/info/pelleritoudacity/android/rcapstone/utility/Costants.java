@@ -76,6 +76,8 @@ public interface Costants {
     String EXTRA_FRAGMENT_SUBREDDIT = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit";
     String EXTRA_FRAGMENT_STATE = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit";
 
+    String EXTRA_MEDIA_SESSION = "info.pelleritoudacity.android.rcapstone.extra.media.session";
+
     String EXTRA_SUBSCRIPTION_STATE = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit";
     String EXTRA_FRAGMENT_SUBSCRIPTION = "info.pelleritoudacity.android.rcapstone.extra.fragment.subscription";
 
@@ -127,6 +129,6 @@ public interface Costants {
     String BUNDLE_EXOPLAYER_WINDOW = "info.pelleritoudacity.android.rcapstone.exo.player.window";
     String BUNDLE_EXOPLAYER_POSITION = "info.pelleritoudacity.android.rcapstone.exo.player.position";
     String BUNDLE_EXOPLAYER_AUTOPLAY = "info.pelleritoudacity.android.rcapstone.exo.player.autoplay";
-    String BUNDLE_EXOPLAYER_CONTENT = "info.pelleritoudacity.android.rcapstone.exo.player.content";
 
+    boolean IS_MEDIA_SESSION = true;
 }
