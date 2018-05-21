@@ -14,8 +14,8 @@ android {
     }
     buildTypes.each {
         //  REDDIT BASE URL  - url: https://www.reddit.com/prefs/apps/
-        it.buildConfigField 'String', 'REDDIT_CLIENT_ID', '\"gHRoCv5jZXeEBw"'
-        it.buildConfigField 'String', 'REDDIT_SECRET_STATE', '\"secret.state.rcaptone"'
+        it.buildConfigField 'String', 'REDDIT_CLIENT_ID', '\""'
+        it.buildConfigField 'String', 'REDDIT_SECRET_STATE', '\""'
         it.buildConfigField 'String', 'REDDIT_ABOUT_URL', '\"rcapstone.android.pelleritoudacity.info"'
         it.buildConfigField 'String', 'REDDIT_REDIRECT_URL', '\"http://rcapstone.android.pelleritoudacity.info/my_redirect"'
     }
@@ -69,7 +69,9 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:${rootProject.ext.okHttpVersion}"
     implementation "com.squareup.okhttp3:okhttp:${rootProject.ext.okHttpVersion}"
 
-    implementation "com.google.android.exoplayer:exoplayer:${rootProject.ext.exoPlayerVersion}"
+    implementation "com.google.android.exoplayer:exoplayer-core:${rootProject.ext.exoPlayerVersion}"
+    implementation "com.google.android.exoplayer:exoplayer-ui:${rootProject.ext.exoPlayerVersion}"
+    implementation "com.google.android.exoplayer:extension-ima:${rootProject.ext.exoPlayerVersion}"
 
     implementation "com.github.bumptech.glide:glide:${rootProject.ext.glideVersion}"
     annotationProcessor "com.github.bumptech.glide:compiler:${rootProject.ext.glideVersion}"

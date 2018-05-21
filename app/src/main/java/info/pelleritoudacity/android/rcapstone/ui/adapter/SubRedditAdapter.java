@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
 import com.google.android.exoplayer2.ui.PlayerView;
 
 import java.util.ArrayList;
@@ -42,9 +43,11 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
     private ExoPlayerManager mExoPlayerManager;
     private OnPlayerListener iPlayerListener;
+    private ImaAdsLoader mImaAdsLoader;
 
-    public SubRedditAdapter(Context context, OnPlayerListener listener) {
+    public SubRedditAdapter(Context context, ImaAdsLoader imaAdsLoader, OnPlayerListener listener) {
         mContext = context;
+        mImaAdsLoader = imaAdsLoader;
         iPlayerListener = listener;
         // todo add listener ....
         ArrayList<String> arrayList = new ArrayList<>();
@@ -155,7 +158,9 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
             holder.mPlayerLayout.setVisibility(View.VISIBLE);
 
 
-            mExoPlayerManager = new ExoPlayerManager(mContext, this,
+            mExoPlayerManager = new ExoPlayerManager(mContext,
+                    mImaAdsLoader,
+                    this,
                     holder.mPlayerView,
                     holder.mExoProgressBar,
                     title, holder.mTVErrorPlayer);

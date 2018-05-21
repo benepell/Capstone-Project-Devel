@@ -44,9 +44,11 @@ import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.Timeline;
+import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
+import com.google.android.exoplayer2.source.ads.AdsMediaSource;
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
@@ -82,6 +84,7 @@ public class ExoPlayerManager implements Player.EventListener {
 
     private ExoPlayerListener iExoPlayer;
     private MediaSession mMediaSession;
+    private ImaAdsLoader mImaAdsLoader;
 
     public ExoPlayerManager(Context context, ExoPlayerListener listener, PlayerView playerView, ProgressBar progressBar, String shortDescription, TextView tvErrorPlayer) {
         mContext = context;
@@ -92,6 +95,18 @@ public class ExoPlayerManager implements Player.EventListener {
         mTvErrorPlayer = tvErrorPlayer;
 
     }
+
+    public ExoPlayerManager(Context context, ImaAdsLoader imaAdsLoader, ExoPlayerListener listener, PlayerView playerView, ProgressBar progressBar, String shortDescription, TextView tvErrorPlayer) {
+        mContext = context;
+        mImaAdsLoader = imaAdsLoader;
+        iExoPlayer = listener;
+        mPlayerView = playerView;
+        mProgressBar = progressBar;
+        mShortDescription = shortDescription;
+        mTvErrorPlayer = tvErrorPlayer;
+
+    }
+
 
     public void initializePlayer(Uri mediaUri) {
         if (mPlayer == null) {
@@ -129,8 +144,20 @@ public class ExoPlayerManager implements Player.EventListener {
                 mPlayer.seekTo(mResumeWindow, mResumePosition);
             }
 
-            mPlayer.prepare(mediaSource, !isResume, false);
+
+            if (mImaAdsLoader != null) {
+
+                AdsMediaSource adsMediaSource = new AdsMediaSource(mediaSource, dataSourceFactory, mImaAdsLoader, mPlayerView.getOverlayFrameLayout());
+                mPlayer.prepare(adsMediaSource, !isResume, false);
+
+            } else {
+
+                mPlayer.prepare(mediaSource, !isResume, false);
+
+            }
+
             mPlayer.setPlayWhenReady(isAutoPlay);
+
 
             if (Costants.IS_MEDIA_SESSION) {
                 mMediaSession = new MediaSession(mContext, mPlayer);
@@ -271,7 +298,7 @@ public class ExoPlayerManager implements Player.EventListener {
             default:
         }
 
-        if ((mMediaSession != null) &&
+        if ((sMediaSessionCompat != null) && (mMediaSession != null) &&
                 (mMediaSession.getStateBuilder() != null)) {
 
             sMediaSessionCompat.setPlaybackState(mMediaSession.getStateBuilder().build());

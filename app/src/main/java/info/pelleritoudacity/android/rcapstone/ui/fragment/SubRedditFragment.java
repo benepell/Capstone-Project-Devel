@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.exoplayer2.C;
+import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
 
 import java.util.Objects;
 
@@ -55,6 +56,7 @@ public class SubRedditFragment extends Fragment
 
     private LinearLayoutManager mLayoutManager;
     private SubRedditAdapter mAdapter;
+    private ImaAdsLoader mImaAdsLoader;
 
     public SubRedditFragment() {
     }
@@ -77,6 +79,7 @@ public class SubRedditFragment extends Fragment
             sSubReddit = getArguments().getString(Costants.EXTRA_FRAGMENT_SUBREDDIT);
         }
 
+
     }
 
 
@@ -95,7 +98,9 @@ public class SubRedditFragment extends Fragment
 
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new SubRedditAdapter(mContext, this);
+        mImaAdsLoader = new ImaAdsLoader(mContext,Uri.parse(getString(R.string.ad_tag_url)));
+
+        mAdapter = new SubRedditAdapter(mContext,mImaAdsLoader, this);
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -120,10 +125,6 @@ public class SubRedditFragment extends Fragment
             sIsAutoRun = savedInstanceState.getBoolean(Costants.BUNDLE_EXOPLAYER_AUTOPLAY, false);
 
         }
-
-
-//        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mYourBroadcastReceiver,
-//                new IntentFilter(<YOUR INTENT FILTER>));
 
 
     }
@@ -249,20 +250,6 @@ public class SubRedditFragment extends Fragment
                 forceLoad();
             }
         }
-    }
-
-    public static class MediaReceiver extends BroadcastReceiver {
-
-        public MediaReceiver() {
-        }
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (sMediaSessionCompat != null) {
-                MediaButtonReceiver.handleIntent(sMediaSessionCompat, intent);
-            }
-        }
-
     }
 
 }

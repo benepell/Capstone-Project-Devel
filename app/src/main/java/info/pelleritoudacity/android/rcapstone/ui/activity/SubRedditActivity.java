@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.T3Operation;
+import info.pelleritoudacity.android.rcapstone.media.MediaSession;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.rest.SubRedditExecute;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditFragment;
@@ -22,14 +23,16 @@ import timber.log.Timber;
 public class SubRedditActivity extends BaseActivity
         implements SubRedditExecute.RestSubReddit {
 
+    private Context mContext;
     private String mRedditCategory;
-    public static MediaSessionCompat sMediaSessionCompat;
+    public static MediaSessionCompat sMediaSessionCompat = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setLayoutResource(R.layout.activity_subreddit);
         super.onCreate(savedInstanceState);
 
+        mContext = SubRedditActivity.this;
         Timber.plant(new Timber.DebugTree());
         ButterKnife.bind(this);
 
@@ -94,4 +97,11 @@ public class SubRedditActivity extends BaseActivity
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (Costants.IS_MEDIA_SESSION) {
+            MediaSession.removeNotification(mContext);
+        }
+    }
 }

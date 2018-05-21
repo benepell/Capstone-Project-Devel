@@ -70,7 +70,6 @@ public class CacheDataSourceFactory implements DataSource.Factory {
     @Override
     public DataSource createDataSource() {
 
-
         File file;
         long fileCache;
         long fileCacheMax;

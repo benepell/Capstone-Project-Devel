@@ -76,12 +76,8 @@ public interface Costants {
     String EXTRA_FRAGMENT_SUBREDDIT = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit";
     String EXTRA_FRAGMENT_STATE = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit";
 
-    String EXTRA_MEDIA_SESSION = "info.pelleritoudacity.android.rcapstone.extra.media.session";
-
     String EXTRA_SUBSCRIPTION_STATE = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit";
-    String EXTRA_FRAGMENT_SUBSCRIPTION = "info.pelleritoudacity.android.rcapstone.extra.fragment.subscription";
 
-    String EXTRA_TOKEN_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.token.refresh";
     String EXTRA_RESTORE_MANAGE = "info.pelleritoudacity.android.rcapstone.extra.restore.manage";
 
 

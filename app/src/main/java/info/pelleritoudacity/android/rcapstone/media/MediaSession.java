@@ -118,6 +118,19 @@ public class MediaSession {
 
     }
 
+    public static void removeNotification(Context context){
+        if (sMediaSessionCompat != null) {
+            sMediaSessionCompat.setActive(false);
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+            if (notificationManager != null) {
+                notificationManager.cancel(Costants.NOTIFICATION_CHANNEL_ID, Costants.NOTIFICATION_ID);
+            }
+            sMediaSessionCompat = null;
+        }
+
+
+    }
+
     public String getDescription() {
         return mDescription;
     }
