@@ -88,7 +88,7 @@ public interface Costants {
 
     String USER_AGENT_CACHE = "info.pelleritoudacity.android.rcapstone.exo.player.CacheDataSourceFactory";
     String USER_AGENT_MEDIA = "info.pelleritoudacity.android.rcapstone.exo.player.media";
-    String CACHE_VIDEO_DIR = "media";
+    String CACHE_MEDIA_DIR = "media";
     long EXT_CACHE_SIZE_MAX = 500 * 1024 * 1024;
     long EXT_CACHE_FILE_SIZE_MAX = 40 * 1024 * 1024;
     long CACHE_SIZE_MAX = 100 * 1024 * 1024;

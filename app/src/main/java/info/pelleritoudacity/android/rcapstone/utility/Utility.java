@@ -262,6 +262,14 @@ public class Utility {
         }
     }
 
+    public static void isDeniedPermissionExtStorage(Activity thisActivity) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(thisActivity,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            thisActivity.getSharedPreferences(thisActivity.getString(R.string.pref_write_external_storage), 0).edit().clear().apply();
+
+        }
+    }
+
 
     public static boolean isSmallImage(Context context, int widthPixel, int heightPixel) {
         if ((context != null) || (widthPixel != 0) || (heightPixel != 0)) {

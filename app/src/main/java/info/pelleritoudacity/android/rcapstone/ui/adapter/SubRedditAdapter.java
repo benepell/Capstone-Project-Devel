@@ -43,7 +43,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
     private ExoPlayerManager mExoPlayerManager;
     private OnPlayerListener iPlayerListener;
-    private ImaAdsLoader mImaAdsLoader;
+    private final ImaAdsLoader mImaAdsLoader;
 
     public SubRedditAdapter(Context context, ImaAdsLoader imaAdsLoader, OnPlayerListener listener) {
         mContext = context;
@@ -154,10 +154,6 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
         if (!TextUtils.isEmpty(videoPreviewUrl)) {
 
-            holder.mImageViewSubReddit.setVisibility(View.GONE);
-            holder.mPlayerLayout.setVisibility(View.VISIBLE);
-
-
             mExoPlayerManager = new ExoPlayerManager(mContext,
                     mImaAdsLoader,
                     this,
@@ -165,19 +161,19 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
                     holder.mExoProgressBar,
                     title, holder.mTVErrorPlayer);
 
-
             iPlayerListener.exoPlayer(mExoPlayerManager);
 
             mExoPlayerManager.initializePlayer(Uri.parse(videoPreviewUrl));
 
-            Timber.d("URL %s",imagePreviewUrl);
+            holder.mPlayerLayout.setVisibility(View.VISIBLE);
 
+        }else {
+            holder.mPlayerLayout.setVisibility(View.GONE);
         }
 
         holder.mTextViewTitle.setText(title);
         holder.mTextViewSubReddit.setText(subReddit);
-     //   todo add
-        //        holder.mTextViewDomain.setText(domain.replaceAll("\\..*$", ""));
+        holder.mTextViewDomain.setText(domain.replaceAll("\\..*$", ""));
         holder.mTextViewScore.setText(Utility.numberFormat(score));
         holder.mTextViewNumComments.setText(String.format("%s %s", String.valueOf(numComments), mContext.getString(R.string.text_comments_subreddit)));
 

@@ -26,9 +26,7 @@ package info.pelleritoudacity.android.rcapstone.media;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -69,12 +67,12 @@ public class ExoPlayerManager implements Player.EventListener {
 
     private final Context mContext;
 
-    private boolean isAutoPlay;
     String mShortDescription;
 
-    private int mResumeWindow;
-    private long mResumePosition;
-
+    private static boolean sIsAutoPlay;
+    private static int sResumeWindow;
+    private static long sResumePosition;
+    private static Uri sVideoUri;
 
     private final PlayerView mPlayerView;
     private SimpleExoPlayer mPlayer;
@@ -84,17 +82,7 @@ public class ExoPlayerManager implements Player.EventListener {
 
     private ExoPlayerListener iExoPlayer;
     private MediaSession mMediaSession;
-    private ImaAdsLoader mImaAdsLoader;
-
-    public ExoPlayerManager(Context context, ExoPlayerListener listener, PlayerView playerView, ProgressBar progressBar, String shortDescription, TextView tvErrorPlayer) {
-        mContext = context;
-        iExoPlayer = listener;
-        mPlayerView = playerView;
-        mProgressBar = progressBar;
-        mShortDescription = shortDescription;
-        mTvErrorPlayer = tvErrorPlayer;
-
-    }
+    private final ImaAdsLoader mImaAdsLoader;
 
     public ExoPlayerManager(Context context, ImaAdsLoader imaAdsLoader, ExoPlayerListener listener, PlayerView playerView, ProgressBar progressBar, String shortDescription, TextView tvErrorPlayer) {
         mContext = context;
@@ -133,17 +121,14 @@ public class ExoPlayerManager implements Player.EventListener {
 
             mPlayer.addListener(this);
 
+
             DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(mContext,
                     Util.getUserAgent(mContext, Costants.USER_AGENT_MEDIA));
 
             MediaSource mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory)
                     .createMediaSource(mediaUri);
 
-            final boolean isResume = mResumePosition > 0;
-            if (isResume) {
-                mPlayer.seekTo(mResumeWindow, mResumePosition);
-            }
-
+            final boolean isResume = sResumePosition > 0;
 
             if (mImaAdsLoader != null) {
 
@@ -151,13 +136,16 @@ public class ExoPlayerManager implements Player.EventListener {
                 mPlayer.prepare(adsMediaSource, !isResume, false);
 
             } else {
-
                 mPlayer.prepare(mediaSource, !isResume, false);
 
             }
 
-            mPlayer.setPlayWhenReady(isAutoPlay);
+            if ((isResume) && (mediaUri.equals(sVideoUri))) {
+                mPlayer.seekTo(sResumeWindow, sResumePosition);
+                mPlayer.setPlayWhenReady(sIsAutoPlay);
+            }
 
+            sVideoUri = mediaUri;
 
             if (Costants.IS_MEDIA_SESSION) {
                 mMediaSession = new MediaSession(mContext, mPlayer);
@@ -309,36 +297,42 @@ public class ExoPlayerManager implements Player.EventListener {
 
 
     public void setAutoPlay(boolean autoPlay) {
-        isAutoPlay = autoPlay;
+        sIsAutoPlay = autoPlay;
     }
 
     public boolean isAutoPlay() {
-        return isAutoPlay;
+        return sIsAutoPlay;
     }
 
-    public void setResume(int resumeWindow, long resumePosition) {
-        mResumeWindow = resumeWindow;
-        mResumePosition = resumePosition;
+    public void setResume(int resumeWindow, long resumePosition, Uri videoUri) {
+        sResumeWindow = resumeWindow;
+        sResumePosition = resumePosition;
+        sVideoUri = videoUri;
     }
 
     public int getResumeWindow() {
-        return mResumeWindow;
+        return sResumeWindow;
     }
 
     public long getResumePosition() {
-        return mResumePosition;
+        return sResumePosition;
     }
+
+    public Uri getVideoUri() {
+        return sVideoUri;
+    }
+
 
     public void updateResumePosition() {
         if (mPlayer != null) {
-            mResumeWindow = mPlayer.getCurrentWindowIndex();
-            mResumePosition = Math.max(0, mPlayer.getContentPosition());
+            sResumeWindow = mPlayer.getCurrentWindowIndex();
+            sResumePosition = Math.max(0, mPlayer.getContentPosition());
         }
     }
 
     public void clearResumePosition() {
-        mResumeWindow = C.INDEX_UNSET;
-        mResumePosition = C.TIME_UNSET;
+        sResumeWindow = C.INDEX_UNSET;
+        sResumePosition = C.TIME_UNSET;
     }
 
 

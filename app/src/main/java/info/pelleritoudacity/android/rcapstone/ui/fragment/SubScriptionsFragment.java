@@ -190,6 +190,7 @@ public class SubScriptionsFragment extends Fragment
 
             dialog.setPositiveButton(R.string.text_positive_restore_confirm, (dialog1, which) -> {
                 if (new DataUtils(context).updateManageRestore()) {
+                    // todo new entry
                     SubManageActivity.manageToMainActivity(context);
                 }
             });

@@ -47,9 +47,10 @@ public class SubRedditFragment extends Fragment
     private Context mContext;
 
     private static Parcelable sListState;
-    private static int sWindowPlayer;
-    private static boolean sIsAutoRun;
-    private static long sPositionPlayer;
+    private int sWindowPlayer;
+    private boolean sIsAutoRun;
+    private long sPositionPlayer;
+    private static boolean isIMA = false;
 
     private static String sSubReddit;
     private ExoPlayerManager mExoPlayerManager;
@@ -98,9 +99,10 @@ public class SubRedditFragment extends Fragment
 
         mRecyclerView.setHasFixedSize(true);
 
-        mImaAdsLoader = new ImaAdsLoader(mContext,Uri.parse(getString(R.string.ad_tag_url)));
+            mImaAdsLoader = new ImaAdsLoader(mContext, Uri.parse(getString(R.string.ad_tag_url)));
+            isIMA = true;
 
-        mAdapter = new SubRedditAdapter(mContext,mImaAdsLoader, this);
+        mAdapter = new SubRedditAdapter(mContext, mImaAdsLoader, this);
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -126,7 +128,14 @@ public class SubRedditFragment extends Fragment
 
         }
 
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mExoPlayerManager != null) {
+            mExoPlayerManager.releasePlayer();
+        }
     }
 
     @Override
@@ -137,12 +146,6 @@ public class SubRedditFragment extends Fragment
             mExoPlayerManager.updateResumePosition();
         }
 
-/* todo video in background see it
-        if (!mIsVideoBackground) {
-            destroyVideo();
-        }
-*/
-
     }
 
     @Override
@@ -152,9 +155,9 @@ public class SubRedditFragment extends Fragment
         outState.putParcelable(Costants.EXTRA_FRAGMENT_STATE, sListState);
 
         if (mExoPlayerManager != null) {
-            outState.putInt(Costants.BUNDLE_EXOPLAYER_WINDOW,mExoPlayerManager.getResumeWindow());
-            outState.putLong(Costants.BUNDLE_EXOPLAYER_POSITION,mExoPlayerManager.getResumePosition());
-            outState.putBoolean(Costants.BUNDLE_EXOPLAYER_AUTOPLAY,mExoPlayerManager.isAutoPlay());
+            outState.putInt(Costants.BUNDLE_EXOPLAYER_WINDOW, mExoPlayerManager.getResumeWindow());
+            outState.putLong(Costants.BUNDLE_EXOPLAYER_POSITION, mExoPlayerManager.getResumePosition());
+            outState.putBoolean(Costants.BUNDLE_EXOPLAYER_AUTOPLAY, mExoPlayerManager.isAutoPlay());
         }
 
     }
@@ -196,12 +199,11 @@ public class SubRedditFragment extends Fragment
     @Override
     public void exoPlayer(ExoPlayerManager exoPlayerManager) {
         mExoPlayerManager = exoPlayerManager;
-        if(mExoPlayerManager!=null){
-            mExoPlayerManager.setResume(sWindowPlayer,sPositionPlayer);
+        if( (mExoPlayerManager != null)&& !isIMA) {
+            mExoPlayerManager.setResume(sWindowPlayer, sPositionPlayer,mExoPlayerManager.getVideoUri());
             mExoPlayerManager.setAutoPlay(sIsAutoRun);
         }
     }
-
 
     private static class SubRedditFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
 

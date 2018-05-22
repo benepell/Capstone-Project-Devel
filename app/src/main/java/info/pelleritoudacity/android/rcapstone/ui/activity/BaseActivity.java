@@ -45,6 +45,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
@@ -347,6 +348,11 @@ public class BaseActivity extends AppCompatActivity
                 menuItem.setOnMenuItemClickListener(item -> {
                     Intent intent = new Intent(getApplication(), SubRedditActivity.class);
                     intent.putExtra(Costants.EXTRA_SUBREDDIT_CATEGORY, item.getTitle().toString());
+
+                    if(this.getClass().getSimpleName().equals(SubRedditActivity.class.getSimpleName())){
+                        finish();
+                    }
+
                     startActivity(intent);
 
                     return true;
