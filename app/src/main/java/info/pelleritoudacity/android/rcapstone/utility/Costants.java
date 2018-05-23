@@ -112,6 +112,15 @@ public interface Costants {
     String BUNDLE_EXOPLAYER_AUTOPLAY = "info.pelleritoudacity.android.rcapstone.exo.player.autoplay";
 
     boolean IS_MEDIA_SESSION = true;
-
     boolean IS_RENDERING_VIDEO = false;
+    boolean IS_AUTOPLAY_VIDEO = true;
+    boolean IS_REPEAT_VIDEO = true;
+    boolean IS_MUTED_AUDIO = true;
+    boolean IS_CONTROLLER_ALWAYS = true;
+
+    int PLAYER_SHOW_CONTROLLER_ALWAYS = -1;
+
+    String PATTERN_HH_MM_SS = "HH:mm:ss";
+    String PATTERN_MM_SS = "mm:ss";
+
 }

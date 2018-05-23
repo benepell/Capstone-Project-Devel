@@ -1,13 +1,15 @@
-
 /*
- *  ____        _    _                  _
- * | __ )  __ _| | _(_)_ __   __ _     / \   _ __  _ __
- * |  _ \ / _` | |/ / | '_ \ / _` |   / _ \ | '_ \| '_ \
- * | |_) | (_| |   <| | | | | (_| |  / ___ \| |_) | |_) |
- * |____/ \__,_|_|\_\_|_| |_|\__, | /_/   \_\ .__/| .__/
- *                           |___/          |_|   |_|
  *
- * Copyright (C) 2017 Benedetto Pellerito
+ * ______                _____ _
+ * | ___ \              /  ___| |
+ * | |_/ /___ __ _ _ __ \ `--.| |_ ___  _ __   ___
+ * |    // __/ _` | '_ \ `--. \ __/ _ \| '_ \ / _ \
+ * | |\ \ (_| (_| | |_) /\__/ / || (_) | | | |  __/
+ * \_| \_\___\__,_| .__/\____/ \__\___/|_| |_|\___|
+ *                | |
+ *                |_|
+ *
+ * Copyright (C) 2018 Benedetto Pellerito
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,14 +23,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package info.pelleritoudacity.android.rcapstone.media;
 
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -52,18 +55,28 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.mikepenz.iconics.IconicsDrawable;
+import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
+
+import java.util.concurrent.TimeUnit;
 
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.DateUtils;
+import info.pelleritoudacity.android.rcapstone.utility.ImageUtils;
+import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity.sMediaSessionCompat;
 
 public class ExoPlayerManager implements Player.EventListener {
+
 
     private final Context mContext;
 
@@ -83,8 +96,13 @@ public class ExoPlayerManager implements Player.EventListener {
     private final ExoPlayerListener iExoPlayer;
     private MediaSession mMediaSession;
     private final ImaAdsLoader mImaAdsLoader;
+    private TextView mTvExoCountDown;
+    private ImageView mImageMutedPlay;
+    private Handler mHandler;
 
-    public ExoPlayerManager(Context context, ImaAdsLoader imaAdsLoader, ExoPlayerListener listener, PlayerView playerView, ProgressBar progressBar, String shortDescription, TextView tvErrorPlayer) {
+    public ExoPlayerManager(Context context, ImaAdsLoader imaAdsLoader, ExoPlayerListener listener, PlayerView playerView,
+                            ProgressBar progressBar, String shortDescription, TextView tvErrorPlayer) {
+
         mContext = context;
         mImaAdsLoader = imaAdsLoader;
         iExoPlayer = listener;
@@ -92,26 +110,36 @@ public class ExoPlayerManager implements Player.EventListener {
         mProgressBar = progressBar;
         mShortDescription = shortDescription;
         mTvErrorPlayer = tvErrorPlayer;
-
     }
 
 
     public void initializePlayer(Uri mediaUri) {
+
+        if (mHandler == null) {
+            mHandler = new Handler();
+        }
+
         if (mPlayer == null) {
+
+            if (mPlayerView != null) {
+                mTvExoCountDown = mPlayerView.findViewById(R.id.exo_countdown);
+                mTvExoCountDown.setVisibility(View.VISIBLE);
+
+            }
+
 
             BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
             TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
             TrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
             LoadControl loadControl = new DefaultLoadControl();
 
-            // todo render video
-            boolean isRenderingVideo = false;
-
             int extensionRendererMode;
             if (Costants.IS_RENDERING_VIDEO) {
                 extensionRendererMode = DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON;
+
             } else {
                 extensionRendererMode = DefaultRenderersFactory.EXTENSION_RENDERER_MODE_OFF;
+
             }
 
             mPlayer = ExoPlayerFactory.newSimpleInstance(
@@ -121,7 +149,6 @@ public class ExoPlayerManager implements Player.EventListener {
 
             mPlayer.addListener(this);
 
-
             DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(mContext,
                     Util.getUserAgent(mContext, Costants.USER_AGENT_MEDIA));
 
@@ -130,9 +157,10 @@ public class ExoPlayerManager implements Player.EventListener {
 
             final boolean isResume = sResumePosition > 0;
 
-            if ((mImaAdsLoader != null) && (mPlayer != null)) {
+            if ((mImaAdsLoader != null) && (mPlayer != null) && (mPlayerView != null)) {
 
-                AdsMediaSource adsMediaSource = new AdsMediaSource(mediaSource, dataSourceFactory, mImaAdsLoader, mPlayerView.getOverlayFrameLayout());
+                AdsMediaSource adsMediaSource = new AdsMediaSource(mediaSource, dataSourceFactory, mImaAdsLoader,
+                        mPlayerView.getOverlayFrameLayout());
                 mPlayer.prepare(adsMediaSource, !isResume, false);
 
             } else {
@@ -143,6 +171,10 @@ public class ExoPlayerManager implements Player.EventListener {
             if ((isResume) && (mediaUri.equals(sVideoUri))) {
                 mPlayer.seekTo(sResumeWindow, sResumePosition);
                 mPlayer.setPlayWhenReady(sIsAutoPlay);
+
+            } else if (Costants.IS_AUTOPLAY_VIDEO) {
+                mPlayer.setPlayWhenReady(true);
+
             }
 
             sVideoUri = mediaUri;
@@ -151,27 +183,90 @@ public class ExoPlayerManager implements Player.EventListener {
                 mMediaSession = new MediaSession(mContext, mPlayer);
                 mMediaSession.setDescription(mShortDescription);
                 mMediaSession.initializeMediaSession();
-
             }
 
+            if (Costants.IS_CONTROLLER_ALWAYS) {
+                mPlayerView.setControllerShowTimeoutMs(Costants.PLAYER_SHOW_CONTROLLER_ALWAYS);
+            }
+
+            if (Costants.IS_REPEAT_VIDEO) {
+                mPlayer.setRepeatMode(Player.REPEAT_MODE_ONE);
+            }
+
+            initializeVolume();
+
+            mPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FILL);
         }
         iExoPlayer.onPlayer(mPlayer);
 
     }
 
+
+    private void initializeVolume() {
+
+        if ((mPlayer != null) && (mPlayerView != null)) {
+
+            mImageMutedPlay = mPlayerView.findViewById(R.id.exo_muted);
+
+            if (PrefManager.getBoolPref(mContext, R.string.pref_volume_muted)) {
+                mPlayer.setVolume(0f);
+                mImageMutedPlay.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_volume_off)
+                        .sizeDp(mContext.getResources().getInteger(R.integer.icon_size_muted))
+                        .color(ImageUtils.getColor(mContext, R.color.white))
+                        .respectFontBounds(true));
+
+            } else {
+                mPlayer.setVolume(1f);
+                mImageMutedPlay.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_volume_up)
+                        .sizeDp(mContext.getResources().getInteger(R.integer.icon_size_volume))
+                        .color(ImageUtils.getColor(mContext, R.color.white))
+                        .respectFontBounds(true));
+
+            }
+
+            mImageMutedPlay.setOnClickListener(v -> {
+                if (isMute()) {
+                    setMute(false);
+                    mImageMutedPlay.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_volume_up)
+                            .sizeDp(mContext.getResources().getInteger(R.integer.icon_size_volume))
+                            .color(ImageUtils.getColor(mContext, R.color.white))
+                            .respectFontBounds(true));
+
+                } else {
+                    setMute(true);
+                    mImageMutedPlay.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_volume_off)
+                            .sizeDp(mContext.getResources().getInteger(R.integer.icon_size_muted))
+                            .color(ImageUtils.getColor(mContext, R.color.white))
+                            .respectFontBounds(true));
+                }
+            });
+        }
+    }
+
     public void releasePlayer() {
+        releaseHandler();
+
         if ((mPlayer != null) && (mPlayerView != null)) {
             mPlayerView.setPlayer(null);
             mPlayer.release();
             mPlayer = null;
         }
+
     }
+
+    public void releaseHandler() {
+        if (mHandler != null) {
+            mHandler.removeCallbacks(runnableRemainingPlay);
+            mHandler = null;
+        }
+
+    }
+
 
     public void showPlayer() {
         visibilityProgressBar(false);
         mPlayerView.setVisibility(View.VISIBLE);
     }
-
 
     private void visibilityProgressBar(boolean visibility) {
         int viewVisible = visibility ? View.VISIBLE : View.GONE;
@@ -204,6 +299,7 @@ public class ExoPlayerManager implements Player.EventListener {
 
             case Player.STATE_READY:
                 showPlayer();
+                mHandler.post(runnableRemainingPlay);
                 break;
 
             default:
@@ -273,7 +369,8 @@ public class ExoPlayerManager implements Player.EventListener {
             case Player.STATE_ENDED:
 
                 if (playWhenReady) {
-                    showPlayer();
+                    // todo remove showplayer
+//                    showPlayer();
                 } else {
                     mPlayer.seekToDefaultPosition();
                 }
@@ -291,6 +388,38 @@ public class ExoPlayerManager implements Player.EventListener {
 
     }
 
+    private final Runnable runnableRemainingPlay = () -> tvCountDown();
+
+    private long timeRemainingPlay() {
+        Timber.d("Durate %s", String.valueOf(mPlayer.getDuration() - mPlayer.getContentPosition()));
+        return (mPlayer != null) ? mPlayer.getDuration() - mPlayer.getContentPosition() : 0;
+    }
+
+    private void tvCountDown() {
+        if (mPlayer != null) {
+            if (timeRemainingPlay() > 0) {
+                long delayMs = TimeUnit.SECONDS.toMillis(1);
+                mHandler.postDelayed(runnableRemainingPlay, delayMs);
+                mTvExoCountDown.setText(DateUtils.getTimeFormat(timeRemainingPlay()));
+            }
+        }
+    }
+
+    public void setMute(boolean toMute) {
+        if (toMute) {
+            mPlayer.setVolume(0f);
+            PrefManager.putBoolPref(mContext, R.string.pref_volume_muted, true);
+
+        } else {
+            mPlayer.setVolume(1f);
+            PrefManager.putBoolPref(mContext, R.string.pref_volume_muted, false);
+
+        }
+    }
+
+    public boolean isMute() {
+        return mPlayer != null && mPlayer.getVolume() == 0;
+    }
 
     public void setAutoPlay(boolean autoPlay) {
         sIsAutoPlay = autoPlay;
@@ -318,7 +447,6 @@ public class ExoPlayerManager implements Player.EventListener {
         return sVideoUri;
     }
 
-
     public void updateResumePosition() {
         if (mPlayer != null) {
             sResumeWindow = mPlayer.getCurrentWindowIndex();
@@ -331,10 +459,8 @@ public class ExoPlayerManager implements Player.EventListener {
         sResumePosition = C.TIME_UNSET;
     }
 
-
     public interface ExoPlayerListener {
         void onPlayer(SimpleExoPlayer player);
     }
-
 
 }

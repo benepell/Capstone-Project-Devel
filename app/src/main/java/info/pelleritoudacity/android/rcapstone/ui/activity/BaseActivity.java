@@ -1,10 +1,13 @@
 /*
- *  _    _  _     _  _______     ___                      _
- * ( )  ( )( )   ( )(_____  )   |  _`\                   ( )
- * `\`\/'/'`\`\_/'/'     /'/'   | (_) )   __     _ _    _| |   __   _ __
- *   >  <    `\ /'     /'/'     | ,  /  /'__`\ /'_` ) /'_` | /'__`\( '__)
- *  /'/\`\    | |    /'/'___    | |\ \ (  ___/( (_| |( (_| |(  ___/| |
- * (_)  (_)   (_)   (_______)   (_) (_)`\____)`\__,_)`\__,_)`\____)(_)
+ *
+ * ______                _____ _
+ * | ___ \              /  ___| |
+ * | |_/ /___ __ _ _ __ \ `--.| |_ ___  _ __   ___
+ * |    // __/ _` | '_ \ `--. \ __/ _ \| '_ \ / _ \
+ * | |\ \ (_| (_| | |_) /\__/ / || (_) | | | |  __/
+ * \_| \_\___\__,_| .__/\____/ \__\___/|_| |_|\___|
+ *                | |
+ *                |_|
  *
  * Copyright (C) 2018 Benedetto Pellerito
  *
@@ -20,7 +23,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package info.pelleritoudacity.android.rcapstone.ui.activity;
 
 import android.content.Context;
@@ -58,8 +60,6 @@ import info.pelleritoudacity.android.rcapstone.model.reddit.RedditAboutMe;
 import info.pelleritoudacity.android.rcapstone.rest.AboutMeExecute;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
-import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
-import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.TextUtil.stringToArray;

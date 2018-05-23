@@ -24,7 +24,6 @@
  * limitations under the License.
  */
 
-
 package info.pelleritoudacity.android.rcapstone.service;
 
 

@@ -76,6 +76,8 @@ public class MainActivity extends BaseActivity
 
         Intent intent = getIntent();
 
+        PrefManager.putBoolPref(mContext,R.string.pref_volume_muted,Costants.IS_MUTED_AUDIO);
+
         if (intent != null)
 
         {

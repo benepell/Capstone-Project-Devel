@@ -7,5 +7,8 @@
 
     <integer name="anim_duration_long">600</integer>
 
+    <integer name="icon_size_muted">30</integer>
+    <integer name="icon_size_volume">30</integer>
+
 
 </resources>

@@ -1,3 +1,29 @@
+/*
+ *
+ * ______                _____ _
+ * | ___ \              /  ___| |
+ * | |_/ /___ __ _ _ __ \ `--.| |_ ___  _ __   ___
+ * |    // __/ _` | '_ \ `--. \ __/ _ \| '_ \ / _ \
+ * | |\ \ (_| (_| | |_) /\__/ / || (_) | | | |  __/
+ * \_| \_\___\__,_| .__/\____/ \__\___/|_| |_|\___|
+ *                | |
+ *                |_|
+ *
+ * Copyright (C) 2018 Benedetto Pellerito
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package info.pelleritoudacity.android.rcapstone.ui.adapter;
 
 import android.content.Context;
@@ -30,6 +56,7 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
 import info.pelleritoudacity.android.rcapstone.media.ExoPlayerManager;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
+import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtils;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
@@ -70,90 +97,76 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
     public void onBindViewHolder(@NonNull SubRedditHolder holder, int position) {
         mCursor.moveToPosition(position);
 
-        int idReddit = mCursor.getInt(mCursor.getColumnIndex(Contract.T3dataEntry._ID));
-        String nameIdReddit = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_ID));
+        int idReddit = mCursor.getInt(
+                mCursor.getColumnIndex(Contract.T3dataEntry._ID));
 
-        String subRedditIdText = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_ID));
-        String subReddit = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT));
-        int subRedditSubscriptions = mCursor.getInt(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_SUBSCRIBERS));
+        String nameIdReddit = mCursor.getString(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_ID));
 
-        @SuppressWarnings("deprecation") String title = TextUtil.textFromHtml(
+        String subRedditIdText = mCursor.getString(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_ID));
+
+        String subReddit = mCursor.getString(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT));
+
+        int subRedditSubscriptions = mCursor.getInt(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_SUBSCRIBERS));
+
+        @SuppressWarnings("deprecation")
+        String title = TextUtil.textFromHtml(
                 mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_TITLE)));
 
-        String domain = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_DOMAIN));
-        Long createdUtc = mCursor.getLong(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_CREATED_UTC));
-        int score = mCursor.getInt(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SCORE));
-        int numComments = mCursor.getInt(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_NUM_COMMENTS));
+        String domain = mCursor.getString(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_DOMAIN));
 
-        @SuppressWarnings("deprecation") String imagePreviewUrl = TextUtil.textFromHtml(
+        Long createdUtc = mCursor.getLong(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_CREATED_UTC));
+
+        int score = mCursor.getInt(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SCORE));
+
+        int numComments = mCursor.getInt(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_NUM_COMMENTS));
+
+        @SuppressWarnings("deprecation")
+        String imagePreviewUrl = TextUtil.textFromHtml(
                 mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_URL)));
 
-        int imagePreviewWidth = mCursor.getInt(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_WIDTH));
-        int imagePreviewHeight = mCursor.getInt(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_HEIGHT));
+        int imagePreviewWidth = mCursor.getInt(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_WIDTH));
 
-        @SuppressWarnings("deprecation") String videoPreviewUrl = TextUtil.textFromHtml(
+        int imagePreviewHeight = mCursor.getInt(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_HEIGHT));
+
+        @SuppressWarnings("deprecation")
+        String videoPreviewUrl = TextUtil.textFromHtml(
                 mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_URL)));
 
-        String videoPreviewWidth = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_WIDTH));
-        String videoPreviewHeight = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_HEIGHT));
+        String videoPreviewWidth = mCursor.getString(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_WIDTH));
 
-        int hourCurrentUtc = getHourCurrentCreatedUtc(createdUtc);
+        String videoPreviewHeight = mCursor.getString(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_HEIGHT));
+
         String strDiffCurrentUtc;
+        int hourCurrentUtc = getHourCurrentCreatedUtc(createdUtc);
 
         if (hourCurrentUtc < 24) {
-            if (hourCurrentUtc < 1) hourCurrentUtc = 1;
+
+            if (hourCurrentUtc < 1) {
+                hourCurrentUtc = 1;
+            }
+
             strDiffCurrentUtc = String.valueOf(hourCurrentUtc) + " " + mContext.getString(R.string.abbr_hour_text);
+
         } else {
             strDiffCurrentUtc = String.valueOf(Math.round(hourCurrentUtc / 24)) + " " + mContext.getString(R.string.abbr_day_text);
+
         }
 
         holder.mTextViewCreatedUtc.setText(strDiffCurrentUtc);
 
-        if (!TextUtils.isEmpty(imagePreviewUrl)) {
-
-            Glide.with(holder.itemView.getContext().getApplicationContext())
-                    .asBitmap()
-                    .load(imagePreviewUrl)
-                    .into(new SimpleTarget<Bitmap>(imagePreviewWidth, imagePreviewHeight) {
-                        @Override
-                        public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                            super.onLoadFailed(errorDrawable);
-                            holder.mImageViewSubReddit.setImageResource(R.drawable.logo);
-                        }
-
-                        @Override
-                        public void onLoadStarted(@Nullable Drawable placeholder) {
-                            super.onLoadStarted(placeholder);
-                            holder.mImageViewSubReddit.setImageResource(R.drawable.logo);
-                        }
-
-                        @Override
-                        public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
-                            if (isSmallImage(mContext, imagePreviewWidth, imagePreviewHeight)) {
-                                holder.mImageViewSubRedditSmall.setImageBitmap(resource);
-                            } else {
-                                holder.mImageViewSubReddit.setImageBitmap(resource);
-                            }
-
-                        }
-                    });
-
-            if (isSmallImage(mContext, imagePreviewWidth, imagePreviewHeight)) {
-                holder.mImageViewSubReddit.setVisibility(View.GONE);
-                holder.mImageViewSubRedditSmall.setVisibility(View.VISIBLE);
-            } else {
-                holder.mImageViewSubRedditSmall.setVisibility(View.GONE);
-                holder.mImageViewSubReddit.setVisibility(View.VISIBLE);
-
-            }
-
-        } else {
-            holder.mImageViewSubRedditSmall.setVisibility(View.GONE);
-            holder.mImageViewSubReddit.setVisibility(View.GONE);
-        }
-
         if (!TextUtils.isEmpty(videoPreviewUrl)) {
-
             mExoPlayerManager = new ExoPlayerManager(mContext,
                     mImaAdsLoader,
                     this,
@@ -171,20 +184,97 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
         } else {
             holder.mPlayerLayout.setVisibility(View.GONE);
+
+        }
+
+        if ((TextUtils.isEmpty(videoPreviewUrl)) && (!TextUtils.isEmpty(imagePreviewUrl))) {
+            imageReddit(holder, imagePreviewUrl, imagePreviewWidth, imagePreviewHeight);
+
+        } else {
+            holder.mImageViewSubRedditSmall.setVisibility(View.GONE);
+            holder.mImageViewSubReddit.setVisibility(View.GONE);
+
         }
 
         holder.mTextViewTitle.setText(title);
+
         holder.mTextViewSubReddit.setText(subReddit);
+
         holder.mTextViewDomain.setText(domain.replaceAll("\\..*$", ""));
+
         holder.mTextViewScore.setText(numberFormat(score));
-        holder.mTextViewNumComments.setText(String.format("%s %s", String.valueOf(numComments), mContext.getString(R.string.text_comments_subreddit)));
+
+        holder.mTextViewNumComments.setText(
+                String.format("%s %s", String.valueOf(numComments),
+                        mContext.getString(R.string.text_comments_subreddit))
+        );
 
         holder.bind(holder.getAdapterPosition());
+    }
+
+
+    private void imageReddit(SubRedditHolder holder, String imagePreviewUrl, int imagePreviewWidth, int imagePreviewHeight) {
+
+        Glide.with(holder.itemView.getContext().getApplicationContext())
+                .asBitmap()
+                .load(imagePreviewUrl)
+                .into(new SimpleTarget<Bitmap>(imagePreviewWidth, imagePreviewHeight) {
+
+                    @Override
+                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                        super.onLoadFailed(errorDrawable);
+                        holder.mImageViewSubReddit.setImageResource(R.drawable.logo);
+                    }
+
+                    @Override
+                    public void onLoadStarted(@Nullable Drawable placeholder) {
+                        super.onLoadStarted(placeholder);
+                        holder.mImageViewSubReddit.setImageResource(R.drawable.logo);
+                    }
+
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
+                        if (isSmallImage(mContext, imagePreviewWidth, imagePreviewHeight)) {
+                            holder.mImageViewSubRedditSmall.setImageBitmap(resource);
+
+                        } else {
+                            holder.mImageViewSubReddit.setImageBitmap(resource);
+
+                        }
+
+                    }
+
+                });
+
+        if (isSmallImage(mContext, imagePreviewWidth, imagePreviewHeight)) {
+            holder.mImageViewSubReddit.setVisibility(View.GONE);
+            holder.mImageViewSubRedditSmall.setVisibility(View.VISIBLE);
+
+        } else {
+            holder.mImageViewSubRedditSmall.setVisibility(View.GONE);
+            holder.mImageViewSubReddit.setVisibility(View.VISIBLE);
+
+        }
+
     }
 
     @Override
     public int getItemCount() {
         return (mCursor == null) ? 0 : mCursor.getCount();
+    }
+
+    @Override
+    public void onViewAttachedToWindow(@NonNull SubRedditHolder holder) {
+        super.onViewAttachedToWindow(holder);
+
+        if ((Costants.IS_AUTOPLAY_VIDEO) && ((mExoPlayerManager != null))) {
+            mExoPlayerManager.setAutoPlay(true);
+            mExoPlayerManager.initializePlayer(Uri.parse(mVideoAttachedToWindowUrl));
+
+        } else if ((mExoPlayerManager != null) && (!mExoPlayerManager.isAutoPlay())) {
+            mExoPlayerManager.initializePlayer(Uri.parse(mVideoAttachedToWindowUrl));
+
+        }
     }
 
     @Override
@@ -198,21 +288,12 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
     }
 
     @Override
-    public void onViewAttachedToWindow(@NonNull SubRedditHolder holder) {
-        super.onViewAttachedToWindow(holder);
-        if ((mExoPlayerManager != null) && (!mExoPlayerManager.isAutoPlay())) {
-            mExoPlayerManager.initializePlayer(Uri.parse(mVideoAttachedToWindowUrl));
-            mExoPlayerManager.showPlayer();
-        }
-    }
-
-    @Override
     public void onPlayer(SimpleExoPlayer player) {
 
     }
 
     public class SubRedditHolder extends RecyclerView.ViewHolder
-            implements ItemTouchHelperViewHolder  {
+            implements ItemTouchHelperViewHolder {
 
         @SuppressWarnings("unused")
         @BindView(R.id.tv_title)
