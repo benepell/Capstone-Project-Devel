@@ -31,8 +31,8 @@ import info.pelleritoudacity.android.rcapstone.ui.helper.SimpleItemTouchHelperCa
 import info.pelleritoudacity.android.rcapstone.ui.adapter.SubScriptionsAdapter;
 
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.MapUtils;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
-import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.Costants.REDDIT_LOADER_ID;
@@ -158,9 +158,9 @@ public class SubScriptionsFragment extends Fragment
         if (utils.updateVisibleStar(updateVisibleValue, name)) {
 
             if (visible != 0) {
-                Utility.removeElementPrefSubreddit(getActivity(), name);
+                MapUtils.removeElementPrefSubreddit(getActivity(), name);
             } else {
-                Utility.addElementPrefSubreddit(getActivity(), name);
+                MapUtils.addElementPrefSubreddit(getActivity(), name);
             }
 
             restartLoader();

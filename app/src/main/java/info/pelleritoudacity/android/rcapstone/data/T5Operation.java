@@ -10,7 +10,7 @@ import info.pelleritoudacity.android.rcapstone.model.reddit.T5Data;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T5Listing;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
-import info.pelleritoudacity.android.rcapstone.utility.Utility;
+import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
 public class T5Operation {
     private final T5 mModelT5;
@@ -40,7 +40,7 @@ public class T5Operation {
             arrCV[i] = new ContentValues();
 
             dataUtils.putNullCV(arrCV[i], Contract.PrefSubRedditEntry.COLUMN_NAME_NAME,
-                    Utility.normalizeSubRedditLink(t5Model.getUrl()));
+                    TextUtil.normalizeSubRedditLink(t5Model.getUrl()));
 
            dataUtils.putNullCV(arrCV[i], Contract.PrefSubRedditEntry.COLUMN_NAME_IMAGE,
                     t5Model.getIconImg());

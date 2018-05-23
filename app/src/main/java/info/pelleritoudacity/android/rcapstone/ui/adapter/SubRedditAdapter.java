@@ -30,7 +30,12 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
 import info.pelleritoudacity.android.rcapstone.media.ExoPlayerManager;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
-import info.pelleritoudacity.android.rcapstone.utility.Utility;
+import info.pelleritoudacity.android.rcapstone.utility.ImageUtils;
+import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+
+import static info.pelleritoudacity.android.rcapstone.utility.DateUtils.getHourCurrentCreatedUtc;
+import static info.pelleritoudacity.android.rcapstone.utility.ImageUtils.isSmallImage;
+import static info.pelleritoudacity.android.rcapstone.utility.NumberUtils.numberFormat;
 
 public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubRedditHolder> implements ExoPlayerManager.ExoPlayerListener {
 
@@ -72,7 +77,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         String subReddit = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT));
         int subRedditSubscriptions = mCursor.getInt(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_SUBSCRIBERS));
 
-        @SuppressWarnings("deprecation") String title = Utility.textFromHtml(
+        @SuppressWarnings("deprecation") String title = TextUtil.textFromHtml(
                 mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_TITLE)));
 
         String domain = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_DOMAIN));
@@ -80,19 +85,19 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         int score = mCursor.getInt(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SCORE));
         int numComments = mCursor.getInt(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_NUM_COMMENTS));
 
-        @SuppressWarnings("deprecation") String imagePreviewUrl = Utility.textFromHtml(
+        @SuppressWarnings("deprecation") String imagePreviewUrl = TextUtil.textFromHtml(
                 mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_URL)));
 
         int imagePreviewWidth = mCursor.getInt(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_WIDTH));
         int imagePreviewHeight = mCursor.getInt(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_HEIGHT));
 
-        @SuppressWarnings("deprecation") String videoPreviewUrl = Utility.textFromHtml(
+        @SuppressWarnings("deprecation") String videoPreviewUrl = TextUtil.textFromHtml(
                 mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_URL)));
 
         String videoPreviewWidth = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_WIDTH));
         String videoPreviewHeight = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_HEIGHT));
 
-        int hourCurrentUtc = Utility.getHourCurrentCreatedUtc(createdUtc);
+        int hourCurrentUtc = getHourCurrentCreatedUtc(createdUtc);
         String strDiffCurrentUtc;
 
         if (hourCurrentUtc < 24) {
@@ -124,7 +129,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
                         @Override
                         public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
-                            if (Utility.isSmallImage(mContext, imagePreviewWidth, imagePreviewHeight)) {
+                            if (isSmallImage(mContext, imagePreviewWidth, imagePreviewHeight)) {
                                 holder.mImageViewSubRedditSmall.setImageBitmap(resource);
                             } else {
                                 holder.mImageViewSubReddit.setImageBitmap(resource);
@@ -133,7 +138,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
                         }
                     });
 
-            if (Utility.isSmallImage(mContext, imagePreviewWidth, imagePreviewHeight)) {
+            if (isSmallImage(mContext, imagePreviewWidth, imagePreviewHeight)) {
                 holder.mImageViewSubReddit.setVisibility(View.GONE);
                 holder.mImageViewSubRedditSmall.setVisibility(View.VISIBLE);
             } else {
@@ -171,7 +176,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         holder.mTextViewTitle.setText(title);
         holder.mTextViewSubReddit.setText(subReddit);
         holder.mTextViewDomain.setText(domain.replaceAll("\\..*$", ""));
-        holder.mTextViewScore.setText(Utility.numberFormat(score));
+        holder.mTextViewScore.setText(numberFormat(score));
         holder.mTextViewNumComments.setText(String.format("%s %s", String.valueOf(numComments), mContext.getString(R.string.text_comments_subreddit)));
 
         holder.bind(holder.getAdapterPosition());
@@ -274,12 +279,12 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
         @Override
         public void onItemSelected() {
-            itemView.setBackgroundColor(Utility.getColor(mContext, R.color.colorBackgroundItemSelected));
+            itemView.setBackgroundColor(ImageUtils.getColor(mContext, R.color.colorBackgroundItemSelected));
         }
 
         @Override
         public void onItemClear() {
-            itemView.setBackgroundColor(Utility.getColor(mContext, R.color.colorBackgroundItemNoSelected));
+            itemView.setBackgroundColor(ImageUtils.getColor(mContext, R.color.colorBackgroundItemNoSelected));
         }
 
 

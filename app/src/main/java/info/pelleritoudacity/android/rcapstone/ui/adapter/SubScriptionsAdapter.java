@@ -37,7 +37,10 @@ import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperAdapter;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
 import info.pelleritoudacity.android.rcapstone.ui.helper.OnStartDragListener;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.ImageUtils;
+import info.pelleritoudacity.android.rcapstone.utility.MapUtils;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 
 public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdapter.RedditHolder> implements ItemTouchHelperAdapter {
@@ -58,7 +61,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
 
 
         if (!TextUtils.isEmpty(PrefManager.getStringPref(mContext, R.string.pref_subreddit_key))) {
-            mArrayList.addAll(Utility.stringToArray(PrefManager.getStringPref(mContext, R.string.pref_subreddit_key)));
+            mArrayList.addAll(TextUtil.stringToArray(PrefManager.getStringPref(mContext, R.string.pref_subreddit_key)));
         }
 
 
@@ -86,7 +89,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
         name = mCursor.getString(mCursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME));
 
         mArrayList.add(position, name);
-        mArrayList = Utility.removeArrayListDuplicate(mArrayList);
+        mArrayList = MapUtils.removeArrayListDuplicate(mArrayList);
 
         holder.mImageViewRedditHandle.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_view_headline)
                 .respectFontBounds(true));
@@ -176,7 +179,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
             notifyItemMoved(fromPosition, toPosition);
         }
 
-        String string = Utility.arrayToString(mArrayList);
+        String string = TextUtil.arrayToString(mArrayList);
 
         if (!TextUtils.isEmpty(string)) {
             PrefManager.putStringPref(mContext, R.string.pref_subreddit_key, string);
@@ -195,8 +198,8 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
                 mArrayList.remove(position);
                 notifyItemRemoved(position);
             }
-            mArrayList = Utility.removeArrayListDuplicate(mArrayList);
-            String string = Utility.arrayToString(mArrayList);
+            mArrayList = MapUtils.removeArrayListDuplicate(mArrayList);
+            String string = TextUtil.arrayToString(mArrayList);
 
             if (!TextUtils.isEmpty(string)) {
                 PrefManager.putStringPref(mContext, R.string.pref_subreddit_key, string);
@@ -235,12 +238,12 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
 
         @Override
         public void onItemSelected() {
-            itemView.setBackgroundColor(Utility.getColor(mContext, R.color.colorBackgroundItemSelected));
+            itemView.setBackgroundColor(ImageUtils.getColor(mContext, R.color.colorBackgroundItemSelected));
         }
 
         @Override
         public void onItemClear() {
-            itemView.setBackgroundColor(Utility.getColor(mContext, R.color.colorBackgroundItemNoSelected));
+            itemView.setBackgroundColor(ImageUtils.getColor(mContext, R.color.colorBackgroundItemNoSelected));
         }
 
         public void bind() { }

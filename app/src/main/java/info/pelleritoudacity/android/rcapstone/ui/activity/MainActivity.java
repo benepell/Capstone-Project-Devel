@@ -39,9 +39,11 @@ import info.pelleritoudacity.android.rcapstone.rest.RefreshTokenExecute;
 import info.pelleritoudacity.android.rcapstone.rest.RestExecute;
 import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.NetworkUtils;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
-import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
+
+import static info.pelleritoudacity.android.rcapstone.utility.SessionUtils.getRedditSessionExpired;
 
 public class MainActivity extends BaseActivity
         implements SwipeRefreshLayout.OnRefreshListener {
@@ -97,7 +99,7 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onRefresh() {
-        if (Utility.isOnline(getApplicationContext())) {
+        if (NetworkUtils.isOnline(getApplicationContext())) {
             getDataT5(getApplicationContext());
         } else {
             mIsRefreshing = false;
@@ -129,7 +131,7 @@ public class MainActivity extends BaseActivity
 
         if (PrefManager.getBoolPref(getApplicationContext(), R.string.pref_login_start)) {
 
-            int redditSessionExpired = Utility.getRedditSessionExpired(getApplicationContext());
+            int redditSessionExpired = getRedditSessionExpired(getApplicationContext());
             if (redditSessionExpired <= Costants.SESSION_TIMEOUT_DEFAULT) {
 
                 String strRefreshToken = PrefManager.getStringPref(getApplicationContext(), R.string.pref_session_refresh_token);
@@ -147,6 +149,5 @@ public class MainActivity extends BaseActivity
             new RestExecute().syncData(context);
         }
     }
-
 
 }

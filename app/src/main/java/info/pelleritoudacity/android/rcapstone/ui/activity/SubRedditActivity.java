@@ -25,11 +25,13 @@ import info.pelleritoudacity.android.rcapstone.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.rest.SubRedditExecute;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditFragment;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.NetworkUtils;
+import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
-import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
 
-import static info.pelleritoudacity.android.rcapstone.utility.Utility.RequestPermissionExtStorage;
+import static info.pelleritoudacity.android.rcapstone.utility.PermissionUtils.RequestPermissionExtStorage;
+
 
 public class SubRedditActivity extends BaseActivity
         implements SubRedditExecute.RestSubReddit, ActivityCompat.OnRequestPermissionsResultCallback {
@@ -49,7 +51,7 @@ public class SubRedditActivity extends BaseActivity
 
         if (Util.SDK_INT > 23) {
             RequestPermissionExtStorage(SubRedditActivity.this);
-            Utility.isDeniedPermissionExtStorage(SubRedditActivity.this);
+            PermissionUtils.isDeniedPermissionExtStorage(SubRedditActivity.this);
         }
 
 
@@ -61,7 +63,7 @@ public class SubRedditActivity extends BaseActivity
 
         initializeRestSubReddit(mRedditCategory);
 
-        if (!Utility.isOnline(getApplicationContext())) {
+        if (!NetworkUtils.isOnline(getApplicationContext())) {
             startFragment(mRedditCategory);
         }
 
@@ -140,7 +142,7 @@ public class SubRedditActivity extends BaseActivity
     @Override
     public boolean shouldShowRequestPermissionRationale(@NonNull String permission) {
         if ((!Objects.equals(permission, Manifest.permission.WRITE_EXTERNAL_STORAGE)) ||
-                (Utility.isPermissionExtStorage(mContext) ||
+                (PermissionUtils.isPermissionExtStorage(mContext) ||
                         PrefManager.isPref(mContext, R.string.pref_request_permission))) {
             return super.shouldShowRequestPermissionRationale(permission);
         }

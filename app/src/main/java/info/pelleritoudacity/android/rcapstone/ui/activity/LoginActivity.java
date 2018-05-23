@@ -18,6 +18,7 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.model.reddit.RedditToken;
 import info.pelleritoudacity.android.rcapstone.rest.AccessTokenExecute;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.NetworkUtils;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
@@ -36,7 +37,7 @@ public class LoginActivity extends BaseActivity {
         ButterKnife.bind(this);
         Timber.plant(new Timber.DebugTree());
 
-        if ((Utility.isOnline(getApplicationContext())) &&
+        if ((NetworkUtils.isOnline(getApplicationContext())) &&
                 (!PrefManager.getBoolPref(getApplicationContext(), R.string.pref_login_start))) {
 
             createWebview(loadUrl());

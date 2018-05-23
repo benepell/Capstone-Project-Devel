@@ -17,6 +17,7 @@ import info.pelleritoudacity.android.rcapstone.data.Contract;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubScriptionsFragment;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
 
@@ -94,9 +95,9 @@ public class SubManageActivity extends BaseActivity {
                 if (!cursor.isClosed()) {
                     while (cursor.moveToNext()) {
                         name = cursor.getString(cursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME));
-                        name = Utility.normalizeSubRedditLink(name);
+                        name = TextUtil.normalizeSubRedditLink(name);
                         arrayList.add(name);
-                        String strPref = Utility.arrayToString(arrayList);
+                        String strPref = TextUtil.arrayToString(arrayList);
                         PrefManager.putStringPref(context, R.string.pref_subreddit_key, strPref);
                     }
 

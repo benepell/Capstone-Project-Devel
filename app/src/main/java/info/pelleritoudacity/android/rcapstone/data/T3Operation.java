@@ -16,8 +16,11 @@ import info.pelleritoudacity.android.rcapstone.model.reddit.T3Data;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T3Listing;
 import info.pelleritoudacity.android.rcapstone.model.reddit.Variants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
+
+import static info.pelleritoudacity.android.rcapstone.utility.DateUtils.getSecondsTimeStamp;
 
 public class T3Operation {
 
@@ -290,7 +293,7 @@ public class T3Operation {
                 dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_DISTINGUISHED,
                         t3Model.getDistinguished());
 
-                String stringCategoryNormalizeSub = Utility.normalizeSubRedditLink(t3Model.getSubreddit());
+                String stringCategoryNormalizeSub = TextUtil.normalizeSubRedditLink(t3Model.getSubreddit());
                 dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT,
                         stringCategoryNormalizeSub);
 
@@ -441,7 +444,7 @@ public class T3Operation {
 
             if (!TextUtils.isEmpty(timestamp)) {
                 int timeUpdateDatabase = PrefManager.getIntGeneralSettings(mContext, R.string.pref_sync_frequency);
-                isDeleted = Utility.getSecondsTimeStamp(timestamp) > timeUpdateDatabase;
+                isDeleted = getSecondsTimeStamp(timestamp) > timeUpdateDatabase;
             }
 
         } catch (Exception e) {

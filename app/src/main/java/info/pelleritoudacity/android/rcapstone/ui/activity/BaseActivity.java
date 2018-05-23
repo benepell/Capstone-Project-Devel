@@ -58,8 +58,11 @@ import info.pelleritoudacity.android.rcapstone.model.reddit.RedditAboutMe;
 import info.pelleritoudacity.android.rcapstone.rest.AboutMeExecute;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
+
+import static info.pelleritoudacity.android.rcapstone.utility.TextUtil.stringToArray;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AboutMeExecute.RestAboutMe {
@@ -326,7 +329,7 @@ public class BaseActivity extends AppCompatActivity
                 stringLink = prefString;
             }
 
-            ArrayList<String> arrayList = Utility.stringToArray(stringLink);
+            ArrayList<String> arrayList = stringToArray(stringLink);
 
             int groupId = menu.findItem(R.id.nav_mode_subs).getGroupId();
 
