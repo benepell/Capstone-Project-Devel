@@ -67,7 +67,7 @@ public class ExoPlayerManager implements Player.EventListener {
 
     private final Context mContext;
 
-    String mShortDescription;
+    final String mShortDescription;
 
     private static boolean sIsAutoPlay;
     private static int sResumeWindow;
@@ -76,11 +76,11 @@ public class ExoPlayerManager implements Player.EventListener {
 
     private final PlayerView mPlayerView;
     private SimpleExoPlayer mPlayer;
-    private ProgressBar mProgressBar;
+    private final ProgressBar mProgressBar;
 
-    TextView mTvErrorPlayer;
+    final TextView mTvErrorPlayer;
 
-    private ExoPlayerListener iExoPlayer;
+    private final ExoPlayerListener iExoPlayer;
     private MediaSession mMediaSession;
     private final ImaAdsLoader mImaAdsLoader;
 
@@ -108,7 +108,7 @@ public class ExoPlayerManager implements Player.EventListener {
             boolean isRenderingVideo = false;
 
             int extensionRendererMode;
-            if (isRenderingVideo) {
+            if (Costants.IS_RENDERING_VIDEO) {
                 extensionRendererMode = DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON;
             } else {
                 extensionRendererMode = DefaultRenderersFactory.EXTENSION_RENDERER_MODE_OFF;
@@ -130,7 +130,7 @@ public class ExoPlayerManager implements Player.EventListener {
 
             final boolean isResume = sResumePosition > 0;
 
-            if (mImaAdsLoader != null) {
+            if ((mImaAdsLoader != null) && (mPlayer != null)) {
 
                 AdsMediaSource adsMediaSource = new AdsMediaSource(mediaSource, dataSourceFactory, mImaAdsLoader, mPlayerView.getOverlayFrameLayout());
                 mPlayer.prepare(adsMediaSource, !isResume, false);
@@ -167,7 +167,7 @@ public class ExoPlayerManager implements Player.EventListener {
         }
     }
 
-    private void showPlayer() {
+    public void showPlayer() {
         visibilityProgressBar(false);
         mPlayerView.setVisibility(View.VISIBLE);
     }
@@ -264,10 +264,6 @@ public class ExoPlayerManager implements Player.EventListener {
 
                     } else {
 
-                        if (mMediaSession.getStateBuilder() != null) {
-                            mMediaSession.setStateBuilder(mMediaSession.getStateBuilder().setState(PlaybackStateCompat.STATE_PAUSED,
-                                    mPlayer.getCurrentPosition(), 1f));
-                        }
                         setAutoPlay(false);
                     }
                 }

@@ -6,7 +6,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
@@ -14,7 +13,6 @@ import android.support.v4.media.session.PlaybackStateCompat;
 
 import com.google.android.exoplayer2.SimpleExoPlayer;
 
-import info.pelleritoudacity.android.rcapstone.BuildConfig;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
@@ -24,7 +22,7 @@ import static info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActiv
 
 public class MediaSession {
 
-    private Context mContext;
+    private final Context mContext;
     private String mDescription;
 
     private SimpleExoPlayer mPlayer;

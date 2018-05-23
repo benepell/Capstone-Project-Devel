@@ -22,10 +22,8 @@ import timber.log.Timber;
 
 public class SubManageActivity extends BaseActivity {
 
-    private boolean isRestore;
     private static WeakReference<Context> sWeakContext;
     private static WeakReference<android.support.v4.app.FragmentManager> sWeakFragmentManager;
-    private RemovedItemSubRedditAsyncTask removedItemSubRedditAsyncTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +63,6 @@ public class SubManageActivity extends BaseActivity {
         protected Cursor doInBackground(Void... voids) {
             try {
                 Context context = sWeakContext.get();
-                android.support.v4.app.FragmentManager fragmentManager = sWeakFragmentManager.get();
 
                 Uri uri = Contract.PrefSubRedditEntry.CONTENT_URI;
                 String selection = Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED + " =? AND " + Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE + " =?";

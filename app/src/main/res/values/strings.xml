@@ -13,22 +13,17 @@
 
     <string name="pref_type_mode" translatable="false">pref.type.mode</string>
 
-    <string name="pref_drawer_night" translatable="false">info.pelleritoudacity.android.rcapstone.pref.drawer.night</string>
-
     <string name="pref_login_start" translatable="false">info.pelleritoudacity.android.rcapstone.pref.login.start</string>
     <string name="pref_login_name" translatable="false">info.pelleritoudacity.android.rcapstone.pref.login.name</string>
     <string name="pref_login_over18" translatable="false">info.pelleritoudacity.android.rcapstone.pref.login.over18</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="title_activity_base">&app_name; base </string>
 
     <string name="image_description_app">&app_name; Android Nano degree </string>
-    <string name="image_description_image">&app_name; Android Nanodegree Image</string>
     <string name="url_app" translatable="false">http://android.pelleritoudacity.info/rcapstone</string>
 
     <string name="list_snackbar_offline_text">No Internet connection &#8230; \n swipe here to try again.</string>
-    <string name="summary_drawer_night">drawer night summary</string>
 
     <string name="pref_app_version" translatable="false">pref_app_version</string>
     <string name="title_app_version">Version</string>
@@ -44,16 +39,11 @@
     <string name="pref_request_permission" translatable="false">info.pelleritoudacity.android.rcapstone.request.permission.external.storage</string>
     <string name="pref_write_external_storage" translatable="false">info.pelleritoudacity.android.rcapstone.write.external.storage</string>
 
-    <string name="pref_video_uri" translatable="false">info.pelleritoudacity.android.rcapstone.prefVideoUri</string>
-
     <string name="pref_session_username" translatable="false">info.pelleritoudacity.android.rcapstone.session.username</string>
     <string name="pref_session_access_token" translatable="false">info.pelleritoudacity.android.rcapstone.session.access.token</string>
     <string name="pref_session_refresh_token" translatable="false">info.pelleritoudacity.android.rcapstone.session.refresh.token</string>
     <string name="pref_session_expired" translatable="false">info.pelleritoudacity.android.rcapstone.session.expired</string>
     <string name="pref_time_token" translatable="false">info.pelleritoudacity.android.rcapstone.time.logged</string>
-
-    <string name="pref_widget_id" translatable="false">info.pelleritoudacity.android.rcapstone.pref.widget.it</string>
-    <string name="pref_widget_name" translatable="false">info.pelleritoudacity.android.rcapstone.pref.widget.name</string>
 
     <string name="pref_night_mode" translatable="false">info.pelleritoudacity.android.rcapstone.pref_night_mode</string>
     <string name="title_night_mode">Night Mode</string>
@@ -98,7 +88,6 @@
     <string name="pref_restore_manage" translatable="false">info.pelleritoudacity.android.rcapstone.pref.restore.manage</string>
 
     <string name="text_restore_data">This action will restore all your SubScription. Are you sure you want to continue?</string>
-    <string name="text_restore_confirm_reset">Restore SubScription Reset: Restore All Items.</string>
     <string name="title_restore_confirm">Restore SubScription Reset</string>
     <string name="text_restore_confirm_no_reset">Cancel</string>
     <string name="text_positive_restore_confirm">Restore</string>
@@ -124,16 +113,8 @@
     <string name="text_handle_description">handle image</string>
     <string name="title_menu_managesubs">Manage Subscriptions</string>
     <string name="title_activity_submanage">Manage SubScriptions</string>
-    <string name="title_activity_subreddit">SubReddit </string>
-    <string name="no_account_text">No account yet? Create one</string>
-    <string name="description_reddit_logo">Reddit logo and wordmark – Snoo</string>
-    <string name="text_username_hint">Username</string>
-    <string name="text_password_hint">Password</string>
-    <string name="text_login_hint">Login</string>
     <string name="title_activity_login">Login</string>
-    <string name="progress_login_text">Authenticating…</string>
 
-    <string name="reddit_about_url">rcapstone.android.pelleritoudacity.info</string>
     <string name="text_login_success">You have successfully logged in</string>
     <string name="text_nav_anonymous">Anonymous</string>
     <string name="title_menu_logout">Logout</string>
@@ -154,11 +135,6 @@
     <string name="play">Play</string>
     <string name="pause">Pause</string>
     <string name="restart">Restart</string>
-
-    <string name="title_widget_remove">Remove Widget</string>
-    <string name="title_widget_add">Add Widget</string>
-    <string name="title_navigation_back">Back Step</string>
-    <string name="title_navigation_forward">Step Forward</string>
 
     <string name="error_video">Error loading player: no playable video</string>
     <string name="ad_tag_url"><![CDATA[https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dlinear&correlator=]]></string>

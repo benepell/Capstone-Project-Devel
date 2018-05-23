@@ -8,12 +8,11 @@ import java.util.List;
 
 import info.pelleritoudacity.android.rcapstone.model.ModelContent;
 import info.pelleritoudacity.android.rcapstone.model.reddit.Resolution;
-import info.pelleritoudacity.android.rcapstone.model.reddit.Source;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T3Data;
 
 public class ImageContentOperation {
 
-    private Context mContext;
+    private final Context mContext;
 
     public ImageContentOperation(Context context) {
         mContext = context;
@@ -42,7 +41,6 @@ public class ImageContentOperation {
         optimizeArrayList = new ArrayList<>(1);
         modelContentImage = new ModelContent();
         List<Resolution> dataResolution = t3DataChild.getPreview().getImages().get(0).getResolutions();
-        Source dataSource = t3DataChild.getPreview().getImages().get(0).getSource();
 
         int index;
         switch (densityDpi) {

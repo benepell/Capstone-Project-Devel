@@ -48,7 +48,7 @@ public class T3Listing implements Parcelable
         this.dist = ((Integer) in.readValue((Integer.class.getClassLoader())));
         in.readList(this.children, (T3ListingData.class.getClassLoader()));
         this.after = ((String) in.readValue((String.class.getClassLoader())));
-        this.before = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.before = in.readValue((Object.class.getClassLoader()));
     }
 
     public T3Listing() {

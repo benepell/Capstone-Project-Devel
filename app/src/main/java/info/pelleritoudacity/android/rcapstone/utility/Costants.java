@@ -49,16 +49,12 @@ public interface Costants {
 
     int SESSION_TIMEOUT_DEFAULT = 60;
 
-    String REDDIT_SYNC_TAG = "rcapstone-sync";
     String TOKEN_SYNC_TAG = "rcapstone-token-sync";
 
     int REDDIT_LOADER_ID = 1;
     int SUBREDDIT_LOADER_ID = 2;
 
-    int LOGIN_REQUEST_SIGNUP = 0;
-
     int NAV_MODE_HOME = 0;
-    int NAV_MODE_LOGIN = 1;
     int NAV_MODE_SUBSCRIPTIONS = 4;
     int NAV_MODE_REFRESH = 5;
     int NAV_MODE_SETTINGS = 6;
@@ -81,11 +77,6 @@ public interface Costants {
     String EXTRA_RESTORE_MANAGE = "info.pelleritoudacity.android.rcapstone.extra.restore.manage";
 
 
-    String CONTENT_TYPE = "Content-Type";
-    String APPLICATION_JSON = "application/json";
-    String JSON_TYPE = "json";
-    String LOGIN_API_USERNAME = "username";
-
     String USER_AGENT_CACHE = "info.pelleritoudacity.android.rcapstone.exo.player.CacheDataSourceFactory";
     String USER_AGENT_MEDIA = "info.pelleritoudacity.android.rcapstone.exo.player.media";
     String CACHE_MEDIA_DIR = "media";
@@ -100,8 +91,6 @@ public interface Costants {
     int OK_HTTP_CONNECTION_READ_TIMEOUT = 30;
     int OK_HTTP_CONNECTION_WRITE_TIMEOUT = 15;
 
-    String TEXT_SEPARATOR = " - ";
-
     String DEFAULT_SUBREDDIT_CATEGORY = "AskReddit,politics,worldnews,nba,videos,funny," +
             "todayilearned,soccer,cfb,gaming,movies,news,gifs,aww,wtf,showerthoughts,technology";
 
@@ -109,11 +98,7 @@ public interface Costants {
     int REMOVED_SUBREDDIT_ITEMS = 1;
     int RESTORE_SUBREDDIT_ITEMS = 0;
 
-    String MORE_SPACE = "\u202F\u202F\u202F";
-
     int DEFAULT_SUBREDDIT_VISIBLE = 1;
-
-    int EXO_PROGRESSBAR_DELAY = 200;
 
     String EXO_PLAYER_MANAGER_TAG = "info.pelleritoudacity.android.rcapstone.exo.player.tag.subreddit";
 
@@ -127,4 +112,6 @@ public interface Costants {
     String BUNDLE_EXOPLAYER_AUTOPLAY = "info.pelleritoudacity.android.rcapstone.exo.player.autoplay";
 
     boolean IS_MEDIA_SESSION = true;
+
+    boolean IS_RENDERING_VIDEO = false;
 }

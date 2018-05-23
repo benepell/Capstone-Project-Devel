@@ -5,17 +5,9 @@
     <color name="colorAccent">@color/light_blue_A700</color>
     <color name="textColorPrimary">@color/black</color>
     <color name="textColorSecondary">@color/grey_600</color>
-    <color name="textColorBackground">@color/black</color>
-    <color name="textColorHyperLink">@color/light_blue_A700</color>
 
     <color name="colorBackgroundItemSelected">#fff9c4</color>
     <color name="colorBackgroundItemNoSelected">@color/white</color>
-
-    <color name="colorBackgroundImage">@color/white</color>
-    <color name="colorBackgroundCard">@color/white</color>
-    <color name="light_green_A200">#B2FF59</color>
-
-    <color name="colorBackgroundPlayer">@color/black</color>
 
     <color name="red_A400">#FF1744</color>
 

@@ -18,7 +18,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.lang.ref.WeakReference;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -48,24 +47,20 @@ public class SubScriptionsFragment extends Fragment
     private SubScriptionsAdapter mAdapter;
     private ItemTouchHelper mItemTouchHelper;
     private boolean mIsRestart;
-    private static WeakReference<Context> sWeakReference;
     private static Parcelable sListState;
-    private static String sSubFragment;
     private LinearLayoutManager mLayoutManager;
 
     public SubScriptionsFragment() {
     }
 
     public static SubScriptionsFragment newInstance() {
-        SubScriptionsFragment fragment = new SubScriptionsFragment();
-        return fragment;
+        return new SubScriptionsFragment();
     }
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sWeakReference = new WeakReference<>(getActivity());
 
     }
 
@@ -82,7 +77,7 @@ public class SubScriptionsFragment extends Fragment
             }
 
         } else {
-            sListState = savedInstanceState.getParcelable(Costants.EXTRA_SUBSCRIPTION_STATE);
+            sListState = Objects.requireNonNull(savedInstanceState).getParcelable(Costants.EXTRA_SUBSCRIPTION_STATE);
         }
 
     }
@@ -128,10 +123,6 @@ public class SubScriptionsFragment extends Fragment
 
 
         return view;
-    }
-
-    public void updateUI() {
-        mAdapter.notifyDataSetChanged();
     }
 
     @NonNull

@@ -24,8 +24,6 @@ import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
 import com.google.android.exoplayer2.ui.PlayerView;
 
-import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
@@ -33,24 +31,21 @@ import info.pelleritoudacity.android.rcapstone.data.Contract;
 import info.pelleritoudacity.android.rcapstone.media.ExoPlayerManager;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
-import timber.log.Timber;
 
-public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubRedditHolder>
-        implements ExoPlayerManager.ExoPlayerListener {
+public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubRedditHolder> implements ExoPlayerManager.ExoPlayerListener {
 
     private Cursor mCursor;
     private Context mContext;
 
     private ExoPlayerManager mExoPlayerManager;
-    private OnPlayerListener iPlayerListener;
+    private final OnPlayerListener iPlayerListener;
     private final ImaAdsLoader mImaAdsLoader;
+    private String mVideoAttachedToWindowUrl;
 
     public SubRedditAdapter(Context context, ImaAdsLoader imaAdsLoader, OnPlayerListener listener) {
         mContext = context;
         mImaAdsLoader = imaAdsLoader;
         iPlayerListener = listener;
-        // todo add listener ....
-        ArrayList<String> arrayList = new ArrayList<>();
     }
 
     @NonNull
@@ -85,13 +80,13 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         int score = mCursor.getInt(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SCORE));
         int numComments = mCursor.getInt(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_NUM_COMMENTS));
 
-        String imagePreviewUrl = Utility.textFromHtml(
+        @SuppressWarnings("deprecation") String imagePreviewUrl = Utility.textFromHtml(
                 mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_URL)));
 
         int imagePreviewWidth = mCursor.getInt(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_WIDTH));
         int imagePreviewHeight = mCursor.getInt(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_HEIGHT));
 
-        String videoPreviewUrl = Utility.textFromHtml(
+        @SuppressWarnings("deprecation") String videoPreviewUrl = Utility.textFromHtml(
                 mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_URL)));
 
         String videoPreviewWidth = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_WIDTH));
@@ -165,9 +160,11 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
             mExoPlayerManager.initializePlayer(Uri.parse(videoPreviewUrl));
 
+            mVideoAttachedToWindowUrl = videoPreviewUrl;
+
             holder.mPlayerLayout.setVisibility(View.VISIBLE);
 
-        }else {
+        } else {
             holder.mPlayerLayout.setVisibility(View.GONE);
         }
 
@@ -186,13 +183,31 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
     }
 
     @Override
+    public void onViewDetachedFromWindow(@NonNull SubRedditHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+
+        if ((mExoPlayerManager != null) && (mExoPlayerManager.isAutoPlay())) {
+            mExoPlayerManager.setAutoPlay(false);
+            mExoPlayerManager.releasePlayer();
+        }
+    }
+
+    @Override
+    public void onViewAttachedToWindow(@NonNull SubRedditHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        if ((mExoPlayerManager != null) && (!mExoPlayerManager.isAutoPlay())) {
+            mExoPlayerManager.initializePlayer(Uri.parse(mVideoAttachedToWindowUrl));
+            mExoPlayerManager.showPlayer();
+        }
+    }
+
+    @Override
     public void onPlayer(SimpleExoPlayer player) {
 
     }
 
-
     public class SubRedditHolder extends RecyclerView.ViewHolder
-            implements ItemTouchHelperViewHolder {
+            implements ItemTouchHelperViewHolder  {
 
         @SuppressWarnings("unused")
         @BindView(R.id.tv_title)
@@ -243,8 +258,6 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         TextView mTextViewNumComments;
 
         private int mPosition;
-        private String mVideoPreviewUrl;
-
 
         SubRedditHolder(View itemView) {
             super(itemView);
@@ -268,6 +281,8 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         public void onItemClear() {
             itemView.setBackgroundColor(Utility.getColor(mContext, R.color.colorBackgroundItemNoSelected));
         }
+
+
     }
 
 

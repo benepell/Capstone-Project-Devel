@@ -21,8 +21,8 @@ public class AccessTokenManager {
     private Call<RedditToken> mCall;
 
 
-    HashMap<String, String> headerMap;
-    HashMap<String, String> fieldMap;
+    final HashMap<String, String> headerMap;
+    final HashMap<String, String> fieldMap;
 
 
     private AccessTokenManager(String code) {

@@ -50,6 +50,7 @@ import java.util.LinkedHashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.NavigableMap;
+import java.util.Objects;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
@@ -273,7 +274,7 @@ public class Utility {
 
     public static boolean isSmallImage(Context context, int widthPixel, int heightPixel) {
         if ((context != null) || (widthPixel != 0) || (heightPixel != 0)) {
-            int dpW = widthPixel / (int) context.getResources().getDisplayMetrics().density;
+            int dpW = widthPixel / (int) Objects.requireNonNull(context).getResources().getDisplayMetrics().density;
             int dpH = heightPixel / (int) context.getResources().getDisplayMetrics().density;
 
             DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
@@ -282,10 +283,10 @@ public class Utility {
             float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
 
             if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                if ((dpWidth * 0.3) > dpW) return true;
+                return (dpWidth * 0.3) > dpW;
 
             } else {
-                if ((dpHeight * 0.3) > dpH) return true;
+                return (dpHeight * 0.3) > dpH;
 
             }
         }

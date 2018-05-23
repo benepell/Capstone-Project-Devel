@@ -21,8 +21,8 @@ import timber.log.Timber;
 
 public class T3Operation {
 
-    private Context mContext;
-    private T3 mModelT3;
+    private final Context mContext;
+    private final T3 mModelT3;
 
     public T3Operation(Context context, T3 modelT3) {
         mContext = context;
@@ -457,7 +457,7 @@ public class T3Operation {
         return isDeleted;
     }
 
-    public boolean deleteCategory(String contractPath, String category) {
+    public void deleteCategory(String contractPath, String category) {
         String where;
         Uri uri;
         String[] selectionArgs = {category};
@@ -480,7 +480,9 @@ public class T3Operation {
                 where = null;
         }
 
-        return uri != null && mContext.getContentResolver().delete(uri, where, selectionArgs) > 0;
+        if (uri != null) {
+            mContext.getContentResolver().delete(uri, where, selectionArgs);
+        }
 
     }
 

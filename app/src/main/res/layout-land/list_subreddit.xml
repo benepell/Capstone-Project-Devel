@@ -12,7 +12,6 @@
 
     <LinearLayout
 
-        android:id="@+id/list_subreddit_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -29,7 +28,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|start"
                 android:scaleType="centerInside"
-                android:visibility="visible" />
+                android:visibility="visible"
+                android:contentDescription="TODO" />
 
             <TextView
                 android:id="@+id/tv_title"
@@ -57,7 +57,8 @@
             android:paddingEnd="@dimen/list_padding_horizontal_title"
             android:paddingStart="@dimen/list_padding_horizontal_title"
             android:paddingTop="@dimen/list_padding_vertical_title"
-            android:scaleType="centerInside" />
+            android:scaleType="centerInside"
+            android:contentDescription="TODO" />
 
         <include layout="@layout/inc_player_container" />
 

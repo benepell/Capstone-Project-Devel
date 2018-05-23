@@ -45,7 +45,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
@@ -190,10 +189,8 @@ public class BaseActivity extends AppCompatActivity
                 default:
                     menuItemLogin.setChecked(false);
             }
-        } else if (getLayoutResource() == R.layout.activity_submanage) {
-            // todo resume here
-
         }
+
         return true;
     }
 

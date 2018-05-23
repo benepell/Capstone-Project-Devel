@@ -119,7 +119,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
                     }
 
                     @Override
-                    public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                    public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
                         RoundedBitmapDrawable circularBitmapDrawable =
                                 RoundedBitmapDrawableFactory.create(holder.itemView.getContext().getApplicationContext().getResources(), resource);
                         circularBitmapDrawable.setCircular(true);
@@ -243,10 +243,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
             itemView.setBackgroundColor(Utility.getColor(mContext, R.color.colorBackgroundItemNoSelected));
         }
 
-        public void bind() {
-
-        }
-
+        public void bind() { }
 
     }
 

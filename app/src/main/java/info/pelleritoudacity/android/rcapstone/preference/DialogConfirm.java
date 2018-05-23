@@ -39,7 +39,6 @@ import java.lang.ref.WeakReference;
 
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.DataUtils;
-import info.pelleritoudacity.android.rcapstone.media.CacheDataSourceFactory;
 import info.pelleritoudacity.android.rcapstone.rest.RevokeTokenExecute;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
@@ -92,7 +91,6 @@ public class DialogConfirm extends DialogPreference {
         protected Void doInBackground(Void... params) {
             Context context = sWeakReference.get();
             if (context != null) {
-                CacheDataSourceFactory.getClearData(context);
                 Glide.get(context).clearDiskCache();
             }
 

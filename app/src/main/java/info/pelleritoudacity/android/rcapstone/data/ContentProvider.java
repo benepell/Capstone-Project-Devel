@@ -208,6 +208,7 @@ public class ContentProvider extends android.content.ContentProvider {
                 mSelection = "_id=?";
                 mSelectionArgs = new String[]{id};
 
+                //noinspection UnusedAssignment
                 returnCursor = db.query(Contract.T3dataEntry.TABLE_NAME,
                         projection,
                         mSelection,

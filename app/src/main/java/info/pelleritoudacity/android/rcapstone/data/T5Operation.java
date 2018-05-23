@@ -13,8 +13,8 @@ import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 
 public class T5Operation {
-    private  T5 mModelT5;
-    private Context mContext;
+    private final T5 mModelT5;
+    private final Context mContext;
 
     public T5Operation(Context context, T5 modelT5) {
         mContext = context;
@@ -292,7 +292,7 @@ public class T5Operation {
         return uriReddit != null && uriData != null && countT5Data != 0;
     }
 
-    public boolean saveData() {
+    public void saveData() {
         DataUtils dataUtils = new DataUtils(mContext);
         if (dataUtils.isRecordData()) clearData();
         if (insertData()) {
@@ -301,9 +301,7 @@ public class T5Operation {
                     PrefManager.putBoolPref(mContext, R.string.pref_insert_data, true);
                 }
             }
-            return true;
         }
-        return false;
     }
 
     public void clearData() {

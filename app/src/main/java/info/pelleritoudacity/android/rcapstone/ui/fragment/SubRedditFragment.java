@@ -1,8 +1,6 @@
 package info.pelleritoudacity.android.rcapstone.ui.fragment;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -34,7 +31,6 @@ import info.pelleritoudacity.android.rcapstone.ui.adapter.SubRedditAdapter;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import timber.log.Timber;
 
-import static info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity.sMediaSessionCompat;
 import static info.pelleritoudacity.android.rcapstone.utility.Costants.SUBREDDIT_LOADER_ID;
 
 public class SubRedditFragment extends Fragment
@@ -57,7 +53,6 @@ public class SubRedditFragment extends Fragment
 
     private LinearLayoutManager mLayoutManager;
     private SubRedditAdapter mAdapter;
-    private ImaAdsLoader mImaAdsLoader;
 
     public SubRedditFragment() {
     }
@@ -79,10 +74,7 @@ public class SubRedditFragment extends Fragment
         if (getArguments() != null) {
             sSubReddit = getArguments().getString(Costants.EXTRA_FRAGMENT_SUBREDDIT);
         }
-
-
     }
-
 
     @Nullable
     @Override
@@ -99,8 +91,8 @@ public class SubRedditFragment extends Fragment
 
         mRecyclerView.setHasFixedSize(true);
 
-            mImaAdsLoader = new ImaAdsLoader(mContext, Uri.parse(getString(R.string.ad_tag_url)));
-            isIMA = true;
+        ImaAdsLoader mImaAdsLoader = new ImaAdsLoader(mContext, Uri.parse(getString(R.string.ad_tag_url)));
+        isIMA = true;
 
         mAdapter = new SubRedditAdapter(mContext, mImaAdsLoader, this);
 
@@ -117,7 +109,6 @@ public class SubRedditFragment extends Fragment
             if (getActivity() != null) {
                 getActivity().getSupportLoaderManager().initLoader(SUBREDDIT_LOADER_ID, null, this);
             }
-
 
         } else {
             sListState = savedInstanceState.getParcelable(Costants.EXTRA_FRAGMENT_STATE);
@@ -141,11 +132,9 @@ public class SubRedditFragment extends Fragment
     @Override
     public void onPause() {
         super.onPause();
-
         if (mExoPlayerManager != null) {
             mExoPlayerManager.updateResumePosition();
         }
-
     }
 
     @Override
@@ -199,8 +188,8 @@ public class SubRedditFragment extends Fragment
     @Override
     public void exoPlayer(ExoPlayerManager exoPlayerManager) {
         mExoPlayerManager = exoPlayerManager;
-        if( (mExoPlayerManager != null)&& !isIMA) {
-            mExoPlayerManager.setResume(sWindowPlayer, sPositionPlayer,mExoPlayerManager.getVideoUri());
+        if ((mExoPlayerManager != null) && !isIMA) {
+            mExoPlayerManager.setResume(sWindowPlayer, sPositionPlayer, mExoPlayerManager.getVideoUri());
             mExoPlayerManager.setAutoPlay(sIsAutoRun);
         }
     }

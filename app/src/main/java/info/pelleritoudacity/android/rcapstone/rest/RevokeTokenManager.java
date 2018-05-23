@@ -18,8 +18,8 @@ public class RevokeTokenManager {
     private static RedditAPI sRevokeTokenAPI;
     private static RevokeTokenManager sRevokeTokenManager;
     private Call<String> mCall;
-    private HashMap<String, String> headerMap;
-    private HashMap<String, String> fieldMap;
+    private final HashMap<String, String> headerMap;
+    private final HashMap<String, String> fieldMap;
 
 
     private RevokeTokenManager(String token, String typeToken) {

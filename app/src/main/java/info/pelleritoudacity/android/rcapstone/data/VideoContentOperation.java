@@ -5,6 +5,7 @@ import android.util.DisplayMetrics;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import info.pelleritoudacity.android.rcapstone.model.ModelContent;
 import info.pelleritoudacity.android.rcapstone.model.reddit.Mp4;
@@ -15,7 +16,7 @@ import info.pelleritoudacity.android.rcapstone.model.reddit.Variants;
 
 public class VideoContentOperation {
 
-    private Context mContext;
+    private final Context mContext;
 
     public VideoContentOperation(Context context) {
         mContext = context;
@@ -56,7 +57,7 @@ public class VideoContentOperation {
         }
 
         if ((dataResolutionMp4s != null) || (dataSourceMp4 != null)) {
-            int index = 0;
+            int index;
             int densityDpi = mContext.getResources().getDisplayMetrics().densityDpi;
             switch (densityDpi) {
                 case DisplayMetrics.DENSITY_XXXHIGH:
@@ -137,7 +138,7 @@ public class VideoContentOperation {
 
                 default:
                     index = 0;
-                    modelContent.setUrl( dataResolutionMp4s.get(index).getUrl());
+                    modelContent.setUrl( Objects.requireNonNull(dataResolutionMp4s).get(index).getUrl());
                     modelContent.setWidth(dataResolutionMp4s.get(index).getWidth());
                     modelContent.setHeight(dataResolutionMp4s.get(index).getHeight());
                     optimizeArrayList.add(modelContent);
