@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:id="@+id/id_player_layout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/id_player_layout"
     android:layout_width="match_parent"
     android:layout_height="200dp"
     android:background="@drawable/background_protection"
     android:gravity="center_vertical"
     android:orientation="vertical"
-    android:visibility="gone"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:visibility="gone">
 
-    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
-        android:id="@+id/pv_subreddit"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        app:controller_layout_id="@layout/playback_control_view"
-        android:visibility="gone" />
+
+        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+            android:id="@+id/pv_subreddit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:controller_layout_id="@layout/playback_control_view" />
 
     <ProgressBar
         android:id="@+id/exo_progressBar"

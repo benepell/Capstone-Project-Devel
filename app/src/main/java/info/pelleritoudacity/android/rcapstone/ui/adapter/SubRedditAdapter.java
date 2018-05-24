@@ -27,6 +27,7 @@
 package info.pelleritoudacity.android.rcapstone.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -42,6 +43,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -55,29 +57,28 @@ import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
 import info.pelleritoudacity.android.rcapstone.media.ExoPlayerManager;
+import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtils;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.DateUtils.getHourCurrentCreatedUtc;
 import static info.pelleritoudacity.android.rcapstone.utility.ImageUtils.isSmallImage;
 import static info.pelleritoudacity.android.rcapstone.utility.NumberUtils.numberFormat;
 
-public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubRedditHolder> implements ExoPlayerManager.ExoPlayerListener {
+public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubRedditHolder> {
 
     private Cursor mCursor;
     private Context mContext;
 
     private ExoPlayerManager mExoPlayerManager;
-    private final OnPlayerListener iPlayerListener;
     private final ImaAdsLoader mImaAdsLoader;
-    private String mVideoAttachedToWindowUrl;
 
-    public SubRedditAdapter(Context context, ImaAdsLoader imaAdsLoader, OnPlayerListener listener) {
+    public SubRedditAdapter(Context context, ImaAdsLoader imaAdsLoader) {
         mContext = context;
         mImaAdsLoader = imaAdsLoader;
-        iPlayerListener = listener;
     }
 
     @NonNull
@@ -169,16 +170,11 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         if (!TextUtils.isEmpty(videoPreviewUrl)) {
             mExoPlayerManager = new ExoPlayerManager(mContext,
                     mImaAdsLoader,
-                    this,
                     holder.mPlayerView,
                     holder.mExoProgressBar,
                     title, holder.mTVErrorPlayer);
 
-            iPlayerListener.exoPlayer(mExoPlayerManager);
-
-            mExoPlayerManager.initializePlayer(Uri.parse(videoPreviewUrl));
-
-            mVideoAttachedToWindowUrl = videoPreviewUrl;
+            mExoPlayerManager.initializePlayer(Uri.parse(videoPreviewUrl), position);
 
             holder.mPlayerLayout.setVisibility(View.VISIBLE);
 
@@ -211,7 +207,6 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
         holder.bind(holder.getAdapterPosition());
     }
-
 
     private void imageReddit(SubRedditHolder holder, String imagePreviewUrl, int imagePreviewWidth, int imagePreviewHeight) {
 
@@ -266,30 +261,18 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
     @Override
     public void onViewAttachedToWindow(@NonNull SubRedditHolder holder) {
         super.onViewAttachedToWindow(holder);
-
-        if ((Costants.IS_AUTOPLAY_VIDEO) && ((mExoPlayerManager != null))) {
-            mExoPlayerManager.setAutoPlay(true);
-            mExoPlayerManager.initializePlayer(Uri.parse(mVideoAttachedToWindowUrl));
-
-        } else if ((mExoPlayerManager != null) && (!mExoPlayerManager.isAutoPlay())) {
-            mExoPlayerManager.initializePlayer(Uri.parse(mVideoAttachedToWindowUrl));
-
+        if (mExoPlayerManager != null) {
+            mExoPlayerManager.restartPlayer();
         }
     }
 
     @Override
     public void onViewDetachedFromWindow(@NonNull SubRedditHolder holder) {
         super.onViewDetachedFromWindow(holder);
+        if (mExoPlayerManager != null) {
+            mExoPlayerManager.pausePlayer();
 
-        if ((mExoPlayerManager != null) && (mExoPlayerManager.isAutoPlay())) {
-            mExoPlayerManager.setAutoPlay(false);
-            mExoPlayerManager.releasePlayer();
         }
-    }
-
-    @Override
-    public void onPlayer(SimpleExoPlayer player) {
-
     }
 
     public class SubRedditHolder extends RecyclerView.ViewHolder
@@ -357,7 +340,6 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
             mPosition = position;
         }
 
-
         @Override
         public void onItemSelected() {
             itemView.setBackgroundColor(ImageUtils.getColor(mContext, R.color.colorBackgroundItemSelected));
@@ -370,7 +352,6 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
 
     }
-
 
     @SuppressWarnings("UnusedReturnValue")
     public Cursor swapCursor(Cursor c) {

@@ -71,7 +71,6 @@ import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtils;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtils;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
-import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity.sMediaSessionCompat;
 
@@ -82,10 +81,10 @@ public class ExoPlayerManager implements Player.EventListener {
 
     final String mShortDescription;
 
-    private static boolean sIsAutoPlay;
-    private static int sResumeWindow;
-    private static long sResumePosition;
-    private static Uri sVideoUri;
+    private boolean mIsAutoPlay;
+    private int mResumeWindow;
+    private long mResumePosition;
+    private Uri mVideoUri = null;
 
     private final PlayerView mPlayerView;
     private SimpleExoPlayer mPlayer;
@@ -93,40 +92,34 @@ public class ExoPlayerManager implements Player.EventListener {
 
     final TextView mTvErrorPlayer;
 
-    private final ExoPlayerListener iExoPlayer;
     private MediaSession mMediaSession;
     private final ImaAdsLoader mImaAdsLoader;
     private TextView mTvExoCountDown;
     private ImageView mImageMutedPlay;
     private Handler mHandler;
+    private int mAdapterPosition;
 
-    public ExoPlayerManager(Context context, ImaAdsLoader imaAdsLoader, ExoPlayerListener listener, PlayerView playerView,
+    public ExoPlayerManager(Context context, ImaAdsLoader imaAdsLoader,  PlayerView playerView,
                             ProgressBar progressBar, String shortDescription, TextView tvErrorPlayer) {
 
         mContext = context;
         mImaAdsLoader = imaAdsLoader;
-        iExoPlayer = listener;
         mPlayerView = playerView;
         mProgressBar = progressBar;
         mShortDescription = shortDescription;
         mTvErrorPlayer = tvErrorPlayer;
     }
 
-
-    public void initializePlayer(Uri mediaUri) {
+    public void initializePlayer(Uri mediaUri, int adapterPosition) {
 
         if (mHandler == null) {
             mHandler = new Handler();
         }
 
-        if (mPlayer == null) {
+        if ((mPlayer == null) && (mPlayerView != null)) {
 
-            if (mPlayerView != null) {
-                mTvExoCountDown = mPlayerView.findViewById(R.id.exo_countdown);
-                mTvExoCountDown.setVisibility(View.VISIBLE);
-
-            }
-
+            mTvExoCountDown = mPlayerView.findViewById(R.id.exo_countdown);
+            mTvExoCountDown.setVisibility(View.VISIBLE);
 
             BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
             TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
@@ -155,29 +148,14 @@ public class ExoPlayerManager implements Player.EventListener {
             MediaSource mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory)
                     .createMediaSource(mediaUri);
 
-            final boolean isResume = sResumePosition > 0;
-
-            if ((mImaAdsLoader != null) && (mPlayer != null) && (mPlayerView != null)) {
+            boolean isResume = mResumePosition > 0;
+            if ((Costants.IS_IMA_AD_EXTENSION) && (mImaAdsLoader != null)&& (adapterPosition > 0)) {
 
                 AdsMediaSource adsMediaSource = new AdsMediaSource(mediaSource, dataSourceFactory, mImaAdsLoader,
                         mPlayerView.getOverlayFrameLayout());
-                mPlayer.prepare(adsMediaSource, !isResume, false);
-
-            } else {
-                mPlayer.prepare(mediaSource, !isResume, false);
+                mediaSource = adsMediaSource;
 
             }
-
-            if ((isResume) && (mediaUri.equals(sVideoUri))) {
-                mPlayer.seekTo(sResumeWindow, sResumePosition);
-                mPlayer.setPlayWhenReady(sIsAutoPlay);
-
-            } else if (Costants.IS_AUTOPLAY_VIDEO) {
-                mPlayer.setPlayWhenReady(true);
-
-            }
-
-            sVideoUri = mediaUri;
 
             if (Costants.IS_MEDIA_SESSION) {
                 mMediaSession = new MediaSession(mContext, mPlayer);
@@ -196,11 +174,24 @@ public class ExoPlayerManager implements Player.EventListener {
             initializeVolume();
 
             mPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FILL);
+
+            if (isResume) {
+                if (mediaUri.equals(mVideoUri)) {
+                    mPlayer.seekTo(mResumeWindow, mResumePosition);
+                }
+            }else {
+                mPlayer.seekToDefaultPosition();
+            }
+
+            mPlayer.prepare(mediaSource, !isResume, false);
+
+            mPlayer.setPlayWhenReady(Costants.IS_AUTOPLAY_VIDEO);
+
+            mVideoUri = mediaUri;
+
         }
-        iExoPlayer.onPlayer(mPlayer);
 
     }
-
 
     private void initializeVolume() {
 
@@ -250,6 +241,7 @@ public class ExoPlayerManager implements Player.EventListener {
             mPlayerView.setPlayer(null);
             mPlayer.release();
             mPlayer = null;
+            hiddenPlayer();
         }
 
     }
@@ -262,6 +254,9 @@ public class ExoPlayerManager implements Player.EventListener {
 
     }
 
+    public void hiddenPlayer() {
+        mPlayerView.setVisibility(View.GONE);
+    }
 
     public void showPlayer() {
         visibilityProgressBar(false);
@@ -295,6 +290,7 @@ public class ExoPlayerManager implements Player.EventListener {
 
             case Player.STATE_BUFFERING:
                 visibilityProgressBar(true);
+
                 break;
 
             case Player.STATE_READY:
@@ -344,54 +340,38 @@ public class ExoPlayerManager implements Player.EventListener {
     }
 
     private void mediaSessionState(boolean playWhenReady, int state) {
-
-        switch (state) {
-            case Player.STATE_READY:
-
-                if (playWhenReady) {
-
-                    if (mMediaSession != null) {
-
+        if (mMediaSession != null) {
+            switch (state) {
+                case Player.STATE_READY:
+                    if (playWhenReady) {
                         if (mMediaSession.getStateBuilder() != null) {
                             mMediaSession.setStateBuilder(mMediaSession.getStateBuilder().setState(PlaybackStateCompat.STATE_PLAYING,
                                     mPlayer.getCurrentPosition(), 1f));
                         }
-                        setAutoPlay(true);
-
-                    } else {
-
-                        setAutoPlay(false);
                     }
-                }
 
-                break;
+                    break;
 
-            case Player.STATE_ENDED:
+                case Player.STATE_ENDED:
+                    if (!playWhenReady) {
+                        mPlayer.seekToDefaultPosition();
+                    }
+                    break;
 
-                if (playWhenReady) {
-                    // todo remove showplayer
-//                    showPlayer();
-                } else {
-                    mPlayer.seekToDefaultPosition();
-                }
-                break;
+                default:
+            }
 
-            default:
+            if ((sMediaSessionCompat != null) && (mMediaSession.getStateBuilder() != null)) {
+                sMediaSessionCompat.setPlaybackState(mMediaSession.getStateBuilder().build());
+                mMediaSession.showNotification(mMediaSession.getStateBuilder().build());
+
+            }
         }
-
-        if ((sMediaSessionCompat != null) && (mMediaSession != null) &&
-                (mMediaSession.getStateBuilder() != null)) {
-
-            sMediaSessionCompat.setPlaybackState(mMediaSession.getStateBuilder().build());
-            mMediaSession.showNotification(mMediaSession.getStateBuilder().build());
-        }
-
     }
 
     private final Runnable runnableRemainingPlay = () -> tvCountDown();
 
     private long timeRemainingPlay() {
-        Timber.d("Durate %s", String.valueOf(mPlayer.getDuration() - mPlayer.getContentPosition()));
         return (mPlayer != null) ? mPlayer.getDuration() - mPlayer.getContentPosition() : 0;
     }
 
@@ -415,52 +395,65 @@ public class ExoPlayerManager implements Player.EventListener {
             PrefManager.putBoolPref(mContext, R.string.pref_volume_muted, false);
 
         }
+
     }
+
+    public void pausePlayer() {
+        if (mPlayer != null) {
+            mPlayer.setPlayWhenReady(false);
+            mPlayer.getPlaybackState();
+
+        }
+    }
+
+    public void restartPlayer() {
+        if (mPlayer != null) {
+            mPlayer.setPlayWhenReady(true);
+            mPlayer.getPlaybackState();
+        }
+    }
+
 
     public boolean isMute() {
         return mPlayer != null && mPlayer.getVolume() == 0;
     }
 
-    public void setAutoPlay(boolean autoPlay) {
-        sIsAutoPlay = autoPlay;
+   public void setAutoPlay(boolean autoPlay) {
+        mIsAutoPlay = autoPlay;
     }
 
     public boolean isAutoPlay() {
-        return sIsAutoPlay;
+        return mIsAutoPlay;
     }
 
     public void setResume(int resumeWindow, long resumePosition, Uri videoUri) {
-        sResumeWindow = resumeWindow;
-        sResumePosition = resumePosition;
-        sVideoUri = videoUri;
+        mResumeWindow = resumeWindow;
+        mResumePosition = resumePosition;
+        mVideoUri = videoUri;
     }
 
     public int getResumeWindow() {
-        return sResumeWindow;
+        return mResumeWindow;
     }
 
     public long getResumePosition() {
-        return sResumePosition;
+        return mResumePosition;
     }
 
     public Uri getVideoUri() {
-        return sVideoUri;
+        return mVideoUri;
     }
 
     public void updateResumePosition() {
         if (mPlayer != null) {
-            sResumeWindow = mPlayer.getCurrentWindowIndex();
-            sResumePosition = Math.max(0, mPlayer.getContentPosition());
+            mResumeWindow = mPlayer.getCurrentWindowIndex();
+            mResumePosition = Math.max(0, mPlayer.getContentPosition());
         }
     }
 
     public void clearResumePosition() {
-        sResumeWindow = C.INDEX_UNSET;
-        sResumePosition = C.TIME_UNSET;
-    }
-
-    public interface ExoPlayerListener {
-        void onPlayer(SimpleExoPlayer player);
+        mResumeWindow = C.INDEX_UNSET;
+        mResumePosition = C.TIME_UNSET;
     }
 
 }

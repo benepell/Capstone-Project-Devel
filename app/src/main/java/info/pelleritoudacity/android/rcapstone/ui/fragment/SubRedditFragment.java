@@ -94,7 +94,7 @@ public class SubRedditFragment extends Fragment
         ImaAdsLoader mImaAdsLoader = new ImaAdsLoader(mContext, Uri.parse(getString(R.string.ad_tag_url)));
         isIMA = true;
 
-        mAdapter = new SubRedditAdapter(mContext, mImaAdsLoader, this);
+        mAdapter = new SubRedditAdapter(mContext, mImaAdsLoader);
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -122,6 +122,20 @@ public class SubRedditFragment extends Fragment
     }
 
     @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        sListState = mLayoutManager.onSaveInstanceState();
+        outState.putParcelable(Costants.EXTRA_FRAGMENT_STATE, sListState);
+
+        if (mExoPlayerManager != null) {
+            outState.putInt(Costants.BUNDLE_EXOPLAYER_WINDOW, mExoPlayerManager.getResumeWindow());
+            outState.putLong(Costants.BUNDLE_EXOPLAYER_POSITION, mExoPlayerManager.getResumePosition());
+            outState.putBoolean(Costants.BUNDLE_EXOPLAYER_AUTOPLAY, mExoPlayerManager.isAutoPlay());
+        }
+
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
         if (mExoPlayerManager != null) {
@@ -134,21 +148,8 @@ public class SubRedditFragment extends Fragment
         super.onPause();
         if (mExoPlayerManager != null) {
             mExoPlayerManager.updateResumePosition();
+            mExoPlayerManager.pausePlayer();
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        sListState = mLayoutManager.onSaveInstanceState();
-        outState.putParcelable(Costants.EXTRA_FRAGMENT_STATE, sListState);
-
-        if (mExoPlayerManager != null) {
-            outState.putInt(Costants.BUNDLE_EXOPLAYER_WINDOW, mExoPlayerManager.getResumeWindow());
-            outState.putLong(Costants.BUNDLE_EXOPLAYER_POSITION, mExoPlayerManager.getResumePosition());
-            outState.putBoolean(Costants.BUNDLE_EXOPLAYER_AUTOPLAY, mExoPlayerManager.isAutoPlay());
-        }
-
     }
 
     @Override
@@ -190,7 +191,7 @@ public class SubRedditFragment extends Fragment
         mExoPlayerManager = exoPlayerManager;
         if ((mExoPlayerManager != null) && !isIMA) {
             mExoPlayerManager.setResume(sWindowPlayer, sPositionPlayer, mExoPlayerManager.getVideoUri());
-            mExoPlayerManager.setAutoPlay(sIsAutoRun);
+
         }
     }
 
