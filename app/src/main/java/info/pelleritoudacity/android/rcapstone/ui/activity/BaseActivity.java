@@ -208,7 +208,7 @@ public class BaseActivity extends AppCompatActivity
             switch (id) {
 
                 case R.id.menu_action_restore:
-                    startActivity(new Intent(this, MainActivity.class).putExtra(Costants.EXTRA_RESTORE_MANAGE,Costants.RESTORE_MANAGE_RESTORE));
+                    startActivity(new Intent(this, MainActivity.class).putExtra(Costants.EXTRA_RESTORE_MANAGE, Costants.RESTORE_MANAGE_RESTORE));
                     return true;
                 case R.id.menu_action_login:
                     startActivity(new Intent(this, LoginActivity.class));
@@ -235,24 +235,68 @@ public class BaseActivity extends AppCompatActivity
 
         int id = item.getItemId();
         switch (id) {
+
             case R.id.nav_home:
                 PrefManager.putIntPref(getApplicationContext(), R.string.pref_type_mode, Costants.NAV_MODE_HOME);
                 openHomeActivity();
                 break;
+
+            case R.id.nav_mode_all:
+                targetMenuMain(R.id.nav_mode_all);
+                break;
+
+            case R.id.nav_mode_popular:
+                targetMenuMain(R.id.nav_mode_popular);
+                break;
+
             case R.id.nav_mode_subscriptions:
                 PrefManager.putIntPref(getApplicationContext(), R.string.pref_type_mode, Costants.NAV_MODE_SUBSCRIPTIONS);
                 item.setEnabled(true);
                 startActivity(new Intent(this, SubManageActivity.class));
                 break;
+
             case R.id.nav_mode_settings:
                 PrefManager.putIntPref(getApplicationContext(), R.string.pref_type_mode, Costants.NAV_MODE_SETTINGS);
                 item.setEnabled(true);
                 startActivity(new Intent(this, SettingsActivity.class));
                 break;
+
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+
+    }
+
+    private void targetMenuMain(int resource) {
+
+        String constantCategory = null;
+        String constantsTarget = null;
+
+        switch (resource) {
+
+            case R.id.nav_mode_popular:
+                constantCategory = Costants.SUBREDDIT_CATEGORY_POPULAR;
+                constantsTarget = Costants.SUBREDDIT_TARGET_POPULAR;
+                break;
+
+            case R.id.nav_mode_all:
+                constantCategory = Costants.SUBREDDIT_CATEGORY_ALL;
+                constantsTarget = Costants.SUBREDDIT_TARGET_ALL;
+                break;
+
+        }
+
+        Intent intent = new Intent(getApplication(), SubRedditActivity.class);
+        intent.putExtra(Costants.EXTRA_SUBREDDIT_CATEGORY, constantCategory);
+        intent.putExtra(Costants.EXTRA_SUBREDDIT_TARGET, constantsTarget);
+
+        if (this.getClass().getSimpleName().equals(SubRedditActivity.class.getSimpleName())) {
+            finish();
+        }
+
+        startActivity(intent);
+
     }
 
     private void menuNavigation(NavigationView navigationView) {
@@ -349,7 +393,7 @@ public class BaseActivity extends AppCompatActivity
                     Intent intent = new Intent(getApplication(), SubRedditActivity.class);
                     intent.putExtra(Costants.EXTRA_SUBREDDIT_CATEGORY, item.getTitle().toString());
 
-                    if(this.getClass().getSimpleName().equals(SubRedditActivity.class.getSimpleName())){
+                    if (this.getClass().getSimpleName().equals(SubRedditActivity.class.getSimpleName())) {
                         finish();
                     }
 

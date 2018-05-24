@@ -58,7 +58,7 @@ public class T3Operation {
         mModelT3 = modelT3;
     }
 
-    private boolean insertData() {
+    private boolean insertData(String target) {
 
         if (mModelT3 == null) return false;
 
@@ -323,6 +323,10 @@ public class T3Operation {
                 dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT,
                         stringCategoryNormalizeSub);
 
+                dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_TARGET,
+                        target);
+
+
                 if (t3Model.getPreview() != null) {
 
                     ArrayList<ModelContent> modelContentImageArrayList = new ArrayList<>();
@@ -441,17 +445,17 @@ public class T3Operation {
         return uriReddit != null && uriData != null && countT3Data != 0;
     }
 
-    public boolean saveData(String category) {
+    public boolean saveData(String category, String target) {
         if (!TextUtils.isEmpty(category)) {
-            if (isDeleteData(category)) {
-                deleteCategory(Contract.PATH_T3DATAS, category);
+            if (isDeleteData(category,target)) {
+                deleteCategory(Contract.PATH_T3DATAS, category,target);
             }
-            return insertData();
+            return insertData(target);
         }
         return false;
     }
 
-    public boolean isDeleteData(String category) {
+    public boolean isDeleteData(String category, String target) {
         String timestamp = null;
         Uri uri = Contract.T3dataEntry.CONTENT_URI;
         String selection = Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " =?";
@@ -486,7 +490,7 @@ public class T3Operation {
         return isDeleted;
     }
 
-    public void deleteCategory(String contractPath, String category) {
+    public void deleteCategory(String contractPath, String category, String target) {
         String where;
         Uri uri;
         String[] selectionArgs = {category};

@@ -13,6 +13,7 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import info.pelleritoudacity.android.rcapstone.data.Contract;
 import info.pelleritoudacity.android.rcapstone.media.ExoPlayerManager;
 import info.pelleritoudacity.android.rcapstone.ui.adapter.SubRedditAdapter;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.Costants.SUBREDDIT_LOADER_ID;
@@ -49,18 +51,21 @@ public class SubRedditFragment extends Fragment
     private static boolean isIMA = false;
 
     private static String sSubReddit;
+    private static String sTarget;
     private ExoPlayerManager mExoPlayerManager;
 
     private LinearLayoutManager mLayoutManager;
     private SubRedditAdapter mAdapter;
 
+
     public SubRedditFragment() {
     }
 
-    public static SubRedditFragment newInstance(String subReddit) {
+    public static SubRedditFragment newInstance(String subReddit, String target) {
         SubRedditFragment fragment = new SubRedditFragment();
         Bundle bundle = new Bundle();
         bundle.putString(Costants.EXTRA_FRAGMENT_SUBREDDIT, subReddit);
+        bundle.putString(Costants.EXTRA_FRAGMENT_TARGET, target);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -73,6 +78,8 @@ public class SubRedditFragment extends Fragment
 
         if (getArguments() != null) {
             sSubReddit = getArguments().getString(Costants.EXTRA_FRAGMENT_SUBREDDIT);
+            sTarget = getArguments().getString(Costants.EXTRA_FRAGMENT_TARGET);
+
         }
     }
 
@@ -217,8 +224,25 @@ public class SubRedditFragment extends Fragment
         public Cursor loadInBackground() {
             try {
                 Uri uri = Contract.T3dataEntry.CONTENT_URI;
-                String selection = Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " LIKE ?";
-                String[] selectionArgs = {sSubReddit};
+
+                String selection = null;
+                String[] selectionArgs = new String[0];
+                if (!TextUtils.isEmpty(sTarget)) {
+                    if (sTarget.equals(Costants.SUBREDDIT_TARGET_ALL)) {
+                        selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?";
+                        selectionArgs = new String[]{ sTarget};
+
+                    }else if (sTarget.equals(Costants.SUBREDDIT_TARGET_ALL)) {
+                        selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?";
+                        selectionArgs = new String[]{ sTarget};
+
+                    }
+
+                } else {
+                    selection = Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " LIKE ?";
+                    selectionArgs = new String[]{sSubReddit};
+
+                }
 
                 return getContext().getContentResolver().query(uri,
                         null,

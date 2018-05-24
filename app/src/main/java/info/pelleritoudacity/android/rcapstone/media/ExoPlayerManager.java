@@ -369,7 +369,7 @@ public class ExoPlayerManager implements Player.EventListener {
         }
     }
 
-    private final Runnable runnableRemainingPlay = () -> tvCountDown();
+    private final Runnable runnableRemainingPlay = this::tvCountDown;
 
     private long timeRemainingPlay() {
         return (mPlayer != null) ? mPlayer.getDuration() - mPlayer.getContentPosition() : 0;

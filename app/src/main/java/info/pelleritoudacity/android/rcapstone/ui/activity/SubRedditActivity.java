@@ -65,6 +65,7 @@ public class SubRedditActivity extends BaseActivity
     private Context mContext;
     private String mRedditCategory;
     public static MediaSessionCompat sMediaSessionCompat = null;
+    private String mRedditTarget;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,12 +86,13 @@ public class SubRedditActivity extends BaseActivity
 
         if (intentCategory != null) {
             mRedditCategory = intentCategory.getStringExtra(Costants.EXTRA_SUBREDDIT_CATEGORY);
+            mRedditTarget = intentCategory.getStringExtra(Costants.EXTRA_SUBREDDIT_TARGET);
         }
 
         initializeRestSubReddit(mRedditCategory);
 
         if (!NetworkUtils.isOnline(getApplicationContext())) {
-            startFragment(mRedditCategory);
+            startFragment(mRedditCategory,mRedditTarget);
         }
 
     }
@@ -100,10 +102,10 @@ public class SubRedditActivity extends BaseActivity
 
         if (listenerData != null) {
             T3Operation data = new T3Operation(getApplicationContext(), listenerData);
-            data.saveData(mRedditCategory);
+            data.saveData(mRedditCategory,mRedditTarget);
 
-            if (data.saveData(mRedditCategory)) {
-                startFragment(mRedditCategory);
+            if (data.saveData(mRedditCategory,mRedditTarget)) {
+                startFragment(mRedditCategory,mRedditTarget);
             } else {
                 Snackbar.make(findViewById(R.id.subreddit_container), R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
             }
@@ -115,8 +117,8 @@ public class SubRedditActivity extends BaseActivity
 
     }
 
-    private void startFragment(String link) {
-        SubRedditFragment subRedditFragment = SubRedditFragment.newInstance(link);
+    private void startFragment(String link, String target) {
+        SubRedditFragment subRedditFragment = SubRedditFragment.newInstance(link,target);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_subreddit_container, subRedditFragment).commit();
 
