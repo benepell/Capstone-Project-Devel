@@ -30,6 +30,7 @@ import info.pelleritoudacity.android.rcapstone.data.Contract;
 import info.pelleritoudacity.android.rcapstone.media.ExoPlayerManager;
 import info.pelleritoudacity.android.rcapstone.ui.adapter.SubRedditAdapter;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import timber.log.Timber;
 
@@ -225,22 +226,27 @@ public class SubRedditFragment extends Fragment
             try {
                 Uri uri = Contract.T3dataEntry.CONTENT_URI;
 
+                boolean over18 = PrefManager.getBoolPref(getContext(), R.string.pref_adult_filter);
+
                 String selection = null;
                 String[] selectionArgs = new String[0];
                 if (!TextUtils.isEmpty(sTarget)) {
                     if (sTarget.equals(Costants.SUBREDDIT_TARGET_ALL)) {
-                        selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?";
-                        selectionArgs = new String[]{ sTarget};
+                        selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?" +
+                                " AND " + Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " =?";
+                        selectionArgs = new String[]{sTarget, String.valueOf(over18)};
 
-                    }else if (sTarget.equals(Costants.SUBREDDIT_TARGET_ALL)) {
-                        selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?";
-                        selectionArgs = new String[]{ sTarget};
+                    } else if (sTarget.equals(Costants.SUBREDDIT_TARGET_ALL)) {
+                        selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?" +
+                                " AND " + Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " =?";
+                        selectionArgs = new String[]{sTarget, String.valueOf(over18)};
 
                     }
 
                 } else {
-                    selection = Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " LIKE ?";
-                    selectionArgs = new String[]{sSubReddit};
+                    selection = Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " LIKE ?" +
+                            " AND " + Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " =?";
+                    selectionArgs = new String[]{sSubReddit, String.valueOf(over18)};
 
                 }
 
