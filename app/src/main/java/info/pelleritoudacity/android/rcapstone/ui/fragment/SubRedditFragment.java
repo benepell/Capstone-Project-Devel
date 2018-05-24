@@ -226,27 +226,25 @@ public class SubRedditFragment extends Fragment
             try {
                 Uri uri = Contract.T3dataEntry.CONTENT_URI;
 
-                boolean over18 = PrefManager.getBoolPref(getContext(), R.string.pref_adult_filter);
+                boolean over18 =false;
+//                        PrefManager.getBoolPref(getContext(), R.string.pref_adult_filter);
 
                 String selection = null;
                 String[] selectionArgs = new String[0];
                 if (!TextUtils.isEmpty(sTarget)) {
                     if (sTarget.equals(Costants.SUBREDDIT_TARGET_ALL)) {
-                        selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?" +
-                                " AND " + Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " =?";
-                        selectionArgs = new String[]{sTarget, String.valueOf(over18)};
+                        selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =? ";
+                        selectionArgs = new String[]{sTarget};
 
                     } else if (sTarget.equals(Costants.SUBREDDIT_TARGET_ALL)) {
-                        selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?" +
-                                " AND " + Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " =?";
-                        selectionArgs = new String[]{sTarget, String.valueOf(over18)};
+                        selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =? ";
+                        selectionArgs = new String[]{sTarget};
 
                     }
 
                 } else {
-                    selection = Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " LIKE ?" +
-                            " AND " + Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " =?";
-                    selectionArgs = new String[]{sSubReddit, String.valueOf(over18)};
+                    selection = Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " LIKE ?" ;
+                    selectionArgs = new String[]{sSubReddit};
 
                 }
 
