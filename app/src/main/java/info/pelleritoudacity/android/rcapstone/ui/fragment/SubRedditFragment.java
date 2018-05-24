@@ -225,12 +225,9 @@ public class SubRedditFragment extends Fragment
         public Cursor loadInBackground() {
             try {
                 Uri uri = Contract.T3dataEntry.CONTENT_URI;
-
-                boolean over18 =false;
-//                        PrefManager.getBoolPref(getContext(), R.string.pref_adult_filter);
-
                 String selection = null;
                 String[] selectionArgs = new String[0];
+
                 if (!TextUtils.isEmpty(sTarget)) {
                     if (sTarget.equals(Costants.SUBREDDIT_TARGET_ALL)) {
                         selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =? ";
