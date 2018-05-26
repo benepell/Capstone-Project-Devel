@@ -45,8 +45,8 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             FrameLayout frameLayout = findViewById(R.id.fragment_settings_container);
-                LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(SettingsActivity.this, R.anim.layout_animation_from_right);
-                frameLayout.setLayoutAnimation(layoutAnimationController);
+            LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(SettingsActivity.this, R.anim.layout_animation_from_right);
+            frameLayout.setLayoutAnimation(layoutAnimationController);
         }
 
         getSupportFragmentManager().beginTransaction()

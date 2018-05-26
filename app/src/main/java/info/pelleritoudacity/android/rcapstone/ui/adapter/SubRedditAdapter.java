@@ -27,7 +27,6 @@
 package info.pelleritoudacity.android.rcapstone.ui.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -43,12 +42,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
 import com.google.android.exoplayer2.ui.PlayerView;
 
@@ -56,10 +53,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
-import info.pelleritoudacity.android.rcapstone.media.ExoPlayerManager;
-import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
+import info.pelleritoudacity.android.rcapstone.media.ExoPlayerExecute;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtils;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import timber.log.Timber;
@@ -73,7 +68,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
     private Cursor mCursor;
     private Context mContext;
 
-    private ExoPlayerManager mExoPlayerManager;
+    private ExoPlayerExecute mExoPlayerExecute;
     private final ImaAdsLoader mImaAdsLoader;
 
     public SubRedditAdapter(Context context, ImaAdsLoader imaAdsLoader) {
@@ -168,13 +163,14 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         holder.mTextViewCreatedUtc.setText(strDiffCurrentUtc);
 
         if (!TextUtils.isEmpty(videoPreviewUrl)) {
-            mExoPlayerManager = new ExoPlayerManager(mContext,
+
+            mExoPlayerExecute = new ExoPlayerExecute(mContext,
                     mImaAdsLoader,
                     holder.mPlayerView,
                     holder.mExoProgressBar,
                     title, holder.mTVErrorPlayer);
 
-            mExoPlayerManager.initializePlayer(Uri.parse(videoPreviewUrl), position);
+            mExoPlayerExecute.initializePlayer(Uri.parse(videoPreviewUrl), position);
 
             holder.mPlayerLayout.setVisibility(View.VISIBLE);
 
@@ -261,17 +257,16 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
     @Override
     public void onViewAttachedToWindow(@NonNull SubRedditHolder holder) {
         super.onViewAttachedToWindow(holder);
-        if (mExoPlayerManager != null) {
-            mExoPlayerManager.restartPlayer();
+        if (mExoPlayerExecute != null) {
+            mExoPlayerExecute.restartPlayer();
         }
     }
 
     @Override
     public void onViewDetachedFromWindow(@NonNull SubRedditHolder holder) {
         super.onViewDetachedFromWindow(holder);
-        if (mExoPlayerManager != null) {
-            mExoPlayerManager.pausePlayer();
-
+        if (mExoPlayerExecute != null) {
+            mExoPlayerExecute.pausePlayer();
         }
     }
 
@@ -368,7 +363,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
     }
 
     public interface OnPlayerListener {
-        void exoPlayer(ExoPlayerManager exoPlayerManager);
+        void exoPlayer(ExoPlayerExecute exoPlayerExecute);
     }
 
 }

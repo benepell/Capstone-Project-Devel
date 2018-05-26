@@ -25,7 +25,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".ui.activity.BaseActivity" />
         <activity
             android:name=".ui.activity.SettingsActivity"
@@ -39,7 +38,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />
         </activity>
-
         <activity
             android:name=".ui.activity.SubManageActivity"
             android:excludeFromRecents="true"
@@ -52,7 +50,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />
         </activity>
-
         <activity
             android:name=".ui.activity.LoginActivity"
             android:excludeFromRecents="true"
@@ -60,8 +57,7 @@
             android:launchMode="singleTop"
             android:noHistory="true"
             android:parentActivityName=".ui.activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".ui.activity.LogoutActivity"
             android:excludeFromRecents="true"
@@ -74,7 +70,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />
         </activity>
-
         <activity
             android:name=".ui.activity.SubRedditActivity"
             android:label="@string/title_activity_submanage"
@@ -85,7 +80,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />
         </activity>
-
 
         <provider
             android:name=".data.ContentProvider"
@@ -107,7 +101,7 @@
             </intent-filter>
         </receiver>
 
-
+        <activity android:name=".ui.activity.SubRedditFullScreenActivity"/>
     </application>
 
 </manifest>

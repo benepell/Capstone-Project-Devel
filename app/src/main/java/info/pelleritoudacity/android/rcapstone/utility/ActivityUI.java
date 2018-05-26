@@ -29,22 +29,47 @@ package info.pelleritoudacity.android.rcapstone.utility;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 public class ActivityUI {
 
-    public static void leanBackUI(Activity activity) {
-        if (activity != null) {
-            activity.getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE);
+    public static void leanBackUI(AppCompatActivity appCompatActivity) {
+        if (appCompatActivity != null) {
+            if (isPortraitOrientation(appCompatActivity)) {
+                appCompatActivity.getWindow().getDecorView().setSystemUiVisibility(
+                                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+
+            } else {
+                appCompatActivity.getWindow().getDecorView().setSystemUiVisibility(
+                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                                | View.SYSTEM_UI_FLAG_IMMERSIVE);
+
+            }
+
+        }
+
+    }
+
+    public static void hideActionBar(AppCompatActivity appCompatActivity) {
+        if (appCompatActivity != null) {
+            appCompatActivity.getSupportActionBar().hide();
+        }
+    }
+
+    public static void windowFullScreen(AppCompatActivity appCompatActivity) {
+        if (appCompatActivity != null) {
+            appCompatActivity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         }
     }
+
 
     public static boolean isLandscapeOrientation(Context context) {
         return context != null && context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;

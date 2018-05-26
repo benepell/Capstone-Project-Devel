@@ -37,6 +37,7 @@ import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 
 import info.pelleritoudacity.android.rcapstone.R;
@@ -152,7 +153,6 @@ public class MediaSession {
             sMediaSessionCompat = null;
         }
 
-
     }
 
     public String getDescription() {
@@ -195,6 +195,35 @@ public class MediaSession {
         }
 
     }
+
+    protected void mediaSessionState(boolean playWhenReady, int state) {
+            switch (state) {
+                case Player.STATE_READY:
+                    if (playWhenReady) {
+                        if (getStateBuilder() != null) {
+                            setStateBuilder(getStateBuilder().setState(PlaybackStateCompat.STATE_PLAYING,
+                                    mPlayer.getCurrentPosition(), 1f));
+                        }
+                    }
+
+                    break;
+
+                case Player.STATE_ENDED:
+                    if (!playWhenReady) {
+                        mPlayer.seekToDefaultPosition();
+                    }
+                    break;
+
+                default:
+            }
+
+            if ((sMediaSessionCompat != null) && (getStateBuilder() != null)) {
+                sMediaSessionCompat.setPlaybackState(getStateBuilder().build());
+                showNotification(getStateBuilder().build());
+
+            }
+    }
+
 
     public interface MediaSessionCallback {
 

@@ -275,6 +275,9 @@ public class T3Operation {
                 arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_HIDE_SCORE,
                         Utility.boolToInt(t3Model.getHideScore()));
 
+                arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_URL,
+                        t3Model.getUrl());
+
                 arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_CREATED,
                         t3Model.getCreated());
 
