@@ -37,6 +37,7 @@ import info.pelleritoudacity.android.rcapstone.model.reddit.T5Listing;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+import timber.log.Timber;
 
 public class T5Operation {
     private final T5 mModelT5;
@@ -322,9 +323,9 @@ public class T5Operation {
         DataUtils dataUtils = new DataUtils(mContext);
         if (dataUtils.isRecordData()) clearData();
         if (insertData()) {
-            if (!PrefManager.getBoolPref(mContext, R.string.pref_insert_data)) {
+            if (!PrefManager.getBoolPref(mContext, R.string.pref_insert_prefs)) {
                 if (insertDataPrefSubReddit()) {
-                    PrefManager.putBoolPref(mContext, R.string.pref_insert_data, true);
+                    PrefManager.putBoolPref(mContext, R.string.pref_insert_prefs, true);
                 }
             }
         }

@@ -74,13 +74,30 @@ public class MainActivity extends BaseActivity
 
         dataClearSnackBar();
 
-        Intent intent = getIntent();
+        intentRequest(getIntent());
 
-        PrefManager.putBoolPref(mContext,R.string.pref_volume_muted,Costants.IS_MUTED_AUDIO);
+        PrefManager.putBoolPref(mContext, R.string.pref_volume_muted, Costants.IS_MUTED_AUDIO);
 
-        if (intent != null)
+        startDefaultCategoryPopular();
 
-        {
+    }
+
+
+    @Override
+    public void onRefresh() {
+        if (NetworkUtils.isOnline(getApplicationContext())) {
+            getDataT5(getApplicationContext());
+        } else {
+            mIsRefreshing = false;
+            Snackbar.make(findViewById(R.id.main_container), R.string.list_snackbar_offline_text, Snackbar.LENGTH_LONG).show();
+        }
+        updateRefreshingUI();
+
+    }
+
+    private void intentRequest(Intent intent) {
+
+        if (intent != null) {
             boolean isLogged = intent.getBooleanExtra(Costants.EXTRA_LOGIN_SUCCESS, false);
             boolean isLogout = intent.getBooleanExtra(Costants.EXTRA_LOGOUT_SUCCESS, false);
 
@@ -105,8 +122,6 @@ public class MainActivity extends BaseActivity
             } else if (restore == Costants.RESTORE_MANAGE_REDIRECT) {
                 startActivity(new Intent(this, SubManageActivity.class)
                         .putExtra(Costants.EXTRA_RESTORE_MANAGE, Costants.RESTORE_MANAGE_REDIRECT));
-            }else {
-                startDefaultCategoryPopular();
             }
 
         }
@@ -117,19 +132,6 @@ public class MainActivity extends BaseActivity
         intent.putExtra(Costants.EXTRA_SUBREDDIT_CATEGORY, Costants.SUBREDDIT_CATEGORY_POPULAR);
         intent.putExtra(Costants.EXTRA_SUBREDDIT_TARGET, Costants.SUBREDDIT_TARGET_POPULAR);
         startActivity(intent);
-    }
-
-
-    @Override
-    public void onRefresh() {
-        if (NetworkUtils.isOnline(getApplicationContext())) {
-            getDataT5(getApplicationContext());
-        } else {
-            mIsRefreshing = false;
-            Snackbar.make(findViewById(R.id.main_container), R.string.list_snackbar_offline_text, Snackbar.LENGTH_LONG).show();
-        }
-        updateRefreshingUI();
-
     }
 
     private void updateRefreshingUI() {
