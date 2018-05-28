@@ -105,9 +105,18 @@ public class MainActivity extends BaseActivity
             } else if (restore == Costants.RESTORE_MANAGE_REDIRECT) {
                 startActivity(new Intent(this, SubManageActivity.class)
                         .putExtra(Costants.EXTRA_RESTORE_MANAGE, Costants.RESTORE_MANAGE_REDIRECT));
+            }else {
+                startDefaultCategoryPopular();
             }
 
         }
+    }
+
+    private void startDefaultCategoryPopular() {
+        Intent intent = new Intent(getApplication(), SubRedditActivity.class);
+        intent.putExtra(Costants.EXTRA_SUBREDDIT_CATEGORY, Costants.SUBREDDIT_CATEGORY_POPULAR);
+        intent.putExtra(Costants.EXTRA_SUBREDDIT_TARGET, Costants.SUBREDDIT_TARGET_POPULAR);
+        startActivity(intent);
     }
 
 
