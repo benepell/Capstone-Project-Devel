@@ -14,7 +14,6 @@ public class LeaklessCursor extends SQLiteCursor {
         super(driver, editTable, query);
     }
 
-
     @Override
     public void close() {
         final SQLiteDatabase db = getDatabase();

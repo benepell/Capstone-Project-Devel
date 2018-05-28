@@ -56,7 +56,7 @@ class DbHelper extends SQLiteOpenHelper {
                 "CREATE TABLE IF NOT EXISTS " + Contract.PrefSubRedditEntry.TABLE_NAME + " (" +
                         Contract.PrefSubRedditEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         Contract.PrefSubRedditEntry.COLUMN_NAME_NAME + " TEXT NOT NULL, " +
-                        Contract.PrefSubRedditEntry.COLUMN_NAME_IMAGE + " TEXT NULL, " +
+                        Contract.PrefSubRedditEntry.COLUMN_NAME_IMAGE + " TEXT, " +
                         Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE + " INTEGER DEFAULT 0, " +
                         Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED + " INTEGER DEFAULT 0, " +
                         Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION + " INTEGER DEFAULT 0, " +
