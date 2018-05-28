@@ -163,8 +163,9 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
         if (!TextUtils.isEmpty(videoPreviewUrl)) {
 
-            if(mMediaPlayer!=null){
+            if (mMediaPlayer != null) {
                 mMediaPlayer.releasePlayer();
+                holder.mPlayerView.setVisibility(View.GONE);
             }
 
             mMediaPlayer = new MediaPlayer(mContext,
@@ -172,6 +173,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
                     holder.mPlayerView,
                     holder.mExoProgressBar,
                     title, holder.mTVErrorPlayer);
+
 
             mMediaPlayer.initPlayer(Uri.parse(videoPreviewUrl));
 
@@ -272,6 +274,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         if (mMediaPlayer != null) {
             mMediaPlayer.pausePlayer();
         }
+
     }
 
     public class SubRedditHolder extends RecyclerView.ViewHolder
