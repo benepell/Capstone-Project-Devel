@@ -28,7 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
-import info.pelleritoudacity.android.rcapstone.media.ExoPlayerExecute;
+import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
 import info.pelleritoudacity.android.rcapstone.ui.adapter.SubRedditAdapter;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import timber.log.Timber;
@@ -52,7 +52,7 @@ public class SubRedditFragment extends Fragment
 
     private static String sSubReddit;
     private static String sTarget;
-    private ExoPlayerExecute mExoPlayerExecute;
+    private MediaPlayer mMediaPlayer;
 
     private LinearLayoutManager mLayoutManager;
     private SubRedditAdapter mAdapter;
@@ -134,10 +134,10 @@ public class SubRedditFragment extends Fragment
         sListState = mLayoutManager.onSaveInstanceState();
         outState.putParcelable(Costants.EXTRA_FRAGMENT_STATE, sListState);
 
-        if (mExoPlayerExecute != null) {
-            outState.putInt(Costants.BUNDLE_EXOPLAYER_WINDOW, mExoPlayerExecute.getResumeWindow());
-            outState.putLong(Costants.BUNDLE_EXOPLAYER_POSITION, mExoPlayerExecute.getResumePosition());
-            outState.putBoolean(Costants.BUNDLE_EXOPLAYER_AUTOPLAY, mExoPlayerExecute.isAutoPlay());
+        if (mMediaPlayer != null) {
+            outState.putInt(Costants.BUNDLE_EXOPLAYER_WINDOW, mMediaPlayer.getResumeWindow());
+            outState.putLong(Costants.BUNDLE_EXOPLAYER_POSITION, mMediaPlayer.getResumePosition());
+            outState.putBoolean(Costants.BUNDLE_EXOPLAYER_AUTOPLAY, mMediaPlayer.isAutoPlay());
         }
 
     }
@@ -145,12 +145,12 @@ public class SubRedditFragment extends Fragment
     @Override
     public void onPause() {
         super.onPause();
-        if (mExoPlayerExecute != null) {
+        if (mMediaPlayer != null) {
             if (Util.SDK_INT <= 23) {
-                mExoPlayerExecute.releasePlayer();
+                mMediaPlayer.releasePlayer();
             }
-            mExoPlayerExecute.updateResumePosition();
-            mExoPlayerExecute.pausePlayer();
+            mMediaPlayer.updateResumePosition();
+            mMediaPlayer.pausePlayer();
         }
 
     }
@@ -159,8 +159,8 @@ public class SubRedditFragment extends Fragment
     public void onStop() {
         super.onStop();
         if (Util.SDK_INT > 23) {
-            if (mExoPlayerExecute != null) {
-                mExoPlayerExecute.releasePlayer();
+            if (mMediaPlayer != null) {
+                mMediaPlayer.releasePlayer();
             }
         }
     }
@@ -193,10 +193,10 @@ public class SubRedditFragment extends Fragment
     }
 
     @Override
-    public void exoPlayer(ExoPlayerExecute exoPlayerExecute) {
-        mExoPlayerExecute = exoPlayerExecute;
-        if ((mExoPlayerExecute != null) && !isIMA) {
-            mExoPlayerExecute.setResume(sWindowPlayer, sPositionPlayer, mExoPlayerExecute.getVideoUri());
+    public void exoPlayer(MediaPlayer mediaPlayer) {
+        mMediaPlayer = mediaPlayer;
+        if ((mMediaPlayer != null) && !isIMA) {
+            mMediaPlayer.setResume(sWindowPlayer, sPositionPlayer, mMediaPlayer.getVideoUri());
 
         }
     }

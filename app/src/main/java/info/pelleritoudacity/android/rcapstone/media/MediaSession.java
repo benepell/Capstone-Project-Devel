@@ -53,8 +53,6 @@ public class MediaSession {
     private String mDescription;
 
     private SimpleExoPlayer mPlayer;
-
-
     private PlaybackStateCompat.Builder mStateBuilder;
 
     public MediaSession(Context context, SimpleExoPlayer player) {
@@ -62,7 +60,7 @@ public class MediaSession {
         mPlayer = player;
     }
 
-    public void initializeMediaSession() {
+    public void initMediaSession() {
 
 
         sMediaSessionCompat = new MediaSessionCompat(mContext, Costants.EXO_PLAYER_MANAGER_TAG);
@@ -81,7 +79,6 @@ public class MediaSession {
         sMediaSessionCompat.setCallback(new MySessionCallback());
         sMediaSessionCompat.setActive(true);
     }
-
 
     public void showNotification(PlaybackStateCompat state) {
 
@@ -171,8 +168,36 @@ public class MediaSession {
         this.mStateBuilder = mStateBuilder;
     }
 
+    protected void mediaSessionState(boolean playWhenReady, int state) {
+        switch (state) {
+            case Player.STATE_READY:
+                if (playWhenReady) {
+                    if (getStateBuilder() != null) {
+                        setStateBuilder(getStateBuilder().setState(PlaybackStateCompat.STATE_PLAYING,
+                                mPlayer.getCurrentPosition(), 1f));
+                    }
+                }
 
-    private class MySessionCallback extends MediaSessionCompat.Callback implements MediaSessionCallback {
+                break;
+
+            case Player.STATE_ENDED:
+                if (!playWhenReady) {
+                    mPlayer.seekToDefaultPosition();
+                }
+                break;
+
+            default:
+        }
+
+        if ((sMediaSessionCompat != null) && (getStateBuilder() != null)) {
+            sMediaSessionCompat.setPlaybackState(getStateBuilder().build());
+            showNotification(getStateBuilder().build());
+
+        }
+    }
+
+    private class MySessionCallback extends MediaSessionCompat.Callback
+            implements MediaSessionCallback {
 
         @Override
         public void onSimplePlayer(SimpleExoPlayer simpleExoPlayer) {
@@ -196,37 +221,7 @@ public class MediaSession {
 
     }
 
-    protected void mediaSessionState(boolean playWhenReady, int state) {
-            switch (state) {
-                case Player.STATE_READY:
-                    if (playWhenReady) {
-                        if (getStateBuilder() != null) {
-                            setStateBuilder(getStateBuilder().setState(PlaybackStateCompat.STATE_PLAYING,
-                                    mPlayer.getCurrentPosition(), 1f));
-                        }
-                    }
-
-                    break;
-
-                case Player.STATE_ENDED:
-                    if (!playWhenReady) {
-                        mPlayer.seekToDefaultPosition();
-                    }
-                    break;
-
-                default:
-            }
-
-            if ((sMediaSessionCompat != null) && (getStateBuilder() != null)) {
-                sMediaSessionCompat.setPlaybackState(getStateBuilder().build());
-                showNotification(getStateBuilder().build());
-
-            }
-    }
-
-
     public interface MediaSessionCallback {
-
         void onSimplePlayer(SimpleExoPlayer simpleExoPlayer);
     }
 }

@@ -53,11 +53,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
-import info.pelleritoudacity.android.rcapstone.media.ExoPlayerExecute;
+import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtils;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
-import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.DateUtils.getHourCurrentCreatedUtc;
 import static info.pelleritoudacity.android.rcapstone.utility.ImageUtils.isSmallImage;
@@ -68,7 +67,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
     private Cursor mCursor;
     private Context mContext;
 
-    private ExoPlayerExecute mExoPlayerExecute;
+    private MediaPlayer mMediaPlayer;
     private final ImaAdsLoader mImaAdsLoader;
 
     public SubRedditAdapter(Context context, ImaAdsLoader imaAdsLoader) {
@@ -164,13 +163,13 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
         if (!TextUtils.isEmpty(videoPreviewUrl)) {
 
-            mExoPlayerExecute = new ExoPlayerExecute(mContext,
+            mMediaPlayer = new MediaPlayer(mContext,
                     mImaAdsLoader,
                     holder.mPlayerView,
                     holder.mExoProgressBar,
                     title, holder.mTVErrorPlayer);
 
-            mExoPlayerExecute.initializePlayer(Uri.parse(videoPreviewUrl), position);
+            mMediaPlayer.initPlayer(Uri.parse(videoPreviewUrl), position);
 
             holder.mPlayerLayout.setVisibility(View.VISIBLE);
 
@@ -257,16 +256,17 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
     @Override
     public void onViewAttachedToWindow(@NonNull SubRedditHolder holder) {
         super.onViewAttachedToWindow(holder);
-        if (mExoPlayerExecute != null) {
-            mExoPlayerExecute.restartPlayer();
+
+        if (mMediaPlayer != null) {
+            mMediaPlayer.restartPlayer();
         }
     }
 
     @Override
     public void onViewDetachedFromWindow(@NonNull SubRedditHolder holder) {
         super.onViewDetachedFromWindow(holder);
-        if (mExoPlayerExecute != null) {
-            mExoPlayerExecute.pausePlayer();
+        if (mMediaPlayer != null) {
+            mMediaPlayer.pausePlayer();
         }
     }
 
@@ -325,13 +325,11 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
         SubRedditHolder(View itemView) {
             super(itemView);
-
             ButterKnife.bind(this, itemView);
 
         }
 
         public void bind(int position) {
-
             mPosition = position;
         }
 
@@ -363,7 +361,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
     }
 
     public interface OnPlayerListener {
-        void exoPlayer(ExoPlayerExecute exoPlayerExecute);
+        void exoPlayer(MediaPlayer mediaPlayer);
     }
 
 }

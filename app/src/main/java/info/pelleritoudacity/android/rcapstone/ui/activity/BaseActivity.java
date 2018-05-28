@@ -46,7 +46,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
-import android.view.Window;
 import android.widget.TextView;
 
 import com.mikepenz.iconics.IconicsDrawable;
@@ -59,7 +58,6 @@ import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.model.reddit.RedditAboutMe;
 import info.pelleritoudacity.android.rcapstone.rest.AboutMeExecute;
-import info.pelleritoudacity.android.rcapstone.utility.ActivityUI;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import timber.log.Timber;

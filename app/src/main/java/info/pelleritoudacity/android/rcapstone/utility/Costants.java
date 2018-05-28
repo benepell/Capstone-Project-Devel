@@ -128,6 +128,8 @@ public interface Costants {
     boolean IS_RENDERING_VIDEO = true;
     boolean IS_AUTOPLAY_VIDEO = true;
     boolean IS_REPEAT_VIDEO = true;
+    boolean IS_VIDEO_FULL = true;
+
     boolean IS_MUTED_AUDIO = true;
     boolean IS_CONTROLLER_ALWAYS = true;
 
