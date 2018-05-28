@@ -39,7 +39,7 @@ class DbHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     public DbHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        super(context, DATABASE_NAME, new LeaklessCursorFactory(), DATABASE_VERSION);
     }
 
     @Override
@@ -63,7 +63,6 @@ class DbHelper extends SQLiteOpenHelper {
                         Contract.PrefSubRedditEntry.COLUMN_NAME_TIME_LAST_MODIFIED + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
 
                         " UNIQUE (" + Contract.PrefSubRedditEntry.COLUMN_NAME_NAME + ")" + " ON CONFLICT IGNORE " +
-//                        " UNIQUE (" + Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION + ")" + " ON CONFLICT REPLACE " +
                         ");";
 
         final String SQL_CREATE_DATA_TABLE =
@@ -266,9 +265,9 @@ class DbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_T3DATA_TABLE);
         db.execSQL(SQL_CREATE_PREFSUBREDDIT_TABLE);
 
-        Timber.d("SQL STATEMENT:  " +
+      /*  Timber.d("SQL STATEMENT:  " +
                 SQL_CREATE_REDDIT_TABLE + " " + SQL_CREATE_DATA_TABLE + " " +
-                SQL_CREATE_T5DATA_TABLE + SQL_CREATE_T3DATA_TABLE + SQL_CREATE_PREFSUBREDDIT_TABLE);
+                SQL_CREATE_T5DATA_TABLE + SQL_CREATE_T3DATA_TABLE + SQL_CREATE_PREFSUBREDDIT_TABLE);*/
     }
 
     @Override
@@ -284,7 +283,7 @@ class DbHelper extends SQLiteOpenHelper {
     @Override
     public synchronized void close() {
         super.close();
-        Timber.tag("DbHelper").d("DATABASE close");
+        Timber.d("DATABASE close");
 
     }
 
