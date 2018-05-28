@@ -147,6 +147,7 @@ class DbHelper extends SQLiteOpenHelper {
                         Contract.T5dataEntry.COLUMN_NAME_SUBMISSION_TYPE + " TEXT, " +
                         Contract.T5dataEntry.COLUMN_NAME_USER_IS_SUBSCRIBER + " TEXT, " +
 
+                        " UNIQUE (" + Contract.T5dataEntry.COLUMN_NAME_ID + ")" + " ON CONFLICT REPLACE, " +
                         " FOREIGN KEY (" + Contract.T5dataEntry.COLUMN_NAME_CHILDREN_ID + ") REFERENCES " +
                         Contract.DataEntry.TABLE_NAME + "(" + Contract.DataEntry._ID + ")" +
                         ");";
@@ -253,7 +254,7 @@ class DbHelper extends SQLiteOpenHelper {
                         Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_WIDTH + " INTEGER DEFAULT 0, " +
                         Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_HEIGHT + " INTEGER DEFAULT 0, " +
 
-
+                        " UNIQUE (" + Contract.T3dataEntry.COLUMN_NAME_ID + ")" + " ON CONFLICT REPLACE, " +
                         " FOREIGN KEY (" + Contract.T3dataEntry.COLUMN_NAME_CHILDREN_ID + ") REFERENCES " +
                         Contract.DataEntry.TABLE_NAME + "(" + Contract.DataEntry._ID + ")" +
                         ");";
