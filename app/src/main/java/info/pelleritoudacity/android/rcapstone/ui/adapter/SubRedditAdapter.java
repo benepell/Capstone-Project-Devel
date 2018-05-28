@@ -163,13 +163,17 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
         if (!TextUtils.isEmpty(videoPreviewUrl)) {
 
+            if(mMediaPlayer!=null){
+                mMediaPlayer.releasePlayer();
+            }
+
             mMediaPlayer = new MediaPlayer(mContext,
                     mImaAdsLoader,
                     holder.mPlayerView,
                     holder.mExoProgressBar,
                     title, holder.mTVErrorPlayer);
 
-            mMediaPlayer.initPlayer(Uri.parse(videoPreviewUrl), position);
+            mMediaPlayer.initPlayer(Uri.parse(videoPreviewUrl));
 
             holder.mPlayerLayout.setVisibility(View.VISIBLE);
 

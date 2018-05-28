@@ -161,7 +161,7 @@ public class MediaPlayer {
     }
 
 
-    public void initPlayer(Uri mediaUri, int adapterPosition) {
+    public void initPlayer(Uri mediaUri) {
 
         if (mPlayerView != null) {
 
@@ -182,8 +182,7 @@ public class MediaPlayer {
                     .createMediaSource(mediaUri);
 
             boolean isResume = mResumePosition > 0;
-
-            if ((Costants.IS_IMA_AD_EXTENSION) && (mImaAdsLoader != null) && (adapterPosition > 0)) {
+            if ((Costants.IS_IMA_AD_EXTENSION) && (mImaAdsLoader != null) ) {
                 mediaSource = new AdsMediaSource(mediaSource, dataSourceFactory, mImaAdsLoader,
                         mPlayerView.getOverlayFrameLayout());
 
