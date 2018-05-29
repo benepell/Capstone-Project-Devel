@@ -74,11 +74,9 @@ public class MainActivity extends BaseActivity
 
         dataClearSnackBar();
 
-        intentRequest(getIntent());
+        intentRequest(getIntent(), intentDefaultCategoryPopular());
 
         PrefManager.putBoolPref(mContext, R.string.pref_volume_muted, Costants.IS_MUTED_AUDIO);
-
-        startDefaultCategoryPopular();
 
     }
 
@@ -95,7 +93,7 @@ public class MainActivity extends BaseActivity
 
     }
 
-    private void intentRequest(Intent intent) {
+    private void intentRequest(Intent intent, Intent intentDefaultPage) {
 
         if (intent != null) {
             boolean isLogged = intent.getBooleanExtra(Costants.EXTRA_LOGIN_SUCCESS, false);
@@ -109,6 +107,8 @@ public class MainActivity extends BaseActivity
                 Snackbar.make(findViewById(R.id.main_container),
                         R.string.text_logout_success, Snackbar.LENGTH_LONG).show();
 
+            } else {
+                startActivity(intentDefaultPage);
             }
 
             int restore = intent.getIntExtra(Costants.EXTRA_RESTORE_MANAGE, 0);
@@ -127,11 +127,11 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    private void startDefaultCategoryPopular() {
+    private Intent intentDefaultCategoryPopular() {
         Intent intent = new Intent(getApplication(), SubRedditActivity.class);
         intent.putExtra(Costants.EXTRA_SUBREDDIT_CATEGORY, Costants.SUBREDDIT_CATEGORY_POPULAR);
         intent.putExtra(Costants.EXTRA_SUBREDDIT_TARGET, Costants.SUBREDDIT_TARGET_POPULAR);
-        startActivity(intent);
+        return intent;
     }
 
     private void updateRefreshingUI() {

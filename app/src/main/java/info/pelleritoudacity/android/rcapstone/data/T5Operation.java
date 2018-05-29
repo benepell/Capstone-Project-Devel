@@ -37,7 +37,6 @@ import info.pelleritoudacity.android.rcapstone.model.reddit.T5Listing;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
-import timber.log.Timber;
 
 public class T5Operation {
     private final T5 mModelT5;
