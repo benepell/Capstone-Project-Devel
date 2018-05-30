@@ -231,7 +231,7 @@ public class SubRedditFragment extends Fragment
                         selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?";
                         selectionArgs = new String[]{sTarget};
 
-                    } else if (sTarget.equals(Costants.SUBREDDIT_TARGET_ALL)) {
+                    } else if (sTarget.equals(Costants.SUBREDDIT_TARGET_POPULAR)) {
                         selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?";
                         selectionArgs = new String[]{sTarget};
 

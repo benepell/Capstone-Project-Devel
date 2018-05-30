@@ -34,6 +34,7 @@ import java.util.List;
 
 import info.pelleritoudacity.android.rcapstone.model.ModelContent;
 import info.pelleritoudacity.android.rcapstone.model.reddit.Resolution;
+import info.pelleritoudacity.android.rcapstone.model.reddit.Source;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T3Data;
 
 public class ImageContentOperation {
@@ -67,6 +68,8 @@ public class ImageContentOperation {
         optimizeArrayList = new ArrayList<>(1);
         modelContentImage = new ModelContent();
         List<Resolution> dataResolution = t3DataChild.getPreview().getImages().get(0).getResolutions();
+
+
 
         int index;
         switch (densityDpi) {
@@ -148,9 +151,19 @@ public class ImageContentOperation {
 
             default:
                 index = 0;
-                modelContentImage.setUrl(dataResolution.get(index).getUrl());
-                modelContentImage.setWidth(dataResolution.get(index).getWidth());
-                modelContentImage.setHeight(dataResolution.get(index).getHeight());
+                if(originalSize){
+                    Source sourceResolution = t3DataChild.getPreview().getImages().get(index).getSource();
+                    modelContentImage.setUrl(sourceResolution.getUrl());
+                    modelContentImage.setWidth(sourceResolution.getWidth());
+                    modelContentImage.setHeight(sourceResolution.getHeight());
+
+                }else {
+                    modelContentImage.setUrl("");
+                    modelContentImage.setWidth(0);
+                    modelContentImage.setHeight(0);
+
+                }
+
                 optimizeArrayList.add(modelContentImage);
                 return optimizeArrayList;
         }
