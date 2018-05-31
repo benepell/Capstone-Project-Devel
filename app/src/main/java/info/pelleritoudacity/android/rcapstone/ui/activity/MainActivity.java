@@ -121,7 +121,7 @@ public class MainActivity extends BaseActivity
                 startActivity(new Intent(this, SubManageActivity.class)
                         .putExtra(Costants.EXTRA_RESTORE_MANAGE, Costants.RESTORE_MANAGE_REDIRECT));
             } else {
-//                startActivity(intentDefaultPage);
+                startActivity(intentDefaultPage);
             }
 
         }
