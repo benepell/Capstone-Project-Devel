@@ -70,6 +70,12 @@ public class BaseActivity extends AppCompatActivity
     private int mLayoutResource;
     private View mNavHeaderView;
 
+    public ArrayList<String> getTabArrayList() {
+        return mTabArrayList;
+    }
+
+    private ArrayList<String> mTabArrayList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -292,7 +298,6 @@ public class BaseActivity extends AppCompatActivity
         if (this.getClass().getSimpleName().equals(SubRedditActivity.class.getSimpleName())) {
             finish();
         }
-
         startActivity(intent);
 
     }
@@ -371,11 +376,11 @@ public class BaseActivity extends AppCompatActivity
                 stringLink = prefString;
             }
 
-            ArrayList<String> arrayList = stringToArray(stringLink);
+             mTabArrayList= stringToArray(stringLink);
 
             int groupId = menu.findItem(R.id.nav_mode_subs).getGroupId();
 
-            for (String string : arrayList) {
+            for (String string : mTabArrayList) {
 
                 TypefaceSpan typefaceSpan = new TypefaceSpan("/font/roboto_thin.ttf"); // OR  THIS
                 SpannableStringBuilder title = new SpannableStringBuilder(string);

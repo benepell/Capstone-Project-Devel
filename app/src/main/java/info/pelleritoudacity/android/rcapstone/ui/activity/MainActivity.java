@@ -107,8 +107,6 @@ public class MainActivity extends BaseActivity
                 Snackbar.make(findViewById(R.id.main_container),
                         R.string.text_logout_success, Snackbar.LENGTH_LONG).show();
 
-            } else {
-                startActivity(intentDefaultPage);
             }
 
             int restore = intent.getIntExtra(Costants.EXTRA_RESTORE_MANAGE, 0);
@@ -122,6 +120,8 @@ public class MainActivity extends BaseActivity
             } else if (restore == Costants.RESTORE_MANAGE_REDIRECT) {
                 startActivity(new Intent(this, SubManageActivity.class)
                         .putExtra(Costants.EXTRA_RESTORE_MANAGE, Costants.RESTORE_MANAGE_REDIRECT));
+            } else {
+                startActivity(intentDefaultPage);
             }
 
         }

@@ -34,15 +34,18 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 
 import com.google.android.exoplayer2.util.Util;
 
 import java.util.Objects;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.T3Operation;
@@ -50,6 +53,7 @@ import info.pelleritoudacity.android.rcapstone.media.MediaSession;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.rest.SubRedditExecute;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditFragment;
+import info.pelleritoudacity.android.rcapstone.ui.view.SubRedditTab;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtils;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
@@ -60,7 +64,12 @@ import static info.pelleritoudacity.android.rcapstone.utility.PermissionUtils.Re
 
 
 public class SubRedditActivity extends BaseActivity
-        implements SubRedditExecute.RestSubReddit, ActivityCompat.OnRequestPermissionsResultCallback {
+        implements SubRedditExecute.RestSubReddit, ActivityCompat.OnRequestPermissionsResultCallback, SubRedditTab.OnTabListener {
+
+    @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
+    @BindView(R.id.tab_layout)
+    public TabLayout mTabLayout;
+
 
     private Context mContext;
     private String mRedditCategory;
@@ -94,6 +103,9 @@ public class SubRedditActivity extends BaseActivity
             startFragment(mRedditCategory,mRedditTarget);
         }
 
+        SubRedditTab subRedditTab = new SubRedditTab(this,mTabLayout,getTabArrayList());
+        subRedditTab.initTab();
+        subRedditTab.positionSelected(mRedditCategory);
     }
 
     @Override
@@ -127,6 +139,11 @@ public class SubRedditActivity extends BaseActivity
         if (!TextUtils.isEmpty(link)) {
             new SubRedditExecute(link).getData(this);
         }
+    }
+
+    @Override
+    public void tabSelected(int position, String category) {
+        startFragment(category,null);
     }
 
     public static class MediaReceiver extends BroadcastReceiver {

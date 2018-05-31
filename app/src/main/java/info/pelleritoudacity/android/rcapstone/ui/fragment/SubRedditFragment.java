@@ -112,12 +112,12 @@ public class SubRedditFragment extends Fragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (savedInstanceState == null) {
-            if (getActivity() != null) {
-                getActivity().getSupportLoaderManager().initLoader(SUBREDDIT_LOADER_ID, null, this);
-            }
 
-        } else {
+        if (getActivity() != null) {
+            getActivity().getSupportLoaderManager().restartLoader(SUBREDDIT_LOADER_ID, null, this);
+        }
+
+        if (savedInstanceState != null) {
             sListState = savedInstanceState.getParcelable(Costants.EXTRA_FRAGMENT_STATE);
 
             sWindowPlayer = savedInstanceState.getInt(Costants.BUNDLE_EXOPLAYER_WINDOW, C.INDEX_UNSET);
