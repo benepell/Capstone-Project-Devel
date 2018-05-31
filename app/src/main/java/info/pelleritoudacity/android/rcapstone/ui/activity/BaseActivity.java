@@ -299,7 +299,6 @@ public class BaseActivity extends AppCompatActivity
             finish();
         }
         startActivity(intent);
-
     }
 
     private void menuNavigation(NavigationView navigationView) {

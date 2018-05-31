@@ -36,7 +36,7 @@ import timber.log.Timber;
 import static info.pelleritoudacity.android.rcapstone.utility.Costants.SUBREDDIT_LOADER_ID;
 
 public class SubRedditFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<Cursor>, SubRedditAdapter.OnPlayerListener {
+        implements LoaderManager.LoaderCallbacks<Cursor>, SubRedditAdapter.OnPlayerListener, SubRedditAdapter.OnAdapterListener {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.rv_fragment_subreddit)
@@ -91,17 +91,15 @@ public class SubRedditFragment extends Fragment
 
         ButterKnife.bind(this, view);
 
-        if ((getActivity() != null) && (getActivity().findViewById(R.id.fragment_subreddit_container) != null)) {
-            mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-            mRecyclerView.setLayoutManager(mLayoutManager);
-        }
+        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
         mRecyclerView.setHasFixedSize(true);
 
         ImaAdsLoader mImaAdsLoader = new ImaAdsLoader(mContext, Uri.parse(getString(R.string.ad_tag_url)));
         isIMA = true;
 
-        mAdapter = new SubRedditAdapter(mContext, mImaAdsLoader);
+        mAdapter = new SubRedditAdapter(this, mContext, mImaAdsLoader);
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -113,16 +111,26 @@ public class SubRedditFragment extends Fragment
         super.onActivityCreated(savedInstanceState);
 
 
-        if (getActivity() != null) {
-            getActivity().getSupportLoaderManager().restartLoader(SUBREDDIT_LOADER_ID, null, this);
-        }
 
-        if (savedInstanceState != null) {
+        if (savedInstanceState == null) {
+            if (getActivity() != null) {
+                getActivity().getSupportLoaderManager().restartLoader(SUBREDDIT_LOADER_ID, null, this);
+
+            }
+
+        } else {
+            if (getActivity() != null) {
+                getActivity().getSupportLoaderManager().initLoader(SUBREDDIT_LOADER_ID , null, this);
+
+            }
+
+
             sListState = savedInstanceState.getParcelable(Costants.EXTRA_FRAGMENT_STATE);
 
             sWindowPlayer = savedInstanceState.getInt(Costants.BUNDLE_EXOPLAYER_WINDOW, C.INDEX_UNSET);
             sPositionPlayer = savedInstanceState.getLong(Costants.BUNDLE_EXOPLAYER_POSITION, C.TIME_UNSET);
             sIsAutoRun = savedInstanceState.getBoolean(Costants.BUNDLE_EXOPLAYER_AUTOPLAY, false);
+
 
         }
 
@@ -133,12 +141,12 @@ public class SubRedditFragment extends Fragment
         super.onSaveInstanceState(outState);
         sListState = mLayoutManager.onSaveInstanceState();
         outState.putParcelable(Costants.EXTRA_FRAGMENT_STATE, sListState);
-
         if (mMediaPlayer != null) {
             outState.putInt(Costants.BUNDLE_EXOPLAYER_WINDOW, mMediaPlayer.getResumeWindow());
             outState.putLong(Costants.BUNDLE_EXOPLAYER_POSITION, mMediaPlayer.getResumePosition());
             outState.putBoolean(Costants.BUNDLE_EXOPLAYER_AUTOPLAY, mMediaPlayer.isAutoPlay());
         }
+
 
     }
 
@@ -199,6 +207,10 @@ public class SubRedditFragment extends Fragment
             mMediaPlayer.setResume(sWindowPlayer, sPositionPlayer, mMediaPlayer.getVideoUri());
 
         }
+    }
+
+    @Override
+    public void adapterPosition(int position, String category) {
     }
 
     private static class SubRedditFragmentAsyncTask extends AsyncTaskLoader<Cursor> {

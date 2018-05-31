@@ -54,6 +54,7 @@ import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
+import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtils;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
@@ -69,10 +70,14 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
     private MediaPlayer mMediaPlayer;
     private final ImaAdsLoader mImaAdsLoader;
+    private SubRedditFragment mListener;
 
-    public SubRedditAdapter(Context context, ImaAdsLoader imaAdsLoader) {
+
+
+    public SubRedditAdapter(SubRedditFragment listener,Context context, ImaAdsLoader imaAdsLoader) {
         mContext = context;
         mImaAdsLoader = imaAdsLoader;
+        mListener = listener;
     }
 
     @NonNull
@@ -207,6 +212,8 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         );
 
         holder.bind(holder.getAdapterPosition());
+
+        mListener.adapterPosition(holder.getAdapterPosition(),subReddit);
     }
 
     private void imageReddit(SubRedditHolder holder, String imagePreviewUrl, int imagePreviewWidth, int imagePreviewHeight) {
@@ -350,7 +357,6 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
             itemView.setBackgroundColor(ImageUtils.getColor(mContext, R.color.colorBackgroundItemNoSelected));
         }
 
-
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -371,4 +377,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         void exoPlayer(MediaPlayer mediaPlayer);
     }
 
+    public interface OnAdapterListener{
+        void adapterPosition(int position, String category);
+    }
 }

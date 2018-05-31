@@ -3,13 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true"
-    android:focusable="true"
     android:layout_marginBottom="@dimen/list_side_margin"
     android:layout_marginTop="@dimen/list_side_margin"
+    android:clickable="true"
+    android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
     app:cardElevation="@dimen/list_card_elevation">
-
 
     <LinearLayout
 
@@ -67,7 +66,6 @@
             <include layout="@layout/inc_player_container" />
 
         </LinearLayout>
-
 
         <LinearLayout
 

@@ -72,6 +72,7 @@ public class SubRedditActivity extends BaseActivity
     private Context mContext;
     private String mRedditCategory;
     private String mRedditTarget;
+    private SubRedditTab mSubRedditTab;
     public static MediaSessionCompat sMediaSessionCompat = null;
 
     @Override
@@ -88,22 +89,34 @@ public class SubRedditActivity extends BaseActivity
             PermissionUtils.isDeniedPermissionExtStorage(SubRedditActivity.this);
         }
 
-        SubRedditTab subRedditTab = new SubRedditTab(this, mTabLayout, getTabArrayList());
-        subRedditTab.initTab();
 
-        if (TextUtils.isEmpty(mRedditCategory)) {
-            Intent intentCategory = getIntent();
-            if (intentCategory != null) {
-                mRedditCategory = intentCategory.getStringExtra(Costants.EXTRA_SUBREDDIT_CATEGORY);
-                mRedditTarget = intentCategory.getStringExtra(Costants.EXTRA_SUBREDDIT_TARGET);
+        if (savedInstanceState == null) {
+            mSubRedditTab = new SubRedditTab(this, mTabLayout, getTabArrayList());
+            mSubRedditTab.initTab();
 
-                subRedditTab.positionSelected(mRedditCategory);
+            if (TextUtils.isEmpty(mRedditCategory)) {
+                Intent intentCategory = getIntent();
+                if (intentCategory != null) {
+                    mRedditCategory = intentCategory.getStringExtra(Costants.EXTRA_SUBREDDIT_CATEGORY);
+                    mRedditTarget = intentCategory.getStringExtra(Costants.EXTRA_SUBREDDIT_TARGET);
 
-                if (mContext != null) {
-                    initRest(mRedditCategory, mRedditTarget, NetworkUtils.isOnline(mContext));
+                    mSubRedditTab.positionSelected(mRedditCategory);
 
+                    if (mContext != null) {
+                        initRest(mRedditCategory, mRedditTarget, NetworkUtils.isOnline(mContext));
+
+                    }
                 }
             }
+
+        } else {
+            mRedditCategory = savedInstanceState.getString(Costants.EXTRA_SUBREDDIT_CATEGORY);
+            mRedditTarget = savedInstanceState.getString(Costants.EXTRA_SUBREDDIT_TARGET);
+
+            mSubRedditTab = new SubRedditTab(this, mTabLayout, getTabArrayList());
+            mSubRedditTab.initTab();
+            mSubRedditTab.positionSelected(mRedditCategory);
+
         }
 
 
@@ -210,5 +223,10 @@ public class SubRedditActivity extends BaseActivity
         return super.shouldShowRequestPermissionRationale(permission);
     }
 
-
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString(Costants.EXTRA_SUBREDDIT_CATEGORY, mRedditCategory);
+        outState.putString(Costants.EXTRA_SUBREDDIT_TARGET, mRedditTarget);
+        super.onSaveInstanceState(outState);
+    }
 }

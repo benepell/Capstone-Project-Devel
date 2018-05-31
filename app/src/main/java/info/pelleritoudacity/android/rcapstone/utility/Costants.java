@@ -71,19 +71,20 @@ public interface Costants {
     String EXTRA_SUBREDDIT_CATEGORY = "info.pelleritoudacity.android.rcapstone.extra.subreddit.category";
     String EXTRA_FRAGMENT_SUBREDDIT = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit";
     String EXTRA_FRAGMENT_TARGET = "info.pelleritoudacity.android.rcapstone.extra.fragment.target";
-    String EXTRA_FRAGMENT_STATE = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit";
+    String EXTRA_FRAGMENT_STATE = "info.pelleritoudacity.android.rcapstone.extra.fragment.state";
 
     String EXTRA_SUBREDDIT_SHARE_URL_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.subreddit.share.url.fullscreen";
     String EXTRA_SUBREDDIT_SHARE_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.subreddit.share.fullscreen";
     String EXTRA_SUBREDDIT_EXIT_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.subreddit.exit.fullscreen";
     String EXTRA_SUBREDDIT_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.subreddit.fullscreen";
     String EXTRA_SUBREDDIT_TARGET = "info.pelleritoudacity.android.rcapstone.extra.subreddit.target";
+    String EXTRA_SUBREDDIT_TAB = "info.pelleritoudacity.android.rcapstone.extra.subreddit.tab";
     String SUBREDDIT_CATEGORY_ALL = "all";
     String SUBREDDIT_CATEGORY_POPULAR = "popular";
     String SUBREDDIT_TARGET_ALL = "info.pelleritoudacity.android.rcapstone.subreddit.target.all";
     String SUBREDDIT_TARGET_POPULAR = "info.pelleritoudacity.android.rcapstone.subreddit.target.popular";
 
-    String EXTRA_SUBSCRIPTION_STATE = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit";
+    String EXTRA_SUBSCRIPTION_STATE = "info.pelleritoudacity.android.rcapstone.extra.subscription.state";
 
     String EXTRA_RESTORE_MANAGE = "info.pelleritoudacity.android.rcapstone.extra.restore.manage";
 
@@ -118,6 +119,7 @@ public interface Costants {
     String NOTIFICATION_CHANNEL_ID = "info.pelleritoudacity.android.rcapstone.exo.player.tag.one";
     String NOTIFICATION_CHANNEL_NAME = "Channel Media Exoplayer";
 
+    String BUNDLE_SUBREDDIT_POSITION = "info.pelleritoudacity.android.rcapstone.bundle.subreddit.position";
     String BUNDLE_EXOPLAYER_WINDOW = "info.pelleritoudacity.android.rcapstone.exo.player.window";
     String BUNDLE_EXOPLAYER_POSITION = "info.pelleritoudacity.android.rcapstone.exo.player.position";
     String BUNDLE_EXOPLAYER_AUTOPLAY = "info.pelleritoudacity.android.rcapstone.exo.player.autoplay";
