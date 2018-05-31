@@ -362,7 +362,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         this.mCursor = c;
 
         if (c != null) {
-            this.notifyDataSetChanged();
+            notifyDataSetChanged();
         }
         return temp;
     }

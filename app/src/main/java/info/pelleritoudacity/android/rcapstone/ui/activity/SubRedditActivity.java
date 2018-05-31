@@ -38,7 +38,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 
 import com.google.android.exoplayer2.util.Util;
@@ -70,11 +69,10 @@ public class SubRedditActivity extends BaseActivity
     @BindView(R.id.tab_layout)
     public TabLayout mTabLayout;
 
-
     private Context mContext;
     private String mRedditCategory;
-    public static MediaSessionCompat sMediaSessionCompat = null;
     private String mRedditTarget;
+    public static MediaSessionCompat sMediaSessionCompat = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,22 +88,25 @@ public class SubRedditActivity extends BaseActivity
             PermissionUtils.isDeniedPermissionExtStorage(SubRedditActivity.this);
         }
 
-        Intent intentCategory = getIntent();
-
-        if (intentCategory != null) {
-            mRedditCategory = intentCategory.getStringExtra(Costants.EXTRA_SUBREDDIT_CATEGORY);
-            mRedditTarget = intentCategory.getStringExtra(Costants.EXTRA_SUBREDDIT_TARGET);
-        }
-
-        initializeRestSubReddit(mRedditCategory);
-
-        if (!NetworkUtils.isOnline(getApplicationContext())) {
-            startFragment(mRedditCategory,mRedditTarget);
-        }
-
-        SubRedditTab subRedditTab = new SubRedditTab(this,mTabLayout,getTabArrayList());
+        SubRedditTab subRedditTab = new SubRedditTab(this, mTabLayout, getTabArrayList());
         subRedditTab.initTab();
-        subRedditTab.positionSelected(mRedditCategory);
+
+        if (TextUtils.isEmpty(mRedditCategory)) {
+            Intent intentCategory = getIntent();
+            if (intentCategory != null) {
+                mRedditCategory = intentCategory.getStringExtra(Costants.EXTRA_SUBREDDIT_CATEGORY);
+                mRedditTarget = intentCategory.getStringExtra(Costants.EXTRA_SUBREDDIT_TARGET);
+
+                subRedditTab.positionSelected(mRedditCategory);
+
+                if (mContext != null) {
+                    initRest(mRedditCategory, mRedditTarget, NetworkUtils.isOnline(mContext));
+
+                }
+            }
+        }
+
+
     }
 
     @Override
@@ -113,10 +114,9 @@ public class SubRedditActivity extends BaseActivity
 
         if (listenerData != null) {
             T3Operation data = new T3Operation(getApplicationContext(), listenerData);
-            data.saveData(mRedditCategory,mRedditTarget);
-
-            if (data.saveData(mRedditCategory,mRedditTarget)) {
-                startFragment(mRedditCategory,mRedditTarget);
+            data.saveData(mRedditCategory, mRedditTarget);
+            if (data.saveData(mRedditCategory, mRedditTarget)) {
+                startFragment(mRedditCategory, mRedditTarget);
             } else {
                 Snackbar.make(findViewById(R.id.subreddit_container), R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
             }
@@ -129,21 +129,34 @@ public class SubRedditActivity extends BaseActivity
     }
 
     private void startFragment(String link, String target) {
-        SubRedditFragment subRedditFragment = SubRedditFragment.newInstance(link,target);
+        SubRedditFragment subRedditFragment = SubRedditFragment.newInstance(link, target);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_subreddit_container, subRedditFragment).commit();
 
     }
 
-    private void initializeRestSubReddit(String link) {
+    private void initRest(String link, String target, boolean stateNetworkOnline) {
         if (!TextUtils.isEmpty(link)) {
-            new SubRedditExecute(link).getData(this);
+            if (stateNetworkOnline) {
+                new SubRedditExecute(link).getData(this);
+
+            } else {
+                startFragment(link, target);
+
+            }
+
         }
     }
 
     @Override
     public void tabSelected(int position, String category) {
-        startFragment(category,null);
+        mRedditTarget = null;
+        mRedditCategory = category;
+
+        if (mContext != null) {
+            initRest(category, null, NetworkUtils.isOnline(mContext));
+        }
+
     }
 
     public static class MediaReceiver extends BroadcastReceiver {

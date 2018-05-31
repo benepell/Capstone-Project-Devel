@@ -46,7 +46,6 @@ public class SubRedditExecute {
         Callback<T3> callback = new Callback<T3>() {
             @Override
             public void onResponse(@NonNull Call<T3> call, @NonNull Response<T3> response) {
-                int b = response.code();
                 if (response.isSuccessful()) {
                     mReddit = response.body();
                     myCallBack.onRestSubReddit(mReddit);
