@@ -34,7 +34,6 @@ import java.util.ArrayList;
 
 import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity;
 
-
 public class SubRedditTab implements TabLayout.OnTabSelectedListener {
 
     SubRedditActivity mListener;

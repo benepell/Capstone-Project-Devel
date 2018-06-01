@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.SubRedditActivity">
 
-    <include layout="@layout/app_bar_layout" />
+    <include layout="@layout/app_tab_layout" />
 
     <FrameLayout
         android:id="@+id/fragment_subreddit_container"

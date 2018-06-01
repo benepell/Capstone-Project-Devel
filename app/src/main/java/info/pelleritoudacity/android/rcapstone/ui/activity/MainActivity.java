@@ -74,7 +74,7 @@ public class MainActivity extends BaseActivity
 
         dataClearSnackBar();
 
-        intentRequest(getIntent(), intentDefaultCategoryPopular());
+        intentRequest(getIntent(), intentDefaultCategory());
 
         PrefManager.putBoolPref(mContext, R.string.pref_volume_muted, Costants.IS_MUTED_AUDIO);
 
@@ -127,10 +127,16 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    private Intent intentDefaultCategoryPopular() {
+    private Intent intentDefaultCategory() {
         Intent intent = new Intent(getApplication(), SubRedditActivity.class);
-        intent.putExtra(Costants.EXTRA_SUBREDDIT_CATEGORY, Costants.SUBREDDIT_CATEGORY_POPULAR);
-        intent.putExtra(Costants.EXTRA_SUBREDDIT_TARGET, Costants.SUBREDDIT_TARGET_POPULAR);
+        if (getTabArrayList() != null) {
+            intent.putExtra(Costants.EXTRA_SUBREDDIT_CATEGORY, getTabArrayList().get(0));
+
+        } else {
+            intent.putExtra(Costants.EXTRA_SUBREDDIT_CATEGORY, Costants.SUBREDDIT_CATEGORY_POPULAR);
+            intent.putExtra(Costants.EXTRA_SUBREDDIT_TARGET, Costants.SUBREDDIT_TARGET_POPULAR);
+
+        }
         return intent;
     }
 
