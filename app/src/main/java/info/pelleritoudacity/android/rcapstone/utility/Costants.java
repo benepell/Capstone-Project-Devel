@@ -127,7 +127,7 @@ public interface Costants {
     boolean IS_ADAPTIVE_STREAMING = true;
     boolean IS_IMA_AD_EXTENSION = true;
     boolean IS_MEDIA_SESSION = true;
-    boolean IS_RENDERING_VIDEO = true;
+    boolean IS_RENDERING_VIDEO = false;
     boolean IS_AUTOPLAY_VIDEO = true;
     boolean IS_REPEAT_VIDEO = true;
     boolean IS_VIDEO_FULL = true;

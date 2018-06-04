@@ -62,10 +62,6 @@ public class MainActivity extends BaseActivity
 
         mContext = getApplicationContext();
 
-        Timber.plant(new Timber.DebugTree());
-        ButterKnife.bind(this);
-
-
         initializeFirebaseDispatcherService();
         // todo remove
         getDataT5(getApplicationContext());

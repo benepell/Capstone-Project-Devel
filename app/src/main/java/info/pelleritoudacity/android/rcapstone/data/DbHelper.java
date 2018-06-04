@@ -280,7 +280,7 @@ class DbHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    @Override
+/*    @Override
     public synchronized void close() {
         super.close();
         Timber.d("DATABASE close");
@@ -291,5 +291,5 @@ class DbHelper extends SQLiteOpenHelper {
     public void onOpen(SQLiteDatabase db) {
         super.onOpen(db);
         Timber.d("DATABASE open");
-    }
+    }*/
 }

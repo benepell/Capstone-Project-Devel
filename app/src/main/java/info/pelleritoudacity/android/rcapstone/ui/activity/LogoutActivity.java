@@ -46,8 +46,6 @@ public class LogoutActivity extends BaseActivity
     public void onCreate(Bundle savedInstanceState) {
         setLayoutResource(R.layout.activity_logout);
         super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
-        Timber.plant(new Timber.DebugTree());
 
         String token = PrefManager.getStringPref(getApplicationContext(), R.string.pref_session_access_token);
         if (!TextUtils.isEmpty(token)) {

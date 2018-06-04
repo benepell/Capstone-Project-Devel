@@ -54,7 +54,6 @@ public class SubRedditExecute {
 
             @Override
             public void onFailure(@NonNull Call<T3> call, @NonNull Throwable t) {
-                Timber.e("error T3 %s",t.getMessage());
                 call.cancel();
                 if (call.isCanceled()) {
                     myCallBack.onErrorSubReddit(t);

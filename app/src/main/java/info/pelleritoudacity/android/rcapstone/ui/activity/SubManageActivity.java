@@ -61,8 +61,7 @@ public class SubManageActivity extends BaseActivity {
 
         sWeakContext = new WeakReference<>(getApplicationContext());
         sWeakFragmentManager = new WeakReference<>(getSupportFragmentManager());
-        Timber.plant(new Timber.DebugTree());
-        ButterKnife.bind(this);
+
         if (PrefManager.getBoolPref(getApplicationContext(), R.string.pref_insert_prefs)) {
             new RemovedItemSubRedditAsyncTask().execute();
         } else {

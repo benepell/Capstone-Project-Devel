@@ -270,17 +270,17 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
     public void onViewAttachedToWindow(@NonNull SubRedditHolder holder) {
         super.onViewAttachedToWindow(holder);
 
-        if (mMediaPlayer != null) {
+     /*   if (mMediaPlayer != null) {
             mMediaPlayer.restartPlayer();
-        }
+        }*/
     }
 
     @Override
     public void onViewDetachedFromWindow(@NonNull SubRedditHolder holder) {
         super.onViewDetachedFromWindow(holder);
-        if (mMediaPlayer != null) {
+       /* if (mMediaPlayer != null) {
             mMediaPlayer.pausePlayer();
-        }
+        }*/
 
     }
 

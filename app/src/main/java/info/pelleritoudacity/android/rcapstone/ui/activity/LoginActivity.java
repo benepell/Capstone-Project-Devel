@@ -59,8 +59,6 @@ public class LoginActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         setLayoutResource(R.layout.activity_login);
         super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
-        Timber.plant(new Timber.DebugTree());
 
         if ((NetworkUtils.isOnline(getApplicationContext())) &&
                 (!PrefManager.getBoolPref(getApplicationContext(), R.string.pref_login_start))) {

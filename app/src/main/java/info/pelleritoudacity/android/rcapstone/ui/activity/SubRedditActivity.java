@@ -57,7 +57,6 @@ import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtils;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
-import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.PermissionUtils.RequestPermissionExtStorage;
 
@@ -81,14 +80,11 @@ public class SubRedditActivity extends BaseActivity
         super.onCreate(savedInstanceState);
 
         mContext = SubRedditActivity.this;
-        Timber.plant(new Timber.DebugTree());
-        ButterKnife.bind(this);
 
         if (Util.SDK_INT > 23) {
             RequestPermissionExtStorage(SubRedditActivity.this);
             PermissionUtils.isDeniedPermissionExtStorage(SubRedditActivity.this);
         }
-
 
         if (savedInstanceState == null) {
             mSubRedditTab = new SubRedditTab(this, mTabLayout, getTabArrayList());
@@ -104,7 +100,6 @@ public class SubRedditActivity extends BaseActivity
 
                     if (mContext != null) {
                         initRest(mRedditCategory, mRedditTarget, NetworkUtils.isOnline(mContext));
-
                     }
                 }
             }
@@ -127,7 +122,6 @@ public class SubRedditActivity extends BaseActivity
 
         if (listenerData != null) {
             T3Operation data = new T3Operation(getApplicationContext(), listenerData);
-            data.saveData(mRedditCategory, mRedditTarget);
             if (data.saveData(mRedditCategory, mRedditTarget)) {
                 startFragment(mRedditCategory, mRedditTarget);
             } else {
@@ -152,7 +146,6 @@ public class SubRedditActivity extends BaseActivity
         if (!TextUtils.isEmpty(link)) {
             if (stateNetworkOnline) {
                 new SubRedditExecute(link).getData(this);
-
             } else {
                 startFragment(link, target);
 
