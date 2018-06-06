@@ -71,7 +71,7 @@ public class SubRedditFullScreenActivity extends AppCompatActivity {
         ImaAdsLoader imaAdsLoader = new ImaAdsLoader(mContext, Uri.parse(getString(R.string.ad_tag_url)));
 
         mMediaPlayer = new MediaPlayer(mContext, imaAdsLoader,
-                mPlayerView, mExoProgressBar, null, mTVErrorPlayer);
+                mPlayerView, mExoProgressBar, null, mTVErrorPlayer,null);
 
     }
 

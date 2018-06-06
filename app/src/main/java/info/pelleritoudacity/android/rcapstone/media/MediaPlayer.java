@@ -78,6 +78,7 @@ public class MediaPlayer {
     private boolean mIsAutoPlay;
     private int mResumeWindow;
     private long mResumePosition;
+
     private Uri mVideoUri = null;
 
     private final PlayerView mPlayerView;
@@ -94,13 +95,14 @@ public class MediaPlayer {
     private ImageView mImageFullScreen;
     private ImageView mImageExitFullScreen;
     private ImageView mImageShareFullScreen;
+    private ImageView mImagePlay;
 
     private Handler mHandler;
     private final Runnable mRunnableRemainingPlay = this::countDown;
 
 
     public MediaPlayer(Context context, ImaAdsLoader imaAdsLoader, PlayerView playerView,
-                       ProgressBar progressBar, String shortDescription, TextView tvErrorPlayer) {
+                       ProgressBar progressBar, String shortDescription, TextView tvErrorPlayer, ImageView imagePlay) {
 
         mContext = context;
         mImaAdsLoader = imaAdsLoader;
@@ -108,6 +110,7 @@ public class MediaPlayer {
         mProgressBar = progressBar;
         mShortDescription = shortDescription;
         mTvErrorPlayer = tvErrorPlayer;
+        mImagePlay = imagePlay;
 
     }
 
@@ -323,7 +326,6 @@ public class MediaPlayer {
     }
 
     private void startClickFullScreen(String videoUrl) {
-//        pausePlayer();
         MediaSession.removeNotification(mContext);
         mContext.startActivity(new Intent(mContext, SubRedditFullScreenActivity.class)
                 .putExtra(Costants.EXTRA_SUBREDDIT_FULLSCREEN,
@@ -335,21 +337,30 @@ public class MediaPlayer {
 
         if ((mPlayer != null) && (mPlayerView != null)) {
             mPlayerView.setPlayer(null);
+            mPlayerView.setVisibility(View.GONE);
             mPlayer.release();
             mPlayer = null;
             hiddenPlayer();
             releaseHandler();
         }
+
     }
 
 
     public void hiddenPlayer() {
+        if(mImagePlay!=null){
+            mImagePlay.setVisibility(View.VISIBLE);
+        }
         mPlayerView.setVisibility(View.GONE);
     }
 
     public void showPlayer() {
         visibilityProgressBar(false);
         mPlayerView.setVisibility(View.VISIBLE);
+       if(mImagePlay!=null){
+           mImagePlay.setVisibility(View.GONE);
+
+       }
     }
 
     void visibilityProgressBar(boolean visibility) {

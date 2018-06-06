@@ -29,6 +29,8 @@ package info.pelleritoudacity.android.rcapstone.ui.adapter;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -38,16 +40,20 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.BitmapResource;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
 import com.google.android.exoplayer2.ui.PlayerView;
+import com.mikepenz.iconics.IconicsDrawable;
+import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,6 +64,7 @@ import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtils;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.DateUtils.getHourCurrentCreatedUtc;
 import static info.pelleritoudacity.android.rcapstone.utility.ImageUtils.isSmallImage;
@@ -73,8 +80,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
     private SubRedditFragment mListener;
 
 
-
-    public SubRedditAdapter(SubRedditFragment listener,Context context, ImaAdsLoader imaAdsLoader) {
+    public SubRedditAdapter(SubRedditFragment listener, Context context, ImaAdsLoader imaAdsLoader) {
         mContext = context;
         mImaAdsLoader = imaAdsLoader;
         mListener = listener;
@@ -109,6 +115,9 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         String subReddit = mCursor.getString(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT));
 
+        String subRedditNamePrefix = mCursor.getString(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_NAME_PREFIXE));
+
         int subRedditSubscriptions = mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_SUBSCRIBERS));
 
@@ -142,10 +151,10 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         String videoPreviewUrl = TextUtil.textFromHtml(
                 mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_URL)));
 
-        String videoPreviewWidth = mCursor.getString(
+        int videoPreviewWidth = mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_WIDTH));
 
-        String videoPreviewHeight = mCursor.getString(
+        int videoPreviewHeight = mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_HEIGHT));
 
         String strDiffCurrentUtc;
@@ -168,21 +177,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
         if (!TextUtils.isEmpty(videoPreviewUrl)) {
 
-            if (mMediaPlayer != null) {
-                mMediaPlayer.releasePlayer();
-                holder.mPlayerView.setVisibility(View.GONE);
-            }
-
-            mMediaPlayer = new MediaPlayer(mContext,
-                    mImaAdsLoader,
-                    holder.mPlayerView,
-                    holder.mExoProgressBar,
-                    title, holder.mTVErrorPlayer);
-
-
-            mMediaPlayer.initPlayer(Uri.parse(videoPreviewUrl));
-
-            holder.mPlayerLayout.setVisibility(View.VISIBLE);
+            loadVideoFirstFrame(holder, videoPreviewUrl, videoPreviewWidth, videoPreviewHeight, title);
 
         } else {
             holder.mPlayerLayout.setVisibility(View.GONE);
@@ -190,19 +185,19 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         }
 
         if ((TextUtils.isEmpty(videoPreviewUrl)) && (!TextUtils.isEmpty(imagePreviewUrl))) {
-            imageReddit(holder, imagePreviewUrl, imagePreviewWidth, imagePreviewHeight);
+            imageReddit(holder, imagePreviewUrl, imagePreviewWidth, imagePreviewHeight, title);
 
         } else {
             holder.mImageViewSubRedditSmall.setVisibility(View.GONE);
             holder.mImageViewSubReddit.setVisibility(View.GONE);
-
+            holder.mImageViewSubRedditSmall.setContentDescription(title);
         }
 
         holder.mTextViewTitle.setText(title);
 
-        holder.mTextViewSubReddit.setText(subReddit);
+        holder.mTextViewSubRedditNamePrefix.setText(subRedditNamePrefix);
 
-        holder.mTextViewDomain.setText(domain.replaceAll("\\..*$", ""));
+        holder.mTextViewDomain.setText(domain);
 
         holder.mTextViewScore.setText(numberFormat(score));
 
@@ -213,10 +208,69 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
         holder.bind(holder.getAdapterPosition());
 
-        mListener.adapterPosition(holder.getAdapterPosition(),subReddit);
+        mListener.adapterPosition(holder.getAdapterPosition(), subReddit);
     }
 
-    private void imageReddit(SubRedditHolder holder, String imagePreviewUrl, int imagePreviewWidth, int imagePreviewHeight) {
+    private void loadVideoFirstFrame(SubRedditHolder holder, String videoPreviewUrl, int videoPreviewWidth, int videoPreviewHeight, String contentDescription) {
+
+        Glide.with(holder.itemView.getContext().getApplicationContext())
+                .asBitmap()
+                .load(videoPreviewUrl)
+                .into(new SimpleTarget<Bitmap>(videoPreviewWidth, videoPreviewHeight) {
+
+                    @Override
+                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                        super.onLoadFailed(errorDrawable);
+                        holder.mPlayerLayout.setBackgroundResource(R.drawable.logo);
+                    }
+
+                    @Override
+                    public void onLoadStarted(@Nullable Drawable placeholder) {
+                        super.onLoadStarted(placeholder);
+                        holder.mPlayerLayout.setBackgroundResource(R.drawable.logo);
+                    }
+
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
+                        holder.mPlayerLayout.setBackground(new BitmapDrawable(mContext.getResources(), resource));
+                        holder.mPlayerLayout.setVisibility(View.VISIBLE);
+
+                        holder.mImagePlay.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_play_circle)
+                                .color(Color.WHITE)
+                                .sizeDp(72)
+                                .respectFontBounds(true));
+
+                        holder.mImagePlay.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                holder.mExoProgressBar.setVisibility(View.VISIBLE);
+                                createVideo(holder, videoPreviewUrl, contentDescription);
+                            }
+                        });
+
+                    }
+
+                });
+
+    }
+
+    private void createVideo(SubRedditHolder holder, String videoPreviewUrl, String title) {
+        if (mMediaPlayer != null) {
+            mMediaPlayer.releasePlayer();
+        }
+        mMediaPlayer = new MediaPlayer(mContext,
+                mImaAdsLoader,
+                holder.mPlayerView,
+                holder.mExoProgressBar,
+                title, holder.mTVErrorPlayer, holder.mImagePlay);
+
+        mMediaPlayer.initPlayer(Uri.parse(videoPreviewUrl));
+
+        holder.mPlayerLayout.setVisibility(View.VISIBLE);
+
+    }
+
+    private void imageReddit(SubRedditHolder holder, String imagePreviewUrl, int imagePreviewWidth, int imagePreviewHeight, String contentDescription) {
 
         Glide.with(holder.itemView.getContext().getApplicationContext())
                 .asBitmap()
@@ -238,11 +292,12 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
                         if (isSmallImage(mContext, imagePreviewWidth, imagePreviewHeight)) {
-                            holder.mImageViewSubRedditSmall.setImageBitmap(resource);
+                            ImageUtils.createRoundImage(mContext, holder.mImageViewSubRedditSmall, resource);
+                            holder.mImageViewSubRedditSmall.setContentDescription(contentDescription);
 
                         } else {
                             holder.mImageViewSubReddit.setImageBitmap(resource);
-
+                            holder.mImageViewSubReddit.setContentDescription(contentDescription);
                         }
 
                     }
@@ -267,22 +322,14 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
     }
 
     @Override
-    public void onViewAttachedToWindow(@NonNull SubRedditHolder holder) {
-        super.onViewAttachedToWindow(holder);
-
-     /*   if (mMediaPlayer != null) {
-            mMediaPlayer.restartPlayer();
-        }*/
-    }
-
-    @Override
     public void onViewDetachedFromWindow(@NonNull SubRedditHolder holder) {
         super.onViewDetachedFromWindow(holder);
-       /* if (mMediaPlayer != null) {
-            mMediaPlayer.pausePlayer();
-        }*/
+        if (mMediaPlayer != null) {
+            mMediaPlayer.releasePlayer();
+        }
 
     }
+
 
     public class SubRedditHolder extends RecyclerView.ViewHolder
             implements ItemTouchHelperViewHolder {
@@ -296,8 +343,8 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         ImageView mImageViewSubRedditSmall;
 
         @SuppressWarnings("unused")
-        @BindView(R.id.tv_subreddit)
-        TextView mTextViewSubReddit;
+        @BindView(R.id.tv_subreddit_name_prefix)
+        TextView mTextViewSubRedditNamePrefix;
 
         @SuppressWarnings("unused")
         @BindView(R.id.img_subreddit)
@@ -305,7 +352,11 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
         @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
         @BindView(R.id.id_player_layout)
-        LinearLayout mPlayerLayout;
+        FrameLayout mPlayerLayout;
+
+        @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
+        @BindView(R.id.image_subreddit_play)
+        ImageView mImagePlay;
 
         @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
         @BindView(R.id.pv_subreddit)
@@ -377,7 +428,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         void exoPlayer(MediaPlayer mediaPlayer);
     }
 
-    public interface OnAdapterListener{
+    public interface OnAdapterListener {
         void adapterPosition(int position, String category);
     }
 }

@@ -39,13 +39,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.google.android.exoplayer2.util.Util;
 
 import java.util.Objects;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.T3Operation;
 import info.pelleritoudacity.android.rcapstone.media.MediaSession;
@@ -53,6 +53,7 @@ import info.pelleritoudacity.android.rcapstone.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.rest.SubRedditExecute;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditFragment;
 import info.pelleritoudacity.android.rcapstone.ui.view.SubRedditTab;
+import info.pelleritoudacity.android.rcapstone.utility.ActivityUI;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtils;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
@@ -71,7 +72,6 @@ public class SubRedditActivity extends BaseActivity
     private Context mContext;
     private String mRedditCategory;
     private String mRedditTarget;
-    private SubRedditTab mSubRedditTab;
     public static MediaSessionCompat sMediaSessionCompat = null;
 
     @Override
@@ -86,9 +86,10 @@ public class SubRedditActivity extends BaseActivity
             PermissionUtils.isDeniedPermissionExtStorage(SubRedditActivity.this);
         }
 
+
         if (savedInstanceState == null) {
-            mSubRedditTab = new SubRedditTab(this, mTabLayout, getTabArrayList());
-            mSubRedditTab.initTab();
+
+            startTab(null);
 
             if (TextUtils.isEmpty(mRedditCategory)) {
                 Intent intentCategory = getIntent();
@@ -96,7 +97,7 @@ public class SubRedditActivity extends BaseActivity
                     mRedditCategory = intentCategory.getStringExtra(Costants.EXTRA_SUBREDDIT_CATEGORY);
                     mRedditTarget = intentCategory.getStringExtra(Costants.EXTRA_SUBREDDIT_TARGET);
 
-                    mSubRedditTab.positionSelected(mRedditCategory);
+                    startTab(mRedditCategory);
 
                     if (mContext != null) {
                         initRest(mRedditCategory, mRedditTarget, NetworkUtils.isOnline(mContext));
@@ -108,9 +109,7 @@ public class SubRedditActivity extends BaseActivity
             mRedditCategory = savedInstanceState.getString(Costants.EXTRA_SUBREDDIT_CATEGORY);
             mRedditTarget = savedInstanceState.getString(Costants.EXTRA_SUBREDDIT_TARGET);
 
-            mSubRedditTab = new SubRedditTab(this, mTabLayout, getTabArrayList());
-            mSubRedditTab.initTab();
-            mSubRedditTab.positionSelected(mRedditCategory);
+            startTab(mRedditCategory);
 
         }
 
@@ -222,4 +221,27 @@ public class SubRedditActivity extends BaseActivity
         outState.putString(Costants.EXTRA_SUBREDDIT_TARGET, mRedditTarget);
         super.onSaveInstanceState(outState);
     }
+
+    private void startTab( String positionRedditCategory){
+
+        boolean enabled = false;
+
+        if(ActivityUI.isTablet(getApplicationContext())
+                || ActivityUI.isPortraitOrientation(getApplicationContext())){
+            enabled = true;
+        }
+
+        if(enabled){
+            mTabLayout.setVisibility(View.VISIBLE);
+            SubRedditTab subRedditTab = new SubRedditTab(this, mTabLayout, getTabArrayList());
+            subRedditTab.initTab();
+            if (!TextUtils.isEmpty(positionRedditCategory)){
+                subRedditTab.positionSelected(positionRedditCategory);
+            }else {
+                mTabLayout.setVisibility(View.GONE);
+            }
+        }
+
+    }
+
 }

@@ -70,6 +70,7 @@ public class SubRedditFragment extends Fragment
         return fragment;
     }
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,7 +115,7 @@ public class SubRedditFragment extends Fragment
             getActivity().getSupportLoaderManager().initLoader(SUBREDDIT_LOADER_ID, null, this).forceLoad();
 
         }
-        if(savedInstanceState!=null){
+        if (savedInstanceState != null) {
             sListState = savedInstanceState.getParcelable(Costants.EXTRA_FRAGMENT_STATE);
 
             sWindowPlayer = savedInstanceState.getInt(Costants.BUNDLE_EXOPLAYER_WINDOW, C.INDEX_UNSET);
@@ -137,7 +138,6 @@ public class SubRedditFragment extends Fragment
             outState.putLong(Costants.BUNDLE_EXOPLAYER_POSITION, mMediaPlayer.getResumePosition());
             outState.putBoolean(Costants.BUNDLE_EXOPLAYER_AUTOPLAY, mMediaPlayer.isAutoPlay());
         }
-
 
     }
 
@@ -204,70 +204,72 @@ public class SubRedditFragment extends Fragment
     public void adapterPosition(int position, String category) {
     }
 
-private static class SubRedditFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
 
-    Cursor sSubRedditData = null;
+    private static class SubRedditFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
 
-    SubRedditFragmentAsyncTask(@NonNull Context context) {
-        super(context);
-    }
+        Cursor sSubRedditData = null;
 
-    @Override
-    protected void onStartLoading() {
-        if (sSubRedditData != null) {
-            deliverResult(sSubRedditData);
-        } else {
-            forceLoad();
+        SubRedditFragmentAsyncTask(@NonNull Context context) {
+            super(context);
         }
-    }
 
-    @Nullable
-    @Override
-    public Cursor loadInBackground() {
-        try {
-            Uri uri = Contract.T3dataEntry.CONTENT_URI;
-            String selection = null;
-            String[] selectionArgs = new String[0];
+        @Override
+        protected void onStartLoading() {
+            if (sSubRedditData != null) {
+                deliverResult(sSubRedditData);
+            } else {
+                forceLoad();
+            }
+        }
 
-            if (!TextUtils.isEmpty(sTarget)) {
-                if (sTarget.equals(Costants.SUBREDDIT_TARGET_ALL)) {
-                    selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?";
-                    selectionArgs = new String[]{sTarget};
+        @Nullable
+        @Override
+        public Cursor loadInBackground() {
+            try {
+                Uri uri = Contract.T3dataEntry.CONTENT_URI;
+                String selection = null;
+                String[] selectionArgs = new String[0];
 
-                } else if (sTarget.equals(Costants.SUBREDDIT_TARGET_POPULAR)) {
-                    selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?";
-                    selectionArgs = new String[]{sTarget};
+                if (!TextUtils.isEmpty(sTarget)) {
+                    if (sTarget.equals(Costants.SUBREDDIT_TARGET_ALL)) {
+                        selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?";
+                        selectionArgs = new String[]{sTarget};
+
+                    } else if (sTarget.equals(Costants.SUBREDDIT_TARGET_POPULAR)) {
+                        selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?";
+                        selectionArgs = new String[]{sTarget};
+
+                    }
+
+                } else {
+                    selection = Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " LIKE ?";
+                    selectionArgs = new String[]{sSubReddit};
 
                 }
 
-            } else {
-                selection = Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " LIKE ?";
-                selectionArgs = new String[]{sSubReddit};
+                return getContext().getContentResolver().query(uri,
+                        null,
+                        selection,
+                        selectionArgs,
+                        null);
 
+            } catch (Exception e) {
+                Timber.e("Failed to asynchronously load data. ");
+                e.printStackTrace();
+                return null;
             }
+        }
 
-            return getContext().getContentResolver().query(uri,
-                    null,
-                    selection,
-                    selectionArgs,
-                    null);
-
-        } catch (Exception e) {
-            Timber.e("Failed to asynchronously load data. ");
-            e.printStackTrace();
-            return null;
+        @Override
+        public void deliverResult(Cursor data) {
+            if ((data != null) && (data.getCount() > 0)) {
+                sSubRedditData = data;
+                super.deliverResult(data);
+            } else {
+                forceLoad();
+            }
         }
     }
 
-    @Override
-    public void deliverResult(Cursor data) {
-        if ((data != null) && (data.getCount() > 0)) {
-            sSubRedditData = data;
-            super.deliverResult(data);
-        } else {
-            forceLoad();
-        }
-    }
-}
 
 }

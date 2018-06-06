@@ -139,6 +139,7 @@
     <string name="error_video">Error loading player: no playable video</string>
     <string name="ad_tag_url"><![CDATA[https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dlinear&correlator=]]></string>
     <string name="pref_volume_muted" translatable="false">info.pelleritoudacity.android.rcapstone.pref_volume_muted</string>
+    <string name="image_description_not_available">Description Not Available</string>
 
 
 </resources>

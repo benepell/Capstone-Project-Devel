@@ -18,15 +18,20 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/img_subreddit_small"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_gravity="center_vertical"
-                android:contentDescription="TODO"
+                android:contentDescription="@string/image_description_not_available"
+                android:paddingBottom="@dimen/list_padding_vertical_title"
+                android:paddingEnd="@dimen/list_padding_horizontal_title"
+                android:paddingStart="@dimen/list_padding_horizontal_title"
+                android:paddingTop="@dimen/list_padding_vertical_title"
                 android:scaleType="centerCrop"
                 android:visibility="gone" />
 
@@ -34,10 +39,10 @@
                 android:id="@+id/tv_title"
                 style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_height="match_parent"
                 android:ellipsize="end"
                 android:fontFamily="@font/roboto_regular"
+                android:gravity="center_vertical|center"
                 android:maxLines="@integer/list_body_text_title"
                 android:paddingBottom="@dimen/list_padding_vertical_title"
                 android:paddingEnd="@dimen/list_padding_horizontal_title"
@@ -54,8 +59,8 @@
             <ImageView
                 android:id="@+id/img_subreddit"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:contentDescription="TODO"
+                android:layout_height="180dp"
+                android:contentDescription="@string/image_description_not_available"
                 android:paddingBottom="@dimen/list_padding_vertical_title"
                 android:paddingEnd="@dimen/list_padding_horizontal_title"
                 android:paddingStart="@dimen/list_padding_horizontal_title"
@@ -71,28 +76,33 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_subreddit"
-                style="@style/TextAppearance.AppCompat.Body1"
+                android:id="@+id/tv_subreddit_name_prefix"
+                style="@style/TextAppearance.AppCompat.Body2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:fontFamily="@font/roboto_regular"
+                android:fontFamily="@font/roboto_thin"
+                android:gravity="center_horizontal"
                 android:maxLines="@integer/list_body_text_subtitle"
-                android:paddingEnd="@dimen/list_padding_horizontal_subtitle"
-                android:paddingStart="@dimen/list_padding_horizontal_subtitle"
+                android:paddingBottom="@dimen/list_padding_vertical_author"
+                android:paddingEnd="@dimen/list_padding_horizontal_author"
+                android:paddingStart="@dimen/list_padding_horizontal_author"
                 android:textColor="@color/deep_orange_A400"
-                android:textStyle="italic|bold" />
+                android:textStyle="italic" />
 
             <TextView
                 android:id="@+id/tv_domain"
-                style="@style/TextAppearance.AppCompat.Medium"
+                style="@style/TextAppearance.AppCompat.Body2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:fontFamily="@font/roboto_regular"
+                android:fontFamily="@font/roboto_thin"
+                android:gravity="center_horizontal"
                 android:maxLines="@integer/list_body_text_author"
                 android:paddingBottom="@dimen/list_padding_vertical_author"
                 android:paddingEnd="@dimen/list_padding_horizontal_author"
@@ -102,11 +112,12 @@
 
             <TextView
                 android:id="@+id/tv_created_utc"
-                style="@style/TextAppearance.AppCompat.Medium"
+                style="@style/TextAppearance.AppCompat.Body2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:fontFamily="@font/roboto_regular"
+                android:fontFamily="@font/roboto_thin"
+                android:gravity="center_horizontal"
                 android:maxLines="@integer/list_body_text_author"
                 android:paddingBottom="@dimen/list_padding_vertical_author"
                 android:paddingEnd="@dimen/list_padding_horizontal_author"
@@ -128,11 +139,12 @@
 
             <TextView
                 android:id="@+id/tv_score"
-                style="@style/TextAppearance.AppCompat.Large"
+                style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:fontFamily="@font/roboto_regular"
+                android:gravity="center_horizontal"
                 android:maxLines="@integer/list_body_text_author"
                 android:paddingBottom="@dimen/list_padding_vertical_author"
                 android:paddingEnd="@dimen/list_padding_horizontal_author"
@@ -148,11 +160,12 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/roboto_regular"
                 android:maxLines="@integer/list_body_text_author"
+                android:gravity="center_horizontal"
                 android:paddingBottom="@dimen/list_padding_vertical_author"
                 android:paddingEnd="@dimen/list_padding_horizontal_author"
                 android:paddingStart="@dimen/list_padding_horizontal_author"
                 android:textColor="@color/textColorSecondary"
-                android:textStyle="normal" />
+                android:textStyle="italic" />
         </LinearLayout>
 
 

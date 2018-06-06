@@ -2,6 +2,7 @@ package info.pelleritoudacity.android.rcapstone.media;
 
 import android.os.Handler;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -23,7 +24,8 @@ public class MediaEvent implements Player.EventListener {
     private TextView mTvCountDown;
     Runnable mRunnableRemainingPlay;
 
-    public MediaEvent(MediaPlayer listener, MediaSession mediaSession,Handler handler,Runnable runnable, TextView tvCountDown, TextView tvErrorPlayer) {
+    public MediaEvent(MediaPlayer listener, MediaSession mediaSession, Handler handler,
+                      Runnable runnable, TextView tvCountDown, TextView tvErrorPlayer) {
         mListener = listener;
         mTvCountDown = tvCountDown;
         mTvErrorPlayer = tvErrorPlayer;
