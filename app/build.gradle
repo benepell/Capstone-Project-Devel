@@ -14,8 +14,8 @@ android {
     }
     buildTypes.each {
         //  REDDIT BASE URL  - url: https://www.reddit.com/prefs/apps/
-        it.buildConfigField 'String', 'REDDIT_CLIENT_ID', '\""'
-        it.buildConfigField 'String', 'REDDIT_SECRET_STATE', '\""'
+        it.buildConfigField 'String', 'REDDIT_CLIENT_ID', '\"gHRoCv5jZXeEBw"'
+        it.buildConfigField 'String', 'REDDIT_SECRET_STATE', '\"rcapstone.secret.code125"'
         it.buildConfigField 'String', 'REDDIT_ABOUT_URL', '\"rcapstone.android.pelleritoudacity.info"'
         it.buildConfigField 'String', 'REDDIT_REDIRECT_URL', '\"http://rcapstone.android.pelleritoudacity.info/my_redirect"'
     }
@@ -66,7 +66,7 @@ dependencies {
 
     implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofitVersion}"
     implementation "com.squareup.retrofit2:converter-gson:${rootProject.ext.retrofitVersion}"
-    implementation "com.squareup.okhttp3:logging-interceptor:${rootProject.ext.okHttpVersion}"
+//    implementation "com.squareup.okhttp3:logging-interceptor:${rootProject.ext.okHttpVersion}"
     implementation "com.squareup.okhttp3:okhttp:${rootProject.ext.okHttpVersion}"
 
     implementation "com.google.android.exoplayer:exoplayer-core:${rootProject.ext.exoPlayerVersion}"
