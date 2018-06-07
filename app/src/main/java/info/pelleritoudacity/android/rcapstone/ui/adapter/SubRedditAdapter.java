@@ -40,7 +40,9 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -176,21 +178,28 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         holder.mTextViewCreatedUtc.setText(strDiffCurrentUtc);
 
         if (!TextUtils.isEmpty(videoPreviewUrl)) {
-
             loadVideoFirstFrame(holder, videoPreviewUrl, videoPreviewWidth, videoPreviewHeight, title);
+            holder.mImageViewSubReddit.setVisibility(View.GONE);
 
         } else {
             holder.mPlayerLayout.setVisibility(View.GONE);
 
+            if (!TextUtils.isEmpty(imagePreviewUrl)){
+
+                if (isSmallImage(mContext,imagePreviewWidth,imagePreviewHeight)){
+                    holder.mImageViewSubRedditSmall.setVisibility(View.VISIBLE);
+
+                }else {
+                    holder.mImageViewSubReddit.setVisibility(View.VISIBLE);
+
+                }
+
+            }
+
         }
 
-        if ((TextUtils.isEmpty(videoPreviewUrl)) && (!TextUtils.isEmpty(imagePreviewUrl))) {
+        if (!TextUtils.isEmpty(imagePreviewUrl)) {
             imageReddit(holder, imagePreviewUrl, imagePreviewWidth, imagePreviewHeight, title);
-
-        } else {
-            holder.mImageViewSubRedditSmall.setVisibility(View.GONE);
-            holder.mImageViewSubReddit.setVisibility(View.GONE);
-            holder.mImageViewSubRedditSmall.setContentDescription(title);
         }
 
         holder.mTextViewTitle.setText(title);
@@ -205,6 +214,8 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
                 String.format("%s %s", String.valueOf(numComments),
                         mContext.getString(R.string.text_comments_subreddit))
         );
+
+        cardBottomLink(holder);
 
         holder.bind(holder.getAdapterPosition());
 
@@ -254,6 +265,46 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
     }
 
+
+    private void cardBottomLink(SubRedditHolder holder) {
+
+        holder.mImageButtonVoteUp.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_thumb_up)
+                .color(Color.GRAY)
+                .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
+                .respectFontBounds(true));
+
+        holder.mImageButtonVoteUp.setBackgroundColor(Color.WHITE);
+
+        holder.mImageButtonVoteDown.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_thumb_down)
+                .color(Color.GRAY)
+                .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
+                .respectFontBounds(true));
+
+        holder.mImageButtonVoteDown.setBackgroundColor(Color.WHITE);
+
+        holder.mImageButtonPreferStars.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_star_border)
+                .color(Color.GRAY)
+                .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
+                .respectFontBounds(true));
+
+        holder.mImageButtonPreferStars.setBackgroundColor(Color.WHITE);
+
+        holder.mImageButtonShowComments.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_comment_outline)
+                .color(Color.GRAY)
+                .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
+                .respectFontBounds(true));
+
+        holder.mImageButtonShowComments.setBackgroundColor(Color.WHITE);
+
+        holder.mImageButtonShareSubReddit.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_share)
+                .color(Color.GRAY)
+                .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
+                .respectFontBounds(true));
+
+        holder.mImageButtonShareSubReddit.setBackgroundColor(Color.WHITE);
+
+    }
+
     private void createVideo(SubRedditHolder holder, String videoPreviewUrl, String title) {
         if (mMediaPlayer != null) {
             mMediaPlayer.releasePlayer();
@@ -280,13 +331,16 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
                     @Override
                     public void onLoadFailed(@Nullable Drawable errorDrawable) {
                         super.onLoadFailed(errorDrawable);
-                        holder.mImageViewSubReddit.setImageResource(R.drawable.logo);
+                        holder.mImageViewSubRedditSmall.setImageResource(R.drawable.logo);
+
+
                     }
 
                     @Override
                     public void onLoadStarted(@Nullable Drawable placeholder) {
                         super.onLoadStarted(placeholder);
-                        holder.mImageViewSubReddit.setImageResource(R.drawable.logo);
+                        holder.mImageViewSubRedditSmall.setImageResource(R.drawable.logo);
+
                     }
 
                     @Override
@@ -298,21 +352,13 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
                         } else {
                             holder.mImageViewSubReddit.setImageBitmap(resource);
                             holder.mImageViewSubReddit.setContentDescription(contentDescription);
+
                         }
 
                     }
 
+
                 });
-
-        if (isSmallImage(mContext, imagePreviewWidth, imagePreviewHeight)) {
-            holder.mImageViewSubReddit.setVisibility(View.GONE);
-            holder.mImageViewSubRedditSmall.setVisibility(View.VISIBLE);
-
-        } else {
-            holder.mImageViewSubRedditSmall.setVisibility(View.GONE);
-            holder.mImageViewSubReddit.setVisibility(View.VISIBLE);
-
-        }
 
     }
 
@@ -339,16 +385,16 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         TextView mTextViewTitle;
 
         @SuppressWarnings("unused")
+        @BindView(R.id.img_subreddit)
+        ImageView mImageViewSubReddit;
+
+        @SuppressWarnings("unused")
         @BindView(R.id.img_subreddit_small)
         ImageView mImageViewSubRedditSmall;
 
         @SuppressWarnings("unused")
         @BindView(R.id.tv_subreddit_name_prefix)
         TextView mTextViewSubRedditNamePrefix;
-
-        @SuppressWarnings("unused")
-        @BindView(R.id.img_subreddit)
-        ImageView mImageViewSubReddit;
 
         @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
         @BindView(R.id.id_player_layout)
@@ -385,6 +431,26 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         @SuppressWarnings("unused")
         @BindView(R.id.tv_num_comments)
         TextView mTextViewNumComments;
+
+        @SuppressWarnings("unused")
+        @BindView(R.id.image_vote_up)
+        ImageButton mImageButtonVoteUp;
+
+        @SuppressWarnings("unused")
+        @BindView(R.id.image_vote_down)
+        ImageButton mImageButtonVoteDown;
+
+        @SuppressWarnings("unused")
+        @BindView(R.id.image_prefer_stars)
+        ImageButton mImageButtonPreferStars;
+
+        @SuppressWarnings("unused")
+        @BindView(R.id.image_show_comments)
+        ImageButton mImageButtonShowComments;
+
+        @SuppressWarnings("unused")
+        @BindView(R.id.image_share_subreddit)
+        ImageButton mImageButtonShareSubReddit;
 
         private int mPosition;
 

@@ -19,13 +19,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/img_subreddit_small"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_gravity="center_vertical"
                 android:contentDescription="@string/image_description_not_available"
                 android:paddingBottom="@dimen/list_padding_vertical_title"
@@ -42,43 +41,24 @@
                 android:layout_height="match_parent"
                 android:ellipsize="end"
                 android:fontFamily="@font/roboto_regular"
-                android:gravity="center_vertical|center"
+                android:gravity="center_vertical"
                 android:maxLines="@integer/list_body_text_title"
                 android:paddingBottom="@dimen/list_padding_vertical_title"
                 android:paddingEnd="@dimen/list_padding_horizontal_title"
                 android:paddingStart="@dimen/list_padding_horizontal_title"
-                android:paddingTop="@dimen/list_padding_vertical_title" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/img_subreddit"
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:contentDescription="@string/image_description_not_available"
-                android:paddingBottom="@dimen/list_padding_vertical_title"
-                android:paddingEnd="@dimen/list_padding_horizontal_title"
-                android:paddingStart="@dimen/list_padding_horizontal_title"
                 android:paddingTop="@dimen/list_padding_vertical_title"
-                android:scaleType="centerCrop"
-                android:visibility="gone" />
-
-            <include layout="@layout/inc_player_container" />
+                android:textSize="16sp" />
 
         </LinearLayout>
+
 
         <LinearLayout
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="4dp"
+            android:orientation="horizontal"
             android:paddingBottom="4dp"
-            android:orientation="horizontal">
+            android:paddingTop="4dp">
 
             <TextView
                 android:id="@+id/tv_subreddit_name_prefix"
@@ -159,13 +139,108 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:fontFamily="@font/roboto_regular"
-                android:maxLines="@integer/list_body_text_author"
                 android:gravity="center_horizontal"
+                android:maxLines="@integer/list_body_text_author"
                 android:paddingBottom="@dimen/list_padding_vertical_author"
                 android:paddingEnd="@dimen/list_padding_horizontal_author"
                 android:paddingStart="@dimen/list_padding_horizontal_author"
                 android:textColor="@color/textColorSecondary"
                 android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/img_subreddit"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:contentDescription="@string/image_description_not_available"
+                android:paddingBottom="@dimen/list_padding_vertical_title"
+                android:paddingEnd="@dimen/list_padding_horizontal_title"
+                android:paddingStart="@dimen/list_padding_horizontal_title"
+                android:paddingTop="@dimen/list_padding_vertical_title"
+                android:scaleType="centerCrop"
+                android:visibility="gone" />
+
+            <include layout="@layout/inc_player_container" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="8dp"
+            android:orientation="horizontal"
+            android:weightSum="5">
+
+
+            <ImageButton
+                android:id="@+id/image_vote_up"
+                style="@style/Base.Widget.AppCompat.ImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:contentDescription="TODO"
+                android:ellipsize="end"
+                android:paddingBottom="@dimen/list_padding_vertical_author"
+                android:paddingEnd="@dimen/list_padding_horizontal_author"
+                android:paddingStart="@dimen/list_padding_horizontal_author" />
+
+            <ImageButton
+                android:id="@+id/image_vote_down"
+                style="@style/Base.Widget.AppCompat.ImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:contentDescription="TODO"
+                android:paddingBottom="@dimen/list_padding_vertical_author"
+                android:paddingEnd="@dimen/list_padding_horizontal_author"
+                android:paddingStart="@dimen/list_padding_horizontal_author" />
+
+
+            <ImageButton
+                android:id="@+id/image_prefer_stars"
+                style="@style/Base.Widget.AppCompat.ImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:contentDescription="TODO"
+                android:paddingBottom="@dimen/list_padding_vertical_author"
+                android:paddingEnd="@dimen/list_padding_horizontal_author"
+                android:paddingStart="@dimen/list_padding_horizontal_author" />
+
+            <ImageButton
+                android:id="@+id/image_show_comments"
+                style="@style/Base.Widget.AppCompat.ImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:contentDescription="TODO"
+                android:paddingBottom="@dimen/list_padding_vertical_author"
+                android:paddingEnd="@dimen/list_padding_horizontal_author"
+                android:paddingStart="@dimen/list_padding_horizontal_author" />
+
+
+            <ImageButton
+                android:id="@+id/image_share_subreddit"
+                style="@style/Base.Widget.AppCompat.ImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:contentDescription="TODO"
+                android:paddingBottom="@dimen/list_padding_vertical_author"
+                android:paddingEnd="@dimen/list_padding_horizontal_author"
+                android:paddingStart="@dimen/list_padding_horizontal_author" />
+
+
         </LinearLayout>
 
 
