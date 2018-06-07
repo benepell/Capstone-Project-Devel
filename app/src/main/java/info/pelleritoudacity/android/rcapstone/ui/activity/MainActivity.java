@@ -127,6 +127,8 @@ public class MainActivity extends BaseActivity
         Intent intent = new Intent(getApplication(), SubRedditActivity.class);
         if (getTabArrayList() != null) {
             intent.putExtra(Costants.EXTRA_SUBREDDIT_CATEGORY, getTabArrayList().get(0));
+            intent.putExtra(Costants.EXTRA_SUBREDDIT_TARGET, Costants.SUBREDDIT_TARGET_POPULAR);
+
 
         } else {
             intent.putExtra(Costants.EXTRA_SUBREDDIT_CATEGORY, Costants.SUBREDDIT_CATEGORY_POPULAR);

@@ -99,13 +99,17 @@ public class SubRedditTab implements TabLayout.OnTabSelectedListener {
         mTabHistory.add(category);
     }
 
+    public int getHistorySize(){
+        return mTabHistory.size();
+    }
+
     public String getHistoryPosition() {
         int size;
         String category = null;
 
         size = (mTabHistory != null) ? mTabHistory.size() : 0;
 
-        if (size > 0) {
+        if (size > 1) {
             category = mTabHistory.get(size - 2);
             mTabHistory.remove(size - 1);
             mTabHistory.remove(size - 2);

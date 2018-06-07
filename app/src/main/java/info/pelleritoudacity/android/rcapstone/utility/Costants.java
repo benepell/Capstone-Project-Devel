@@ -30,9 +30,9 @@ import info.pelleritoudacity.android.rcapstone.BuildConfig;
 
 public interface Costants {
 
-    String REDDIT_BASE_URL = "";
-    String REDDIT_TOKEN_URL = "";
-    String REDDIT_OAUTH_URL = "";
+    String REDDIT_BASE_URL = "https://www.reddit.com/";
+    String REDDIT_TOKEN_URL = "https://www.reddit.com/";
+    String REDDIT_OAUTH_URL = "https://oauth.reddit.com/";
 
     String REDDIT_CLIENT_ID = BuildConfig.REDDIT_CLIENT_ID;
     String REDDIT_REDIRECT_URL = BuildConfig.REDDIT_REDIRECT_URL;

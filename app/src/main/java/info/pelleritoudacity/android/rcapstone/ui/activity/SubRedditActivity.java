@@ -58,6 +58,7 @@ import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtils;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.PermissionUtils.RequestPermissionExtStorage;
 
@@ -97,7 +98,6 @@ public class SubRedditActivity extends BaseActivity
                 if (intentCategory != null) {
                     mRedditCategory = intentCategory.getStringExtra(Costants.EXTRA_SUBREDDIT_CATEGORY);
                     mRedditTarget = intentCategory.getStringExtra(Costants.EXTRA_SUBREDDIT_TARGET);
-
                     startTab(mRedditCategory);
 
                     if (mContext != null) {
@@ -248,7 +248,8 @@ public class SubRedditActivity extends BaseActivity
     public void onBackPressed() {
         if (mSubRedditTab != null) {
             String historyCategory = mSubRedditTab.getHistoryPosition();
-            if (!TextUtils.isEmpty(historyCategory)) {
+            Timber.d("SUBREDDIT BACK %s",mSubRedditTab.getHistorySize());
+            if (!TextUtils.isEmpty(historyCategory)){
                 mSubRedditTab.positionSelected(historyCategory);
             }else {
                 super.onBackPressed();
