@@ -50,6 +50,7 @@ public class SubRedditTab implements TabLayout.OnTabSelectedListener {
 
     public void createTab() {
         if (mTabList != null) {
+            mTabLayout.removeAllTabs();
             for (String string : mTabList) {
                 mTabLayout.addTab(mTabLayout.newTab().setText(string));
             }
