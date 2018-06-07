@@ -72,9 +72,9 @@ public class SubScriptionsFragment extends Fragment
 
     private SubScriptionsAdapter mAdapter;
     private ItemTouchHelper mItemTouchHelper;
-    private boolean mIsRestart;
     private static Parcelable sListState;
     private LinearLayoutManager mLayoutManager;
+    private Context mContext;
 
     public SubScriptionsFragment() {
     }
@@ -87,6 +87,7 @@ public class SubScriptionsFragment extends Fragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = getActivity();
 
     }
 
@@ -98,7 +99,6 @@ public class SubScriptionsFragment extends Fragment
             getActivity().getSupportLoaderManager().initLoader(REDDIT_LOADER_ID, null, this);
 
             if (PrefManager.getIntPref(getActivity(), R.string.pref_restore_manage) == Costants.RESTORE_MANAGE_RESTORE) {
-                mIsRestart = true;
                 alerDialog(getActivity());
             }
 
@@ -139,7 +139,7 @@ public class SubScriptionsFragment extends Fragment
 
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new SubScriptionsAdapter(getContext(), this, this, mIsRestart);
+        mAdapter = new SubScriptionsAdapter(getContext(), this, this, this);
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -191,6 +191,15 @@ public class SubScriptionsFragment extends Fragment
 
             restartLoader();
 
+        }
+
+    }
+
+    @Override
+    public void onItemRemove(int position, String description) {
+        DataUtils dataUtils = new DataUtils(mContext);
+        if (dataUtils.updateManageRemoved(description)) {
+           SubManageActivity.manageToMainActivity(mContext);
         }
 
     }

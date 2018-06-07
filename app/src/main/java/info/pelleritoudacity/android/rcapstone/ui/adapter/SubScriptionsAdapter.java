@@ -57,6 +57,8 @@ import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
 import info.pelleritoudacity.android.rcapstone.data.DataUtils;
+import info.pelleritoudacity.android.rcapstone.ui.fragment.SubScriptionsFragment;
+import info.pelleritoudacity.android.rcapstone.ui.fragment.SubScriptionsFragment_ViewBinding;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperAdapter;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
 import info.pelleritoudacity.android.rcapstone.ui.helper.OnStartDragListener;
@@ -70,14 +72,15 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
 
     private final OnStartDragListener mDragStartListener;
     private final OnSubScriptionClick onSubScriptionClick;
+    private final SubScriptionsFragment mListener;
     private ArrayList<String> mArrayList;
     private Context mContext;
     private Cursor mCursor;
-    private final boolean mIsRestart;
 
-    public SubScriptionsAdapter(Context context, OnSubScriptionClick subScriptionClick,
-                                OnStartDragListener dragStartListener, boolean isRestart) {
+    public SubScriptionsAdapter(Context context, SubScriptionsFragment listener, OnSubScriptionClick subScriptionClick,
+                                OnStartDragListener dragStartListener) {
         mContext = context;
+        mListener = listener;
         onSubScriptionClick = subScriptionClick;
         mDragStartListener = dragStartListener;
         mArrayList = new ArrayList<>();
@@ -87,8 +90,6 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
             mArrayList.addAll(TextUtil.stringToArray(PrefManager.getStringPref(mContext, R.string.pref_subreddit_key)));
         }
 
-
-        this.mIsRestart = isRestart;
     }
 
     @NonNull
@@ -146,7 +147,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
 
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
-                        ImageUtils.createRoundImage(mContext,holder.mImageViewRedditIcon,resource);
+                        ImageUtils.createRoundImage(mContext, holder.mImageViewRedditIcon, resource);
                     }
                 });
 
@@ -167,7 +168,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
         holder.mImageViewRedditIcon.setContentDescription(name);
 
 
-        holder.mTextViewRedditName.setText(name );
+        holder.mTextViewRedditName.setText(name);
 
     }
 
@@ -175,7 +176,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
     @Override
     public int getItemCount() {
         if (mCursor != null) {
-            if ((mArrayList != null) && (!mIsRestart)) {
+            if (mArrayList != null)  {
 
                 return mArrayList.size();
 
@@ -211,12 +212,12 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
         if (getItemCount() > Costants.DEFAULT_SUBREDDIT_ITEMS) {
 //            mRestore = false;
             String description = mArrayList.get(position);
-            DataUtils dataUtils = new DataUtils(mContext);
 
-            if (dataUtils.updateManageRemoved(description)) {
-                mArrayList.remove(position);
-                notifyItemRemoved(position);
-            }
+            mListener.onItemRemove(position, description);
+
+            mArrayList.remove(position);
+            notifyItemRemoved(position);
+
             mArrayList = MapUtils.removeArrayListDuplicate(mArrayList);
             String string = TextUtil.arrayToString(mArrayList);
 
@@ -265,7 +266,8 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
             itemView.setBackgroundColor(ImageUtils.getColor(mContext, R.color.colorBackgroundItemNoSelected));
         }
 
-        public void bind() { }
+        public void bind() {
+        }
 
     }
 
@@ -286,5 +288,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
 
     public interface OnSubScriptionClick {
         void onClickStar(int visible, String name);
+
+        void onItemRemove(int position, String description);
     }
 }
