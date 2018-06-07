@@ -73,6 +73,7 @@ public class SubRedditActivity extends BaseActivity
     private String mRedditCategory;
     private String mRedditTarget;
     public static MediaSessionCompat sMediaSessionCompat = null;
+    private SubRedditTab mSubRedditTab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,7 +162,6 @@ public class SubRedditActivity extends BaseActivity
         if (mContext != null) {
             initRest(category, null, NetworkUtils.isOnline(mContext));
         }
-
     }
 
     public static class MediaReceiver extends BroadcastReceiver {
@@ -222,26 +222,43 @@ public class SubRedditActivity extends BaseActivity
         super.onSaveInstanceState(outState);
     }
 
-    private void startTab( String positionRedditCategory){
+    private void startTab(String positionRedditCategory) {
 
         boolean enabled = false;
 
-        if(ActivityUI.isTablet(getApplicationContext())
-                || ActivityUI.isPortraitOrientation(getApplicationContext())){
+        if (ActivityUI.isTablet(getApplicationContext())
+                || ActivityUI.isPortraitOrientation(getApplicationContext())) {
             enabled = true;
         }
 
-        if(enabled){
+        if (enabled) {
             mTabLayout.setVisibility(View.VISIBLE);
-            SubRedditTab subRedditTab = new SubRedditTab(this, mTabLayout, getTabArrayList());
-            subRedditTab.initTab();
-            if (!TextUtils.isEmpty(positionRedditCategory)){
-                subRedditTab.positionSelected(positionRedditCategory);
-            }else {
+            mSubRedditTab = new SubRedditTab(this, mTabLayout, getTabArrayList());
+            mSubRedditTab.initTab();
+            if (!TextUtils.isEmpty(positionRedditCategory)) {
+                mSubRedditTab.positionSelected(positionRedditCategory);
+            } else {
                 mTabLayout.setVisibility(View.GONE);
             }
         }
 
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mSubRedditTab != null) {
+            String historyCategory = mSubRedditTab.getHistoryPosition();
+            if (!TextUtils.isEmpty(historyCategory)) {
+                mSubRedditTab.positionSelected(historyCategory);
+            }else {
+                super.onBackPressed();
+            }
+
+        } else {
+            super.onBackPressed();
+
+        }
+
+
+    }
 }

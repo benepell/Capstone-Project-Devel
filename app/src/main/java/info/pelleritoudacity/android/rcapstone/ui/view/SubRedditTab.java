@@ -39,11 +39,13 @@ public class SubRedditTab implements TabLayout.OnTabSelectedListener {
     SubRedditActivity mListener;
     TabLayout mTabLayout;
     ArrayList<String> mTabList;
+    ArrayList<String> mTabHistory;
 
     public SubRedditTab(SubRedditActivity listener, TabLayout tabLayout, ArrayList<String> tabList) {
         mListener = listener;
         mTabLayout = tabLayout;
         mTabList = tabList;
+        mTabHistory = new ArrayList<>();
     }
 
     public void createTab() {
@@ -72,6 +74,7 @@ public class SubRedditTab implements TabLayout.OnTabSelectedListener {
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
+        addHistory(mTabList.get(tab.getPosition()));
         mListener.tabSelected(tab.getPosition(), mTabList.get(tab.getPosition()));
     }
 
@@ -85,7 +88,33 @@ public class SubRedditTab implements TabLayout.OnTabSelectedListener {
 
     }
 
+    public void clearHistory() {
+        mTabHistory.clear();
+    }
+
+    private void addHistory(String category) {
+        if(mTabHistory.size() ==0){
+            mTabHistory.add(mTabList.get(0));
+        }
+        mTabHistory.add(category);
+    }
+
+    public String getHistoryPosition() {
+        int size;
+        String category = null;
+
+        size = (mTabHistory != null) ? mTabHistory.size() : 0;
+
+        if (size > 0) {
+            category = mTabHistory.get(size - 2);
+            mTabHistory.remove(size - 1);
+            mTabHistory.remove(size - 2);
+        }
+        return category;
+    }
+
     public interface OnTabListener {
         void tabSelected(int position, String category);
     }
+
 }
