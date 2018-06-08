@@ -43,6 +43,7 @@ import android.view.View;
 
 import com.google.android.exoplayer2.util.Util;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -91,14 +92,14 @@ public class SubRedditActivity extends BaseActivity
 
         if (savedInstanceState == null) {
 
-            startTab(null);
+            startTab(null, mRedditTarget);
 
             if (TextUtils.isEmpty(mRedditCategory)) {
                 Intent intentCategory = getIntent();
                 if (intentCategory != null) {
                     mRedditCategory = intentCategory.getStringExtra(Costants.EXTRA_SUBREDDIT_CATEGORY);
                     mRedditTarget = intentCategory.getStringExtra(Costants.EXTRA_SUBREDDIT_TARGET);
-                    startTab(mRedditCategory);
+                    startTab(mRedditCategory, mRedditTarget);
 
                     if (mContext != null) {
                         initRest(mRedditCategory, mRedditTarget, NetworkUtils.isOnline(mContext));
@@ -110,7 +111,7 @@ public class SubRedditActivity extends BaseActivity
             mRedditCategory = savedInstanceState.getString(Costants.EXTRA_SUBREDDIT_CATEGORY);
             mRedditTarget = savedInstanceState.getString(Costants.EXTRA_SUBREDDIT_TARGET);
 
-            startTab(mRedditCategory);
+            startTab(mRedditCategory, mRedditTarget);
 
         }
 
@@ -222,7 +223,7 @@ public class SubRedditActivity extends BaseActivity
         super.onSaveInstanceState(outState);
     }
 
-    private void startTab(String positionRedditCategory) {
+    private void startTab(String positionRedditCategory, String redditTarget) {
 
         boolean enabled = false;
 
@@ -234,6 +235,7 @@ public class SubRedditActivity extends BaseActivity
         if (enabled) {
             mTabLayout.setVisibility(View.VISIBLE);
             mSubRedditTab = new SubRedditTab(this, mTabLayout, getTabArrayList());
+
             mSubRedditTab.initTab();
             if (!TextUtils.isEmpty(positionRedditCategory)) {
                 mSubRedditTab.positionSelected(positionRedditCategory);
@@ -248,10 +250,10 @@ public class SubRedditActivity extends BaseActivity
     public void onBackPressed() {
         if (mSubRedditTab != null) {
             String historyCategory = mSubRedditTab.getHistoryPosition();
-            Timber.d("SUBREDDIT BACK %s",mSubRedditTab.getHistorySize());
-            if (!TextUtils.isEmpty(historyCategory)){
+            Timber.d("SUBREDDIT BACK %s", mSubRedditTab.getHistorySize());
+            if (!TextUtils.isEmpty(historyCategory)) {
                 mSubRedditTab.positionSelected(historyCategory);
-            }else {
+            } else {
                 super.onBackPressed();
             }
 

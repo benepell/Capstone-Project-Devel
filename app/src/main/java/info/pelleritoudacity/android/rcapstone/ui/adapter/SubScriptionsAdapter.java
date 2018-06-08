@@ -211,7 +211,6 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
     @Override
     public void onItemDismiss(int position) {
         if (getItemCount() > Costants.DEFAULT_SUBREDDIT_ITEMS) {
-//            mRestore = false;
             String description = mArrayList.get(position);
 
             mListener.onItemRemove(position, description);

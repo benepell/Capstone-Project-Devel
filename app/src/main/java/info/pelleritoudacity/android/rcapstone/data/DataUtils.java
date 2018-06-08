@@ -102,6 +102,8 @@ public class DataUtils {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED, Costants.RESTORE_SUBREDDIT_ITEMS);
+        contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION, Costants.RESTORE_SUBREDDIT_POSITION);
+        contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE, Costants.DEFAULT_SUBREDDIT_VISIBLE);
 
         count = mContext.getContentResolver().update(uri, contentValues, null, null);
         String stringPref = restorePrefFromDb();
