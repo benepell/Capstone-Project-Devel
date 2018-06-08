@@ -172,6 +172,23 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
 
     }
 
+/*
+    @Override
+    public int getItemCount() {
+        if (mCursor != null) {
+            if (mArrayList != null)  {
+
+                return mArrayList.size();
+
+            } else {
+
+                return mCursor.getCount();
+            }
+        }
+
+        return 0;
+    }*/
+
     @Override
     public int getItemCount() {
         return (mCursor == null) ? 0 : mCursor.getCount();
@@ -198,6 +215,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
     @Override
     public void onItemDismiss(int position) {
         if (getItemCount() > Costants.DEFAULT_SUBREDDIT_ITEMS) {
+//            mRestore = false;
             String description = mArrayList.get(position);
 
             mListener.onItemRemove(position, description);

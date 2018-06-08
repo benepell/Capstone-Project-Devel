@@ -350,12 +350,12 @@ public class BaseActivity extends AppCompatActivity
 
             switch (PrefManager.getIntPref(context, R.string.pref_type_mode)) {
                 case Costants.NAV_MODE_SUBSCRIPTIONS:
-                    itemModeSubscriptions.setChecked(false);
                     itemModeSubscriptions.setEnabled(true);
+                    itemModeSubscriptions.setChecked(false);
                     break;
                 case Costants.NAV_MODE_REFRESH:
-                    itemModeRefresh.setChecked(false);
                     itemModeRefresh.setEnabled(true);
+                    itemModeRefresh.setChecked(false);
                     break;
                 default:
                     itemHome.setChecked(false);

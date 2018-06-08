@@ -28,12 +28,16 @@ package info.pelleritoudacity.android.rcapstone.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
@@ -130,6 +134,11 @@ public class SubManageActivity extends BaseActivity {
                     android.support.v4.app.FragmentManager fragmentManager = sWeakFragmentManager.get();
                     SubScriptionsFragment subScriptionsFragment = new SubScriptionsFragment();
                     fragmentManager.beginTransaction()
+                            .setCustomAnimations(
+                                    android.R.anim.slide_in_left,
+                                    android.R.anim.slide_out_right,
+                                    R.anim.layout_animation_from_right,
+                                    R.anim.layout_animation_from_right)
                             .replace(R.id.fragment_list_container, subScriptionsFragment).commit();
 
                 }
@@ -144,7 +153,7 @@ public class SubManageActivity extends BaseActivity {
 
     public static void manageToMainActivity(Context context) {
         context.startActivity(new Intent(context, MainActivity.class).putExtra(Costants.EXTRA_RESTORE_MANAGE, Costants.RESTORE_MANAGE_REDIRECT)
-                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY));
+                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_NO_ANIMATION));
     }
 
 }

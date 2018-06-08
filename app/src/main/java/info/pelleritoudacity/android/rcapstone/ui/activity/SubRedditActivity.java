@@ -110,9 +110,6 @@ public class SubRedditActivity extends BaseActivity
         } else {
             mRedditCategory = savedInstanceState.getString(Costants.EXTRA_SUBREDDIT_CATEGORY);
             mRedditTarget = savedInstanceState.getString(Costants.EXTRA_SUBREDDIT_TARGET);
-
-            startTab(mRedditCategory, mRedditTarget);
-
         }
 
 
