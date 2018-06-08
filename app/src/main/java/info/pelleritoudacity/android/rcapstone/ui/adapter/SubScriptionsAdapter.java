@@ -172,6 +172,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
 
     }
 
+    @Override
     public int getItemCount() {
         return (mCursor == null) ? 0 : mCursor.getCount();
     }
