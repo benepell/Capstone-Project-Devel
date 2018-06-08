@@ -172,23 +172,9 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
 
     }
 
-
-    @Override
     public int getItemCount() {
-        if (mCursor != null) {
-            if (mArrayList != null)  {
-
-                return mArrayList.size();
-
-            } else {
-
-                return mCursor.getCount();
-            }
-        }
-
-        return 0;
+        return (mCursor == null) ? 0 : mCursor.getCount();
     }
-
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
