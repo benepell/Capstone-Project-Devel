@@ -67,8 +67,8 @@ public class DataUtils {
     }
 
     private void clearDataAll() {
-       new T5Operation(mContext,null).clearData();
-       new T3Operation(mContext,null).clearData();
+        new T5Operation(mContext, null).clearData();
+        new T3Operation(mContext, null).clearData();
     }
 
     public void putNullCV(ContentValues contentValues, String contractEntry, Object strObject) {
@@ -159,6 +159,66 @@ public class DataUtils {
         return stringPref;
     }
 
+
+    private String restoreStarsOrderFromDb() {
+        Cursor cursor = null;
+        String stringPref = "";
+        try {
+            String[] projection = {
+                    " Distinct ".concat(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME),
+                    Contract.PrefSubRedditEntry.COLUMN_NAME_IMAGE,
+                    Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE,
+                    Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION,
+                    Contract.PrefSubRedditEntry.COLUMN_NAME_TIME_LAST_MODIFIED
+            };
+
+            String select = Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED + " =?" + " AND " +
+                    Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE + " =?";
+            String[] selectArgs = new String[]{"0", "1"};
+
+
+            cursor = mContext.getContentResolver()
+                    .query(Contract.PrefSubRedditEntry.CONTENT_URI,
+                            projection,
+                            select,
+                            selectArgs,
+                            Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION + " ASC");
+
+            if ((cursor != null) && (!cursor.isClosed())) {
+
+                String name;
+                int i = 0;
+
+                while (cursor.moveToNext()) {
+                    i += 1;
+                    name = cursor.getString(cursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME));
+                    if (!TextUtils.isEmpty(name)) {
+                        if (i < cursor.getCount()) {
+                            //noinspection StringConcatenationInLoop
+                            stringPref += name + Costants.STRING_SEPARATOR;
+                        } else {
+                            //noinspection StringConcatenationInLoop
+                            stringPref += name;
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+
+            Timber.e("restore stars order db error %s", e.getMessage());
+
+        } finally {
+
+            if ((cursor != null) && (!cursor.isClosed())) {
+                cursor.close();
+            }
+
+        }
+        return stringPref;
+    }
+
+
     public boolean updateVisibleStar(int visible, String category) {
 
         int count;
@@ -172,6 +232,18 @@ public class DataUtils {
 
         count = mContext.getContentResolver().update(uri, contentValues, where, selectionArgs);
 
+        if ((!TextUtils.isEmpty(category)) &&
+                (visible == Costants.DEFAULT_SUBREDDIT_VISIBLE) &&
+                (count > 0)) {
+
+            String stringPref = restoreStarsOrderFromDb();
+            if (!TextUtils.isEmpty(stringPref)) {
+                PrefManager.putStringPref(mContext, R.string.pref_subreddit_key, stringPref);
+
+            }
+
+        }
+
         return count > 0;
     }
 
@@ -180,6 +252,10 @@ public class DataUtils {
         Cursor cursor = null;
         int count = 0;
         Uri uri;
+
+        Timber.d("BEGIN fromposition %s", fromPosition);
+        Timber.d("BEGIN toposition %s", toPosition);
+
 
         if ((fromPosition == 0) && (toPosition == 0)) {
             return false;

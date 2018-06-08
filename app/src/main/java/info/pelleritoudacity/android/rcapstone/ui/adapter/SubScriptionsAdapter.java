@@ -197,6 +197,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
         if (moveData.moveManage(fromPosition, toPosition)) {
             Collections.swap(mArrayList, fromPosition, toPosition);
             notifyItemMoved(fromPosition, toPosition);
+
         }
 
         String string = TextUtil.arrayToString(mArrayList);
