@@ -39,7 +39,6 @@ import android.webkit.WebViewClient;
 import java.util.Objects;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.model.reddit.RedditToken;
 import info.pelleritoudacity.android.rcapstone.rest.AccessTokenExecute;

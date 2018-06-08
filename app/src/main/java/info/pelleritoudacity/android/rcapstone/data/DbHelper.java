@@ -30,8 +30,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import timber.log.Timber;
-
 class DbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "rcapstone.db";
@@ -60,6 +58,7 @@ class DbHelper extends SQLiteOpenHelper {
                         Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE + " INTEGER DEFAULT 0, " +
                         Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED + " INTEGER DEFAULT 0, " +
                         Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION + " INTEGER DEFAULT 0, " +
+                        Contract.PrefSubRedditEntry.COLUMN_NAME_BACKUP_POSITION + " INTEGER DEFAULT 0, " +
                         Contract.PrefSubRedditEntry.COLUMN_NAME_TIME_LAST_MODIFIED + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
 
                         " UNIQUE (" + Contract.PrefSubRedditEntry.COLUMN_NAME_NAME + ")" + " ON CONFLICT IGNORE " +

@@ -40,16 +40,13 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.BitmapResource;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
@@ -66,7 +63,6 @@ import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtils;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
-import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.DateUtils.getHourCurrentCreatedUtc;
 import static info.pelleritoudacity.android.rcapstone.utility.ImageUtils.isSmallImage;
@@ -251,12 +247,9 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
                                 .sizeDp(72)
                                 .respectFontBounds(true));
 
-                        holder.mImagePlay.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                holder.mExoProgressBar.setVisibility(View.VISIBLE);
-                                createVideo(holder, videoPreviewUrl, contentDescription);
-                            }
+                        holder.mImagePlay.setOnClickListener(v -> {
+                            holder.mExoProgressBar.setVisibility(View.VISIBLE);
+                            createVideo(holder, videoPreviewUrl, contentDescription);
                         });
 
                     }

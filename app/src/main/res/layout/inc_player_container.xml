@@ -23,7 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/background_protection_oval"
-        android:visibility="visible" />
+        android:visibility="visible"
+        android:contentDescription="TODO" />
 
 
     <ProgressBar

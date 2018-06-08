@@ -78,6 +78,7 @@ public class Contract {
         public static final String COLUMN_NAME_NAME = "_name";
         public static final String COLUMN_NAME_IMAGE = "_image";
         public static final String COLUMN_NAME_POSITION = "_position";
+        public static final String COLUMN_NAME_BACKUP_POSITION = "_backup_position";
         public static final String COLUMN_NAME_VISIBLE = "_visible";
         public static final String COLUMN_NAME_REMOVED = "_removed";
         public static final String COLUMN_NAME_TIME_LAST_MODIFIED = "_time_last_modified";

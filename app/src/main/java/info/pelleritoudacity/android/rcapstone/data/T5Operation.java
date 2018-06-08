@@ -76,6 +76,9 @@ public class T5Operation {
 
             arrCV[i].put(Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION,
                     position);
+
+            arrCV[i].put(Contract.PrefSubRedditEntry.COLUMN_NAME_BACKUP_POSITION,
+                    position);
         }
 
         int countPrefSubData = mContext.getContentResolver().bulkInsert(Contract.PrefSubRedditEntry.CONTENT_URI, arrCV);

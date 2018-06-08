@@ -32,7 +32,6 @@ import info.pelleritoudacity.android.rcapstone.model.reddit.T3;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import timber.log.Timber;
 
 public class SubRedditExecute {
     private final SubRedditManager subRedditManager;

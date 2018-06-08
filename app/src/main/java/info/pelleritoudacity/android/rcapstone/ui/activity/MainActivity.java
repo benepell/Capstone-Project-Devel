@@ -33,7 +33,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.rest.RefreshTokenExecute;
 import info.pelleritoudacity.android.rcapstone.rest.RestExecute;
@@ -41,7 +40,6 @@ import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtils;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
-import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.SessionUtils.getRedditSessionExpired;
 
@@ -107,17 +105,21 @@ public class MainActivity extends BaseActivity
 
             int restore = intent.getIntExtra(Costants.EXTRA_RESTORE_MANAGE, 0);
 
-            if (restore == Costants.RESTORE_MANAGE_RESTORE) {
-                PrefManager.putIntPref(mContext, R.string.pref_restore_manage,
-                        Costants.RESTORE_MANAGE_RESTORE);
-                startActivity(new Intent(this, SubManageActivity.class)
-                        .putExtra(Costants.EXTRA_RESTORE_MANAGE, Costants.RESTORE_MANAGE_RESTORE));
+            switch (restore) {
+                case Costants.RESTORE_MANAGE_RESTORE:
+                    PrefManager.putIntPref(mContext, R.string.pref_restore_manage,
+                            Costants.RESTORE_MANAGE_RESTORE);
+                    startActivity(new Intent(this, SubManageActivity.class)
+                            .putExtra(Costants.EXTRA_RESTORE_MANAGE, Costants.RESTORE_MANAGE_RESTORE));
 
-            } else if (restore == Costants.RESTORE_MANAGE_REDIRECT) {
-                startActivity(new Intent(this, SubManageActivity.class)
-                        .putExtra(Costants.EXTRA_RESTORE_MANAGE, Costants.RESTORE_MANAGE_REDIRECT));
-            } else {
-                startActivity(intentDefaultPage);
+                    break;
+                case Costants.RESTORE_MANAGE_REDIRECT:
+                    startActivity(new Intent(this, SubManageActivity.class)
+                            .putExtra(Costants.EXTRA_RESTORE_MANAGE, Costants.RESTORE_MANAGE_REDIRECT));
+                    break;
+                default:
+                    startActivity(intentDefaultPage);
+                    break;
             }
 
         }

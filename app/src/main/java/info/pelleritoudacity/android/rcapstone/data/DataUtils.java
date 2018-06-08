@@ -100,12 +100,24 @@ public class DataUtils {
 
         Uri uri = Contract.PrefSubRedditEntry.CONTENT_URI;
 
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED, Costants.RESTORE_SUBREDDIT_ITEMS);
-        contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION, Costants.RESTORE_SUBREDDIT_POSITION);
-        contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE, Costants.DEFAULT_SUBREDDIT_VISIBLE);
+        int i = 1;
+        String where;
+        String[] selectionArgs = new String[1];
+        do {
 
-        count = mContext.getContentResolver().update(uri, contentValues, null, null);
+            where = Contract.PrefSubRedditEntry.COLUMN_NAME_BACKUP_POSITION + " =?";
+            selectionArgs[0] = String.valueOf(i);
+
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED, Costants.RESTORE_SUBREDDIT_ITEMS);
+            contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION, i);
+            contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE, Costants.DEFAULT_SUBREDDIT_VISIBLE);
+
+            count = mContext.getContentResolver().update(uri, contentValues, where, selectionArgs);
+            i++;
+
+        } while (count > 0);
+
         String stringPref = restorePrefFromDb();
 
         if (!TextUtils.isEmpty(restorePrefFromDb())) {
@@ -117,7 +129,7 @@ public class DataUtils {
             return false;
         }
 
-        return count > 0;
+        return true;
     }
 
     private String restorePrefFromDb() {

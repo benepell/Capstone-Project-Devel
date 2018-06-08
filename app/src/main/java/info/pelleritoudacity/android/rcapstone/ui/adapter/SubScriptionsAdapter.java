@@ -58,7 +58,6 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
 import info.pelleritoudacity.android.rcapstone.data.DataUtils;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubScriptionsFragment;
-import info.pelleritoudacity.android.rcapstone.ui.fragment.SubScriptionsFragment_ViewBinding;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperAdapter;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
 import info.pelleritoudacity.android.rcapstone.ui.helper.OnStartDragListener;
