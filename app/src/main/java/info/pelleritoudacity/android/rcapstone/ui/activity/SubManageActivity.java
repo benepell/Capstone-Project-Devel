@@ -47,6 +47,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
+import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditFragment;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubScriptionsFragment;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
@@ -81,10 +82,11 @@ public class SubManageActivity extends BaseActivity {
     }
 
     private void startFragment() {
-        SubScriptionsFragment subScriptionsFragment = SubScriptionsFragment.newInstance();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_list_container, subScriptionsFragment).commit();
-
+        if (!getSupportFragmentManager().isStateSaved()) {
+            SubScriptionsFragment subScriptionsFragment = SubScriptionsFragment.newInstance();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_list_container, subScriptionsFragment).commit();
+        }
     }
 
 

@@ -43,7 +43,6 @@ import android.view.View;
 
 import com.google.android.exoplayer2.util.Util;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -54,7 +53,6 @@ import info.pelleritoudacity.android.rcapstone.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.rest.SubRedditExecute;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditFragment;
 import info.pelleritoudacity.android.rcapstone.ui.view.SubRedditTab;
-import info.pelleritoudacity.android.rcapstone.utility.ActivityUI;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtils;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
@@ -92,14 +90,14 @@ public class SubRedditActivity extends BaseActivity
 
         if (savedInstanceState == null) {
 
-            startTab(null, mRedditTarget);
+            startTab(null);
 
             if (TextUtils.isEmpty(mRedditCategory)) {
                 Intent intentCategory = getIntent();
                 if (intentCategory != null) {
                     mRedditCategory = intentCategory.getStringExtra(Costants.EXTRA_SUBREDDIT_CATEGORY);
                     mRedditTarget = intentCategory.getStringExtra(Costants.EXTRA_SUBREDDIT_TARGET);
-                    startTab(mRedditCategory, mRedditTarget);
+                    startTab(mRedditCategory);
 
                     if (mContext != null) {
                         initRest(mRedditCategory, mRedditTarget, NetworkUtils.isOnline(mContext));
@@ -110,6 +108,7 @@ public class SubRedditActivity extends BaseActivity
         } else {
             mRedditCategory = savedInstanceState.getString(Costants.EXTRA_SUBREDDIT_CATEGORY);
             mRedditTarget = savedInstanceState.getString(Costants.EXTRA_SUBREDDIT_TARGET);
+            startTab(mRedditCategory);
         }
 
 
@@ -134,10 +133,11 @@ public class SubRedditActivity extends BaseActivity
     }
 
     private void startFragment(String link, String target) {
-        SubRedditFragment subRedditFragment = SubRedditFragment.newInstance(link, target);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_subreddit_container, subRedditFragment).commit();
-
+        if (!getSupportFragmentManager().isStateSaved()) {
+            SubRedditFragment subRedditFragment = SubRedditFragment.newInstance(link, target);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_subreddit_container, subRedditFragment).commit();
+        }
     }
 
     private void initRest(String link, String target, boolean stateNetworkOnline) {
@@ -220,25 +220,15 @@ public class SubRedditActivity extends BaseActivity
         super.onSaveInstanceState(outState);
     }
 
-    private void startTab(String positionRedditCategory, String redditTarget) {
+    private void startTab(String positionRedditCategory) {
+        mTabLayout.setVisibility(View.VISIBLE);
+        mSubRedditTab = new SubRedditTab(this, mTabLayout, getTabArrayList());
 
-        boolean enabled = false;
-
-        if (ActivityUI.isTablet(getApplicationContext())
-                || ActivityUI.isPortraitOrientation(getApplicationContext())) {
-            enabled = true;
-        }
-
-        if (enabled) {
-            mTabLayout.setVisibility(View.VISIBLE);
-            mSubRedditTab = new SubRedditTab(this, mTabLayout, getTabArrayList());
-
-            mSubRedditTab.initTab();
-            if (!TextUtils.isEmpty(positionRedditCategory)) {
-                mSubRedditTab.positionSelected(positionRedditCategory);
-            } else {
-                mTabLayout.setVisibility(View.GONE);
-            }
+        mSubRedditTab.initTab();
+        if (!TextUtils.isEmpty(positionRedditCategory)) {
+            mSubRedditTab.positionSelected(positionRedditCategory);
+        } else {
+            mTabLayout.setVisibility(View.GONE);
         }
 
     }
@@ -258,7 +248,6 @@ public class SubRedditActivity extends BaseActivity
             super.onBackPressed();
 
         }
-
 
     }
 }

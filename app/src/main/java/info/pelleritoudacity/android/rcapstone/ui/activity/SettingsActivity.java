@@ -49,9 +49,10 @@ public class SettingsActivity extends AppCompatActivity {
             frameLayout.setLayoutAnimation(layoutAnimationController);
         }
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_settings_container, new SettingsFragment())
-                .commit();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_settings_container, new SettingsFragment())
+                    .commit();
+
     }
 
     @Override
