@@ -229,7 +229,7 @@
 
 
             <ImageButton
-                android:id="@+id/image_share_subreddit"
+                android:id="@+id/image_open_browser"
                 style="@style/Base.Widget.AppCompat.ImageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
