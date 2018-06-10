@@ -26,11 +26,19 @@
 
 package info.pelleritoudacity.android.rcapstone.utility;
 
+import android.net.Uri;
 import android.os.Build;
 import android.text.Html;
+import android.text.TextUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
+
+import timber.log.Timber;
 
 public class TextUtil {
 
@@ -64,17 +72,33 @@ public class TextUtil {
                         .trim() : "";
     }
 
-    @Deprecated
-    public static String textFromHtml(String text) {
+    public static String textFromHtml(String url) {
+        try {
+            if (!TextUtils.isEmpty(url)) {
+                url = URLEncoder.encode(url, StandardCharsets.UTF_8.name());
+                url =  URLDecoder.decode(url,StandardCharsets.UTF_8.name());
+                url = url.replaceAll("&amp;","&");
+            }
 
-        if (android.text.TextUtils.isEmpty(text)) return "";
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY).toString();
-        } else {
-            //noinspection deprecation
-            return Html.fromHtml(text).toString();
+        } catch (UnsupportedEncodingException e) {
+            Timber.e("Encoder error %s", e.getMessage());
+            return null;
         }
+
+        return url;
     }
+
+
+    public static String buildCommentLink(String redditnamePrefix,String redditNameId){
+        Uri.Builder builderRedditComments = new Uri.Builder();
+
+       return builderRedditComments.scheme("https")
+                .authority(Costants.REDDIT_AUTH_URL)
+                .appendEncodedPath(redditnamePrefix)
+                .appendPath(Costants.REDDIT_COMMENTS)
+                .appendPath(redditNameId).build().toString();
+
+    }
+
 
 }

@@ -39,6 +39,7 @@ public interface Costants {
     String REDDIT_ABOUT_URL = BuildConfig.REDDIT_ABOUT_URL;
     String REDDIT_STATE_RANDOM = BuildConfig.REDDIT_SECRET_STATE;
 
+    String REDDIT_COMMENTS = "comments";
 
     String REDDIT_AUTHORIZATION = "Authorization";
     String REDDIT_BEARER = "Bearer ";

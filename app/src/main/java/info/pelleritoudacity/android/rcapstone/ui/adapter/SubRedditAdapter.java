@@ -27,6 +27,7 @@
 package info.pelleritoudacity.android.rcapstone.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -96,7 +97,6 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         return new SubRedditHolder(view);
     }
 
-    @Deprecated
     @Override
     public void onBindViewHolder(@NonNull SubRedditHolder holder, int position) {
         mCursor.moveToPosition(position);
@@ -180,12 +180,12 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         } else {
             holder.mPlayerLayout.setVisibility(View.GONE);
 
-            if (!TextUtils.isEmpty(imagePreviewUrl)){
+            if (!TextUtils.isEmpty(imagePreviewUrl)) {
 
-                if (isSmallImage(mContext,imagePreviewWidth,imagePreviewHeight)){
+                if (isSmallImage(mContext, imagePreviewWidth, imagePreviewHeight)) {
                     holder.mImageViewSubRedditSmall.setVisibility(View.VISIBLE);
 
-                }else {
+                } else {
                     holder.mImageViewSubReddit.setVisibility(View.VISIBLE);
 
                 }
@@ -211,7 +211,8 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
                         mContext.getString(R.string.text_comments_subreddit))
         );
 
-        cardBottomLink(holder);
+        cardBottomLink(holder,
+                TextUtil.buildCommentLink(subRedditNamePrefix, nameIdReddit));
 
         holder.bind(holder.getAdapterPosition());
 
@@ -259,7 +260,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
     }
 
 
-    private void cardBottomLink(SubRedditHolder holder) {
+    private void cardBottomLink(SubRedditHolder holder, String linkComments) {
 
         holder.mImageButtonVoteUp.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_thumb_up)
                 .color(Color.GRAY)
@@ -289,12 +290,24 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
         holder.mImageButtonShowComments.setBackgroundColor(Color.WHITE);
 
-        holder.mImageButtonShareSubReddit.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_share)
+        holder.mImageButtonOpenBrowser.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_open_in_browser)
                 .color(Color.GRAY)
                 .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
                 .respectFontBounds(true));
 
-        holder.mImageButtonShareSubReddit.setBackgroundColor(Color.WHITE);
+        holder.mImageButtonOpenBrowser.setBackgroundColor(Color.WHITE);
+
+        if (!TextUtils.isEmpty(linkComments)) {
+            holder.mImageButtonOpenBrowser.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mContext.startActivity(new Intent(
+                            Intent.ACTION_VIEW, Uri.parse(linkComments))
+                            .setFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT));
+                }
+            });
+
+        }
 
     }
 
@@ -442,8 +455,8 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         ImageButton mImageButtonShowComments;
 
         @SuppressWarnings("unused")
-        @BindView(R.id.image_share_subreddit)
-        ImageButton mImageButtonShareSubReddit;
+        @BindView(R.id.image_open_browser)
+        ImageButton mImageButtonOpenBrowser;
 
         private int mPosition;
 
