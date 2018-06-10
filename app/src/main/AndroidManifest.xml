@@ -18,31 +18,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+
         <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.BaseActivity" />
+
         <activity
             android:name=".ui.activity.SettingsActivity"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_settings"
-            android:launchMode="singleTop"
-            android:noHistory="true"
             android:parentActivityName=".ui.activity.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />
         </activity>
+
         <activity
             android:name=".ui.activity.SubManageActivity"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_submanage"
-            android:launchMode="singleTop"
             android:noHistory="true"
             android:parentActivityName=".ui.activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -50,6 +49,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />
         </activity>
+
         <activity
             android:name=".ui.activity.LoginActivity"
             android:excludeFromRecents="true"
@@ -58,6 +58,7 @@
             android:noHistory="true"
             android:parentActivityName=".ui.activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".ui.activity.LogoutActivity"
             android:excludeFromRecents="true"
@@ -70,16 +71,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />
         </activity>
+
         <activity
             android:name=".ui.activity.SubRedditActivity"
             android:label="@string/title_activity_submanage"
-            android:launchMode="singleTop"
-            android:noHistory="true"
-            android:parentActivityName=".ui.activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.MainActivity" />
+
         </activity>
 
         <provider
