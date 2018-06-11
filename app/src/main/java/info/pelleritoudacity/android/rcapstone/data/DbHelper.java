@@ -252,6 +252,22 @@ class DbHelper extends SQLiteOpenHelper {
                         Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_WIDTH + " INTEGER DEFAULT 0, " +
                         Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_HEIGHT + " INTEGER DEFAULT 0, " +
 
+                        Contract.T3dataEntry.COLUMN_NAME_MEDIA_TYPE + " TEXT, " +
+                        Contract.T3dataEntry.COLUMN_NAME_MEDIA_IS_VIDEO + " INTEGER, " +
+                        Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_PROVIDER_URL + " TEXT, " +
+                        Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_TITLE + " TEXT, " +
+                        Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_TYPE + " TEXT, " +
+                        Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_HTML + " TEXT, " +
+                        Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_AUTHOR_NAME + " TEXT, " +
+                        Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_HEIGHT + " INTEGER, " +
+                        Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_WIDTH + " INTEGER, " +
+                        Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_VERSION + " TEXT, " +
+                        Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_WIDTH + " INTEGER, " +
+                        Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_PROVIDER_NAME + " TEXT, " +
+                        Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_URL + " TEXT, " +
+                        Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_HEIGHT + " INTEGER, " +
+                        Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_AUTHOR_URL + " TEXT, " +
+
                         " UNIQUE (" + Contract.T3dataEntry.COLUMN_NAME_ID + ")" + " ON CONFLICT REPLACE, " +
                         " FOREIGN KEY (" + Contract.T3dataEntry.COLUMN_NAME_CHILDREN_ID + ") REFERENCES " +
                         Contract.DataEntry.TABLE_NAME + "(" + Contract.DataEntry._ID + ")" +

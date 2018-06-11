@@ -141,5 +141,7 @@
     <string name="pref_volume_muted" translatable="false">info.pelleritoudacity.android.rcapstone.pref_volume_muted</string>
     <string name="image_description_not_available">Description Not Available</string>
 
+    <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
+
 
 </resources>

@@ -27,8 +27,6 @@
 package info.pelleritoudacity.android.rcapstone.utility;
 
 import android.net.Uri;
-import android.os.Build;
-import android.text.Html;
 import android.text.TextUtils;
 
 import java.io.UnsupportedEncodingException;
@@ -78,6 +76,8 @@ public class TextUtil {
                 url = URLEncoder.encode(url, StandardCharsets.UTF_8.name());
                 url =  URLDecoder.decode(url,StandardCharsets.UTF_8.name());
                 url = url.replaceAll("&amp;","&");
+                url = url.replaceAll("&lt;","<");
+                url = url.replaceAll("&gt;",">");
             }
 
         } catch (UnsupportedEncodingException e) {

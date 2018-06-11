@@ -300,6 +300,23 @@ public class Contract {
 
         public static final String COLUMN_NAME_TIME_LAST_MODIFIED = "_time_last_modified";
 
+        public static final String COLUMN_NAME_MEDIA_TYPE = "_media_type";
+        public static final String COLUMN_NAME_MEDIA_IS_VIDEO = "_media_is_video";
+        public static final String COLUMN_NAME_MEDIA_OEMBED_PROVIDER_URL = "_media_oembed_provider_url";
+        public static final String COLUMN_NAME_MEDIA_OEMBED_TITLE = "_media_oembed_title";
+        public static final String COLUMN_NAME_MEDIA_OEMBED_TYPE = "_media_oembed_type";
+        public static final String COLUMN_NAME_MEDIA_OEMBED_HTML = "_media_oembed_html";
+        public static final String COLUMN_NAME_MEDIA_OEMBED_AUTHOR_NAME = "_media_oembed_author_name";
+        public static final String COLUMN_NAME_MEDIA_OEMBED_HEIGHT = "_media_oembed_height";
+        public static final String COLUMN_NAME_MEDIA_OEMBED_WIDTH = "_media_oembed_width";
+        public static final String COLUMN_NAME_MEDIA_OEMBED_VERSION = "_media_oembed_version";
+        public static final String COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_WIDTH = "_media_oembed_thumbnail_width";
+        public static final String COLUMN_NAME_MEDIA_OEMBED_PROVIDER_NAME = "_media_oembed_provider_name";
+        public static final String COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_URL = "_media_oembed_thumbnail_url";
+        public static final String COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_HEIGHT = "_media_oembed_thumbnail_height";
+        public static final String COLUMN_NAME_MEDIA_OEMBED_AUTHOR_URL = "_media_oembed_author_url";
+
+
     }
 
 }

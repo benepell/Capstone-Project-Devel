@@ -34,12 +34,15 @@ public interface Costants {
     String REDDIT_TOKEN_URL = "https://www.reddit.com/";
     String REDDIT_OAUTH_URL = "https://oauth.reddit.com/";
 
+    String YOUTUBE_DEVELOPER_KEY = BuildConfig.YOUTUBE_DEVELOPER_KEY;
+
     String REDDIT_CLIENT_ID = BuildConfig.REDDIT_CLIENT_ID;
     String REDDIT_REDIRECT_URL = BuildConfig.REDDIT_REDIRECT_URL;
     String REDDIT_ABOUT_URL = BuildConfig.REDDIT_ABOUT_URL;
     String REDDIT_STATE_RANDOM = BuildConfig.REDDIT_SECRET_STATE;
 
     String REDDIT_COMMENTS = "comments";
+    String REDDIT_TYPE_YOUTUBE = "youtube.com";
 
     String REDDIT_AUTHORIZATION = "Authorization";
     String REDDIT_BEARER = "Bearer ";

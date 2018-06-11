@@ -41,6 +41,10 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -55,6 +59,8 @@ import com.google.android.exoplayer2.ui.PlayerView;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 
+import java.nio.charset.StandardCharsets;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
@@ -62,8 +68,10 @@ import info.pelleritoudacity.android.rcapstone.data.Contract;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
+import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtils;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.DateUtils.getHourCurrentCreatedUtc;
 import static info.pelleritoudacity.android.rcapstone.utility.ImageUtils.isSmallImage;
@@ -135,7 +143,6 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         int numComments = mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_NUM_COMMENTS));
 
-        @SuppressWarnings("deprecation")
         String imagePreviewUrl = TextUtil.textFromHtml(
                 mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_URL)));
 
@@ -145,7 +152,6 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         int imagePreviewHeight = mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_HEIGHT));
 
-        @SuppressWarnings("deprecation")
         String videoPreviewUrl = TextUtil.textFromHtml(
                 mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_URL)));
 
@@ -154,6 +160,23 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
         int videoPreviewHeight = mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_HEIGHT));
+
+
+        String videoUrl = TextUtil.textFromHtml(
+                mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_URL)));
+
+
+        String videoTypeYoutube = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_TYPE));
+
+        String videoFrameYoutube = TextUtil.textFromHtml(
+                mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_HTML)));
+
+        int videoYoutubeWidth = mCursor.getInt(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_WIDTH));
+
+        int videoYoutubeHeight = mCursor.getInt(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_HEIGHT));
+
 
         String strDiffCurrentUtc;
         int hourCurrentUtc = getHourCurrentCreatedUtc(createdUtc);
@@ -173,12 +196,17 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
         holder.mTextViewCreatedUtc.setText(strDiffCurrentUtc);
 
-        if (!TextUtils.isEmpty(videoPreviewUrl)) {
+        if (!TextUtils.isEmpty(videoFrameYoutube) && (videoTypeYoutube.equals(Costants.REDDIT_TYPE_YOUTUBE))) {
+            loadWebviewYoutube(holder, videoFrameYoutube, videoYoutubeWidth, videoPreviewHeight);
+            holder.mImageViewSubReddit.setVisibility(View.GONE);
+
+        } else if (!TextUtils.isEmpty(videoPreviewUrl)) {
             loadVideoFirstFrame(holder, videoPreviewUrl, videoPreviewWidth, videoPreviewHeight, title);
             holder.mImageViewSubReddit.setVisibility(View.GONE);
 
         } else {
             holder.mPlayerLayout.setVisibility(View.GONE);
+            holder.mWebViewYoutube.setVisibility(View.GONE);
 
             if (!TextUtils.isEmpty(imagePreviewUrl)) {
 
@@ -219,7 +247,35 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         mListener.adapterPosition(holder.getAdapterPosition(), subReddit);
     }
 
-    private void loadVideoFirstFrame(SubRedditHolder holder, String videoPreviewUrl, int videoPreviewWidth, int videoPreviewHeight, String contentDescription) {
+    private void loadWebviewYoutube(SubRedditHolder holder, String videoFrameYoutube, int youtubeWidth, int youtubeHeight) {
+
+        String startFrame = "<iframe display:block; max-width:100%; margin-top:10px; margin-bottom:10px; ";
+
+        String startSrcFrame = videoFrameYoutube.substring(videoFrameYoutube.indexOf("src="));
+
+        String videoFrame = startFrame.concat(startSrcFrame);
+
+        holder.mWebViewYoutube.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return false;
+            }
+
+        });
+
+        WebSettings webSettings = holder.mWebViewYoutube.getSettings();
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setJavaScriptEnabled(true);
+        holder.mWebViewYoutube.loadData(videoFrame,
+                "text/html",
+                StandardCharsets.UTF_8.name());
+
+        holder.mWebViewYoutube.setVisibility(View.VISIBLE);
+    }
+
+
+    private void loadVideoFirstFrame(SubRedditHolder holder, String videoPreviewUrl,
+                                     int videoPreviewWidth, int videoPreviewHeight, String contentDescription) {
 
         Glide.with(holder.itemView.getContext().getApplicationContext())
                 .asBitmap()
@@ -298,14 +354,9 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         holder.mImageButtonOpenBrowser.setBackgroundColor(Color.WHITE);
 
         if (!TextUtils.isEmpty(linkComments)) {
-            holder.mImageButtonOpenBrowser.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mContext.startActivity(new Intent(
-                            Intent.ACTION_VIEW, Uri.parse(linkComments))
-                            .setFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT));
-                }
-            });
+            holder.mImageButtonOpenBrowser.setOnClickListener(view -> mContext.startActivity(new Intent(
+                    Intent.ACTION_VIEW, Uri.parse(linkComments))
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT)));
 
         }
 
@@ -327,7 +378,8 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
     }
 
-    private void imageReddit(SubRedditHolder holder, String imagePreviewUrl, int imagePreviewWidth, int imagePreviewHeight, String contentDescription) {
+    private void imageReddit(SubRedditHolder holder, String imagePreviewUrl,
+                             int imagePreviewWidth, int imagePreviewHeight, String contentDescription) {
 
         Glide.with(holder.itemView.getContext().getApplicationContext())
                 .asBitmap()
@@ -457,6 +509,10 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         @SuppressWarnings("unused")
         @BindView(R.id.image_open_browser)
         ImageButton mImageButtonOpenBrowser;
+
+        @SuppressWarnings("unused")
+        @BindView(R.id.webview_youtube_subreddit)
+        WebView mWebViewYoutube;
 
         private int mPosition;
 

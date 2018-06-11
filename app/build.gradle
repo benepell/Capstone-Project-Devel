@@ -18,6 +18,8 @@ android {
         it.buildConfigField 'String', 'REDDIT_SECRET_STATE', '\""'
         it.buildConfigField 'String', 'REDDIT_ABOUT_URL', '\"rcapstone.android.pelleritoudacity.info"'
         it.buildConfigField 'String', 'REDDIT_REDIRECT_URL', '\"http://rcapstone.android.pelleritoudacity.info/my_redirect"'
+
+        it.buildConfigField 'String', 'YOUTUBE_DEVELOPER_KEY', '\""'
     }
     buildTypes {
         release {
@@ -61,7 +63,8 @@ dependencies {
     implementation "com.jakewharton.timber:timber:${rootProject.ext.timberVersion}"
 
     implementation "com.jakewharton:butterknife:${rootProject.ext.butterKnifeVersion}"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation "com.android.support.constraint:constraint-layout:${rootProject.ext.androidSupportConstraintVersion}"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.1'
     annotationProcessor "com.jakewharton:butterknife-compiler:${rootProject.ext.butterKnifeVersion}"
 
     implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofitVersion}"

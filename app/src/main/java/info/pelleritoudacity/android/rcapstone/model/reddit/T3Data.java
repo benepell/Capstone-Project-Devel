@@ -82,7 +82,7 @@ public class T3Data  implements Parcelable
     private List<Object> userReports = null;
     @SerializedName("secure_media")
     @Expose
-    private Object secureMedia;
+    private SecureMedia secureMedia;
     @SerializedName("is_reddit_media_domain")
     @Expose
     private Boolean isRedditMediaDomain;
@@ -247,9 +247,6 @@ public class T3Data  implements Parcelable
     @SerializedName("num_comments")
     @Expose
     private Integer numComments;
-    @SerializedName("media")
-    @Expose
-    private Object media;
     @SerializedName("is_self")
     @Expose
     private Boolean isSelf;
@@ -259,6 +256,10 @@ public class T3Data  implements Parcelable
     @SerializedName("mod_note")
     @Expose
     private Object modNote;
+    @SerializedName("media")
+    @Expose
+    private Media media;
+
     @SerializedName("is_video")
     @Expose
     private Boolean isVideo;
@@ -298,7 +299,7 @@ public class T3Data  implements Parcelable
         this.likes = in.readValue((Object.class.getClassLoader()));
         this.suggestedSort = in.readValue((Object.class.getClassLoader()));
         in.readList(this.userReports, (java.lang.Object.class.getClassLoader()));
-        this.secureMedia = in.readValue((Object.class.getClassLoader()));
+        this.secureMedia = ((SecureMedia) in.readValue((SecureMedia.class.getClassLoader())));
         this.isRedditMediaDomain = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         this.saved = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         this.id = ((String) in.readValue((String.class.getClassLoader())));
@@ -353,10 +354,10 @@ public class T3Data  implements Parcelable
         this.subredditNamePrefixed = ((String) in.readValue((String.class.getClassLoader())));
         this.ups = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.numComments = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        this.media = in.readValue((Object.class.getClassLoader()));
         this.isSelf = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         this.whitelistStatus = ((String) in.readValue((String.class.getClassLoader())));
         this.modNote = in.readValue((Object.class.getClassLoader()));
+        this.media = ((Media) in.readValue((Media.class.getClassLoader())));
         this.isVideo = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         this.distinguished = ((String) in.readValue((String.class.getClassLoader())));
     }
@@ -484,11 +485,11 @@ public class T3Data  implements Parcelable
         this.userReports = userReports;
     }
 
-    public Object getSecureMedia() {
+    public SecureMedia getSecureMedia() {
         return secureMedia;
     }
 
-    public void setSecureMedia(Object secureMedia) {
+    public void setSecureMedia(SecureMedia secureMedia) {
         this.secureMedia = secureMedia;
     }
 
@@ -925,14 +926,6 @@ public class T3Data  implements Parcelable
         this.numComments = numComments;
     }
 
-    public Object getMedia() {
-        return media;
-    }
-
-    public void setMedia(Object media) {
-        this.media = media;
-    }
-
     public Boolean getIsSelf() {
         return isSelf;
     }
@@ -957,6 +950,13 @@ public class T3Data  implements Parcelable
         this.modNote = modNote;
     }
 
+    public Media getMedia() {
+        return media;
+    }
+
+    public void setMedia(Media media) {
+        this.media = media;
+    }
     public Boolean getIsVideo() {
         return isVideo;
     }
@@ -1043,10 +1043,10 @@ public class T3Data  implements Parcelable
         dest.writeValue(subredditNamePrefixed);
         dest.writeValue(ups);
         dest.writeValue(numComments);
-        dest.writeValue(media);
         dest.writeValue(isSelf);
         dest.writeValue(whitelistStatus);
         dest.writeValue(modNote);
+        dest.writeValue(media);
         dest.writeValue(isVideo);
         dest.writeValue(distinguished);
     }

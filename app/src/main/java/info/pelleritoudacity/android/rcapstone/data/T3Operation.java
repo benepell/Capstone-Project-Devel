@@ -36,6 +36,8 @@ import java.util.ArrayList;
 
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.model.ModelContent;
+import info.pelleritoudacity.android.rcapstone.model.reddit.Media;
+import info.pelleritoudacity.android.rcapstone.model.reddit.OembedMedia;
 import info.pelleritoudacity.android.rcapstone.model.reddit.RedditVideoPreview;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T3Data;
@@ -63,9 +65,9 @@ public class T3Operation {
         if (mModelT3 == null) return false;
 
         // subReddit
-        ContentValues subRedditCV = new ContentValues();
-        subRedditCV.put(Contract.RedditEntry.COLUMN_NAME_KIND, mModelT3.getKind());
-        subRedditCV.put(Contract.RedditEntry.COLUMN_NAME_DATA, 1);
+        ContentValues subRedditCVT3 = new ContentValues();
+        subRedditCVT3.put(Contract.RedditEntry.COLUMN_NAME_KIND, mModelT3.getKind());
+        subRedditCVT3.put(Contract.RedditEntry.COLUMN_NAME_DATA, 1);
 
         // data
         T3Listing dataModel = mModelT3.getData();
@@ -148,9 +150,10 @@ public class T3Operation {
                 dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SUGGESTED_SORT,
                         t3Model.getSuggestedSort());
 
-                dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SECURE_MEDIA,
+                // todo change object
+                /*dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SECURE_MEDIA,
                         t3Model.getSecureMedia());
-
+*/
                 arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_IS_REDDIT_MEDIA_DOMAIN,
                         Utility.boolToInt(t3Model.getIsRedditMediaDomain()));
 
@@ -301,10 +304,10 @@ public class T3Operation {
 
                 arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_NUM_COMMENTS,
                         t3Model.getNumComments());
-
-                dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_MEDIA,
+                // todo change media
+            /*    dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_MEDIA,
                         t3Model.getMedia());
-
+*/
 
                 arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_IS_SELF,
                         Utility.boolToInt(t3Model.getIsSelf()));
@@ -435,13 +438,62 @@ public class T3Operation {
                         }
                     }
 
+                    Media mediaModel = t3Model.getMedia();
+
+                    if (mediaModel != null) {
+                        dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_MEDIA_TYPE,
+                                mediaModel.getType());
+
+                        OembedMedia oembedMediaModel = mediaModel.getOembed();
+
+                        if (oembedMediaModel != null) {
+
+                            dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_PROVIDER_URL,
+                                    oembedMediaModel.getProviderUrl());
+
+                            dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_TITLE,
+                                    oembedMediaModel.getTitle());
+
+                            dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_TYPE,
+                                    oembedMediaModel.getType());
+
+                            dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_HTML,
+                                    oembedMediaModel.getHtml());
+
+                            dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_AUTHOR_NAME,
+                                    oembedMediaModel.getAuthorName());
+
+                            dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_AUTHOR_URL,
+                                    oembedMediaModel.getAuthorUrl());
+
+                            dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_WIDTH,
+                                    oembedMediaModel.getWidth());
+
+                            dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_HEIGHT,
+                                    oembedMediaModel.getHeight());
+
+                            dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_WIDTH,
+                                    oembedMediaModel.getThumbnailWidth());
+
+                            dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_HEIGHT,
+                                    oembedMediaModel.getThumbnailHeight());
+
+                            dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_URL,
+                                    oembedMediaModel.getThumbnailUrl());
+
+                            dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_VERSION,
+                                    oembedMediaModel.getVersion());
+
+                        }
+
+                    }
 
                 }
             }
 
         }
 
-        final Uri uriReddit = mContext.getContentResolver().insert(Contract.RedditEntry.CONTENT_URI, subRedditCV);
+        final Uri uriReddit = mContext.getContentResolver().insert(Contract.RedditEntry.CONTENT_URI, subRedditCVT3);
         final Uri uriData = mContext.getContentResolver().insert(Contract.DataEntry.CONTENT_URI, dataCV);
         int countT3Data = mContext.getContentResolver().bulkInsert(Contract.T3dataEntry.CONTENT_URI, arrT3CV);
 
@@ -450,8 +502,8 @@ public class T3Operation {
 
     public boolean saveData(String category, String target) {
         if (!TextUtils.isEmpty(category)) {
-            if (isDeleteData(category,target)) {
-                deleteCategory(Contract.PATH_T3DATAS, category,target);
+            if (isDeleteData(category, target)) {
+                deleteCategory(Contract.PATH_T3DATAS, category, target);
             }
             return insertData(target);
         }

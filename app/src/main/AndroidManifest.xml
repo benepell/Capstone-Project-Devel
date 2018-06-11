@@ -11,22 +11,21 @@
     <supports-screens android:xlargeScreens="true" />
 
     <application
-        android:allowBackup="true"
-        android:fullBackupContent="@xml/backup_descriptor"
+        android:allowBackup="false"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-
         <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.BaseActivity" />
-
         <activity
             android:name=".ui.activity.SettingsActivity"
             android:excludeFromRecents="true"
@@ -37,7 +36,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />
         </activity>
-
         <activity
             android:name=".ui.activity.SubManageActivity"
             android:excludeFromRecents="true"
@@ -49,7 +47,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />
         </activity>
-
         <activity
             android:name=".ui.activity.LoginActivity"
             android:excludeFromRecents="true"
@@ -58,7 +55,6 @@
             android:noHistory="true"
             android:parentActivityName=".ui.activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".ui.activity.LogoutActivity"
             android:excludeFromRecents="true"
@@ -71,13 +67,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />
         </activity>
-
         <activity
             android:name=".ui.activity.SubRedditActivity"
             android:label="@string/title_activity_submanage"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <provider
             android:name=".data.ContentProvider"
@@ -99,7 +92,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".ui.activity.SubRedditFullScreenActivity"/>
+        <activity android:name=".ui.activity.SubRedditFullScreenActivity" />
     </application>
 
 </manifest>
