@@ -171,6 +171,9 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         String videoFrameYoutube = TextUtil.textFromHtml(
                 mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_HTML)));
 
+        String videoAuthorNameYoutube = TextUtil.textFromHtml(
+                mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_AUTHOR_NAME)));
+
         int videoYoutubeWidth = mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_WIDTH));
 
@@ -249,11 +252,19 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
     private void loadWebviewYoutube(SubRedditHolder holder, String videoFrameYoutube, int youtubeWidth, int youtubeHeight) {
 
-        String startFrame = "<iframe display:block; max-width:100%; margin-top:10px; margin-bottom:10px; ";
+        StringBuilder videoFrameBuilder = new StringBuilder();
 
-        String startSrcFrame = videoFrameYoutube.substring(videoFrameYoutube.indexOf("src="));
-
-        String videoFrame = startFrame.concat(startSrcFrame);
+        videoFrameBuilder.append("<!DOCTYPE html><html><head>")
+                .append("<meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">")
+                .append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">")
+                .append("<style>body{padding:10px;font-size:200%}")
+                .append("img{width:100%}.videoWrapper{position:relative;padding-bottom:60%;padding-top:10px;height:0}.videoWrapper ")
+                .append("iframe{position:absolute;top:0;left:0;width:100%;height:100%}@media screen and ")
+                .append("(-webkit-min-device-pixel-ratio: 0){body{word-break:break-word}}")
+                .append("</style></head><body>")
+                .append("<div class=\"videoWrapper\"> ")
+                .append("<iframe ").append(videoFrameYoutube.substring(videoFrameYoutube.indexOf("src=")))
+                .append("</div></body></html>");
 
         holder.mWebViewYoutube.setWebViewClient(new WebViewClient() {
             @Override
@@ -266,7 +277,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         WebSettings webSettings = holder.mWebViewYoutube.getSettings();
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setJavaScriptEnabled(true);
-        holder.mWebViewYoutube.loadData(videoFrame,
+        holder.mWebViewYoutube.loadData(videoFrameBuilder.toString(),
                 "text/html",
                 StandardCharsets.UTF_8.name());
 
