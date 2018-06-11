@@ -276,6 +276,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
         WebSettings webSettings = holder.mWebViewYoutube.getSettings();
         webSettings.setLoadWithOverviewMode(true);
+        webSettings.setUseWideViewPort(true);
         webSettings.setJavaScriptEnabled(true);
         holder.mWebViewYoutube.loadData(videoFrameBuilder.toString(),
                 "text/html",
