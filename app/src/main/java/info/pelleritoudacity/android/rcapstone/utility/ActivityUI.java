@@ -34,6 +34,8 @@ import android.view.WindowManager;
 
 import java.util.Objects;
 
+import info.pelleritoudacity.android.rcapstone.ui.activity.MediaYoutubeActivity;
+
 public class ActivityUI {
 
     public static void leanBackUI(AppCompatActivity appCompatActivity) {
@@ -64,6 +66,13 @@ public class ActivityUI {
     }
 
     public static void windowFullScreen(AppCompatActivity appCompatActivity) {
+        if (appCompatActivity != null) {
+            appCompatActivity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        }
+    }
+
+    public static void youtubeFullScreen(MediaYoutubeActivity appCompatActivity) {
         if (appCompatActivity != null) {
             appCompatActivity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 

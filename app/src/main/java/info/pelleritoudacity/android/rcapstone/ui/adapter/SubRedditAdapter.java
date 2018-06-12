@@ -168,6 +168,15 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         int videoYoutubeHeight = mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_HEIGHT));
 
+        String thumbnailUrlYoutube = TextUtil.textFromHtml(
+                mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_URL)));
+
+        int thumbnailYoutubeWidth = mCursor.getInt(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_WIDTH));
+
+        int thumbnailYoutubeHeight = mCursor.getInt(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_HEIGHT));
+
 
         String strDiffCurrentUtc;
         int hourCurrentUtc = getHourCurrentCreatedUtc(createdUtc);
@@ -189,7 +198,18 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         SubRedditView subRedditView = new SubRedditView(mContext);
 
         if (!TextUtils.isEmpty(videoFrameYoutube) && (videoTypeYoutube.equals(Costants.REDDIT_TYPE_YOUTUBE))) {
-            subRedditView.loadWebviewYoutube(holder.mWebViewYoutube, videoFrameYoutube);
+
+            if (Costants.YOUTUBE_CLIENT_ENABLED) {
+                subRedditView.youtubeVideoFirstFrame(holder.mPlayerLayout, holder.mImagePlay, holder.mExoProgressBar,
+                        thumbnailUrlYoutube, thumbnailYoutubeWidth, thumbnailYoutubeHeight,
+                        videoUrl, videoYoutubeWidth, videoYoutubeHeight);
+
+            } else {
+                subRedditView.loadWebviewYoutube(holder.mWebViewYoutube, videoFrameYoutube);
+
+            }
+
+
             holder.mImageViewSubReddit.setVisibility(View.GONE);
 
         } else if (!TextUtils.isEmpty(videoPreviewUrl)) {

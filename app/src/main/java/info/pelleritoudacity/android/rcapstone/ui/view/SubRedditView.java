@@ -30,6 +30,8 @@ import java.nio.charset.StandardCharsets;
 
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
+import info.pelleritoudacity.android.rcapstone.ui.activity.MediaYoutubeActivity;
+import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtils;
 
 import static info.pelleritoudacity.android.rcapstone.utility.ImageUtils.isSmallImage;
@@ -110,6 +112,52 @@ public class SubRedditView {
                             progressBar.setVisibility(View.VISIBLE);
                             mediaPlayer.initPlayer(Uri.parse(videoPreviewUrl));
                             layout.setVisibility(View.VISIBLE);
+                        });
+
+                    }
+
+                });
+
+    }
+
+    public void youtubeVideoFirstFrame(FrameLayout layout, ImageView imageView, ProgressBar progressBar,
+                                       String thumbnailUrl, int thumbnailWidth, int thumbnailHeight,
+                                       String videoUrl, int videoWidth, int videoHeight) {
+        Glide.with(mContext)
+                .asBitmap()
+                .load(thumbnailUrl)
+                .into(new SimpleTarget<Bitmap>(thumbnailWidth, thumbnailHeight) {
+
+                    @Override
+                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                        super.onLoadFailed(errorDrawable);
+                        layout.setBackgroundResource(R.drawable.logo);
+                    }
+
+                    @Override
+                    public void onLoadStarted(@Nullable Drawable placeholder) {
+                        super.onLoadStarted(placeholder);
+                        layout.setBackgroundResource(R.drawable.logo);
+                    }
+
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
+                        layout.setBackground(new BitmapDrawable(mContext.getResources(), resource));
+                        layout.setVisibility(View.VISIBLE);
+
+                        imageView.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_play_circle)
+                                .color(Color.WHITE)
+                                .sizeDp(72)
+                                .respectFontBounds(true));
+
+                        imageView.setOnClickListener(v -> {
+                            progressBar.setVisibility(View.VISIBLE);
+                            mContext.startActivity(new Intent(mContext,
+                                    MediaYoutubeActivity.class).putExtra(Costants.EXTRA_YOUTUBE_PARAM, videoUrl)
+
+                            );
+                            layout.setVisibility(View.VISIBLE);
+                            progressBar.setVisibility(View.GONE);
                         });
 
                     }

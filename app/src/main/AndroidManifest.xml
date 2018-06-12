@@ -72,6 +72,17 @@
             android:label="@string/title_activity_submanage"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
+        <activity android:name=".ui.activity.MediaYoutubeActivity"
+            android:label="@string/title_activity_submanage"
+            android:parentActivityName=".ui.activity.SubRedditActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activity.SubRedditActivity" />
+        </activity>
+
+
         <provider
             android:name=".data.ContentProvider"
             android:authorities="@string/content_authority"
@@ -93,6 +104,7 @@
         </receiver>
 
         <activity android:name=".ui.activity.SubRedditFullScreenActivity" />
+
     </application>
 
 </manifest>

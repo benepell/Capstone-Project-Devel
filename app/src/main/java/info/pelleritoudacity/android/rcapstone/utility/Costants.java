@@ -35,6 +35,8 @@ public interface Costants {
     String REDDIT_OAUTH_URL = "https://oauth.reddit.com/";
 
     String YOUTUBE_DEVELOPER_KEY = BuildConfig.YOUTUBE_DEVELOPER_KEY;
+    boolean YOUTUBE_CLIENT_ENABLED = true;
+    boolean YOUTUBE_CLIENT_AUTOSTART = true;
 
     String REDDIT_CLIENT_ID = BuildConfig.REDDIT_CLIENT_ID;
     String REDDIT_REDIRECT_URL = BuildConfig.REDDIT_REDIRECT_URL;
@@ -91,6 +93,8 @@ public interface Costants {
     String EXTRA_SUBSCRIPTION_STATE = "info.pelleritoudacity.android.rcapstone.extra.subscription.state";
 
     String EXTRA_RESTORE_MANAGE = "info.pelleritoudacity.android.rcapstone.extra.restore.manage";
+
+    String EXTRA_YOUTUBE_PARAM = "info.pelleritoudacity.android.rcapstone.extra.youtube.param";
 
 
     String USER_AGENT_CACHE = "info.pelleritoudacity.android.rcapstone.exo.player.CacheDataSourceFactory";

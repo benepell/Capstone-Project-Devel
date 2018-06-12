@@ -118,7 +118,7 @@ public class MainActivity extends BaseActivity
                             .putExtra(Costants.EXTRA_RESTORE_MANAGE, Costants.RESTORE_MANAGE_REDIRECT));
                     break;
                 default:
-//                    startActivity(intentDefaultPage);
+                    startActivity(intentDefaultPage);
 
             }
 
