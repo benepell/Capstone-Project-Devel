@@ -19,7 +19,7 @@
         android:title="@string/title_original_size_content" />
 
     <SwitchPreferenceCompat
-        android:defaultValue="true"
+        android:defaultValue="false"
         android:key="@string/pref_youtube_player"
         android:summary="@string/summary_youtube_player"
         android:title="@string/title_youtube_player" />

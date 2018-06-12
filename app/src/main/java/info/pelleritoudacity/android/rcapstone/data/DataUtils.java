@@ -345,7 +345,7 @@ public class DataUtils {
 
     public void clearDataPrivacy() {
         clearDataAll();
-        PrefManager.putBoolPref(mContext, R.string.pref_insert_prefs, false);
+        PrefManager.clearPref(mContext);
     }
 
 }

@@ -131,13 +131,15 @@ public class PrefManager {
     public static void clearPref(Context context) {
         int[] prefArrays = {
                 R.string.pref_title_sync_frequency,
+                R.string.pref_insert_prefs,
                 R.string.pref_login_start,
                 R.string.pref_session_username,
                 R.string.pref_session_access_token,
                 R.string.pref_session_refresh_token,
                 R.string.pref_session_expired,
                 R.string.pref_time_token,
-                R.string.pref_subreddit_key
+                R.string.pref_subreddit_key,
+                R.string.pref_youtube_player
 
         };
 
