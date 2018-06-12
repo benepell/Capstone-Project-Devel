@@ -40,14 +40,16 @@ public class MediaYoutubeActivity extends YouTubeFailureRecoveryActivity {
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player,
                                         boolean wasRestored) {
         if (!wasRestored) {
-            if (!TextUtils.isEmpty(mYoutubeStr))
+            if (!TextUtils.isEmpty(mYoutubeStr)) {
+                String v = TextUtil.youtubeValue(mYoutubeStr);
                 if (Costants.YOUTUBE_CLIENT_AUTOSTART) {
-                    player.loadVideo(TextUtil.youtubeValue(mYoutubeStr));
+                    player.loadVideo(v);
 
                 } else {
-                    player.cueVideo(mYoutubeStr);
+                    player.cueVideo(v);
 
                 }
+            }
         }
     }
 
