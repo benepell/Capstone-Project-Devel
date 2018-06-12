@@ -115,7 +115,6 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         int subRedditSubscriptions = mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_SUBSCRIBERS));
 
-        @SuppressWarnings("deprecation")
         String title = TextUtil.textFromHtml(
                 mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_TITLE)));
 
@@ -154,27 +153,27 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
                 mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_URL)));
 
 
-        String videoTypeYoutube = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_TYPE));
+        String videoTypeOembed = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_TYPE));
 
-        String videoFrameYoutube = TextUtil.textFromHtml(
+        String videoFrameOembed = TextUtil.textFromHtml(
                 mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_HTML)));
 
-        String videoAuthorNameYoutube = TextUtil.textFromHtml(
+        String videoAuthorNameOembed = TextUtil.textFromHtml(
                 mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_AUTHOR_NAME)));
 
-        int videoYoutubeWidth = mCursor.getInt(
+        int videoOembedWidth = mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_WIDTH));
 
-        int videoYoutubeHeight = mCursor.getInt(
+        int videoOembedHeight = mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_HEIGHT));
 
-        String thumbnailUrlYoutube = TextUtil.textFromHtml(
+        String thumbnailUrlOembed = TextUtil.textFromHtml(
                 mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_URL)));
 
-        int thumbnailYoutubeWidth = mCursor.getInt(
+        int thumbnailOembedWidth = mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_WIDTH));
 
-        int thumbnailYoutubeHeight = mCursor.getInt(
+        int thumbnailOembedHeight = mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_HEIGHT));
 
 
@@ -197,20 +196,29 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         holder.mTextViewCreatedUtc.setText(strDiffCurrentUtc);
         SubRedditView subRedditView = new SubRedditView(mContext);
 
-        if (!TextUtils.isEmpty(videoFrameYoutube) && (videoTypeYoutube.equals(Costants.REDDIT_TYPE_YOUTUBE))) {
+        if (!TextUtils.isEmpty(videoFrameOembed) &&
+                (!TextUtils.isEmpty(videoTypeOembed)) && (videoTypeOembed.equals(Costants.REDDIT_TYPE_YOUTUBE))) {
 
             if (Costants.YOUTUBE_CLIENT_ENABLED) {
                 subRedditView.youtubeVideoFirstFrame(holder.mPlayerLayout, holder.mImagePlay, holder.mExoProgressBar,
-                        thumbnailUrlYoutube, thumbnailYoutubeWidth, thumbnailYoutubeHeight,
-                        videoUrl, videoYoutubeWidth, videoYoutubeHeight);
+                        thumbnailUrlOembed, thumbnailOembedWidth, thumbnailOembedHeight,
+                        videoUrl, videoOembedWidth, videoOembedHeight);
 
+                holder.mWebViewYoutube.setVisibility(View.GONE);
             } else {
-                subRedditView.loadWebviewYoutube(holder.mWebViewYoutube, videoFrameYoutube);
+                subRedditView.loadWebviewYoutube(holder.mWebViewYoutube, videoFrameOembed);
 
             }
 
+            holder.mImageViewSubReddit.setVisibility(View.GONE);
+
+        } else if (!TextUtils.isEmpty(videoUrl) && (!TextUtils.isEmpty(videoTypeOembed)) &&
+                (videoTypeOembed.equals(Costants.REDDIT_TYPE_VIMEO))) {
+
+            subRedditView.loadWebviewYoutube(holder.mWebViewYoutube, videoFrameOembed);
 
             holder.mImageViewSubReddit.setVisibility(View.GONE);
+            holder.mPlayerLayout.setVisibility(View.GONE);
 
         } else if (!TextUtils.isEmpty(videoPreviewUrl)) {
 
@@ -230,6 +238,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
             holder.mImageViewSubReddit.setVisibility(View.GONE);
 
         } else {
+
             holder.mPlayerLayout.setVisibility(View.GONE);
             holder.mWebViewYoutube.setVisibility(View.GONE);
 

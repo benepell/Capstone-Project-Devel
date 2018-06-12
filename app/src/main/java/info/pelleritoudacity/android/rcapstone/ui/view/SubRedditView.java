@@ -79,8 +79,8 @@ public class SubRedditView {
     }
 
 
-    public void loadVideoFirstFrame(MediaPlayer mediaPlayer, FrameLayout layout, ImageView imageView, ProgressBar progressBar, String videoPreviewUrl,
-                                    int videoPreviewWidth, int videoPreviewHeight) {
+    public void loadVideoFirstFrame(MediaPlayer mediaPlayer, FrameLayout layout, ImageView imageView, ProgressBar progressBar,
+                                    String videoPreviewUrl, int videoPreviewWidth, int videoPreviewHeight) {
         Glide.with(mContext)
                 .asBitmap()
                 .load(videoPreviewUrl)
@@ -111,6 +111,47 @@ public class SubRedditView {
                         imageView.setOnClickListener(v -> {
                             progressBar.setVisibility(View.VISIBLE);
                             mediaPlayer.initPlayer(Uri.parse(videoPreviewUrl));
+                            layout.setVisibility(View.VISIBLE);
+                        });
+
+                    }
+
+                });
+
+    }
+
+    public void vimeoVideoFirstFrame(MediaPlayer mediaPlayer, FrameLayout layout, ImageView imageView, ProgressBar progressBar,
+                                    String imageVimeoUrl , int imageVimeoWidth, int imageVimeoHeight,String videoVimeoUrl) {
+        Glide.with(mContext)
+                .asBitmap()
+                .load(imageVimeoUrl)
+                .into(new SimpleTarget<Bitmap>(imageVimeoWidth, imageVimeoHeight) {
+
+                    @Override
+                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                        super.onLoadFailed(errorDrawable);
+                        layout.setBackgroundResource(R.drawable.logo);
+                    }
+
+                    @Override
+                    public void onLoadStarted(@Nullable Drawable placeholder) {
+                        super.onLoadStarted(placeholder);
+                        layout.setBackgroundResource(R.drawable.logo);
+                    }
+
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
+                        layout.setBackground(new BitmapDrawable(mContext.getResources(), resource));
+                        layout.setVisibility(View.VISIBLE);
+
+                        imageView.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_play_circle)
+                                .color(Color.WHITE)
+                                .sizeDp(72)
+                                .respectFontBounds(true));
+
+                        imageView.setOnClickListener(v -> {
+                            progressBar.setVisibility(View.VISIBLE);
+                            mediaPlayer.initPlayer(Uri.parse(videoVimeoUrl));
                             layout.setVisibility(View.VISIBLE);
                         });
 

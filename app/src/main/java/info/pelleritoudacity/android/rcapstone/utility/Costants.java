@@ -45,6 +45,7 @@ public interface Costants {
 
     String REDDIT_COMMENTS = "comments";
     String REDDIT_TYPE_YOUTUBE = "youtube.com";
+    String REDDIT_TYPE_VIMEO = "vimeo.com";
 
     String REDDIT_AUTHORIZATION = "Authorization";
     String REDDIT_BEARER = "Bearer ";
