@@ -2,15 +2,11 @@ package info.pelleritoudacity.android.rcapstone.ui.activity;
 
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerFragment;
-
-import java.net.URI;
 
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.utility.ActivityUI;
@@ -28,6 +24,8 @@ public class MediaYoutubeActivity extends YouTubeFailureRecoveryActivity {
         ActivityUI.youtubeFullScreen(this);
         setContentView(R.layout.activity_media_youtube);
 
+        Timber.plant(new Timber.DebugTree());
+
         YouTubePlayerFragment youTubePlayerFragment =
                 (YouTubePlayerFragment) getFragmentManager().findFragmentById(R.id.youtube_fragment);
         youTubePlayerFragment.initialize(Costants.YOUTUBE_DEVELOPER_KEY, this);
@@ -36,7 +34,6 @@ public class MediaYoutubeActivity extends YouTubeFailureRecoveryActivity {
 
         if (intent != null) {
             mYoutubeStr = intent.getStringExtra(Costants.EXTRA_YOUTUBE_PARAM);
-
         }
     }
 

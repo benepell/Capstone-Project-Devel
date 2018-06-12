@@ -104,10 +104,22 @@ public class TextUtil {
         int nSearchLeft;
         int nSearchRight;
 
-        Uri uri = Uri.parse(youtubeUrl);
+        Uri uri = null;
+        try {
+            uri = Uri.parse(URLDecoder.decode(youtubeUrl, StandardCharsets.UTF_8.name()));
+
+        } catch (UnsupportedEncodingException e) {
+            Timber.e("youtubeValue error %s", e.getMessage());
+        }
 
         if (uri.getAuthority().equals("www.youtube.com")) {
-            return uri.getQueryParameter("v");
+
+            String v = uri.getQueryParameter("v");
+
+            if ((v == null) && (uri.getEncodedPath().equals("/attribution_link"))) {
+                return Uri.parse(uri.getQueryParameter("u")).getQueryParameter("v").toString();
+            }
+            return v;
 
         } else if (uri.getAuthority().equals("youtu.be")) {
             youtubeUrl = uri.getEncodedPath();
