@@ -104,22 +104,26 @@ public class TextUtil {
         int nSearchLeft;
         int nSearchRight;
 
-        String[] searchQueryYoutube = {"youtube.com/watch?v=", "youtu.be/", "youtube.com/v/"};
+        Uri uri = Uri.parse(youtubeUrl);
 
-        for (String s : searchQueryYoutube) {
-            nSearchLeft = youtubeUrl.indexOf(s);
+        if (uri.getAuthority().equals("www.youtube.com")) {
+            return uri.getQueryParameter("v");
+
+        } else if (uri.getAuthority().equals("youtu.be")) {
+            youtubeUrl = uri.getEncodedPath();
+
+            nSearchLeft = youtubeUrl.indexOf("/");
             nSearchRight = youtubeUrl.indexOf("&");
 
-            if (nSearchLeft > 0) {
+            if (nSearchLeft >= 0) {
                 if (nSearchRight > 0) {
-                    return youtubeUrl.substring(nSearchLeft + s.length(), nSearchRight);
+                    return youtubeUrl.substring(nSearchLeft + 1, nSearchRight);
 
                 } else {
-                    return youtubeUrl.substring(nSearchLeft + s.length());
+                    return youtubeUrl.substring(nSearchLeft + 1);
 
                 }
             }
-
         }
         return "";
     }

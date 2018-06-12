@@ -2,11 +2,15 @@ package info.pelleritoudacity.android.rcapstone.ui.activity;
 
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerFragment;
+
+import java.net.URI;
 
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.utility.ActivityUI;
@@ -42,6 +46,7 @@ public class MediaYoutubeActivity extends YouTubeFailureRecoveryActivity {
         if (!wasRestored) {
             if (!TextUtils.isEmpty(mYoutubeStr)) {
                 String v = TextUtil.youtubeValue(mYoutubeStr);
+
                 if (Costants.YOUTUBE_CLIENT_AUTOSTART) {
                     player.loadVideo(v);
 
