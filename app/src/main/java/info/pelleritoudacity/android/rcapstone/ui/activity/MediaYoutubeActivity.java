@@ -11,6 +11,8 @@ import com.google.android.youtube.player.YouTubePlayerFragment;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.utility.ActivityUI;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+import timber.log.Timber;
 
 public class MediaYoutubeActivity extends YouTubeFailureRecoveryActivity {
 
@@ -30,12 +32,14 @@ public class MediaYoutubeActivity extends YouTubeFailureRecoveryActivity {
 
         if (intent != null) {
             mYoutubeStr = intent.getStringExtra(Costants.EXTRA_YOUTUBE_PARAM);
-            String[] searchQueryYoutube = {"www.youtube.com/watch?v=", "youtu.be/"};
-            int nsearch;
+            String[] searchQueryYoutube = {"youtube.com/watch?v=", "youtu.be/", "youtube.com/v/"};
+            int nSearchLeft;
+            int nSearchRight;
             for (String s : searchQueryYoutube) {
-                nsearch = mYoutubeStr.indexOf(s);
-                if (nsearch > 0) {
-                    mYoutubeStr = mYoutubeStr.substring(nsearch + s.length());
+                nSearchLeft = mYoutubeStr.indexOf(s);
+                nSearchRight = mYoutubeStr.indexOf("&");
+                if (nSearchLeft > 0) {
+                    mYoutubeStr = mYoutubeStr.substring(nSearchLeft + s.length(),nSearchRight);
                 }
             }
         }
