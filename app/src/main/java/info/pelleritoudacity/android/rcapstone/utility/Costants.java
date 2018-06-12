@@ -35,7 +35,6 @@ public interface Costants {
     String REDDIT_OAUTH_URL = "https://oauth.reddit.com/";
 
     String YOUTUBE_DEVELOPER_KEY = BuildConfig.YOUTUBE_DEVELOPER_KEY;
-    boolean YOUTUBE_CLIENT_ENABLED = true;
     boolean YOUTUBE_CLIENT_AUTOSTART = true;
 
     String REDDIT_CLIENT_ID = BuildConfig.REDDIT_CLIENT_ID;

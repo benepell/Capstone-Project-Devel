@@ -18,6 +18,12 @@
         android:summary="@string/summary_original_size_content"
         android:title="@string/title_original_size_content" />
 
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        android:key="@string/pref_youtube_player"
+        android:summary="@string/summary_youtube_player"
+        android:title="@string/title_youtube_player" />
+
     <ListPreference
         android:defaultValue="900"
         android:entries="@array/pref_sync_frequency_titles"

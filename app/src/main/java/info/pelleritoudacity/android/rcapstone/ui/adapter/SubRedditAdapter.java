@@ -54,6 +54,7 @@ import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHold
 import info.pelleritoudacity.android.rcapstone.ui.view.SubRedditView;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtils;
+import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
 import static info.pelleritoudacity.android.rcapstone.utility.DateUtils.getHourCurrentCreatedUtc;
@@ -199,7 +200,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         if (!TextUtils.isEmpty(videoFrameOembed) &&
                 (!TextUtils.isEmpty(videoTypeOembed)) && (videoTypeOembed.equals(Costants.REDDIT_TYPE_YOUTUBE))) {
 
-            if (Costants.YOUTUBE_CLIENT_ENABLED) {
+            if (PrefManager.isGeneralSettings(mContext, mContext.getString(R.string.pref_youtube_player))) {
                 subRedditView.youtubeVideoFirstFrame(holder.mPlayerLayout, holder.mImagePlay, holder.mExoProgressBar,
                         thumbnailUrlOembed, thumbnailOembedWidth, thumbnailOembedHeight,
                         videoUrl, videoOembedWidth, videoOembedHeight);
