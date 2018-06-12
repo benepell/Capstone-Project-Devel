@@ -32,24 +32,7 @@ public class MediaYoutubeActivity extends YouTubeFailureRecoveryActivity {
 
         if (intent != null) {
             mYoutubeStr = intent.getStringExtra(Costants.EXTRA_YOUTUBE_PARAM);
-            String[] searchQueryYoutube = {"youtube.com/watch?v=", "youtu.be/", "youtube.com/v/"};
-            int nSearchLeft;
-            int nSearchRight;
-            for (String s : searchQueryYoutube) {
-                nSearchLeft = mYoutubeStr.indexOf(s);
 
-                nSearchRight = mYoutubeStr.indexOf("&");
-
-                if (nSearchLeft > 0) {
-                    if (nSearchRight > 0) {
-                        mYoutubeStr = mYoutubeStr.substring(nSearchLeft + s.length(), nSearchRight);
-
-                    } else {
-                        mYoutubeStr = mYoutubeStr.substring(nSearchLeft + s.length());
-
-                    }
-                }
-            }
         }
     }
 
@@ -59,7 +42,7 @@ public class MediaYoutubeActivity extends YouTubeFailureRecoveryActivity {
         if (!wasRestored) {
             if (!TextUtils.isEmpty(mYoutubeStr))
                 if (Costants.YOUTUBE_CLIENT_AUTOSTART) {
-                    player.loadVideo(mYoutubeStr);
+                    player.loadVideo(TextUtil.youtubeValue(mYoutubeStr));
 
                 } else {
                     player.cueVideo(mYoutubeStr);

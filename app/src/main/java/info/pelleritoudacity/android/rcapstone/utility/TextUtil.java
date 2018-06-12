@@ -74,10 +74,10 @@ public class TextUtil {
         try {
             if (!TextUtils.isEmpty(url)) {
                 url = URLEncoder.encode(url, StandardCharsets.UTF_8.name());
-                url =  URLDecoder.decode(url,StandardCharsets.UTF_8.name());
-                url = url.replaceAll("&amp;","&");
-                url = url.replaceAll("&lt;","<");
-                url = url.replaceAll("&gt;",">");
+                url = URLDecoder.decode(url, StandardCharsets.UTF_8.name());
+                url = url.replaceAll("&amp;", "&");
+                url = url.replaceAll("&lt;", "<");
+                url = url.replaceAll("&gt;", ">");
             }
 
         } catch (UnsupportedEncodingException e) {
@@ -89,10 +89,10 @@ public class TextUtil {
     }
 
 
-    public static String buildCommentLink(String redditnamePrefix,String redditNameId){
+    public static String buildCommentLink(String redditnamePrefix, String redditNameId) {
         Uri.Builder builderRedditComments = new Uri.Builder();
 
-       return builderRedditComments.scheme("https")
+        return builderRedditComments.scheme("https")
                 .authority(Costants.REDDIT_AUTH_URL)
                 .appendEncodedPath(redditnamePrefix)
                 .appendPath(Costants.REDDIT_COMMENTS)
@@ -100,5 +100,27 @@ public class TextUtil {
 
     }
 
+    public static String youtubeValue(String youtubeUrl) {
+        int nSearchLeft;
+        int nSearchRight;
 
+        String[] searchQueryYoutube = {"youtube.com/watch?v=", "youtu.be/", "youtube.com/v/"};
+
+        for (String s : searchQueryYoutube) {
+            nSearchLeft = youtubeUrl.indexOf(s);
+            nSearchRight = youtubeUrl.indexOf("&");
+
+            if (nSearchLeft > 0) {
+                if (nSearchRight > 0) {
+                    return youtubeUrl.substring(nSearchLeft + s.length(), nSearchRight);
+
+                } else {
+                    return youtubeUrl.substring(nSearchLeft + s.length());
+
+                }
+            }
+
+        }
+        return "";
+    }
 }
