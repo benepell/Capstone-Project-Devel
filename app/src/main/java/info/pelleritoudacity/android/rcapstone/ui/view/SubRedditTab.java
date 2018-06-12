@@ -28,6 +28,7 @@ package info.pelleritoudacity.android.rcapstone.ui.view;
 
 import android.support.design.widget.TabLayout;
 import android.text.TextUtils;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -36,10 +37,10 @@ import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity;
 
 public class SubRedditTab implements TabLayout.OnTabSelectedListener {
 
-    SubRedditActivity mListener;
-    TabLayout mTabLayout;
-    ArrayList<String> mTabList;
-    ArrayList<String> mTabHistory;
+    private SubRedditActivity mListener;
+    private TabLayout mTabLayout;
+    private ArrayList<String> mTabList;
+    private ArrayList<String> mTabHistory;
 
     public SubRedditTab(SubRedditActivity listener, TabLayout tabLayout, ArrayList<String> tabList) {
         mListener = listener;
@@ -60,7 +61,6 @@ public class SubRedditTab implements TabLayout.OnTabSelectedListener {
     public void positionSelected(String category) {
         if (!TextUtils.isEmpty(category)) {
             int indexText = mTabList.indexOf(category);
-
             if (indexText >= 0) {
                 Objects.requireNonNull(mTabLayout.getTabAt(indexText)).select();
             }
@@ -75,18 +75,20 @@ public class SubRedditTab implements TabLayout.OnTabSelectedListener {
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-        addHistory(mTabList.get(tab.getPosition()));
-        mListener.tabSelected(tab.getPosition(), mTabList.get(tab.getPosition()));
+        int position = tab.getPosition();
+
+        addHistory(mTabList.get(position));
+
+        mListener.tabSelected(position, mTabList.get(position));
+
     }
 
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
-
     }
 
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
-
     }
 
     public void clearHistory() {
@@ -94,13 +96,13 @@ public class SubRedditTab implements TabLayout.OnTabSelectedListener {
     }
 
     private void addHistory(String category) {
-        if(mTabHistory.size() ==0){
+        if (mTabHistory.size() == 0) {
             mTabHistory.add(mTabList.get(0));
         }
         mTabHistory.add(category);
     }
 
-    public int getHistorySize(){
+    public int getHistorySize() {
         return mTabHistory.size();
     }
 
@@ -121,5 +123,4 @@ public class SubRedditTab implements TabLayout.OnTabSelectedListener {
     public interface OnTabListener {
         void tabSelected(int position, String category);
     }
-
 }

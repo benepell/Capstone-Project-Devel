@@ -120,7 +120,6 @@ public class SubRedditView {
 
     public void imageReddit(ImageView imageView, ImageView imageViewSmall, String imagePreviewUrl,
                             int imagePreviewWidth, int imagePreviewHeight, String contentDescription) {
-
         Glide.with(mContext)
                 .asBitmap()
                 .load(imagePreviewUrl)
