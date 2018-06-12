@@ -79,7 +79,6 @@ public class ActivityUI {
         }
     }
 
-
     public static boolean isLandscapeOrientation(Context context) {
         return context != null && context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
