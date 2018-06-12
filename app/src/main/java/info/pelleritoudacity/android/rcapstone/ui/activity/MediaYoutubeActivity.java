@@ -37,9 +37,17 @@ public class MediaYoutubeActivity extends YouTubeFailureRecoveryActivity {
             int nSearchRight;
             for (String s : searchQueryYoutube) {
                 nSearchLeft = mYoutubeStr.indexOf(s);
+
                 nSearchRight = mYoutubeStr.indexOf("&");
+
                 if (nSearchLeft > 0) {
-                    mYoutubeStr = mYoutubeStr.substring(nSearchLeft + s.length(),nSearchRight);
+                    if (nSearchRight > 0) {
+                        mYoutubeStr = mYoutubeStr.substring(nSearchLeft + s.length(), nSearchRight);
+
+                    } else {
+                        mYoutubeStr = mYoutubeStr.substring(nSearchLeft + s.length());
+
+                    }
                 }
             }
         }
