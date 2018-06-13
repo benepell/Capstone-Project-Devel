@@ -197,70 +197,88 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         holder.mTextViewCreatedUtc.setText(strDiffCurrentUtc);
         SubRedditView subRedditView = new SubRedditView(mContext);
 
-        if (!TextUtils.isEmpty(videoFrameOembed) &&
-                (!TextUtils.isEmpty(videoTypeOembed)) && (videoTypeOembed.equals(Costants.REDDIT_TYPE_YOUTUBE))) {
+        int mediaType = 0;
 
-            if (PrefManager.isGeneralSettings(mContext, mContext.getString(R.string.pref_youtube_player))) {
-                subRedditView.youtubeVideoFirstFrame(holder.mPlayerLayout, holder.mImagePlay, holder.mExoProgressBar,
-                        thumbnailUrlOembed, thumbnailOembedWidth, thumbnailOembedHeight,
-                        videoUrl, videoOembedWidth, videoOembedHeight);
+        mediaType = (!TextUtils.isEmpty(imagePreviewUrl)) && (!isSmallImage(mContext, imagePreviewWidth, imagePreviewHeight))
+                ? Costants.MEDIA_IMAGE_FULL_TYPE : mediaType;
 
+        mediaType = (!TextUtils.isEmpty(videoPreviewUrl))
+                ? Costants.MEDIA_VIDEO_PREVIEW_TYPE_MP4 : mediaType;
+
+        mediaType = (!TextUtils.isEmpty(videoUrl) && (!TextUtils.isEmpty(videoTypeOembed)) &&
+                (videoTypeOembed.equals(Costants.BASE_TYPE_VIMEO)))
+                ? Costants.MEDIA_VIDEO_TYPE_VIMEO : mediaType;
+
+        mediaType = (!TextUtils.isEmpty(videoFrameOembed) &&
+                (!TextUtils.isEmpty(videoTypeOembed)) && (videoTypeOembed.equals(Costants.BASE_TYPE_YOUTUBE)))
+                ? Costants.MEDIA_VIDEO_TYPE_YOUTUBE : mediaType;
+
+        switch (mediaType) {
+
+            case Costants.MEDIA_IMAGE_FULL_TYPE:
+
+                holder.mPlayerLayout.setVisibility(View.GONE);
                 holder.mWebViewYoutube.setVisibility(View.GONE);
-            } else {
+
+                subRedditView.imageReddit(holder.mImageViewSubReddit, holder.mImageViewSubRedditSmall,
+                        imagePreviewUrl, imagePreviewWidth, imagePreviewHeight, title);
+
+                holder.mImageViewSubReddit.setVisibility(View.VISIBLE);
+                break;
+
+            case Costants.MEDIA_VIDEO_PREVIEW_TYPE_MP4:
+
+                if (mMediaPlayer != null) {
+                    mMediaPlayer.releasePlayer();
+                }
+
+                mMediaPlayer = new MediaPlayer(mContext,
+                        mImaAdsLoader,
+                        holder.mPlayerView,
+                        holder.mExoProgressBar,
+                        title, holder.mTVErrorPlayer, holder.mImagePlay);
+
+                subRedditView.loadVideoFirstFrame(mMediaPlayer, holder.mPlayerLayout, holder.mImagePlay, holder.mExoProgressBar,
+                        videoPreviewUrl, videoPreviewWidth, videoPreviewHeight);
+
+                holder.mImageViewSubReddit.setVisibility(View.GONE);
+                break;
+
+            case Costants.MEDIA_VIDEO_TYPE_VIMEO:
+
                 subRedditView.loadWebviewYoutube(holder.mWebViewYoutube, videoFrameOembed);
 
-            }
+                holder.mImageViewSubReddit.setVisibility(View.GONE);
+                holder.mPlayerLayout.setVisibility(View.GONE);
+                break;
 
-            holder.mImageViewSubReddit.setVisibility(View.GONE);
+            case Costants.MEDIA_VIDEO_TYPE_YOUTUBE:
 
-        } else if (!TextUtils.isEmpty(videoUrl) && (!TextUtils.isEmpty(videoTypeOembed)) &&
-                (videoTypeOembed.equals(Costants.REDDIT_TYPE_VIMEO))) {
+                if (PrefManager.isGeneralSettings(mContext, mContext.getString(R.string.pref_youtube_player))) {
+                    subRedditView.youtubeVideoFirstFrame(holder.mPlayerLayout, holder.mImagePlay, holder.mExoProgressBar,
+                            thumbnailUrlOembed, thumbnailOembedWidth, thumbnailOembedHeight,
+                            videoUrl, videoOembedWidth, videoOembedHeight);
 
-            subRedditView.loadWebviewYoutube(holder.mWebViewYoutube, videoFrameOembed);
-
-            holder.mImageViewSubReddit.setVisibility(View.GONE);
-            holder.mPlayerLayout.setVisibility(View.GONE);
-
-        } else if (!TextUtils.isEmpty(videoPreviewUrl)) {
-
-            if (mMediaPlayer != null) {
-                mMediaPlayer.releasePlayer();
-            }
-
-            mMediaPlayer = new MediaPlayer(mContext,
-                    mImaAdsLoader,
-                    holder.mPlayerView,
-                    holder.mExoProgressBar,
-                    title, holder.mTVErrorPlayer, holder.mImagePlay);
-
-            subRedditView.loadVideoFirstFrame(mMediaPlayer, holder.mPlayerLayout, holder.mImagePlay, holder.mExoProgressBar,
-                    videoPreviewUrl, videoPreviewWidth, videoPreviewHeight);
-
-            holder.mImageViewSubReddit.setVisibility(View.GONE);
-
-        } else {
-
-            holder.mPlayerLayout.setVisibility(View.GONE);
-            holder.mWebViewYoutube.setVisibility(View.GONE);
-
-            if (!TextUtils.isEmpty(imagePreviewUrl)) {
-
-                if (isSmallImage(mContext, imagePreviewWidth, imagePreviewHeight)) {
-                    holder.mImageViewSubRedditSmall.setVisibility(View.VISIBLE);
-
+                    holder.mWebViewYoutube.setVisibility(View.GONE);
                 } else {
-                    holder.mImageViewSubReddit.setVisibility(View.VISIBLE);
+                    subRedditView.loadWebviewYoutube(holder.mWebViewYoutube, videoFrameOembed);
 
                 }
 
-            }
+                holder.mImageViewSubReddit.setVisibility(View.GONE);
+                break;
 
+            default: {
+            }
         }
 
-        if (!TextUtils.isEmpty(imagePreviewUrl)) {
+        if ((!TextUtils.isEmpty(imagePreviewUrl)) &&
+                (isSmallImage(mContext, imagePreviewWidth, imagePreviewHeight))) {
+
             subRedditView.imageReddit(holder.mImageViewSubReddit, holder.mImageViewSubRedditSmall,
                     imagePreviewUrl, imagePreviewWidth, imagePreviewHeight, title);
 
+            holder.mImageViewSubRedditSmall.setVisibility(View.VISIBLE);
         }
 
         holder.mTextViewTitle.setText(title);
@@ -283,7 +301,6 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
         mListener.adapterPosition(holder.getAdapterPosition(), subReddit);
     }
-
 
     @Override
     public int getItemCount() {

@@ -43,8 +43,26 @@ public interface Costants {
     String REDDIT_STATE_RANDOM = BuildConfig.REDDIT_SECRET_STATE;
 
     String REDDIT_COMMENTS = "comments";
-    String REDDIT_TYPE_YOUTUBE = "youtube.com";
-    String REDDIT_TYPE_VIMEO = "vimeo.com";
+
+    String BASE_TYPE_YOUTUBE = "youtube.com";
+    String BASE_TYPE_VIMEO = "vimeo.com";
+
+    int MEDIA_VIDEO_TYPE = 100;
+    int MEDIA_VIDEO_TYPE_YOUTUBE = 101;
+    int MEDIA_VIDEO_TYPE_VIMEO = 102;
+    int MEDIA_VIDEO_TYPE_MP4 = 103;
+    int MEDIA_VIDEO_PREVIEW_TYPE = 200;
+    int MEDIA_VIDEO_PREVIEW_TYPE_MP4 = 201;
+
+    int MEDIA_IMAGE_TYPE= 300;
+    int MEDIA_IMAGE_FULL_TYPE = 301;
+    int MEDIA_IMAGE_SMALL_TYPE =302;
+    int MEDIA_IMAGE_TYPE_GIF = 401;
+    int MEDIA_IMAGE_TYPE_JPG = 402;
+    int MEDIA_IMAGE_PREVIEW_TYPE = 500;
+    int MEDIA_IMAGE_PREVIEW_TYPE_GIF = 501;
+
+
 
     String REDDIT_AUTHORIZATION = "Authorization";
     String REDDIT_BEARER = "Bearer ";
