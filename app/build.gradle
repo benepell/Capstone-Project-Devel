@@ -11,6 +11,18 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        flavorDimensions "default"
+
+        productFlavors {
+            free {
+                applicationId "info.pelleritoudacity.android.rcapstone.free"
+            }
+            paid {
+                applicationId "info.pelleritoudacity.android.rcapstone.paid"
+            }
+        }
+
     }
     buildTypes.each {
         //  REDDIT BASE URL  - url: https://www.reddit.com/prefs/apps/
@@ -22,22 +34,16 @@ android {
         it.buildConfigField 'String', 'YOUTUBE_DEVELOPER_KEY', '\""'
     }
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+        }
         release {
+            applicationIdSuffix ".release"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
-    flavorDimensions "default"
-
-    productFlavors {
-        free {
-            applicationId "info.pelleritoudacity.android.rcapstone.free"
-        }
-        paid {
-            applicationId "info.pelleritoudacity.android.rcapstone.paid"
-        }
-    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

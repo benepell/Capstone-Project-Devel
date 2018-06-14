@@ -18,13 +18,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".ui.activity.MainActivity">
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
         </activity>
+
+
         <activity android:name=".ui.activity.BaseActivity" />
         <activity
             android:name=".ui.activity.SettingsActivity"
@@ -72,7 +79,8 @@
             android:label="@string/title_activity_submanage"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
-        <activity android:name=".ui.activity.MediaYoutubeActivity"
+        <activity
+            android:name=".ui.activity.MediaYoutubeActivity"
             android:label="@string/title_activity_submanage"
             android:parentActivityName=".ui.activity.SubRedditActivity"
             android:theme="@style/AppTheme.NoActionBar">

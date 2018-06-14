@@ -31,8 +31,15 @@ import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
+
+import com.google.android.exoplayer2.util.Util;
+import com.mikepenz.iconics.IconicsDrawable;
+import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 
 import butterknife.BindView;
+import info.pelleritoudacity.android.rcapstone.BuildConfig;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.rest.RefreshTokenExecute;
 import info.pelleritoudacity.android.rcapstone.rest.RestExecute;
@@ -40,6 +47,8 @@ import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtils;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.SessionUtils.getRedditSessionExpired;
 
@@ -58,7 +67,9 @@ public class MainActivity extends BaseActivity
         setLayoutResource(R.layout.activity_main);
         super.onCreate(savedInstanceState);
 
-        mContext = getApplicationContext();
+        mContext = MainActivity.this;
+
+        startActivity(shortcutLancherIntent(mContext, getIntent().getAction()));
 
         initializeFirebaseDispatcherService();
         // todo remove
@@ -71,6 +82,36 @@ public class MainActivity extends BaseActivity
         intentRequest(getIntent(), intentDefaultCategory());
 
         PrefManager.putBoolPref(mContext, R.string.pref_volume_muted, Costants.IS_MUTED_AUDIO);
+
+        Timber.d("VALUE %s", BuildConfig.APPLICATION_ID);
+    }
+
+
+    private Intent shortcutLancherIntent(Context context, String intentAction) {
+
+        if ((context != null) && (Util.SDK_INT > 24) && (!TextUtils.isEmpty(intentAction))) {
+
+            if (intentAction.equals(context.getResources().getString(R.string.shortcut_intent_action_popular))) {
+                Intent intent = new Intent(context, SubRedditActivity.class);
+                intent.putExtra(Costants.EXTRA_SUBREDDIT_CATEGORY, Costants.SUBREDDIT_CATEGORY_POPULAR);
+                intent.putExtra(Costants.EXTRA_SUBREDDIT_TARGET, Costants.SUBREDDIT_TARGET_POPULAR);
+                return intent;
+
+            } else if (intentAction.equals(context.getResources().getString(R.string.shortcut_intent_action_all))) {
+                Intent intent = new Intent(context, SubRedditActivity.class);
+                intent.putExtra(Costants.EXTRA_SUBREDDIT_CATEGORY, Costants.SUBREDDIT_CATEGORY_ALL);
+                intent.putExtra(Costants.EXTRA_SUBREDDIT_TARGET, Costants.SUBREDDIT_TARGET_ALL);
+                return intent;
+
+
+            } else if (intentAction.equals(context.getResources().getString(R.string.shortcut_intent_action_search))) {
+
+
+            }
+
+        }
+
+        return new Intent(context, MainActivity.class);
 
     }
 

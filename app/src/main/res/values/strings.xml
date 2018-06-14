@@ -61,7 +61,7 @@
     <string name="title_youtube_player">Youtube Player</string>
     <string name="summary_youtube_player">Enabled youtube player.</string>
 
-    <string name="pref_sync_frequency" translatable="false">info.pelleritoudacity.android.rcapstonepref_sync_frequency</string>
+    <string name="pref_sync_frequency" translatable="false">info.pelleritoudacity.android.rcapstone.pref_sync_frequency</string>
     <string name="pref_title_sync_frequency" translatable="false">Sync Data</string>
     <string-array name="pref_sync_frequency_titles">
         <item>5 minutes</item>
@@ -146,6 +146,21 @@
     <string name="image_description_not_available">Description Not Available</string>
 
     <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
+
+    <string name="shortcut_intent_action_popular">info.pelleritoudacity.android.rcapstone.shortcut.action.popular</string>
+    <string name="shortcut_text_popular">Popular Reddit</string>
+    <string name="shortcut_long_text_popular">Shortcut long text popular</string>
+    <string name="shortcut_disabled_message_popular">shortcut disabled text popular</string>
+
+    <string name="shortcut_intent_action_all">info.pelleritoudacity.android.rcapstone.shortcut.action.all</string>
+    <string name="shortcut_text_all">All Reddit</string>
+    <string name="shortcut_long_text_all">Shortcut long text All</string>
+    <string name="shortcut_disabled_message_all">shortcut disabled text All</string>
+
+    <string name="shortcut_intent_action_search">info.pelleritoudacity.android.rcapstone.shortcut.action.search</string>
+    <string name="shortcut_text_search">Search Reddit</string>
+    <string name="shortcut_long_text_search">Shortcut long text Search</string>
+    <string name="shortcut_disabled_message_search">shortcut disabled text Search</string>
 
 
 </resources>

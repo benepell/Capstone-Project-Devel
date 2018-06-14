@@ -68,7 +68,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
     private MediaPlayer mMediaPlayer;
     private final ImaAdsLoader mImaAdsLoader;
-    private SubRedditFragment mListener;
+    private final SubRedditFragment mListener;
     private ImageButton[] mArrayButton;
 
     public SubRedditAdapter(SubRedditFragment listener, Context context, ImaAdsLoader imaAdsLoader) {
@@ -315,7 +315,6 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         }
 
     }
-
 
     public class SubRedditHolder extends RecyclerView.ViewHolder
             implements ItemTouchHelperViewHolder {
