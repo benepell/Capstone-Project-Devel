@@ -27,6 +27,8 @@
 package info.pelleritoudacity.android.rcapstone.service;
 
 
+import android.database.Observable;
+
 import java.util.Map;
 
 import info.pelleritoudacity.android.rcapstone.model.reddit.T3;
@@ -34,12 +36,15 @@ import info.pelleritoudacity.android.rcapstone.model.reddit.T5;
 import info.pelleritoudacity.android.rcapstone.model.reddit.RedditAboutMe;
 import info.pelleritoudacity.android.rcapstone.model.reddit.RedditToken;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.HeaderMap;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -49,7 +54,7 @@ public interface RedditAPI {
 
     @GET("/r/{subreddit_name}/.json")
     Call<T3> getSubReddit(
-            @Path(value = "subreddit_name",encoded = true) String subreddit_name
+            @Path(value = "subreddit_name", encoded = true) String subreddit_name
     );
 
     @FormUrlEncoded
@@ -67,4 +72,11 @@ public interface RedditAPI {
     @GET("/api/v1/me")
     Call<RedditAboutMe> getAboutMe(
             @Header(Costants.REDDIT_AUTHORIZATION) String authorization);
+
+    @FormUrlEncoded
+    @POST("/api/vote")
+    Call<ResponseBody> postVote(@HeaderMap Map<String, String> headers,
+                                @FieldMap Map<String, String> fields);
+
+
 }

@@ -30,9 +30,12 @@ import java.nio.charset.StandardCharsets;
 
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
+import info.pelleritoudacity.android.rcapstone.rest.VoteExecute;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MediaYoutubeActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtils;
+import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import okhttp3.ResponseBody;
 
 import static info.pelleritoudacity.android.rcapstone.utility.ImageUtils.isSmallImage;
 
@@ -121,7 +124,7 @@ public class SubRedditView {
     }
 
     public void vimeoVideoFirstFrame(MediaPlayer mediaPlayer, FrameLayout layout, ImageView imageView, ProgressBar progressBar,
-                                    String imageVimeoUrl , int imageVimeoWidth, int imageVimeoHeight,String videoVimeoUrl) {
+                                     String imageVimeoUrl, int imageVimeoWidth, int imageVimeoHeight, String videoVimeoUrl) {
         Glide.with(mContext)
                 .asBitmap()
                 .load(imageVimeoUrl)
@@ -248,7 +251,7 @@ public class SubRedditView {
 
     }
 
-    public void cardBottomLink(ImageButton[] arrayButton, String linkComments) {
+    public void cardBottomLink(ImageButton[] arrayButton, String linkComments, String subRedditIdText) {
 
         if ((arrayButton != null) && (arrayButton.length == 5)) {
 
@@ -264,6 +267,25 @@ public class SubRedditView {
                     .respectFontBounds(true));
 
             buttonVoteUp.setBackgroundColor(Color.WHITE);
+
+            buttonVoteUp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new VoteExecute( PrefManager.getStringPref(mContext, R.string.pref_session_access_token), "1", subRedditIdText)
+                            .postData(new VoteExecute.RestAccessToken() {
+                                @Override
+                                public void onRestVote(ResponseBody listenerData) {
+
+                                }
+
+                                @Override
+                                public void onErrorVote(Throwable t) {
+
+                                }
+                            });
+
+                }
+            });
 
             buttonVoteDown.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_thumb_down)
                     .color(Color.GRAY)

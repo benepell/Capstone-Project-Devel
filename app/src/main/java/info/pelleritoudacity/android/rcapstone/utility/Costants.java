@@ -43,7 +43,7 @@ public interface Costants {
     String REDDIT_STATE_RANDOM = BuildConfig.REDDIT_SECRET_STATE;
 
     String REDDIT_COMMENTS = "comments";
-
+    String USER_AGENT = "user-agent: ";
     String BASE_TYPE_YOUTUBE = "youtube.com";
     String BASE_TYPE_VIMEO = "vimeo.com";
 
