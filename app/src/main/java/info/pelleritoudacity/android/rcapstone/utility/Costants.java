@@ -41,9 +41,10 @@ public interface Costants {
     String REDDIT_REDIRECT_URL = BuildConfig.REDDIT_REDIRECT_URL;
     String REDDIT_ABOUT_URL = BuildConfig.REDDIT_ABOUT_URL;
     String REDDIT_STATE_RANDOM = BuildConfig.REDDIT_SECRET_STATE;
+    String PERMISSION_STATE_REDDIT = "identity, edit, flair, history, modconfig, modflair, modlog, modposts, modwiki, mysubreddits, privatemessages, read, report, save, submit, subscribe, vote, wikiedit, wikiread";
 
     String REDDIT_COMMENTS = "comments";
-    String USER_AGENT = "user-agent: ";
+
     String BASE_TYPE_YOUTUBE = "youtube.com";
     String BASE_TYPE_VIMEO = "vimeo.com";
 

@@ -13,10 +13,6 @@ public class VoteExecute {
     private ResponseBody mResponseBody;
 
     public VoteExecute(String code, String dir, String id) {
-        Timber.d("RESULTBEN code %s", code);
-        Timber.d("RESULTBEN dir %s", dir);
-        Timber.d("RESULTBEN id %s", id);
-
         mVoteManager = VoteManager.getInstance(code, dir, id);
 
     }
@@ -25,19 +21,13 @@ public class VoteExecute {
         Callback<ResponseBody> callback = new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                Timber.d("RESULTBEN %s", response.code());
-                if (response.isSuccessful()) {
-
-                    mResponseBody = response.body();
-                    myCallBack.onRestVote(mResponseBody);
-                }
+                myCallBack.onRestVote(response.code());
             }
 
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 call.cancel();
                 if (call.isCanceled()) {
-                    Timber.d("RESULTBEN %s",t.getCause());
                     myCallBack.onErrorVote(t);
                 }
             }
@@ -46,7 +36,7 @@ public class VoteExecute {
     }
 
     public interface RestAccessToken {
-        void onRestVote(ResponseBody listenerData);
+        void onRestVote(int responseCode);
         void onErrorVote(Throwable t);
     }
 }

@@ -34,6 +34,7 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.rest.RevokeTokenExecute;
 import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 
 public class LogoutActivity extends BaseActivity
@@ -45,9 +46,8 @@ public class LogoutActivity extends BaseActivity
         setLayoutResource(R.layout.activity_logout);
         super.onCreate(savedInstanceState);
 
-        String token = PrefManager.getStringPref(getApplicationContext(), R.string.pref_session_access_token);
-        if (!TextUtils.isEmpty(token)) {
-            new RevokeTokenExecute(token, Costants.REDDIT_ACCESS_TOKEN).RevokeTokenData(this);
+        if (PermissionUtils.isLogged(getApplicationContext())) {
+            new RevokeTokenExecute(PermissionUtils.getToken(getApplicationContext()), Costants.REDDIT_ACCESS_TOKEN).RevokeTokenData(this);
         }
     }
 

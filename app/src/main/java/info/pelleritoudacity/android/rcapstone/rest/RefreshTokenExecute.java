@@ -34,6 +34,7 @@ import java.util.Objects;
 
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.model.reddit.RedditToken;
+import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -79,7 +80,7 @@ public class RefreshTokenExecute {
                     String strRefreshToken = mRedditToken.getRefresh_token();
                     long expired = mRedditToken.getExpires_in();
                     if (!TextUtils.isEmpty(strAccessToken) && expired > 0) {
-                        PrefManager.putStringPref(context, R.string.pref_session_access_token, strAccessToken);
+                        PermissionUtils.setToken(context,strAccessToken);
                         if (!TextUtils.isEmpty(strRefreshToken)) {
                             PrefManager.putStringPref(context, R.string.pref_session_refresh_token, strRefreshToken);
                         }

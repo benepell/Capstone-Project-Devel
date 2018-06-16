@@ -75,8 +75,10 @@ public interface RedditAPI {
 
     @FormUrlEncoded
     @POST("/api/vote")
-    Call<ResponseBody> postVote(@HeaderMap Map<String, String> headers,
-                                @FieldMap Map<String, String> fields);
+    @Headers("User-Agent: " + Costants.REDDIT_USER_AGENT)
+    Call<ResponseBody> postVote(@Header("Authorization") String authorization,
+                                @Field("dir") String dir,
+                                @Field("id") String nameReddit);
 
 
 }

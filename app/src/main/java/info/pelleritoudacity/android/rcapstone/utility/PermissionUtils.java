@@ -32,6 +32,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 
 import info.pelleritoudacity.android.rcapstone.R;
 
@@ -60,6 +61,22 @@ public class PermissionUtils {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             thisActivity.getSharedPreferences(thisActivity.getString(R.string.pref_write_external_storage), 0).edit().clear().apply();
 
+        }
+    }
+
+    public static boolean isLogged(Context context) {
+        String token = PrefManager.getStringPref(context, R.string.pref_session_access_token);
+
+        return !TextUtils.isEmpty(token);
+    }
+
+    public static String getToken(Context context) {
+        return context != null ? PrefManager.getStringPref(context, R.string.pref_session_access_token) : null;
+    }
+
+    public static void setToken(Context context, String token) {
+        if (context != null) {
+            PrefManager.putStringPref(context, R.string.pref_session_access_token, token);
         }
     }
 

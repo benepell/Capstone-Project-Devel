@@ -1,5 +1,6 @@
 package info.pelleritoudacity.android.rcapstone.rest;
 
+
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -19,16 +20,16 @@ public class VoteManager {
     private static VoteManager sVoteManager;
     private final String mAccessToken;
     private final String mDir;
-    private final String mId;
+    private final String mNameReddit;
     private HashMap<String, String>mHearderMap;
     private HashMap<String, String> mFieldMap;
     private Call<ResponseBody> mCall;
 
-    private VoteManager(String token, String dir, String id) {
+    private VoteManager(String token, String dir, String nameReddit) {
 
         mAccessToken = token;
         mDir = dir;
-        mId = id;
+        mNameReddit = nameReddit;
 
         mHearderMap = new HashMap<>();
         mHearderMap.put("User-Agent", Costants.REDDIT_USER_AGENT);
@@ -36,11 +37,11 @@ public class VoteManager {
 
         mFieldMap = new HashMap<>();
         mFieldMap.put("dir", mDir);
-        mFieldMap.put("id", mId);
+        mFieldMap.put("id", mNameReddit);
 
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         // todo remove interceptor
-        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS);
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(Costants.OK_HTTP_CONNECTION_TIMEOUT, TimeUnit.SECONDS)
@@ -48,6 +49,7 @@ public class VoteManager {
                 .writeTimeout(Costants.OK_HTTP_CONNECTION_WRITE_TIMEOUT, TimeUnit.SECONDS)
                 .addInterceptor(httpLoggingInterceptor)
                 .build();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Costants.REDDIT_OAUTH_URL)
                 .client(okHttpClient)
@@ -58,17 +60,17 @@ public class VoteManager {
 
     }
 
-    public static VoteManager getInstance(String accessToken, String dir, String id) {
+    public static VoteManager getInstance(String accessToken, String dir, String nameReddit) {
         if (sVoteManager != null) {
             sVoteManager.cancelRequest();
         }
 
-        sVoteManager = new VoteManager(accessToken, dir, id);
+        sVoteManager = new VoteManager(accessToken, dir, nameReddit);
         return sVoteManager;
     }
 
     public void getVoteAPI(Callback<ResponseBody> callback) {
-        mCall = sVoteAPI.postVote(mHearderMap,mFieldMap);
+        mCall = sVoteAPI.postVote(Costants.REDDIT_BEARER + mAccessToken, mDir,mNameReddit);
         mCall.enqueue(callback);
     }
 

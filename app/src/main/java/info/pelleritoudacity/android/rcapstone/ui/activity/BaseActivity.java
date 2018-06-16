@@ -61,7 +61,9 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.model.reddit.RedditAboutMe;
 import info.pelleritoudacity.android.rcapstone.rest.AboutMeExecute;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.TextUtil.stringToArray;
@@ -106,11 +108,11 @@ public class BaseActivity extends AppCompatActivity
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        if(PrefManager.isGeneralSettings(getApplicationContext(),getString(R.string.pref_night_mode))){
+        if (PrefManager.isGeneralSettings(getApplicationContext(), getString(R.string.pref_night_mode))) {
             AppCompatDelegate
                     .setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
-        }else {
+        } else {
             AppCompatDelegate
                     .setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
@@ -128,10 +130,9 @@ public class BaseActivity extends AppCompatActivity
             mNavHeaderView = navigationView.inflateHeaderView(R.layout.nav_header_base);
         }
 
-        String accessToken = PrefManager.getStringPref(this, R.string.pref_session_access_token);
 
-        if (!TextUtils.isEmpty(accessToken)) {
-            new AboutMeExecute(accessToken).loginData(this);
+        if (PermissionUtils.isLogged(getApplicationContext())) {
+            new AboutMeExecute(PermissionUtils.getToken(getApplicationContext())).loginData(this);
         }
 
 
@@ -390,7 +391,7 @@ public class BaseActivity extends AppCompatActivity
                 stringLink = prefString;
             }
 
-             mTabArrayList= stringToArray(stringLink);
+            mTabArrayList = stringToArray(stringLink);
 
             int groupId = menu.findItem(R.id.nav_mode_subs).getGroupId();
 

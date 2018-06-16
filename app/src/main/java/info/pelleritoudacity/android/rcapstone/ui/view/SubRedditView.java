@@ -15,10 +15,12 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -34,14 +36,15 @@ import info.pelleritoudacity.android.rcapstone.rest.VoteExecute;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MediaYoutubeActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtils;
+import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
-import okhttp3.ResponseBody;
 
 import static info.pelleritoudacity.android.rcapstone.utility.ImageUtils.isSmallImage;
 
 public class SubRedditView {
 
     private final Context mContext;
+    private static String sButtonSelected;
 
     public SubRedditView(Context context) {
         mContext = context;
@@ -251,7 +254,7 @@ public class SubRedditView {
 
     }
 
-    public void cardBottomLink(ImageButton[] arrayButton, String linkComments, String subRedditIdText) {
+    public void cardBottomLink(ImageButton[] arrayButton, String linkComments, String nameReddit) {
 
         if ((arrayButton != null) && (arrayButton.length == 5)) {
 
@@ -268,25 +271,6 @@ public class SubRedditView {
 
             buttonVoteUp.setBackgroundColor(Color.WHITE);
 
-            buttonVoteUp.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    new VoteExecute( PrefManager.getStringPref(mContext, R.string.pref_session_access_token), "1", subRedditIdText)
-                            .postData(new VoteExecute.RestAccessToken() {
-                                @Override
-                                public void onRestVote(ResponseBody listenerData) {
-
-                                }
-
-                                @Override
-                                public void onErrorVote(Throwable t) {
-
-                                }
-                            });
-
-                }
-            });
-
             buttonVoteDown.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_thumb_down)
                     .color(Color.GRAY)
                     .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
@@ -294,12 +278,38 @@ public class SubRedditView {
 
             buttonVoteDown.setBackgroundColor(Color.WHITE);
 
+            buttonVoteUp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (PermissionUtils.isLogged(mContext)) {
+                        String v1 = nameReddit + ",1";
+                        selectVote(buttonVoteUp, "1", nameReddit);
+
+                    } else {
+                        Toast.makeText(mContext, "Please Login ", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+
+
             buttonStars.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_star_border)
                     .color(Color.GRAY)
                     .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
                     .respectFontBounds(true));
 
             buttonStars.setBackgroundColor(Color.WHITE);
+
+            buttonVoteDown.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (PermissionUtils.isLogged(mContext)) {
+                        selectVote(buttonVoteDown, "-1", nameReddit);
+
+                    } else {
+                        Toast.makeText(mContext, "Please Login ", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
 
             buttonComments.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_comment_outline)
                     .color(Color.GRAY)
@@ -323,5 +333,24 @@ public class SubRedditView {
         }
     }
 
+
+    private void selectVote(ImageButton imageButton, String vote, String nameReddit) {
+
+        new VoteExecute(PermissionUtils.getToken(mContext), vote, nameReddit)
+                .postData(new VoteExecute.RestAccessToken() {
+                    @Override
+                    public void onRestVote(int responseCode) {
+                        if (responseCode == 200) {
+                            imageButton.setColorFilter(Color.BLUE);
+                        }
+                    }
+
+                    @Override
+                    public void onErrorVote(Throwable t) {
+
+                    }
+                });
+
+    }
 
 }

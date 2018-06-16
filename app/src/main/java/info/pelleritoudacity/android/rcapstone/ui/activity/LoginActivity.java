@@ -44,6 +44,7 @@ import info.pelleritoudacity.android.rcapstone.model.reddit.RedditToken;
 import info.pelleritoudacity.android.rcapstone.rest.AccessTokenExecute;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtils;
+import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import timber.log.Timber;
 
@@ -93,7 +94,7 @@ public class LoginActivity extends BaseActivity {
                 )
 
                 .appendQueryParameter("duration", "permanent")
-                .appendQueryParameter("scope", "identity");
+                .appendQueryParameter("scope", Costants.PERMISSION_STATE_REDDIT);
 
         return builder.build().toString();
     }
@@ -132,7 +133,7 @@ public class LoginActivity extends BaseActivity {
                                         long expired = listenerData.getExpires_in();
 
                                         if (!TextUtils.isEmpty(strAccessToken) && !TextUtils.isEmpty(strRefreshToken)) {
-                                            PrefManager.putStringPref(getApplicationContext(), R.string.pref_session_access_token, strAccessToken);
+                                            PermissionUtils.setToken(getApplicationContext(), strAccessToken);
                                             PrefManager.putStringPref(getApplicationContext(), R.string.pref_session_refresh_token, strRefreshToken);
                                             PrefManager.putIntPref(getApplicationContext(), R.string.pref_session_expired, (int) expired);
                                             PrefManager.putLongPref(getApplicationContext(), R.string.pref_time_token, System.currentTimeMillis());

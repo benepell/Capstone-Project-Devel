@@ -104,6 +104,9 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         String nameIdReddit = mCursor.getString(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_ID));
 
+        String nameReddit = mCursor.getString(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_NAME));
+
         String subRedditIdText = mCursor.getString(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_ID));
 
@@ -112,9 +115,6 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
         String subRedditNamePrefix = mCursor.getString(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_NAME_PREFIXE));
-
-        String subRedditName = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_NAME));
 
         int subRedditSubscriptions = mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_SUBSCRIBERS));
@@ -298,7 +298,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         );
 
         subRedditView.cardBottomLink(mArrayButton,
-                TextUtil.buildCommentLink(subRedditNamePrefix, nameIdReddit),subRedditName);
+                TextUtil.buildCommentLink(subRedditNamePrefix, nameIdReddit),nameReddit);
 
         holder.bind(holder.getAdapterPosition());
 
