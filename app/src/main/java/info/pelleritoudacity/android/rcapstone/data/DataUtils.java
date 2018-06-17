@@ -35,6 +35,7 @@ import android.text.TextUtils;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import timber.log.Timber;
 
 public class DataUtils {
@@ -342,6 +343,38 @@ public class DataUtils {
 
         return count > 0;
     }
+
+    public boolean updateVote(int numVotes, String actionVote, String nameId) {
+
+        int count;
+
+        if((TextUtils.isEmpty(actionVote))&&(TextUtils.isEmpty(nameId))){
+            return false;
+        }
+
+        switch (actionVote) {
+            case "-1":
+                numVotes -= 1;
+                break;
+            case "1":
+                numVotes += 1;
+                break;
+            default:
+                return false;
+        }
+
+        Uri uri = Contract.T3dataEntry.CONTENT_URI;
+        String where = Contract.T3dataEntry.COLUMN_NAME_NAME + " =?";
+        String[] selectionArgs = {nameId};
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Contract.T3dataEntry.COLUMN_NAME_SCORE, numVotes);
+
+        count = mContext.getContentResolver().update(uri, contentValues, where, selectionArgs);
+
+        return count > 0;
+    }
+
 
     public void clearDataPrivacy() {
         clearDataAll();
