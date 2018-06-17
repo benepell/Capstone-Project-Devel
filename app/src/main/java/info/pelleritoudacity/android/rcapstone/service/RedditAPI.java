@@ -47,6 +47,7 @@ import retrofit2.http.HeaderMap;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.QueryMap;
 
 public interface RedditAPI {
     @GET("/r/.json")
@@ -55,6 +56,14 @@ public interface RedditAPI {
     @GET("/r/{subreddit_name}/.json")
     Call<T3> getSubReddit(
             @Path(value = "subreddit_name", encoded = true) String subreddit_name
+    );
+
+    @GET("/r/{subreddit_name}/comments/{id}")
+    @Headers("User-Agent: " + Costants.REDDIT_USER_AGENT)
+    Call<T3> getComments(@Header("Authorization") String authorization,
+            @Path(value = "subreddit_name", encoded = true) String subreddit_name,
+            @Path(value = "id", encoded = true) String strId,
+            @QueryMap Map<String, String> options
     );
 
     @FormUrlEncoded

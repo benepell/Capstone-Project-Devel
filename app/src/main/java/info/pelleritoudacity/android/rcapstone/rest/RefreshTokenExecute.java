@@ -94,7 +94,7 @@ public class RefreshTokenExecute {
             @Override
             public void onFailure(@NonNull Call<RedditToken> call, @NonNull Throwable t) {
                 call.cancel();
-                Timber.e("Sync Data Token Refresh failure %s", t.getMessage());
+                Timber.e("Sync T1Data Token Refresh failure %s", t.getMessage());
             }
         };
         refreshTokenManager.getLoginAPI(callback);
