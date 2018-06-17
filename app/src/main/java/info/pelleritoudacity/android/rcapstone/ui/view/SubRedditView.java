@@ -379,7 +379,9 @@ public class SubRedditView {
             buttonComments.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    new CommentsExecute(PermissionUtils.getToken(mContext),subRedditName,nameRedditId).getData(new CommentsExecute.RestSubReddit() {
+                    new CommentsExecute(mContext, PermissionUtils.getToken(mContext),
+                            subRedditName, nameRedditId).getData(new CommentsExecute.RestSubReddit() {
+
                         @Override
                         public void onRestSubReddit(List<T1> listenerData) {
 
@@ -392,8 +394,6 @@ public class SubRedditView {
                     });
                 }
             });
-
-
 
             buttonOpenBrowser.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_open_in_browser)
                     .color(Color.GRAY)
