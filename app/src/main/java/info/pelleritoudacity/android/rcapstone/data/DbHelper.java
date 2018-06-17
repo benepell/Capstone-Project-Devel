@@ -274,10 +274,100 @@ class DbHelper extends SQLiteOpenHelper {
                         ");";
 
 
+        final String SQL_CREATE_T1DATA_TABLE =
+                "CREATE TABLE IF NOT EXISTS " + Contract.T1dataEntry.TABLE_NAME + " (" +
+                        Contract.T1dataEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_TIME_LAST_MODIFIED + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
+                        Contract.T1dataEntry.COLUMN_NAME_ISCROSSPOSTABLE + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_SUBREDDIT + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_SUBREDDITID + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_APPROVEDATUTC + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_WLS + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_MODREASONBY + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_BANNEDBY + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_NUMREPORTS + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_REMOVALREASON + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_THUMBNAILWIDTH + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_SELFTEXTHTML + " INTEGER NOT NULL, " +
+                        Contract.T1dataEntry.COLUMN_NAME_LIKES + " TEXT , " +
+                        Contract.T1dataEntry.COLUMN_NAME_SUGGESTEDSORT + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_USERREPORTS + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_SECUREMEDIA + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_ISREDDITMEDIADOMAIN + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_SAVED + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_ID + " TEXT NOT NULL, " +
+                        Contract.T1dataEntry.COLUMN_NAME_CHILDREN_ID + " TEXT NOT NULL, " +
+                        Contract.T1dataEntry.COLUMN_NAME_BANNEDATUTC + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_MODREASONTITLE + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_VIEWCOUNT + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_ARCHIVED + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_CLICKED + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_NOFOLLOW + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_AUTHOR + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_NUMCROSSPOSTS + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_LINKFLAIRTEXT + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_CANMODPOST + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_SENDREPLIES + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_PINNED + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_SCORE + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_APPROVEDBY + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_OVER18 + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_REPORTREASONS + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_DOMAIN + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_HIDDEN + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_PREVIEW + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_PWLS + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_THUMBNAIL + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_EDITED + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_LINKFLAIRCSSCLASS + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_CONTESTMODE + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_GILDED + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_LOCKED + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_DOWNS + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_MODREPORTS + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_SUBREDDITSUBSCRIBERS + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_SECUREMEDIAEMBED + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_MEDIAEMBED + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_STICKIED + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_VISITED + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_CANGILD + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_THUMBNAILHEIGHT + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_NAME + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_SPOILER + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_PERMALINK + " BLOB, " +
+                        Contract.T1dataEntry.COLUMN_NAME_SUBREDDITTYPE + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_PARENTWHITELISTSTATUS + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_HIDESCORE + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_CREATED + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_URL + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_AUTHORFLAIRTEXT + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_QUARANTINE + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_TITLE + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_CREATEDUTC + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_SUBREDDITNAMEPREFIXED + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_UPS + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_NUMCOMMENTS + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_ISSELF + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_WHITELISTSTATUS + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_MODNOTE + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_MEDIA + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_ISVIDEO + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_DISTINGUISHED + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_SELFTEXT + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_AUTHORFLAIRCSSCLASS + " TEXT, " +
+
+                        " UNIQUE (" + Contract.T1dataEntry.COLUMN_NAME_ID + ")" + " ON CONFLICT REPLACE, " +
+                        " FOREIGN KEY (" + Contract.T1dataEntry.COLUMN_NAME_CHILDREN_ID + ") REFERENCES " +
+                        Contract.DataEntry.TABLE_NAME + "(" + Contract.DataEntry._ID + ")" +
+                        ");";
+
+
+
         db.execSQL(SQL_CREATE_REDDIT_TABLE);
         db.execSQL(SQL_CREATE_DATA_TABLE);
         db.execSQL(SQL_CREATE_T5DATA_TABLE);
         db.execSQL(SQL_CREATE_T3DATA_TABLE);
+        db.execSQL(SQL_CREATE_T1DATA_TABLE);
         db.execSQL(SQL_CREATE_PREFSUBREDDIT_TABLE);
 
       /*  Timber.d("SQL STATEMENT:  " +
