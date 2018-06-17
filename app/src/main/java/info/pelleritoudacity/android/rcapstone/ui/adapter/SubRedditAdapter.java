@@ -298,7 +298,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         );
 
         subRedditView.cardBottomLink(mArrayButton,
-                TextUtil.buildCommentLink(subRedditNamePrefix, nameIdReddit),nameReddit);
+                TextUtil.buildCommentLink(subRedditNamePrefix, nameIdReddit),nameReddit,subReddit,nameIdReddit);
 
         holder.bind(holder.getAdapterPosition());
 

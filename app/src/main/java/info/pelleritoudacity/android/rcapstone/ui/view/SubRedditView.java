@@ -28,13 +28,15 @@ import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.DataUtils;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
+import info.pelleritoudacity.android.rcapstone.model.reddit.T1;
+import info.pelleritoudacity.android.rcapstone.rest.CommentsExecute;
 import info.pelleritoudacity.android.rcapstone.rest.VoteExecute;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MediaYoutubeActivity;
-import info.pelleritoudacity.android.rcapstone.ui.adapter.SubRedditAdapter;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtils;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
@@ -253,7 +255,7 @@ public class SubRedditView {
 
     }
 
-    public void cardBottomLink(ImageButton[] arrayButton, String linkComments, String nameReddit) {
+    public void cardBottomLink(ImageButton[] arrayButton, String linkComments, String nameReddit, String subRedditName, String nameRedditId) {
 
         if ((arrayButton != null) && (arrayButton.length == 5)) {
 
@@ -360,7 +362,6 @@ public class SubRedditView {
                 }
             });
 
-
             buttonStars.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_star_border)
                     .color(Color.GRAY)
                     .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
@@ -368,13 +369,31 @@ public class SubRedditView {
 
             buttonStars.setBackgroundColor(Color.WHITE);
 
-
             buttonComments.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_comment_outline)
                     .color(Color.GRAY)
                     .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
                     .respectFontBounds(true));
 
             buttonComments.setBackgroundColor(Color.WHITE);
+
+            buttonComments.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new CommentsExecute(PermissionUtils.getToken(mContext),subRedditName,nameRedditId).getData(new CommentsExecute.RestSubReddit() {
+                        @Override
+                        public void onRestSubReddit(List<T1> listenerData) {
+
+                        }
+
+                        @Override
+                        public void onErrorSubReddit(Throwable t) {
+
+                        }
+                    });
+                }
+            });
+
+
 
             buttonOpenBrowser.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_open_in_browser)
                     .color(Color.GRAY)

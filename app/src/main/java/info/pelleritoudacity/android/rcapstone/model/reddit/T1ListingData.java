@@ -44,9 +44,11 @@ public class T1ListingData implements Parcelable
     @SerializedName("no_follow")
     @Expose
     private Boolean noFollow;
-    @SerializedName("replies")
+    // todo replies problem
+    /*@SerializedName("replies")
     @Expose
     private Replies replies;
+    */
     @SerializedName("user_reports")
     @Expose
     private List<Object> userReports = null;
@@ -97,7 +99,7 @@ public class T1ListingData implements Parcelable
     private String body;
     @SerializedName("edited")
     @Expose
-    private Boolean edited;
+    private Object edited;
     @SerializedName("author_flair_css_class")
     @Expose
     private Object authorFlairCssClass;
@@ -211,7 +213,7 @@ public class T1ListingData implements Parcelable
         this.authorFlairTemplateId = ((String) in.readValue((String.class.getClassLoader())));
         this.likes = ((Object) in.readValue((Object.class.getClassLoader())));
         this.noFollow = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
-        this.replies = ((Replies) in.readValue((Replies.class.getClassLoader())));
+//        this.replies = ((Replies) in.readValue((Replies.class.getClassLoader())));
         in.readList(this.userReports, (java.lang.Object.class.getClassLoader()));
         this.saved = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         this.id = ((String) in.readValue((String.class.getClassLoader())));
@@ -228,7 +230,7 @@ public class T1ListingData implements Parcelable
         this.approvedBy = ((Object) in.readValue((Object.class.getClassLoader())));
         this.downs = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.body = ((String) in.readValue((String.class.getClassLoader())));
-        this.edited = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
+        this.edited = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.authorFlairCssClass = ((Object) in.readValue((Object.class.getClassLoader())));
         this.collapsed = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         in.readList(this.authorFlairRichtext, (java.lang.Object.class.getClassLoader()));
@@ -350,14 +352,14 @@ public class T1ListingData implements Parcelable
         this.noFollow = noFollow;
     }
 
-    public Replies getReplies() {
+    /*public Replies getReplies() {
         return replies;
     }
 
     public void setReplies(Replies replies) {
         this.replies = replies;
     }
-
+    */
     public List<Object> getUserReports() {
         return userReports;
     }
@@ -486,11 +488,11 @@ public class T1ListingData implements Parcelable
         this.body = body;
     }
 
-    public Boolean getEdited() {
+    public Object getEdited() {
         return edited;
     }
 
-    public void setEdited(Boolean edited) {
+    public void setEdited(Object edited) {
         this.edited = edited;
     }
 
@@ -730,7 +732,7 @@ public class T1ListingData implements Parcelable
         dest.writeValue(authorFlairTemplateId);
         dest.writeValue(likes);
         dest.writeValue(noFollow);
-        dest.writeValue(replies);
+//        dest.writeValue(replies);
         dest.writeList(userReports);
         dest.writeValue(saved);
         dest.writeValue(id);
