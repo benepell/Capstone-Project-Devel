@@ -269,7 +269,6 @@ public class SubRedditView {
                     .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
                     .respectFontBounds(true));
 
-
             buttonVoteUp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -290,10 +289,11 @@ public class SubRedditView {
                                             buttonVoteUp.setActivated(true);
                                             if (finalVote.equals("1")) {
                                                 DataUtils dataUtils = new DataUtils(mContext);
-                                                    buttonVoteUp.setColorFilter(Color.BLUE);
+                                                buttonVoteUp.setColorFilter(Color.BLUE);
 
 
                                             } else {
+                                                buttonVoteUp.setActivated(false);
                                                 buttonVoteUp.setColorFilter(Color.GRAY);
 
                                             }
@@ -312,7 +312,6 @@ public class SubRedditView {
                     }
                 }
             });
-
 
             buttonVoteDown.setBackgroundColor(Color.WHITE);
             buttonVoteDown.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_thumb_down)
@@ -340,8 +339,9 @@ public class SubRedditView {
                                             buttonVoteDown.setActivated(true);
                                             if (finalVote.equals("-1")) {
                                                 DataUtils dataUtils = new DataUtils(mContext);
-                                                    buttonVoteDown.setColorFilter(Color.BLUE);
+                                                buttonVoteDown.setColorFilter(Color.BLUE);
                                             } else {
+                                                buttonVoteDown.setActivated(false);
                                                 buttonVoteDown.setColorFilter(Color.GRAY);
 
                                             }
@@ -353,7 +353,6 @@ public class SubRedditView {
 
                                     }
                                 });
-
 
                     } else {
                         Toast.makeText(mContext, "Please Login ", Toast.LENGTH_LONG).show();
