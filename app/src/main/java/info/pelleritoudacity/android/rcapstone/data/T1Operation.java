@@ -356,6 +356,8 @@ public class T1Operation {
             dataUtils.putNullCV(cv, Contract.T1dataEntry.COLUMN_NAME_HIDESCORE,
                     Utility.boolToInt(repliesListingData.getScoreHidden()));
 
+
+
             Uri uriReplies = mContext.getContentResolver().insert(Contract.T1dataEntry.CONTENT_URI, cv);
         }
 

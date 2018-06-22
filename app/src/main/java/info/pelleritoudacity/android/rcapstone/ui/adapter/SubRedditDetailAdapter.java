@@ -7,12 +7,16 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,6 +25,8 @@ import info.pelleritoudacity.android.rcapstone.data.Contract;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditDetailFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.DateUtils;
+import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import timber.log.Timber;
 
 public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetailAdapter.SubRedditDetailHolder> {
@@ -109,7 +115,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         String gilded = mCursor.getString(
                 mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_GILDED));
 
-        String created = mCursor.getString(
+        int created = mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_CREATED));
 
         String score = mCursor.getString(
@@ -121,7 +127,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         String subRedditType = mCursor.getString(
                 mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_SUBREDDITTYPE));
 
-        String createdUtc = mCursor.getString(
+        int createdUtc = mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_CREATEDUTC));
 
         String body = mCursor.getString(
@@ -143,10 +149,10 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
                 mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_DEPTH));
 
 
-        if (author != null) holder.mTextViewAuthor.setText(author);
-        holder.mTextViewPostedOn.setText("postedon");
-        holder.mTextViewPoints.setText("poing");
-        if (body != null) holder.mTextViewBody.setText(body);
+        if (!TextUtils.isEmpty(author)) holder.mTextViewAuthor.setText(author + ":");
+        holder.mTextViewPostedOn.setText(String.valueOf(DateUtils.getHourCurrentCreatedUtc(createdUtc)));
+        holder.mTextViewPoints.setText(score);
+        if (!TextUtils.isEmpty(body)) holder.mTextViewBody.setText(TextUtil.textFromHtml(body));
 
         holder.mCardLinear.setPadding(Costants.LEVEL_DEPTH_PADDING * depth, 0, 0, 0);
 

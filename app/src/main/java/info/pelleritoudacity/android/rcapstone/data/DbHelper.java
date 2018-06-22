@@ -342,13 +342,13 @@ class DbHelper extends SQLiteOpenHelper {
                         Contract.T1dataEntry.COLUMN_NAME_SUBREDDITTYPE + " TEXT, " +
                         Contract.T1dataEntry.COLUMN_NAME_PARENTWHITELISTSTATUS + " TEXT, " +
                         Contract.T1dataEntry.COLUMN_NAME_HIDESCORE + " TEXT, " +
-                        Contract.T1dataEntry.COLUMN_NAME_CREATED + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_CREATED + " INTEGER DEFAULT 0, " +
                         Contract.T1dataEntry.COLUMN_NAME_URL + " TEXT, " +
                         Contract.T1dataEntry.COLUMN_NAME_AUTHORFLAIRTEXT + " TEXT, " +
                         Contract.T1dataEntry.COLUMN_NAME_QUARANTINE + " INTEGER DEFAULT 0, " +
                         Contract.T1dataEntry.COLUMN_NAME_TITLE + " TEXT, " +
                         Contract.T1dataEntry.COLUMN_NAME_DEPTH + " INTEGER DEFAULT 0, " +
-                        Contract.T1dataEntry.COLUMN_NAME_CREATEDUTC + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_CREATEDUTC + " INTEGER DEFAULT 0, " +
                         Contract.T1dataEntry.COLUMN_NAME_SUBREDDITNAMEPREFIXED + " TEXT, " +
                         Contract.T1dataEntry.COLUMN_NAME_UPS + " INTEGER DEFAULT 0, " +
                         Contract.T1dataEntry.COLUMN_NAME_NUMCOMMENTS + " INTEGER DEFAULT 0, " +
