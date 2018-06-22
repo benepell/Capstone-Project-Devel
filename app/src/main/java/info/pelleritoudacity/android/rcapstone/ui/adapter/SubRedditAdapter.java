@@ -60,6 +60,7 @@ import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
 import static info.pelleritoudacity.android.rcapstone.utility.DateUtils.getHourCurrentCreatedUtc;
+import static info.pelleritoudacity.android.rcapstone.utility.DateUtils.getStringCurrentCreatedUtd;
 import static info.pelleritoudacity.android.rcapstone.utility.ImageUtils.isSmallImage;
 import static info.pelleritoudacity.android.rcapstone.utility.NumberUtils.numberFormat;
 
@@ -182,24 +183,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         int thumbnailOembedHeight = mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_HEIGHT));
 
-
-        String strDiffCurrentUtc;
-        int hourCurrentUtc = getHourCurrentCreatedUtc(createdUtc);
-
-        if (hourCurrentUtc < 24) {
-
-            if (hourCurrentUtc < 1) {
-                hourCurrentUtc = 1;
-            }
-
-            strDiffCurrentUtc = String.valueOf(hourCurrentUtc) + " " + mContext.getString(R.string.abbr_hour_text);
-
-        } else {
-            strDiffCurrentUtc = String.valueOf(Math.round(hourCurrentUtc / 24)) + " " + mContext.getString(R.string.abbr_day_text);
-
-        }
-
-        holder.mTextViewCreatedUtc.setText(strDiffCurrentUtc);
+        holder.mTextViewCreatedUtc.setText(getStringCurrentCreatedUtd(mContext,createdUtc));
         SubRedditHelper subRedditHelper = new SubRedditHelper(mContext);
 
         int mediaType = 0;

@@ -25,11 +25,15 @@
  */
 package info.pelleritoudacity.android.rcapstone.utility;
 
+import android.content.Context;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+
+import info.pelleritoudacity.android.rcapstone.R;
 
 public class DateUtils {
 
@@ -38,6 +42,25 @@ public class DateUtils {
         Long diffTime = now / 1000 - createdUtc;
         return Math.round(diffTime / 3600);
     }
+
+    public static String getStringCurrentCreatedUtd(Context context, long createdUtc) {
+
+        int hourCurrentUtc = getHourCurrentCreatedUtc(createdUtc);
+
+        if (hourCurrentUtc < 24) {
+
+            if (hourCurrentUtc < 1) {
+                hourCurrentUtc = 1;
+            }
+
+            return String.valueOf(hourCurrentUtc) + " " + context.getString(R.string.abbr_hour_text);
+
+        }
+
+        return String.valueOf(Math.round(hourCurrentUtc / 24)) + " " + context.getString(R.string.abbr_day_text);
+
+    }
+
 
     public static int getSecondsTimeStamp(String timestamp) {
 
