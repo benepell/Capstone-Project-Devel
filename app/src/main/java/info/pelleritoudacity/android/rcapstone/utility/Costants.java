@@ -68,6 +68,7 @@ public interface Costants {
 
     int REDDIT_LOADER_ID = 1;
     int SUBREDDIT_LOADER_ID = 2;
+    int SUBREDDIT_DETAIL_LOADER_ID = 3;
 
     int NAV_MODE_HOME = 0;
     int NAV_MODE_SUBSCRIPTIONS = 4;
@@ -84,7 +85,11 @@ public interface Costants {
     String EXTRA_LOGOUT_SUCCESS = "info.pelleritoudacity.android.rcapstone.extra.logout.success";
 
     String EXTRA_SUBREDDIT_CATEGORY = "info.pelleritoudacity.android.rcapstone.extra.subreddit.category";
+    String EXTRA_SUBREDDIT_DETAIL_CATEGORY = "info.pelleritoudacity.android.rcapstone.extra.subreddit.detail.category";
+    String EXTRA_SUBREDDIT_DETAIL_STR_ID = "info.pelleritoudacity.android.rcapstone.extra.subreddit.detail.str.id";
+    String EXTRA_SUBREDDIT_DETAIL_POSITION = "info.pelleritoudacity.android.rcapstone.extra.subreddit.detail.position";
     String EXTRA_FRAGMENT_SUBREDDIT = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit";
+    String EXTRA_FRAGMENT_SUBREDDIT_DETAIL = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.detail";
     String EXTRA_FRAGMENT_TARGET = "info.pelleritoudacity.android.rcapstone.extra.fragment.target";
     String EXTRA_FRAGMENT_STATE = "info.pelleritoudacity.android.rcapstone.extra.fragment.state";
 
@@ -157,5 +162,19 @@ public interface Costants {
 
     String PATTERN_HH_MM_SS = "HH:mm:ss";
     String PATTERN_MM_SS = "mm:ss";
+
+    String STR_PARENT_COMMENT = "t3_";
+    String LIMIT_COMMENTS_RESULTS = "20";
+    String LIMIT_DEPTH_RESULTS = "4";
+
+    String LIMIT_REDDIT_RESULTS = "30";
+
+    String COLOR_INDICATOR_0 = "#FF1744";
+    String COLOR_INDICATOR_1 = "#2979FF";
+    String COLOR_INDICATOR_2 = "#76FF03";
+    String COLOR_INDICATOR_3 = "#FFEA00";
+    String COLOR_INDICATOR_4 = "#3D5AFE";
+
+
 
 }

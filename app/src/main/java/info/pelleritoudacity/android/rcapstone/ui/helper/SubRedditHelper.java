@@ -1,4 +1,4 @@
-package info.pelleritoudacity.android.rcapstone.ui.view;
+package info.pelleritoudacity.android.rcapstone.ui.helper;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -28,13 +28,10 @@ import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.DataUtils;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
-import info.pelleritoudacity.android.rcapstone.model.reddit.T1;
-import info.pelleritoudacity.android.rcapstone.rest.CommentsExecute;
 import info.pelleritoudacity.android.rcapstone.rest.VoteExecute;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MediaYoutubeActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
@@ -43,11 +40,11 @@ import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
 
 import static info.pelleritoudacity.android.rcapstone.utility.ImageUtils.isSmallImage;
 
-public class SubRedditView {
+public class SubRedditHelper {
 
     private final Context mContext;
 
-    public SubRedditView(Context context) {
+    public SubRedditHelper(Context context) {
         mContext = context;
     }
 
@@ -255,7 +252,7 @@ public class SubRedditView {
 
     }
 
-    public void cardBottomLink(ImageButton[] arrayButton, String linkComments, String nameReddit, String subRedditName, String nameRedditId) {
+    public void cardBottomLink(ImageButton[] arrayButton, String linkComments, String nameReddit) {
 
         if ((arrayButton != null) && (arrayButton.length == 5)) {
 
@@ -271,47 +268,44 @@ public class SubRedditView {
                     .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
                     .respectFontBounds(true));
 
-            buttonVoteUp.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (PermissionUtils.isLogged(mContext)) {
-                        String vote = "1";
+            buttonVoteUp.setOnClickListener(view -> {
+                if (PermissionUtils.isLogged(mContext)) {
+                    String vote = "1";
 
-                        if (view.isActivated()) {
-                            vote = "0";
-                        }
+                    if (view.isActivated()) {
+                        vote = "0";
+                    }
 
-                        String finalVote = vote;
-                        new VoteExecute(PermissionUtils.getToken(mContext), vote, nameReddit)
-                                .postData(new VoteExecute.RestAccessToken() {
-                                    @Override
-                                    public void onRestVote(int responseCode) {
-                                        if (responseCode == 200) {
-                                            buttonVoteDown.setColorFilter(Color.GRAY);
-                                            buttonVoteUp.setActivated(true);
-                                            if (finalVote.equals("1")) {
-                                                DataUtils dataUtils = new DataUtils(mContext);
-                                                buttonVoteUp.setColorFilter(Color.BLUE);
+                    String finalVote = vote;
+                    new VoteExecute(PermissionUtils.getToken(mContext), vote, nameReddit)
+                            .postData(new VoteExecute.RestAccessToken() {
+                                @Override
+                                public void onRestVote(int responseCode) {
+                                    if (responseCode == 200) {
+                                        buttonVoteDown.setColorFilter(Color.GRAY);
+                                        buttonVoteUp.setActivated(true);
+                                        if (finalVote.equals("1")) {
+                                            DataUtils dataUtils = new DataUtils(mContext);
+                                            buttonVoteUp.setColorFilter(Color.BLUE);
 
 
-                                            } else {
-                                                buttonVoteUp.setActivated(false);
-                                                buttonVoteUp.setColorFilter(Color.GRAY);
+                                        } else {
+                                            buttonVoteUp.setActivated(false);
+                                            buttonVoteUp.setColorFilter(Color.GRAY);
 
-                                            }
                                         }
                                     }
+                                }
 
-                                    @Override
-                                    public void onErrorVote(Throwable t) {
+                                @Override
+                                public void onErrorVote(Throwable t) {
 
-                                    }
-                                });
+                                }
+                            });
 
 
-                    } else {
-                        Toast.makeText(mContext, "Please Login ", Toast.LENGTH_LONG).show();
-                    }
+                } else {
+                    Toast.makeText(mContext, "Please Login ", Toast.LENGTH_LONG).show();
                 }
             });
 
@@ -321,44 +315,41 @@ public class SubRedditView {
                     .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
                     .respectFontBounds(true));
 
-            buttonVoteDown.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (PermissionUtils.isLogged(mContext)) {
-                        String vote = "-1";
+            buttonVoteDown.setOnClickListener(view -> {
+                if (PermissionUtils.isLogged(mContext)) {
+                    String vote = "-1";
 
-                        if (view.isActivated()) {
-                            vote = "0";
-                        }
+                    if (view.isActivated()) {
+                        vote = "0";
+                    }
 
-                        String finalVote = vote;
-                        new VoteExecute(PermissionUtils.getToken(mContext), vote, nameReddit)
-                                .postData(new VoteExecute.RestAccessToken() {
-                                    @Override
-                                    public void onRestVote(int responseCode) {
-                                        if (responseCode == 200) {
-                                            buttonVoteUp.setColorFilter(Color.GRAY);
-                                            buttonVoteDown.setActivated(true);
-                                            if (finalVote.equals("-1")) {
-                                                DataUtils dataUtils = new DataUtils(mContext);
-                                                buttonVoteDown.setColorFilter(Color.BLUE);
-                                            } else {
-                                                buttonVoteDown.setActivated(false);
-                                                buttonVoteDown.setColorFilter(Color.GRAY);
+                    String finalVote = vote;
+                    new VoteExecute(PermissionUtils.getToken(mContext), vote, nameReddit)
+                            .postData(new VoteExecute.RestAccessToken() {
+                                @Override
+                                public void onRestVote(int responseCode) {
+                                    if (responseCode == 200) {
+                                        buttonVoteUp.setColorFilter(Color.GRAY);
+                                        buttonVoteDown.setActivated(true);
+                                        if (finalVote.equals("-1")) {
+                                            DataUtils dataUtils = new DataUtils(mContext);
+                                            buttonVoteDown.setColorFilter(Color.BLUE);
+                                        } else {
+                                            buttonVoteDown.setActivated(false);
+                                            buttonVoteDown.setColorFilter(Color.GRAY);
 
-                                            }
                                         }
                                     }
+                                }
 
-                                    @Override
-                                    public void onErrorVote(Throwable t) {
+                                @Override
+                                public void onErrorVote(Throwable t) {
 
-                                    }
-                                });
+                                }
+                            });
 
-                    } else {
-                        Toast.makeText(mContext, "Please Login ", Toast.LENGTH_LONG).show();
-                    }
+                } else {
+                    Toast.makeText(mContext, "Please Login ", Toast.LENGTH_LONG).show();
                 }
             });
 
@@ -375,25 +366,6 @@ public class SubRedditView {
                     .respectFontBounds(true));
 
             buttonComments.setBackgroundColor(Color.WHITE);
-
-            buttonComments.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    new CommentsExecute(mContext, PermissionUtils.getToken(mContext),
-                            subRedditName, nameRedditId).getData(new CommentsExecute.RestSubReddit() {
-
-                        @Override
-                        public void onRestSubReddit(List<T1> listenerData) {
-
-                        }
-
-                        @Override
-                        public void onErrorSubReddit(Throwable t) {
-
-                        }
-                    });
-                }
-            });
 
             buttonOpenBrowser.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_open_in_browser)
                     .color(Color.GRAY)

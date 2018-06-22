@@ -46,7 +46,7 @@ public class RepliesListingData implements Parcelable
     private Boolean noFollow;
     @SerializedName("replies")
     @Expose
-    private String replies;
+    private Replies replies;
     @SerializedName("user_reports")
     @Expose
     private List<Object> userReports = null;
@@ -97,7 +97,7 @@ public class RepliesListingData implements Parcelable
     private String body;
     @SerializedName("edited")
     @Expose
-    private Boolean edited;
+    private Object edited;
     @SerializedName("author_flair_css_class")
     @Expose
     private Object authorFlairCssClass;
@@ -211,7 +211,7 @@ public class RepliesListingData implements Parcelable
         this.authorFlairTemplateId = ((Object) in.readValue((Object.class.getClassLoader())));
         this.likes = ((Object) in.readValue((Object.class.getClassLoader())));
         this.noFollow = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
-        this.replies = ((String) in.readValue((String.class.getClassLoader())));
+        this.replies = ((Replies) in.readValue((Replies.class.getClassLoader())));
         in.readList(this.userReports, (java.lang.Object.class.getClassLoader()));
         this.saved = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         this.id = ((String) in.readValue((String.class.getClassLoader())));
@@ -228,7 +228,7 @@ public class RepliesListingData implements Parcelable
         this.approvedBy = ((Object) in.readValue((Object.class.getClassLoader())));
         this.downs = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.body = ((String) in.readValue((String.class.getClassLoader())));
-        this.edited = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
+        this.edited = ((Object) in.readValue((Object.class.getClassLoader())));
         this.authorFlairCssClass = ((Object) in.readValue((Object.class.getClassLoader())));
         this.collapsed = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         in.readList(this.authorFlairRichtext, (java.lang.Object.class.getClassLoader()));
@@ -350,11 +350,11 @@ public class RepliesListingData implements Parcelable
         this.noFollow = noFollow;
     }
 
-    public String getReplies() {
+    public Replies getReplies() {
         return replies;
     }
 
-    public void setReplies(String replies) {
+    public void setReplies(Replies replies) {
         this.replies = replies;
     }
 
@@ -486,11 +486,11 @@ public class RepliesListingData implements Parcelable
         this.body = body;
     }
 
-    public Boolean getEdited() {
+    public Object getEdited() {
         return edited;
     }
 
-    public void setEdited(Boolean edited) {
+    public void setEdited(Object edited) {
         this.edited = edited;
     }
 

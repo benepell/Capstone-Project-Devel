@@ -55,7 +55,8 @@ public interface RedditAPI {
 
     @GET("/r/{subreddit_name}/.json")
     Call<T3> getSubReddit(
-            @Path(value = "subreddit_name", encoded = true) String subreddit_name
+            @Path(value = "subreddit_name", encoded = true) String subreddit_name,
+            @QueryMap Map<String, String> options
     );
 
     @GET("/r/{subreddit_name}/comments/{id}/.json")

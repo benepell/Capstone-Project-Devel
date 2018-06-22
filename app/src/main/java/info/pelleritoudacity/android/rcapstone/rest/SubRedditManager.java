@@ -26,6 +26,9 @@
 
 package info.pelleritoudacity.android.rcapstone.rest;
 
+import org.checkerframework.checker.units.qual.K;
+
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import info.pelleritoudacity.android.rcapstone.model.reddit.T3;
@@ -42,22 +45,17 @@ public class SubRedditManager {
     private static RedditAPI sSubRedditAPI;
     private static SubRedditManager sSubRedditManager;
     private final String mSubReddit;
+    private final HashMap<String, String> mFieldMap;
     private Call<T3> mCall;
 
     private SubRedditManager(String subReddit) {
         mSubReddit = subReddit;
 
-        /*HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-        // todo remove interceptor
-        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS);
-
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(Costants.OK_HTTP_CONNECTION_TIMEOUT, TimeUnit.SECONDS)
-                .readTimeout(Costants.OK_HTTP_CONNECTION_READ_TIMEOUT, TimeUnit.SECONDS)
-                .writeTimeout(Costants.OK_HTTP_CONNECTION_WRITE_TIMEOUT, TimeUnit.SECONDS)
-                .addInterceptor(httpLoggingInterceptor)
-                .build();
-*/
+        mFieldMap = new HashMap<>();
+        mFieldMap.put("limit", Costants.LIMIT_REDDIT_RESULTS);
+        mFieldMap.put("showedits", "false");
+        mFieldMap.put("showmore", "true");
+//                mFieldMap.put("sort", sortBy);
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(Costants.OK_HTTP_CONNECTION_TIMEOUT, TimeUnit.SECONDS)
@@ -87,7 +85,7 @@ public class SubRedditManager {
     }
 
     public void getSubRedditAPI(Callback<T3> callback) {
-        mCall = sSubRedditAPI.getSubReddit(mSubReddit);
+        mCall = sSubRedditAPI.getSubReddit(mSubReddit, mFieldMap);
         mCall.enqueue(callback);
     }
 

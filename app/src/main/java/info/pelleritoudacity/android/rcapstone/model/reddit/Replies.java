@@ -29,8 +29,7 @@ public class Replies implements Parcelable
             return (new Replies[size]);
         }
 
-    }
-    ;
+    };
 
     protected Replies(Parcel in) {
         this.kind = ((String) in.readValue((String.class.getClassLoader())));

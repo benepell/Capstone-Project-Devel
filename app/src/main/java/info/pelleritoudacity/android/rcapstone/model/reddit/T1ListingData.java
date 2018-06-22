@@ -8,8 +8,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class T1ListingData implements Parcelable
-{
+public class T1ListingData  implements Parcelable {
 
     @SerializedName("subreddit_id")
     @Expose
@@ -35,6 +34,9 @@ public class T1ListingData implements Parcelable
     @SerializedName("link_id")
     @Expose
     private String linkId;
+    @SerializedName("url")
+    @Expose
+    private String url;
     @SerializedName("author_flair_template_id")
     @Expose
     private String authorFlairTemplateId;
@@ -45,10 +47,9 @@ public class T1ListingData implements Parcelable
     @Expose
     private Boolean noFollow;
     // todo replies problem
-    /*@SerializedName("replies")
+    @SerializedName("replies")
     @Expose
     private Replies replies;
-    */
     @SerializedName("user_reports")
     @Expose
     private List<Object> userReports = null;
@@ -58,6 +59,9 @@ public class T1ListingData implements Parcelable
     @SerializedName("id")
     @Expose
     private String id;
+    @SerializedName("title")
+    @Expose
+    private String title;
     @SerializedName("banned_at_utc")
     @Expose
     private Object bannedAtUtc;
@@ -188,7 +192,7 @@ public class T1ListingData implements Parcelable
 
 
         @SuppressWarnings({
-            "unchecked"
+                "unchecked"
         })
         public T1ListingData createFromParcel(Parcel in) {
             return new T1ListingData(in);
@@ -198,11 +202,11 @@ public class T1ListingData implements Parcelable
             return (new T1ListingData[size]);
         }
 
-    }
-    ;
+    };
 
     protected T1ListingData(Parcel in) {
         this.subredditId = ((String) in.readValue((String.class.getClassLoader())));
+        this.title = ((String) in.readValue((String.class.getClassLoader())));
         this.approvedAtUtc = ((Object) in.readValue((Object.class.getClassLoader())));
         this.ups = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.modReasonBy = ((Object) in.readValue((Object.class.getClassLoader())));
@@ -210,10 +214,11 @@ public class T1ListingData implements Parcelable
         this.authorFlairType = ((String) in.readValue((String.class.getClassLoader())));
         this.removalReason = ((Object) in.readValue((Object.class.getClassLoader())));
         this.linkId = ((String) in.readValue((String.class.getClassLoader())));
+        this.url = ((String) in.readValue((String.class.getClassLoader())));
         this.authorFlairTemplateId = ((String) in.readValue((String.class.getClassLoader())));
         this.likes = ((Object) in.readValue((Object.class.getClassLoader())));
         this.noFollow = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
-//        this.replies = ((Replies) in.readValue((Replies.class.getClassLoader())));
+        this.replies = ((Replies) in.readValue((Replies.class.getClassLoader())));
         in.readList(this.userReports, (java.lang.Object.class.getClassLoader()));
         this.saved = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         this.id = ((String) in.readValue((String.class.getClassLoader())));
@@ -230,7 +235,7 @@ public class T1ListingData implements Parcelable
         this.approvedBy = ((Object) in.readValue((Object.class.getClassLoader())));
         this.downs = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.body = ((String) in.readValue((String.class.getClassLoader())));
-        this.edited = ((Integer) in.readValue((Integer.class.getClassLoader())));
+        this.edited = ((Object) in.readValue((Object.class.getClassLoader())));
         this.authorFlairCssClass = ((Object) in.readValue((Object.class.getClassLoader())));
         this.collapsed = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         in.readList(this.authorFlairRichtext, (java.lang.Object.class.getClassLoader()));
@@ -270,6 +275,14 @@ public class T1ListingData implements Parcelable
 
     public void setSubredditId(String subredditId) {
         this.subredditId = subredditId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Object getApprovedAtUtc() {
@@ -328,6 +341,14 @@ public class T1ListingData implements Parcelable
         this.linkId = linkId;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     public String getAuthorFlairTemplateId() {
         return authorFlairTemplateId;
     }
@@ -352,14 +373,13 @@ public class T1ListingData implements Parcelable
         this.noFollow = noFollow;
     }
 
-    /*public Replies getReplies() {
+    public Replies getReplies() {
         return replies;
     }
 
     public void setReplies(Replies replies) {
         this.replies = replies;
     }
-    */
     public List<Object> getUserReports() {
         return userReports;
     }
@@ -729,13 +749,15 @@ public class T1ListingData implements Parcelable
         dest.writeValue(authorFlairType);
         dest.writeValue(removalReason);
         dest.writeValue(linkId);
+        dest.writeValue(url);
         dest.writeValue(authorFlairTemplateId);
         dest.writeValue(likes);
         dest.writeValue(noFollow);
-//        dest.writeValue(replies);
+        dest.writeValue(replies);
         dest.writeList(userReports);
         dest.writeValue(saved);
         dest.writeValue(id);
+        dest.writeValue(title);
         dest.writeValue(bannedAtUtc);
         dest.writeValue(modReasonTitle);
         dest.writeValue(gilded);
@@ -781,7 +803,7 @@ public class T1ListingData implements Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
 }

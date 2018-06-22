@@ -222,6 +222,7 @@ public class BaseActivity extends AppCompatActivity
 
         if ((getLayoutResource() == R.layout.activity_main) ||
                 (getLayoutResource() == R.layout.activity_subreddit) ||
+                (getLayoutResource() == R.layout.activity_sub_reddit_detail) ||
                 (getLayoutResource() == R.layout.activity_submanage)) {
 
             int id = item.getItemId();
@@ -322,6 +323,7 @@ public class BaseActivity extends AppCompatActivity
         switch (getLayoutResource()) {
             case R.layout.activity_main:
             case R.layout.activity_subreddit:
+            case R.layout.activity_sub_reddit_detail:
             default:
                 navigationView.inflateMenu(R.menu.activity_base_drawer_main);
                 menuItemBase(getApplicationContext(), navigationView.getMenu());

@@ -38,8 +38,8 @@ public class Utility {
         return context != null ? context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName : "";
     }
 
-    public static int boolToInt(boolean b) {
-        return b ? 1 : 0;
+    public static int boolToInt(Boolean b) {
+        return (b != null && b) ? 1 : 0;
     }
 
     public static int toInt(Object object) {

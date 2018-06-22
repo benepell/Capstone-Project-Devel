@@ -67,11 +67,11 @@ class DbHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_DATA_TABLE =
                 "CREATE TABLE IF NOT EXISTS " + Contract.DataEntry.TABLE_NAME + " (" +
                         Contract.DataEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        Contract.DataEntry.COLUMN_NAME_AFTER + " TEXT NOT NULL, " +
-                        Contract.DataEntry.COLUMN_NAME_DIST + " INTEGER NOT NULL, " +
+                        Contract.DataEntry.COLUMN_NAME_AFTER + " TEXT , " +
+                        Contract.DataEntry.COLUMN_NAME_DIST + " INTEGER , " +
                         Contract.DataEntry.COLUMN_NAME_MODHASH + " TEXT, " +
                         Contract.DataEntry.COLUMN_NAME_WHITELIST_STATUS + " TEXT, " +
-                        Contract.DataEntry.COLUMN_NAME_CHILDRENS + " INTEGER NOT NULL, " +
+                        Contract.DataEntry.COLUMN_NAME_CHILDRENS + " INTEGER , " +
                         Contract.DataEntry.COLUMN_NAME_BEFORE + " BLOB  " +
                         ");";
 
@@ -286,9 +286,11 @@ class DbHelper extends SQLiteOpenHelper {
                         Contract.T1dataEntry.COLUMN_NAME_MODREASONBY + " TEXT, " +
                         Contract.T1dataEntry.COLUMN_NAME_BANNEDBY + " TEXT, " +
                         Contract.T1dataEntry.COLUMN_NAME_NUMREPORTS + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_LINK_ID + " TEXT, " +
                         Contract.T1dataEntry.COLUMN_NAME_REMOVALREASON + " TEXT, " +
                         Contract.T1dataEntry.COLUMN_NAME_THUMBNAILWIDTH + " TEXT, " +
-                        Contract.T1dataEntry.COLUMN_NAME_SELFTEXTHTML + " INTEGER NOT NULL, " +
+                        Contract.T1dataEntry.COLUMN_NAME_SELFTEXTHTML + " INTEGER, " +
+                        Contract.T1dataEntry.COLUMN_NAME_PARENT_ID + " TEXT , " +
                         Contract.T1dataEntry.COLUMN_NAME_LIKES + " TEXT , " +
                         Contract.T1dataEntry.COLUMN_NAME_SUGGESTEDSORT + " TEXT, " +
                         Contract.T1dataEntry.COLUMN_NAME_USERREPORTS + " TEXT, " +
@@ -324,10 +326,12 @@ class DbHelper extends SQLiteOpenHelper {
                         Contract.T1dataEntry.COLUMN_NAME_GILDED + " INTEGER DEFAULT 0, " +
                         Contract.T1dataEntry.COLUMN_NAME_LOCKED + " INTEGER DEFAULT 0, " +
                         Contract.T1dataEntry.COLUMN_NAME_DOWNS + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_BODY + " TEXT, " +
                         Contract.T1dataEntry.COLUMN_NAME_MODREPORTS + " TEXT, " +
                         Contract.T1dataEntry.COLUMN_NAME_SUBREDDITSUBSCRIBERS + " TEXT, " +
                         Contract.T1dataEntry.COLUMN_NAME_SECUREMEDIAEMBED + " TEXT, " +
                         Contract.T1dataEntry.COLUMN_NAME_MEDIAEMBED + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_BODY_HTML + " TEXT, " +
                         Contract.T1dataEntry.COLUMN_NAME_STICKIED + " INTEGER DEFAULT 0, " +
                         Contract.T1dataEntry.COLUMN_NAME_VISITED + " INTEGER DEFAULT 0, " +
                         Contract.T1dataEntry.COLUMN_NAME_CANGILD + " INTEGER DEFAULT 0, " +
@@ -343,6 +347,7 @@ class DbHelper extends SQLiteOpenHelper {
                         Contract.T1dataEntry.COLUMN_NAME_AUTHORFLAIRTEXT + " TEXT, " +
                         Contract.T1dataEntry.COLUMN_NAME_QUARANTINE + " INTEGER DEFAULT 0, " +
                         Contract.T1dataEntry.COLUMN_NAME_TITLE + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_DEPTH + " INTEGER DEFAULT 0, " +
                         Contract.T1dataEntry.COLUMN_NAME_CREATEDUTC + " TEXT, " +
                         Contract.T1dataEntry.COLUMN_NAME_SUBREDDITNAMEPREFIXED + " TEXT, " +
                         Contract.T1dataEntry.COLUMN_NAME_UPS + " INTEGER DEFAULT 0, " +
@@ -356,19 +361,17 @@ class DbHelper extends SQLiteOpenHelper {
                         Contract.T1dataEntry.COLUMN_NAME_SELFTEXT + " TEXT, " +
                         Contract.T1dataEntry.COLUMN_NAME_AUTHORFLAIRCSSCLASS + " TEXT, " +
 
-                        " UNIQUE (" + Contract.T1dataEntry.COLUMN_NAME_ID + ")" + " ON CONFLICT REPLACE, " +
                         " FOREIGN KEY (" + Contract.T1dataEntry.COLUMN_NAME_CHILDREN_ID + ") REFERENCES " +
                         Contract.DataEntry.TABLE_NAME + "(" + Contract.DataEntry._ID + ")" +
                         ");";
-
 
 
         db.execSQL(SQL_CREATE_REDDIT_TABLE);
         db.execSQL(SQL_CREATE_DATA_TABLE);
         db.execSQL(SQL_CREATE_T5DATA_TABLE);
         db.execSQL(SQL_CREATE_T3DATA_TABLE);
-        db.execSQL(SQL_CREATE_T1DATA_TABLE);
         db.execSQL(SQL_CREATE_PREFSUBREDDIT_TABLE);
+        db.execSQL(SQL_CREATE_T1DATA_TABLE);
 
       /*  Timber.d("SQL STATEMENT:  " +
                 SQL_CREATE_REDDIT_TABLE + " " + SQL_CREATE_DATA_TABLE + " " +
@@ -382,19 +385,8 @@ class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + Contract.T5dataEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + Contract.T3dataEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + Contract.PrefSubRedditEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + Contract.T1dataEntry.TABLE_NAME);
         onCreate(db);
     }
 
-/*    @Override
-    public synchronized void close() {
-        super.close();
-        Timber.d("DATABASE close");
-
-    }
-
-    @Override
-    public void onOpen(SQLiteDatabase db) {
-        super.onOpen(db);
-        Timber.d("DATABASE open");
-    }*/
 }

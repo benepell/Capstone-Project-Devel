@@ -27,6 +27,7 @@
 package info.pelleritoudacity.android.rcapstone.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -49,9 +50,10 @@ import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
+import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditDetailActivity;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
-import info.pelleritoudacity.android.rcapstone.ui.view.SubRedditView;
+import info.pelleritoudacity.android.rcapstone.ui.helper.SubRedditHelper;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtils;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
@@ -198,7 +200,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         }
 
         holder.mTextViewCreatedUtc.setText(strDiffCurrentUtc);
-        SubRedditView subRedditView = new SubRedditView(mContext);
+        SubRedditHelper subRedditHelper = new SubRedditHelper(mContext);
 
         int mediaType = 0;
 
@@ -223,7 +225,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
                 holder.mPlayerLayout.setVisibility(View.GONE);
                 holder.mWebViewYoutube.setVisibility(View.GONE);
 
-                subRedditView.imageReddit(holder.mImageViewSubReddit, holder.mImageViewSubRedditSmall,
+                subRedditHelper.imageReddit(holder.mImageViewSubReddit, holder.mImageViewSubRedditSmall,
                         imagePreviewUrl, imagePreviewWidth, imagePreviewHeight, title);
 
                 holder.mImageViewSubReddit.setVisibility(View.VISIBLE);
@@ -241,7 +243,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
                         holder.mExoProgressBar,
                         title, holder.mTVErrorPlayer, holder.mImagePlay);
 
-                subRedditView.loadVideoFirstFrame(mMediaPlayer, holder.mPlayerLayout, holder.mImagePlay, holder.mExoProgressBar,
+                subRedditHelper.loadVideoFirstFrame(mMediaPlayer, holder.mPlayerLayout, holder.mImagePlay, holder.mExoProgressBar,
                         videoPreviewUrl, videoPreviewWidth, videoPreviewHeight);
 
                 holder.mImageViewSubReddit.setVisibility(View.GONE);
@@ -249,7 +251,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
             case Costants.MEDIA_VIDEO_TYPE_VIMEO:
 
-                subRedditView.loadWebviewYoutube(holder.mWebViewYoutube, videoFrameOembed);
+                subRedditHelper.loadWebviewYoutube(holder.mWebViewYoutube, videoFrameOembed);
 
                 holder.mImageViewSubReddit.setVisibility(View.GONE);
                 holder.mPlayerLayout.setVisibility(View.GONE);
@@ -258,13 +260,13 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
             case Costants.MEDIA_VIDEO_TYPE_YOUTUBE:
 
                 if (PrefManager.isGeneralSettings(mContext, mContext.getString(R.string.pref_youtube_player))) {
-                    subRedditView.youtubeVideoFirstFrame(holder.mPlayerLayout, holder.mImagePlay, holder.mExoProgressBar,
+                    subRedditHelper.youtubeVideoFirstFrame(holder.mPlayerLayout, holder.mImagePlay, holder.mExoProgressBar,
                             thumbnailUrlOembed, thumbnailOembedWidth, thumbnailOembedHeight,
                             videoUrl, videoOembedWidth, videoOembedHeight);
 
                     holder.mWebViewYoutube.setVisibility(View.GONE);
                 } else {
-                    subRedditView.loadWebviewYoutube(holder.mWebViewYoutube, videoFrameOembed);
+                    subRedditHelper.loadWebviewYoutube(holder.mWebViewYoutube, videoFrameOembed);
 
                 }
 
@@ -278,7 +280,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         if ((!TextUtils.isEmpty(imagePreviewUrl)) &&
                 (isSmallImage(mContext, imagePreviewWidth, imagePreviewHeight))) {
 
-            subRedditView.imageReddit(holder.mImageViewSubReddit, holder.mImageViewSubRedditSmall,
+            subRedditHelper.imageReddit(holder.mImageViewSubReddit, holder.mImageViewSubRedditSmall,
                     imagePreviewUrl, imagePreviewWidth, imagePreviewHeight, title);
 
             holder.mImageViewSubRedditSmall.setVisibility(View.VISIBLE);
@@ -297,10 +299,10 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
                         mContext.getString(R.string.text_comments_subreddit))
         );
 
-        subRedditView.cardBottomLink(mArrayButton,
-                TextUtil.buildCommentLink(subRedditNamePrefix, nameIdReddit),nameReddit,subReddit,nameIdReddit);
+        subRedditHelper.cardBottomLink(mArrayButton,
+                TextUtil.buildCommentLink(subRedditNamePrefix, nameIdReddit), nameReddit);
 
-        holder.bind(holder.getAdapterPosition());
+        holder.bind(holder.getAdapterPosition(), subReddit, nameIdReddit);
 
         mListener.adapterPosition(holder.getAdapterPosition(), subReddit);
     }
@@ -320,7 +322,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
     }
 
     public class SubRedditHolder extends RecyclerView.ViewHolder
-            implements ItemTouchHelperViewHolder {
+            implements View.OnClickListener, ItemTouchHelperViewHolder {
 
         @SuppressWarnings("unused")
         @BindView(R.id.tv_title)
@@ -399,15 +401,19 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         WebView mWebViewYoutube;
 
         private int mPosition;
+        private String mSubRedditName;
+        private String mNameRedditId;
 
         SubRedditHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
+            itemView.setOnClickListener(this);
         }
 
-        public void bind(int position) {
+        public void bind(int position, String subRedditName, String nameRedditId) {
             mPosition = position;
+            mSubRedditName = subRedditName;
+            mNameRedditId = nameRedditId;
         }
 
         @Override
@@ -420,6 +426,14 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
             itemView.setBackgroundColor(ImageUtils.getColor(mContext, R.color.colorBackgroundItemNoSelected));
         }
 
+        @Override
+        public void onClick(View view) {
+            mContext.startActivity(new Intent(mContext, SubRedditDetailActivity.class)
+                    .putExtra(Costants.EXTRA_SUBREDDIT_DETAIL_POSITION, mPosition)
+                    .putExtra(Costants.EXTRA_SUBREDDIT_DETAIL_CATEGORY, mSubRedditName)
+                    .putExtra(Costants.EXTRA_SUBREDDIT_DETAIL_STR_ID, mNameRedditId));
+
+        }
     }
 
     @SuppressWarnings("UnusedReturnValue")

@@ -25,7 +25,7 @@ allprojects {
         sdkVersion = 28
         androidSupportVersion = "$sdkVersion.0.0-alpha1"
 
-        androidSupportConstraintVersion = "1.1.1"
+        androidSupportConstraintVersion = "1.1.2"
 
         timberVersion = "4.7.0"
         butterKnifeVersion = "8.8.1"

@@ -207,7 +207,7 @@ public class SubRedditFragment extends Fragment
 
     private static class SubRedditFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
 
-        Cursor sSubRedditData = null;
+        Cursor cursorData = null;
 
         SubRedditFragmentAsyncTask(@NonNull Context context) {
             super(context);
@@ -215,8 +215,8 @@ public class SubRedditFragment extends Fragment
 
         @Override
         protected void onStartLoading() {
-            if (sSubRedditData != null) {
-                deliverResult(sSubRedditData);
+            if (cursorData != null) {
+                deliverResult(cursorData);
             } else {
                 forceLoad();
             }
@@ -263,13 +263,12 @@ public class SubRedditFragment extends Fragment
         @Override
         public void deliverResult(Cursor data) {
             if ((data != null) && (data.getCount() > 0)) {
-                sSubRedditData = data;
+                cursorData = data;
                 super.deliverResult(data);
             } else {
                 forceLoad();
             }
         }
     }
-
 
 }

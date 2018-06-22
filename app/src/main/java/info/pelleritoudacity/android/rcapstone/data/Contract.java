@@ -339,6 +339,7 @@ public class Contract {
         public static final String COLUMN_NAME_MODREASONBY = "_modReasonBy";
         public static final String COLUMN_NAME_BANNEDBY = "_bannedBy";
         public static final String COLUMN_NAME_NUMREPORTS = "_numReports";
+        public static final String COLUMN_NAME_LINK_ID = "_link_id";
         public static final String COLUMN_NAME_REMOVALREASON = "_removalReason";
         public static final String COLUMN_NAME_THUMBNAILWIDTH = "_thumbnailWidth";
         public static final String COLUMN_NAME_SUBREDDIT = "_subreddit";
@@ -370,6 +371,7 @@ public class Contract {
         public static final String COLUMN_NAME_REPORTREASONS = "_reportReasons";
         public static final String COLUMN_NAME_DOMAIN = "_domain";
         public static final String COLUMN_NAME_HIDDEN = "_hidden";
+        public static final String COLUMN_NAME_DEPTH = "_depth";
         public static final String COLUMN_NAME_PREVIEW = "_preview";
         public static final String COLUMN_NAME_PWLS = "_pwls";
         public static final String COLUMN_NAME_THUMBNAIL = "_thumbnail";
@@ -381,6 +383,7 @@ public class Contract {
         public static final String COLUMN_NAME_LOCKED = "_locked";
         public static final String COLUMN_NAME_DOWNS = "_downs";
         public static final String COLUMN_NAME_MODREPORTS = "_modReports";
+        public static final String COLUMN_NAME_BODY = "_body";
         public static final String COLUMN_NAME_SUBREDDITSUBSCRIBERS = "_subredditSubscribers";
         public static final String COLUMN_NAME_SECUREMEDIAEMBED = "_secureMediaEmbed";
         public static final String COLUMN_NAME_MEDIAEMBED = "_mediaEmbed";
@@ -392,6 +395,7 @@ public class Contract {
         public static final String COLUMN_NAME_SPOILER = "_spoiler";
         public static final String COLUMN_NAME_PERMALINK = "_permalink";
         public static final String COLUMN_NAME_SUBREDDITTYPE = "_subredditType";
+        public static final String COLUMN_NAME_PARENT_ID = "_parent_id";
         public static final String COLUMN_NAME_PARENTWHITELISTSTATUS = "_parentWhitelistStatus";
         public static final String COLUMN_NAME_HIDESCORE = "_hideScore";
         public static final String COLUMN_NAME_CREATED = "_created";
@@ -405,6 +409,7 @@ public class Contract {
         public static final String COLUMN_NAME_NUMCOMMENTS = "_numComments";
         public static final String COLUMN_NAME_ISSELF = "_isSelf";
         public static final String COLUMN_NAME_WHITELISTSTATUS = "_whitelistStatus";
+        public static final String COLUMN_NAME_BODY_HTML = "_body_html";
         public static final String COLUMN_NAME_MODNOTE = "_modNote";
         public static final String COLUMN_NAME_MEDIA = "_media";
         public static final String COLUMN_NAME_ISVIDEO = "_isVideo";
