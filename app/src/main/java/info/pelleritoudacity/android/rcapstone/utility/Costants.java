@@ -53,8 +53,6 @@ public interface Costants {
     int MEDIA_VIDEO_PREVIEW_TYPE_MP4 = 300;
     int MEDIA_IMAGE_FULL_TYPE = 400;
 
-
-
     String REDDIT_AUTHORIZATION = "Authorization";
     String REDDIT_BEARER = "Bearer ";
     String REDDIT_ACCESS_TOKEN = "access_token";
@@ -168,13 +166,13 @@ public interface Costants {
     String LIMIT_DEPTH_RESULTS = "4";
 
     String LIMIT_REDDIT_RESULTS = "30";
+    int LEVEL_DEPTH_PADDING = 20;
 
     String COLOR_INDICATOR_0 = "#FF1744";
     String COLOR_INDICATOR_1 = "#2979FF";
     String COLOR_INDICATOR_2 = "#76FF03";
     String COLOR_INDICATOR_3 = "#FFEA00";
     String COLOR_INDICATOR_4 = "#3D5AFE";
-
 
 
 }
