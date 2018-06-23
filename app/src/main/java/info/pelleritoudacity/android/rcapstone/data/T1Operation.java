@@ -308,6 +308,7 @@ public class T1Operation {
     }
 
 
+
     private void insertReplies(RepliesListingData repliesListingData, int level, int childrenId) {
 
         if ((repliesListingData != null) && (level > 0) && (childrenId > 0)) {

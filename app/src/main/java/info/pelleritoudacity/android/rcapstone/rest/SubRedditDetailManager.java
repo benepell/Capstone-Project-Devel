@@ -1,5 +1,6 @@
 package info.pelleritoudacity.android.rcapstone.rest;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class SubRedditDetailManager {
 
@@ -66,10 +68,18 @@ public class SubRedditDetailManager {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(buildGsonConverter())
+//                .addConverterFactory(GsonConverterFactory.create())
                 .build();
         sCommentsAPI = retrofit.create(RedditAPI.class);
 
+    }
+
+    private static GsonConverterFactory buildGsonConverter() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(T1.class, new T1Deserializer());
+        Gson gson = gsonBuilder.create();
+        return GsonConverterFactory.create(gson);
     }
 
     public static SubRedditDetailManager getInstance(String accessToken, String subRedditName, String nameRedditId, boolean isAuthenticate) {
