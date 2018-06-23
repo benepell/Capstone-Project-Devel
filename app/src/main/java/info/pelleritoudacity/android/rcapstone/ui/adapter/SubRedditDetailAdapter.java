@@ -169,8 +169,26 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
             case 3:
                 holder.mDepthIndicator.setBackgroundColor(Color.parseColor(Costants.COLOR_INDICATOR_3));
                 break;
-            default:
+            case 4:
                 holder.mDepthIndicator.setBackgroundColor(Color.parseColor(Costants.COLOR_INDICATOR_4));
+                break;
+            case 5:
+                holder.mDepthIndicator.setBackgroundColor(Color.parseColor(Costants.COLOR_INDICATOR_5));
+                break;
+            case 6:
+                holder.mDepthIndicator.setBackgroundColor(Color.parseColor(Costants.COLOR_INDICATOR_6));
+                break;
+            case 7:
+                holder.mDepthIndicator.setBackgroundColor(Color.parseColor(Costants.COLOR_INDICATOR_7));
+                break;
+            case 8:
+                holder.mDepthIndicator.setBackgroundColor(Color.parseColor(Costants.COLOR_INDICATOR_8));
+                break;
+            case 9:
+                holder.mDepthIndicator.setBackgroundColor(Color.parseColor(Costants.COLOR_INDICATOR_9));
+                break;
+            default:
+                holder.mDepthIndicator.setBackgroundColor(Color.parseColor(Costants.COLOR_INDICATOR_10));
                 break;
 
         }

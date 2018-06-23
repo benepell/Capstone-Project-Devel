@@ -163,7 +163,7 @@ public interface Costants {
 
     String STR_PARENT_COMMENT = "t3_";
     String LIMIT_COMMENTS_RESULTS = "20";
-    String LIMIT_DEPTH_RESULTS = "4";
+    String LIMIT_DEPTH_RESULTS = "3";
 
     String LIMIT_REDDIT_RESULTS = "30";
     int LEVEL_DEPTH_PADDING = 20;
@@ -173,6 +173,12 @@ public interface Costants {
     String COLOR_INDICATOR_2 = "#76FF03";
     String COLOR_INDICATOR_3 = "#FFEA00";
     String COLOR_INDICATOR_4 = "#3D5AFE";
+    String COLOR_INDICATOR_5 = "#BB86FC";
+    String COLOR_INDICATOR_6 = "#3700B3";
+    String COLOR_INDICATOR_7 = "#C51162";
+    String COLOR_INDICATOR_8 = "#FFDE03";
+    String COLOR_INDICATOR_9 = "#FF0266";
+    String COLOR_INDICATOR_10 = "#FF9100";
 
 
 }

@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.SyncStateContract;
 import android.text.TextUtils;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import info.pelleritoudacity.android.rcapstone.model.reddit.RepliesListingData;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T1;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T1Data;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T1ListingData;
+import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
@@ -185,7 +187,7 @@ public class T1Operation {
                 dataUtils.putNullCV(arrT1CV[j], Contract.T1dataEntry.COLUMN_NAME_HIDESCORE,
                         Utility.boolToInt(t1Model.getScoreHidden()));
 
-                repliesDepth(t1Model.getReplies(), childrenId);
+                repliesDepth(t1Model.getReplies(), childrenId, Integer.parseInt(Costants.LIMIT_DEPTH_RESULTS));
 
 
 //                    Timber.d("JSON %s", t1Model.getReplies().getData().getChildren().get(0).getData().getReplies().getData().getChildren().get(0).getData().getDepth());
@@ -201,42 +203,88 @@ public class T1Operation {
         return uriReddit != null && uriData != null && countT1Data != 0;
     }
 
-    private void repliesDepth(Replies replies, int childrenId) {
-        if (replies != null) {
+    private void repliesDepth(Replies replies, int childrenId, int limit) {
+        if ((replies != null) && (limit > 1)) {
             if (replies.getData() != null) {
                 List<RepliesListing> listDepthL1 = replies.getData().getChildren();
 
-                for (int i = 0; i < listDepthL1.size(); i++) {
-                    insertReplies(listDepthL1.get(i).getData(), listDepthL1.get(i).getData().getDepth(), childrenId);
-                    Timber.d("JSON REPLIES DEPTH LEVEL 1 %s", listDepthL1.get(i).getData().getDepth());
+                for (int i1 = 0; i1 < listDepthL1.size(); i1++) {
+                    insertReplies(listDepthL1.get(i1).getData(), listDepthL1.get(i1).getData().getDepth(), childrenId);
+                    Timber.d("JSON REPLIES DEPTH LEVEL 1 %s", listDepthL1.get(i1).getData().getDepth());
 
-                    if (listDepthL1.get(i).getData().getReplies() != null) {
-                        List<RepliesListing> listDepthL2 = listDepthL1.get(i).getData().getReplies().getData().getChildren();
+                    if ((listDepthL1.get(i1).getData().getReplies() != null) && (limit > 2)) {
+                        List<RepliesListing> listDepthL2 = listDepthL1.get(i1).getData().getReplies().getData().getChildren();
 
-                        for (int j = 0; j < listDepthL2.size(); j++) {
-                            insertReplies(listDepthL2.get(j).getData(), listDepthL2.get(j).getData().getDepth(), childrenId);
-                            Timber.d("JSON REPLIES DEPTH LEVEL 2 %s", listDepthL2.get(j).getData().getDepth());
+                        for (int i2 = 0; i2 < listDepthL2.size(); i2++) {
+                            insertReplies(listDepthL2.get(i2).getData(), listDepthL2.get(i2).getData().getDepth(), childrenId);
+                            Timber.d("JSON REPLIES DEPTH LEVEL 2 %s", listDepthL2.get(i2).getData().getDepth());
 
-                            if (listDepthL2.get(j).getData().getReplies() != null) {
-                                List<RepliesListing> listDepthL3 = listDepthL2.get(j).getData().getReplies().getData().getChildren();
+                            if ((listDepthL2.get(i2).getData().getReplies() != null) && (limit > 3)) {
+                                List<RepliesListing> listDepthL3 = listDepthL2.get(i2).getData().getReplies().getData().getChildren();
 
-                                for (int k = 0; k < listDepthL3.size(); k++) {
-                                    insertReplies(listDepthL3.get(k).getData(), listDepthL3.get(k).getData().getDepth(), childrenId);
-                                    Timber.d("JSON REPLIES DEPTH LEVEL 3 %s", listDepthL3.get(k).getData().getDepth());
+                                for (int i3 = 0; i3 < listDepthL3.size(); i3++) {
+                                    insertReplies(listDepthL3.get(i3).getData(), listDepthL3.get(i3).getData().getDepth(), childrenId);
+                                    Timber.d("JSON REPLIES DEPTH LEVEL 3 %s", listDepthL3.get(i3).getData().getDepth());
 
-                                    if (listDepthL3.get(k).getData().getReplies() != null) {
-                                        List<RepliesListing> listDepthL4 = listDepthL3.get(0).getData().getReplies().getData().getChildren();
+                                    if ((listDepthL3.get(i3).getData().getReplies() != null) && (limit > 4)) {
+                                        List<RepliesListing> listDepthL4 = listDepthL3.get(i3).getData().getReplies().getData().getChildren();
 
-                                        for (int l = 0; l < listDepthL4.size(); l++) {
-                                            insertReplies(listDepthL4.get(l).getData(), listDepthL4.get(l).getData().getDepth(), childrenId);
-                                            Timber.d("JSON REPLIES DEPTH LEVEL 4 %s", listDepthL4.get(0).getData().getDepth());
+                                        for (int i4 = 0; i4 < listDepthL4.size(); i4++) {
+                                            insertReplies(listDepthL4.get(i4).getData(), listDepthL4.get(i4).getData().getDepth(), childrenId);
+                                            Timber.d("JSON REPLIES DEPTH LEVEL 4 %s", listDepthL4.get(i4).getData().getDepth());
 
-                                            if (listDepthL4.get(l).getData().getReplies() != null) {
-                                                List<RepliesListing> listDepthL5 = listDepthL4.get(l).getData().getReplies().getData().getChildren();
+                                            if ((listDepthL4.get(i4).getData().getReplies() != null) && (limit > 5)) {
+                                                List<RepliesListing> listDepthL5 = listDepthL4.get(i4).getData().getReplies().getData().getChildren();
 
-                                                for (int m = 0; m < listDepthL5.size(); m++) {
-                                                    insertReplies(listDepthL5.get(m).getData(), listDepthL5.get(m).getData().getDepth(), childrenId);
-                                                    Timber.d("JSON REPLIES DEPTH LEVEL 5 %s", listDepthL5.get(m).getData().getDepth());
+                                                for (int i5 = 0; i5 < listDepthL5.size(); i5++) {
+                                                    insertReplies(listDepthL5.get(i5).getData(), listDepthL5.get(i5).getData().getDepth(), childrenId);
+                                                    Timber.d("JSON REPLIES DEPTH LEVEL 5 %s", listDepthL5.get(i5).getData().getDepth());
+
+                                                    if ((listDepthL5.get(i5).getData().getReplies() != null) && (limit > 6)) {
+                                                        List<RepliesListing> listDepthL6 = listDepthL5.get(i5).getData().getReplies().getData().getChildren();
+
+                                                        for (int i6 = 0; i6 < listDepthL6.size(); i6++) {
+                                                            insertReplies(listDepthL6.get(i6).getData(), listDepthL5.get(i6).getData().getDepth(), childrenId);
+                                                            Timber.d("JSON REPLIES DEPTH LEVEL 6 %s", listDepthL6.get(i6).getData().getDepth());
+
+                                                            if ((listDepthL6.get(i6).getData().getReplies() != null) && (limit > 7)) {
+                                                                List<RepliesListing> listDepthL7 = listDepthL6.get(i6).getData().getReplies().getData().getChildren();
+
+                                                                for (int i7 = 0; i7 < listDepthL7.size(); i7++) {
+                                                                    insertReplies(listDepthL7.get(i7).getData(), listDepthL7.get(i7).getData().getDepth(), childrenId);
+                                                                    Timber.d("JSON REPLIES DEPTH LEVEL 7 %s", listDepthL7.get(i7).getData().getDepth());
+
+                                                                    if ((listDepthL7.get(i7).getData().getReplies() != null) && (limit > 8)) {
+                                                                        List<RepliesListing> listDepthL8 = listDepthL7.get(i7).getData().getReplies().getData().getChildren();
+
+                                                                        for (int i8 = 0; i8 < listDepthL8.size(); i8++) {
+                                                                            insertReplies(listDepthL8.get(i8).getData(), listDepthL8.get(i8).getData().getDepth(), childrenId);
+                                                                            Timber.d("JSON REPLIES DEPTH LEVEL 8 %s", listDepthL8.get(i8).getData().getDepth());
+
+                                                                            if ((listDepthL8.get(i8).getData().getReplies() != null) && (limit > 9)) {
+                                                                                List<RepliesListing> listDepthL9 = listDepthL8.get(i8).getData().getReplies().getData().getChildren();
+
+                                                                                for (int i9 = 0; i9 < listDepthL9.size(); i9++) {
+                                                                                    insertReplies(listDepthL9.get(i9).getData(), listDepthL9.get(i9).getData().getDepth(), childrenId);
+                                                                                    Timber.d("JSON REPLIES DEPTH LEVEL 9 %s", listDepthL9.get(i9).getData().getDepth());
+
+                                                                                    if ((listDepthL9.get(i9).getData().getReplies() != null) && (limit > 10)) {
+                                                                                        List<RepliesListing> listDepthL10 = listDepthL9.get(i9).getData().getReplies().getData().getChildren();
+
+                                                                                        for (int i10 = 0; i10 < listDepthL10.size(); i10++) {
+                                                                                            insertReplies(listDepthL10.get(i10).getData(), listDepthL10.get(i10).getData().getDepth(), childrenId);
+                                                                                            Timber.d("JSON REPLIES DEPTH LEVEL 10 %s", listDepthL10.get(i10).getData().getDepth());
+
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
 
                                                 }
                                             }
@@ -355,7 +403,6 @@ public class T1Operation {
 
             dataUtils.putNullCV(cv, Contract.T1dataEntry.COLUMN_NAME_HIDESCORE,
                     Utility.boolToInt(repliesListingData.getScoreHidden()));
-
 
 
             Uri uriReplies = mContext.getContentResolver().insert(Contract.T1dataEntry.CONTENT_URI, cv);
