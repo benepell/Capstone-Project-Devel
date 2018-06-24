@@ -162,11 +162,16 @@ public interface Costants {
     String PATTERN_MM_SS = "mm:ss";
 
     String STR_PARENT_COMMENT = "t3_";
-    String LIMIT_COMMENTS_RESULTS = "20";
-    String LIMIT_DEPTH_RESULTS = "3";
+    String LIMIT_COMMENTS_RESULTS = "30";
+    String LIMIT_DEPTH_RESULTS = "8";
 
     String LIMIT_REDDIT_RESULTS = "30";
-    int LEVEL_DEPTH_PADDING = 20;
+    int LEVEL_DEPTH_PADDING = 10;
+
+    String JSON_REPLIES_EMPTY = "\"replies\":\"\"";
+    String JSON_REPLIES_REPLACE = "\"replies\":{\"kind\":\"ReplaceString\"}";
+    String JSON_REPLIES_COMPARE = "ReplaceString";
+
 
     String COLOR_INDICATOR_0 = "#FF1744";
     String COLOR_INDICATOR_1 = "#2979FF";

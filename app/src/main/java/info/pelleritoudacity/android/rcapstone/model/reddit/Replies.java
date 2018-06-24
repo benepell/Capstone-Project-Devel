@@ -14,7 +14,7 @@ public class Replies implements Parcelable
     private String kind;
     @SerializedName("data")
     @Expose
-    private RepliesData data;
+    private T1Data data;
     public final static Parcelable.Creator<Replies> CREATOR = new Creator<Replies>() {
 
 
@@ -33,7 +33,7 @@ public class Replies implements Parcelable
 
     protected Replies(Parcel in) {
         this.kind = ((String) in.readValue((String.class.getClassLoader())));
-        this.data = ((RepliesData) in.readValue((RepliesData.class.getClassLoader())));
+        this.data = ((T1Data) in.readValue((T1Data.class.getClassLoader())));
     }
 
     public Replies() {
@@ -47,11 +47,11 @@ public class Replies implements Parcelable
         this.kind = kind;
     }
 
-    public RepliesData getData() {
+    public T1Data getData() {
         return data;
     }
 
-    public void setData(RepliesData data) {
+    public void setData(T1Data data) {
         this.data = data;
     }
 

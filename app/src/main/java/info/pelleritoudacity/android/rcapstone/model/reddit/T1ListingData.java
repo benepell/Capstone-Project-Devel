@@ -8,7 +8,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class T1ListingData  implements Parcelable {
+
+public class T1ListingData implements Parcelable {
 
     @SerializedName("subreddit_id")
     @Expose
