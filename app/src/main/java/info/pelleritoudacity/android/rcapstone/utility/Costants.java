@@ -164,15 +164,13 @@ public interface Costants {
     String STR_PARENT_COMMENT = "t3_";
     String DEFAULT_LISTING_KIND = "Listing";
     String LIMIT_COMMENTS_RESULTS = "30";
-    String LIMIT_DEPTH_RESULTS = "3";
+    String LIMIT_DEPTH_RESULTS = "5";
 
     String LIMIT_REDDIT_RESULTS = "30";
     int LEVEL_DEPTH_PADDING = 10;
 
     String JSON_REPLIES_EMPTY = "\"replies\":\"\"";
     String JSON_REPLIES_REPLACE = "\"replies\":{\"kind\":\"ReplaceString\"}";
-    String JSON_REPLIES_COMPARE = "ReplaceString";
-
 
     String COLOR_INDICATOR_0 = "#FF1744";
     String COLOR_INDICATOR_1 = "#2979FF";
@@ -185,6 +183,5 @@ public interface Costants {
     String COLOR_INDICATOR_8 = "#FFDE03";
     String COLOR_INDICATOR_9 = "#FF0266";
     String COLOR_INDICATOR_10 = "#FF9100";
-
 
 }

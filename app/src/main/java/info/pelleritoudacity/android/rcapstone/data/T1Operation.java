@@ -206,10 +206,10 @@ public class T1Operation {
 
     private void recursiveReplies(Replies r, int childrenId) {
         Replies replies = getReplies(r, childrenId);
-        int max=0;
-        while ((replies != null) || (max < Integer.parseInt(Costants.LIMIT_DEPTH_RESULTS))) {
+        int max = Integer.parseInt(Costants.LIMIT_DEPTH_RESULTS);
+        while ((replies != null) || (max > 0)) {
             replies = getReplies(replies, childrenId);
-            max++;
+            max--;
         }
     }
 
