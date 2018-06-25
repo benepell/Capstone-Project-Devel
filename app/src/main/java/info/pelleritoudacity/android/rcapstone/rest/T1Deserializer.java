@@ -12,6 +12,7 @@ import java.lang.reflect.Type;
 
 import info.pelleritoudacity.android.rcapstone.model.reddit.T1;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import timber.log.Timber;
 
 public class T1Deserializer implements JsonDeserializer<T1> {
 
@@ -21,7 +22,7 @@ public class T1Deserializer implements JsonDeserializer<T1> {
         Gson gson = new Gson();
         JsonObject objectData = json.getAsJsonObject();
 
-        String strRemoveEmptyString = objectData.toString().replaceAll(Costants.JSON_REPLIES_EMPTY,Costants.JSON_REPLIES_REPLACE );
+        String strRemoveEmptyString = objectData.toString().replaceAll(Costants.JSON_REPLIES_EMPTY, Costants.JSON_REPLIES_REPLACE);
 
         return gson.fromJson(strRemoveEmptyString, T1.class);
 
