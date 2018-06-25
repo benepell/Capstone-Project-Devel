@@ -221,7 +221,7 @@ public class T1Operation {
             for (int j = 0; j < listings.size(); j++) {
                 insertReplies(listings.get(j).getData(), listings.get(j).getData().getDepth(), childrenId);
 
-                if ((listings.get(j).getData().getReplies() != null) && (listings.get(j).getData().getReplies().getKind().contains("Listing"))) {
+                if ((listings.get(j).getData().getReplies() != null) && (listings.get(j).getData().getReplies().getKind().contains(Costants.DEFAULT_LISTING_KIND))) {
                     return listings.get(j).getData().getReplies();
                 }
             }
