@@ -162,8 +162,9 @@ public interface Costants {
     String PATTERN_MM_SS = "mm:ss";
 
     String STR_PARENT_COMMENT = "t3_";
+    String DEFAULT_LISTING_KIND = "Listing";
     String LIMIT_COMMENTS_RESULTS = "30";
-    String LIMIT_DEPTH_RESULTS = "8";
+    String LIMIT_DEPTH_RESULTS = "3";
 
     String LIMIT_REDDIT_RESULTS = "30";
     int LEVEL_DEPTH_PADDING = 10;

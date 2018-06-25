@@ -65,7 +65,7 @@ public class FirebaseRefreshTokenSync {
         }
     }
 
-    public static void initialize(Context context,int interval) {
+    public static void initialize(Context context, int interval) {
         if (sInit) return;
         sInit = true;
         scheduleFirebaseJobDispatcherSync(context, interval);

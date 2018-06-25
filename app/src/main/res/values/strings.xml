@@ -5,6 +5,7 @@
     <string name="title_activity_settings">Settings</string>
 
     <string name="content_authority" translatable="false">info.pelleritoudacity.android.rcapstone</string>
+
     <string name="pref_insert_prefs" translatable="false">info.pelleritoudacity.android.rcapstone.pref.insert.prefs</string>
 
     <string name="error_state_critical">Unable to start &app_name;\n cause: %1$s\n Please, start factory data reset in menu settings or restart app. </string>

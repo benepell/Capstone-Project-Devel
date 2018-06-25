@@ -1,16 +1,12 @@
 package info.pelleritoudacity.android.rcapstone.rest;
 
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import info.pelleritoudacity.android.rcapstone.model.reddit.Replies;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T1;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
@@ -18,10 +14,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class SubRedditDetailManager {
 
@@ -34,13 +28,13 @@ public class SubRedditDetailManager {
     private HashMap<String, String> mFieldMap;
     private Call<List<T1>> mCall;
 
+
     private SubRedditDetailManager(String token, String subRedditName, String nameRedditId, boolean isAuthenticate) {
 
         mIsAuthenticate = isAuthenticate;
         mAccessToken = token;
         mSubRedditName = subRedditName;
         mNameRedditId = nameRedditId;
-
 
         mFieldMap = new HashMap<>();
         mFieldMap.put("depth", Costants.LIMIT_DEPTH_RESULTS);

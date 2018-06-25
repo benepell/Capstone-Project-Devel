@@ -190,9 +190,7 @@ public class T1Operation {
                 dataUtils.putNullCV(arrT1CV[j], Contract.T1dataEntry.COLUMN_NAME_HIDESCORE,
                         Utility.boolToInt(t1Model.getScoreHidden()));
 
-                repliesDepth(t1Model.getReplies(), childrenId, Integer.parseInt(Costants.LIMIT_DEPTH_RESULTS));
-
-
+                recursiveReplies(t1Model.getReplies(), childrenId);
             }
 
         }
@@ -205,105 +203,30 @@ public class T1Operation {
         return uriReddit != null && uriData != null && countT1Data != 0;
     }
 
-    private void repliesDepth(Replies replies, int childrenId, int limit) {
-        if ((replies != null) && (replies.getData() != null) && (replies.getKind().contains("Listing"))) {
 
-            List<T1Listing> listDepthL1 = replies.getData().getChildren();
-            for (int i1 = 0; i1 < listDepthL1.size(); i1++) {
-                insertReplies(listDepthL1.get(i1).getData(), listDepthL1.get(i1).getData().getDepth(), childrenId);
-                Timber.d("JSON REPLIES DEPTH LEVEL 1 %s", listDepthL1.get(i1).getData().getDepth());
-
-                if ((listDepthL1.get(i1).getData().getReplies() != null) && (listDepthL1.get(i1).getData().getReplies().getKind().contains("Listing"))) {
-                    List<T1Listing> listDepthL2 = listDepthL1.get(i1).getData().getReplies().getData().getChildren();
-
-                    for (int i2 = 0; i2 < listDepthL2.size(); i2++) {
-                        insertReplies(listDepthL2.get(i2).getData(), listDepthL2.get(i2).getData().getDepth(), childrenId);
-                        Timber.d("JSON REPLIES DEPTH LEVEL 2 %s", listDepthL2.get(i2).getData().getDepth());
-
-                        if ((listDepthL2.get(i2).getData().getReplies() != null) && (listDepthL2.get(i2).getData().getReplies().getKind().contains("Listing"))) {
-
-                            List<T1Listing> listDepthL3 = listDepthL2.get(i2).getData().getReplies().getData().getChildren();
-
-                            for (int i3 = 0; i3 < listDepthL3.size(); i3++) {
-                                insertReplies(listDepthL3.get(i3).getData(), listDepthL3.get(i3).getData().getDepth(), childrenId);
-                                Timber.d("JSON REPLIES DEPTH LEVEL 3 %s", listDepthL3.get(i3).getData().getDepth());
-
-                                if ((listDepthL3.get(i3).getData().getReplies() != null) && (listDepthL3.get(i3).getData().getReplies().getKind().contains("Listing"))) {
-                                    List<T1Listing> listDepthL4 = listDepthL3.get(i3).getData().getReplies().getData().getChildren();
-
-                                    for (int i4 = 0; i4 < listDepthL4.size(); i4++) {
-                                        insertReplies(listDepthL4.get(i4).getData(), listDepthL4.get(i4).getData().getDepth(), childrenId);
-                                        Timber.d("JSON REPLIES DEPTH LEVEL 4 %s", listDepthL4.get(i4).getData().getDepth());
-
-                                        if ((listDepthL4.get(i4).getData().getReplies() != null) && (listDepthL4.get(i4).getData().getReplies().getKind().contains("Listing"))) {
-                                            List<T1Listing> listDepthL5 = listDepthL4.get(i4).getData().getReplies().getData().getChildren();
-
-                                            for (int i5 = 0; i5 < listDepthL5.size(); i5++) {
-                                                insertReplies(listDepthL5.get(i5).getData(), listDepthL5.get(i5).getData().getDepth(), childrenId);
-                                                Timber.d("JSON REPLIES DEPTH LEVEL 5 %s", listDepthL5.get(i5).getData().getDepth());
-
-                                                if ((listDepthL5.get(i5).getData().getReplies() != null) && (listDepthL5.get(i5).getData().getReplies().getKind().contains("Listing"))) {
-                                                    List<T1Listing> listDepthL6 = listDepthL5.get(i5).getData().getReplies().getData().getChildren();
-
-                                                    for (int i6 = 0; i6 < listDepthL6.size(); i6++) {
-                                                        insertReplies(listDepthL6.get(i6).getData(), listDepthL5.get(i6).getData().getDepth(), childrenId);
-                                                        Timber.d("JSON REPLIES DEPTH LEVEL 6 %s", listDepthL6.get(i6).getData().getDepth());
-
-                                                        if ((listDepthL6.get(i6).getData().getReplies() != null) && (listDepthL6.get(i6).getData().getReplies().getKind().contains("Listing"))) {
-                                                            List<T1Listing> listDepthL7 = listDepthL6.get(i6).getData().getReplies().getData().getChildren();
-
-                                                            for (int i7 = 0; i7 < listDepthL7.size(); i7++) {
-                                                                insertReplies(listDepthL7.get(i7).getData(), listDepthL7.get(i7).getData().getDepth(), childrenId);
-                                                                Timber.d("JSON REPLIES DEPTH LEVEL 7 %s", listDepthL7.get(i7).getData().getDepth());
-
-                                                                if ((listDepthL7.get(i7).getData().getReplies() != null) && (listDepthL7.get(i7).getData().getReplies().getKind().contains("Listing"))) {
-                                                                    List<T1Listing> listDepthL8 = listDepthL7.get(i7).getData().getReplies().getData().getChildren();
-
-                                                                    for (int i8 = 0; i8 < listDepthL8.size(); i8++) {
-                                                                        insertReplies(listDepthL8.get(i8).getData(), listDepthL8.get(i8).getData().getDepth(), childrenId);
-                                                                        Timber.d("JSON REPLIES DEPTH LEVEL 8 %s", listDepthL8.get(i8).getData().getDepth());
-
-                                                                        if ((listDepthL8.get(i8).getData().getReplies() != null) && (listDepthL8.get(i8).getData().getReplies().getKind().contains("Listing"))) {
-                                                                            List<T1Listing> listDepthL9 = listDepthL8.get(i8).getData().getReplies().getData().getChildren();
-
-                                                                            for (int i9 = 0; i9 < listDepthL9.size(); i9++) {
-                                                                                insertReplies(listDepthL9.get(i9).getData(), listDepthL9.get(i9).getData().getDepth(), childrenId);
-                                                                                Timber.d("JSON REPLIES DEPTH LEVEL 9 %s", listDepthL9.get(i9).getData().getDepth());
-
-                                                                                if ((listDepthL9.get(i9).getData().getReplies() != null) && (listDepthL9.get(i9).getData().getReplies().getKind().contains("Listing"))) {
-                                                                                    List<T1Listing> listDepthL10 = listDepthL9.get(i9).getData().getReplies().getData().getChildren();
-
-                                                                                    for (int i10 = 0; i10 < listDepthL10.size(); i10++) {
-                                                                                        insertReplies(listDepthL10.get(i10).getData(), listDepthL10.get(i10).getData().getDepth(), childrenId);
-                                                                                        Timber.d("JSON REPLIES DEPTH LEVEL 10 %s", listDepthL10.get(i10).getData().getDepth());
-
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-
-                                            }
-                                        }
-
-                                    }
-
-                                }
-
-                            }
-
-                        }
-                    }
-                }
-
-            }
-
+    private void recursiveReplies(Replies r, int childrenId) {
+        Replies replies = getReplies(r, childrenId);
+        int max=0;
+        while ((replies != null) || (max < Integer.parseInt(Costants.LIMIT_DEPTH_RESULTS))) {
+            replies = getReplies(replies, childrenId);
+            max++;
         }
+    }
+
+    private Replies getReplies(Replies replies, int childrenId) {
+
+        if ((replies != null) && (replies.getData() != null) && (replies.getKind().contains(Costants.DEFAULT_LISTING_KIND))) {
+            List<T1Listing> listings = replies.getData().getChildren();
+
+            for (int j = 0; j < listings.size(); j++) {
+                insertReplies(listings.get(j).getData(), listings.get(j).getData().getDepth(), childrenId);
+
+                if ((listings.get(j).getData().getReplies() != null) && (listings.get(j).getData().getReplies().getKind().contains("Listing"))) {
+                    return listings.get(j).getData().getReplies();
+                }
+            }
+        }
+        return null;
 
     }
 

@@ -12,7 +12,6 @@ import java.lang.reflect.Type;
 
 import info.pelleritoudacity.android.rcapstone.model.reddit.T1;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
-import timber.log.Timber;
 
 public class T1Deserializer implements JsonDeserializer<T1> {
 
