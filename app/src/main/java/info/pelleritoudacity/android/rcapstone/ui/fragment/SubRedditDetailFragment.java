@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -36,7 +37,10 @@ public class SubRedditDetailFragment extends Fragment
     RecyclerView mRecyclerView;
 
     private Context mContext;
+
     private static String sStrId = null;
+    private static Parcelable sState;
+
     private LinearLayoutManager mLayoutManager;
     private SubRedditDetailAdapter mAdapter;
 
@@ -51,7 +55,6 @@ public class SubRedditDetailFragment extends Fragment
         return fragment;
     }
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +64,6 @@ public class SubRedditDetailFragment extends Fragment
         if (getArguments() != null) {
             sStrId = getArguments().getString(Costants.EXTRA_FRAGMENT_SUBREDDIT_DETAIL);
         }
-
 
     }
 
@@ -95,26 +97,24 @@ public class SubRedditDetailFragment extends Fragment
 
         }
         if (savedInstanceState != null) {
-            // todo save state
+            sState = savedInstanceState.getParcelable(Costants.EXTRA_FRAGMENT_DETAIL_STATE);
         }
-
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-//        sListState = mLayoutManager.onSaveInstanceState();
-//        outState.putParcelable(Costants.EXTRA_FRAGMENT_STATE, sListState);
+        sState = mLayoutManager.onSaveInstanceState();
+        outState.putParcelable(Costants.EXTRA_FRAGMENT_DETAIL_STATE, sState);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-//        if (sListState != null) {
-//            mLayoutManager.onRestoreInstanceState(sListState);
-//        }
+        if (sState != null) {
+            mLayoutManager.onRestoreInstanceState(sState);
+        }
     }
-
 
     @NonNull
     @Override
@@ -162,9 +162,9 @@ public class SubRedditDetailFragment extends Fragment
         public Cursor loadInBackground() {
             try {
                 Uri uri = Contract.T1dataEntry.CONTENT_URI;
-                String selection = Contract.T1dataEntry.COLUMN_NAME_ID + " =?" + " OR "+
-                Contract.T1dataEntry.COLUMN_NAME_LINK_ID + " =?" ;
-                String[] selectionArgs = new String[]{sStrId,Costants.STR_PARENT_COMMENT + sStrId};
+                String selection = Contract.T1dataEntry.COLUMN_NAME_ID + " =?" + " OR " +
+                        Contract.T1dataEntry.COLUMN_NAME_LINK_ID + " =?";
+                String[] selectionArgs = new String[]{sStrId, Costants.STR_PARENT_COMMENT + sStrId};
                 return getContext().getContentResolver().query(uri,
                         null,
                         selection,

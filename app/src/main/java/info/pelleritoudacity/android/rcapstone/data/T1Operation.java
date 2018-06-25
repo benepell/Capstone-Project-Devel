@@ -52,12 +52,10 @@ public class T1Operation {
         if (mModelT1 == null) return false;
 
         ContentValues arrayCVT1 = new ContentValues();
-//        if(mModelT1.get(indexRoot).getKind() !=null) {
 
         arrayCVT1.put(Contract.RedditEntry.COLUMN_NAME_KIND, mModelT1.get(indexRoot).getKind());
-//        }
         arrayCVT1.put(Contract.RedditEntry.COLUMN_NAME_DATA, indexRoot + 1);
-        // data
+
         T1Data dataModel = mModelT1.get(indexRoot).getData();
         ContentValues dataCV = new ContentValues();
         dataCV.put(Contract.DataEntry.COLUMN_NAME_DIST, dataModel.getDist());
@@ -203,7 +201,6 @@ public class T1Operation {
         return uriReddit != null && uriData != null && countT1Data != 0;
     }
 
-
     private void recursiveReplies(Replies r, int childrenId) {
         Replies replies = getReplies(r, childrenId);
         int max = Integer.parseInt(Costants.LIMIT_DEPTH_RESULTS);
@@ -214,20 +211,19 @@ public class T1Operation {
     }
 
     private Replies getReplies(Replies replies, int childrenId) {
-
         if ((replies != null) && (replies.getData() != null) && (replies.getKind().contains(Costants.DEFAULT_LISTING_KIND))) {
             List<T1Listing> listings = replies.getData().getChildren();
 
-            for (int j = 0; j < listings.size(); j++) {
-                insertReplies(listings.get(j).getData(), listings.get(j).getData().getDepth(), childrenId);
+            for (T1Listing t1Listings : listings) {
+                insertReplies(t1Listings.getData(), t1Listings.getData().getDepth(), childrenId);
 
-                if ((listings.get(j).getData().getReplies() != null) && (listings.get(j).getData().getReplies().getKind().contains(Costants.DEFAULT_LISTING_KIND))) {
-                    return listings.get(j).getData().getReplies();
+                if ((t1Listings.getData().getReplies() != null) &&
+                        (t1Listings.getData().getReplies().getKind().contains(Costants.DEFAULT_LISTING_KIND))) {
+                    return t1Listings.getData().getReplies();
                 }
             }
         }
         return null;
-
     }
 
 

@@ -90,6 +90,7 @@ public interface Costants {
     String EXTRA_FRAGMENT_SUBREDDIT_DETAIL = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.detail";
     String EXTRA_FRAGMENT_TARGET = "info.pelleritoudacity.android.rcapstone.extra.fragment.target";
     String EXTRA_FRAGMENT_STATE = "info.pelleritoudacity.android.rcapstone.extra.fragment.state";
+    String EXTRA_FRAGMENT_DETAIL_STATE = "info.pelleritoudacity.android.rcapstone.extra.fragment.detail.state";
 
     String EXTRA_SUBREDDIT_SHARE_URL_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.subreddit.share.url.fullscreen";
     String EXTRA_SUBREDDIT_SHARE_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.subreddit.share.fullscreen";
@@ -164,7 +165,7 @@ public interface Costants {
     String STR_PARENT_COMMENT = "t3_";
     String DEFAULT_LISTING_KIND = "Listing";
     String LIMIT_COMMENTS_RESULTS = "30";
-    String LIMIT_DEPTH_RESULTS = "5";
+    String LIMIT_DEPTH_RESULTS = "3";
 
     String LIMIT_REDDIT_RESULTS = "30";
     int LEVEL_DEPTH_PADDING = 10;
