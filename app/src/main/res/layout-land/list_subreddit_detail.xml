@@ -52,25 +52,25 @@
                             android:id="@+id/tv_author"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:ellipsize="end"
                             android:fontFamily="@font/roboto_regular"
                             android:gravity="start"
-                            android:layout_weight="1"
                             android:maxLines="@integer/list_body_text_author"
                             android:paddingBottom="@dimen/list_padding_vertical_author"
                             android:paddingEnd="@dimen/list_padding_horizontal_author"
                             android:paddingStart="@dimen/list_padding_horizontal_author"
+                            android:text=""
                             android:textColor="@color/textColorSecondary"
-                            android:textStyle="bold"
-                            android:text="" />
+                            android:textStyle="bold" />
 
 
                         <TextView
                             android:id="@+id/tv_points"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"
                             android:layout_gravity="end"
+                            android:fontFamily="@font/roboto_regular"
                             android:paddingBottom="@dimen/list_padding_vertical_author"
                             android:paddingEnd="@dimen/list_padding_horizontal_author"
                             android:paddingStart="@dimen/list_padding_horizontal_author"
@@ -85,9 +85,9 @@
                             android:paddingBottom="@dimen/list_padding_vertical_author"
                             android:paddingEnd="@dimen/list_padding_horizontal_author"
                             android:paddingStart="@dimen/list_padding_horizontal_author"
+                            android:text=""
                             android:textColor="@color/textColorSecondary"
-                            android:textStyle="italic"
-                            android:text="" />
+                            android:textStyle="italic" />
 
                     </LinearLayout>
 
@@ -96,18 +96,20 @@
                         android:id="@+id/tv_body"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:autoLink="web"
+                        android:clickable="true"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="start|center_vertical"
                         android:paddingBottom="@dimen/list_padding_vertical_author"
                         android:paddingEnd="@dimen/list_padding_horizontal_author"
                         android:paddingStart="@dimen/list_padding_horizontal_author"
-                        android:autoLink="web"
-                        android:clickable="true"
-                        android:textColor="@color/textColorSecondary"/>
+                        android:textColor="@color/textColorSecondary" />
 
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+
+        <include layout="@layout/inc_select_bottom" />
 
     </LinearLayout>
 

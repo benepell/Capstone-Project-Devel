@@ -109,6 +109,8 @@
             </LinearLayout>
         </LinearLayout>
 
+        <include layout="@layout/inc_select_bottom"/>
+
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

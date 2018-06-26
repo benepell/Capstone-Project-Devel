@@ -53,11 +53,13 @@ import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
 import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditDetailActivity;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
+import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SubRedditHelper;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtils;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.DateUtils.getHourCurrentCreatedUtc;
 import static info.pelleritoudacity.android.rcapstone.utility.DateUtils.getStringCurrentCreatedUtd;
@@ -283,10 +285,14 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
                         mContext.getString(R.string.text_comments_subreddit))
         );
 
-        subRedditHelper.cardBottomLink(mArrayButton,
+        SelectorHelper selectorHelper = new SelectorHelper(mContext);
+
+        selectorHelper.cardBottomLink(mArrayButton,
                 TextUtil.buildCommentLink(subRedditNamePrefix, nameIdReddit), nameReddit);
 
+
         holder.bind(holder.getAdapterPosition(), subReddit, nameIdReddit);
+
 
         mListener.adapterPosition(holder.getAdapterPosition(), subReddit);
     }

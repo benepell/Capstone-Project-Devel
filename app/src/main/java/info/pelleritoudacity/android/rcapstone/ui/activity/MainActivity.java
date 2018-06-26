@@ -84,6 +84,7 @@ public class MainActivity extends BaseActivity
         PrefManager.putBoolPref(mContext, R.string.pref_volume_muted, Costants.IS_MUTED_AUDIO);
 
         Timber.d("VALUE %s", BuildConfig.APPLICATION_ID);
+
     }
 
 

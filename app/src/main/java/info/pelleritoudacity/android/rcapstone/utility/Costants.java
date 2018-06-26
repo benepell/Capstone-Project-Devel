@@ -173,16 +173,7 @@ public interface Costants {
     String JSON_REPLIES_EMPTY = "\"replies\":\"\"";
     String JSON_REPLIES_REPLACE = "\"replies\":{\"kind\":\"ReplaceString\"}";
 
-    String COLOR_INDICATOR_0 = "#FF1744";
-    String COLOR_INDICATOR_1 = "#2979FF";
-    String COLOR_INDICATOR_2 = "#76FF03";
-    String COLOR_INDICATOR_3 = "#FFEA00";
-    String COLOR_INDICATOR_4 = "#3D5AFE";
-    String COLOR_INDICATOR_5 = "#BB86FC";
-    String COLOR_INDICATOR_6 = "#3700B3";
-    String COLOR_INDICATOR_7 = "#C51162";
-    String COLOR_INDICATOR_8 = "#FFDE03";
-    String COLOR_INDICATOR_9 = "#FF0266";
-    String COLOR_INDICATOR_10 = "#FF9100";
-
+    String DEFAULT_COLOR_INDICATOR = "#FF1744" + "," + "#2979FF" + "," + "#76FF03" + "," +
+            "#FFEA00" + "," + "#3D5AFE" + "," + "#BB86FC" + "," +
+            "#C51162" + "," + "#FFDE03" + "," + "#FF0266";
 }

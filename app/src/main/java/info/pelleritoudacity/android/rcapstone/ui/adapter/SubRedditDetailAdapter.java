@@ -11,11 +11,15 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -24,9 +28,12 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditDetailFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
+import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
+import info.pelleritoudacity.android.rcapstone.ui.helper.SubRedditDetailHelper;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtils;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
 
 public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetailAdapter.SubRedditDetailHolder> {
@@ -34,6 +41,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
     private final Context mContext;
     private final SubRedditDetailFragment mListener;
     private Cursor mCursor;
+    private ImageButton[] mArrayButton;
 
 
     public SubRedditDetailAdapter(SubRedditDetailFragment listener) {
@@ -56,6 +64,10 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
 
     @Override
     public void onBindViewHolder(@NonNull SubRedditDetailHolder holder, int position) {
+
+        mArrayButton = new ImageButton[]{holder.mImageButtonVoteUp, holder.mImageButtonVoteDown,
+                holder.mImageButtonPreferStars, holder.mImageButtonShowComments, holder.mImageButtonOpenBrowser};
+
         mCursor.moveToPosition(position);
 
         String subReddit = mCursor.getString(
@@ -150,51 +162,25 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
 
 
         if (!TextUtils.isEmpty(author)) holder.mTextViewAuthor.setText(author + ":");
-        holder.mTextViewPostedOn.setText(DateUtils.getStringCurrentCreatedUtd(mContext,createdUtc));
+        holder.mTextViewPostedOn.setText(DateUtils.getStringCurrentCreatedUtd(mContext, createdUtc));
         holder.mTextViewPoints.setText(score);
         if (!TextUtils.isEmpty(body)) holder.mTextViewBody.setText(TextUtil.textFromHtml(body));
 
-        holder.mCardLinear.setPadding(Costants.LEVEL_DEPTH_PADDING * depth, 0, 0, 0);
+        SubRedditDetailHelper subRedditDetailHelper = new SubRedditDetailHelper(mContext);
+        subRedditDetailHelper.initDepthIndicator(holder.mDepthIndicator,holder.mCardLinear, depth,true);
 
-        switch (depth) {
-            case 0:
-                holder.mDepthIndicator.setBackgroundColor(Color.parseColor(Costants.COLOR_INDICATOR_0));
-                break;
-            case 1:
-                holder.mDepthIndicator.setBackgroundColor(Color.parseColor(Costants.COLOR_INDICATOR_1));
-                break;
-            case 2:
-                holder.mDepthIndicator.setBackgroundColor(Color.parseColor(Costants.COLOR_INDICATOR_2));
-                break;
-            case 3:
-                holder.mDepthIndicator.setBackgroundColor(Color.parseColor(Costants.COLOR_INDICATOR_3));
-                break;
-            case 4:
-                holder.mDepthIndicator.setBackgroundColor(Color.parseColor(Costants.COLOR_INDICATOR_4));
-                break;
-            case 5:
-                holder.mDepthIndicator.setBackgroundColor(Color.parseColor(Costants.COLOR_INDICATOR_5));
-                break;
-            case 6:
-                holder.mDepthIndicator.setBackgroundColor(Color.parseColor(Costants.COLOR_INDICATOR_6));
-                break;
-            case 7:
-                holder.mDepthIndicator.setBackgroundColor(Color.parseColor(Costants.COLOR_INDICATOR_7));
-                break;
-            case 8:
-                holder.mDepthIndicator.setBackgroundColor(Color.parseColor(Costants.COLOR_INDICATOR_8));
-                break;
-            case 9:
-                holder.mDepthIndicator.setBackgroundColor(Color.parseColor(Costants.COLOR_INDICATOR_9));
-                break;
-            default:
-                holder.mDepthIndicator.setBackgroundColor(Color.parseColor(Costants.COLOR_INDICATOR_10));
-                break;
-
-        }
-
+        SelectorHelper selectorHelper = new SelectorHelper(mContext);
+        selectorHelper.cardBottomLink(mArrayButton,
+                TextUtil.buildCommentLink(subRedditName, subRedditId), subReddit);
 
         holder.bind(holder.getAdapterPosition());
+
+        holder.mTextViewBody.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         mListener.adapterPosition(holder.getAdapterPosition(), subReddit);
     }
@@ -206,7 +192,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
 
 
     public class SubRedditDetailHolder extends RecyclerView.ViewHolder
-            implements ItemTouchHelperViewHolder {
+            implements View.OnClickListener, ItemTouchHelperViewHolder {
 
         @SuppressWarnings("unused")
         @BindView(R.id.tv_author)
@@ -232,11 +218,43 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         @BindView(R.id.view_depth)
         View mDepthIndicator;
 
+        @SuppressWarnings("unused")
+        @BindView(R.id.container_selector)
+        LinearLayout mSelectorContainer;
+
+        @SuppressWarnings("unused")
+        @BindView(R.id.image_vote_up)
+        ImageButton mImageButtonVoteUp;
+
+        @SuppressWarnings("unused")
+        @BindView(R.id.image_vote_down)
+        ImageButton mImageButtonVoteDown;
+
+        @SuppressWarnings("unused")
+        @BindView(R.id.image_prefer_stars)
+        ImageButton mImageButtonPreferStars;
+
+        @SuppressWarnings("unused")
+        @BindView(R.id.image_show_comments)
+        ImageButton mImageButtonShowComments;
+
+        @SuppressWarnings("unused")
+        @BindView(R.id.image_open_browser)
+        ImageButton mImageButtonOpenBrowser;
+
+
         private int mPosition;
 
         SubRedditDetailHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
+
+            mTextViewBody.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                }
+            });
         }
 
         @Override
@@ -250,7 +268,12 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         }
 
         void bind(int position) {
+
             mPosition = position;
+        }
+
+        @Override
+        public void onClick(View view) {
         }
     }
 
