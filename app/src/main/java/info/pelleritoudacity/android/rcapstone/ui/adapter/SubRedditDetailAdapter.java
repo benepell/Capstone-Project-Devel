@@ -175,7 +175,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
 
         SelectorHelper selectorHelper = new SelectorHelper(mContext);
         selectorHelper.cardBottomLink(mArrayButton, strBackGroundColor,
-                TextUtil.buildCommentLink(subRedditName, subRedditId), subReddit);
+               TextUtil.buildCommentDetailLink( permanentLink), subRedditName);
 
         if (holder.getAdapterPosition() != mSelectorPosition) {
             holder.mSelectorContainer.setVisibility(View.GONE);

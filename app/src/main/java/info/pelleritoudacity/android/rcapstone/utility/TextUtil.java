@@ -88,18 +88,25 @@ public class TextUtil {
         return url;
     }
 
-
     public static String buildCommentLink(String redditnamePrefix, String redditNameId) {
+        Uri.Builder builderRedditComments = new Uri.Builder();
+
+            return builderRedditComments.scheme("https")
+                    .authority(Costants.REDDIT_AUTH_URL)
+                    .appendEncodedPath(redditnamePrefix)
+                    .appendPath(Costants.REDDIT_COMMENTS)
+                    .appendPath(redditNameId).build().toString();
+
+    }
+
+    public static String buildCommentDetailLink(String permalink) {
         Uri.Builder builderRedditComments = new Uri.Builder();
 
         return builderRedditComments.scheme("https")
                 .authority(Costants.REDDIT_AUTH_URL)
-                .appendEncodedPath(redditnamePrefix)
-                .appendPath(Costants.REDDIT_COMMENTS)
-                .appendPath(redditNameId).build().toString();
+                .appendEncodedPath(permalink).build().toString();
 
     }
-
     public static String youtubeValue(String youtubeUrl) {
         int nSearchLeft;
         int nSearchRight;

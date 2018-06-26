@@ -37,6 +37,7 @@ public class VoteExecute {
 
     public interface RestAccessToken {
         void onRestVote(int responseCode);
+
         void onErrorVote(Throwable t);
     }
 }
