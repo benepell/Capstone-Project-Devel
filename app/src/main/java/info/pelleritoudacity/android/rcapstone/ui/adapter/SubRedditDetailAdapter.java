@@ -9,12 +9,14 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -42,6 +44,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
     private final SubRedditDetailFragment mListener;
     private Cursor mCursor;
     private ImageButton[] mArrayButton;
+    private static int mSelectorPosition = RecyclerView.NO_POSITION;
 
 
     public SubRedditDetailAdapter(SubRedditDetailFragment listener) {
@@ -167,20 +170,19 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         if (!TextUtils.isEmpty(body)) holder.mTextViewBody.setText(TextUtil.textFromHtml(body));
 
         SubRedditDetailHelper subRedditDetailHelper = new SubRedditDetailHelper(mContext);
-        subRedditDetailHelper.initDepthIndicator(holder.mDepthIndicator,holder.mCardLinear, depth,true);
+        subRedditDetailHelper.initDepthIndicator(holder.mDepthIndicator, holder.mCardLinear, depth, true, false);
+        String strBackGroundColor = subRedditDetailHelper.initDepthIndicator(holder.mDepthSelect, holder.mSelectorContainer, depth, true, true);
 
         SelectorHelper selectorHelper = new SelectorHelper(mContext);
-        selectorHelper.cardBottomLink(mArrayButton,
+        selectorHelper.cardBottomLink(mArrayButton, strBackGroundColor,
                 TextUtil.buildCommentLink(subRedditName, subRedditId), subReddit);
 
-        holder.bind(holder.getAdapterPosition());
+        if (holder.getAdapterPosition() != mSelectorPosition) {
+            holder.mSelectorContainer.setVisibility(View.GONE);
 
-        holder.mTextViewBody.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+        } else {
+            holder.mSelectorContainer.setVisibility(View.VISIBLE);
+        }
 
         mListener.adapterPosition(holder.getAdapterPosition(), subReddit);
     }
@@ -192,7 +194,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
 
 
     public class SubRedditDetailHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener, ItemTouchHelperViewHolder {
+            implements View.OnClickListener {
 
         @SuppressWarnings("unused")
         @BindView(R.id.tv_author)
@@ -219,6 +221,10 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         View mDepthIndicator;
 
         @SuppressWarnings("unused")
+        @BindView(R.id.view_select_depth)
+        View mDepthSelect;
+
+        @SuppressWarnings("unused")
         @BindView(R.id.container_selector)
         LinearLayout mSelectorContainer;
 
@@ -242,9 +248,6 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         @BindView(R.id.image_open_browser)
         ImageButton mImageButtonOpenBrowser;
 
-
-        private int mPosition;
-
         SubRedditDetailHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -253,30 +256,31 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
             mTextViewBody.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    clickSelector(getAdapterPosition());
+                    notifyDataSetChanged();
+
                 }
             });
         }
 
-        @Override
-        public void onItemSelected() {
-
-        }
-
-        @Override
-        public void onItemClear() {
-
-        }
-
-        void bind(int position) {
-
-            mPosition = position;
+        void bind() {
         }
 
         @Override
         public void onClick(View view) {
+            clickSelector(getAdapterPosition());
+            notifyDataSetChanged();
         }
+
     }
 
+    private void clickSelector(int position) {
+        if (mSelectorPosition != RecyclerView.NO_POSITION) {
+            mSelectorPosition = RecyclerView.NO_POSITION;
+        } else {
+            mSelectorPosition = position;
+        }
+    }
 
     @SuppressWarnings("UnusedReturnValue")
     public Cursor swapCursor(Cursor c) {
@@ -293,6 +297,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
     }
 
     public interface OnAdapterListener {
+
         void adapterPosition(int position, String category);
     }
 }

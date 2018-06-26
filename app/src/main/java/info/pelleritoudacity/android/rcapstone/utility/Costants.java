@@ -165,7 +165,7 @@ public interface Costants {
     String STR_PARENT_COMMENT = "t3_";
     String DEFAULT_LISTING_KIND = "Listing";
     String LIMIT_COMMENTS_RESULTS = "30";
-    String LIMIT_DEPTH_RESULTS = "3";
+    String LIMIT_DEPTH_RESULTS = "5";
 
     String LIMIT_REDDIT_RESULTS = "30";
     int LEVEL_DEPTH_PADDING = 10;
@@ -176,4 +176,10 @@ public interface Costants {
     String DEFAULT_COLOR_INDICATOR = "#FF1744" + "," + "#2979FF" + "," + "#76FF03" + "," +
             "#FFEA00" + "," + "#3D5AFE" + "," + "#BB86FC" + "," +
             "#C51162" + "," + "#FFDE03" + "," + "#FF0266";
+
+    String DEFAULT_COLOR_BACKGROUND = "#FFEBEE" + "," + "#E3F2FD" + "," + "#F1F8E9" + "," +
+            "#FFFDE7" + "," + "#E8EAF6" + "," + "#EDE7F6" + "," +
+            "#FCE4EC" + "," + "#FFF8E1" + "," + "#FCE4EC";
+
+
 }

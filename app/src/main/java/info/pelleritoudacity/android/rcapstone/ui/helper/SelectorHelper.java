@@ -33,7 +33,7 @@ public class SelectorHelper {
         mContext = context;
     }
 
-    public void cardBottomLink(ImageButton[] arrayButton, String linkComments, String nameReddit) {
+    public void cardBottomLink(ImageButton[] arrayButton, String strBackgroundColor, String linkComments, String nameReddit) {
 
         if ((arrayButton != null) && (arrayButton.length == 5)) {
 
@@ -43,7 +43,11 @@ public class SelectorHelper {
             ImageButton buttonComments = arrayButton[3];
             ImageButton buttonOpenBrowser = arrayButton[4];
 
-            buttonVoteUp.setBackgroundColor(Color.WHITE);
+            if (strBackgroundColor == null) {
+                strBackgroundColor = "#FFFFFF";
+            }
+
+            buttonVoteUp.setBackgroundColor(Color.parseColor(strBackgroundColor));
             buttonVoteUp.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_thumb_up)
                     .color(Color.GRAY)
                     .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
@@ -90,7 +94,7 @@ public class SelectorHelper {
                 }
             });
 
-            buttonVoteDown.setBackgroundColor(Color.WHITE);
+            buttonVoteDown.setBackgroundColor(Color.parseColor(strBackgroundColor));
             buttonVoteDown.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_thumb_down)
                     .color(Color.GRAY)
                     .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
@@ -139,21 +143,21 @@ public class SelectorHelper {
                     .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
                     .respectFontBounds(true));
 
-            buttonStars.setBackgroundColor(Color.WHITE);
+            buttonStars.setBackgroundColor(Color.parseColor(strBackgroundColor));
 
             buttonComments.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_comment_outline)
                     .color(Color.GRAY)
                     .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
                     .respectFontBounds(true));
 
-            buttonComments.setBackgroundColor(Color.WHITE);
+            buttonComments.setBackgroundColor(Color.parseColor(strBackgroundColor));
 
             buttonOpenBrowser.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_open_in_browser)
                     .color(Color.GRAY)
                     .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
                     .respectFontBounds(true));
 
-            buttonOpenBrowser.setBackgroundColor(Color.WHITE);
+            buttonOpenBrowser.setBackgroundColor(Color.parseColor(strBackgroundColor));
 
             if (!TextUtils.isEmpty(linkComments)) {
                 buttonOpenBrowser.setOnClickListener(view -> mContext.startActivity(new Intent(

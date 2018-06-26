@@ -287,7 +287,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
         SelectorHelper selectorHelper = new SelectorHelper(mContext);
 
-        selectorHelper.cardBottomLink(mArrayButton,
+        selectorHelper.cardBottomLink(mArrayButton,null,
                 TextUtil.buildCommentLink(subRedditNamePrefix, nameIdReddit), nameReddit);
 
 

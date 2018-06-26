@@ -16,38 +16,54 @@ public class SubRedditDetailHelper {
         mContext = context;
     }
 
-    public void initDepthIndicator(View viewIndicator,View viewCard, int depth, boolean enablePadding) {
-        int depthBackGroundColor = getDepthBackground(depth);
-        if (depthBackGroundColor != 0) {
-            viewIndicator.setBackgroundColor(depthBackGroundColor);
+    public String initDepthIndicator(View viewIndicator, View viewCard, int depth, boolean enablePadding, boolean enableColorBackground) {
+        if (getDepthBackground(depth) != null) {
 
-            if (enablePadding) {
-                int padding = Costants.LEVEL_DEPTH_PADDING;
-                int limit = Integer.parseInt(Costants.LIMIT_DEPTH_RESULTS);
-                if (limit < 5) {
-                    padding *= 2;
-                } else if (limit > 10) {
-                    padding *= 0.5;
+            String depthBackGroundColor = getDepthBackground(depth)[0];
+            if (depthBackGroundColor != null) {
+
+
+                viewIndicator.setBackgroundColor(Color.parseColor(depthBackGroundColor));
+                viewIndicator.setVisibility(View.VISIBLE);
+                if (enablePadding) {
+                    int padding = Costants.LEVEL_DEPTH_PADDING;
+                    int limit = Integer.parseInt(Costants.LIMIT_DEPTH_RESULTS);
+                    if (limit < 5) {
+                        padding *= 2;
+                    } else if (limit > 10) {
+                        padding *= 0.5;
+                    }
+
+                    viewCard.setPadding(padding * depth, 0, 0, 0);
+
                 }
-                viewCard.setPadding(padding * depth, 0, 0, 0);
 
+                if(enableColorBackground){
+                    return getDepthBackground(depth)[1];
+                }
             }
 
         }
-
+        return null;
     }
 
-    public int getDepthBackground(int depthLevel){
+    public String[] getDepthBackground(int depthLevel) {
 
-        List<String> colors= TextUtil.stringToArray(Costants.DEFAULT_COLOR_INDICATOR);
+        List<String> colors = TextUtil.stringToArray(Costants.DEFAULT_COLOR_INDICATOR);
+        List<String> backgrounds = TextUtil.stringToArray(Costants.DEFAULT_COLOR_BACKGROUND);
+
+        String[] arrayColors = new String[2];
         int colorSize = colors.size();
-        for (int i = 0; i <colorSize ; i++) {
-            if(depthLevel ==i){
-                return Color.parseColor(colors.get((i%colorSize)));
+        for (int i = 0; i < colorSize; i++) {
+            if (depthLevel == i) {
+                arrayColors[0] = colors.get((i % colorSize));
+                arrayColors[1] = backgrounds.get((i % colorSize));
+
+                return arrayColors;
             }
         }
 
-        return 0;
+        return null;
     }
 
 }
