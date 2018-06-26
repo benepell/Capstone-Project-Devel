@@ -52,17 +52,4 @@ public class Utility {
         return 0;
     }
 
-    public static int getDepthBackground(int depthLevel){
-        int max = Integer.parseInt(Costants.LIMIT_DEPTH_RESULTS);
-        List<String> colors= TextUtil.stringToArray(Costants.DEFAULT_COLOR_INDICATOR);
-        int colorSize = colors.size();
-        for (int i = 0; i <colorSize ; i++) {
-            if(depthLevel ==i){
-                return Color.parseColor(colors.get((i%colorSize)));
-            }
-        }
-
-        return 0;
-    }
-
 }
