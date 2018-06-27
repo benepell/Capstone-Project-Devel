@@ -26,11 +26,15 @@
 
 package info.pelleritoudacity.android.rcapstone.rest;
 
+import android.content.Context;
+
 import java.util.concurrent.TimeUnit;
 
+import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T5;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,9 +45,10 @@ public class RestManager {
 
     private static RedditAPI sRestAPI;
     private static RestManager sRestManager;
+    private Context mContext;
     private Call<T5> mCall;
 
-    private RestManager() {
+    private RestManager(Context context) {
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(Costants.OK_HTTP_CONNECTION_TIMEOUT, TimeUnit.SECONDS)
@@ -56,16 +61,16 @@ public class RestManager {
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
+        mContext = context;
         sRestAPI = retrofit.create(RedditAPI.class);
 
     }
 
-    public static RestManager getInstance() {
+    public static RestManager getInstance(Context context) {
         if (sRestManager != null) {
             sRestManager.cancelRequest();
         }
-        sRestManager = new RestManager();
+        sRestManager = new RestManager(context);
         return sRestManager;
     }
 

@@ -37,6 +37,7 @@ import info.pelleritoudacity.android.rcapstone.model.reddit.T5Listing;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+import timber.log.Timber;
 
 public class T5Operation {
     private final T5 mModelT5;
@@ -50,13 +51,13 @@ public class T5Operation {
     public boolean insertDataPrefSubReddit() {
 
         if (mModelT5 == null) return false;
-        
+
         int t5Size = mModelT5.getData().getChildren().size();
         int position;
         ContentValues[] arrCV = new ContentValues[t5Size];
-        
-       DataUtils dataUtils = new DataUtils(mContext);
-        
+
+        DataUtils dataUtils = new DataUtils(mContext);
+
         for (int i = 0; i < t5Size; i++) {
 
             position = i + 1;
@@ -68,7 +69,7 @@ public class T5Operation {
             dataUtils.putNullCV(arrCV[i], Contract.PrefSubRedditEntry.COLUMN_NAME_NAME,
                     TextUtil.normalizeSubRedditLink(t5Model.getUrl()));
 
-           dataUtils.putNullCV(arrCV[i], Contract.PrefSubRedditEntry.COLUMN_NAME_IMAGE,
+            dataUtils.putNullCV(arrCV[i], Contract.PrefSubRedditEntry.COLUMN_NAME_IMAGE,
                     t5Model.getIconImg());
 
             arrCV[i].put(Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE,
@@ -120,8 +121,8 @@ public class T5Operation {
         int t5Size = mModelT5.getData().getChildren().size();
 
         DataUtils dataUtils = new DataUtils(mContext);
-        
-        
+
+
         ContentValues[] arrCV = new ContentValues[t5Size];
 
         for (int i = 0; i < t5Size; i++) {
@@ -309,6 +310,9 @@ public class T5Operation {
             dataUtils.putNullCV(arrCV[i], Contract.T5dataEntry.COLUMN_NAME_SUBMISSION_TYPE,
                     t5Model.getSubmissionType());
 
+            dataUtils.putNullCV(arrCV[i], Contract.T5dataEntry.COLUMN_NAME_SORT_BY,
+                    PrefManager.getStringPref(mContext,R.string.pref_subreddit_sort));
+
             dataUtils.putNullCV(arrCV[i], Contract.T5dataEntry.COLUMN_NAME_USER_IS_SUBSCRIBER,
                     t5Model.getUserIsSubscriber());
 
@@ -338,8 +342,6 @@ public class T5Operation {
         mContext.getContentResolver().delete(Contract.DataEntry.CONTENT_URI, null, null);
         mContext.getContentResolver().delete(Contract.T5dataEntry.CONTENT_URI, null, null);
     }
-
-
 
 
 }

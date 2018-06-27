@@ -53,25 +53,37 @@ public interface RedditAPI {
     @GET("/r/.json")
     Call<T5> getReddit();
 
-    @GET("/r/{subreddit_name}/.json")
+    @GET("/r/{subreddit_name}/{sort}/.json")
     Call<T3> getSubReddit(
             @Path(value = "subreddit_name", encoded = true) String subreddit_name,
+            @Path(value = "sort", encoded = true) String sortBy,
             @QueryMap Map<String, String> options
     );
 
-    @GET("/r/{subreddit_name}/comments/{id}/.json")
+    @GET("/r/{subreddit_name}/{sort}/.json")
+    @Headers("User-Agent: " + Costants.REDDIT_USER_AGENT)
+    Call<T3> getSubRedditAuth(@Header("Authorization") String authorization,
+                              @Path(value = "subreddit_name", encoded = true) String subreddit_name,
+                              @Path(value = "sort", encoded = true) String sortBy,
+                              @QueryMap Map<String, String> options
+    );
+
+    @GET("/r/{subreddit_name}/comments/{id}/{sort}/.json")
     Call<List<T1>> getComments(
             @Path(value = "subreddit_name", encoded = true) String subreddit_name,
             @Path(value = "id", encoded = true) String strId,
-                         @QueryMap Map<String, String> options
+            @Path(value = "sort", encoded = true) String sortBy,
+            @QueryMap Map<String, String> options
     );
 
- @GET("/r/{subreddit_name}/comments/{id}")
+    @GET("/r/{subreddit_name}/comments/{id}/{sort}/.json")
     @Headers("User-Agent: " + Costants.REDDIT_USER_AGENT)
     Call<List<T1>> getCommentsAuth(@Header("Authorization") String authorization,
-                         @Path(value = "subreddit_name", encoded = true) String subreddit_name,
-                         @Path(value = "id", encoded = true) String strId,
-                         @QueryMap Map<String, String> options
+                                   @Path(value = "subreddit_name", encoded = true) String subreddit_name,
+                                   @Path(value = "id", encoded = true) String strId,
+                                   @Path(value = "sort", encoded = true) String sortBy,
+
+                                   @QueryMap Map<String, String> options
     );
 
     @FormUrlEncoded

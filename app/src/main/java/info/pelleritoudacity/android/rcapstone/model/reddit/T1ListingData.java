@@ -47,7 +47,6 @@ public class T1ListingData implements Parcelable {
     @SerializedName("no_follow")
     @Expose
     private Boolean noFollow;
-    // todo replies problem
     @SerializedName("replies")
     @Expose
     private Replies replies;

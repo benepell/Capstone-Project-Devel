@@ -20,30 +20,101 @@
         <menu>
 
             <item
-                android:id="@+id/submenu_filter_best"
+                android:id="@+id/submenu_filter_hot"
                 android:enabled="true"
-                android:title="@string/title_submenu_best"
+                android:title="@string/title_submenu_hot"
                 android:visible="true" />
-            <item
-                android:id="@+id/submenu_filter_top"
-                android:enabled="true"
-                android:title="@string/title_submenu_top"
-                android:visible="true" />
+
             <item
                 android:id="@+id/submenu_filter_new"
                 android:enabled="true"
                 android:title="@string/title_submenu_new"
                 android:visible="true" />
             <item
-                android:id="@+id/submenu_filter_old"
+                android:id="@+id/submenu_filter_rising"
                 android:enabled="true"
-                android:title="@string/title_submenu_old"
+                android:title="@string/title_submenu_rising"
                 android:visible="true" />
+            <item
+                android:id="@+id/submenu_filter_top"
+                android:enabled="true"
+                android:title="@string/title_submenu_top"
+                android:visible="true">
+
+                <menu>
+                    <item
+                        android:id="@+id/submenu_top_hour"
+                        android:enabled="true"
+                        android:title="@string/title_top_hour"
+                        android:visible="true" />
+                    <item
+                        android:id="@+id/submenu_top_day"
+                        android:enabled="true"
+                        android:title="@string/title_top_day"
+                        android:visible="true" />
+                    <item
+                        android:id="@+id/submenu_top_week"
+                        android:enabled="true"
+                        android:title="@string/title_top_week"
+                        android:visible="true" />
+                    <item
+                        android:id="@+id/submenu_top_month"
+                        android:enabled="true"
+                        android:title="@string/title_top_month"
+                        android:visible="true" />
+                    <item
+                        android:id="@+id/submenu_top_year"
+                        android:enabled="true"
+                        android:title="@string/title_top_year"
+                        android:visible="true" />
+                    <item
+                        android:id="@+id/submenu_top_all"
+                        android:enabled="true"
+                        android:title="@string/title_top_all"
+                        android:visible="true" />
+
+                </menu>
+            </item>
+
             <item
                 android:id="@+id/submenu_filter_controver"
                 android:enabled="true"
                 android:title="@string/title_submenu_controver"
-                android:visible="true" />
+                android:visible="true">
+                <menu>
+                    <item
+                        android:id="@+id/submenu_controver_hour"
+                        android:enabled="true"
+                        android:title="@string/title_controver_hour"
+                        android:visible="true" />
+                    <item
+                        android:id="@+id/submenu_controver_day"
+                        android:enabled="true"
+                        android:title="@string/title_controver_day"
+                        android:visible="true" />
+                    <item
+                        android:id="@+id/submenu_controver_week"
+                        android:enabled="true"
+                        android:title="@string/title_controver_week"
+                        android:visible="true" />
+                    <item
+                        android:id="@+id/submenu_controver_month"
+                        android:enabled="true"
+                        android:title="@string/title_controver_month"
+                        android:visible="true" />
+                    <item
+                        android:id="@+id/submenu_controver_year"
+                        android:enabled="true"
+                        android:title="@string/title_controver_year"
+                        android:visible="true" />
+                    <item
+                        android:id="@+id/submenu_controver_all"
+                        android:enabled="true"
+                        android:title="@string/title_controver_all"
+                        android:visible="true" />
+
+                </menu>
+            </item>
 
         </menu>
     </item>

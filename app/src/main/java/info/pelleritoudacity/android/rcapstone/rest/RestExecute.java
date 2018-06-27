@@ -39,9 +39,11 @@ public class RestExecute {
 
     private final RestManager restManager;
     private T5 mReddit;
+    private Context mContext;
 
-    public RestExecute() {
-        restManager = RestManager.getInstance();
+    public RestExecute(Context context) {
+        restManager = RestManager.getInstance(context);
+        mContext = context;
     }
 
     public void loadData(final RestData myCallBack) {
@@ -66,13 +68,13 @@ public class RestExecute {
         restManager.getRedditAPI(callback);
     }
 
-    public void syncData(final Context context) {
+    public void syncData() {
         Callback<T5> callback = new Callback<T5>() {
             @Override
             public void onResponse(@NonNull Call<T5> call, @NonNull Response<T5> response) {
                 mReddit = response.body();
                 if (response.isSuccessful()) {
-                    T5Operation data = new T5Operation(context,mReddit);
+                    T5Operation data = new T5Operation(mContext,mReddit);
                     data.saveData();
                 }
             }

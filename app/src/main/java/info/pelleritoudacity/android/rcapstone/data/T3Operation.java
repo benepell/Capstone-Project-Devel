@@ -150,10 +150,6 @@ public class T3Operation {
                 dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SUGGESTED_SORT,
                         t3Model.getSuggestedSort());
 
-                // todo change object
-                /*dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SECURE_MEDIA,
-                        t3Model.getSecureMedia());
-*/
                 arrT3CV[i].put(Contract.T3dataEntry.COLUMN_NAME_IS_REDDIT_MEDIA_DOMAIN,
                         Utility.boolToInt(t3Model.getIsRedditMediaDomain()));
 
@@ -332,6 +328,8 @@ public class T3Operation {
                 dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_TARGET,
                         target);
 
+                dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SORT_BY,
+                        PrefManager.getStringPref(mContext, R.string.pref_subreddit_sort));
 
                 if (t3Model.getPreview() != null) {
 

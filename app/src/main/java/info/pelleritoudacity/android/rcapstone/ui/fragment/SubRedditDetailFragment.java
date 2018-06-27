@@ -25,6 +25,7 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
 import info.pelleritoudacity.android.rcapstone.ui.adapter.SubRedditDetailAdapter;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.DateUtils;
 import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.Costants.SUBREDDIT_DETAIL_LOADER_ID;

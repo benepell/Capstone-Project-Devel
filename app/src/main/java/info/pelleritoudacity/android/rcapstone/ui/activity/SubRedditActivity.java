@@ -111,7 +111,6 @@ public class SubRedditActivity extends BaseActivity
 
         }
 
-
     }
 
     @Override
@@ -137,11 +136,10 @@ public class SubRedditActivity extends BaseActivity
         if (mContext != null) {
             mRedditTarget = null;
             mRedditCategory = category;
-
+            PrefManager.putStringPref(mContext, R.string.pref_last_category, mRedditCategory);
             initRest(category, null, NetworkUtils.isOnline(mContext));
 
         }
-
 
     }
 
@@ -222,7 +220,6 @@ public class SubRedditActivity extends BaseActivity
 
     }
 
-
     private void startFragment(String link, String target) {
         if (!getSupportFragmentManager().isStateSaved()) {
             SubRedditFragment subRedditFragment = SubRedditFragment.newInstance(link, target);
@@ -234,7 +231,7 @@ public class SubRedditActivity extends BaseActivity
     private void initRest(String link, String target, boolean stateNetworkOnline) {
         if (!TextUtils.isEmpty(link)) {
             if (stateNetworkOnline) {
-                new SubRedditExecute(link).getData(this);
+                new SubRedditExecute(mContext, link).getData(this);
             } else {
                 startFragment(link, target);
 
@@ -243,11 +240,10 @@ public class SubRedditActivity extends BaseActivity
         }
     }
 
-
     private void createTabLayout() {
         mSubRedditTab = new SubRedditTab(this, mTabLayout, getTabArrayList());
         mSubRedditTab.initTab();
         mSubRedditTab.positionSelected(mRedditCategory);
-
     }
+
 }

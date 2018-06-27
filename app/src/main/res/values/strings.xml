@@ -11,8 +11,11 @@
     <string name="error_state_critical">Unable to start &app_name;\n cause: %1$s\n Please, start factory data reset in menu settings or restart app. </string>
 
     <string name="pref_subreddit_key" translatable="false">info.pelleritoudacity.android.rcapstone.pref.subreddit.key</string>
+    <string name="pref_subreddit_sort" translatable="false">info.pelleritoudacity.android.rcapstone.pref.subreddit.sort</string>
+    <string name="pref_time_sort" translatable="false">info.pelleritoudacity.android.rcapstone.pref.time.sort</string>
 
     <string name="pref_type_mode" translatable="false">pref.type.mode</string>
+    <string name="pref_last_category" translatable="false">pref.last.category</string>
 
     <string name="pref_login_start" translatable="false">info.pelleritoudacity.android.rcapstone.pref.login.start</string>
     <string name="pref_login_name" translatable="false">info.pelleritoudacity.android.rcapstone.pref.login.name</string>
@@ -108,11 +111,25 @@
 
     <string name="title_menu_login">Login</string>
     <string name="title_menu_filter">Filter posts</string>
-    <string name="title_submenu_best">Best</string>
+    <string name="title_submenu_hot">Hot</string>
     <string name="title_submenu_top">Top</string>
     <string name="title_submenu_new">New</string>
-    <string name="title_submenu_old">Old</string>
-    <string name="title_submenu_controver">Controver</string>
+    <string name="title_submenu_rising">Rising</string>
+    <string name="title_submenu_controver">Controversial</string>
+
+    <string name="title_top_hour">Hour</string>
+    <string name="title_top_day">Day</string>
+    <string name="title_top_week">Week</string>
+    <string name="title_top_month">Month</string>
+    <string name="title_top_year">Year</string>
+    <string name="title_top_all">All time</string>
+
+    <string name="title_controver_hour">Hour</string>
+    <string name="title_controver_day">Day</string>
+    <string name="title_controver_week">Week</string>
+    <string name="title_controver_month">Month</string>
+    <string name="title_controver_year">Year</string>
+    <string name="title_controver_all">All time</string>
 
     <string name="title_menu_create">Create Post</string>
     <string name="text_handle_description">handle image</string>

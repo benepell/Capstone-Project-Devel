@@ -31,6 +31,8 @@ import android.graphics.Color;
 
 import java.util.List;
 
+import info.pelleritoudacity.android.rcapstone.R;
+
 
 public class Utility {
 

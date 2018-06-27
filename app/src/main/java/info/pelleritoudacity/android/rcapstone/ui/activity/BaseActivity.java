@@ -135,6 +135,11 @@ public class BaseActivity extends AppCompatActivity
             new AboutMeExecute(PermissionUtils.getToken(getApplicationContext())).loginData(this);
         }
 
+        if (TextUtils.isEmpty(PrefManager.getStringPref(getApplicationContext(), R.string.pref_subreddit_sort))) {
+            PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, Costants.DEFAULT_SORT_BY);
+
+        }
+
 
         Timber.plant(new Timber.DebugTree());
         ButterKnife.bind(this);
@@ -240,6 +245,80 @@ public class BaseActivity extends AppCompatActivity
                 case R.id.menu_action_settings:
                     startActivity(new Intent(this, SettingsActivity.class));
                     return true;
+
+                case R.id.submenu_filter_hot:
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "hot");
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "");
+                    break;
+                case R.id.submenu_filter_new:
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "new");
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "");
+                    break;
+                case R.id.submenu_filter_rising:
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "rising");
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "");
+                    break;
+
+                case R.id.submenu_top_hour:
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "top");
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "hour");
+                    MainActivity.homeActivity(getApplicationContext());
+                    break;
+                case R.id.submenu_top_day:
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "top");
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "day");
+                    MainActivity.homeActivity(getApplicationContext());
+                    break;
+                case R.id.submenu_top_week:
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "top");
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "week");
+                    MainActivity.homeActivity(getApplicationContext());
+                    break;
+                case R.id.submenu_top_month:
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "top");
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "month");
+                    MainActivity.homeActivity(getApplicationContext());
+                    break;
+                case R.id.submenu_top_year:
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "top");
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "year");
+                    MainActivity.homeActivity(getApplicationContext());
+                    break;
+                case R.id.submenu_top_all:
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "top");
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "all");
+                    MainActivity.homeActivity(getApplicationContext());
+                    break;
+
+                case R.id.submenu_controver_hour:
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "controversial");
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "hour");
+                    MainActivity.homeActivity(getApplicationContext());
+                    break;
+                case R.id.submenu_controver_day:
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "controversial");
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "day");
+                    break;
+                case R.id.submenu_controver_week:
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "controversial");
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "week");
+                    MainActivity.homeActivity(getApplicationContext());
+                    break;
+                case R.id.submenu_controver_month:
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "controversial");
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "month");
+                    MainActivity.homeActivity(getApplicationContext());
+                    break;
+                case R.id.submenu_controver_year:
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "controversial");
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "year");
+                    MainActivity.homeActivity(getApplicationContext());
+                    break;
+                case R.id.submenu_controver_all:
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "controversial");
+                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "all");
+                    MainActivity.homeActivity(getApplicationContext());
+                    break;
 
                 default:
                     return super.onOptionsItemSelected(item);

@@ -10,8 +10,10 @@ import org.json.JSONException;
 
 import java.util.List;
 
+import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T1;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
+import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,7 +24,8 @@ public class SubRedditDetailExecute {
     private List<T1> mReddit;
 
     public SubRedditDetailExecute(Context context, String code, String subRedditName, String nameRedditId ) {
-        subRedditDetailManager = SubRedditDetailManager.getInstance(code,subRedditName,nameRedditId, PermissionUtils.isLogged(context));
+        subRedditDetailManager = SubRedditDetailManager.getInstance(context,code,subRedditName,nameRedditId,
+                PermissionUtils.isLogged(context), PrefManager.getStringPref(context, R.string.pref_subreddit_sort));
     }
 
     public void getData(final RestSubReddit myCallBack) {

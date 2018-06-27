@@ -247,6 +247,8 @@ public class SubRedditFragment extends Fragment
 
                 }
 
+
+
                 return getContext().getContentResolver().query(uri,
                         null,
                         selection,

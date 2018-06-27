@@ -139,7 +139,11 @@ public class PrefManager {
                 R.string.pref_session_expired,
                 R.string.pref_time_token,
                 R.string.pref_subreddit_key,
-                R.string.pref_youtube_player
+                R.string.pref_subreddit_sort,
+                R.string.pref_youtube_player,
+                R.string.pref_time_sort,
+                R.string.pref_last_category
+
 
         };
 

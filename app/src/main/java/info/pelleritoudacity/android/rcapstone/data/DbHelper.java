@@ -144,6 +144,7 @@ class DbHelper extends SQLiteOpenHelper {
                         Contract.T5dataEntry.COLUMN_NAME_SUBREDDIT_TYPE + " TEXT, " +
                         Contract.T5dataEntry.COLUMN_NAME_SUBMISSION_TYPE + " TEXT, " +
                         Contract.T5dataEntry.COLUMN_NAME_USER_IS_SUBSCRIBER + " TEXT, " +
+                        Contract.T5dataEntry.COLUMN_NAME_SORT_BY + " TEXT, " +
 
                         " UNIQUE (" + Contract.T5dataEntry.COLUMN_NAME_ID + ")" + " ON CONFLICT REPLACE, " +
                         " FOREIGN KEY (" + Contract.T5dataEntry.COLUMN_NAME_CHILDREN_ID + ") REFERENCES " +
@@ -233,6 +234,7 @@ class DbHelper extends SQLiteOpenHelper {
                         Contract.T3dataEntry.COLUMN_NAME_WLS + " INTEGER DEFAULT 0, " +
 
                         Contract.T3dataEntry.COLUMN_NAME_TARGET + " TEXT, " +
+                        Contract.T3dataEntry.COLUMN_NAME_SORT_BY + " TEXT, " +
 
                         Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_URL + " TEXT, " +
                         Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_WIDTH + " INTEGER DEFAULT 0, " +
@@ -360,6 +362,7 @@ class DbHelper extends SQLiteOpenHelper {
                         Contract.T1dataEntry.COLUMN_NAME_DISTINGUISHED + " TEXT, " +
                         Contract.T1dataEntry.COLUMN_NAME_SELFTEXT + " TEXT, " +
                         Contract.T1dataEntry.COLUMN_NAME_AUTHORFLAIRCSSCLASS + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_SORT_BY + " TEXT, " +
 
                         " FOREIGN KEY (" + Contract.T1dataEntry.COLUMN_NAME_CHILDREN_ID + ") REFERENCES " +
                         Contract.DataEntry.TABLE_NAME + "(" + Contract.DataEntry._ID + ")" +

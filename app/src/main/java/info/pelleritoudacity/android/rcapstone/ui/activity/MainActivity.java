@@ -79,7 +79,12 @@ public class MainActivity extends BaseActivity
 
         dataClearSnackBar();
 
-        intentRequest(getIntent(), intentDefaultCategory());
+        String resumeCategory = PrefManager.getStringPref(mContext, R.string.pref_last_category);
+        if (TextUtils.isEmpty(resumeCategory)) {
+            resumeCategory = getTabArrayList().get(0);
+        }
+
+        intentRequest(getIntent(), intentDefaultCategory(resumeCategory));
 
         PrefManager.putBoolPref(mContext, R.string.pref_volume_muted, Costants.IS_MUTED_AUDIO);
 
@@ -167,10 +172,10 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    private Intent intentDefaultCategory() {
+    private Intent intentDefaultCategory(String category) {
         Intent intent = new Intent(getApplication(), SubRedditActivity.class);
         if (getTabArrayList() != null) {
-            intent.putExtra(Costants.EXTRA_SUBREDDIT_CATEGORY, getTabArrayList().get(0));
+            intent.putExtra(Costants.EXTRA_SUBREDDIT_CATEGORY, category);
             intent.putExtra(Costants.EXTRA_SUBREDDIT_TARGET, Costants.SUBREDDIT_TARGET_POPULAR);
 
 
@@ -188,8 +193,8 @@ public class MainActivity extends BaseActivity
 
     public static void homeActivity(Context context) {
         context.startActivity(new Intent(context, MainActivity.class)
-                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION
-                        | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY));
+                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_ANIMATION
+                        | Intent.FLAG_ACTIVITY_NO_HISTORY));
     }
 
 
@@ -220,7 +225,7 @@ public class MainActivity extends BaseActivity
 
     private void getDataT5(Context context) {
         if (context != null) {
-            new RestExecute().syncData(context);
+            new RestExecute(context).syncData();
         }
     }
 

@@ -162,6 +162,8 @@ public interface Costants {
     String PATTERN_HH_MM_SS = "HH:mm:ss";
     String PATTERN_MM_SS = "mm:ss";
 
+    String DEFAULT_SORT_BY = "new";
+
     String STR_PARENT_COMMENT = "t3_";
     String DEFAULT_LISTING_KIND = "Listing";
     String LIMIT_COMMENTS_RESULTS = "30";

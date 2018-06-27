@@ -26,6 +26,7 @@
 
 package info.pelleritoudacity.android.rcapstone.rest;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import info.pelleritoudacity.android.rcapstone.model.reddit.T3;
@@ -37,8 +38,8 @@ public class SubRedditExecute {
     private final SubRedditManager subRedditManager;
     private T3 mReddit;
 
-    public SubRedditExecute(String subReddit ) {
-        subRedditManager = SubRedditManager.getInstance(subReddit);
+    public SubRedditExecute(Context context, String subReddit ) {
+        subRedditManager = SubRedditManager.getInstance(context,subReddit);
     }
 
     public void getData(final RestSubReddit myCallBack) {

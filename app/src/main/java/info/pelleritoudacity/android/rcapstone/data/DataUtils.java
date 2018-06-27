@@ -348,7 +348,7 @@ public class DataUtils {
 
         int count;
 
-        if((TextUtils.isEmpty(actionVote))&&(TextUtils.isEmpty(nameId))){
+        if ((TextUtils.isEmpty(actionVote)) && (TextUtils.isEmpty(nameId))) {
             return false;
         }
 

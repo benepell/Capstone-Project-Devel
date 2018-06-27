@@ -28,9 +28,9 @@
         <menu>
 
             <item
-                android:id="@+id/submenu_filter_best"
+                android:id="@+id/submenu_filter_confidence"
                 android:enabled="true"
-                android:title="@string/title_submenu_best"
+                android:title="@string/title_submenu_hot"
                 android:visible="true" />
             <item
                 android:id="@+id/submenu_filter_top"
@@ -45,7 +45,7 @@
             <item
                 android:id="@+id/submenu_filter_old"
                 android:enabled="true"
-                android:title="@string/title_submenu_old"
+                android:title="@string/title_submenu_rising"
                 android:visible="true" />
             <item
                 android:id="@+id/submenu_filter_controver"

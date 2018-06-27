@@ -185,6 +185,8 @@ public class Contract {
         public static final String COLUMN_NAME_SUBMISSION_TYPE = "_submission_type";
         public static final String COLUMN_NAME_USER_IS_SUBSCRIBER = "_user_is_subscriber";
         public static final String COLUMN_NAME_TIME_LAST_MODIFIED = "_time_last_modified";
+        public static final String COLUMN_NAME_SORT_BY = "_sort_by";
+
 
     }
 
@@ -278,6 +280,7 @@ public class Contract {
         public static final String COLUMN_NAME_CHILDREN_ID = "_children_id";
 
         public static final String COLUMN_NAME_TARGET = "_target";
+        public static final String COLUMN_NAME_SORT_BY = "_sort_by";
 
 
         public static final String COLUMN_NAME_PREVIEW_IMAGE_SOURCE_URL = "_preview_image_source_url";
@@ -415,6 +418,7 @@ public class Contract {
         public static final String COLUMN_NAME_ISVIDEO = "_isVideo";
         public static final String COLUMN_NAME_DISTINGUISHED = "_distinguished";
         public static final String COLUMN_NAME_TIME_LAST_MODIFIED = "_time_last_modified";
+        public static final String COLUMN_NAME_SORT_BY = "_sort_by";
 
     }
 

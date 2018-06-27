@@ -185,10 +185,14 @@ public class T1Operation {
                 dataUtils.putNullCV(arrT1CV[j], Contract.T1dataEntry.COLUMN_NAME_MODNOTE,
                         Utility.boolToInt(t1Model.getCanModPost()));
 
+                dataUtils.putNullCV(arrT1CV[j], Contract.T1dataEntry.COLUMN_NAME_SORT_BY,
+                        PrefManager.getStringPref(mContext,R.string.pref_subreddit_sort));
+
                 dataUtils.putNullCV(arrT1CV[j], Contract.T1dataEntry.COLUMN_NAME_HIDESCORE,
                         Utility.boolToInt(t1Model.getScoreHidden()));
 
                 recursiveReplies(t1Model.getReplies(), childrenId);
+
             }
 
         }

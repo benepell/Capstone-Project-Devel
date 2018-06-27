@@ -1,5 +1,8 @@
 package info.pelleritoudacity.android.rcapstone.rest;
 
+import android.content.Context;
+import android.text.TextUtils;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -7,9 +10,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T1;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -21,6 +26,7 @@ public class SubRedditDetailManager {
 
     private static RedditAPI sCommentsAPI;
     private static SubRedditDetailManager sSubRedditDetailManager;
+    private Context mContext;
     private final boolean mIsAuthenticate;
     private final String mAccessToken;
     private final String mNameRedditId;
@@ -29,20 +35,28 @@ public class SubRedditDetailManager {
     private Call<List<T1>> mCall;
 
 
-    private SubRedditDetailManager(String token, String subRedditName, String nameRedditId, boolean isAuthenticate) {
+    private SubRedditDetailManager(Context context, String token, String subRedditName, String nameRedditId, boolean isAuthenticate, String sortBy) {
 
+        mContext = context;
         mIsAuthenticate = isAuthenticate;
         mAccessToken = token;
         mSubRedditName = subRedditName;
         mNameRedditId = nameRedditId;
+
+        String strTimeSort = PrefManager.getStringPref(mContext,R.string.pref_time_sort);
 
         mFieldMap = new HashMap<>();
         mFieldMap.put("depth", Costants.LIMIT_DEPTH_RESULTS);
         mFieldMap.put("limit", Costants.LIMIT_COMMENTS_RESULTS);
         mFieldMap.put("showedits", "false");
         mFieldMap.put("showmore", "true");
-// todo add sort
-        //        mFieldMap.put("sort", sortBy);
+        if(!TextUtils.isEmpty(strTimeSort)){
+            mFieldMap.put("t",strTimeSort );
+
+        }
+
+
+        // todo add sort
 
 
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
@@ -82,23 +96,26 @@ public class SubRedditDetailManager {
         return GsonConverterFactory.create(gson);
     }
 
-    public static SubRedditDetailManager getInstance(String accessToken, String subRedditName, String nameRedditId, boolean isAuthenticate) {
+    public static SubRedditDetailManager getInstance(Context context, String accessToken, String subRedditName, String nameRedditId, boolean isAuthenticate, String sortBy) {
         if (sSubRedditDetailManager != null) {
             sSubRedditDetailManager.cancelRequest();
         }
 
-        sSubRedditDetailManager = new SubRedditDetailManager(accessToken, subRedditName, nameRedditId, isAuthenticate);
+        sSubRedditDetailManager = new SubRedditDetailManager(context,accessToken, subRedditName, nameRedditId, isAuthenticate,sortBy);
 
 
         return sSubRedditDetailManager;
     }
 
     public void getCommentsAPI(Callback<List<T1>> callback) {
+       String sortBy = PrefManager.getStringPref(mContext,R.string.pref_subreddit_sort);
         if (mIsAuthenticate) {
             mCall = sCommentsAPI.getCommentsAuth(Costants.REDDIT_BEARER + mAccessToken,
-                    mSubRedditName, mNameRedditId, mFieldMap);
+                    mSubRedditName, mNameRedditId,
+                    sortBy,
+                    mFieldMap);
         } else {
-            mCall = sCommentsAPI.getComments(mSubRedditName, mNameRedditId, mFieldMap);
+            mCall = sCommentsAPI.getComments(mSubRedditName, mNameRedditId,sortBy,mFieldMap);
 
         }
 

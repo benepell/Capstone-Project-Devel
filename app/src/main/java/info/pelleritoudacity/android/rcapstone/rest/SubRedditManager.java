@@ -26,19 +26,27 @@
 
 package info.pelleritoudacity.android.rcapstone.rest;
 
+import android.content.Context;
+import android.text.TextUtils;
+
 import org.checkerframework.checker.units.qual.K;
 
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
+import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
+import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import timber.log.Timber;
 
 public class SubRedditManager {
 
@@ -47,15 +55,21 @@ public class SubRedditManager {
     private final String mSubReddit;
     private final HashMap<String, String> mFieldMap;
     private Call<T3> mCall;
-
-    private SubRedditManager(String subReddit) {
+    private Context mContext;
+    private SubRedditManager(Context context, String subReddit) {
         mSubReddit = subReddit;
+        mContext = context;
+
+        String strTimeSort = PrefManager.getStringPref(mContext,R.string.pref_time_sort);
 
         mFieldMap = new HashMap<>();
         mFieldMap.put("limit", Costants.LIMIT_REDDIT_RESULTS);
         mFieldMap.put("showedits", "false");
         mFieldMap.put("showmore", "true");
-//                mFieldMap.put("sort", sortBy);
+        if(!TextUtils.isEmpty(strTimeSort)){
+            mFieldMap.put("t",strTimeSort );
+
+        }
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(Costants.OK_HTTP_CONNECTION_TIMEOUT, TimeUnit.SECONDS)
@@ -63,8 +77,13 @@ public class SubRedditManager {
                 .writeTimeout(Costants.OK_HTTP_CONNECTION_WRITE_TIMEOUT, TimeUnit.SECONDS)
                 .build();
 
+
+       String baseUrl = Costants.REDDIT_BASE_URL;
+       if(PermissionUtils.isLogged(mContext)){
+           baseUrl = Costants.REDDIT_OAUTH_URL;
+       }
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Costants.REDDIT_BASE_URL)
+                .baseUrl(baseUrl)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -73,19 +92,29 @@ public class SubRedditManager {
 
     }
 
-    public static SubRedditManager getInstance(String subReddit) {
+    public static SubRedditManager getInstance(Context context, String subReddit) {
         if (sSubRedditManager != null) {
             sSubRedditManager.cancelRequest();
+
         }
 
-        sSubRedditManager = new SubRedditManager(subReddit);
+        sSubRedditManager = new SubRedditManager(context, subReddit);
 
 
         return sSubRedditManager;
     }
 
     public void getSubRedditAPI(Callback<T3> callback) {
-        mCall = sSubRedditAPI.getSubReddit(mSubReddit, mFieldMap);
+        if(PermissionUtils.isLogged(mContext)){
+            mCall = sSubRedditAPI.getSubRedditAuth(Costants.REDDIT_BEARER + PermissionUtils.getToken(mContext),
+                    mSubReddit,
+                    PrefManager.getStringPref(mContext,R.string.pref_subreddit_sort),
+                    mFieldMap);
+
+        }else {
+            mCall = sSubRedditAPI.getSubReddit(mSubReddit, PrefManager.getStringPref(mContext,R.string.pref_subreddit_sort),mFieldMap);
+
+        }
         mCall.enqueue(callback);
     }
 
