@@ -30,14 +30,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
 
-import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T5;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T5Data;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T5Listing;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
-import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
-import timber.log.Timber;
 
 public class T5Operation {
     private final T5 mModelT5;
@@ -311,7 +309,7 @@ public class T5Operation {
                     t5Model.getSubmissionType());
 
             dataUtils.putNullCV(arrCV[i], Contract.T5dataEntry.COLUMN_NAME_SORT_BY,
-                    PrefManager.getStringPref(mContext,R.string.pref_subreddit_sort));
+                    Preference.getSubredditSort(mContext));
 
             dataUtils.putNullCV(arrCV[i], Contract.T5dataEntry.COLUMN_NAME_USER_IS_SUBSCRIBER,
                     t5Model.getUserIsSubscriber());
@@ -329,9 +327,10 @@ public class T5Operation {
         DataUtils dataUtils = new DataUtils(mContext);
         if (dataUtils.isRecordData()) clearData();
         if (insertData()) {
-            if (!PrefManager.getBoolPref(mContext, R.string.pref_insert_prefs)) {
+
+            if (!Preference.isInsertPrefs(mContext)) {
                 if (insertDataPrefSubReddit()) {
-                    PrefManager.putBoolPref(mContext, R.string.pref_insert_prefs, true);
+                    Preference.setInsertPrefs(mContext,true);
                 }
             }
         }

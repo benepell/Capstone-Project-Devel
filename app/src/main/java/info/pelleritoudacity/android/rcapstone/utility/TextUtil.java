@@ -124,7 +124,7 @@ public class TextUtil {
             String v = uri.getQueryParameter("v");
 
             if ((v == null) && (uri.getEncodedPath().equals("/attribution_link"))) {
-                return Uri.parse(uri.getQueryParameter("u")).getQueryParameter("v").toString();
+                return Uri.parse(uri.getQueryParameter("u")).getQueryParameter("v");
             }
             return v;
 

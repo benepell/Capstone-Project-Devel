@@ -8,14 +8,13 @@ import android.text.TextUtils;
 
 import java.util.List;
 
-import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.model.reddit.Replies;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T1;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T1Data;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T1Listing;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T1ListingData;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
-import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
@@ -186,7 +185,7 @@ public class T1Operation {
                         Utility.boolToInt(t1Model.getCanModPost()));
 
                 dataUtils.putNullCV(arrT1CV[j], Contract.T1dataEntry.COLUMN_NAME_SORT_BY,
-                        PrefManager.getStringPref(mContext,R.string.pref_subreddit_sort));
+                        Preference.getSubredditSort(mContext));
 
                 dataUtils.putNullCV(arrT1CV[j], Contract.T1dataEntry.COLUMN_NAME_HIDESCORE,
                         Utility.boolToInt(t1Model.getScoreHidden()));
@@ -361,7 +360,7 @@ public class T1Operation {
             }
 
             if (!TextUtils.isEmpty(timestamp)) {
-                int timeUpdateDatabase = PrefManager.getIntGeneralSettings(mContext, R.string.pref_sync_frequency);
+                int timeUpdateDatabase = Preference.getSyncFrequency(mContext);
                 isDeleted = getSecondsTimeStamp(timestamp) > timeUpdateDatabase;
             }
 

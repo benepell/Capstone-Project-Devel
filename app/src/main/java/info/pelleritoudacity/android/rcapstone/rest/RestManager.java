@@ -30,11 +30,9 @@ import android.content.Context;
 
 import java.util.concurrent.TimeUnit;
 
-import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T5;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
-import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;

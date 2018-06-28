@@ -65,7 +65,7 @@ import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditFullScreenAc
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtils;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtils;
-import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
 public class MediaPlayer {
@@ -245,7 +245,7 @@ public class MediaPlayer {
 
             mImageMutedPlay = mPlayerView.findViewById(R.id.exo_muted);
 
-            if (PrefManager.getBoolPref(mContext, R.string.pref_volume_muted)) {
+            if (Preference.isVolumeMuted(mContext)) {
                 mPlayer.setVolume(0f);
                 mImageMutedPlay.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_volume_off)
                         .sizeDp(mContext.getResources().getInteger(R.integer.icon_size_muted))
@@ -377,11 +377,11 @@ public class MediaPlayer {
     public void setMute(boolean toMute) {
         if (toMute) {
             mPlayer.setVolume(0f);
-            PrefManager.putBoolPref(mContext, R.string.pref_volume_muted, true);
+            Preference.setVolumeMuted(mContext,true);
 
         } else {
             mPlayer.setVolume(1f);
-            PrefManager.putBoolPref(mContext, R.string.pref_volume_muted, false);
+            Preference.setVolumeMuted(mContext,false);
 
         }
 

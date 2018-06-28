@@ -36,7 +36,7 @@ import timber.log.Timber;
 public class MapUtils {
 
     public static void addElementPrefSubreddit(Context context, String e) {
-        String string = PrefManager.getStringPref(context, R.string.pref_subreddit_key);
+        String string = Preference.getSubredditKey(context);
         ArrayList<String> arrayList;
         arrayList = TextUtil.stringToArray(string);
         arrayList.add(e);
@@ -44,11 +44,11 @@ public class MapUtils {
         arrayListNoDup = new ArrayList<>((new LinkedHashSet<>(arrayList)));
         string = TextUtil.arrayToString(arrayListNoDup);
         context.getSharedPreferences(context.getString(R.string.pref_subreddit_key), 0).edit().clear().apply();
-        PrefManager.putStringPref(context, R.string.pref_subreddit_key, string);
+        Preference.setSubredditKey(context,string);
     }
 
     public static void removeElementPrefSubreddit(Context context, String e) {
-        String string = PrefManager.getStringPref(context, R.string.pref_subreddit_key);
+        String string = Preference.getSubredditKey(context);
         ArrayList<String> arrayList;
         arrayList = TextUtil.stringToArray(string);
         arrayList.remove(e);
@@ -59,7 +59,7 @@ public class MapUtils {
         arrayListNoDup = new ArrayList<>((new LinkedHashSet<>(arrayList)));
         string = TextUtil.arrayToString(arrayListNoDup);
         context.getSharedPreferences(context.getString(R.string.pref_subreddit_key), 0).edit().clear().apply();
-        PrefManager.putStringPref(context, R.string.pref_subreddit_key, string);
+        Preference.setSubredditKey(context,string);
 
     }
 

@@ -33,10 +33,10 @@ import info.pelleritoudacity.android.rcapstone.R;
 
 
 @SuppressWarnings("unused")
-public class PrefManager {
+class PrefManager {
 
     @SuppressWarnings("unused")
-    public static boolean isGeneralSettings(Context context, String key) {
+    static boolean isGeneralSettings(Context context, String key) {
         PreferenceManager.setDefaultValues(context, R.xml.pref_general_settings, false);
 
         SharedPreferences sharedPref =
@@ -45,7 +45,7 @@ public class PrefManager {
                 (key, false);
     }
 
-    public static int getIntGeneralSettings(Context context, @SuppressWarnings("SameParameterValue") int key) {
+    static int getIntGeneralSettings(Context context, @SuppressWarnings("SameParameterValue") int key) {
         PreferenceManager.setDefaultValues(context, R.xml.pref_general_settings, false);
 
         SharedPreferences sharedPref =
@@ -55,13 +55,13 @@ public class PrefManager {
     }
 
 
-    public static void clearGeneralSettings(Context context) {
+    static void clearGeneralSettings(Context context) {
         PreferenceManager.setDefaultValues(context, R.xml.pref_general_settings, false);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         sharedPreferences.edit().clear().apply();
     }
 
-    public static void putIntPref(Context context, @SuppressWarnings("SameParameterValue") int key, int value) {
+    static void putIntPref(Context context, @SuppressWarnings("SameParameterValue") int key, int value) {
         SharedPreferences prefId = context
                 .getSharedPreferences(context.getString(key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefId.edit();
@@ -70,7 +70,7 @@ public class PrefManager {
 
     }
 
-    public static void putLongPref(Context context, @SuppressWarnings("SameParameterValue") int key, long value) {
+    static void putLongPref(Context context, @SuppressWarnings("SameParameterValue") int key, long value) {
         SharedPreferences prefId = context
                 .getSharedPreferences(context.getString(key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefId.edit();
@@ -79,7 +79,7 @@ public class PrefManager {
 
     }
 
-    public static void putStringPref(Context context, int key, String value) {
+    static void putStringPref(Context context, int key, String value) {
         SharedPreferences prefId = context
                 .getSharedPreferences(context.getString(key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefId.edit();
@@ -88,7 +88,7 @@ public class PrefManager {
 
     }
 
-    public static void putBoolPref(Context context, int key, @SuppressWarnings("SameParameterValue") boolean value) {
+    static void putBoolPref(Context context, int key, @SuppressWarnings("SameParameterValue") boolean value) {
         SharedPreferences prefId = context
                 .getSharedPreferences(context.getString(key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefId.edit();
@@ -97,58 +97,43 @@ public class PrefManager {
 
     }
 
-    public static int getIntPref(Context context, @SuppressWarnings("SameParameterValue") int key) {
+    static int getIntPref(Context context, @SuppressWarnings("SameParameterValue") int key) {
         SharedPreferences sharedPreferences;
         sharedPreferences = context.getSharedPreferences(context.getString(key), Context.MODE_PRIVATE);
         return sharedPreferences.getInt(context.getString(key), 0);
     }
 
-    public static long getLongPref(Context context, @SuppressWarnings("SameParameterValue") int key) {
+    static long getLongPref(Context context, @SuppressWarnings("SameParameterValue") int key) {
         SharedPreferences sharedPreferences;
         sharedPreferences = context.getSharedPreferences(context.getString(key), Context.MODE_PRIVATE);
         return sharedPreferences.getLong(context.getString(key), 0);
     }
 
-    public static boolean getBoolPref(Context context, @SuppressWarnings("SameParameterValue") int key) {
+    static boolean getBoolPref(Context context, @SuppressWarnings("SameParameterValue") int key) {
         SharedPreferences sharedPreferences;
         sharedPreferences = context.getSharedPreferences(context.getString(key), Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean(context.getString(key), false);
     }
 
-    public static String getStringPref(Context context, int key) {
+    static String getStringPref(Context context, int key) {
         SharedPreferences sharedPreferences;
         sharedPreferences = context.getSharedPreferences(context.getString(key), Context.MODE_PRIVATE);
         return sharedPreferences.getString(context.getString(key), "");
     }
 
-    public static boolean isPref(Context context, int key) {
+    static boolean isPref(Context context, int key) {
         SharedPreferences sharedPreferences;
         sharedPreferences = context.getSharedPreferences(context.getString(key), Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean(context.getString(key), false);
     }
 
 
-    public static void clearPref(Context context) {
-        int[] prefArrays = {
-                R.string.pref_title_sync_frequency,
-                R.string.pref_insert_prefs,
-                R.string.pref_login_start,
-                R.string.pref_session_username,
-                R.string.pref_session_access_token,
-                R.string.pref_session_refresh_token,
-                R.string.pref_session_expired,
-                R.string.pref_time_token,
-                R.string.pref_subreddit_key,
-                R.string.pref_subreddit_sort,
-                R.string.pref_youtube_player,
-                R.string.pref_time_sort,
-                R.string.pref_last_category
+    static void clearPref(Context context, int[] prefArray) {
+        if ((context != null) && (prefArray != null)) {
+            for (int pref : prefArray) {
+                context.getSharedPreferences(context.getString(pref), 0).edit().clear().apply();
+            }
 
-
-        };
-
-        for (int pref : prefArrays) {
-            context.getSharedPreferences(context.getString(pref), 0).edit().clear().apply();
         }
     }
 

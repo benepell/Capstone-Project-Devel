@@ -58,7 +58,7 @@ import info.pelleritoudacity.android.rcapstone.ui.adapter.SubScriptionsAdapter;
 
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.MapUtils;
-import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.Costants.REDDIT_LOADER_ID;
@@ -98,7 +98,7 @@ public class SubScriptionsFragment extends Fragment
 
             getActivity().getSupportLoaderManager().initLoader(REDDIT_LOADER_ID, null, this);
 
-            if (PrefManager.getIntPref(getActivity(), R.string.pref_restore_manage) == Costants.RESTORE_MANAGE_RESTORE) {
+            if (Preference.getRestoreManage(mContext) == Costants.RESTORE_MANAGE_RESTORE) {
                 alerDialog(getActivity());
             }
 
@@ -207,8 +207,7 @@ public class SubScriptionsFragment extends Fragment
     public void alerDialog(Context context) {
 
         if (context != null) {
-
-            PrefManager.putIntPref(context, R.string.pref_restore_manage, 0);
+            Preference.setRestoreManage(context,0);
             AlertDialog.Builder dialog = new AlertDialog.Builder(context, R.style.confirmDialog);
             dialog.setTitle(R.string.title_restore_confirm);
             dialog.setMessage(R.string.text_restore_data);

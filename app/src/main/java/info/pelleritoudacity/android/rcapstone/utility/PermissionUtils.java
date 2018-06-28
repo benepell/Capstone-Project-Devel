@@ -65,18 +65,18 @@ public class PermissionUtils {
     }
 
     public static boolean isLogged(Context context) {
-        String token = PrefManager.getStringPref(context, R.string.pref_session_access_token);
+        String token = Preference.getSessionAccessToken(context);
 
         return !TextUtils.isEmpty(token);
     }
 
     public static String getToken(Context context) {
-        return context != null ? PrefManager.getStringPref(context, R.string.pref_session_access_token) : null;
+        return context != null ? Preference.getSessionAccessToken(context) : null;
     }
 
     public static void setToken(Context context, String token) {
         if (context != null) {
-            PrefManager.putStringPref(context, R.string.pref_session_access_token, token);
+            Preference.setSessionAccessToken(context,token);
         }
     }
 

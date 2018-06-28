@@ -1,42 +1,26 @@
 package info.pelleritoudacity.android.rcapstone.ui.adapter;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.gson.Gson;
-
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditDetailFragment;
-import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SubRedditDetailHelper;
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtils;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
-import info.pelleritoudacity.android.rcapstone.utility.Utility;
-import timber.log.Timber;
 
 public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetailAdapter.SubRedditDetailHolder> {
 
@@ -253,13 +237,10 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
 
-            mTextViewBody.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    clickSelector(getAdapterPosition());
-                    notifyDataSetChanged();
+            mTextViewBody.setOnClickListener(view -> {
+                clickSelector(getAdapterPosition());
+                notifyDataSetChanged();
 
-                }
             });
         }
 

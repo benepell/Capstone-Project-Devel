@@ -64,7 +64,7 @@ import info.pelleritoudacity.android.rcapstone.ui.helper.OnStartDragListener;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtils;
 import info.pelleritoudacity.android.rcapstone.utility.MapUtils;
-import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
 public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdapter.RedditHolder> implements ItemTouchHelperAdapter {
@@ -85,8 +85,8 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
         mArrayList = new ArrayList<>();
 
 
-        if (!TextUtils.isEmpty(PrefManager.getStringPref(mContext, R.string.pref_subreddit_key))) {
-            mArrayList.addAll(TextUtil.stringToArray(PrefManager.getStringPref(mContext, R.string.pref_subreddit_key)));
+        if (!TextUtils.isEmpty(Preference.getSubredditKey(mContext))) {
+            mArrayList.addAll(TextUtil.stringToArray(Preference.getSubredditKey(mContext)));
         }
 
     }
@@ -189,7 +189,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
         String string = TextUtil.arrayToString(mArrayList);
 
         if (!TextUtils.isEmpty(string)) {
-            PrefManager.putStringPref(mContext, R.string.pref_subreddit_key, string);
+            Preference.setSubredditKey(mContext, string);
         }
 
     }
@@ -209,7 +209,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
             String string = TextUtil.arrayToString(mArrayList);
 
             if (!TextUtils.isEmpty(string)) {
-                PrefManager.putStringPref(mContext, R.string.pref_subreddit_key, string);
+                Preference.setSubredditKey(mContext, string);
             }
 
         }

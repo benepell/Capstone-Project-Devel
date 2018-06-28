@@ -25,7 +25,6 @@
  */
 package info.pelleritoudacity.android.rcapstone.ui.activity;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -62,8 +61,7 @@ import info.pelleritoudacity.android.rcapstone.model.reddit.RedditAboutMe;
 import info.pelleritoudacity.android.rcapstone.rest.AboutMeExecute;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
-import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
-import info.pelleritoudacity.android.rcapstone.utility.Utility;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.TextUtil.stringToArray;
@@ -108,7 +106,7 @@ public class BaseActivity extends AppCompatActivity
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        if (PrefManager.isGeneralSettings(getApplicationContext(), getString(R.string.pref_night_mode))) {
+        if (Preference.isNightMode(getApplicationContext())) {
             AppCompatDelegate
                     .setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
@@ -135,8 +133,8 @@ public class BaseActivity extends AppCompatActivity
             new AboutMeExecute(PermissionUtils.getToken(getApplicationContext())).loginData(this);
         }
 
-        if (TextUtils.isEmpty(PrefManager.getStringPref(getApplicationContext(), R.string.pref_subreddit_sort))) {
-            PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, Costants.DEFAULT_SORT_BY);
+        if (TextUtils.isEmpty(Preference.getSubredditSort(getApplicationContext()))) {
+            Preference.setSubredditSort(getApplicationContext(),  Costants.DEFAULT_SORT_BY);
 
         }
 
@@ -196,7 +194,7 @@ public class BaseActivity extends AppCompatActivity
             menuItemLogin = menu.findItem(R.id.menu_action_login);
             menuItemLogout = menu.findItem(R.id.menu_action_logout);
 
-            if (PrefManager.getBoolPref(getApplicationContext(), R.string.pref_login_start)) {
+            if (Preference.isLoginStart(getApplicationContext())) {
                 menuItemLogin.setVisible(false);
                 menuItemLogout.setVisible(true);
             } else {
@@ -207,7 +205,7 @@ public class BaseActivity extends AppCompatActivity
             int prefMenu = 0;
 
             if (getApplicationContext() != null) {
-                prefMenu = PrefManager.getIntPref(getApplicationContext(), R.string.pref_type_mode);
+                prefMenu = Preference.getTypeMode(getApplicationContext());
 
             }
 
@@ -247,76 +245,76 @@ public class BaseActivity extends AppCompatActivity
                     return true;
 
                 case R.id.submenu_filter_hot:
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "hot");
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "");
+                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_HOT);
+                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_NOTHING);
                     break;
                 case R.id.submenu_filter_new:
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "new");
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "");
+                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_NEW);
+                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_NOTHING);
                     break;
                 case R.id.submenu_filter_rising:
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "rising");
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "");
+                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_RISING);
+                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_NOTHING);
                     break;
 
                 case R.id.submenu_top_hour:
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "top");
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "hour");
+                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_TOP);
+                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_HOUR);
                     MainActivity.homeActivity(getApplicationContext());
                     break;
                 case R.id.submenu_top_day:
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "top");
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "day");
+                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_TOP);
+                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_DAY);
                     MainActivity.homeActivity(getApplicationContext());
                     break;
                 case R.id.submenu_top_week:
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "top");
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "week");
+                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_TOP);
+                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_WEEK);
                     MainActivity.homeActivity(getApplicationContext());
                     break;
                 case R.id.submenu_top_month:
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "top");
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "month");
+                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_TOP);
+                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_MONTH);
                     MainActivity.homeActivity(getApplicationContext());
                     break;
                 case R.id.submenu_top_year:
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "top");
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "year");
+                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_TOP);
+                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_YEAR);
                     MainActivity.homeActivity(getApplicationContext());
                     break;
                 case R.id.submenu_top_all:
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "top");
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "all");
+                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_TOP);
+                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_ALL);
                     MainActivity.homeActivity(getApplicationContext());
                     break;
 
                 case R.id.submenu_controver_hour:
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "controversial");
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "hour");
+                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_CONTROVERSIAL);
+                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_HOUR);
                     MainActivity.homeActivity(getApplicationContext());
                     break;
                 case R.id.submenu_controver_day:
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "controversial");
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "day");
+                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_CONTROVERSIAL);
+                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_DAY);
                     break;
                 case R.id.submenu_controver_week:
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "controversial");
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "week");
+                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_CONTROVERSIAL);
+                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_WEEK);
                     MainActivity.homeActivity(getApplicationContext());
                     break;
                 case R.id.submenu_controver_month:
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "controversial");
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "month");
+                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_CONTROVERSIAL);
+                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_MONTH);
                     MainActivity.homeActivity(getApplicationContext());
                     break;
                 case R.id.submenu_controver_year:
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "controversial");
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "year");
+                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_CONTROVERSIAL);
+                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_YEAR);
                     MainActivity.homeActivity(getApplicationContext());
                     break;
                 case R.id.submenu_controver_all:
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_subreddit_sort, "controversial");
-                    PrefManager.putStringPref(getApplicationContext(), R.string.pref_time_sort, "all");
+                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_CONTROVERSIAL);
+                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_ALL);
                     MainActivity.homeActivity(getApplicationContext());
                     break;
 
@@ -337,7 +335,7 @@ public class BaseActivity extends AppCompatActivity
         switch (id) {
 
             case R.id.nav_home:
-                PrefManager.putIntPref(getApplicationContext(), R.string.pref_type_mode, Costants.NAV_MODE_HOME);
+                Preference.setTypeMode(getApplicationContext(), Costants.NAV_MODE_HOME);
                 openHomeActivity();
                 break;
 
@@ -350,13 +348,13 @@ public class BaseActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_mode_subscriptions:
-                PrefManager.putIntPref(getApplicationContext(), R.string.pref_type_mode, Costants.NAV_MODE_SUBSCRIPTIONS);
+                Preference.setTypeMode(getApplicationContext(),  Costants.NAV_MODE_SUBSCRIPTIONS);
                 item.setEnabled(true);
                 startActivity(new Intent(this, SubManageActivity.class));
                 break;
 
             case R.id.nav_mode_settings:
-                PrefManager.putIntPref(getApplicationContext(), R.string.pref_type_mode, Costants.NAV_MODE_SETTINGS);
+                Preference.setTypeMode(getApplicationContext(), Costants.NAV_MODE_SETTINGS);
                 item.setEnabled(true);
                 startActivity(new Intent(this, SettingsActivity.class));
                 break;
@@ -445,7 +443,7 @@ public class BaseActivity extends AppCompatActivity
             itemModeSettings.setIcon(new IconicsDrawable(context, MaterialDesignIconic.Icon.gmi_settings)
                     .respectFontBounds(true));
 
-            switch (PrefManager.getIntPref(context, R.string.pref_type_mode)) {
+            switch (Preference.getTypeMode(getApplicationContext())) {
                 case Costants.NAV_MODE_SUBSCRIPTIONS:
                     itemModeSubscriptions.setEnabled(true);
                     itemModeSubscriptions.setChecked(false);
@@ -466,7 +464,7 @@ public class BaseActivity extends AppCompatActivity
 
             String stringLink = Costants.DEFAULT_SUBREDDIT_CATEGORY;
 
-            String prefString = PrefManager.getStringPref(getApplicationContext(), R.string.pref_subreddit_key);
+            String prefString = Preference.getSubredditKey(getApplicationContext());
 
             if (!TextUtils.isEmpty(prefString)) {
                 stringLink = prefString;
@@ -527,8 +525,8 @@ public class BaseActivity extends AppCompatActivity
             String name = listenerData.getName();
             boolean isOver18 = listenerData.isOver18();
             if (!TextUtils.isEmpty(name)) {
-                PrefManager.putStringPref(getApplicationContext(), R.string.pref_login_name, name);
-                PrefManager.putBoolPref(getApplicationContext(), R.string.pref_login_over18, isOver18);
+                Preference.setLoginName(getApplicationContext(),name);
+                Preference.setLoginOver18(getApplicationContext(),isOver18);
 
                 TextView loginNameNavHeader = mNavHeaderView.findViewById(R.id.tv_nav_name);
                 loginNameNavHeader.setText(name);

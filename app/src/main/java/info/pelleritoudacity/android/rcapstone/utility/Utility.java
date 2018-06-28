@@ -27,11 +27,6 @@ package info.pelleritoudacity.android.rcapstone.utility;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-
-import java.util.List;
-
-import info.pelleritoudacity.android.rcapstone.R;
 
 
 public class Utility {

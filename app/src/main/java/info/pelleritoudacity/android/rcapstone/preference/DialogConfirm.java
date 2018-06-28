@@ -42,7 +42,7 @@ import info.pelleritoudacity.android.rcapstone.data.DataUtils;
 import info.pelleritoudacity.android.rcapstone.rest.RevokeTokenExecute;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
-import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
 
 public class DialogConfirm extends DialogPreference {
 
@@ -74,13 +74,13 @@ public class DialogConfirm extends DialogPreference {
             Context context = sWeakReference.get();
             if (context != null) {
 
-                if (PrefManager.getBoolPref(context, R.string.pref_login_start)) {
-                    String token = PrefManager.getStringPref(context, R.string.pref_session_access_token);
+                if (Preference.isLoginStart(context)) {
+                    String token = Preference.getSessionAccessToken(context);
                     new RevokeTokenExecute(token, Costants.REDDIT_ACCESS_TOKEN).RevokeTokenSync(context);
                 }
 
-                PrefManager.clearGeneralSettings(context);
-                PrefManager.clearPref(context);
+                Preference.clearGeneralSettings(context);
+                Preference.clearAll(context);
                 new DataUtils(context).clearDataPrivacy();
 
             }
@@ -103,7 +103,7 @@ public class DialogConfirm extends DialogPreference {
             super.onPostExecute(aVoid);
             Context context = sWeakReference.get();
             if (context != null) {
-                PrefManager.putBoolPref(context, R.string.pref_clear_data, true);
+                Preference.setClearData(context,true);
                 MainActivity.homeActivity(context);
             }
         }

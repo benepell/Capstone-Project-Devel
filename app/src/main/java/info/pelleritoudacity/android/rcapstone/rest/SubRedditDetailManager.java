@@ -10,11 +10,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T1;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
-import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -43,7 +42,7 @@ public class SubRedditDetailManager {
         mSubRedditName = subRedditName;
         mNameRedditId = nameRedditId;
 
-        String strTimeSort = PrefManager.getStringPref(mContext,R.string.pref_time_sort);
+        String strTimeSort = Preference.getTimeSort(mContext);
 
         mFieldMap = new HashMap<>();
         mFieldMap.put("depth", Costants.LIMIT_DEPTH_RESULTS);
@@ -108,7 +107,7 @@ public class SubRedditDetailManager {
     }
 
     public void getCommentsAPI(Callback<List<T1>> callback) {
-       String sortBy = PrefManager.getStringPref(mContext,R.string.pref_subreddit_sort);
+       String sortBy = Preference.getSubredditSort(mContext);
         if (mIsAuthenticate) {
             mCall = sCommentsAPI.getCommentsAuth(Costants.REDDIT_BEARER + mAccessToken,
                     mSubRedditName, mNameRedditId,

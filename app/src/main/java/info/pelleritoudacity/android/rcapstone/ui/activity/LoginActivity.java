@@ -45,7 +45,7 @@ import info.pelleritoudacity.android.rcapstone.rest.AccessTokenExecute;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtils;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
-import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import timber.log.Timber;
 
 public class LoginActivity extends BaseActivity {
@@ -61,7 +61,7 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         if ((NetworkUtils.isOnline(getApplicationContext())) &&
-                (!PrefManager.getBoolPref(getApplicationContext(), R.string.pref_login_start))) {
+                (!Preference.isLoginStart(getApplicationContext()))) {
 
             createWebview(loadUrl());
 
@@ -134,12 +134,10 @@ public class LoginActivity extends BaseActivity {
 
                                         if (!TextUtils.isEmpty(strAccessToken) && !TextUtils.isEmpty(strRefreshToken)) {
                                             PermissionUtils.setToken(getApplicationContext(), strAccessToken);
-                                            PrefManager.putStringPref(getApplicationContext(), R.string.pref_session_refresh_token, strRefreshToken);
-                                            PrefManager.putIntPref(getApplicationContext(), R.string.pref_session_expired, (int) expired);
-                                            PrefManager.putLongPref(getApplicationContext(), R.string.pref_time_token, System.currentTimeMillis());
-
-                                            PrefManager.putBoolPref(getApplicationContext(), R.string.pref_login_start, true);
-
+                                            Preference.setSessionRefreshToken(getApplicationContext(),strRefreshToken);
+                                            Preference.setSessionExpired(getApplicationContext(), (int) expired);
+                                            Preference.setTimeToken(getApplicationContext(),System.currentTimeMillis());
+                                            Preference.setLoginStart(getApplicationContext(),true);
                                             openHomeActivity(true);
                                         }
                                     }

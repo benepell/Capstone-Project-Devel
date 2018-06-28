@@ -10,16 +10,13 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -30,13 +27,10 @@ import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic
 import java.nio.charset.StandardCharsets;
 
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.DataUtils;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
-import info.pelleritoudacity.android.rcapstone.rest.VoteExecute;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MediaYoutubeActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtils;
-import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
 
 import static info.pelleritoudacity.android.rcapstone.utility.ImageUtils.isSmallImage;
 

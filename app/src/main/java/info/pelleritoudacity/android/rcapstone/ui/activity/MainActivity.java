@@ -32,11 +32,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 
 import com.google.android.exoplayer2.util.Util;
-import com.mikepenz.iconics.IconicsDrawable;
-import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 
 import butterknife.BindView;
 import info.pelleritoudacity.android.rcapstone.BuildConfig;
@@ -46,8 +43,7 @@ import info.pelleritoudacity.android.rcapstone.rest.RestExecute;
 import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtils;
-import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
-import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.SessionUtils.getRedditSessionExpired;
@@ -79,14 +75,15 @@ public class MainActivity extends BaseActivity
 
         dataClearSnackBar();
 
-        String resumeCategory = PrefManager.getStringPref(mContext, R.string.pref_last_category);
+        String resumeCategory = Preference.getLastCategory(mContext);
         if (TextUtils.isEmpty(resumeCategory)) {
             resumeCategory = getTabArrayList().get(0);
         }
 
         intentRequest(getIntent(), intentDefaultCategory(resumeCategory));
 
-        PrefManager.putBoolPref(mContext, R.string.pref_volume_muted, Costants.IS_MUTED_AUDIO);
+
+        Preference.setVolumeMuted(mContext, Costants.IS_MUTED_AUDIO);
 
         Timber.d("VALUE %s", BuildConfig.APPLICATION_ID);
 
@@ -154,7 +151,7 @@ public class MainActivity extends BaseActivity
 
             switch (restore) {
                 case Costants.RESTORE_MANAGE_RESTORE:
-                    PrefManager.putIntPref(mContext, R.string.pref_restore_manage,
+                    Preference.setRestoreManage(mContext,
                             Costants.RESTORE_MANAGE_RESTORE);
                     startActivity(new Intent(this, SubManageActivity.class)
                             .putExtra(Costants.EXTRA_RESTORE_MANAGE, Costants.RESTORE_MANAGE_RESTORE));
@@ -199,21 +196,20 @@ public class MainActivity extends BaseActivity
 
 
     private void dataClearSnackBar() {
-        if (PrefManager.getBoolPref(mContext, R.string.pref_clear_data)) {
+        if (Preference.isClearData(mContext)) {
             Snackbar.make(findViewById(R.id.main_container), R.string.text_dialog_confirm_reset, Snackbar.LENGTH_LONG).show();
-            PrefManager.putBoolPref(mContext, R.string.pref_clear_data, false);
+            Preference.setClearData(mContext,false);
         }
     }
 
     private void initializeFirebaseDispatcherService() {
 
-        if (PrefManager.getBoolPref(getApplicationContext(), R.string.pref_login_start)) {
+        if (Preference.isLoginStart(mContext)) {
 
             int redditSessionExpired = getRedditSessionExpired(getApplicationContext());
             if (redditSessionExpired <= Costants.SESSION_TIMEOUT_DEFAULT) {
 
-                String strRefreshToken = PrefManager.getStringPref(getApplicationContext(),
-                        R.string.pref_session_refresh_token);
+                String strRefreshToken = Preference.getSessionRefreshToken(mContext);
                 new RefreshTokenExecute(strRefreshToken).syncData(getApplicationContext());
 
             } else {

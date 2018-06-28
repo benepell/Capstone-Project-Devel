@@ -3,7 +3,6 @@ package info.pelleritoudacity.android.rcapstone.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 
@@ -11,12 +10,9 @@ import java.util.List;
 
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.T1Operation;
-import info.pelleritoudacity.android.rcapstone.data.T3Operation;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T1;
 import info.pelleritoudacity.android.rcapstone.rest.SubRedditDetailExecute;
-import info.pelleritoudacity.android.rcapstone.rest.SubRedditExecute;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditDetailFragment;
-import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditFragment;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtils;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;

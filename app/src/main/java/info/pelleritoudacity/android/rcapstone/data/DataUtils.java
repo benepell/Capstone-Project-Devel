@@ -32,10 +32,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.text.TextUtils;
 
-import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
-import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
-import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import timber.log.Timber;
 
 public class DataUtils {
@@ -122,8 +120,7 @@ public class DataUtils {
         String stringPref = restorePrefFromDb();
 
         if (!TextUtils.isEmpty(restorePrefFromDb())) {
-
-            PrefManager.putStringPref(mContext, R.string.pref_subreddit_key, stringPref);
+            Preference.setSubredditKey(mContext,stringPref);
 
         } else {
 
@@ -253,7 +250,7 @@ public class DataUtils {
 
             String stringPref = restoreStarsOrderFromDb();
             if (!TextUtils.isEmpty(stringPref)) {
-                PrefManager.putStringPref(mContext, R.string.pref_subreddit_key, stringPref);
+                Preference.setSubredditKey(mContext,stringPref);
 
             }
 
@@ -378,7 +375,7 @@ public class DataUtils {
 
     public void clearDataPrivacy() {
         clearDataAll();
-        PrefManager.clearPref(mContext);
+        Preference.clearAll(mContext);
     }
 
 }

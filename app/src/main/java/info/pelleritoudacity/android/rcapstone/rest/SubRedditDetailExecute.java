@@ -2,18 +2,13 @@ package info.pelleritoudacity.android.rcapstone.rest;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
-
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.List;
 
-import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T1;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
-import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,7 +20,7 @@ public class SubRedditDetailExecute {
 
     public SubRedditDetailExecute(Context context, String code, String subRedditName, String nameRedditId ) {
         subRedditDetailManager = SubRedditDetailManager.getInstance(context,code,subRedditName,nameRedditId,
-                PermissionUtils.isLogged(context), PrefManager.getStringPref(context, R.string.pref_subreddit_sort));
+                PermissionUtils.isLogged(context), Preference.getSubredditSort(context));
     }
 
     public void getData(final RestSubReddit myCallBack) {

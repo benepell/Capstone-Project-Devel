@@ -27,6 +27,7 @@
 package info.pelleritoudacity.android.rcapstone.utility;
 
 import info.pelleritoudacity.android.rcapstone.BuildConfig;
+import info.pelleritoudacity.android.rcapstone.R;
 
 public interface Costants {
 
@@ -183,5 +184,43 @@ public interface Costants {
             "#FFFDE7" + "," + "#E8EAF6" + "," + "#EDE7F6" + "," +
             "#FCE4EC" + "," + "#FFF8E1" + "," + "#FCE4EC";
 
+    String LABEL_SUBMENU_HOT = "hot";
+    String LABEL_SUBMENU_NEW = "new";
+    String LABEL_SUBMENU_RISING = "rising";
+    String LABEL_SUBMENU_TOP = "top";
+    String LABEL_SUBMENU_CONTROVERSIAL = "controversial";
+    String LABEL_TIME_HOUR = "hour";
+    String LABEL_TIME_DAY = "day";
+    String LABEL_TIME_WEEK = "week";
+    String LABEL_TIME_MONTH = "month";
+    String LABEL_TIME_YEAR = "year";
+    String LABEL_TIME_ALL = "all";
+    String LABEL_TIME_NOTHING = "";
+
+
+    int PREFERENCE_INSERT_PREFS = R.string.pref_insert_prefs;
+    int PREFERENCE_LOGIN_START = R.string.pref_login_start;
+    int PREFERENCE_SESSION_ACCESS_TOKEN = R.string.pref_session_access_token;
+    int PREFERENCE_SESSION_REFRESH_TOKEN = R.string.pref_session_refresh_token;
+    int PREFERENCE_SESSION_EXPIRED = R.string.pref_session_expired;
+    int PREFERENCE_TIME_TOKEN = R.string.pref_time_token;
+    int PREFERENCE_SUBREDDIT_KEY = R.string.pref_subreddit_key;
+    int PREFERENCE_SUBREDDIT_SORT = R.string.pref_subreddit_sort;
+    int PREFERENCE_TIME_SORT = R.string.pref_time_sort;
+    int PREFERENCE_SYNC_FREQUENCY = R.string.pref_sync_frequency;
+    int PREFERENCE_VOLUME_MUTED = R.string.pref_volume_muted;
+    int PREFERENCE_CLEAR_DATA = R.string.pref_clear_data;
+    int PREFERENCE_TYPE_MODE = R.string.pref_type_mode;
+    int PREFERENCE_LOGIN_NAME = R.string.pref_login_name;
+    int PREFERENCE_LOGIN_OVER18 = R.string.pref_login_over18;
+    int PREFERENCE_YOUTUBE_PLAYER = R.string.pref_youtube_player;
+    int PREFERENCE_LAST_CATEGORY = R.string.pref_last_category;
+    int PREFERENCE_TITLE_SYNC_FREQUENCY = R.string.pref_title_sync_frequency;
+    int PREFERENCE_SESSION_USERNAME = R.string.pref_session_username;
+    int PREFERENCE_RESTORE_MANAGE = R.string.pref_restore_manage;
+    int PREFERENCE_REQUEST_PERMISSION = R.string.pref_request_permission;
+    int PREFERENCE_ORIGINAL_SIZE_CONTENT = R.string.pref_original_size_content;
+    int PREFERENCE_WRITE_EXTERNAL_STORAGE = R.string.pref_write_external_storage;
+    int PREFERENCE_NIGHT_MODE = R.string.pref_night_mode;
 
 }

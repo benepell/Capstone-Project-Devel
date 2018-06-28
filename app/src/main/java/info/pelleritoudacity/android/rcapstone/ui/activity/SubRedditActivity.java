@@ -55,7 +55,7 @@ import info.pelleritoudacity.android.rcapstone.ui.view.SubRedditTab;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtils;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
-import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.PermissionUtils.RequestPermissionExtStorage;
@@ -136,7 +136,7 @@ public class SubRedditActivity extends BaseActivity
         if (mContext != null) {
             mRedditTarget = null;
             mRedditCategory = category;
-            PrefManager.putStringPref(mContext, R.string.pref_last_category, mRedditCategory);
+            Preference.setLastCategory(mContext,  mRedditCategory);
             initRest(category, null, NetworkUtils.isOnline(mContext));
 
         }
@@ -159,8 +159,9 @@ public class SubRedditActivity extends BaseActivity
             case Costants.PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    PrefManager.putBoolPref(mContext, R.string.pref_write_external_storage, true);
-                    PrefManager.putBoolPref(mContext, R.string.pref_request_permission, false);
+                   Preference.setWriteExternalStorage(mContext,true);
+                   Preference.setRequestPermission(mContext,false);
+
                 }
             }
         }
@@ -170,13 +171,13 @@ public class SubRedditActivity extends BaseActivity
     public boolean shouldShowRequestPermissionRationale(@NonNull String permission) {
         if ((!Objects.equals(permission, Manifest.permission.WRITE_EXTERNAL_STORAGE)) ||
                 (PermissionUtils.isPermissionExtStorage(mContext) ||
-                        PrefManager.isPref(mContext, R.string.pref_request_permission))) {
+                        Preference.isRequestPermission(mContext))) {
             return super.shouldShowRequestPermissionRationale(permission);
         }
         ActivityCompat.requestPermissions(SubRedditActivity.this,
                 new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                 Costants.PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
-        PrefManager.putBoolPref(mContext, R.string.pref_request_permission, true);
+        Preference.setRequestPermission(mContext,true);
         return super.shouldShowRequestPermissionRationale(permission);
     }
 

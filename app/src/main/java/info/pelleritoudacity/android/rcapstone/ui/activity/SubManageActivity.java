@@ -41,7 +41,7 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubScriptionsFragment;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
-import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import timber.log.Timber;
 
@@ -58,7 +58,7 @@ public class SubManageActivity extends BaseActivity {
         sWeakContext = new WeakReference<>(getApplicationContext());
         sWeakFragmentManager = new WeakReference<>(getSupportFragmentManager());
 
-        if (PrefManager.getBoolPref(getApplicationContext(), R.string.pref_insert_prefs)) {
+        if (Preference.isInsertPrefs(getApplicationContext())) {
             new RemovedItemSubRedditAsyncTask().execute();
         } else {
             Toast.makeText(getApplicationContext(), getText(R.string.text_manage_nolinks), Toast.LENGTH_LONG).show();
@@ -121,7 +121,7 @@ public class SubManageActivity extends BaseActivity {
                         name = TextUtil.normalizeSubRedditLink(name);
                         arrayList.add(name);
                         String strPref = TextUtil.arrayToString(arrayList);
-                        PrefManager.putStringPref(context, R.string.pref_subreddit_key, strPref);
+                        Preference.setSubredditKey(context,strPref);
                     }
 
                     android.support.v4.app.FragmentManager fragmentManager = sWeakFragmentManager.get();

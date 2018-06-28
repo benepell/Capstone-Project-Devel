@@ -35,7 +35,6 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 import com.google.android.exoplayer2.util.Util;
 
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
@@ -98,8 +97,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     private void prefOver18() {
         final Preference prefAdultFilter = findPreference(getString(R.string.pref_adult_filter));
         if (getActivity() != null) {
-            boolean isOver18 = PrefManager.getBoolPref(getActivity(), R.string.pref_login_over18);
-            boolean isLogged = PrefManager.getBoolPref(getActivity(), R.string.pref_login_start);
+            boolean isOver18 = info.pelleritoudacity.android.rcapstone.utility.Preference.isLoginOver18(getContext());
+            boolean isLogged = info.pelleritoudacity.android.rcapstone.utility.Preference.isLoginStart(getContext());
 
             if(isLogged){
 

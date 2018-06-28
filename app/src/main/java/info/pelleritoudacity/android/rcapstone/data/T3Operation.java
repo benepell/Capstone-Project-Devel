@@ -43,7 +43,7 @@ import info.pelleritoudacity.android.rcapstone.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T3Data;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T3Listing;
 import info.pelleritoudacity.android.rcapstone.model.reddit.Variants;
-import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
@@ -329,13 +329,13 @@ public class T3Operation {
                         target);
 
                 dataUtils.putNullCV(arrT3CV[i], Contract.T3dataEntry.COLUMN_NAME_SORT_BY,
-                        PrefManager.getStringPref(mContext, R.string.pref_subreddit_sort));
+                        Preference.getSubredditSort(mContext));
 
                 if (t3Model.getPreview() != null) {
 
                     ArrayList<ModelContent> modelContentImageArrayList = new ArrayList<>();
 
-                    boolean isOriginalSizeContent = PrefManager.isGeneralSettings(mContext, mContext.getString(R.string.pref_original_size_content));
+                    boolean isOriginalSizeContent = Preference.isOriginalSizeContent(mContext);
 
                     ArrayList<ModelContent> optimizeArrayList = imageContentOperation.showImageT3(t3Model, isOriginalSizeContent);
 
@@ -526,7 +526,7 @@ public class T3Operation {
             }
 
             if (!TextUtils.isEmpty(timestamp)) {
-                int timeUpdateDatabase = PrefManager.getIntGeneralSettings(mContext, R.string.pref_sync_frequency);
+                int timeUpdateDatabase = Preference.getSyncFrequency(mContext);
                 isDeleted = getSecondsTimeStamp(timestamp) > timeUpdateDatabase;
             }
 

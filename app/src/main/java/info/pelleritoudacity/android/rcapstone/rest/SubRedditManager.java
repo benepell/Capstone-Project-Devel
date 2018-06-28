@@ -29,24 +29,19 @@ package info.pelleritoudacity.android.rcapstone.rest;
 import android.content.Context;
 import android.text.TextUtils;
 
-import org.checkerframework.checker.units.qual.K;
-
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
-import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costants;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
-import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
-import info.pelleritoudacity.android.rcapstone.utility.Utility;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import timber.log.Timber;
 
 public class SubRedditManager {
 
@@ -60,7 +55,7 @@ public class SubRedditManager {
         mSubReddit = subReddit;
         mContext = context;
 
-        String strTimeSort = PrefManager.getStringPref(mContext,R.string.pref_time_sort);
+        String strTimeSort = Preference.getTimeSort(mContext);
 
         mFieldMap = new HashMap<>();
         mFieldMap.put("limit", Costants.LIMIT_REDDIT_RESULTS);
@@ -108,11 +103,11 @@ public class SubRedditManager {
         if(PermissionUtils.isLogged(mContext)){
             mCall = sSubRedditAPI.getSubRedditAuth(Costants.REDDIT_BEARER + PermissionUtils.getToken(mContext),
                     mSubReddit,
-                    PrefManager.getStringPref(mContext,R.string.pref_subreddit_sort),
+                    Preference.getSubredditSort(mContext),
                     mFieldMap);
 
         }else {
-            mCall = sSubRedditAPI.getSubReddit(mSubReddit, PrefManager.getStringPref(mContext,R.string.pref_subreddit_sort),mFieldMap);
+            mCall = sSubRedditAPI.getSubReddit(mSubReddit, Preference.getSubredditSort(mContext),mFieldMap);
 
         }
         mCall.enqueue(callback);
