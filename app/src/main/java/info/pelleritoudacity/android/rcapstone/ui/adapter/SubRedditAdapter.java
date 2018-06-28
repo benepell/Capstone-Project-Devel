@@ -159,7 +159,6 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         String videoUrl = TextUtil.textFromHtml(
                 mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_URL)));
 
-
         String videoTypeOembed = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_TYPE));
 
         String videoFrameOembed = TextUtil.textFromHtml(
@@ -183,22 +182,22 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         int thumbnailOembedHeight = mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_HEIGHT));
 
-        holder.mTextViewCreatedUtc.setText(getStringCurrentCreatedUtd(mContext,createdUtc));
+        holder.mTextViewCreatedUtc.setText(getStringCurrentCreatedUtd(mContext, createdUtc));
         SubRedditHelper subRedditHelper = new SubRedditHelper(mContext);
 
         int mediaType = 0;
 
-        mediaType = (!TextUtils.isEmpty(imagePreviewUrl)) && (!isSmallImage(mContext, imagePreviewWidth, imagePreviewHeight))
+        mediaType = (Preference.isGeneralImages(mContext)) && (!TextUtils.isEmpty(imagePreviewUrl)) && (!isSmallImage(mContext, imagePreviewWidth, imagePreviewHeight))
                 ? Costants.MEDIA_IMAGE_FULL_TYPE : mediaType;
 
-        mediaType = (!TextUtils.isEmpty(videoPreviewUrl))
+        mediaType = (Preference.isGeneralVideos(mContext)) && (!TextUtils.isEmpty(videoPreviewUrl))
                 ? Costants.MEDIA_VIDEO_PREVIEW_TYPE_MP4 : mediaType;
 
-        mediaType = (!TextUtils.isEmpty(videoUrl) && (!TextUtils.isEmpty(videoTypeOembed)) &&
+        mediaType = (Preference.isGeneralVideos(mContext)) && (!TextUtils.isEmpty(videoUrl) && (!TextUtils.isEmpty(videoTypeOembed)) &&
                 (videoTypeOembed.equals(Costants.BASE_TYPE_VIMEO)))
                 ? Costants.MEDIA_VIDEO_TYPE_VIMEO : mediaType;
 
-        mediaType = (!TextUtils.isEmpty(videoFrameOembed) &&
+        mediaType = (Preference.isGeneralVideos(mContext)) && (!TextUtils.isEmpty(videoFrameOembed) &&
                 (!TextUtils.isEmpty(videoTypeOembed)) && (videoTypeOembed.equals(Costants.BASE_TYPE_YOUTUBE)))
                 ? Costants.MEDIA_VIDEO_TYPE_YOUTUBE : mediaType;
 
@@ -217,7 +216,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
             case Costants.MEDIA_VIDEO_PREVIEW_TYPE_MP4:
 
-                if (mMediaPlayer != null) {
+                if  (mMediaPlayer != null) {
                     mMediaPlayer.releasePlayer();
                 }
 
@@ -267,7 +266,10 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
             subRedditHelper.imageReddit(holder.mImageViewSubReddit, holder.mImageViewSubRedditSmall,
                     imagePreviewUrl, imagePreviewWidth, imagePreviewHeight, title);
 
-            holder.mImageViewSubRedditSmall.setVisibility(View.VISIBLE);
+            if(Preference.isGeneralImages(mContext)){
+                holder.mImageViewSubRedditSmall.setVisibility(View.VISIBLE);
+
+            }
         }
 
         holder.mTextViewTitle.setText(title);
@@ -285,7 +287,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
         SelectorHelper selectorHelper = new SelectorHelper(mContext);
 
-        selectorHelper.cardBottomLink(mArrayButton,null,
+        selectorHelper.cardBottomLink(mArrayButton, null,
                 TextUtil.buildCommentLink(subRedditNamePrefix, nameIdReddit), nameReddit);
 
 

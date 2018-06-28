@@ -6,29 +6,6 @@ import info.pelleritoudacity.android.rcapstone.R;
 
 public class Preference {
 
-    /*private final static int INSERT_PREFS = R.string.pref_insert_prefs;
-    private final static int LOGIN_START = R.string.pref_login_start;
-    private final static int SESSION_ACCESS_TOKEN = R.string.pref_session_access_token;
-    private final static int SESSION_REFRESH_TOKEN = R.string.pref_session_refresh_token;
-    private final static int SESSION_EXPIRED = R.string.pref_session_expired;
-    private final static int TIME_TOKEN = R.string.pref_time_token;
-    private final static int SUBREDDIT_KEY = R.string.pref_subreddit_key;
-    private final static int SUBREDDIT_SORT = R.string.pref_subreddit_sort;
-    private final static int TIME_SORT = R.string.pref_time_sort;
-    private final static int SYNC_FREQUENCY = R.string.pref_sync_frequency;
-    private final static int VOLUME_MUTED = R.string.pref_volume_muted;
-    private final static int CLEAR_DATA = R.string.pref_clear_data;
-    private final static int TYPE_MODE = R.string.pref_type_mode;
-    private final static int LOGIN_NAME = R.string.pref_login_name;
-    private final static int LOGIN_OVER18 = R.string.pref_login_over18;
-    private final static int YOUTUBE_PLAYER = R.string.pref_youtube_player;
-    private final static int LAST_CATEGORY = R.string.pref_last_category;
-    private final static int TITLE_SYNC_FREQUENCY = R.string.pref_title_sync_frequency;
-    private final static int SESSION_USERNAME = R.string.pref_session_username;
-    private final static int RESTORE_MANAGE = R.string.pref_restore_manage;
-    private final static int REQUEST_PERMISSION = R.string.pref_request_permission;
-*/
-
     static final int[] prefArrays = {
             R.string.pref_title_sync_frequency,
             R.string.pref_insert_prefs,
@@ -50,7 +27,15 @@ public class Preference {
             R.string.pref_login_name,
             R.string.pref_login_over18,
             R.string.pref_restore_manage,
-            R.string.pref_request_permission
+            R.string.pref_request_permission,
+            R.string.pref_general_images,
+            R.string.pref_general_gifs,
+            R.string.pref_general_albums,
+            R.string.pref_general_videos,
+            R.string.pref_general_self,
+            R.string.pref_general_links,
+            R.string.pref_general_init
+
 
     };
 
@@ -80,6 +65,14 @@ public class Preference {
 
     public static void setLoginStart(Context context, Boolean b) {
         PrefManager.putBoolPref(context, Costants.PREFERENCE_LOGIN_START, b);
+    }
+
+    public static Boolean isGeneralInit(Context context) {
+        return PrefManager.getBoolPref(context, Costants.PREFERENCE_GENERAL_INIT);
+    }
+
+    public static void setGeneralInit(Context context, Boolean b) {
+        PrefManager.putBoolPref(context, Costants.PREFERENCE_GENERAL_INIT, b);
     }
 
     public static Boolean isClearData(Context context) {
@@ -212,6 +205,55 @@ public class Preference {
     }
 
 
+    public static Boolean isGeneralGifs(Context context) {
+        return PrefManager.getBoolPref(context, Costants.PREFERENCE_GENERAL_GIFS);
+    }
+
+    public static void setGeneralGifs(Context context, Boolean b) {
+        PrefManager.putBoolPref(context, Costants.PREFERENCE_GENERAL_GIFS, b);
+    }
+
+    public static Boolean isGeneralAlbums(Context context) {
+        return PrefManager.getBoolPref(context, Costants.PREFERENCE_GENERAL_ALBUMS);
+    }
+
+    public static void setGeneralAlbums(Context context, Boolean b) {
+        PrefManager.putBoolPref(context, Costants.PREFERENCE_GENERAL_ALBUMS, b);
+    }
+
+    public static Boolean isGeneralLinks(Context context) {
+        return PrefManager.getBoolPref(context, Costants.PREFERENCE_GENERAL_LINKS);
+    }
+
+    public static void setGeneralLinks(Context context, Boolean b) {
+        PrefManager.putBoolPref(context, Costants.PREFERENCE_GENERAL_LINKS, b);
+    }
+
+    public static Boolean isGeneralVideos(Context context) {
+        return PrefManager.getBoolPref(context, Costants.PREFERENCE_GENERAL_VIDEOS);
+    }
+
+    public static void setGeneralVideos(Context context, Boolean b) {
+        PrefManager.putBoolPref(context, Costants.PREFERENCE_GENERAL_VIDEOS, b);
+    }
+
+    public static Boolean isGeneralSelf(Context context) {
+        return PrefManager.getBoolPref(context, Costants.PREFERENCE_GENERAL_SELF);
+    }
+
+    public static void setGeneralSelf(Context context, Boolean b) {
+        PrefManager.putBoolPref(context, Costants.PREFERENCE_GENERAL_SELF, b);
+    }
+
+    public static Boolean isGeneralImages(Context context) {
+        return PrefManager.getBoolPref(context, Costants.PREFERENCE_GENERAL_IMAGES);
+    }
+
+    public static void setGeneralImages(Context context, Boolean b) {
+        PrefManager.putBoolPref(context, Costants.PREFERENCE_GENERAL_IMAGES, b);
+    }
+
+
     public static Boolean isYoutubePlayer(Context context) {
         return PrefManager.isGeneralSettings(context, context.getString(Costants.PREFERENCE_YOUTUBE_PLAYER));
     }
@@ -225,10 +267,10 @@ public class Preference {
     }
 
 
-
     public static void clearAll(Context context) {
         PrefManager.clearPref(context, prefArrays);
     }
+
     public static void clearGeneralSettings(Context context) {
         PrefManager.clearGeneralSettings(context);
     }

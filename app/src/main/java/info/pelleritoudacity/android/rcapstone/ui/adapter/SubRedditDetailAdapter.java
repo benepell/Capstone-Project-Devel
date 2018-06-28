@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,14 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.internal.ListenerClass;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditDetailFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SubRedditDetailHelper;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtils;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
 public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetailAdapter.SubRedditDetailHolder> {
@@ -153,13 +156,23 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         holder.mTextViewPoints.setText(score);
         if (!TextUtils.isEmpty(body)) holder.mTextViewBody.setText(TextUtil.textFromHtml(body));
 
+        holder.mTextViewBody.setClickable(Preference.isGeneralLinks(mContext));
+
+        if (Preference.isGeneralLinks(mContext)) {
+            holder.mTextViewBody.setClickable(true);
+            holder.mTextViewBody.setAutoLinkMask(Linkify.ALL);
+        } else {
+            holder.mTextViewBody.setClickable(false);
+        }
+
+
         SubRedditDetailHelper subRedditDetailHelper = new SubRedditDetailHelper(mContext);
         subRedditDetailHelper.initDepthIndicator(holder.mDepthIndicator, holder.mCardLinear, depth, true, false);
         String strBackGroundColor = subRedditDetailHelper.initDepthIndicator(holder.mDepthSelect, holder.mSelectorContainer, depth, true, true);
 
         SelectorHelper selectorHelper = new SelectorHelper(mContext);
         selectorHelper.cardBottomLink(mArrayButton, strBackGroundColor,
-               TextUtil.buildCommentDetailLink( permanentLink), subRedditName);
+                TextUtil.buildCommentDetailLink(permanentLink), subRedditName);
 
         if (holder.getAdapterPosition() != mSelectorPosition) {
             holder.mSelectorContainer.setVisibility(View.GONE);
@@ -167,6 +180,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         } else {
             holder.mSelectorContainer.setVisibility(View.VISIBLE);
         }
+
 
         mListener.adapterPosition(holder.getAdapterPosition(), subReddit);
     }

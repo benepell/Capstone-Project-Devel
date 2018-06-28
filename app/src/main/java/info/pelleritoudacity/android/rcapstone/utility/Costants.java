@@ -134,7 +134,7 @@ public interface Costants {
     int RESTORE_SUBREDDIT_POSITION = 0;
 
     int DEFAULT_SUBREDDIT_VISIBLE = 1;
-
+    boolean DEFAULT_GENERAL_SETTINGS = true;
     String EXO_PLAYER_MANAGER_TAG = "info.pelleritoudacity.android.rcapstone.exo.player.tag.subreddit";
 
     int NOTIFICATION_ID = 1;
@@ -219,8 +219,15 @@ public interface Costants {
     int PREFERENCE_SESSION_USERNAME = R.string.pref_session_username;
     int PREFERENCE_RESTORE_MANAGE = R.string.pref_restore_manage;
     int PREFERENCE_REQUEST_PERMISSION = R.string.pref_request_permission;
+    int PREFERENCE_GENERAL_INIT = R.string.pref_general_init;
     int PREFERENCE_ORIGINAL_SIZE_CONTENT = R.string.pref_original_size_content;
     int PREFERENCE_WRITE_EXTERNAL_STORAGE = R.string.pref_write_external_storage;
     int PREFERENCE_NIGHT_MODE = R.string.pref_night_mode;
+    int PREFERENCE_GENERAL_IMAGES = R.string.pref_general_images;
+    int PREFERENCE_GENERAL_GIFS = R.string.pref_general_gifs;
+    int PREFERENCE_GENERAL_ALBUMS = R.string.pref_general_albums;
+    int PREFERENCE_GENERAL_VIDEOS = R.string.pref_general_videos;
+    int PREFERENCE_GENERAL_SELF = R.string.pref_general_self;
+    int PREFERENCE_GENERAL_LINKS = R.string.pref_general_links;
 
 }

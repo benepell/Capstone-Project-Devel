@@ -111,25 +111,21 @@
 
     <string name="title_menu_login">Login</string>
     <string name="title_menu_filter">Filter posts</string>
+    <string name="title_submenu_general">General posts</string>
+    <string name="title_submenu_filter">Filter posts</string>
+    <string name="title_general_favorites">favorite</string>
     <string name="title_submenu_hot">Hot</string>
     <string name="title_submenu_top">Top</string>
     <string name="title_submenu_new">New</string>
     <string name="title_submenu_rising">Rising</string>
     <string name="title_submenu_controver">Controversial</string>
 
-    <string name="title_top_hour">Hour</string>
-    <string name="title_top_day">Day</string>
-    <string name="title_top_week">Week</string>
-    <string name="title_top_month">Month</string>
-    <string name="title_top_year">Year</string>
-    <string name="title_top_all">All time</string>
-
-    <string name="title_controver_hour">Hour</string>
-    <string name="title_controver_day">Day</string>
-    <string name="title_controver_week">Week</string>
-    <string name="title_controver_month">Month</string>
-    <string name="title_controver_year">Year</string>
-    <string name="title_controver_all">All time</string>
+    <string name="title_filter_hour">Hour</string>
+    <string name="title_filter_day">Day</string>
+    <string name="title_filter_week">Week</string>
+    <string name="title_filter_month">Month</string>
+    <string name="title_filter_year">Year</string>
+    <string name="title_filter_all">All time</string>
 
     <string name="title_menu_create">Create Post</string>
     <string name="text_handle_description">handle image</string>
@@ -161,6 +157,7 @@
     <string name="error_video">Error loading player: no playable video</string>
     <string name="ad_tag_url"><![CDATA[https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dlinear&correlator=]]></string>
     <string name="pref_volume_muted" translatable="false">info.pelleritoudacity.android.rcapstone.pref_volume_muted</string>
+
     <string name="image_description_not_available">Description Not Available</string>
 
     <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
@@ -179,6 +176,19 @@
     <string name="shortcut_text_search">Search Reddit</string>
     <string name="shortcut_long_text_search">Shortcut long text Search</string>
     <string name="shortcut_disabled_message_search">shortcut disabled text Search</string>
+    <string name="title_general_images">Images</string>
+    <string name="title_general_gifs">Gifs</string>
+    <string name="title_general_albums">Albums</string>
+    <string name="title_general_videos">Videos</string>
+    <string name="title_general_self">Self</string>
+    <string name="title_general_links">Links</string>
 
+    <string name="pref_general_images" translatable="false">info.pelleritoudacity.android.rcapstone.pref.general.images</string>
+    <string name="pref_general_gifs" translatable="false">info.pelleritoudacity.android.rcapstone.pref.general.gifs</string>
+    <string name="pref_general_albums" translatable="false">info.pelleritoudacity.android.rcapstone.pref.general.albums</string>
+    <string name="pref_general_videos" translatable="false">info.pelleritoudacity.android.rcapstone.pref.general.videos</string>
+    <string name="pref_general_self" translatable="false">info.pelleritoudacity.android.rcapstone.pref.general.self</string>
+    <string name="pref_general_links" translatable="false">info.pelleritoudacity.android.rcapstone.pref.general.links</string>
+    <string name="pref_general_init" translatable="false">info.pelleritoudacity.android.rcapstone.pref.general.init</string>
 
 </resources>

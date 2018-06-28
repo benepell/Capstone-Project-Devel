@@ -12,13 +12,69 @@
         android:title="@string/title_menu_logout"
         android:visible="false" />
 
-    <item
-        android:id="@+id/menu_action_filter"
-        android:enabled="true"
-        android:title="@string/title_menu_filter"
-        android:visible="true">
-        <menu>
 
+    <item
+        android:id="@+id/submenu_filter_general"
+        android:enabled="true"
+        android:title="@string/title_submenu_general"
+        android:visible="true">
+
+        <menu xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
+            <item
+                android:id="@+id/action_general_images"
+                android:checkable="true"
+                android:checked="true"
+                android:title="@string/title_general_images"
+                app:actionLayout="@layout/action_layout_styled_checkbox"
+                app:showAsAction="ifRoom|withText" />
+            <item
+                android:id="@+id/action_general_gifs"
+                android:checkable="true"
+                android:title="@string/title_general_gifs"
+                app:actionLayout="@layout/action_layout_styled_checkbox"
+                app:showAsAction="ifRoom|withText" />
+            <item
+                android:id="@+id/action_general_albums"
+                android:checkable="true"
+                android:title="@string/title_general_albums"
+                app:actionLayout="@layout/action_layout_styled_checkbox"
+                app:showAsAction="ifRoom|withText" />
+
+            <item
+                android:id="@+id/action_general_videos"
+                android:checkable="true"
+                android:title="@string/title_general_videos"
+                app:actionLayout="@layout/action_layout_styled_checkbox"
+                app:showAsAction="ifRoom|withText" />
+
+            <item
+                android:id="@+id/action_general_self"
+                android:checkable="true"
+                android:title="@string/title_general_self"
+                app:actionLayout="@layout/action_layout_styled_checkbox"
+                app:showAsAction="ifRoom|withText" />
+
+            <item
+                android:id="@+id/action_general_links"
+                android:checkable="true"
+                android:title="@string/title_general_links"
+                app:actionLayout="@layout/action_layout_styled_checkbox"
+                app:showAsAction="ifRoom|withText" />
+
+
+        </menu>
+    </item>
+
+
+    <item
+        android:id="@+id/submenu_filter_posts"
+        android:enabled="true"
+        android:title="@string/title_submenu_filter"
+        android:visible="true">
+
+        <menu xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
             <item
                 android:id="@+id/submenu_filter_hot"
                 android:enabled="true"
@@ -45,35 +101,37 @@
                     <item
                         android:id="@+id/submenu_top_hour"
                         android:enabled="true"
-                        android:title="@string/title_top_hour"
+                        android:title="@string/title_filter_hour"
                         android:visible="true" />
                     <item
                         android:id="@+id/submenu_top_day"
                         android:enabled="true"
-                        android:title="@string/title_top_day"
+                        android:title="@string/title_filter_day"
                         android:visible="true" />
                     <item
                         android:id="@+id/submenu_top_week"
                         android:enabled="true"
-                        android:title="@string/title_top_week"
+                        android:title="@string/title_filter_week"
                         android:visible="true" />
                     <item
                         android:id="@+id/submenu_top_month"
                         android:enabled="true"
-                        android:title="@string/title_top_month"
+                        android:title="@string/title_filter_month"
                         android:visible="true" />
                     <item
                         android:id="@+id/submenu_top_year"
                         android:enabled="true"
-                        android:title="@string/title_top_year"
+                        android:title="@string/title_filter_year"
                         android:visible="true" />
                     <item
                         android:id="@+id/submenu_top_all"
                         android:enabled="true"
-                        android:title="@string/title_top_all"
+                        android:title="@string/title_filter_all"
                         android:visible="true" />
 
                 </menu>
+
+
             </item>
 
             <item
@@ -85,39 +143,41 @@
                     <item
                         android:id="@+id/submenu_controver_hour"
                         android:enabled="true"
-                        android:title="@string/title_controver_hour"
+                        android:title="@string/title_filter_hour"
                         android:visible="true" />
                     <item
                         android:id="@+id/submenu_controver_day"
                         android:enabled="true"
-                        android:title="@string/title_controver_day"
+                        android:title="@string/title_filter_day"
                         android:visible="true" />
                     <item
                         android:id="@+id/submenu_controver_week"
                         android:enabled="true"
-                        android:title="@string/title_controver_week"
+                        android:title="@string/title_filter_week"
                         android:visible="true" />
                     <item
                         android:id="@+id/submenu_controver_month"
                         android:enabled="true"
-                        android:title="@string/title_controver_month"
+                        android:title="@string/title_filter_month"
                         android:visible="true" />
                     <item
                         android:id="@+id/submenu_controver_year"
                         android:enabled="true"
-                        android:title="@string/title_controver_year"
+                        android:title="@string/title_filter_year"
                         android:visible="true" />
                     <item
                         android:id="@+id/submenu_controver_all"
                         android:enabled="true"
-                        android:title="@string/title_controver_all"
+                        android:title="@string/title_filter_all"
                         android:visible="true" />
 
                 </menu>
             </item>
 
+
         </menu>
     </item>
+
 
     <item
         android:id="@+id/menu_action_create"

@@ -134,7 +134,7 @@ public class BaseActivity extends AppCompatActivity
         }
 
         if (TextUtils.isEmpty(Preference.getSubredditSort(getApplicationContext()))) {
-            Preference.setSubredditSort(getApplicationContext(),  Costants.DEFAULT_SORT_BY);
+            Preference.setSubredditSort(getApplicationContext(), Costants.DEFAULT_SORT_BY);
 
         }
 
@@ -184,7 +184,7 @@ public class BaseActivity extends AppCompatActivity
 
     @Override
     protected boolean onPrepareOptionsPanel(View view, Menu menu) {
-
+        Context context = getApplicationContext();
         MenuItem menuItemLogin;
         MenuItem menuItemLogout;
 
@@ -215,6 +215,9 @@ public class BaseActivity extends AppCompatActivity
                 default:
                     menuItemLogin.setChecked(false);
             }
+
+            menuGeneralSettings(context, menu,Costants.DEFAULT_GENERAL_SETTINGS);
+
         }
 
         return true;
@@ -245,78 +248,108 @@ public class BaseActivity extends AppCompatActivity
                     return true;
 
                 case R.id.submenu_filter_hot:
-                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_HOT);
-                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_NOTHING);
+                    Preference.setSubredditSort(getApplicationContext(), Costants.LABEL_SUBMENU_HOT);
+                    Preference.setTimeSort(getApplicationContext(), Costants.LABEL_TIME_NOTHING);
                     break;
                 case R.id.submenu_filter_new:
-                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_NEW);
-                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_NOTHING);
+                    Preference.setSubredditSort(getApplicationContext(), Costants.LABEL_SUBMENU_NEW);
+                    Preference.setTimeSort(getApplicationContext(), Costants.LABEL_TIME_NOTHING);
                     break;
                 case R.id.submenu_filter_rising:
-                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_RISING);
-                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_NOTHING);
+                    Preference.setSubredditSort(getApplicationContext(), Costants.LABEL_SUBMENU_RISING);
+                    Preference.setTimeSort(getApplicationContext(), Costants.LABEL_TIME_NOTHING);
                     break;
 
                 case R.id.submenu_top_hour:
-                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_TOP);
-                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_HOUR);
+                    Preference.setSubredditSort(getApplicationContext(), Costants.LABEL_SUBMENU_TOP);
+                    Preference.setTimeSort(getApplicationContext(), Costants.LABEL_TIME_HOUR);
                     MainActivity.homeActivity(getApplicationContext());
                     break;
                 case R.id.submenu_top_day:
-                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_TOP);
-                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_DAY);
+                    Preference.setSubredditSort(getApplicationContext(), Costants.LABEL_SUBMENU_TOP);
+                    Preference.setTimeSort(getApplicationContext(), Costants.LABEL_TIME_DAY);
                     MainActivity.homeActivity(getApplicationContext());
                     break;
                 case R.id.submenu_top_week:
-                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_TOP);
-                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_WEEK);
+                    Preference.setSubredditSort(getApplicationContext(), Costants.LABEL_SUBMENU_TOP);
+                    Preference.setTimeSort(getApplicationContext(), Costants.LABEL_TIME_WEEK);
                     MainActivity.homeActivity(getApplicationContext());
                     break;
                 case R.id.submenu_top_month:
-                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_TOP);
-                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_MONTH);
+                    Preference.setSubredditSort(getApplicationContext(), Costants.LABEL_SUBMENU_TOP);
+                    Preference.setTimeSort(getApplicationContext(), Costants.LABEL_TIME_MONTH);
                     MainActivity.homeActivity(getApplicationContext());
                     break;
                 case R.id.submenu_top_year:
-                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_TOP);
-                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_YEAR);
+                    Preference.setSubredditSort(getApplicationContext(), Costants.LABEL_SUBMENU_TOP);
+                    Preference.setTimeSort(getApplicationContext(), Costants.LABEL_TIME_YEAR);
                     MainActivity.homeActivity(getApplicationContext());
                     break;
                 case R.id.submenu_top_all:
-                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_TOP);
-                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_ALL);
+                    Preference.setSubredditSort(getApplicationContext(), Costants.LABEL_SUBMENU_TOP);
+                    Preference.setTimeSort(getApplicationContext(), Costants.LABEL_TIME_ALL);
                     MainActivity.homeActivity(getApplicationContext());
                     break;
 
                 case R.id.submenu_controver_hour:
-                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_CONTROVERSIAL);
-                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_HOUR);
+                    Preference.setSubredditSort(getApplicationContext(), Costants.LABEL_SUBMENU_CONTROVERSIAL);
+                    Preference.setTimeSort(getApplicationContext(), Costants.LABEL_TIME_HOUR);
                     MainActivity.homeActivity(getApplicationContext());
                     break;
                 case R.id.submenu_controver_day:
-                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_CONTROVERSIAL);
-                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_DAY);
+                    Preference.setSubredditSort(getApplicationContext(), Costants.LABEL_SUBMENU_CONTROVERSIAL);
+                    Preference.setTimeSort(getApplicationContext(), Costants.LABEL_TIME_DAY);
                     break;
                 case R.id.submenu_controver_week:
-                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_CONTROVERSIAL);
-                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_WEEK);
+                    Preference.setSubredditSort(getApplicationContext(), Costants.LABEL_SUBMENU_CONTROVERSIAL);
+                    Preference.setTimeSort(getApplicationContext(), Costants.LABEL_TIME_WEEK);
                     MainActivity.homeActivity(getApplicationContext());
                     break;
                 case R.id.submenu_controver_month:
-                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_CONTROVERSIAL);
-                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_MONTH);
+                    Preference.setSubredditSort(getApplicationContext(), Costants.LABEL_SUBMENU_CONTROVERSIAL);
+                    Preference.setTimeSort(getApplicationContext(), Costants.LABEL_TIME_MONTH);
                     MainActivity.homeActivity(getApplicationContext());
                     break;
                 case R.id.submenu_controver_year:
-                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_CONTROVERSIAL);
-                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_YEAR);
+                    Preference.setSubredditSort(getApplicationContext(), Costants.LABEL_SUBMENU_CONTROVERSIAL);
+                    Preference.setTimeSort(getApplicationContext(), Costants.LABEL_TIME_YEAR);
                     MainActivity.homeActivity(getApplicationContext());
                     break;
                 case R.id.submenu_controver_all:
-                    Preference.setSubredditSort(getApplicationContext(),  Costants.LABEL_SUBMENU_CONTROVERSIAL);
-                    Preference.setTimeSort(getApplicationContext(),Costants.LABEL_TIME_ALL);
+                    Preference.setSubredditSort(getApplicationContext(), Costants.LABEL_SUBMENU_CONTROVERSIAL);
+                    Preference.setTimeSort(getApplicationContext(), Costants.LABEL_TIME_ALL);
                     MainActivity.homeActivity(getApplicationContext());
                     break;
+                case R.id.action_general_images:
+                    Preference.setGeneralImages(getApplicationContext(), !Preference.isGeneralImages(getApplicationContext()));
+                    MainActivity.homeActivity(getApplicationContext());
+                    break;
+
+                case R.id.action_general_gifs:
+                    Preference.setGeneralGifs(getApplicationContext(), !Preference.isGeneralGifs(getApplicationContext()));
+                    MainActivity.homeActivity(getApplicationContext());
+                    break;
+
+                case R.id.action_general_albums:
+                    Preference.setGeneralAlbums(getApplicationContext(), !Preference.isGeneralAlbums(getApplicationContext()));
+                    MainActivity.homeActivity(getApplicationContext());
+                    break;
+
+                case R.id.action_general_videos:
+                    Preference.setGeneralVideos(getApplicationContext(), !Preference.isGeneralVideos(getApplicationContext()));
+                    MainActivity.homeActivity(getApplicationContext());
+                    break;
+
+                case R.id.action_general_self:
+                    Preference.setGeneralSelf(getApplicationContext(), !Preference.isGeneralSelf(getApplicationContext()));
+                    MainActivity.homeActivity(getApplicationContext());
+                    break;
+
+                case R.id.action_general_links:
+                    Preference.setGeneralLinks(getApplicationContext(), !Preference.isGeneralLinks(getApplicationContext()));
+                    MainActivity.homeActivity(getApplicationContext());
+                    break;
+
 
                 default:
                     return super.onOptionsItemSelected(item);
@@ -348,7 +381,7 @@ public class BaseActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_mode_subscriptions:
-                Preference.setTypeMode(getApplicationContext(),  Costants.NAV_MODE_SUBSCRIPTIONS);
+                Preference.setTypeMode(getApplicationContext(), Costants.NAV_MODE_SUBSCRIPTIONS);
                 item.setEnabled(true);
                 startActivity(new Intent(this, SubManageActivity.class));
                 break;
@@ -504,6 +537,77 @@ public class BaseActivity extends AppCompatActivity
         }
     }
 
+    private void menuGeneralSettings(Context context, Menu menu, boolean defaultValue) {
+
+        MenuItem itemGeneralImages = menu.findItem(R.id.action_general_images);
+        MenuItem itemGeneralVideos = menu.findItem(R.id.action_general_videos);
+        MenuItem itemGeneralGifs = menu.findItem(R.id.action_general_gifs);
+        MenuItem itemGeneralAlbums = menu.findItem(R.id.action_general_albums);
+        MenuItem itemGeneralLinks = menu.findItem(R.id.action_general_links);
+        MenuItem itemGeneralSelf = menu.findItem(R.id.action_general_self);
+
+        if (!Preference.isGeneralInit(context)) {
+            Preference.setGeneralImages(context,defaultValue);
+            Preference.setGeneralVideos(context,defaultValue);
+            Preference.setGeneralGifs(context,defaultValue);
+            Preference.setGeneralAlbums(context,defaultValue);
+            Preference.setGeneralLinks(context,defaultValue);
+            Preference.setGeneralSelf(context,defaultValue);
+
+            itemGeneralImages.setChecked(defaultValue);
+            itemGeneralVideos.setChecked(defaultValue);
+            itemGeneralGifs.setChecked(defaultValue);
+            itemGeneralAlbums.setChecked(defaultValue);
+            itemGeneralLinks.setChecked(defaultValue);
+            itemGeneralSelf.setChecked(defaultValue);
+
+            Preference.setGeneralInit(context,true);
+
+        } else {
+            if (Preference.isGeneralImages(context)) {
+                itemGeneralImages.setChecked(true);
+            } else {
+                itemGeneralImages.setChecked(false);
+
+            }
+
+            if (Preference.isGeneralGifs(context)) {
+                itemGeneralGifs.setChecked(true);
+            } else {
+                itemGeneralGifs.setChecked(false);
+
+            }
+
+            if (Preference.isGeneralAlbums(context)) {
+                itemGeneralAlbums.setChecked(true);
+            } else {
+                itemGeneralAlbums.setChecked(false);
+
+            }
+
+            if (Preference.isGeneralVideos(context)) {
+                itemGeneralVideos.setChecked(true);
+            } else {
+                itemGeneralVideos.setChecked(false);
+
+            }
+
+            if (Preference.isGeneralLinks(context)) {
+                itemGeneralLinks.setChecked(true);
+            } else {
+                itemGeneralLinks.setChecked(false);
+
+            }
+
+            if (Preference.isGeneralSelf(context)) {
+                itemGeneralSelf.setChecked(true);
+            } else {
+                itemGeneralSelf.setChecked(false);
+
+            }
+        }
+    }
+
 
     protected void openHomeActivity() {
         startActivity(new Intent(this, MainActivity.class)
@@ -525,8 +629,8 @@ public class BaseActivity extends AppCompatActivity
             String name = listenerData.getName();
             boolean isOver18 = listenerData.isOver18();
             if (!TextUtils.isEmpty(name)) {
-                Preference.setLoginName(getApplicationContext(),name);
-                Preference.setLoginOver18(getApplicationContext(),isOver18);
+                Preference.setLoginName(getApplicationContext(), name);
+                Preference.setLoginOver18(getApplicationContext(), isOver18);
 
                 TextView loginNameNavHeader = mNavHeaderView.findViewById(R.id.tv_nav_name);
                 loginNameNavHeader.setText(name);
