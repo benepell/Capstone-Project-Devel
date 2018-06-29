@@ -345,8 +345,9 @@ public class T1Operation {
     public boolean isDeleteData(String strId) {
         String timestamp = null;
         Uri uri = Contract.T1dataEntry.CONTENT_URI;
-        String selection = Contract.T1dataEntry.COLUMN_NAME_ID + " =?";
-        String[] selectionArgs = {strId};
+        String selection = Contract.T1dataEntry.COLUMN_NAME_ID + " =?" + " OR " +
+                Contract.T1dataEntry.COLUMN_NAME_LINK_ID + " =?";
+        String[] selectionArgs = {strId, Costant.STR_PARENT_COMMENT + strId};
 
         Cursor cursor = null;
         boolean isDeleted = false;
