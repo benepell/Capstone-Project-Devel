@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
 import info.pelleritoudacity.android.rcapstone.utility.ActivityUI;
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import timber.log.Timber;
 
 public class SubRedditFullScreenActivity extends AppCompatActivity {
@@ -58,11 +58,11 @@ public class SubRedditFullScreenActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         if (intent != null) {
-            if (intent.getBooleanExtra(Costants.EXTRA_SUBREDDIT_EXIT_FULLSCREEN, false)) {
+            if (intent.getBooleanExtra(Costant.EXTRA_SUBREDDIT_EXIT_FULLSCREEN, false)) {
                 finish();
                 startActivity(new Intent(mContext, SubRedditActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }
-            mVideoUri = intent.getStringExtra(Costants.EXTRA_SUBREDDIT_FULLSCREEN);
+            mVideoUri = intent.getStringExtra(Costant.EXTRA_SUBREDDIT_FULLSCREEN);
 
 
         }

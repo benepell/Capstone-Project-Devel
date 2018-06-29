@@ -52,13 +52,13 @@ import info.pelleritoudacity.android.rcapstone.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.rest.SubRedditExecute;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditFragment;
 import info.pelleritoudacity.android.rcapstone.ui.view.SubRedditTab;
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
-import info.pelleritoudacity.android.rcapstone.utility.NetworkUtils;
-import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
+import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import timber.log.Timber;
 
-import static info.pelleritoudacity.android.rcapstone.utility.PermissionUtils.RequestPermissionExtStorage;
+import static info.pelleritoudacity.android.rcapstone.utility.PermissionUtil.RequestPermissionExtStorage;
 
 
 public class SubRedditActivity extends BaseActivity
@@ -83,7 +83,7 @@ public class SubRedditActivity extends BaseActivity
 
         if (Util.SDK_INT > 23) {
             RequestPermissionExtStorage(SubRedditActivity.this);
-            PermissionUtils.isDeniedPermissionExtStorage(SubRedditActivity.this);
+            PermissionUtil.isDeniedPermissionExtStorage(SubRedditActivity.this);
         }
 
 
@@ -92,22 +92,22 @@ public class SubRedditActivity extends BaseActivity
             if (TextUtils.isEmpty(mRedditCategory)) {
                 Intent intentCategory = getIntent();
                 if (intentCategory != null) {
-                    mRedditCategory = intentCategory.getStringExtra(Costants.EXTRA_SUBREDDIT_CATEGORY);
-                    mRedditTarget = intentCategory.getStringExtra(Costants.EXTRA_SUBREDDIT_TARGET);
+                    mRedditCategory = intentCategory.getStringExtra(Costant.EXTRA_SUBREDDIT_CATEGORY);
+                    mRedditTarget = intentCategory.getStringExtra(Costant.EXTRA_SUBREDDIT_TARGET);
                     createTabLayout();
                 }
             }
 
         } else {
-            mRedditCategory = savedInstanceState.getString(Costants.EXTRA_SUBREDDIT_CATEGORY);
-            mRedditTarget = savedInstanceState.getString(Costants.EXTRA_SUBREDDIT_TARGET);
+            mRedditCategory = savedInstanceState.getString(Costant.EXTRA_SUBREDDIT_CATEGORY);
+            mRedditTarget = savedInstanceState.getString(Costant.EXTRA_SUBREDDIT_TARGET);
 
             createTabLayout();
 
         }
 
         if (mContext != null) {
-            initRest(mRedditCategory, mRedditTarget, NetworkUtils.isOnline(mContext));
+            initRest(mRedditCategory, mRedditTarget, NetworkUtil.isOnline(mContext));
 
         }
 
@@ -137,7 +137,7 @@ public class SubRedditActivity extends BaseActivity
             mRedditTarget = null;
             mRedditCategory = category;
             Preference.setLastCategory(mContext,  mRedditCategory);
-            initRest(category, null, NetworkUtils.isOnline(mContext));
+            initRest(category, null, NetworkUtil.isOnline(mContext));
 
         }
 
@@ -146,7 +146,7 @@ public class SubRedditActivity extends BaseActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (Costants.IS_MEDIA_SESSION) {
+        if (Costant.IS_MEDIA_SESSION) {
             MediaSession.removeNotification(mContext);
         }
     }
@@ -156,7 +156,7 @@ public class SubRedditActivity extends BaseActivity
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
-            case Costants.PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
+            case Costant.PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                    Preference.setWriteExternalStorage(mContext,true);
@@ -170,21 +170,21 @@ public class SubRedditActivity extends BaseActivity
     @Override
     public boolean shouldShowRequestPermissionRationale(@NonNull String permission) {
         if ((!Objects.equals(permission, Manifest.permission.WRITE_EXTERNAL_STORAGE)) ||
-                (PermissionUtils.isPermissionExtStorage(mContext) ||
+                (PermissionUtil.isPermissionExtStorage(mContext) ||
                         Preference.isRequestPermission(mContext))) {
             return super.shouldShowRequestPermissionRationale(permission);
         }
         ActivityCompat.requestPermissions(SubRedditActivity.this,
                 new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                Costants.PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+                Costant.PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
         Preference.setRequestPermission(mContext,true);
         return super.shouldShowRequestPermissionRationale(permission);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putString(Costants.EXTRA_SUBREDDIT_CATEGORY, mRedditCategory);
-        outState.putString(Costants.EXTRA_SUBREDDIT_TARGET, mRedditTarget);
+        outState.putString(Costant.EXTRA_SUBREDDIT_CATEGORY, mRedditCategory);
+        outState.putString(Costant.EXTRA_SUBREDDIT_TARGET, mRedditTarget);
         super.onSaveInstanceState(outState);
     }
 

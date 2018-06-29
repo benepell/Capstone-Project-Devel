@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import info.pelleritoudacity.android.rcapstone.model.reddit.T1;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -45,8 +45,8 @@ public class SubRedditDetailManager {
         String strTimeSort = Preference.getTimeSort(mContext);
 
         mFieldMap = new HashMap<>();
-        mFieldMap.put("depth", Costants.LIMIT_DEPTH_RESULTS);
-        mFieldMap.put("limit", Costants.LIMIT_COMMENTS_RESULTS);
+        mFieldMap.put("depth", Costant.LIMIT_DEPTH_RESULTS);
+        mFieldMap.put("limit", Costant.LIMIT_COMMENTS_RESULTS);
         mFieldMap.put("showedits", "false");
         mFieldMap.put("showmore", "true");
         if(!TextUtils.isEmpty(strTimeSort)){
@@ -63,18 +63,18 @@ public class SubRedditDetailManager {
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(Costants.OK_HTTP_CONNECTION_TIMEOUT, TimeUnit.SECONDS)
-                .readTimeout(Costants.OK_HTTP_CONNECTION_READ_TIMEOUT, TimeUnit.SECONDS)
-                .writeTimeout(Costants.OK_HTTP_CONNECTION_WRITE_TIMEOUT, TimeUnit.SECONDS)
+                .connectTimeout(Costant.OK_HTTP_CONNECTION_TIMEOUT, TimeUnit.SECONDS)
+                .readTimeout(Costant.OK_HTTP_CONNECTION_READ_TIMEOUT, TimeUnit.SECONDS)
+                .writeTimeout(Costant.OK_HTTP_CONNECTION_WRITE_TIMEOUT, TimeUnit.SECONDS)
                 .addInterceptor(httpLoggingInterceptor)
                 .build();
 
         String baseUrl;
 
         if (isAuthenticate) {
-            baseUrl = Costants.REDDIT_OAUTH_URL;
+            baseUrl = Costant.REDDIT_OAUTH_URL;
         } else {
-            baseUrl = Costants.REDDIT_BASE_URL;
+            baseUrl = Costant.REDDIT_BASE_URL;
         }
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -109,7 +109,7 @@ public class SubRedditDetailManager {
     public void getCommentsAPI(Callback<List<T1>> callback) {
        String sortBy = Preference.getSubredditSort(mContext);
         if (mIsAuthenticate) {
-            mCall = sCommentsAPI.getCommentsAuth(Costants.REDDIT_BEARER + mAccessToken,
+            mCall = sCommentsAPI.getCommentsAuth(Costant.REDDIT_BEARER + mAccessToken,
                     mSubRedditName, mNameRedditId,
                     sortBy,
                     mFieldMap);

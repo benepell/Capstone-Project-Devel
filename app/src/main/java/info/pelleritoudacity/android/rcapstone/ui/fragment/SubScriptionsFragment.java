@@ -48,6 +48,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
 import info.pelleritoudacity.android.rcapstone.data.DataUtils;
@@ -56,12 +57,12 @@ import info.pelleritoudacity.android.rcapstone.ui.helper.OnStartDragListener;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SimpleItemTouchHelperCallback;
 import info.pelleritoudacity.android.rcapstone.ui.adapter.SubScriptionsAdapter;
 
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
-import info.pelleritoudacity.android.rcapstone.utility.MapUtils;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.MapUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import timber.log.Timber;
 
-import static info.pelleritoudacity.android.rcapstone.utility.Costants.REDDIT_LOADER_ID;
+import static info.pelleritoudacity.android.rcapstone.utility.Costant.REDDIT_LOADER_ID;
 
 public class SubScriptionsFragment extends Fragment
         implements SubScriptionsAdapter.OnSubScriptionClick, OnStartDragListener, LoaderManager.LoaderCallbacks<Cursor> {
@@ -75,6 +76,7 @@ public class SubScriptionsFragment extends Fragment
     private static Parcelable sListState;
     private LinearLayoutManager mLayoutManager;
     private Context mContext;
+    private Unbinder unbinder;
 
     public SubScriptionsFragment() {
     }
@@ -98,12 +100,12 @@ public class SubScriptionsFragment extends Fragment
 
             getActivity().getSupportLoaderManager().initLoader(REDDIT_LOADER_ID, null, this);
 
-            if (Preference.getRestoreManage(mContext) == Costants.RESTORE_MANAGE_RESTORE) {
+            if (Preference.getRestoreManage(mContext) == Costant.RESTORE_MANAGE_RESTORE) {
                 alerDialog(getActivity());
             }
 
         } else {
-            sListState = Objects.requireNonNull(savedInstanceState).getParcelable(Costants.EXTRA_SUBSCRIPTION_STATE);
+            sListState = Objects.requireNonNull(savedInstanceState).getParcelable(Costant.EXTRA_SUBSCRIPTION_STATE);
         }
 
     }
@@ -130,7 +132,7 @@ public class SubScriptionsFragment extends Fragment
 
         View view = inflater.inflate(R.layout.fragment_reddit, container, false);
 
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
 
         if ((getActivity() != null) && (getActivity().findViewById(R.id.fragment_list_container) != null)) {
             mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -166,6 +168,12 @@ public class SubScriptionsFragment extends Fragment
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
         mAdapter.swapCursor(null);
     }
@@ -184,9 +192,9 @@ public class SubScriptionsFragment extends Fragment
         if (utils.updateVisibleStar(updateVisibleValue, name)) {
 
             if (visible != 0) {
-                MapUtils.removeElementPrefSubreddit(getActivity(), name);
+                MapUtil.removeElementPrefSubreddit(getActivity(), name);
             } else {
-                MapUtils.addElementPrefSubreddit(getActivity(), name);
+                MapUtil.addElementPrefSubreddit(getActivity(), name);
             }
 
             restartLoader();
@@ -199,7 +207,7 @@ public class SubScriptionsFragment extends Fragment
     public void onItemRemove(int position, String description) {
         DataUtils dataUtils = new DataUtils(mContext);
         if (dataUtils.updateManageRemoved(description)) {
-           SubManageActivity.manageToMainActivity(mContext);
+            SubManageActivity.manageToMainActivity(mContext);
         }
 
     }
@@ -207,7 +215,7 @@ public class SubScriptionsFragment extends Fragment
     public void alerDialog(Context context) {
 
         if (context != null) {
-            Preference.setRestoreManage(context,0);
+            Preference.setRestoreManage(context, 0);
             AlertDialog.Builder dialog = new AlertDialog.Builder(context, R.style.confirmDialog);
             dialog.setTitle(R.string.title_restore_confirm);
             dialog.setMessage(R.string.text_restore_data);
@@ -233,7 +241,7 @@ public class SubScriptionsFragment extends Fragment
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         sListState = mLayoutManager.onSaveInstanceState();
-        outState.putParcelable(Costants.EXTRA_FRAGMENT_STATE, sListState);
+        outState.putParcelable(Costant.EXTRA_FRAGMENT_STATE, sListState);
     }
 
 

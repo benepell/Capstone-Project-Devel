@@ -7,7 +7,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import java.util.List;
 
 import info.pelleritoudacity.android.rcapstone.model.reddit.T1;
-import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
+import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,7 +20,7 @@ public class SubRedditDetailExecute {
 
     public SubRedditDetailExecute(Context context, String code, String subRedditName, String nameRedditId ) {
         subRedditDetailManager = SubRedditDetailManager.getInstance(context,code,subRedditName,nameRedditId,
-                PermissionUtils.isLogged(context), Preference.getSubredditSort(context));
+                PermissionUtil.isLogged(context), Preference.getSubredditSort(context));
     }
 
     public void getData(final RestSubReddit myCallBack) {

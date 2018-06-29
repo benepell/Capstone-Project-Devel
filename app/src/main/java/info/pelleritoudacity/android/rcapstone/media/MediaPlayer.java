@@ -62,9 +62,9 @@ import java.util.concurrent.TimeUnit;
 
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditFullScreenActivity;
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
-import info.pelleritoudacity.android.rcapstone.utility.DateUtils;
-import info.pelleritoudacity.android.rcapstone.utility.ImageUtils;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
+import info.pelleritoudacity.android.rcapstone.utility.ImageUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
@@ -116,19 +116,19 @@ public class MediaPlayer {
 
     public void initPlayerFullScreen(Uri mediaUri) {
 
-        mPlayer = createPlayer(Costants.IS_RENDERING_VIDEO, Costants.IS_ADAPTIVE_STREAMING);
+        mPlayer = createPlayer(Costant.IS_RENDERING_VIDEO, Costant.IS_ADAPTIVE_STREAMING);
 
         mPlayerView.setPlayer(mPlayer);
 
         DefaultDataSourceFactory dataSourceFactory = new MediaSRC(mContext)
-                .createDataSourceFactory(Costants.IS_ADAPTIVE_STREAMING);
+                .createDataSourceFactory(Costant.IS_ADAPTIVE_STREAMING);
 
         MediaSource mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory)
                 .createMediaSource(mediaUri);
 
         boolean isResume = mResumePosition > 0;
 
-        if ((Costants.IS_IMA_AD_EXTENSION) && (mImaAdsLoader != null)) {
+        if ((Costant.IS_IMA_AD_EXTENSION) && (mImaAdsLoader != null)) {
             mediaSource = new AdsMediaSource(mediaSource, dataSourceFactory, mImaAdsLoader,
                     mPlayerView.getOverlayFrameLayout());
 
@@ -142,15 +142,15 @@ public class MediaPlayer {
             mPlayer.seekToDefaultPosition();
         }
 
-        if (Costants.IS_CONTROLLER_ALWAYS) {
-            mPlayerView.setControllerShowTimeoutMs(Costants.PLAYER_SHOW_CONTROLLER_ALWAYS);
+        if (Costant.IS_CONTROLLER_ALWAYS) {
+            mPlayerView.setControllerShowTimeoutMs(Costant.PLAYER_SHOW_CONTROLLER_ALWAYS);
         }
 
         mPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FILL);
 
         mPlayer.prepare(mediaSource, !isResume, false);
 
-        mPlayer.setPlayWhenReady(Costants.IS_AUTOPLAY_VIDEO);
+        mPlayer.setPlayWhenReady(Costant.IS_AUTOPLAY_VIDEO);
 
         getExitFullScreen();
         getShareFullScreen(mediaUri.toString());
@@ -174,18 +174,18 @@ public class MediaPlayer {
             mHandler = new Handler();
 
 
-            mPlayer = createPlayer(Costants.IS_RENDERING_VIDEO, Costants.IS_ADAPTIVE_STREAMING);
+            mPlayer = createPlayer(Costant.IS_RENDERING_VIDEO, Costant.IS_ADAPTIVE_STREAMING);
 
             mPlayerView.setPlayer(mPlayer);
 
             DefaultDataSourceFactory dataSourceFactory = new MediaSRC(mContext)
-                    .createDataSourceFactory(Costants.IS_ADAPTIVE_STREAMING);
+                    .createDataSourceFactory(Costant.IS_ADAPTIVE_STREAMING);
 
             MediaSource mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory)
                     .createMediaSource(mediaUri);
 
             boolean isResume = mResumePosition > 0;
-            if ((Costants.IS_IMA_AD_EXTENSION) && (mImaAdsLoader != null) ) {
+            if ((Costant.IS_IMA_AD_EXTENSION) && (mImaAdsLoader != null) ) {
                 mediaSource = new AdsMediaSource(mediaSource, dataSourceFactory, mImaAdsLoader,
                         mPlayerView.getOverlayFrameLayout());
 
@@ -201,7 +201,7 @@ public class MediaPlayer {
 
             mPlayer.prepare(mediaSource, !isResume, false);
 
-            mPlayer.setPlayWhenReady(Costants.IS_AUTOPLAY_VIDEO);
+            mPlayer.setPlayWhenReady(Costant.IS_AUTOPLAY_VIDEO);
 
             getFeatures();
             getFullScreen(mediaUri.toString());
@@ -217,21 +217,21 @@ public class MediaPlayer {
     }
 
     private void getFeatures() {
-        if (Costants.IS_MEDIA_SESSION) {
+        if (Costant.IS_MEDIA_SESSION) {
             mMediaSession = new MediaSession(mContext, mPlayer);
             mMediaSession.setDescription(mShortDescription);
             mMediaSession.initMediaSession();
         }
 
-        if (Costants.IS_CONTROLLER_ALWAYS) {
-            mPlayerView.setControllerShowTimeoutMs(Costants.PLAYER_SHOW_CONTROLLER_ALWAYS);
+        if (Costant.IS_CONTROLLER_ALWAYS) {
+            mPlayerView.setControllerShowTimeoutMs(Costant.PLAYER_SHOW_CONTROLLER_ALWAYS);
         }
 
-        if (Costants.IS_REPEAT_VIDEO) {
+        if (Costant.IS_REPEAT_VIDEO) {
             mPlayer.setRepeatMode(Player.REPEAT_MODE_ONE);
         }
 
-        if (Costants.IS_VIDEO_FULL) {
+        if (Costant.IS_VIDEO_FULL) {
             mPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FILL);
         }
 
@@ -249,14 +249,14 @@ public class MediaPlayer {
                 mPlayer.setVolume(0f);
                 mImageMutedPlay.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_volume_off)
                         .sizeDp(mContext.getResources().getInteger(R.integer.icon_size_muted))
-                        .color(ImageUtils.getColor(mContext, R.color.white))
+                        .color(ImageUtil.getColor(mContext, R.color.white))
                         .respectFontBounds(true));
 
             } else {
                 mPlayer.setVolume(1f);
                 mImageMutedPlay.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_volume_up)
                         .sizeDp(mContext.getResources().getInteger(R.integer.icon_size_volume))
-                        .color(ImageUtils.getColor(mContext, R.color.white))
+                        .color(ImageUtil.getColor(mContext, R.color.white))
                         .respectFontBounds(true));
 
             }
@@ -266,14 +266,14 @@ public class MediaPlayer {
                     setMute(false);
                     mImageMutedPlay.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_volume_up)
                             .sizeDp(mContext.getResources().getInteger(R.integer.icon_size_volume))
-                            .color(ImageUtils.getColor(mContext, R.color.white))
+                            .color(ImageUtil.getColor(mContext, R.color.white))
                             .respectFontBounds(true));
 
                 } else {
                     setMute(true);
                     mImageMutedPlay.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_volume_off)
                             .sizeDp(mContext.getResources().getInteger(R.integer.icon_size_muted))
-                            .color(ImageUtils.getColor(mContext, R.color.white))
+                            .color(ImageUtil.getColor(mContext, R.color.white))
                             .respectFontBounds(true));
                 }
             });
@@ -287,7 +287,7 @@ public class MediaPlayer {
 
             mImageFullScreen.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_fullscreen)
                     .sizeDp(mContext.getResources().getInteger(R.integer.icon_size_fullscreen))
-                    .color(ImageUtils.getColor(mContext, R.color.white))
+                    .color(ImageUtil.getColor(mContext, R.color.white))
                     .respectFontBounds(true));
 
             mImageFullScreen.setOnClickListener(v -> startClickFullScreen(videoUrl));
@@ -301,11 +301,11 @@ public class MediaPlayer {
 
             mImageExitFullScreen.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_fullscreen_exit)
                     .sizeDp(mContext.getResources().getInteger(R.integer.icon_size_exit_fullscreen))
-                    .color(ImageUtils.getColor(mContext, R.color.white))
+                    .color(ImageUtil.getColor(mContext, R.color.white))
                     .respectFontBounds(true));
 
             mImageExitFullScreen.setOnClickListener(v -> mContext.startActivity(new Intent(mContext, SubRedditFullScreenActivity.class)
-                    .putExtra(Costants.EXTRA_SUBREDDIT_EXIT_FULLSCREEN, true)));
+                    .putExtra(Costant.EXTRA_SUBREDDIT_EXIT_FULLSCREEN, true)));
         }
     }
 
@@ -316,7 +316,7 @@ public class MediaPlayer {
 
             mImageShareFullScreen.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_share)
                     .sizeDp(mContext.getResources().getInteger(R.integer.icon_size_share))
-                    .color(ImageUtils.getColor(mContext, R.color.white))
+                    .color(ImageUtil.getColor(mContext, R.color.white))
                     .respectFontBounds(true));
 
             mImageShareFullScreen.setOnClickListener(v -> mContext.startActivity(new Intent(Intent.ACTION_SEND)
@@ -328,7 +328,7 @@ public class MediaPlayer {
     private void startClickFullScreen(String videoUrl) {
         MediaSession.removeNotification(mContext);
         mContext.startActivity(new Intent(mContext, SubRedditFullScreenActivity.class)
-                .putExtra(Costants.EXTRA_SUBREDDIT_FULLSCREEN,
+                .putExtra(Costant.EXTRA_SUBREDDIT_FULLSCREEN,
                         TextUtil.textFromHtml(videoUrl)));
 
     }
@@ -453,7 +453,7 @@ public class MediaPlayer {
 
             long delayMs = TimeUnit.SECONDS.toMillis(1);
             mHandler.postDelayed(mRunnableRemainingPlay, delayMs);
-            mTvExoCountDown.setText(DateUtils.getTimeFormat(timeRemainingPlay()));
+            mTvExoCountDown.setText(DateUtil.getTimeFormat(timeRemainingPlay()));
 
         }
     }

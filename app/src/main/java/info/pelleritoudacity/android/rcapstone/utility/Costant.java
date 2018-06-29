@@ -29,7 +29,7 @@ package info.pelleritoudacity.android.rcapstone.utility;
 import info.pelleritoudacity.android.rcapstone.BuildConfig;
 import info.pelleritoudacity.android.rcapstone.R;
 
-public interface Costants {
+public interface Costant {
 
     String REDDIT_BASE_URL = "https://www.reddit.com/";
     String REDDIT_TOKEN_URL = "https://www.reddit.com/";

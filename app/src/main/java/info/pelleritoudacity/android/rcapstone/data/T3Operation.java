@@ -34,7 +34,6 @@ import android.text.TextUtils;
 
 import java.util.ArrayList;
 
-import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.model.ModelContent;
 import info.pelleritoudacity.android.rcapstone.model.reddit.Media;
 import info.pelleritoudacity.android.rcapstone.model.reddit.OembedMedia;
@@ -48,7 +47,7 @@ import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
 
-import static info.pelleritoudacity.android.rcapstone.utility.DateUtils.getSecondsTimeStamp;
+import static info.pelleritoudacity.android.rcapstone.utility.DateUtil.getSecondsTimeStamp;
 
 public class T3Operation {
 

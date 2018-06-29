@@ -33,7 +33,7 @@ import android.net.Uri;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T5;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T5Data;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T5Listing;
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
@@ -71,7 +71,7 @@ public class T5Operation {
                     t5Model.getIconImg());
 
             arrCV[i].put(Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE,
-                    Costants.DEFAULT_SUBREDDIT_VISIBLE);
+                    Costant.DEFAULT_SUBREDDIT_VISIBLE);
 
             arrCV[i].put(Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION,
                     position);

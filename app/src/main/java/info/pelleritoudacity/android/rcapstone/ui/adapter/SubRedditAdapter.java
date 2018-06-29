@@ -55,14 +55,14 @@ import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SubRedditHelper;
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
-import info.pelleritoudacity.android.rcapstone.utility.ImageUtils;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
+import info.pelleritoudacity.android.rcapstone.utility.ImageUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
-import static info.pelleritoudacity.android.rcapstone.utility.DateUtils.getStringCurrentCreatedUtd;
-import static info.pelleritoudacity.android.rcapstone.utility.ImageUtils.isSmallImage;
-import static info.pelleritoudacity.android.rcapstone.utility.NumberUtils.numberFormat;
+import static info.pelleritoudacity.android.rcapstone.utility.ImageUtil.isSmallImage;
+import static info.pelleritoudacity.android.rcapstone.utility.NumberUtil.numberFormat;
 
 public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubRedditHolder> {
 
@@ -182,28 +182,30 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         int thumbnailOembedHeight = mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_HEIGHT));
 
-        holder.mTextViewCreatedUtc.setText(getStringCurrentCreatedUtd(mContext, createdUtc));
+
+        holder.mTextViewCreatedUtc.setText(DateUtil.getDiffTimeMinute(createdUtc));
+
         SubRedditHelper subRedditHelper = new SubRedditHelper(mContext);
 
         int mediaType = 0;
 
         mediaType = (Preference.isGeneralImages(mContext)) && (!TextUtils.isEmpty(imagePreviewUrl)) && (!isSmallImage(mContext, imagePreviewWidth, imagePreviewHeight))
-                ? Costants.MEDIA_IMAGE_FULL_TYPE : mediaType;
+                ? Costant.MEDIA_IMAGE_FULL_TYPE : mediaType;
 
         mediaType = (Preference.isGeneralVideos(mContext)) && (!TextUtils.isEmpty(videoPreviewUrl))
-                ? Costants.MEDIA_VIDEO_PREVIEW_TYPE_MP4 : mediaType;
+                ? Costant.MEDIA_VIDEO_PREVIEW_TYPE_MP4 : mediaType;
 
         mediaType = (Preference.isGeneralVideos(mContext)) && (!TextUtils.isEmpty(videoUrl) && (!TextUtils.isEmpty(videoTypeOembed)) &&
-                (videoTypeOembed.equals(Costants.BASE_TYPE_VIMEO)))
-                ? Costants.MEDIA_VIDEO_TYPE_VIMEO : mediaType;
+                (videoTypeOembed.equals(Costant.BASE_TYPE_VIMEO)))
+                ? Costant.MEDIA_VIDEO_TYPE_VIMEO : mediaType;
 
         mediaType = (Preference.isGeneralVideos(mContext)) && (!TextUtils.isEmpty(videoFrameOembed) &&
-                (!TextUtils.isEmpty(videoTypeOembed)) && (videoTypeOembed.equals(Costants.BASE_TYPE_YOUTUBE)))
-                ? Costants.MEDIA_VIDEO_TYPE_YOUTUBE : mediaType;
+                (!TextUtils.isEmpty(videoTypeOembed)) && (videoTypeOembed.equals(Costant.BASE_TYPE_YOUTUBE)))
+                ? Costant.MEDIA_VIDEO_TYPE_YOUTUBE : mediaType;
 
         switch (mediaType) {
 
-            case Costants.MEDIA_IMAGE_FULL_TYPE:
+            case Costant.MEDIA_IMAGE_FULL_TYPE:
 
                 holder.mPlayerLayout.setVisibility(View.GONE);
                 holder.mWebViewYoutube.setVisibility(View.GONE);
@@ -214,7 +216,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
                 holder.mImageViewSubReddit.setVisibility(View.VISIBLE);
                 break;
 
-            case Costants.MEDIA_VIDEO_PREVIEW_TYPE_MP4:
+            case Costant.MEDIA_VIDEO_PREVIEW_TYPE_MP4:
 
                 if  (mMediaPlayer != null) {
                     mMediaPlayer.releasePlayer();
@@ -232,7 +234,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
                 holder.mImageViewSubReddit.setVisibility(View.GONE);
                 break;
 
-            case Costants.MEDIA_VIDEO_TYPE_VIMEO:
+            case Costant.MEDIA_VIDEO_TYPE_VIMEO:
 
                 subRedditHelper.loadWebviewYoutube(holder.mWebViewYoutube, videoFrameOembed);
 
@@ -240,7 +242,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
                 holder.mPlayerLayout.setVisibility(View.GONE);
                 break;
 
-            case Costants.MEDIA_VIDEO_TYPE_YOUTUBE:
+            case Costant.MEDIA_VIDEO_TYPE_YOUTUBE:
 
                 if (Preference.isYoutubePlayer(mContext)) {
                     subRedditHelper.youtubeVideoFirstFrame(holder.mPlayerLayout, holder.mImagePlay, holder.mExoProgressBar,
@@ -408,20 +410,20 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
         @Override
         public void onItemSelected() {
-            itemView.setBackgroundColor(ImageUtils.getColor(mContext, R.color.colorBackgroundItemSelected));
+            itemView.setBackgroundColor(ImageUtil.getColor(mContext, R.color.colorBackgroundItemSelected));
         }
 
         @Override
         public void onItemClear() {
-            itemView.setBackgroundColor(ImageUtils.getColor(mContext, R.color.colorBackgroundItemNoSelected));
+            itemView.setBackgroundColor(ImageUtil.getColor(mContext, R.color.colorBackgroundItemNoSelected));
         }
 
         @Override
         public void onClick(View view) {
             mContext.startActivity(new Intent(mContext, SubRedditDetailActivity.class)
-                    .putExtra(Costants.EXTRA_SUBREDDIT_DETAIL_POSITION, mPosition)
-                    .putExtra(Costants.EXTRA_SUBREDDIT_DETAIL_CATEGORY, mSubRedditName)
-                    .putExtra(Costants.EXTRA_SUBREDDIT_DETAIL_STR_ID, mNameRedditId));
+                    .putExtra(Costant.EXTRA_SUBREDDIT_DETAIL_POSITION, mPosition)
+                    .putExtra(Costant.EXTRA_SUBREDDIT_DETAIL_CATEGORY, mSubRedditName)
+                    .putExtra(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID, mNameRedditId));
 
         }
     }

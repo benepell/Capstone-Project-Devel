@@ -7,7 +7,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
 
 public class MediaSRC {
 
@@ -19,7 +19,7 @@ public class MediaSRC {
 
     public DefaultDataSourceFactory createDataSourceFactory(boolean isAdaptiveStreaming) {
 
-        String userAgent = Util.getUserAgent(mContext, Costants.USER_AGENT_MEDIA);
+        String userAgent = Util.getUserAgent(mContext, Costant.USER_AGENT_MEDIA);
 
         if (isAdaptiveStreaming) {
             DefaultBandwidthMeter defaultBandwidthMeter = new DefaultBandwidthMeter();

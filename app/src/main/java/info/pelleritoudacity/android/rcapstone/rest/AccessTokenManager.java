@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 
 import info.pelleritoudacity.android.rcapstone.model.reddit.RedditToken;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,7 +54,7 @@ public class AccessTokenManager {
     private AccessTokenManager(String code) {
 
 
-        String authString = Costants.REDDIT_CLIENT_ID + ":";
+        String authString = Costant.REDDIT_CLIENT_ID + ":";
         String encodedAuthString = Base64.encodeToString(authString.getBytes(), Base64.NO_WRAP);
 
 
@@ -63,18 +63,18 @@ public class AccessTokenManager {
 
         fieldMap = new HashMap<>();
         fieldMap.put("grant_type", "authorization_code");
-        fieldMap.put("User-Agent", Costants.REDDIT_USER_AGENT);
+        fieldMap.put("User-Agent", Costant.REDDIT_USER_AGENT);
         fieldMap.put("code", code);
-        fieldMap.put("redirect_uri", Costants.REDDIT_REDIRECT_URL);
+        fieldMap.put("redirect_uri", Costant.REDDIT_REDIRECT_URL);
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(Costants.OK_HTTP_CONNECTION_TIMEOUT, TimeUnit.SECONDS)
-                .readTimeout(Costants.OK_HTTP_CONNECTION_READ_TIMEOUT, TimeUnit.SECONDS)
-                .writeTimeout(Costants.OK_HTTP_CONNECTION_WRITE_TIMEOUT, TimeUnit.SECONDS)
+                .connectTimeout(Costant.OK_HTTP_CONNECTION_TIMEOUT, TimeUnit.SECONDS)
+                .readTimeout(Costant.OK_HTTP_CONNECTION_READ_TIMEOUT, TimeUnit.SECONDS)
+                .writeTimeout(Costant.OK_HTTP_CONNECTION_WRITE_TIMEOUT, TimeUnit.SECONDS)
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Costants.REDDIT_TOKEN_URL)
+                .baseUrl(Costant.REDDIT_TOKEN_URL)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

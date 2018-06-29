@@ -32,8 +32,8 @@ import android.os.Bundle;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.rest.RevokeTokenExecute;
 import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
-import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 
 public class LogoutActivity extends BaseActivity
         implements RevokeTokenExecute.RestRevokeCode {
@@ -44,15 +44,15 @@ public class LogoutActivity extends BaseActivity
         setLayoutResource(R.layout.activity_logout);
         super.onCreate(savedInstanceState);
 
-        if (PermissionUtils.isLogged(getApplicationContext())) {
-            new RevokeTokenExecute(PermissionUtils.getToken(getApplicationContext()), Costants.REDDIT_ACCESS_TOKEN).RevokeTokenData(this);
+        if (PermissionUtil.isLogged(getApplicationContext())) {
+            new RevokeTokenExecute(PermissionUtil.getToken(getApplicationContext()), Costant.REDDIT_ACCESS_TOKEN).RevokeTokenData(this);
         }
     }
 
 
     @Override
     public void onRestCode(Integer listenerData) {
-        if (listenerData == Costants.REDDIT_REVOKE_SUCCESS) {
+        if (listenerData == Costant.REDDIT_REVOKE_SUCCESS) {
             clearPreference();
             openHomeActivity();
             stopRefreshTokenService();
@@ -78,12 +78,12 @@ public class LogoutActivity extends BaseActivity
     public void openHomeActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        intent.putExtra(Costants.EXTRA_LOGOUT_SUCCESS, true);
+        intent.putExtra(Costant.EXTRA_LOGOUT_SUCCESS, true);
         startActivity(intent);
     }
 
     private  void stopRefreshTokenService(){
-        FirebaseRefreshTokenSync.stopJobRefreshToken(getApplicationContext(),Costants.TOKEN_SYNC_TAG);
+        FirebaseRefreshTokenSync.stopJobRefreshToken(getApplicationContext(), Costant.TOKEN_SYNC_TAG);
     }
 }
 

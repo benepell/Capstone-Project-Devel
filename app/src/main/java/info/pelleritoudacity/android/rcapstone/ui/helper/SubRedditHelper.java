@@ -29,10 +29,10 @@ import java.nio.charset.StandardCharsets;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MediaYoutubeActivity;
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
-import info.pelleritoudacity.android.rcapstone.utility.ImageUtils;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.ImageUtil;
 
-import static info.pelleritoudacity.android.rcapstone.utility.ImageUtils.isSmallImage;
+import static info.pelleritoudacity.android.rcapstone.utility.ImageUtil.isSmallImage;
 
 public class SubRedditHelper {
 
@@ -192,7 +192,7 @@ public class SubRedditHelper {
                         imageView.setOnClickListener(v -> {
                             progressBar.setVisibility(View.VISIBLE);
                             mContext.startActivity(new Intent(mContext,
-                                    MediaYoutubeActivity.class).putExtra(Costants.EXTRA_YOUTUBE_PARAM, videoUrl)
+                                    MediaYoutubeActivity.class).putExtra(Costant.EXTRA_YOUTUBE_PARAM, videoUrl)
 
                             );
                             layout.setVisibility(View.VISIBLE);
@@ -230,7 +230,7 @@ public class SubRedditHelper {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
                         if (isSmallImage(mContext, imagePreviewWidth, imagePreviewHeight)) {
-                            ImageUtils.createRoundImage(mContext, imageViewSmall, resource);
+                            ImageUtil.createRoundImage(mContext, imageViewSmall, resource);
                             imageViewSmall.setContentDescription(contentDescription);
 
                         } else {

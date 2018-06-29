@@ -32,7 +32,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.text.TextUtils;
 
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import timber.log.Timber;
 
@@ -86,7 +86,7 @@ public class DataUtils {
         String[] selectionArgs = {category};
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED, Costants.REMOVED_SUBREDDIT_ITEMS);
+        contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED, Costant.REMOVED_SUBREDDIT_ITEMS);
 
         count = mContext.getContentResolver().update(uri, contentValues, where, selectionArgs);
 
@@ -108,9 +108,9 @@ public class DataUtils {
             selectionArgs[0] = String.valueOf(i);
 
             ContentValues contentValues = new ContentValues();
-            contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED, Costants.RESTORE_SUBREDDIT_ITEMS);
+            contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED, Costant.RESTORE_SUBREDDIT_ITEMS);
             contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION, i);
-            contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE, Costants.DEFAULT_SUBREDDIT_VISIBLE);
+            contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE, Costant.DEFAULT_SUBREDDIT_VISIBLE);
 
             count = mContext.getContentResolver().update(uri, contentValues, where, selectionArgs);
             i++;
@@ -147,7 +147,7 @@ public class DataUtils {
                     if (!TextUtils.isEmpty(name)) {
                         if (i < cursor.getCount()) {
                             //noinspection StringConcatenationInLoop
-                            stringPref += name + Costants.STRING_SEPARATOR;
+                            stringPref += name + Costant.STRING_SEPARATOR;
                         } else {
                             //noinspection StringConcatenationInLoop
                             stringPref += name;
@@ -207,7 +207,7 @@ public class DataUtils {
                     if (!TextUtils.isEmpty(name)) {
                         if (i < cursor.getCount()) {
                             //noinspection StringConcatenationInLoop
-                            stringPref += name + Costants.STRING_SEPARATOR;
+                            stringPref += name + Costant.STRING_SEPARATOR;
                         } else {
                             //noinspection StringConcatenationInLoop
                             stringPref += name;
@@ -245,7 +245,7 @@ public class DataUtils {
         count = mContext.getContentResolver().update(uri, contentValues, where, selectionArgs);
 
         if ((!TextUtils.isEmpty(category)) &&
-                (visible == Costants.DEFAULT_SUBREDDIT_VISIBLE) &&
+                (visible == Costant.DEFAULT_SUBREDDIT_VISIBLE) &&
                 (count > 0)) {
 
             String stringPref = restoreStarsOrderFromDb();

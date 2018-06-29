@@ -33,7 +33,7 @@ import java.util.LinkedHashSet;
 import info.pelleritoudacity.android.rcapstone.R;
 import timber.log.Timber;
 
-public class MapUtils {
+public class MapUtil {
 
     public static void addElementPrefSubreddit(Context context, String e) {
         String string = Preference.getSubredditKey(context);

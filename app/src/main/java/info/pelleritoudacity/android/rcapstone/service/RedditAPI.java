@@ -35,7 +35,7 @@ import info.pelleritoudacity.android.rcapstone.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T5;
 import info.pelleritoudacity.android.rcapstone.model.reddit.RedditAboutMe;
 import info.pelleritoudacity.android.rcapstone.model.reddit.RedditToken;
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -61,7 +61,7 @@ public interface RedditAPI {
     );
 
     @GET("/r/{subreddit_name}/{sort}/.json")
-    @Headers("User-Agent: " + Costants.REDDIT_USER_AGENT)
+    @Headers("User-Agent: " + Costant.REDDIT_USER_AGENT)
     Call<T3> getSubRedditAuth(@Header("Authorization") String authorization,
                               @Path(value = "subreddit_name", encoded = true) String subreddit_name,
                               @Path(value = "sort", encoded = true) String sortBy,
@@ -77,7 +77,7 @@ public interface RedditAPI {
     );
 
     @GET("/r/{subreddit_name}/comments/{id}/{sort}/.json")
-    @Headers("User-Agent: " + Costants.REDDIT_USER_AGENT)
+    @Headers("User-Agent: " + Costant.REDDIT_USER_AGENT)
     Call<List<T1>> getCommentsAuth(@Header("Authorization") String authorization,
                                    @Path(value = "subreddit_name", encoded = true) String subreddit_name,
                                    @Path(value = "id", encoded = true) String strId,
@@ -100,11 +100,11 @@ public interface RedditAPI {
 
     @GET("/api/v1/me")
     Call<RedditAboutMe> getAboutMe(
-            @Header(Costants.REDDIT_AUTHORIZATION) String authorization);
+            @Header(Costant.REDDIT_AUTHORIZATION) String authorization);
 
     @FormUrlEncoded
     @POST("/api/vote")
-    @Headers("User-Agent: " + Costants.REDDIT_USER_AGENT)
+    @Headers("User-Agent: " + Costant.REDDIT_USER_AGENT)
     Call<ResponseBody> postVote(@Header("Authorization") String authorization,
                                 @Field("dir") String dir,
                                 @Field("id") String nameReddit);

@@ -14,7 +14,7 @@ import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.DataUtils;
 import info.pelleritoudacity.android.rcapstone.rest.VoteExecute;
-import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
+import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 
 public class SelectorHelper {
     Context mContext;
@@ -44,7 +44,7 @@ public class SelectorHelper {
                     .respectFontBounds(true));
 
             buttonVoteUp.setOnClickListener(view -> {
-                if (PermissionUtils.isLogged(mContext)) {
+                if (PermissionUtil.isLogged(mContext)) {
                     String vote = "1";
 
                     if (view.isActivated()) {
@@ -52,7 +52,7 @@ public class SelectorHelper {
                     }
 
                     String finalVote = vote;
-                    new VoteExecute(PermissionUtils.getToken(mContext), vote, nameReddit)
+                    new VoteExecute(PermissionUtil.getToken(mContext), vote, nameReddit)
                             .postData(new VoteExecute.RestAccessToken() {
                                 @Override
                                 public void onRestVote(int responseCode) {
@@ -91,7 +91,7 @@ public class SelectorHelper {
                     .respectFontBounds(true));
 
             buttonVoteDown.setOnClickListener(view -> {
-                if (PermissionUtils.isLogged(mContext)) {
+                if (PermissionUtil.isLogged(mContext)) {
                     String vote = "-1";
 
                     if (view.isActivated()) {
@@ -99,7 +99,7 @@ public class SelectorHelper {
                     }
 
                     String finalVote = vote;
-                    new VoteExecute(PermissionUtils.getToken(mContext), vote, nameReddit)
+                    new VoteExecute(PermissionUtil.getToken(mContext), vote, nameReddit)
                             .postData(new VoteExecute.RestAccessToken() {
                                 @Override
                                 public void onRestVote(int responseCode) {

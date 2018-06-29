@@ -27,6 +27,8 @@
 package info.pelleritoudacity.android.rcapstone.utility;
 
 import android.net.Uri;
+import android.os.Build;
+import android.text.Html;
 import android.text.TextUtils;
 
 import java.io.UnsupportedEncodingException;
@@ -42,7 +44,7 @@ public class TextUtil {
 
     public static ArrayList<String> stringToArray(String string) {
         ArrayList<String> arrayList = new ArrayList<>();
-        Collections.addAll(arrayList, string.split(Costants.STRING_SEPARATOR));
+        Collections.addAll(arrayList, string.split(Costant.STRING_SEPARATOR));
         return arrayList;
     }
 
@@ -51,7 +53,7 @@ public class TextUtil {
             StringBuilder builder = new StringBuilder();
 
             for (String s : arrayList) {
-                builder.append(s).append(Costants.STRING_SEPARATOR);
+                builder.append(s).append(Costant.STRING_SEPARATOR);
             }
             String str = builder.toString();
 
@@ -71,79 +73,78 @@ public class TextUtil {
     }
 
     public static String textFromHtml(String url) {
-        try {
-            if (!TextUtils.isEmpty(url)) {
-                url = URLEncoder.encode(url, StandardCharsets.UTF_8.name());
-                url = URLDecoder.decode(url, StandardCharsets.UTF_8.name());
-                url = url.replaceAll("&amp;", "&");
-                url = url.replaceAll("&lt;", "<");
-                url = url.replaceAll("&gt;", ">");
+        if (!TextUtils.isEmpty(url)) {
+            url = url.replaceAll("&amp;", "&");
+            url = url.replaceAll("&lt;", "<");
+            url = url.replaceAll("&gt;", ">");
+
+            if (Build.VERSION.SDK_INT >= 24) {
+                Html.fromHtml(url,Html.FROM_HTML_MODE_LEGACY).toString();
+            } else {
+                Html.fromHtml(url).toString();
+
             }
-
-        } catch (UnsupportedEncodingException e) {
-            Timber.e("Encoder error %s", e.getMessage());
-            return null;
+            return url;
         }
-
-        return url;
+        return  url;
     }
 
-    public static String buildCommentLink(String redditnamePrefix, String redditNameId) {
-        Uri.Builder builderRedditComments = new Uri.Builder();
+    public static String buildCommentLink (String redditnamePrefix, String redditNameId){
+            Uri.Builder builderRedditComments = new Uri.Builder();
 
             return builderRedditComments.scheme("https")
-                    .authority(Costants.REDDIT_AUTH_URL)
+                    .authority(Costant.REDDIT_AUTH_URL)
                     .appendEncodedPath(redditnamePrefix)
-                    .appendPath(Costants.REDDIT_COMMENTS)
+                    .appendPath(Costant.REDDIT_COMMENTS)
                     .appendPath(redditNameId).build().toString();
 
-    }
-
-    public static String buildCommentDetailLink(String permalink) {
-        Uri.Builder builderRedditComments = new Uri.Builder();
-
-        return builderRedditComments.scheme("https")
-                .authority(Costants.REDDIT_AUTH_URL)
-                .appendEncodedPath(permalink).build().toString();
-
-    }
-    public static String youtubeValue(String youtubeUrl) {
-        int nSearchLeft;
-        int nSearchRight;
-
-        Uri uri = null;
-        try {
-            uri = Uri.parse(URLDecoder.decode(youtubeUrl, StandardCharsets.UTF_8.name()));
-
-        } catch (UnsupportedEncodingException e) {
-            Timber.e("youtubeValue error %s", e.getMessage());
         }
 
-        if (uri.getAuthority().equals("www.youtube.com")) {
+        public static String buildCommentDetailLink (String permalink){
+            Uri.Builder builderRedditComments = new Uri.Builder();
 
-            String v = uri.getQueryParameter("v");
+            return builderRedditComments.scheme("https")
+                    .authority(Costant.REDDIT_AUTH_URL)
+                    .appendEncodedPath(permalink).build().toString();
 
-            if ((v == null) && (uri.getEncodedPath().equals("/attribution_link"))) {
-                return Uri.parse(uri.getQueryParameter("u")).getQueryParameter("v");
+        }
+        public static String youtubeValue (String youtubeUrl){
+            int nSearchLeft;
+            int nSearchRight;
+
+            Uri uri = null;
+            try {
+                uri = Uri.parse(URLDecoder.decode(youtubeUrl, StandardCharsets.UTF_8.name()));
+
+            } catch (UnsupportedEncodingException e) {
+                Timber.e("youtubeValue error %s", e.getMessage());
             }
-            return v;
 
-        } else if (uri.getAuthority().equals("youtu.be")) {
-            youtubeUrl = uri.getEncodedPath();
+            if (uri.getAuthority().equals("www.youtube.com")) {
 
-            nSearchLeft = youtubeUrl.indexOf("/");
-            nSearchRight = youtubeUrl.indexOf("&");
+                String v = uri.getQueryParameter("v");
 
-            if (nSearchLeft >= 0) {
-                if (nSearchRight > 0) {
-                    return youtubeUrl.substring(nSearchLeft + 1, nSearchRight);
+                if ((v == null) && (uri.getEncodedPath().equals("/attribution_link"))) {
+                    return Uri.parse(uri.getQueryParameter("u")).getQueryParameter("v");
+                }
+                return v;
 
-                } else {
-                    return youtubeUrl.substring(nSearchLeft + 1);
+            } else if (uri.getAuthority().equals("youtu.be")) {
+                youtubeUrl = uri.getEncodedPath();
 
+                nSearchLeft = youtubeUrl.indexOf("/");
+                nSearchRight = youtubeUrl.indexOf("&");
+
+                if (nSearchLeft >= 0) {
+                    if (nSearchRight > 0) {
+                        return youtubeUrl.substring(nSearchLeft + 1, nSearchRight);
+
+                    } else {
+                        return youtubeUrl.substring(nSearchLeft + 1);
+
+                    }
                 }
             }
+            return "";
         }
-        return "";
     }
-}

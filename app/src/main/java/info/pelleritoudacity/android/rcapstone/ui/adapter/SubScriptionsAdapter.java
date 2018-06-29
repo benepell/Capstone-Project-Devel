@@ -61,9 +61,9 @@ import info.pelleritoudacity.android.rcapstone.ui.fragment.SubScriptionsFragment
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperAdapter;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
 import info.pelleritoudacity.android.rcapstone.ui.helper.OnStartDragListener;
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
-import info.pelleritoudacity.android.rcapstone.utility.ImageUtils;
-import info.pelleritoudacity.android.rcapstone.utility.MapUtils;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.ImageUtil;
+import info.pelleritoudacity.android.rcapstone.utility.MapUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
@@ -112,7 +112,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
         name = mCursor.getString(mCursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME));
 
         mArrayList.add(position, name);
-        mArrayList = MapUtils.removeArrayListDuplicate(mArrayList);
+        mArrayList = MapUtil.removeArrayListDuplicate(mArrayList);
 
         holder.mImageViewRedditHandle.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_view_headline)
                 .respectFontBounds(true));
@@ -146,7 +146,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
 
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
-                        ImageUtils.createRoundImage(mContext, holder.mImageViewRedditIcon, resource);
+                        ImageUtil.createRoundImage(mContext, holder.mImageViewRedditIcon, resource);
                     }
                 });
 
@@ -196,7 +196,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
 
     @Override
     public void onItemDismiss(int position) {
-        if (getItemCount() > Costants.DEFAULT_SUBREDDIT_ITEMS) {
+        if (getItemCount() > Costant.DEFAULT_SUBREDDIT_ITEMS) {
 //            mRestore = false;
             String description = mArrayList.get(position);
 
@@ -205,7 +205,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
             mArrayList.remove(position);
             notifyItemRemoved(position);
 
-            mArrayList = MapUtils.removeArrayListDuplicate(mArrayList);
+            mArrayList = MapUtil.removeArrayListDuplicate(mArrayList);
             String string = TextUtil.arrayToString(mArrayList);
 
             if (!TextUtils.isEmpty(string)) {
@@ -245,12 +245,12 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
 
         @Override
         public void onItemSelected() {
-            itemView.setBackgroundColor(ImageUtils.getColor(mContext, R.color.colorBackgroundItemSelected));
+            itemView.setBackgroundColor(ImageUtil.getColor(mContext, R.color.colorBackgroundItemSelected));
         }
 
         @Override
         public void onItemClear() {
-            itemView.setBackgroundColor(ImageUtils.getColor(mContext, R.color.colorBackgroundItemNoSelected));
+            itemView.setBackgroundColor(ImageUtil.getColor(mContext, R.color.colorBackgroundItemNoSelected));
         }
 
         public void bind() {

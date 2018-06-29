@@ -12,7 +12,7 @@ import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
 
 public class MediaEvent implements Player.EventListener {
 
@@ -69,7 +69,7 @@ public class MediaEvent implements Player.EventListener {
             default:
         }
 
-        if (Costants.IS_MEDIA_SESSION) {
+        if (Costant.IS_MEDIA_SESSION) {
             if (mMediaSession != null) {
                 mMediaSession.mediaSessionState(playWhenReady, playbackState);
 

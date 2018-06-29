@@ -9,7 +9,7 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
 
 public abstract class YouTubeFailureRecoveryActivity extends YouTubeBaseActivity implements
     YouTubePlayer.OnInitializedListener {
@@ -31,7 +31,7 @@ public abstract class YouTubeFailureRecoveryActivity extends YouTubeBaseActivity
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (requestCode == RECOVERY_DIALOG_REQUEST) {
       // Retry initialization if user performed a recovery action
-      getYouTubePlayerProvider().initialize(Costants.YOUTUBE_DEVELOPER_KEY, this);
+      getYouTubePlayerProvider().initialize(Costant.YOUTUBE_DEVELOPER_KEY, this);
     }
   }
 

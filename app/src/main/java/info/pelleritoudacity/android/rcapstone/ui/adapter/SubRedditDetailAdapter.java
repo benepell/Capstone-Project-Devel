@@ -15,15 +15,15 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.internal.ListenerClass;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditDetailFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SubRedditDetailHelper;
-import info.pelleritoudacity.android.rcapstone.utility.DateUtils;
+import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+import timber.log.Timber;
 
 public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetailAdapter.SubRedditDetailHolder> {
 
@@ -152,7 +152,9 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
 
 
         if (!TextUtils.isEmpty(author)) holder.mTextViewAuthor.setText(author + ":");
-        holder.mTextViewPostedOn.setText(DateUtils.getStringCurrentCreatedUtd(mContext, createdUtc));
+
+        holder.mTextViewPostedOn.setText(DateUtil.getDiffTimeMinute(createdUtc));
+
         holder.mTextViewPoints.setText(score);
         if (!TextUtils.isEmpty(body)) holder.mTextViewBody.setText(TextUtil.textFromHtml(body));
 
@@ -164,7 +166,6 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         } else {
             holder.mTextViewBody.setClickable(false);
         }
-
 
         SubRedditDetailHelper subRedditDetailHelper = new SubRedditDetailHelper(mContext);
         subRedditDetailHelper.initDepthIndicator(holder.mDepthIndicator, holder.mCardLinear, depth, true, false);

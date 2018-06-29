@@ -34,8 +34,8 @@ import java.util.concurrent.TimeUnit;
 
 import info.pelleritoudacity.android.rcapstone.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
-import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -58,7 +58,7 @@ public class SubRedditManager {
         String strTimeSort = Preference.getTimeSort(mContext);
 
         mFieldMap = new HashMap<>();
-        mFieldMap.put("limit", Costants.LIMIT_REDDIT_RESULTS);
+        mFieldMap.put("limit", Costant.LIMIT_REDDIT_RESULTS);
         mFieldMap.put("showedits", "false");
         mFieldMap.put("showmore", "true");
         if(!TextUtils.isEmpty(strTimeSort)){
@@ -67,15 +67,15 @@ public class SubRedditManager {
         }
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(Costants.OK_HTTP_CONNECTION_TIMEOUT, TimeUnit.SECONDS)
-                .readTimeout(Costants.OK_HTTP_CONNECTION_READ_TIMEOUT, TimeUnit.SECONDS)
-                .writeTimeout(Costants.OK_HTTP_CONNECTION_WRITE_TIMEOUT, TimeUnit.SECONDS)
+                .connectTimeout(Costant.OK_HTTP_CONNECTION_TIMEOUT, TimeUnit.SECONDS)
+                .readTimeout(Costant.OK_HTTP_CONNECTION_READ_TIMEOUT, TimeUnit.SECONDS)
+                .writeTimeout(Costant.OK_HTTP_CONNECTION_WRITE_TIMEOUT, TimeUnit.SECONDS)
                 .build();
 
 
-       String baseUrl = Costants.REDDIT_BASE_URL;
-       if(PermissionUtils.isLogged(mContext)){
-           baseUrl = Costants.REDDIT_OAUTH_URL;
+       String baseUrl = Costant.REDDIT_BASE_URL;
+       if(PermissionUtil.isLogged(mContext)){
+           baseUrl = Costant.REDDIT_OAUTH_URL;
        }
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
@@ -100,8 +100,8 @@ public class SubRedditManager {
     }
 
     public void getSubRedditAPI(Callback<T3> callback) {
-        if(PermissionUtils.isLogged(mContext)){
-            mCall = sSubRedditAPI.getSubRedditAuth(Costants.REDDIT_BEARER + PermissionUtils.getToken(mContext),
+        if(PermissionUtil.isLogged(mContext)){
+            mCall = sSubRedditAPI.getSubRedditAuth(Costant.REDDIT_BEARER + PermissionUtil.getToken(mContext),
                     mSubReddit,
                     Preference.getSubredditSort(mContext),
                     mFieldMap);

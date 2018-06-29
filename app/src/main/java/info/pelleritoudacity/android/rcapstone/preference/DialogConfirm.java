@@ -41,7 +41,7 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.DataUtils;
 import info.pelleritoudacity.android.rcapstone.rest.RevokeTokenExecute;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 
 public class DialogConfirm extends DialogPreference {
@@ -76,7 +76,7 @@ public class DialogConfirm extends DialogPreference {
 
                 if (Preference.isLoginStart(context)) {
                     String token = Preference.getSessionAccessToken(context);
-                    new RevokeTokenExecute(token, Costants.REDDIT_ACCESS_TOKEN).RevokeTokenSync(context);
+                    new RevokeTokenExecute(token, Costant.REDDIT_ACCESS_TOKEN).RevokeTokenSync(context);
                 }
 
                 Preference.clearGeneralSettings(context);

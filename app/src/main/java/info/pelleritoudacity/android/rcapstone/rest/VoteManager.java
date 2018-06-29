@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -32,8 +32,8 @@ public class VoteManager {
         mNameReddit = nameReddit;
 
         mHearderMap = new HashMap<>();
-        mHearderMap.put("User-Agent", Costants.REDDIT_USER_AGENT);
-        mHearderMap.put(Costants.REDDIT_AUTHORIZATION, Costants.REDDIT_BEARER + mAccessToken);
+        mHearderMap.put("User-Agent", Costant.REDDIT_USER_AGENT);
+        mHearderMap.put(Costant.REDDIT_AUTHORIZATION, Costant.REDDIT_BEARER + mAccessToken);
 
         mFieldMap = new HashMap<>();
         mFieldMap.put("dir", mDir);
@@ -44,14 +44,14 @@ public class VoteManager {
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(Costants.OK_HTTP_CONNECTION_TIMEOUT, TimeUnit.SECONDS)
-                .readTimeout(Costants.OK_HTTP_CONNECTION_READ_TIMEOUT, TimeUnit.SECONDS)
-                .writeTimeout(Costants.OK_HTTP_CONNECTION_WRITE_TIMEOUT, TimeUnit.SECONDS)
+                .connectTimeout(Costant.OK_HTTP_CONNECTION_TIMEOUT, TimeUnit.SECONDS)
+                .readTimeout(Costant.OK_HTTP_CONNECTION_READ_TIMEOUT, TimeUnit.SECONDS)
+                .writeTimeout(Costant.OK_HTTP_CONNECTION_WRITE_TIMEOUT, TimeUnit.SECONDS)
                 .addInterceptor(httpLoggingInterceptor)
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Costants.REDDIT_OAUTH_URL)
+                .baseUrl(Costant.REDDIT_OAUTH_URL)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -70,7 +70,7 @@ public class VoteManager {
     }
 
     public void getVoteAPI(Callback<ResponseBody> callback) {
-        mCall = sVoteAPI.postVote(Costants.REDDIT_BEARER + mAccessToken, mDir,mNameReddit);
+        mCall = sVoteAPI.postVote(Costant.REDDIT_BEARER + mAccessToken, mDir,mNameReddit);
         mCall.enqueue(callback);
     }
 

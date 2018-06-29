@@ -41,12 +41,12 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.rest.RefreshTokenExecute;
 import info.pelleritoudacity.android.rcapstone.rest.RestExecute;
 import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
-import info.pelleritoudacity.android.rcapstone.utility.NetworkUtils;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import timber.log.Timber;
 
-import static info.pelleritoudacity.android.rcapstone.utility.SessionUtils.getRedditSessionExpired;
+import static info.pelleritoudacity.android.rcapstone.utility.SessionUtil.getRedditSessionExpired;
 
 public class MainActivity extends BaseActivity
         implements SwipeRefreshLayout.OnRefreshListener {
@@ -82,8 +82,7 @@ public class MainActivity extends BaseActivity
 
         intentRequest(getIntent(), intentDefaultCategory(resumeCategory));
 
-
-        Preference.setVolumeMuted(mContext, Costants.IS_MUTED_AUDIO);
+        Preference.setVolumeMuted(mContext, Costant.IS_MUTED_AUDIO);
 
         Timber.d("VALUE %s", BuildConfig.APPLICATION_ID);
 
@@ -96,14 +95,14 @@ public class MainActivity extends BaseActivity
 
             if (intentAction.equals(context.getResources().getString(R.string.shortcut_intent_action_popular))) {
                 Intent intent = new Intent(context, SubRedditActivity.class);
-                intent.putExtra(Costants.EXTRA_SUBREDDIT_CATEGORY, Costants.SUBREDDIT_CATEGORY_POPULAR);
-                intent.putExtra(Costants.EXTRA_SUBREDDIT_TARGET, Costants.SUBREDDIT_TARGET_POPULAR);
+                intent.putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, Costant.SUBREDDIT_CATEGORY_POPULAR);
+                intent.putExtra(Costant.EXTRA_SUBREDDIT_TARGET, Costant.SUBREDDIT_TARGET_POPULAR);
                 return intent;
 
             } else if (intentAction.equals(context.getResources().getString(R.string.shortcut_intent_action_all))) {
                 Intent intent = new Intent(context, SubRedditActivity.class);
-                intent.putExtra(Costants.EXTRA_SUBREDDIT_CATEGORY, Costants.SUBREDDIT_CATEGORY_ALL);
-                intent.putExtra(Costants.EXTRA_SUBREDDIT_TARGET, Costants.SUBREDDIT_TARGET_ALL);
+                intent.putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, Costant.SUBREDDIT_CATEGORY_ALL);
+                intent.putExtra(Costant.EXTRA_SUBREDDIT_TARGET, Costant.SUBREDDIT_TARGET_ALL);
                 return intent;
 
 
@@ -121,7 +120,7 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onRefresh() {
-        if (NetworkUtils.isOnline(getApplicationContext())) {
+        if (NetworkUtil.isOnline(getApplicationContext())) {
             getDataT5(getApplicationContext());
         } else {
             mIsRefreshing = false;
@@ -134,8 +133,8 @@ public class MainActivity extends BaseActivity
     private void intentRequest(Intent intent, Intent intentDefaultPage) {
 
         if (intent != null) {
-            boolean isLogged = intent.getBooleanExtra(Costants.EXTRA_LOGIN_SUCCESS, false);
-            boolean isLogout = intent.getBooleanExtra(Costants.EXTRA_LOGOUT_SUCCESS, false);
+            boolean isLogged = intent.getBooleanExtra(Costant.EXTRA_LOGIN_SUCCESS, false);
+            boolean isLogout = intent.getBooleanExtra(Costant.EXTRA_LOGOUT_SUCCESS, false);
 
             if (isLogged) {
                 Snackbar.make(findViewById(R.id.main_container),
@@ -147,19 +146,19 @@ public class MainActivity extends BaseActivity
 
             }
 
-            int restore = intent.getIntExtra(Costants.EXTRA_RESTORE_MANAGE, 0);
+            int restore = intent.getIntExtra(Costant.EXTRA_RESTORE_MANAGE, 0);
 
             switch (restore) {
-                case Costants.RESTORE_MANAGE_RESTORE:
+                case Costant.RESTORE_MANAGE_RESTORE:
                     Preference.setRestoreManage(mContext,
-                            Costants.RESTORE_MANAGE_RESTORE);
+                            Costant.RESTORE_MANAGE_RESTORE);
                     startActivity(new Intent(this, SubManageActivity.class)
-                            .putExtra(Costants.EXTRA_RESTORE_MANAGE, Costants.RESTORE_MANAGE_RESTORE));
+                            .putExtra(Costant.EXTRA_RESTORE_MANAGE, Costant.RESTORE_MANAGE_RESTORE));
 
                     break;
-                case Costants.RESTORE_MANAGE_REDIRECT:
+                case Costant.RESTORE_MANAGE_REDIRECT:
                     startActivity(new Intent(this, SubManageActivity.class)
-                            .putExtra(Costants.EXTRA_RESTORE_MANAGE, Costants.RESTORE_MANAGE_REDIRECT));
+                            .putExtra(Costant.EXTRA_RESTORE_MANAGE, Costant.RESTORE_MANAGE_REDIRECT));
                     break;
                 default:
                     startActivity(intentDefaultPage);
@@ -172,13 +171,13 @@ public class MainActivity extends BaseActivity
     private Intent intentDefaultCategory(String category) {
         Intent intent = new Intent(getApplication(), SubRedditActivity.class);
         if (getTabArrayList() != null) {
-            intent.putExtra(Costants.EXTRA_SUBREDDIT_CATEGORY, category);
-            intent.putExtra(Costants.EXTRA_SUBREDDIT_TARGET, Costants.SUBREDDIT_TARGET_POPULAR);
+            intent.putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, category);
+            intent.putExtra(Costant.EXTRA_SUBREDDIT_TARGET, Costant.SUBREDDIT_TARGET_POPULAR);
 
 
         } else {
-            intent.putExtra(Costants.EXTRA_SUBREDDIT_CATEGORY, Costants.SUBREDDIT_CATEGORY_POPULAR);
-            intent.putExtra(Costants.EXTRA_SUBREDDIT_TARGET, Costants.SUBREDDIT_TARGET_POPULAR);
+            intent.putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, Costant.SUBREDDIT_CATEGORY_POPULAR);
+            intent.putExtra(Costant.EXTRA_SUBREDDIT_TARGET, Costant.SUBREDDIT_TARGET_POPULAR);
 
         }
         return intent;
@@ -207,7 +206,7 @@ public class MainActivity extends BaseActivity
         if (Preference.isLoginStart(mContext)) {
 
             int redditSessionExpired = getRedditSessionExpired(getApplicationContext());
-            if (redditSessionExpired <= Costants.SESSION_TIMEOUT_DEFAULT) {
+            if (redditSessionExpired <= Costant.SESSION_TIMEOUT_DEFAULT) {
 
                 String strRefreshToken = Preference.getSessionRefreshToken(mContext);
                 new RefreshTokenExecute(strRefreshToken).syncData(getApplicationContext());

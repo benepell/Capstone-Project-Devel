@@ -6,7 +6,7 @@ import android.view.View;
 
 import java.util.List;
 
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
 public class SubRedditDetailHelper {
@@ -26,8 +26,8 @@ public class SubRedditDetailHelper {
                 viewIndicator.setBackgroundColor(Color.parseColor(depthBackGroundColor));
                 viewIndicator.setVisibility(View.VISIBLE);
                 if (enablePadding) {
-                    int padding = Costants.LEVEL_DEPTH_PADDING;
-                    int limit = Integer.parseInt(Costants.LIMIT_DEPTH_RESULTS);
+                    int padding = Costant.LEVEL_DEPTH_PADDING;
+                    int limit = Integer.parseInt(Costant.LIMIT_DEPTH_RESULTS);
                     if (limit < 5) {
                         padding *= 2;
                     } else if (limit > 10) {
@@ -49,8 +49,8 @@ public class SubRedditDetailHelper {
 
     public String[] getDepthBackground(int depthLevel) {
 
-        List<String> colors = TextUtil.stringToArray(Costants.DEFAULT_COLOR_INDICATOR);
-        List<String> backgrounds = TextUtil.stringToArray(Costants.DEFAULT_COLOR_BACKGROUND);
+        List<String> colors = TextUtil.stringToArray(Costant.DEFAULT_COLOR_INDICATOR);
+        List<String> backgrounds = TextUtil.stringToArray(Costant.DEFAULT_COLOR_BACKGROUND);
 
         String[] arrayColors = new String[2];
         int colorSize = colors.size();

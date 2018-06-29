@@ -25,7 +25,7 @@
  */
 package info.pelleritoudacity.android.rcapstone.utility;
 
-import android.content.Context;
+import android.text.format.DateUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,34 +33,13 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import info.pelleritoudacity.android.rcapstone.R;
-
-public class DateUtils {
+public class DateUtil {
 
     public static int getHourCurrentCreatedUtc(long createdUtc) {
         Long now = System.currentTimeMillis();
         Long diffTime = now / 1000 - createdUtc;
         return Math.round(diffTime / 3600);
     }
-
-    public static String getStringCurrentCreatedUtd(Context context, long createdUtc) {
-
-        int hourCurrentUtc = getHourCurrentCreatedUtc(createdUtc);
-
-        if (hourCurrentUtc < 24) {
-
-            if (hourCurrentUtc < 1) {
-                hourCurrentUtc = 1;
-            }
-
-            return String.valueOf(hourCurrentUtc) + " " + context.getString(R.string.abbr_hour_text);
-
-        }
-
-        return String.valueOf(Math.round(hourCurrentUtc / 24)) + " " + context.getString(R.string.abbr_day_text);
-
-    }
-
 
     public static int getSecondsTimeStamp(String timestamp) {
 
@@ -78,15 +57,21 @@ public class DateUtils {
         }
     }
 
+    public static String getDiffTimeMinute(long time) {
+        return DateUtils.getRelativeTimeSpanString(time, System.currentTimeMillis() / 1000,
+                DateUtils.MINUTE_IN_MILLIS,
+                DateUtils.FORMAT_ABBREV_TIME).toString();
+
+    }
 
     public static String getTimeFormat(long timemillis) {
 
         SimpleDateFormat simpleDateFormat;
         Locale locale = Locale.getDefault();
         if (timemillis > 3600000) {
-            simpleDateFormat = new SimpleDateFormat(Costants.PATTERN_HH_MM_SS, locale);
+            simpleDateFormat = new SimpleDateFormat(Costant.PATTERN_HH_MM_SS, locale);
         } else {
-            simpleDateFormat = new SimpleDateFormat(Costants.PATTERN_MM_SS, locale);
+            simpleDateFormat = new SimpleDateFormat(Costant.PATTERN_MM_SS, locale);
         }
 
         return simpleDateFormat.format(timemillis);

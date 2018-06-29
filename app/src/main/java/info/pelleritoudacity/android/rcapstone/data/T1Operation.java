@@ -13,13 +13,13 @@ import info.pelleritoudacity.android.rcapstone.model.reddit.T1;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T1Data;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T1Listing;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T1ListingData;
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
 
-import static info.pelleritoudacity.android.rcapstone.utility.DateUtils.getSecondsTimeStamp;
+import static info.pelleritoudacity.android.rcapstone.utility.DateUtil.getSecondsTimeStamp;
 
 public class T1Operation {
 
@@ -206,7 +206,7 @@ public class T1Operation {
 
     private void recursiveReplies(Replies r, int childrenId) {
         Replies replies = getReplies(r, childrenId);
-        int max = Integer.parseInt(Costants.LIMIT_DEPTH_RESULTS);
+        int max = Integer.parseInt(Costant.LIMIT_DEPTH_RESULTS);
         while ((replies != null) || (max > 0)) {
             replies = getReplies(replies, childrenId);
             max--;
@@ -214,14 +214,14 @@ public class T1Operation {
     }
 
     private Replies getReplies(Replies replies, int childrenId) {
-        if ((replies != null) && (replies.getData() != null) && (replies.getKind().contains(Costants.DEFAULT_LISTING_KIND))) {
+        if ((replies != null) && (replies.getData() != null) && (replies.getKind().contains(Costant.DEFAULT_LISTING_KIND))) {
             List<T1Listing> listings = replies.getData().getChildren();
 
             for (T1Listing t1Listings : listings) {
                 insertReplies(t1Listings.getData(), t1Listings.getData().getDepth(), childrenId);
 
                 if ((t1Listings.getData().getReplies() != null) &&
-                        (t1Listings.getData().getReplies().getKind().contains(Costants.DEFAULT_LISTING_KIND))) {
+                        (t1Listings.getData().getReplies().getKind().contains(Costant.DEFAULT_LISTING_KIND))) {
                     return t1Listings.getData().getReplies();
                 }
             }
@@ -345,7 +345,7 @@ public class T1Operation {
     public boolean isDeleteData(String strId) {
         String timestamp = null;
         Uri uri = Contract.T1dataEntry.CONTENT_URI;
-        String selection = Contract.T1dataEntry.COLUMN_NAME_SUBREDDIT + " =?";
+        String selection = Contract.T1dataEntry.COLUMN_NAME_ID + " =?";
         String[] selectionArgs = {strId};
 
         Cursor cursor = null;
@@ -380,11 +380,11 @@ public class T1Operation {
     public void deleteCategory(String id) {
         String where;
         Uri uri;
-        String[] selectionArgs = {id};
+        String[] selectionArgs = {id, Costant.STR_PARENT_COMMENT + id};
 
         uri = Contract.T1dataEntry.CONTENT_URI;
-        where = Contract.T1dataEntry.COLUMN_NAME_SUBREDDITNAMEPREFIXED + " =?";
-
+        where = Contract.T1dataEntry.COLUMN_NAME_ID + " =?" + " OR " +
+                Contract.T1dataEntry.COLUMN_NAME_LINK_ID + " =?";
         if (uri != null) {
             mContext.getContentResolver().delete(uri, where, selectionArgs);
         }

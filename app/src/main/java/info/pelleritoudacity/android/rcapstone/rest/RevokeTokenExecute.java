@@ -29,7 +29,7 @@ package info.pelleritoudacity.android.rcapstone.rest;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -70,7 +70,7 @@ public class RevokeTokenExecute {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if (response.isSuccessful()) {
-                    if(response.code()== Costants.REDDIT_REVOKE_SUCCESS){
+                    if(response.code()== Costant.REDDIT_REVOKE_SUCCESS){
                         Preference.setTimeToken(context,0);
                     }
                 }

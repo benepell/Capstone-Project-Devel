@@ -13,9 +13,9 @@ import info.pelleritoudacity.android.rcapstone.data.T1Operation;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T1;
 import info.pelleritoudacity.android.rcapstone.rest.SubRedditDetailExecute;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditDetailFragment;
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
-import info.pelleritoudacity.android.rcapstone.utility.NetworkUtils;
-import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
+import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 
 public class SubRedditDetailActivity extends BaseActivity
         implements SubRedditDetailExecute.RestSubReddit {
@@ -33,11 +33,11 @@ public class SubRedditDetailActivity extends BaseActivity
         Intent intent = getIntent();
 
         if (intent != null) {
-            mStrId = intent.getStringExtra(Costants.EXTRA_SUBREDDIT_DETAIL_STR_ID);
-            mCategory = intent.getStringExtra(Costants.EXTRA_SUBREDDIT_DETAIL_CATEGORY);
+            mStrId = intent.getStringExtra(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID);
+            mCategory = intent.getStringExtra(Costant.EXTRA_SUBREDDIT_DETAIL_CATEGORY);
         }
 
-        initRest(mCategory,mStrId,PermissionUtils.getToken(mContext), NetworkUtils.isOnline(mContext));
+        initRest(mCategory,mStrId, PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext));
 
     }
 

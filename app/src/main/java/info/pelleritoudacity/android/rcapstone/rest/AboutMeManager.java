@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 
 import info.pelleritoudacity.android.rcapstone.model.reddit.RedditAboutMe;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,13 +49,13 @@ public class AboutMeManager {
         mAccessToken = accessToken;
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(Costants.OK_HTTP_CONNECTION_TIMEOUT, TimeUnit.SECONDS)
-                .readTimeout(Costants.OK_HTTP_CONNECTION_READ_TIMEOUT, TimeUnit.SECONDS)
-                .writeTimeout(Costants.OK_HTTP_CONNECTION_WRITE_TIMEOUT, TimeUnit.SECONDS)
+                .connectTimeout(Costant.OK_HTTP_CONNECTION_TIMEOUT, TimeUnit.SECONDS)
+                .readTimeout(Costant.OK_HTTP_CONNECTION_READ_TIMEOUT, TimeUnit.SECONDS)
+                .writeTimeout(Costant.OK_HTTP_CONNECTION_WRITE_TIMEOUT, TimeUnit.SECONDS)
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Costants.REDDIT_OAUTH_URL)
+                .baseUrl(Costant.REDDIT_OAUTH_URL)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -76,7 +76,7 @@ public class AboutMeManager {
     }
 
     public void getAboutMeAPI(Callback<RedditAboutMe> callback) {
-        String headerAuth = Costants.REDDIT_BEARER + mAccessToken;
+        String headerAuth = Costant.REDDIT_BEARER + mAccessToken;
         mCall = sAboutMeAPI.getAboutMe(headerAuth);
         mCall.enqueue(callback);
     }

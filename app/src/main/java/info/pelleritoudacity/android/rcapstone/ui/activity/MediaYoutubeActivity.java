@@ -10,7 +10,7 @@ import com.google.android.youtube.player.YouTubePlayerFragment;
 
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.utility.ActivityUI;
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import timber.log.Timber;
 
@@ -28,12 +28,12 @@ public class MediaYoutubeActivity extends YouTubeFailureRecoveryActivity {
 
         YouTubePlayerFragment youTubePlayerFragment =
                 (YouTubePlayerFragment) getFragmentManager().findFragmentById(R.id.youtube_fragment);
-        youTubePlayerFragment.initialize(Costants.YOUTUBE_DEVELOPER_KEY, this);
+        youTubePlayerFragment.initialize(Costant.YOUTUBE_DEVELOPER_KEY, this);
 
         Intent intent = getIntent();
 
         if (intent != null) {
-            mYoutubeStr = intent.getStringExtra(Costants.EXTRA_YOUTUBE_PARAM);
+            mYoutubeStr = intent.getStringExtra(Costant.EXTRA_YOUTUBE_PARAM);
         }
     }
 
@@ -44,7 +44,7 @@ public class MediaYoutubeActivity extends YouTubeFailureRecoveryActivity {
             if (!TextUtils.isEmpty(mYoutubeStr)) {
                 String v = TextUtil.youtubeValue(mYoutubeStr);
 
-                if (Costants.YOUTUBE_CLIENT_AUTOSTART) {
+                if (Costant.YOUTUBE_CLIENT_AUTOSTART) {
                     player.loadVideo(v);
 
                 } else {

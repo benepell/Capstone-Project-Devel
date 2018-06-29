@@ -59,7 +59,7 @@ import android.widget.ImageView;
 
 import java.util.Objects;
 
-public class ImageUtils {
+public class ImageUtil {
 
     public static boolean isSmallImage(Context context, int widthPixel, int heightPixel) {
         if ((context != null) || (widthPixel != 0) || (heightPixel != 0)) {

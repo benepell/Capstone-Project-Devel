@@ -36,7 +36,7 @@ import android.text.TextUtils;
 
 import info.pelleritoudacity.android.rcapstone.R;
 
-public class PermissionUtils {
+public class PermissionUtil {
 
     public static boolean isPermissionExtStorage(Context context) {
         SharedPreferences pref = context.getSharedPreferences(context.getString(R.string.pref_write_external_storage), 0);
@@ -51,7 +51,7 @@ public class PermissionUtils {
                     Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 ActivityCompat.requestPermissions(thisActivity,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        Costants.PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+                        Costant.PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
             }
         }
     }

@@ -42,7 +42,7 @@ import com.google.android.exoplayer2.SimpleExoPlayer;
 
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity;
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 import static info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity.sMediaSessionCompat;
@@ -63,7 +63,7 @@ public class MediaSession {
     public void initMediaSession() {
 
 
-        sMediaSessionCompat = new MediaSessionCompat(mContext, Costants.EXO_PLAYER_MANAGER_TAG);
+        sMediaSessionCompat = new MediaSessionCompat(mContext, Costant.EXO_PLAYER_MANAGER_TAG);
         sMediaSessionCompat.setFlags(
                 MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS |
                         MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -106,12 +106,12 @@ public class MediaSession {
         PendingIntent contentPendingIntent = PendingIntent.getActivity
                 (mContext, 0, new Intent(mContext, SubRedditActivity.class), 0);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, Costants.NOTIFICATION_CHANNEL_ID);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, Costant.NOTIFICATION_CHANNEL_ID);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
 
-            NotificationChannel notificationChannel = new NotificationChannel(Costants.NOTIFICATION_CHANNEL_ID,
-                    Costants.NOTIFICATION_CHANNEL_NAME, NotificationManager.IMPORTANCE_MIN);
+            NotificationChannel notificationChannel = new NotificationChannel(Costant.NOTIFICATION_CHANNEL_ID,
+                    Costant.NOTIFICATION_CHANNEL_NAME, NotificationManager.IMPORTANCE_MIN);
             notificationChannel.setDescription(mContext.getString(R.string.notification_text));
 
             notificationChannel.setShowBadge(true);
@@ -135,7 +135,7 @@ public class MediaSession {
 
         NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(NOTIFICATION_SERVICE);
         if (notificationManager != null) {
-            notificationManager.notify(Costants.NOTIFICATION_CHANNEL_ID, Costants.NOTIFICATION_ID, builder.build());
+            notificationManager.notify(Costant.NOTIFICATION_CHANNEL_ID, Costant.NOTIFICATION_ID, builder.build());
         }
 
     }
@@ -145,7 +145,7 @@ public class MediaSession {
             sMediaSessionCompat.setActive(false);
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
             if (notificationManager != null) {
-                notificationManager.cancel(Costants.NOTIFICATION_CHANNEL_ID, Costants.NOTIFICATION_ID);
+                notificationManager.cancel(Costant.NOTIFICATION_CHANNEL_ID, Costant.NOTIFICATION_ID);
             }
             sMediaSessionCompat = null;
         }

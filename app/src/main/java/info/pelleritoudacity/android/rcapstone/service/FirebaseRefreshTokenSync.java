@@ -37,7 +37,7 @@ import com.firebase.jobdispatcher.Job;
 import com.firebase.jobdispatcher.Lifetime;
 import com.firebase.jobdispatcher.Trigger;
 
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
 
 public class FirebaseRefreshTokenSync {
     private static boolean sInit;
@@ -51,7 +51,7 @@ public class FirebaseRefreshTokenSync {
             FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(driver);
             Job syncJob = dispatcher.newJobBuilder()
                     .setService(FirebaseRefreshTokenService.class)
-                    .setTag(Costants.TOKEN_SYNC_TAG)
+                    .setTag(Costant.TOKEN_SYNC_TAG)
                     .setConstraints(Constraint.ON_ANY_NETWORK)
                     .setLifetime(Lifetime.FOREVER)
                     .setRecurring(true)

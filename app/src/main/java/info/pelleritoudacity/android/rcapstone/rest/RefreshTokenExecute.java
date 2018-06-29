@@ -33,7 +33,7 @@ import android.text.TextUtils;
 import java.util.Objects;
 
 import info.pelleritoudacity.android.rcapstone.model.reddit.RedditToken;
-import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
+import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -79,7 +79,7 @@ public class RefreshTokenExecute {
                     String strRefreshToken = mRedditToken.getRefresh_token();
                     long expired = mRedditToken.getExpires_in();
                     if (!TextUtils.isEmpty(strAccessToken) && expired > 0) {
-                        PermissionUtils.setToken(context,strAccessToken);
+                        PermissionUtil.setToken(context,strAccessToken);
                         if (!TextUtils.isEmpty(strRefreshToken)) {
                             Preference.setSessionRefreshToken(context,strRefreshToken);
                         }

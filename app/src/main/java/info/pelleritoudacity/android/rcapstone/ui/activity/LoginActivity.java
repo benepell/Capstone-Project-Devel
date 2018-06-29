@@ -42,9 +42,9 @@ import butterknife.BindView;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.model.reddit.RedditToken;
 import info.pelleritoudacity.android.rcapstone.rest.AccessTokenExecute;
-import info.pelleritoudacity.android.rcapstone.utility.Costants;
-import info.pelleritoudacity.android.rcapstone.utility.NetworkUtils;
-import info.pelleritoudacity.android.rcapstone.utility.PermissionUtils;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
+import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import timber.log.Timber;
 
@@ -60,7 +60,7 @@ public class LoginActivity extends BaseActivity {
         setLayoutResource(R.layout.activity_login);
         super.onCreate(savedInstanceState);
 
-        if ((NetworkUtils.isOnline(getApplicationContext())) &&
+        if ((NetworkUtil.isOnline(getApplicationContext())) &&
                 (!Preference.isLoginStart(getApplicationContext()))) {
 
             createWebview(loadUrl());
@@ -77,24 +77,24 @@ public class LoginActivity extends BaseActivity {
 
         builder
                 .scheme("https")
-                .authority(Costants.REDDIT_AUTH_URL)
+                .authority(Costant.REDDIT_AUTH_URL)
                 .appendPath("api")
                 .appendPath("v1")
                 .appendPath("authorize.compact")
-                .appendQueryParameter("client_id", Costants.REDDIT_CLIENT_ID)
+                .appendQueryParameter("client_id", Costant.REDDIT_CLIENT_ID)
                 .appendQueryParameter("response_type", "code")
-                .appendQueryParameter("state", Costants.REDDIT_STATE_RANDOM)
+                .appendQueryParameter("state", Costant.REDDIT_STATE_RANDOM)
 
                 .appendQueryParameter("redirect_uri",
                         new Uri.Builder()
 
                                 .scheme("http")
-                                .authority(Costants.REDDIT_ABOUT_URL)
+                                .authority(Costant.REDDIT_ABOUT_URL)
                                 .appendPath("my_redirect").build().toString()
                 )
 
                 .appendQueryParameter("duration", "permanent")
-                .appendQueryParameter("scope", Costants.PERMISSION_STATE_REDDIT);
+                .appendQueryParameter("scope", Costant.PERMISSION_STATE_REDDIT);
 
         return builder.build().toString();
     }
@@ -120,7 +120,7 @@ public class LoginActivity extends BaseActivity {
                     } else {
 
                         String state = uri.getQueryParameter("state");
-                        if (state.equals(Costants.REDDIT_STATE_RANDOM)) {
+                        if (state.equals(Costant.REDDIT_STATE_RANDOM)) {
 
                             String code = uri.getQueryParameter("code");
                             new AccessTokenExecute(code).loginData(new AccessTokenExecute.RestAccessToken() {
@@ -133,7 +133,7 @@ public class LoginActivity extends BaseActivity {
                                         long expired = listenerData.getExpires_in();
 
                                         if (!TextUtils.isEmpty(strAccessToken) && !TextUtils.isEmpty(strRefreshToken)) {
-                                            PermissionUtils.setToken(getApplicationContext(), strAccessToken);
+                                            PermissionUtil.setToken(getApplicationContext(), strAccessToken);
                                             Preference.setSessionRefreshToken(getApplicationContext(),strRefreshToken);
                                             Preference.setSessionExpired(getApplicationContext(), (int) expired);
                                             Preference.setTimeToken(getApplicationContext(),System.currentTimeMillis());
@@ -162,7 +162,7 @@ public class LoginActivity extends BaseActivity {
     private void openHomeActivity(boolean success) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra(Costants.EXTRA_LOGIN_SUCCESS, success);
+        intent.putExtra(Costant.EXTRA_LOGIN_SUCCESS, success);
         startActivity(intent);
     }
 }
