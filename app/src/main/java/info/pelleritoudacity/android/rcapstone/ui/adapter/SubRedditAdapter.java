@@ -182,7 +182,6 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         int thumbnailOembedHeight = mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_HEIGHT));
 
-
         holder.mTextViewCreatedUtc.setText(DateUtil.getDiffTimeMinute(createdUtc));
 
         SubRedditHelper subRedditHelper = new SubRedditHelper(mContext);

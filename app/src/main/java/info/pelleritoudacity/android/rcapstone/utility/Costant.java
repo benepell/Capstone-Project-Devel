@@ -68,6 +68,7 @@ public interface Costant {
     int REDDIT_LOADER_ID = 1;
     int SUBREDDIT_LOADER_ID = 2;
     int SUBREDDIT_DETAIL_LOADER_ID = 3;
+    int SUBREDDIT_SELECTED_LOADER_ID = 4;
 
     int NAV_MODE_HOME = 0;
     int NAV_MODE_SUBSCRIPTIONS = 4;
@@ -89,9 +90,11 @@ public interface Costant {
     String EXTRA_SUBREDDIT_DETAIL_POSITION = "info.pelleritoudacity.android.rcapstone.extra.subreddit.detail.position";
     String EXTRA_FRAGMENT_SUBREDDIT = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit";
     String EXTRA_FRAGMENT_SUBREDDIT_DETAIL = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.detail";
+    String EXTRA_FRAGMENT_SUBREDDIT_SELECTED = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.selected";
     String EXTRA_FRAGMENT_TARGET = "info.pelleritoudacity.android.rcapstone.extra.fragment.target";
     String EXTRA_FRAGMENT_STATE = "info.pelleritoudacity.android.rcapstone.extra.fragment.state";
     String EXTRA_FRAGMENT_DETAIL_STATE = "info.pelleritoudacity.android.rcapstone.extra.fragment.detail.state";
+    String EXTRA_FRAGMENT_SELECTED_STATE = "info.pelleritoudacity.android.rcapstone.extra.fragment.selected.state";
 
     String EXTRA_SUBREDDIT_SHARE_URL_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.subreddit.share.url.fullscreen";
     String EXTRA_SUBREDDIT_SHARE_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.subreddit.share.fullscreen";

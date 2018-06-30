@@ -13,6 +13,7 @@ import info.pelleritoudacity.android.rcapstone.data.T1Operation;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T1;
 import info.pelleritoudacity.android.rcapstone.rest.SubRedditDetailExecute;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditDetailFragment;
+import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditSelectedFragment;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
@@ -55,6 +56,9 @@ public class SubRedditDetailActivity extends BaseActivity
 
     private void startFragment(String category) {
         if (!getSupportFragmentManager().isStateSaved()) {
+            SubRedditSelectedFragment subRedditSelectedFragment = SubRedditSelectedFragment.newInstance(category);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_subreddit_selected_container, subRedditSelectedFragment).commit();
             SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(category);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_subreddit_detail_container, fragment).commit();
@@ -72,7 +76,6 @@ public class SubRedditDetailActivity extends BaseActivity
                 startFragment(strId);
 
             }
-
         }
     }
 

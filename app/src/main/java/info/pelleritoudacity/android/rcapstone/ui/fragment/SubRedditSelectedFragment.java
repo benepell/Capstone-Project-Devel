@@ -24,36 +24,35 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
-import info.pelleritoudacity.android.rcapstone.ui.adapter.SubRedditDetailAdapter;
 import info.pelleritoudacity.android.rcapstone.ui.adapter.SubRedditSelectedAdapter;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import timber.log.Timber;
 
-import static info.pelleritoudacity.android.rcapstone.utility.Costant.SUBREDDIT_DETAIL_LOADER_ID;
+import static info.pelleritoudacity.android.rcapstone.utility.Costant.SUBREDDIT_SELECTED_LOADER_ID;
 
-public class SubRedditDetailFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<Cursor>, SubRedditDetailAdapter.OnAdapterListener {
+public class SubRedditSelectedFragment extends Fragment
+        implements LoaderManager.LoaderCallbacks<Cursor>{
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
-    @BindView(R.id.rv_fragment_reddit_detail)
+    @BindView(R.id.rv_fragment_reddit_selected)
     RecyclerView mRecyclerView;
 
     private Context mContext;
     private Unbinder unbinder;
 
     private static String sStrId = null;
-    private static Parcelable sState;
+    private static Parcelable sParcelState;
 
     private LinearLayoutManager mLayoutManager;
-    private SubRedditDetailAdapter mAdapter;
+    private SubRedditSelectedAdapter mAdapter;
 
-    public SubRedditDetailFragment() {
+    public SubRedditSelectedFragment() {
     }
 
-    public static SubRedditDetailFragment newInstance(String strId) {
-        SubRedditDetailFragment fragment = new SubRedditDetailFragment();
+    public static SubRedditSelectedFragment newInstance(String strId) {
+        SubRedditSelectedFragment fragment = new SubRedditSelectedFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL, strId);
+        bundle.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT_SELECTED, strId);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -65,7 +64,7 @@ public class SubRedditDetailFragment extends Fragment
         mContext = getActivity();
 
         if (getArguments() != null) {
-            sStrId = getArguments().getString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL);
+            sStrId = getArguments().getString(Costant.EXTRA_FRAGMENT_SUBREDDIT_SELECTED);
         }
 
     }
@@ -74,7 +73,7 @@ public class SubRedditDetailFragment extends Fragment
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_subreddit_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_subreddit_selected, container, false);
 
         unbinder = ButterKnife.bind(this, view);
 
@@ -83,7 +82,7 @@ public class SubRedditDetailFragment extends Fragment
 
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new SubRedditDetailAdapter(this);
+        mAdapter = new SubRedditSelectedAdapter(this);
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -96,26 +95,26 @@ public class SubRedditDetailFragment extends Fragment
         super.onActivityCreated(savedInstanceState);
 
         if (getActivity() != null) {
-            getActivity().getSupportLoaderManager().initLoader(SUBREDDIT_DETAIL_LOADER_ID, null, this).forceLoad();
+            getActivity().getSupportLoaderManager().initLoader(SUBREDDIT_SELECTED_LOADER_ID, null, this).forceLoad();
 
         }
         if (savedInstanceState != null) {
-            sState = savedInstanceState.getParcelable(Costant.EXTRA_FRAGMENT_DETAIL_STATE);
+            sParcelState = savedInstanceState.getParcelable(Costant.EXTRA_FRAGMENT_SELECTED_STATE);
         }
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        sState = mLayoutManager.onSaveInstanceState();
-        outState.putParcelable(Costant.EXTRA_FRAGMENT_DETAIL_STATE, sState);
+        sParcelState = mLayoutManager.onSaveInstanceState();
+        outState.putParcelable(Costant.EXTRA_FRAGMENT_SELECTED_STATE, sParcelState);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (sState != null) {
-            mLayoutManager.onRestoreInstanceState(sState);
+        if (sParcelState != null) {
+            mLayoutManager.onRestoreInstanceState(sParcelState);
         }
     }
 
@@ -143,10 +142,6 @@ public class SubRedditDetailFragment extends Fragment
         mAdapter.swapCursor(null);
     }
 
-    @Override
-    public void adapterPosition(int position, String category) {
-
-    }
 
     private static class SubRedditDetailFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
 
@@ -169,18 +164,15 @@ public class SubRedditDetailFragment extends Fragment
         @Override
         public Cursor loadInBackground() {
             try {
-                Uri uri = Contract.T1dataEntry.CONTENT_URI;
-
-                String selection = Contract.T1dataEntry.COLUMN_NAME_LINK_ID + " =?";
-                String[] selectionArgs = new String[]{ Costant.STR_PARENT_COMMENT + sStrId};
-                String sortOrder = Contract.T1dataEntry.COLUMN_NAME_CHILDREN_ID + " ASC," +
-                        Contract.T1dataEntry.COLUMN_NAME_DEPTH + " ASC";
+                Uri uri = Contract.T3dataEntry.CONTENT_URI;
+                String selection = Contract.T3dataEntry.COLUMN_NAME_ID + " =?";
+                String[] selectionArgs = new String[]{sStrId};
 
                 return getContext().getContentResolver().query(uri,
                         null,
                         selection,
                         selectionArgs,
-                        sortOrder);
+                        null);
 
             } catch (Exception e) {
                 Timber.e("Failed to asynchronously load data. ");
