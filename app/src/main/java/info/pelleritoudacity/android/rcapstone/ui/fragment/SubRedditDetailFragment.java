@@ -128,7 +128,6 @@ public class SubRedditDetailFragment extends Fragment
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
         return new SubRedditDetailFragmentAsyncTask(Objects.requireNonNull(getActivity()));
-
     }
 
     @Override
@@ -170,14 +169,18 @@ public class SubRedditDetailFragment extends Fragment
         public Cursor loadInBackground() {
             try {
                 Uri uri = Contract.T1dataEntry.CONTENT_URI;
+
                 String selection = Contract.T1dataEntry.COLUMN_NAME_ID + " =?" + " OR " +
                         Contract.T1dataEntry.COLUMN_NAME_LINK_ID + " =?";
                 String[] selectionArgs = new String[]{sStrId, Costant.STR_PARENT_COMMENT + sStrId};
+                String sortOrder = Contract.T1dataEntry.COLUMN_NAME_CHILDREN_ID + " ASC," +
+                        Contract.T1dataEntry.COLUMN_NAME_DEPTH + " ASC";
+
                 return getContext().getContentResolver().query(uri,
                         null,
                         selection,
                         selectionArgs,
-                        null);
+                        sortOrder);
 
             } catch (Exception e) {
                 Timber.e("Failed to asynchronously load data. ");

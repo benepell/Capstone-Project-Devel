@@ -48,19 +48,16 @@ public class SubRedditDetailManager {
         mFieldMap.put("depth", Costant.LIMIT_DEPTH_RESULTS);
         mFieldMap.put("limit", Costant.LIMIT_COMMENTS_RESULTS);
         mFieldMap.put("showedits", "false");
-        mFieldMap.put("showmore", "true");
+        mFieldMap.put("showmore", Costant.SHOW_MORE_COMMENTS);
         if(!TextUtils.isEmpty(strTimeSort)){
             mFieldMap.put("t",strTimeSort );
 
         }
 
 
-        // todo add sort
-
-
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         // todo remove interceptor
-        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(Costant.OK_HTTP_CONNECTION_TIMEOUT, TimeUnit.SECONDS)

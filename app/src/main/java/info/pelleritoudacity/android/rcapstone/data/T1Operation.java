@@ -190,7 +190,7 @@ public class T1Operation {
                 dataUtils.putNullCV(arrT1CV[j], Contract.T1dataEntry.COLUMN_NAME_HIDESCORE,
                         Utility.boolToInt(t1Model.getScoreHidden()));
 
-                recursiveReplies(t1Model.getReplies(), childrenId);
+                    recursiveReplies(t1Model.getReplies(), childrenId);
 
             }
 
@@ -244,6 +244,7 @@ public class T1Operation {
             cv.put(Contract.T1dataEntry.COLUMN_NAME_CHILDREN_ID,
                     childrenId);
 
+            Timber.d("INSERTREPLY level %s childrenId %s",level,childrenId);
             cv.put(Contract.T1dataEntry.COLUMN_NAME_LINK_ID,
                     repliesListingData.getLinkId());
 

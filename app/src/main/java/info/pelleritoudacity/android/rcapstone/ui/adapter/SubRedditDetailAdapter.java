@@ -23,7 +23,6 @@ import info.pelleritoudacity.android.rcapstone.ui.helper.SubRedditDetailHelper;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
-import timber.log.Timber;
 
 public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetailAdapter.SubRedditDetailHolder> {
 
@@ -156,6 +155,9 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         holder.mTextViewPostedOn.setText(DateUtil.getDiffTimeMinute(createdUtc));
 
         holder.mTextViewPoints.setText(score);
+
+        if (!TextUtils.isEmpty(title)) holder.mTextViewBody.setText(TextUtil.textFromHtml(title));
+
         if (!TextUtils.isEmpty(body)) holder.mTextViewBody.setText(TextUtil.textFromHtml(body));
 
         holder.mTextViewBody.setClickable(Preference.isGeneralLinks(mContext));
@@ -206,6 +208,10 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         @SuppressWarnings("unused")
         @BindView(R.id.tv_points)
         TextView mTextViewPoints;
+
+        @SuppressWarnings("unused")
+        @BindView(R.id.tv_title_detail)
+        TextView mTextViewTitleDetail;
 
         @SuppressWarnings("unused")
         @BindView(R.id.tv_body)
