@@ -169,19 +169,19 @@ public interface Costant {
     String STR_PARENT_COMMENT = "t3_";
     String DEFAULT_LISTING_KIND = "Listing";
     String LIMIT_COMMENTS_RESULTS = "30";
-    String LIMIT_DEPTH_RESULTS = "5";
+    String LIMIT_DEPTH_RESULTS = "8";
 
     String LIMIT_REDDIT_RESULTS = "100";
-    int LEVEL_DEPTH_PADDING = 10;
+    int LEVEL_DEPTH_PADDING = 20;
 
     String JSON_REPLIES_EMPTY = "\"replies\":\"\"";
     String JSON_REPLIES_REPLACE = "\"replies\":{\"kind\":\"ReplaceString\"}";
 
-    String DEFAULT_COLOR_INDICATOR = "#FF1744" + "," + "#2979FF" + "," + "#76FF03" + "," +
+    String DEFAULT_COLOR_INDICATOR = "#00000000" + "," + "#FF1744" + "," + "#2979FF" + "," + "#76FF03" + "," +
             "#FFEA00" + "," + "#d602ee" + "," + "#BB86FC" + "," +
             "#C51162" + "," + "#FFDE03" + "," + "#FF0266";
 
-    String DEFAULT_COLOR_BACKGROUND = "#FFEBEE" + "," + "#E3F2FD" + "," + "#F1F8E9" + "," +
+    String DEFAULT_COLOR_BACKGROUND = "#00000000" + "," + "#FFEBEE" + "," + "#E3F2FD" + "," + "#F1F8E9" + "," +
             "#FFFDE7" + "," + "#fae4fc" + "," + "#EDE7F6" + "," +
             "#FCE4EC" + "," + "#FFF8E1" + "," + "#FCE4EC";
 

@@ -74,9 +74,12 @@ public class TextUtil {
 
     public static String textFromHtml(String url) {
         if (!TextUtils.isEmpty(url)) {
+            String msgCompose[] = {"\\(/message/compose/\\?","\\(\\/r\\/"};
             url = url.replaceAll("&amp;", "&");
             url = url.replaceAll("&lt;", "<");
             url = url.replaceAll("&gt;", ">");
+            url = url.replaceAll(msgCompose[0],"(" + Costant.REDDIT_BASE_URL+ msgCompose[0].substring(3));
+            url = url.replaceAll(msgCompose[1],"(" + Costant.REDDIT_BASE_URL+ msgCompose[1].substring(4));
 
             if (Build.VERSION.SDK_INT >= 24) {
                 Html.fromHtml(url,Html.FROM_HTML_MODE_LEGACY).toString();

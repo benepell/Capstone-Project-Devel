@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -149,24 +150,23 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         int depth = mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_DEPTH));
 
+        if (!TextUtils.isEmpty(author)) holder.mTextViewAuthorDetail.setText(author + ":");
 
-        if (!TextUtils.isEmpty(author)) holder.mTextViewAuthor.setText(author + ":");
+        holder.mTextViewPostedOnDetail.setText(DateUtil.getDiffTimeMinute(createdUtc));
 
-        holder.mTextViewPostedOn.setText(DateUtil.getDiffTimeMinute(createdUtc));
+        holder.mTextViewPointsDetail.setText(score);
 
-        holder.mTextViewPoints.setText(score);
+        if (!TextUtils.isEmpty(title)) holder.mTextViewBodyDetail.setText(TextUtil.textFromHtml(title));
 
-        if (!TextUtils.isEmpty(title)) holder.mTextViewBody.setText(TextUtil.textFromHtml(title));
+        if (!TextUtils.isEmpty(body)) holder.mTextViewBodyDetail.setText(TextUtil.textFromHtml(body));
 
-        if (!TextUtils.isEmpty(body)) holder.mTextViewBody.setText(TextUtil.textFromHtml(body));
-
-        holder.mTextViewBody.setClickable(Preference.isGeneralLinks(mContext));
+        holder.mTextViewBodyDetail.setClickable(Preference.isGeneralLinks(mContext));
 
         if (Preference.isGeneralLinks(mContext)) {
-            holder.mTextViewBody.setClickable(true);
-            holder.mTextViewBody.setAutoLinkMask(Linkify.ALL);
+            holder.mTextViewBodyDetail.setClickable(true);
+            holder.mTextViewBodyDetail.setAutoLinkMask(Linkify.ALL);
         } else {
-            holder.mTextViewBody.setClickable(false);
+            holder.mTextViewBodyDetail.setClickable(false);
         }
 
         SubRedditDetailHelper subRedditDetailHelper = new SubRedditDetailHelper(mContext);
@@ -199,23 +199,21 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
 
         @SuppressWarnings("unused")
         @BindView(R.id.tv_author)
-        TextView mTextViewAuthor;
+        TextView mTextViewAuthorDetail;
+
 
         @SuppressWarnings("unused")
         @BindView(R.id.tv_postedOn)
-        TextView mTextViewPostedOn;
+        TextView mTextViewPostedOnDetail;
 
         @SuppressWarnings("unused")
         @BindView(R.id.tv_points)
-        TextView mTextViewPoints;
+        TextView mTextViewPointsDetail;
 
-        @SuppressWarnings("unused")
-        @BindView(R.id.tv_title_detail)
-        TextView mTextViewTitleDetail;
 
         @SuppressWarnings("unused")
         @BindView(R.id.tv_body)
-        TextView mTextViewBody;
+        TextView mTextViewBodyDetail;
 
         @SuppressWarnings("unused")
         @BindView(R.id.card_linear)
@@ -258,7 +256,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
 
-            mTextViewBody.setOnClickListener(view -> {
+            mTextViewBodyDetail.setOnClickListener(view -> {
                 clickSelector(getAdapterPosition());
                 notifyDataSetChanged();
 

@@ -170,9 +170,8 @@ public class SubRedditDetailFragment extends Fragment
             try {
                 Uri uri = Contract.T1dataEntry.CONTENT_URI;
 
-                String selection = Contract.T1dataEntry.COLUMN_NAME_ID + " =?" + " OR " +
-                        Contract.T1dataEntry.COLUMN_NAME_LINK_ID + " =?";
-                String[] selectionArgs = new String[]{sStrId, Costant.STR_PARENT_COMMENT + sStrId};
+                String selection = Contract.T1dataEntry.COLUMN_NAME_LINK_ID + " =?";
+                String[] selectionArgs = new String[]{ Costant.STR_PARENT_COMMENT + sStrId};
                 String sortOrder = Contract.T1dataEntry.COLUMN_NAME_CHILDREN_ID + " ASC," +
                         Contract.T1dataEntry.COLUMN_NAME_DEPTH + " ASC";
 

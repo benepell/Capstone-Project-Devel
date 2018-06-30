@@ -22,7 +22,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingLeft="4dp"
             android:paddingStart="4dp">
 
             <View
@@ -39,6 +38,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/background_light"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -48,20 +49,19 @@
 
                         <TextView
                             android:id="@+id/tv_author"
+                            style="@style/TextAppearance.AppCompat.Body1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:ellipsize="end"
-                            android:fontFamily="@font/roboto_regular"
-                            android:gravity="start"
-                            android:maxLines="@integer/list_body_text_author"
+                            android:fontFamily="@font/roboto_thin"
+                            android:maxLines="@integer/list_body_text_subtitle"
                             android:paddingBottom="@dimen/list_padding_vertical_author"
                             android:paddingEnd="@dimen/list_padding_horizontal_author"
                             android:paddingStart="@dimen/list_padding_horizontal_author"
                             android:text=""
-                            android:textColor="@color/textColorSecondary"
-                            android:textStyle="bold" />
-
+                            android:textColor="@color/deep_orange_A400"
+                            android:textStyle="bold|italic" />
 
                         <TextView
                             android:id="@+id/tv_points"
@@ -72,6 +72,7 @@
                             android:paddingBottom="@dimen/list_padding_vertical_author"
                             android:paddingEnd="@dimen/list_padding_horizontal_author"
                             android:paddingStart="@dimen/list_padding_horizontal_author"
+                            android:textStyle="bold"
                             android:textColor="@color/textColorSecondary" />
 
                         <TextView
@@ -89,40 +90,18 @@
 
                     </LinearLayout>
 
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/tv_body"
+                        style="@style/TextAppearance.AppCompat.Small"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tv_title_detail"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            style="@style/TextAppearance.AppCompat.Title"
-                            android:textStyle="bold"
-                            android:fontFamily="@font/roboto_regular"
-                            android:gravity="start|center_vertical"
-                            android:textColor="@color/textColorPrimary" />
-
-
-
-                        <TextView
-                            android:id="@+id/tv_body"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"
-                            android:gravity="start|center_vertical"
-                            android:paddingBottom="@dimen/list_padding_vertical_author"
-                            android:paddingEnd="@dimen/list_padding_horizontal_author"
-                            android:paddingStart="@dimen/list_padding_horizontal_author"
-                            android:textColor="@color/textColorSecondary" />
-
-
-                    </LinearLayout>
-
-
-
-
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="start|center_vertical"
+                        android:paddingBottom="@dimen/list_padding_vertical_author"
+                        android:paddingEnd="@dimen/list_padding_horizontal_author"
+                        android:paddingStart="@dimen/list_padding_horizontal_author"
+                        android:textColor="@color/textColorSecondary"
+                        android:visibility="visible" />
 
                 </LinearLayout>
             </LinearLayout>
