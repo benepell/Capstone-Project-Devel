@@ -4,10 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
+import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.ScrollView;
 
 import java.util.List;
 
+import butterknife.BindView;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.T1Operation;
 import info.pelleritoudacity.android.rcapstone.model.reddit.T1;
@@ -19,7 +23,11 @@ import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 
 public class SubRedditDetailActivity extends BaseActivity
-        implements SubRedditDetailExecute.RestSubReddit {
+        implements SubRedditDetailExecute.RestSubReddit,SubRedditDetailFragment.OnFragmentInteractionListener {
+
+    @SuppressWarnings("unused")
+    @BindView(R.id.nested_scrollview_detail)
+    NestedScrollView mNestedScrollView;
 
     private String mStrId = null;
     private String mCategory;
@@ -83,5 +91,12 @@ public class SubRedditDetailActivity extends BaseActivity
     @Override
     public void onErrorSubReddit(Throwable t) {
 
+    }
+
+    @Override
+    public void clickSelector(int position, int itemCount) {
+        if(position == itemCount-1){
+            mNestedScrollView.smoothScrollBy(0,mNestedScrollView.getBottom());
+        }
     }
 }

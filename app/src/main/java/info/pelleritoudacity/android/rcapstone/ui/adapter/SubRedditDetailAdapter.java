@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -24,6 +25,7 @@ import info.pelleritoudacity.android.rcapstone.ui.helper.SubRedditDetailHelper;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+import timber.log.Timber;
 
 public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetailAdapter.SubRedditDetailHolder> {
 
@@ -32,7 +34,6 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
     private Cursor mCursor;
     private ImageButton[] mArrayButton;
     private static int mSelectorPosition = RecyclerView.NO_POSITION;
-
 
     public SubRedditDetailAdapter(SubRedditDetailFragment listener) {
         mListener = listener;
@@ -156,9 +157,11 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
 
         holder.mTextViewPointsDetail.setText(score);
 
-        if (!TextUtils.isEmpty(title)) holder.mTextViewBodyDetail.setText(TextUtil.textFromHtml(title));
+        if (!TextUtils.isEmpty(title))
+            holder.mTextViewBodyDetail.setText(TextUtil.textFromHtml(title));
 
-        if (!TextUtils.isEmpty(body)) holder.mTextViewBodyDetail.setText(TextUtil.textFromHtml(body));
+        if (!TextUtils.isEmpty(body))
+            holder.mTextViewBodyDetail.setText(TextUtil.textFromHtml(body));
 
         holder.mTextViewBodyDetail.setClickable(Preference.isGeneralLinks(mContext));
 
@@ -258,6 +261,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
 
             mTextViewBodyDetail.setOnClickListener(view -> {
                 clickSelector(getAdapterPosition());
+                mListener.clickSelector(getAdapterPosition(),getItemCount());
                 notifyDataSetChanged();
 
             });
@@ -269,6 +273,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         @Override
         public void onClick(View view) {
             clickSelector(getAdapterPosition());
+            mListener.clickSelector(getAdapterPosition(),getItemCount());
             notifyDataSetChanged();
         }
 
@@ -299,5 +304,6 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
     public interface OnAdapterListener {
 
         void adapterPosition(int position, String category);
+        void clickSelector(int position, int itemCount);
     }
 }

@@ -7,6 +7,8 @@
         android:id="@+id/rv_fragment_subreddit"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="16dp"
+        android:padding="8dp"
+        android:scrollbars="none"
+        android:nestedScrollingEnabled="false"
         android:layoutAnimation="@anim/layout_animation_fall_down"/>
 </FrameLayout>

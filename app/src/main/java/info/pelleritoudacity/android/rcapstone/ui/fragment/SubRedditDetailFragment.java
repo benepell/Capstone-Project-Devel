@@ -18,6 +18,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 
 import java.util.Objects;
 
@@ -26,6 +27,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.Contract;
+import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity;
 import info.pelleritoudacity.android.rcapstone.ui.adapter.SubRedditDetailAdapter;
 import info.pelleritoudacity.android.rcapstone.ui.adapter.SubRedditSelectedAdapter;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
@@ -48,6 +50,7 @@ public class SubRedditDetailFragment extends Fragment
 
     private LinearLayoutManager mLayoutManager;
     private SubRedditDetailAdapter mAdapter;
+    private OnFragmentInteractionListener mListener;
 
     public SubRedditDetailFragment() {
     }
@@ -113,6 +116,23 @@ public class SubRedditDetailFragment extends Fragment
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mListener = (OnFragmentInteractionListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().getLocalClassName() + "must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+
+    @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         sState = mLayoutManager.onSaveInstanceState();
@@ -154,6 +174,11 @@ public class SubRedditDetailFragment extends Fragment
     @Override
     public void adapterPosition(int position, String category) {
 
+    }
+
+    @Override
+    public void clickSelector(int position, int itemCount) {
+        mListener.clickSelector(position,itemCount);
     }
 
     private static class SubRedditDetailFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
@@ -208,4 +233,9 @@ public class SubRedditDetailFragment extends Fragment
         }
 
     }
+
+    public interface OnFragmentInteractionListener {
+        void clickSelector(int position, int itemCount);
+    }
+
 }
