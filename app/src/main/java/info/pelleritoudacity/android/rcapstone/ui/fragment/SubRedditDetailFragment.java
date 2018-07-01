@@ -11,6 +11,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -79,9 +81,15 @@ public class SubRedditDetailFragment extends Fragment
         unbinder = ButterKnife.bind(this, view);
 
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         mRecyclerView.setHasFixedSize(true);
+
 
         mAdapter = new SubRedditDetailAdapter(this);
 

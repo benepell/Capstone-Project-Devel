@@ -4,8 +4,6 @@
     android:id="@+id/card_detail"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/list_side_margin"
-    android:layout_marginTop="@dimen/list_side_margin"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
