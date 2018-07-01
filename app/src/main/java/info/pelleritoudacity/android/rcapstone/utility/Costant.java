@@ -37,6 +37,7 @@ public interface Costant {
 
     String YOUTUBE_DEVELOPER_KEY = BuildConfig.YOUTUBE_DEVELOPER_KEY;
     boolean YOUTUBE_CLIENT_AUTOSTART = true;
+    boolean DEFAULT_VIEWPAGER_DETAIL = true;
 
     String REDDIT_CLIENT_ID = BuildConfig.REDDIT_CLIENT_ID;
     String REDDIT_REDIRECT_URL = BuildConfig.REDDIT_REDIRECT_URL;

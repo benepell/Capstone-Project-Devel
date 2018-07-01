@@ -90,21 +90,6 @@
                 android:textColor="@color/textColorSecondary"
                 android:textStyle="normal" />
 
-            <TextView
-                android:id="@+id/tv_created_utc"
-                style="@style/TextAppearance.AppCompat.Body2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:fontFamily="@font/roboto_thin"
-                android:gravity="center_horizontal"
-                android:maxLines="@integer/list_body_text_author"
-                android:paddingBottom="@dimen/list_padding_vertical_author"
-                android:paddingEnd="@dimen/list_padding_horizontal_author"
-                android:paddingStart="@dimen/list_padding_horizontal_author"
-                android:textColor="@color/textColorSecondary"
-                android:textStyle="normal" />
-
 
         </LinearLayout>
 
@@ -146,6 +131,22 @@
                 android:paddingStart="@dimen/list_padding_horizontal_author"
                 android:textColor="@color/textColorSecondary"
                 android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/tv_created_utc"
+                style="@style/TextAppearance.AppCompat.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center_horizontal"
+                android:maxLines="@integer/list_body_text_author"
+                android:paddingBottom="@dimen/list_padding_vertical_author"
+                android:paddingEnd="@dimen/list_padding_horizontal_author"
+                android:paddingStart="@dimen/list_padding_horizontal_author"
+                android:textColor="@color/textColorSecondary"
+                android:textStyle="italic" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -173,9 +174,11 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone" />
 
+
         </LinearLayout>
 
         <include layout="@layout/inc_select_bottom" />
+
     </LinearLayout>
 
 
