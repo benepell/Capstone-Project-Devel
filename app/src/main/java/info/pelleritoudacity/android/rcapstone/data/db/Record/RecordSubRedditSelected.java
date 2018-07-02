@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapterSelected;
-import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
 public class RecordSubRedditSelected {
 
@@ -69,9 +68,9 @@ public class RecordSubRedditSelected {
 
         mRecord.setNumComments(mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_NUM_COMMENTS)));
-//todo remove textutil
-        mRecord.setImagePreviewUrl(TextUtil.textFromHtml(
-                mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_URL))));
+
+        mRecord.setImagePreviewUrl(mCursor.getString(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_URL)));
 
         mRecord.setImagePreviewWidth(mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_WIDTH)));

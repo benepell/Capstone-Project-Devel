@@ -98,7 +98,7 @@ public class SubRedditSelectedAdapter extends RecyclerView.Adapter<SubRedditSele
             final String finalTitle = record.getTitle();
             Glide.with(mContext)
                     .asBitmap()
-                    .load(record.getImagePreviewUrl())
+                    .load(TextUtil.textFromHtml(record.getImagePreviewUrl()))
                     .into(new SimpleTarget<Bitmap>(record.getImagePreviewWidth(), record.getImagePreviewHeight()) {
 
                         @Override

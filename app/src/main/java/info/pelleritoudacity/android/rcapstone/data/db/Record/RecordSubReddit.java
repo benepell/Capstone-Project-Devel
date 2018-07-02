@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapter;
-import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
 public class RecordSubReddit {
 
@@ -56,8 +55,8 @@ public class RecordSubReddit {
         mRecord.setSubRedditSubscriptions(mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_SUBSCRIBERS)));
 
-        mRecord.setTitle(TextUtil.textFromHtml(
-                mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_TITLE))));
+        mRecord.setTitle(mCursor.getString(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_TITLE)));
 
         mRecord.setDomain(mCursor.getString(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_DOMAIN)));
@@ -70,9 +69,9 @@ public class RecordSubReddit {
 
         mRecord.setNumComments(mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_NUM_COMMENTS)));
-        // todo remove textutils
-        mRecord.setImagePreviewUrl(TextUtil.textFromHtml(
-                mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_URL))));
+
+        mRecord.setImagePreviewUrl(mCursor.getString(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_URL)));
 
         mRecord.setImagePreviewWidth(mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_WIDTH)));
@@ -80,8 +79,8 @@ public class RecordSubReddit {
         mRecord.setImagePreviewHeight(mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_HEIGHT)));
 
-        mRecord.setVideoPreviewUrl(TextUtil.textFromHtml(
-                mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_URL))));
+        mRecord.setVideoPreviewUrl(mCursor.getString(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_URL)));
 
         mRecord.setVideoPreviewWidth(mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_WIDTH)));
@@ -89,26 +88,26 @@ public class RecordSubReddit {
         mRecord.setVideoPreviewHeight(mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_HEIGHT)));
 
-        mRecord.setVideoUrl(TextUtil.textFromHtml(
-                mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_URL))));
+        mRecord.setVideoUrl(mCursor.getString(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_URL)));
 
         mRecord.setVideoTypeOembed(mCursor.getString(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_TYPE)));
-// todo remove textutil
-        mRecord.setVideoFrameOembed(TextUtil.textFromHtml(
-                mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_HTML))));
-// todo remove textutil
-        mRecord.setVideoAuthorNameOembed(TextUtil.textFromHtml(
-                mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_AUTHOR_NAME))));
+
+        mRecord.setVideoFrameOembed(mCursor.getString(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_HTML)));
+
+        mRecord.setVideoAuthorNameOembed(mCursor.getString(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_AUTHOR_NAME)));
 
         mRecord.setVideoOembedWidth(mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_WIDTH)));
 
         mRecord.setVideoOembedHeight(mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_HEIGHT)));
-// todo remove textutil
-        mRecord.setThumbnailUrlOembed(TextUtil.textFromHtml(
-                mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_URL))));
+
+        mRecord.setThumbnailUrlOembed(mCursor.getString(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_URL)));
 
         mRecord.setThumbnailOembedWidth(mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_WIDTH)));

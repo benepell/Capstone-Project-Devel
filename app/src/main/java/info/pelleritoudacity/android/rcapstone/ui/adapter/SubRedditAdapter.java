@@ -116,7 +116,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
             int mediaType = 0;
 
-            mediaType = (Preference.isGeneralImages(mContext)) && (!TextUtils.isEmpty(record.getImagePreviewUrl())) && (!isSmallImage(mContext,record.getImagePreviewWidth(), record.getImagePreviewHeight()))
+            mediaType = (Preference.isGeneralImages(mContext)) && (!TextUtils.isEmpty(record.getImagePreviewUrl())) && (!isSmallImage(mContext, record.getImagePreviewWidth(), record.getImagePreviewHeight()))
                     ? Costant.MEDIA_IMAGE_FULL_TYPE : mediaType;
 
             mediaType = (Preference.isGeneralVideos(mContext)) && (!TextUtils.isEmpty(record.getVideoPreviewUrl()))
@@ -137,7 +137,8 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
                     holder.mPlayerLayout.setVisibility(View.GONE);
 
                     subRedditHelper.imageReddit(holder.mImageViewSubReddit, holder.mImageViewSubRedditSmall,
-                           record.getImagePreviewUrl() ,record.getImagePreviewWidth(), record.getImagePreviewHeight(),record.getTitle());
+                            TextUtil.textFromHtml(record.getImagePreviewUrl()), record.getImagePreviewWidth(), record.getImagePreviewHeight(),
+                            TextUtil.textFromHtml(record.getTitle()));
 
                     holder.mImageViewSubReddit.setVisibility(View.VISIBLE);
                     break;
@@ -152,17 +153,18 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
                             mImaAdsLoader,
                             holder.mPlayerView,
                             holder.mExoProgressBar,
-                           record.getTitle(), holder.mTVErrorPlayer, holder.mImagePlay);
+                            TextUtil.textFromHtml(record.getTitle()), holder.mTVErrorPlayer, holder.mImagePlay);
 
                     subRedditHelper.loadVideoFirstFrame(mMediaPlayer, holder.mPlayerLayout, holder.mImagePlay, holder.mExoProgressBar,
-                           record.getVideoPreviewUrl(), record.getVideoPreviewWidth(), record.getVideoPreviewHeight());
+                            TextUtil.textFromHtml(record.getVideoPreviewUrl()), record.getVideoPreviewWidth(), record.getVideoPreviewHeight());
 
                     holder.mImageViewSubReddit.setVisibility(View.GONE);
                     break;
 
                 case Costant.MEDIA_VIDEO_TYPE_VIMEO:
 
-                    subRedditHelper.loadWebviewVimeo(holder.mWebViewVimeo,record.getVideoFrameOembed());
+                    subRedditHelper.loadWebviewVimeo(holder.mWebViewVimeo,
+                            TextUtil.textFromHtml(record.getVideoFrameOembed()));
 
                     holder.mImageViewSubReddit.setVisibility(View.GONE);
                     holder.mPlayerLayout.setVisibility(View.GONE);
@@ -171,8 +173,10 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
                 case Costant.MEDIA_VIDEO_TYPE_YOUTUBE:
 
                     subRedditHelper.youtubeVideoFirstFrame(holder.mPlayerLayout, holder.mImagePlay, holder.mExoProgressBar,
-                           record.getThumbnailUrlOembed(),record.getThumbnailOembedWidth(),record.getThumbnailOembedHeight(),
-                           record.getVideoUrl(),record.getVideoOembedWidth(),record.getVideoOembedHeight());
+                            TextUtil.textFromHtml(record.getThumbnailUrlOembed()),
+                            record.getThumbnailOembedWidth(), record.getThumbnailOembedHeight(),
+                            TextUtil.textFromHtml(record.getVideoUrl()), record.getVideoOembedWidth(),
+                            record.getVideoOembedHeight());
 
                     holder.mImageViewSubReddit.setVisibility(View.GONE);
                     break;
@@ -182,10 +186,11 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
             }
 
             if ((!TextUtils.isEmpty(record.getImagePreviewUrl())) &&
-                    (isSmallImage(mContext,record.getImagePreviewWidth(),record.getImagePreviewHeight()))) {
+                    (isSmallImage(mContext, record.getImagePreviewWidth(), record.getImagePreviewHeight()))) {
 
                 subRedditHelper.imageReddit(holder.mImageViewSubReddit, holder.mImageViewSubRedditSmall,
-                       record.getImagePreviewUrl(),record.getImagePreviewWidth(),record.getImagePreviewHeight(),record.getTitle());
+                        TextUtil.textFromHtml(record.getImagePreviewUrl()), record.getImagePreviewWidth(), record.getImagePreviewHeight(),
+                        TextUtil.textFromHtml(record.getTitle()));
 
                 if (Preference.isGeneralImages(mContext)) {
                     holder.mImageViewSubRedditSmall.setVisibility(View.VISIBLE);
@@ -193,7 +198,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
                 }
             }
 
-            holder.mTextViewTitle.setText(record.getTitle());
+            holder.mTextViewTitle.setText(TextUtil.textFromHtml(record.getTitle()));
 
             holder.mTextViewSubRedditNamePrefix.setText(record.getSubRedditNamePrefix());
 
@@ -209,13 +214,13 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
             SelectorHelper selectorHelper = new SelectorHelper(mContext);
 
             selectorHelper.cardBottomLink(mArrayButton, null,
-                    TextUtil.buildCommentLink(record.getSubRedditNamePrefix(),record.getNameIdReddit()),record.getNameReddit());
+                    TextUtil.buildCommentLink(record.getSubRedditNamePrefix(), record.getNameIdReddit()), record.getNameReddit());
 
 
-            holder.bind(holder.getAdapterPosition(),record.getSubReddit(),record.getNameIdReddit());
+            holder.bind(holder.getAdapterPosition(), record.getSubReddit(), record.getNameIdReddit());
 
 
-            mListener.adapterPosition(holder.getAdapterPosition(),record.getSubReddit());
+            mListener.adapterPosition(holder.getAdapterPosition(), record.getSubReddit());
         }
     }
 
