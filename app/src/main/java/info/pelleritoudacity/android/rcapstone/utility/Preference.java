@@ -17,7 +17,7 @@ public class Preference {
             R.string.pref_time_token,
             R.string.pref_subreddit_key,
             R.string.pref_subreddit_sort,
-            R.string.pref_youtube_player,
+            R.string.pref_tab_history,
             R.string.pref_time_sort,
             R.string.pref_last_category,
             R.string.pref_sync_frequency,
@@ -254,8 +254,8 @@ public class Preference {
     }
 
 
-    public static Boolean isYoutubePlayer(Context context) {
-        return PrefManager.isGeneralSettings(context, context.getString(Costant.PREFERENCE_YOUTUBE_PLAYER));
+    public static Boolean isTabHistory(Context context) {
+        return PrefManager.isGeneralSettings(context, context.getString(Costant.PREFERENCE_TAB_HISTORY));
     }
 
     public static Boolean isOriginalSizeContent(Context context) {

@@ -175,7 +175,7 @@ public interface Costant {
     String LIMIT_COMMENTS_RESULTS = "30";
     String LIMIT_DEPTH_RESULTS = "8";
 
-    String LIMIT_REDDIT_RESULTS = "100";
+    String LIMIT_REDDIT_RESULTS = "25";
     int LEVEL_DEPTH_PADDING = 20;
 
     String JSON_REPLIES_EMPTY = "\"replies\":\"\"";
@@ -218,7 +218,7 @@ public interface Costant {
     int PREFERENCE_TYPE_MODE = R.string.pref_type_mode;
     int PREFERENCE_LOGIN_NAME = R.string.pref_login_name;
     int PREFERENCE_LOGIN_OVER18 = R.string.pref_login_over18;
-    int PREFERENCE_YOUTUBE_PLAYER = R.string.pref_youtube_player;
+    int PREFERENCE_TAB_HISTORY = R.string.pref_tab_history;
     int PREFERENCE_LAST_CATEGORY = R.string.pref_last_category;
     int PREFERENCE_TITLE_SYNC_FREQUENCY = R.string.pref_title_sync_frequency;
     int PREFERENCE_SESSION_USERNAME = R.string.pref_session_username;

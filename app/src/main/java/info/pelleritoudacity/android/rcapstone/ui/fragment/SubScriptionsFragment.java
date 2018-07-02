@@ -73,7 +73,7 @@ public class SubScriptionsFragment extends Fragment
 
     private SubScriptionsAdapter mAdapter;
     private ItemTouchHelper mItemTouchHelper;
-    private static Parcelable sListState;
+    private Parcelable mListState;
     private LinearLayoutManager mLayoutManager;
     private Context mContext;
     private Unbinder unbinder;
@@ -105,7 +105,7 @@ public class SubScriptionsFragment extends Fragment
             }
 
         } else {
-            sListState = Objects.requireNonNull(savedInstanceState).getParcelable(Costant.EXTRA_SUBSCRIPTION_STATE);
+            mListState = Objects.requireNonNull(savedInstanceState).getParcelable(Costant.EXTRA_SUBSCRIPTION_STATE);
         }
 
     }
@@ -114,8 +114,8 @@ public class SubScriptionsFragment extends Fragment
     public void onResume() {
         super.onResume();
         restartLoader();
-        if (sListState != null) {
-            mLayoutManager.onRestoreInstanceState(sListState);
+        if (mListState != null) {
+            mLayoutManager.onRestoreInstanceState(mListState);
         }
 
     }
@@ -240,8 +240,8 @@ public class SubScriptionsFragment extends Fragment
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        sListState = mLayoutManager.onSaveInstanceState();
-        outState.putParcelable(Costant.EXTRA_FRAGMENT_STATE, sListState);
+        mListState = mLayoutManager.onSaveInstanceState();
+        outState.putParcelable(Costant.EXTRA_FRAGMENT_STATE, mListState);
     }
 
 

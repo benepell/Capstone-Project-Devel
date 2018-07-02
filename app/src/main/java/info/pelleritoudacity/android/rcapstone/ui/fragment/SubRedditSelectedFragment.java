@@ -41,7 +41,7 @@ public class SubRedditSelectedFragment extends Fragment
     private Unbinder unbinder;
 
     private static String sStrId = null;
-    private static Parcelable sParcelState;
+    private Parcelable mParcelState;
 
     private LinearLayoutManager mLayoutManager;
     private SubRedditSelectedAdapter mAdapter;
@@ -99,22 +99,22 @@ public class SubRedditSelectedFragment extends Fragment
 
         }
         if (savedInstanceState != null) {
-            sParcelState = savedInstanceState.getParcelable(Costant.EXTRA_FRAGMENT_SELECTED_STATE);
+            mParcelState = savedInstanceState.getParcelable(Costant.EXTRA_FRAGMENT_SELECTED_STATE);
         }
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        sParcelState = mLayoutManager.onSaveInstanceState();
-        outState.putParcelable(Costant.EXTRA_FRAGMENT_SELECTED_STATE, sParcelState);
+        mParcelState = mLayoutManager.onSaveInstanceState();
+        outState.putParcelable(Costant.EXTRA_FRAGMENT_SELECTED_STATE, mParcelState);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (sParcelState != null) {
-            mLayoutManager.onRestoreInstanceState(sParcelState);
+        if (mParcelState != null) {
+            mLayoutManager.onRestoreInstanceState(mParcelState);
         }
     }
 

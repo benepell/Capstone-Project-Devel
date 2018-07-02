@@ -61,9 +61,9 @@
     <string name="title_original_size_content">Upload HD Content</string>
     <string name="summary_original_size_content">Enabled high definition content.</string>
 
-    <string name="pref_youtube_player" translatable="false">info.pelleritoudacity.android.rcapstone.pref.youtube.player</string>
-    <string name="title_youtube_player">Youtube Player</string>
-    <string name="summary_youtube_player">Enabled youtube player.</string>
+    <string name="pref_tab_history" translatable="false">info.pelleritoudacity.android.rcapstone.pref.tab.history</string>
+    <string name="title_tab_history">Tab history</string>
+    <string name="summary_tab_history">Enabled History tab when press back.</string>
 
     <string name="pref_sync_frequency" translatable="false">info.pelleritoudacity.android.rcapstone.pref_sync_frequency</string>
     <string name="pref_title_sync_frequency" translatable="false">Sync Data</string>

@@ -43,7 +43,7 @@ public class SubRedditDetailFragment extends Fragment
     private Unbinder unbinder;
 
     private static String sStrId = null;
-    private static Parcelable sState;
+    private Parcelable mState;
 
     private LinearLayoutManager mLayoutManager;
     private SubRedditDetailAdapter mAdapter;
@@ -108,7 +108,7 @@ public class SubRedditDetailFragment extends Fragment
 
         }
         if (savedInstanceState != null) {
-            sState = savedInstanceState.getParcelable(Costant.EXTRA_FRAGMENT_DETAIL_STATE);
+            mState = savedInstanceState.getParcelable(Costant.EXTRA_FRAGMENT_DETAIL_STATE);
         }
     }
 
@@ -132,15 +132,15 @@ public class SubRedditDetailFragment extends Fragment
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        sState = mLayoutManager.onSaveInstanceState();
-        outState.putParcelable(Costant.EXTRA_FRAGMENT_DETAIL_STATE, sState);
+        mState = mLayoutManager.onSaveInstanceState();
+        outState.putParcelable(Costant.EXTRA_FRAGMENT_DETAIL_STATE, mState);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (sState != null) {
-            mLayoutManager.onRestoreInstanceState(sState);
+        if (mState != null) {
+            mLayoutManager.onRestoreInstanceState(mState);
         }
     }
 

@@ -46,7 +46,7 @@ public class SubRedditFragment extends Fragment
     private Context mContext;
     private Unbinder unbinder;
 
-    private static Parcelable sListState;
+    private Parcelable mListState;
     private int sWindowPlayer;
     private boolean sIsAutoRun;
     private long sPositionPlayer;
@@ -118,7 +118,7 @@ public class SubRedditFragment extends Fragment
 
         }
         if (savedInstanceState != null) {
-            sListState = savedInstanceState.getParcelable(Costant.EXTRA_FRAGMENT_STATE);
+            mListState = savedInstanceState.getParcelable(Costant.EXTRA_FRAGMENT_STATE);
 
             sWindowPlayer = savedInstanceState.getInt(Costant.BUNDLE_EXOPLAYER_WINDOW, C.INDEX_UNSET);
             sPositionPlayer = savedInstanceState.getLong(Costant.BUNDLE_EXOPLAYER_POSITION, C.TIME_UNSET);
@@ -133,8 +133,8 @@ public class SubRedditFragment extends Fragment
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        sListState = mLayoutManager.onSaveInstanceState();
-        outState.putParcelable(Costant.EXTRA_FRAGMENT_STATE, sListState);
+        mListState = mLayoutManager.onSaveInstanceState();
+        outState.putParcelable(Costant.EXTRA_FRAGMENT_STATE, mListState);
         if (mMediaPlayer != null) {
             outState.putInt(Costant.BUNDLE_EXOPLAYER_WINDOW, mMediaPlayer.getResumeWindow());
             outState.putLong(Costant.BUNDLE_EXOPLAYER_POSITION, mMediaPlayer.getResumePosition());
@@ -169,8 +169,8 @@ public class SubRedditFragment extends Fragment
     @Override
     public void onResume() {
         super.onResume();
-        if (sListState != null) {
-            mLayoutManager.onRestoreInstanceState(sListState);
+        if (mListState != null) {
+            mLayoutManager.onRestoreInstanceState(mListState);
         }
     }
 
