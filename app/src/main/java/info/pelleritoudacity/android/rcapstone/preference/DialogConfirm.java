@@ -38,8 +38,8 @@ import com.bumptech.glide.Glide;
 import java.lang.ref.WeakReference;
 
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.DataUtils;
-import info.pelleritoudacity.android.rcapstone.rest.RevokeTokenExecute;
+import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
+import info.pelleritoudacity.android.rcapstone.data.rest.RevokeTokenExecute;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;

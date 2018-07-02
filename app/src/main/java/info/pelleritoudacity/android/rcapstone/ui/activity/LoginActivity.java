@@ -40,8 +40,8 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.model.reddit.RedditToken;
-import info.pelleritoudacity.android.rcapstone.rest.AccessTokenExecute;
+import info.pelleritoudacity.android.rcapstone.data.model.reddit.RedditToken;
+import info.pelleritoudacity.android.rcapstone.data.rest.AccessTokenExecute;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;

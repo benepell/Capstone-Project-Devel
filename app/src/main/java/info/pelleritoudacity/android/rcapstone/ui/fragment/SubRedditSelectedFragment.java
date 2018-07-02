@@ -23,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.Contract;
+import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.ui.adapter.SubRedditSelectedAdapter;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import timber.log.Timber;

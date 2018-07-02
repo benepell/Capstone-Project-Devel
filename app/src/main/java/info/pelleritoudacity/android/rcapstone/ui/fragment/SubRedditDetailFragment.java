@@ -18,7 +18,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ScrollView;
 
 import java.util.Objects;
 
@@ -26,10 +25,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.Contract;
-import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity;
+import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.ui.adapter.SubRedditDetailAdapter;
-import info.pelleritoudacity.android.rcapstone.ui.adapter.SubRedditSelectedAdapter;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import timber.log.Timber;
 

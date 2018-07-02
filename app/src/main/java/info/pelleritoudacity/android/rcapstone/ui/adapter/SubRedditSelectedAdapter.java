@@ -11,29 +11,25 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.google.android.exoplayer2.ui.PlayerView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.Contract;
+import info.pelleritoudacity.android.rcapstone.data.db.Record.RecordSubRedditSelected;
+import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapterSelected;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditSelectedFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtil;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
-import static info.pelleritoudacity.android.rcapstone.utility.ImageUtil.isSmallImage;
 import static info.pelleritoudacity.android.rcapstone.utility.NumberUtil.numberFormat;
 
 public class SubRedditSelectedAdapter extends RecyclerView.Adapter<SubRedditSelectedAdapter.SubRedditSelectedHolder> {
@@ -69,100 +65,67 @@ public class SubRedditSelectedAdapter extends RecyclerView.Adapter<SubRedditSele
                 holder.mImageButtonPreferStars, holder.mImageButtonShowComments, holder.mImageButtonOpenBrowser};
         mCursor.moveToPosition(position);
 
-        String subReddit = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT));
+        RecordSubRedditSelected recordList = new RecordSubRedditSelected(mCursor);
 
-        String subRedditName = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_NAME));
+        RecordAdapterSelected record = null;
+        if (recordList.getRecordList() != null) {
+            record = recordList.getRecordList().get(0);
+        }
 
-        String title = mCursor.getString(mCursor.getColumnIndex(
-                Contract.T3dataEntry.COLUMN_NAME_TITLE));
-
-        String author = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_AUTHOR));
-        int created = mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_CREATED));
-
-        String permanentLink = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PERMALINK));
-
-        String subRedditNamePrefix = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_NAME_PREFIXE));
-
-        String domain = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_DOMAIN));
-
-        Long createdUtc = mCursor.getLong(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_CREATED_UTC));
-
-        int score = mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SCORE));
-
-        int numComments = mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_NUM_COMMENTS));
-
-        String imagePreviewUrl = TextUtil.textFromHtml(
-                mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_URL)));
-
-        int imagePreviewWidth = mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_WIDTH));
-
-        int imagePreviewHeight = mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_HEIGHT));
+        if (record != null) {
 
 
-        holder.mTextViewTitle.setText(title);
-        holder.mTextViewCreatedUtc.setText(DateUtil.getDiffTimeMinute(createdUtc));
+            holder.mTextViewTitle.setText(record.getTitle());
+            holder.mTextViewCreatedUtc.setText(DateUtil.getDiffTimeMinute(record.getCreatedUtc()));
 
-        holder.mTextViewSubRedditNamePrefix.setText(subRedditNamePrefix);
+            holder.mTextViewSubRedditNamePrefix.setText(record.getSubRedditNamePrefix());
 
-        holder.mTextViewDomain.setText(domain);
+            holder.mTextViewDomain.setText(record.getDomain());
 
-        holder.mTextViewScore.setText(numberFormat(score));
+            holder.mTextViewScore.setText(numberFormat(record.getScore()));
 
-        holder.mTextViewNumComments.setText(
-                String.format("%s %s", String.valueOf(numComments),
-                        mContext.getString(R.string.text_comments_subreddit))
-        );
-
-
-        String strBackGroundColor = "#FFFFFF";
-        SelectorHelper selectorHelper = new SelectorHelper(mContext);
-        selectorHelper.cardBottomLink(mArrayButton, strBackGroundColor,
-                TextUtil.buildCommentDetailLink(permanentLink), subRedditName);
+            holder.mTextViewNumComments.setText(
+                    String.format("%s %s", String.valueOf(record.getNumComments()),
+                            mContext.getString(R.string.text_comments_subreddit))
+            );
 
 
-        Glide.with(mContext)
-                .asBitmap()
-                .load(imagePreviewUrl)
-                .into(new SimpleTarget<Bitmap>(imagePreviewWidth, imagePreviewHeight) {
+            String strBackGroundColor = "#FFFFFF";
+            SelectorHelper selectorHelper = new SelectorHelper(mContext);
+            selectorHelper.cardBottomLink(mArrayButton, strBackGroundColor,
+                    TextUtil.buildCommentDetailLink(record.getPermanentLink()), record.getSubRedditName());
 
-                    @Override
-                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                        super.onLoadFailed(errorDrawable);
-                        holder.mImageViewSubRedditSmall.setImageResource(R.drawable.logo);
+            final String finalTitle = record.getTitle();
+            Glide.with(mContext)
+                    .asBitmap()
+                    .load(record.getImagePreviewUrl())
+                    .into(new SimpleTarget<Bitmap>(record.getImagePreviewWidth(), record.getImagePreviewHeight()) {
+
+                        @Override
+                        public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                            super.onLoadFailed(errorDrawable);
+                            holder.mImageViewSubRedditSmall.setImageResource(R.drawable.logo);
 
 
-                    }
+                        }
 
-                    @Override
-                    public void onLoadStarted(@Nullable Drawable placeholder) {
-                        super.onLoadStarted(placeholder);
-                       holder.mImageViewSubRedditSmall.setImageResource(R.drawable.logo);
+                        @Override
+                        public void onLoadStarted(@Nullable Drawable placeholder) {
+                            super.onLoadStarted(placeholder);
+                            holder.mImageViewSubRedditSmall.setImageResource(R.drawable.logo);
 
-                    }
+                        }
 
-                    @Override
-                    public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
+                        @Override
+                        public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
                             ImageUtil.createRoundImage(mContext, holder.mImageViewSubRedditSmall, resource);
-                            holder.mImageViewSubRedditSmall.setContentDescription(title);
+                            holder.mImageViewSubRedditSmall.setContentDescription(finalTitle);
                             holder.mImageViewSubRedditSmall.setVisibility(View.VISIBLE);
 
+                        }
+                    });
 
-                    }
-                });
-
-
+        }
     }
 
     @Override

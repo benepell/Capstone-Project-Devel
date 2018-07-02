@@ -38,7 +38,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.Contract;
+import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubScriptionsFragment;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;

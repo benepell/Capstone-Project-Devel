@@ -46,10 +46,10 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.T3Operation;
+import info.pelleritoudacity.android.rcapstone.data.db.Operation.T3Operation;
 import info.pelleritoudacity.android.rcapstone.media.MediaSession;
-import info.pelleritoudacity.android.rcapstone.model.reddit.T3;
-import info.pelleritoudacity.android.rcapstone.rest.SubRedditExecute;
+import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
+import info.pelleritoudacity.android.rcapstone.data.rest.SubRedditExecute;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditFragment;
 import info.pelleritoudacity.android.rcapstone.ui.view.SubRedditTab;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;

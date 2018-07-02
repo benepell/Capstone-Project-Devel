@@ -48,8 +48,9 @@ import com.google.android.exoplayer2.ui.PlayerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.Contract;
+import info.pelleritoudacity.android.rcapstone.data.db.Record.RecordSubReddit;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
+import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapter;
 import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditDetailActivity;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
@@ -101,201 +102,121 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
         mCursor.moveToPosition(position);
 
-        int idReddit = mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T3dataEntry._ID));
+        RecordSubReddit recordList = new RecordSubReddit(mCursor);
+        RecordAdapter record = null;
+        if (recordList.getRecordList() != null) {
+            record = recordList.getRecordList().get(0);
 
-        String nameIdReddit = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_ID));
+        }
 
-        String nameReddit = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_NAME));
+        if (record != null) {
+            holder.mTextViewCreatedUtc.setText(DateUtil.getDiffTimeMinute(record.getCreatedUtc()));
 
-        String subRedditIdText = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_ID));
+            SubRedditHelper subRedditHelper = new SubRedditHelper(mContext);
 
-        String subReddit = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT));
+            int mediaType = 0;
 
-        String subRedditNamePrefix = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_NAME_PREFIXE));
+            mediaType = (Preference.isGeneralImages(mContext)) && (!TextUtils.isEmpty(record.getImagePreviewUrl())) && (!isSmallImage(mContext,record.getImagePreviewWidth(), record.getImagePreviewHeight()))
+                    ? Costant.MEDIA_IMAGE_FULL_TYPE : mediaType;
 
-        int subRedditSubscriptions = mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_SUBSCRIBERS));
+            mediaType = (Preference.isGeneralVideos(mContext)) && (!TextUtils.isEmpty(record.getVideoPreviewUrl()))
+                    ? Costant.MEDIA_VIDEO_PREVIEW_TYPE_MP4 : mediaType;
 
-        String title = TextUtil.textFromHtml(
-                mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_TITLE)));
+            mediaType = (Preference.isGeneralVideos(mContext)) && (!TextUtils.isEmpty(record.getVideoUrl()) && (!TextUtils.isEmpty(record.getVideoTypeOembed())) &&
+                    (record.getVideoTypeOembed().equals(Costant.BASE_TYPE_VIMEO)))
+                    ? Costant.MEDIA_VIDEO_TYPE_VIMEO : mediaType;
 
-        String domain = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_DOMAIN));
+            mediaType = (Preference.isGeneralVideos(mContext)) && (!TextUtils.isEmpty(record.getVideoFrameOembed()) &&
+                    (!TextUtils.isEmpty(record.getVideoTypeOembed())) && (record.getVideoTypeOembed().equals(Costant.BASE_TYPE_YOUTUBE)))
+                    ? Costant.MEDIA_VIDEO_TYPE_YOUTUBE : mediaType;
 
-        Long createdUtc = mCursor.getLong(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_CREATED_UTC));
+            switch (mediaType) {
 
-        int score = mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SCORE));
+                case Costant.MEDIA_IMAGE_FULL_TYPE:
 
-        int numComments = mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_NUM_COMMENTS));
+                    holder.mPlayerLayout.setVisibility(View.GONE);
 
-        String imagePreviewUrl = TextUtil.textFromHtml(
-                mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_URL)));
+                    subRedditHelper.imageReddit(holder.mImageViewSubReddit, holder.mImageViewSubRedditSmall,
+                           record.getImagePreviewUrl() ,record.getImagePreviewWidth(), record.getImagePreviewHeight(),record.getTitle());
 
-        int imagePreviewWidth = mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_WIDTH));
+                    holder.mImageViewSubReddit.setVisibility(View.VISIBLE);
+                    break;
 
-        int imagePreviewHeight = mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_HEIGHT));
+                case Costant.MEDIA_VIDEO_PREVIEW_TYPE_MP4:
 
-        String videoPreviewUrl = TextUtil.textFromHtml(
-                mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_URL)));
+                    if (mMediaPlayer != null) {
+                        mMediaPlayer.releasePlayer();
+                    }
 
-        int videoPreviewWidth = mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_WIDTH));
+                    mMediaPlayer = new MediaPlayer(mContext,
+                            mImaAdsLoader,
+                            holder.mPlayerView,
+                            holder.mExoProgressBar,
+                           record.getTitle(), holder.mTVErrorPlayer, holder.mImagePlay);
 
-        int videoPreviewHeight = mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_HEIGHT));
+                    subRedditHelper.loadVideoFirstFrame(mMediaPlayer, holder.mPlayerLayout, holder.mImagePlay, holder.mExoProgressBar,
+                           record.getVideoPreviewUrl(), record.getVideoPreviewWidth(), record.getVideoPreviewHeight());
 
+                    holder.mImageViewSubReddit.setVisibility(View.GONE);
+                    break;
 
-        String videoUrl = TextUtil.textFromHtml(
-                mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_URL)));
+                case Costant.MEDIA_VIDEO_TYPE_VIMEO:
 
-        String videoTypeOembed = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_TYPE));
+                    subRedditHelper.loadWebviewVimeo(holder.mWebViewVimeo,record.getVideoFrameOembed());
 
-        String videoFrameOembed = TextUtil.textFromHtml(
-                mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_HTML)));
+                    holder.mImageViewSubReddit.setVisibility(View.GONE);
+                    holder.mPlayerLayout.setVisibility(View.GONE);
+                    break;
 
-        String videoAuthorNameOembed = TextUtil.textFromHtml(
-                mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_AUTHOR_NAME)));
+                case Costant.MEDIA_VIDEO_TYPE_YOUTUBE:
 
-        int videoOembedWidth = mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_WIDTH));
+                    subRedditHelper.youtubeVideoFirstFrame(holder.mPlayerLayout, holder.mImagePlay, holder.mExoProgressBar,
+                           record.getThumbnailUrlOembed(),record.getThumbnailOembedWidth(),record.getThumbnailOembedHeight(),
+                           record.getVideoUrl(),record.getVideoOembedWidth(),record.getVideoOembedHeight());
 
-        int videoOembedHeight = mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_HEIGHT));
+                    holder.mImageViewSubReddit.setVisibility(View.GONE);
+                    break;
 
-        String thumbnailUrlOembed = TextUtil.textFromHtml(
-                mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_URL)));
+                default: {
+                }
+            }
 
-        int thumbnailOembedWidth = mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_WIDTH));
-
-        int thumbnailOembedHeight = mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_HEIGHT));
-
-        holder.mTextViewCreatedUtc.setText(DateUtil.getDiffTimeMinute(createdUtc));
-
-        SubRedditHelper subRedditHelper = new SubRedditHelper(mContext);
-
-        int mediaType = 0;
-
-        mediaType = (Preference.isGeneralImages(mContext)) && (!TextUtils.isEmpty(imagePreviewUrl)) && (!isSmallImage(mContext, imagePreviewWidth, imagePreviewHeight))
-                ? Costant.MEDIA_IMAGE_FULL_TYPE : mediaType;
-
-        mediaType = (Preference.isGeneralVideos(mContext)) && (!TextUtils.isEmpty(videoPreviewUrl))
-                ? Costant.MEDIA_VIDEO_PREVIEW_TYPE_MP4 : mediaType;
-
-        mediaType = (Preference.isGeneralVideos(mContext)) && (!TextUtils.isEmpty(videoUrl) && (!TextUtils.isEmpty(videoTypeOembed)) &&
-                (videoTypeOembed.equals(Costant.BASE_TYPE_VIMEO)))
-                ? Costant.MEDIA_VIDEO_TYPE_VIMEO : mediaType;
-
-        mediaType = (Preference.isGeneralVideos(mContext)) && (!TextUtils.isEmpty(videoFrameOembed) &&
-                (!TextUtils.isEmpty(videoTypeOembed)) && (videoTypeOembed.equals(Costant.BASE_TYPE_YOUTUBE)))
-                ? Costant.MEDIA_VIDEO_TYPE_YOUTUBE : mediaType;
-
-        switch (mediaType) {
-
-            case Costant.MEDIA_IMAGE_FULL_TYPE:
-
-                holder.mPlayerLayout.setVisibility(View.GONE);
-                holder.mWebViewYoutube.setVisibility(View.GONE);
+            if ((!TextUtils.isEmpty(record.getImagePreviewUrl())) &&
+                    (isSmallImage(mContext,record.getImagePreviewWidth(),record.getImagePreviewHeight()))) {
 
                 subRedditHelper.imageReddit(holder.mImageViewSubReddit, holder.mImageViewSubRedditSmall,
-                        imagePreviewUrl, imagePreviewWidth, imagePreviewHeight, title);
+                       record.getImagePreviewUrl(),record.getImagePreviewWidth(),record.getImagePreviewHeight(),record.getTitle());
 
-                holder.mImageViewSubReddit.setVisibility(View.VISIBLE);
-                break;
-
-            case Costant.MEDIA_VIDEO_PREVIEW_TYPE_MP4:
-
-                if  (mMediaPlayer != null) {
-                    mMediaPlayer.releasePlayer();
-                }
-
-                mMediaPlayer = new MediaPlayer(mContext,
-                        mImaAdsLoader,
-                        holder.mPlayerView,
-                        holder.mExoProgressBar,
-                        title, holder.mTVErrorPlayer, holder.mImagePlay);
-
-                subRedditHelper.loadVideoFirstFrame(mMediaPlayer, holder.mPlayerLayout, holder.mImagePlay, holder.mExoProgressBar,
-                        videoPreviewUrl, videoPreviewWidth, videoPreviewHeight);
-
-                holder.mImageViewSubReddit.setVisibility(View.GONE);
-                break;
-
-            case Costant.MEDIA_VIDEO_TYPE_VIMEO:
-
-                subRedditHelper.loadWebviewYoutube(holder.mWebViewYoutube, videoFrameOembed);
-
-                holder.mImageViewSubReddit.setVisibility(View.GONE);
-                holder.mPlayerLayout.setVisibility(View.GONE);
-                break;
-
-            case Costant.MEDIA_VIDEO_TYPE_YOUTUBE:
-
-                if (Preference.isYoutubePlayer(mContext)) {
-                    subRedditHelper.youtubeVideoFirstFrame(holder.mPlayerLayout, holder.mImagePlay, holder.mExoProgressBar,
-                            thumbnailUrlOembed, thumbnailOembedWidth, thumbnailOembedHeight,
-                            videoUrl, videoOembedWidth, videoOembedHeight);
-
-                    holder.mWebViewYoutube.setVisibility(View.GONE);
-                } else {
-                    subRedditHelper.loadWebviewYoutube(holder.mWebViewYoutube, videoFrameOembed);
+                if (Preference.isGeneralImages(mContext)) {
+                    holder.mImageViewSubRedditSmall.setVisibility(View.VISIBLE);
 
                 }
-
-                holder.mImageViewSubReddit.setVisibility(View.GONE);
-                break;
-
-            default: {
             }
+
+            holder.mTextViewTitle.setText(record.getTitle());
+
+            holder.mTextViewSubRedditNamePrefix.setText(record.getSubRedditNamePrefix());
+
+            holder.mTextViewDomain.setText(record.getDomain());
+
+            holder.mTextViewScore.setText(numberFormat(record.getScore()));
+
+            holder.mTextViewNumComments.setText(
+                    String.format("%s %s", String.valueOf(record.getNumComments()),
+                            mContext.getString(R.string.text_comments_subreddit))
+            );
+
+            SelectorHelper selectorHelper = new SelectorHelper(mContext);
+
+            selectorHelper.cardBottomLink(mArrayButton, null,
+                    TextUtil.buildCommentLink(record.getSubRedditNamePrefix(),record.getNameIdReddit()),record.getNameReddit());
+
+
+            holder.bind(holder.getAdapterPosition(),record.getSubReddit(),record.getNameIdReddit());
+
+
+            mListener.adapterPosition(holder.getAdapterPosition(),record.getSubReddit());
         }
-
-        if ((!TextUtils.isEmpty(imagePreviewUrl)) &&
-                (isSmallImage(mContext, imagePreviewWidth, imagePreviewHeight))) {
-
-            subRedditHelper.imageReddit(holder.mImageViewSubReddit, holder.mImageViewSubRedditSmall,
-                    imagePreviewUrl, imagePreviewWidth, imagePreviewHeight, title);
-
-            if(Preference.isGeneralImages(mContext)){
-                holder.mImageViewSubRedditSmall.setVisibility(View.VISIBLE);
-
-            }
-        }
-
-        holder.mTextViewTitle.setText(title);
-
-        holder.mTextViewSubRedditNamePrefix.setText(subRedditNamePrefix);
-
-        holder.mTextViewDomain.setText(domain);
-
-        holder.mTextViewScore.setText(numberFormat(score));
-
-        holder.mTextViewNumComments.setText(
-                String.format("%s %s", String.valueOf(numComments),
-                        mContext.getString(R.string.text_comments_subreddit))
-        );
-
-        SelectorHelper selectorHelper = new SelectorHelper(mContext);
-
-        selectorHelper.cardBottomLink(mArrayButton, null,
-                TextUtil.buildCommentLink(subRedditNamePrefix, nameIdReddit), nameReddit);
-
-
-        holder.bind(holder.getAdapterPosition(), subReddit, nameIdReddit);
-
-
-        mListener.adapterPosition(holder.getAdapterPosition(), subReddit);
     }
 
     @Override
@@ -388,8 +309,8 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         ImageButton mImageButtonOpenBrowser;
 
         @SuppressWarnings("unused")
-        @BindView(R.id.webview_youtube_subreddit)
-        WebView mWebViewYoutube;
+        @BindView(R.id.webview_vimeo_subreddit)
+        WebView mWebViewVimeo;
 
         private int mPosition;
         private String mSubRedditName;

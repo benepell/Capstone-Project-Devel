@@ -8,7 +8,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.3'
-        classpath 'com.google.gms:google-services:3.2.1'
+        classpath 'com.google.gms:google-services:4.0.1'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -32,9 +32,9 @@ allprojects {
 
         apacheCommonsVersion = "2.6"
 
-        exoPlayerVersion = "2.8.0"
+        exoPlayerVersion = "2.8.2"
 
-        glideVersion = "4.6.1"
+        glideVersion = "4.7.1"
         glideOkHttpIntegretionVersion = glideVersion + "@aar"
 
         retrofitVersion = "2.4.0"

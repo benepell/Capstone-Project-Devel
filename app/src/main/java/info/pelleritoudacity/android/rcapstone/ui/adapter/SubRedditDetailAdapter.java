@@ -10,22 +10,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.Contract;
+import info.pelleritoudacity.android.rcapstone.data.db.Record.RecordSubRedditDetail;
+import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapterDetail;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditDetailFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SubRedditDetailHelper;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
-import timber.log.Timber;
 
 public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetailAdapter.SubRedditDetailHolder> {
 
@@ -52,7 +50,6 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         return new SubRedditDetailHolder(view);
     }
 
-
     @Override
     public void onBindViewHolder(@NonNull SubRedditDetailHolder holder, int position) {
 
@@ -61,134 +58,54 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
 
         mCursor.moveToPosition(position);
 
-        String subReddit = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_SUBREDDIT));
+        RecordSubRedditDetail recordList = new RecordSubRedditDetail(mCursor);
+        RecordAdapterDetail record = null;
+        if (recordList.getRecordList() != null) {
+            record = recordList.getRecordList().get(0);
 
-        String strId = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_ID));
-
-        String childrenId = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_CHILDREN_ID));
-
-        String subRedditId = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_SUBREDDITID));
-
-        String subRedditName = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_NAME));
-
-        String ups = mCursor.getString(mCursor.getColumnIndex(
-                Contract.T1dataEntry.COLUMN_NAME_UPS));
-
-        String title = mCursor.getString(mCursor.getColumnIndex(
-                Contract.T1dataEntry.COLUMN_NAME_TITLE));
-
-        int voteDowns = mCursor.getInt(mCursor.getColumnIndex(
-                Contract.T1dataEntry.COLUMN_NAME_DOWNS));
-
-        String approvedAtUtc = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_APPROVEDATUTC));
-
-        String author = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_AUTHOR));
-
-        String stickied = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_STICKIED));
-
-        boolean isSaved = mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_SAVED)) != 0;
-
-        boolean isArchived = mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_ARCHIVED)) != 0;
-
-        boolean isNoFollow = mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_NOFOLLOW)) != 0;
-
-        boolean isSendReplies = mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_SENDREPLIES)) != 0;
-
-        boolean isCanGild = mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_CANGILD)) != 0;
-
-        boolean isModNote = mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_MODNOTE)) != 0;
-
-        boolean isHideScore = mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_HIDESCORE)) != 0;
-
-        String gilded = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_GILDED));
-
-        int created = mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_CREATED));
-
-        String score = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_SCORE));
-
-        String permanentLink = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_PERMALINK));
-
-        String subRedditType = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_SUBREDDITTYPE));
-
-        int createdUtc = mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_CREATEDUTC));
-
-        String body = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_BODY));
-
-        String bodyHtml = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_BODY_HTML));
-
-        String linkId = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_LINK_ID));
-
-        String parentId = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_PARENT_ID));
-
-        String url = mCursor.getString(
-                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_URL));
-
-        int depth = mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_DEPTH));
-
-        if (!TextUtils.isEmpty(author)) holder.mTextViewAuthorDetail.setText(author + ":");
-
-        holder.mTextViewPostedOnDetail.setText(DateUtil.getDiffTimeMinute(createdUtc));
-
-        holder.mTextViewPointsDetail.setText(score);
-
-        if (!TextUtils.isEmpty(title))
-            holder.mTextViewBodyDetail.setText(TextUtil.textFromHtml(title));
-
-        if (!TextUtils.isEmpty(body))
-            holder.mTextViewBodyDetail.setText(TextUtil.textFromHtml(body));
-
-        holder.mTextViewBodyDetail.setClickable(Preference.isGeneralLinks(mContext));
-
-        if (Preference.isGeneralLinks(mContext)) {
-            holder.mTextViewBodyDetail.setClickable(true);
-            holder.mTextViewBodyDetail.setAutoLinkMask(Linkify.ALL);
-        } else {
-            holder.mTextViewBodyDetail.setClickable(false);
         }
 
-        SubRedditDetailHelper subRedditDetailHelper = new SubRedditDetailHelper(mContext);
-        subRedditDetailHelper.initDepthIndicator(holder.mDepthIndicator, holder.mCardLinear, depth, true, false);
-        String strBackGroundColor = subRedditDetailHelper.initDepthIndicator(holder.mDepthSelect, holder.mSelectorContainer, depth, true, true);
+        if (record != null) {
 
-        SelectorHelper selectorHelper = new SelectorHelper(mContext);
-        selectorHelper.cardBottomLink(mArrayButton, strBackGroundColor,
-                TextUtil.buildCommentDetailLink(permanentLink), subRedditName);
+            if (!TextUtils.isEmpty(record.getAuthor()))
+                holder.mTextViewAuthorDetail.setText(record.getAuthor() + ":");
 
-        if (holder.getAdapterPosition() != mSelectorPosition) {
-            holder.mSelectorContainer.setVisibility(View.GONE);
+            holder.mTextViewPostedOnDetail.setText(DateUtil.getDiffTimeMinute(record.getCreated()));
 
-        } else {
-            holder.mSelectorContainer.setVisibility(View.VISIBLE);
+            holder.mTextViewPointsDetail.setText(record.getScore());
+
+            if (!TextUtils.isEmpty(record.getTitle()))
+                holder.mTextViewBodyDetail.setText(TextUtil.textFromHtml(record.getTitle()));
+
+            if (!TextUtils.isEmpty(record.getBody()))
+                holder.mTextViewBodyDetail.setText(TextUtil.textFromHtml(record.getBody()));
+
+            holder.mTextViewBodyDetail.setClickable(Preference.isGeneralLinks(mContext));
+
+            if (Preference.isGeneralLinks(mContext)) {
+                holder.mTextViewBodyDetail.setClickable(true);
+                holder.mTextViewBodyDetail.setAutoLinkMask(Linkify.ALL);
+            } else {
+                holder.mTextViewBodyDetail.setClickable(false);
+            }
+
+            SubRedditDetailHelper subRedditDetailHelper = new SubRedditDetailHelper(mContext);
+            subRedditDetailHelper.initDepthIndicator(holder.mDepthIndicator, holder.mCardLinear, record.getDepth(), true, false);
+            String strBackGroundColor = subRedditDetailHelper.initDepthIndicator(holder.mDepthSelect, holder.mSelectorContainer, record.getDepth(), true, true);
+
+            SelectorHelper selectorHelper = new SelectorHelper(mContext);
+            selectorHelper.cardBottomLink(mArrayButton, strBackGroundColor,
+                    TextUtil.buildCommentDetailLink(record.getPermanentLink()), record.getSubRedditName());
+
+            if (holder.getAdapterPosition() != mSelectorPosition) {
+                holder.mSelectorContainer.setVisibility(View.GONE);
+
+            } else {
+                holder.mSelectorContainer.setVisibility(View.VISIBLE);
+            }
+
+            mListener.adapterPosition(holder.getAdapterPosition(), record.getSubReddit());
         }
-
-
-        mListener.adapterPosition(holder.getAdapterPosition(), subReddit);
     }
 
     @Override
@@ -203,7 +120,6 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         @SuppressWarnings("unused")
         @BindView(R.id.tv_author)
         TextView mTextViewAuthorDetail;
-
 
         @SuppressWarnings("unused")
         @BindView(R.id.tv_postedOn)
@@ -261,7 +177,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
 
             mTextViewBodyDetail.setOnClickListener(view -> {
                 clickSelector(getAdapterPosition());
-                mListener.clickSelector(getAdapterPosition(),getItemCount());
+                mListener.clickSelector(getAdapterPosition(), getItemCount());
                 notifyDataSetChanged();
 
             });
@@ -273,7 +189,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         @Override
         public void onClick(View view) {
             clickSelector(getAdapterPosition());
-            mListener.clickSelector(getAdapterPosition(),getItemCount());
+            mListener.clickSelector(getAdapterPosition(), getItemCount());
             notifyDataSetChanged();
         }
 
@@ -304,6 +220,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
     public interface OnAdapterListener {
 
         void adapterPosition(int position, String category);
+
         void clickSelector(int position, int itemCount);
     }
 }

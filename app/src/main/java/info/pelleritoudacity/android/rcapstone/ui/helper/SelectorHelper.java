@@ -12,8 +12,8 @@ import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.DataUtils;
-import info.pelleritoudacity.android.rcapstone.rest.VoteExecute;
+import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
+import info.pelleritoudacity.android.rcapstone.data.rest.VoteExecute;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 
 public class SelectorHelper {

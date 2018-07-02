@@ -170,7 +170,7 @@
             <include layout="@layout/inc_player_container" />
 
             <WebView
-                android:id="@+id/webview_youtube_subreddit"
+                android:id="@+id/webview_vimeo_subreddit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone" />

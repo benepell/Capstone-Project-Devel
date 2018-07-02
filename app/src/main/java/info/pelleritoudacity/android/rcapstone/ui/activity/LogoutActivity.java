@@ -30,7 +30,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.rest.RevokeTokenExecute;
+import info.pelleritoudacity.android.rcapstone.data.rest.RevokeTokenExecute;
 import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;

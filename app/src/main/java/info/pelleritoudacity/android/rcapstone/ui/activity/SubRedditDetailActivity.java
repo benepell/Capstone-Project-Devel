@@ -6,16 +6,14 @@ import android.support.design.widget.Snackbar;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
-import android.view.View;
-import android.widget.ScrollView;
 
 import java.util.List;
 
 import butterknife.BindView;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.T1Operation;
-import info.pelleritoudacity.android.rcapstone.model.reddit.T1;
-import info.pelleritoudacity.android.rcapstone.rest.SubRedditDetailExecute;
+import info.pelleritoudacity.android.rcapstone.data.db.Operation.T1Operation;
+import info.pelleritoudacity.android.rcapstone.data.model.reddit.T1;
+import info.pelleritoudacity.android.rcapstone.data.rest.SubRedditDetailExecute;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditDetailFragment;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditSelectedFragment;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;

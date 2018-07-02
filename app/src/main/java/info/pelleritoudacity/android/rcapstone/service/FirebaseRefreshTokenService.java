@@ -29,7 +29,7 @@ package info.pelleritoudacity.android.rcapstone.service;
 import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
 
-import info.pelleritoudacity.android.rcapstone.rest.RefreshTokenExecute;
+import info.pelleritoudacity.android.rcapstone.data.rest.RefreshTokenExecute;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 
 public class FirebaseRefreshTokenService extends JobService {
