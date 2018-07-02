@@ -26,6 +26,7 @@ import info.pelleritoudacity.android.rcapstone.data.db.Record.RecordSubRedditSel
 import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapterSelected;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditSelectedFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
+import info.pelleritoudacity.android.rcapstone.ui.helper.SubRedditSelectedHelper;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtil;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
@@ -95,34 +96,10 @@ public class SubRedditSelectedAdapter extends RecyclerView.Adapter<SubRedditSele
             selectorHelper.cardBottomLink(mArrayButton, strBackGroundColor,
                     TextUtil.buildCommentDetailLink(record.getPermanentLink()), record.getSubRedditName());
 
-            final String finalTitle = record.getTitle();
-            Glide.with(mContext)
-                    .asBitmap()
-                    .load(TextUtil.textFromHtml(record.getImagePreviewUrl()))
-                    .into(new SimpleTarget<Bitmap>(record.getImagePreviewWidth(), record.getImagePreviewHeight()) {
+            SubRedditSelectedHelper helper = new SubRedditSelectedHelper(mContext);
 
-                        @Override
-                        public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                            super.onLoadFailed(errorDrawable);
-                            holder.mImageViewSubRedditSmall.setImageResource(R.drawable.logo);
-
-                            }
-
-                        @Override
-                        public void onLoadStarted(@Nullable Drawable placeholder) {
-                            super.onLoadStarted(placeholder);
-                            holder.mImageViewSubRedditSmall.setImageResource(R.drawable.logo);
-
-                        }
-
-                        @Override
-                        public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
-                            ImageUtil.createRoundImage(mContext, holder.mImageViewSubRedditSmall, resource);
-                            holder.mImageViewSubRedditSmall.setContentDescription(finalTitle);
-                            holder.mImageViewSubRedditSmall.setVisibility(View.VISIBLE);
-
-                        }
-                    });
+            helper.imageReddit(holder.mImageViewSubRedditSmall, record.getImagePreviewUrl(),
+                    record.getTitle(),record.getImagePreviewWidth(),record.getImagePreviewHeight());
 
         }
     }
