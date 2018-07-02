@@ -30,6 +30,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import info.pelleritoudacity.android.rcapstone.data.db.util.LeaklessCursorFactory;
+
 class DbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "rcapstone.db";

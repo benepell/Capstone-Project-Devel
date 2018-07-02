@@ -1,4 +1,4 @@
-package info.pelleritoudacity.android.rcapstone.data.db;
+package info.pelleritoudacity.android.rcapstone.data.db.util;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteCursorDriver;

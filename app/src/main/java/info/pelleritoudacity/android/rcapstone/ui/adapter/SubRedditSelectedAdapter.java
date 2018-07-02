@@ -106,8 +106,7 @@ public class SubRedditSelectedAdapter extends RecyclerView.Adapter<SubRedditSele
                             super.onLoadFailed(errorDrawable);
                             holder.mImageViewSubRedditSmall.setImageResource(R.drawable.logo);
 
-
-                        }
+                            }
 
                         @Override
                         public void onLoadStarted(@Nullable Drawable placeholder) {
