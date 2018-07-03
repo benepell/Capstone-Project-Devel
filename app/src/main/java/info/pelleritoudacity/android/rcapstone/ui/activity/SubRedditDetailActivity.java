@@ -130,7 +130,11 @@ public class SubRedditDetailActivity extends BaseActivity
 
     @Override
     public void onRefresh() {
-        if (mContext != null) {
+        if (!NetworkUtil.isOnline(mContext)) {
+            mSwipeRefreshLayout.setRefreshing(false);
+            Snackbar.make(findViewById(R.id.subreddit_detail_container), R.string.error_refresh_offline, Snackbar.LENGTH_LONG).show();
+
+        } else if (mContext != null) {
             initRest(Preference.getLastCategory(mContext), Preference.getLastComment(mContext),
                     PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext));
         }

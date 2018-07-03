@@ -40,6 +40,7 @@ import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.google.android.exoplayer2.util.Util;
 
@@ -228,7 +229,12 @@ public class SubRedditActivity extends BaseActivity
 
     @Override
     public void onRefresh() {
-        if (getApplicationContext() != null) {
+
+        if (!NetworkUtil.isOnline(mContext)) {
+            mRefreshLayout.setRefreshing(false);
+            Snackbar.make(findViewById(R.id.subreddit_container), R.string.error_refresh_offline, Snackbar.LENGTH_LONG).show();
+
+        } else if (getApplicationContext() != null) {
             isRefresh = true;
             initRest(Preference.getLastCategory(getApplicationContext()), mRedditTarget, NetworkUtil.isOnline(mContext));
 

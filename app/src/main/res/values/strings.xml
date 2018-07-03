@@ -9,6 +9,7 @@
     <string name="pref_insert_prefs" translatable="false">info.pelleritoudacity.android.rcapstone.pref.insert.prefs</string>
 
     <string name="error_state_critical">Unable to start &app_name;\n cause: %1$s\n Please, start factory data reset in menu settings or restart app. </string>
+    <string name="error_refresh_offline">Data not Working!, refresh is not available.  </string>
 
     <string name="pref_subreddit_key" translatable="false">info.pelleritoudacity.android.rcapstone.pref.subreddit.key</string>
     <string name="pref_subreddit_sort" translatable="false">info.pelleritoudacity.android.rcapstone.pref.subreddit.sort</string>
