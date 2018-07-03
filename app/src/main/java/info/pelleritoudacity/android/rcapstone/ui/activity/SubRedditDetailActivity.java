@@ -54,9 +54,9 @@ public class SubRedditDetailActivity extends BaseActivity
             mCategory = intent.getStringExtra(Costant.EXTRA_SUBREDDIT_DETAIL_CATEGORY);
 
             if (intent.getBooleanExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_DETAIL_REFRESH, false)) {
+                isRefresh = true;
                 mStrId = Preference.getLastComment(mContext);
                 mCategory = Preference.getLastCategory(mContext);
-                isRefresh = true;
             }
 
         }
@@ -68,7 +68,7 @@ public class SubRedditDetailActivity extends BaseActivity
 
             } else {
                 Preference.setLastComment(mContext, mStrId);
-                initRest(mCategory, mStrId, PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext),false);
+                initRest(mCategory, mStrId, PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext));
 
             }
 
@@ -82,14 +82,15 @@ public class SubRedditDetailActivity extends BaseActivity
         if ((listenerData != null) && (mStrId != null)) {
             T1Operation data = new T1Operation(getApplicationContext(), listenerData);
             if (data.saveData(mStrId)) {
-                startFragment(mStrId,isRefresh);
+                startFragment(mStrId);
+                mSwipeRefreshLayout.setRefreshing(false);
             } else {
                 Snackbar.make(findViewById(R.id.fragment_subreddit_detail_container), R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
             }
         }
     }
 
-    private void startFragment(String category, boolean refreshing) {
+    private void startFragment(String category) {
         if (!getSupportFragmentManager().isStateSaved()) {
             SubRedditSelectedFragment subRedditSelectedFragment = SubRedditSelectedFragment.newInstance(category);
             getSupportFragmentManager().beginTransaction()
@@ -98,14 +99,9 @@ public class SubRedditDetailActivity extends BaseActivity
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_subreddit_detail_container, fragment).commit();
         }
-
-        if(refreshing){
-            mSwipeRefreshLayout.setRefreshing(false);
-        }
-
     }
 
-    private void initRest(String category, String strId, String tokenLogin, boolean stateNetworkOnline,boolean refreshing) {
+    private void initRest(String category, String strId, String tokenLogin, boolean stateNetworkOnline) {
         if (!TextUtils.isEmpty(strId)) {
             if (stateNetworkOnline) {
                 new SubRedditDetailExecute(mContext,
@@ -113,7 +109,7 @@ public class SubRedditDetailActivity extends BaseActivity
                         category,
                         strId).getData(this);
             } else {
-                startFragment(strId,refreshing);
+                startFragment(strId);
 
             }
         }
@@ -136,8 +132,7 @@ public class SubRedditDetailActivity extends BaseActivity
     public void onRefresh() {
         if (mContext != null) {
             initRest(Preference.getLastCategory(mContext), Preference.getLastComment(mContext),
-                    PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext),true);
-
+                    PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext));
         }
     }
 }

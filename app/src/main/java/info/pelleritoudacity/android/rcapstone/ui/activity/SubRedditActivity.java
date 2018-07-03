@@ -140,8 +140,10 @@ public class SubRedditActivity extends BaseActivity
         if (listenerData != null) {
             T3Operation data = new T3Operation(getApplicationContext(), listenerData);
             if (data.saveData(mRedditCategory, mRedditTarget)) {
-                startFragment(mRedditCategory, mRedditTarget, isRefresh);
+                startFragment(mRedditCategory, mRedditTarget);
+                mRefreshLayout.setRefreshing(false);
             } else {
+                // todo comment not available implement function
                 Snackbar.make(findViewById(R.id.subreddit_container), R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
             }
         }
@@ -227,6 +229,7 @@ public class SubRedditActivity extends BaseActivity
     @Override
     public void onRefresh() {
         if (getApplicationContext() != null) {
+            isRefresh = true;
             initRest(Preference.getLastCategory(getApplicationContext()), mRedditTarget, NetworkUtil.isOnline(mContext));
 
         }
@@ -248,16 +251,12 @@ public class SubRedditActivity extends BaseActivity
 
     }
 
-    private void startFragment(String link, String target, boolean refreshing) {
+    private void startFragment(String link, String target) {
 
         if (!getSupportFragmentManager().isStateSaved()) {
             SubRedditFragment subRedditFragment = SubRedditFragment.newInstance(link, target);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_subreddit_container, subRedditFragment).commit();
-        }
-
-        if (refreshing) {
-            mRefreshLayout.setRefreshing(false);
         }
 
     }
@@ -267,7 +266,8 @@ public class SubRedditActivity extends BaseActivity
             if (stateNetworkOnline) {
                 new SubRedditExecute(mContext, link).getData(this);
             } else {
-                startFragment(link, target, isRefresh);
+                startFragment(link, target);
+                mRefreshLayout.setRefreshing(false);
 
             }
 

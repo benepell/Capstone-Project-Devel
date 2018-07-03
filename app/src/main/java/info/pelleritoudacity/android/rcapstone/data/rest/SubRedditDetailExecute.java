@@ -18,7 +18,7 @@ public class SubRedditDetailExecute {
     private final SubRedditDetailManager subRedditDetailManager;
     private List<T1> mReddit;
 
-    public SubRedditDetailExecute(Context context, String code, String subRedditName, String nameRedditId ) {
+    public SubRedditDetailExecute(Context context, String code, String subRedditName, String nameRedditId) {
         subRedditDetailManager = SubRedditDetailManager.getInstance(context,code,subRedditName,nameRedditId,
                 PermissionUtil.isLogged(context), Preference.getSubredditSort(context));
     }
