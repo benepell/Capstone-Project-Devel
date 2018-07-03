@@ -29,7 +29,6 @@
             android:title="@string/title_menu_managesubs" />
         <item
             android:id="@+id/nav_mode_refresh"
-            android:enabled="false"
             android:title="@string/title_menu_mode_refresh" />
         <item
             android:id="@+id/nav_mode_settings"

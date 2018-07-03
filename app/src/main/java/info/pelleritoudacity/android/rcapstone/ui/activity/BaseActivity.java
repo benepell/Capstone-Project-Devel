@@ -48,6 +48,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
@@ -73,7 +74,6 @@ public class BaseActivity extends AppCompatActivity
     private int mLayoutResource;
     private View mNavHeaderView;
     private Unbinder unbinder;
-
 
     public ArrayList<String> getTabArrayList() {
         return mTabArrayList;
@@ -252,6 +252,9 @@ public class BaseActivity extends AppCompatActivity
                 case R.id.menu_action_logout:
                     startActivity(new Intent(this, LogoutActivity.class));
                     return true;
+                case R.id.menu_action_refresh:
+                    menuClickRefresh(getLayoutResource());
+                    return true;
                 case R.id.menu_action_settings:
                     startActivity(new Intent(this, SettingsActivity.class));
                     return true;
@@ -394,6 +397,10 @@ public class BaseActivity extends AppCompatActivity
                 item.setEnabled(true);
                 startActivity(new Intent(this, SubManageActivity.class));
                 break;
+            case R.id.nav_mode_refresh:
+                menuClickRefresh(getLayoutResource());
+                item.setEnabled(true);
+                break;
 
             case R.id.nav_mode_settings:
                 Preference.setTypeMode(getApplicationContext(), Costant.NAV_MODE_SETTINGS);
@@ -405,6 +412,25 @@ public class BaseActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+
+    }
+
+    private void menuClickRefresh(int layoutResource) {
+        switch (layoutResource) {
+            case R.layout.activity_subreddit:
+                Intent intentSubreddit = new Intent(getApplicationContext(),SubRedditActivity.class);
+                intentSubreddit.putExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_REFRESH,true);
+                getApplicationContext().startActivity(intentSubreddit);
+                break;
+
+            case R.layout.activity_sub_reddit_detail:
+                Intent intentSubredditDetail = new Intent(getApplicationContext(),SubRedditDetailActivity.class);
+                intentSubredditDetail.putExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_DETAIL_REFRESH,true);
+                getApplicationContext().startActivity(intentSubredditDetail);
+                break;
+
+                default:
+        }
 
     }
 

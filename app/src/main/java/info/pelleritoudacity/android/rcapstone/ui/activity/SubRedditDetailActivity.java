@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 
 import java.util.List;
@@ -19,17 +20,24 @@ import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditSelectedFrag
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
 
 public class SubRedditDetailActivity extends BaseActivity
-        implements SubRedditDetailExecute.RestSubReddit,SubRedditDetailFragment.OnFragmentInteractionListener {
+        implements SubRedditDetailExecute.RestSubReddit,
+        SubRedditDetailFragment.OnFragmentInteractionListener, SwipeRefreshLayout.OnRefreshListener {
 
     @SuppressWarnings("unused")
     @BindView(R.id.nested_scrollview_detail)
     NestedScrollView mNestedScrollView;
 
+    @SuppressWarnings("unused")
+    @BindView(R.id.swipe_refresh_subreddit_detail)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+
     private String mStrId = null;
     private String mCategory;
     private Context mContext;
+    private boolean isRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +47,33 @@ public class SubRedditDetailActivity extends BaseActivity
         mContext = getApplicationContext();
         Intent intent = getIntent();
 
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
         if (intent != null) {
             mStrId = intent.getStringExtra(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID);
             mCategory = intent.getStringExtra(Costant.EXTRA_SUBREDDIT_DETAIL_CATEGORY);
+
+            if (intent.getBooleanExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_DETAIL_REFRESH, false)) {
+                mStrId = Preference.getLastComment(mContext);
+                mCategory = Preference.getLastCategory(mContext);
+                isRefresh = true;
+            }
+
         }
 
-        initRest(mCategory,mStrId, PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext));
+        if (mContext != null) {
+            if (isRefresh) {
+                mSwipeRefreshLayout.setRefreshing(true);
+                onRefresh();
+
+            } else {
+                Preference.setLastComment(mContext, mStrId);
+                initRest(mCategory, mStrId, PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext),false);
+
+            }
+
+
+        }
 
     }
 
@@ -53,14 +82,14 @@ public class SubRedditDetailActivity extends BaseActivity
         if ((listenerData != null) && (mStrId != null)) {
             T1Operation data = new T1Operation(getApplicationContext(), listenerData);
             if (data.saveData(mStrId)) {
-                startFragment(mStrId);
+                startFragment(mStrId,isRefresh);
             } else {
                 Snackbar.make(findViewById(R.id.fragment_subreddit_detail_container), R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
             }
         }
     }
 
-    private void startFragment(String category) {
+    private void startFragment(String category, boolean refreshing) {
         if (!getSupportFragmentManager().isStateSaved()) {
             SubRedditSelectedFragment subRedditSelectedFragment = SubRedditSelectedFragment.newInstance(category);
             getSupportFragmentManager().beginTransaction()
@@ -69,9 +98,14 @@ public class SubRedditDetailActivity extends BaseActivity
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_subreddit_detail_container, fragment).commit();
         }
+
+        if(refreshing){
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
+
     }
 
-    private void initRest(String category,String strId,String tokenLogin, boolean stateNetworkOnline) {
+    private void initRest(String category, String strId, String tokenLogin, boolean stateNetworkOnline,boolean refreshing) {
         if (!TextUtils.isEmpty(strId)) {
             if (stateNetworkOnline) {
                 new SubRedditDetailExecute(mContext,
@@ -79,7 +113,7 @@ public class SubRedditDetailActivity extends BaseActivity
                         category,
                         strId).getData(this);
             } else {
-                startFragment(strId);
+                startFragment(strId,refreshing);
 
             }
         }
@@ -93,8 +127,17 @@ public class SubRedditDetailActivity extends BaseActivity
 
     @Override
     public void clickSelector(int position, int itemCount) {
-        if(position == itemCount-1){
-            mNestedScrollView.smoothScrollBy(0,mNestedScrollView.getBottom());
+        if (position == itemCount - 1) {
+            mNestedScrollView.smoothScrollBy(0, mNestedScrollView.getBottom());
+        }
+    }
+
+    @Override
+    public void onRefresh() {
+        if (mContext != null) {
+            initRest(Preference.getLastCategory(mContext), Preference.getLastComment(mContext),
+                    PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext),true);
+
         }
     }
 }

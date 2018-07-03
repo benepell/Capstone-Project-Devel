@@ -97,6 +97,9 @@ public interface Costant {
     String EXTRA_FRAGMENT_DETAIL_STATE = "info.pelleritoudacity.android.rcapstone.extra.fragment.detail.state";
     String EXTRA_FRAGMENT_SELECTED_STATE = "info.pelleritoudacity.android.rcapstone.extra.fragment.selected.state";
 
+    String EXTRA_ACTIVITY_SUBREDDIT_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.subreddit.refresh";
+    String EXTRA_ACTIVITY_SUBREDDIT_DETAIL_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.subreddit.detail.refresh";
+
     String EXTRA_SUBREDDIT_SHARE_URL_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.subreddit.share.url.fullscreen";
     String EXTRA_SUBREDDIT_SHARE_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.subreddit.share.fullscreen";
     String EXTRA_SUBREDDIT_EXIT_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.subreddit.exit.fullscreen";
@@ -220,6 +223,7 @@ public interface Costant {
     int PREFERENCE_LOGIN_OVER18 = R.string.pref_login_over18;
     int PREFERENCE_TAB_HISTORY = R.string.pref_tab_history;
     int PREFERENCE_LAST_CATEGORY = R.string.pref_last_category;
+    int PREFERENCE_LAST_COMMENT = R.string.pref_last_comment;
     int PREFERENCE_TITLE_SYNC_FREQUENCY = R.string.pref_title_sync_frequency;
     int PREFERENCE_SESSION_USERNAME = R.string.pref_session_username;
     int PREFERENCE_RESTORE_MANAGE = R.string.pref_restore_manage;

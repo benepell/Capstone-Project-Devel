@@ -8,19 +8,25 @@
 
     <include layout="@layout/app_tab_layout" />
 
-    <android.support.v4.widget.NestedScrollView
-        style="@style/ScrollBarStyle"
-        android:id="@+id/nested_scrollview_subreddit"
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipe_refresh_subreddit"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:isScrollContainer="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <FrameLayout
-            android:id="@+id/fragment_subreddit_container"
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/nested_scrollview_subreddit"
+            style="@style/ScrollBarStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </android.support.v4.widget.NestedScrollView>
+            android:layout_height="wrap_content">
 
-    <!-- <include layout="@layout/inc_swipe" />
--->
+            <FrameLayout
+                android:id="@+id/fragment_subreddit_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </android.support.v4.widget.NestedScrollView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 </android.support.design.widget.CoordinatorLayout>

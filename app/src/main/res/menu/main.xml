@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/menu_action_login"
@@ -189,7 +190,8 @@
         android:id="@+id/menu_action_refresh"
         android:enabled="true"
         android:title="@string/title_menu_mode_refresh"
-        android:visible="true" />
+        android:visible="true"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/menu_action_settings"

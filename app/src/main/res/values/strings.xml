@@ -15,7 +15,9 @@
     <string name="pref_time_sort" translatable="false">info.pelleritoudacity.android.rcapstone.pref.time.sort</string>
 
     <string name="pref_type_mode" translatable="false">pref.type.mode</string>
-    <string name="pref_last_category" translatable="false">pref.last.category</string>
+    <string name="pref_last_category" translatable="false">info.pelleritoudacity.android.rcapstone.pref.last.category</string>
+
+    <string name="pref_last_comment" translatable="false">info.pelleritoudacity.android.rcapstone.pref.last.comment</string>
 
     <string name="pref_login_start" translatable="false">info.pelleritoudacity.android.rcapstone.pref.login.start</string>
     <string name="pref_login_name" translatable="false">info.pelleritoudacity.android.rcapstone.pref.login.name</string>
