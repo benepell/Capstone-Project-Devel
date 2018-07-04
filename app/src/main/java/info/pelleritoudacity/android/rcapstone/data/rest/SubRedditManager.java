@@ -59,8 +59,7 @@ public class SubRedditManager {
         String strTimeSort = Preference.getTimeSort(mContext);
 
         mFieldMap = new HashMap<>();
-        mFieldMap.put("limit", String.valueOf(Preference.getItemPage(mContext)));
-        Timber.d("LIMITX %s",Preference.getItemPage(mContext));
+        mFieldMap.put("limit", String.valueOf(Preference.getGeneralSettingsItemPage(mContext)));
         mFieldMap.put("showedits", "false");
         mFieldMap.put("showmore", "true");
         if(!TextUtils.isEmpty(strTimeSort)){

@@ -28,7 +28,7 @@ public class SubRedditDetailHelper {
                 viewIndicator.setVisibility(View.VISIBLE);
                 if (enablePadding) {
                     int padding = Costant.LEVEL_DEPTH_PADDING;
-                    int limit = Preference.getDepthPage(mContext);
+                    int limit = Preference.getGeneralSettingsDepthPage(mContext);
                     if (limit < 5) {
                         padding *= 2;
                     } else if (limit > 10) {

@@ -527,7 +527,7 @@ public class T3Operation {
             }
 
             if (!TextUtils.isEmpty(timestamp)) {
-                int timeUpdateDatabase = Preference.getSyncFrequency(mContext);
+                int timeUpdateDatabase = Preference.getGeneralSettingsSyncFrequency(mContext);
                 isDeleted = getSecondsTimeStamp(timestamp) > timeUpdateDatabase;
             }
 

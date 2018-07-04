@@ -286,15 +286,15 @@ public class Preference {
         PrefManager.clearGeneralSettings(context);
     }
 
-    public static int getSyncFrequency(Context context) {
+    public static int getGeneralSettingsSyncFrequency(Context context) {
         return PrefManager.getIntGeneralSettings(context, Costant.PREFERENCE_SYNC_FREQUENCY);
     }
 
-    public static int getItemPage(Context context) {
+    public static int getGeneralSettingsItemPage(Context context) {
         return PrefManager.getIntGeneralSettings(context, Costant.PREFERENCE_ITEM_PAGE);
     }
 
-    public static int getDepthPage(Context context) {
+    public static int getGeneralSettingsDepthPage(Context context) {
         return PrefManager.getIntGeneralSettings(context, Costant.PREFERENCE_DEPTH_PAGE);
     }
 

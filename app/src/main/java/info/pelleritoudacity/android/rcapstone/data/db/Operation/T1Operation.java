@@ -208,7 +208,7 @@ public class T1Operation {
 
     private void recursiveReplies(Replies r, int childrenId) {
         Replies replies = getReplies(r, childrenId);
-        int max = Preference.getDepthPage(mContext);
+        int max = Preference.getGeneralSettingsDepthPage(mContext);
         while ((replies != null) || (max > 0)) {
             replies = getReplies(replies, childrenId);
             max--;
@@ -364,7 +364,7 @@ public class T1Operation {
             }
 
             if (!TextUtils.isEmpty(timestamp)) {
-                int timeUpdateDatabase = Preference.getSyncFrequency(mContext);
+                int timeUpdateDatabase = Preference.getGeneralSettingsSyncFrequency(mContext);
                 isDeleted = getSecondsTimeStamp(timestamp) > timeUpdateDatabase;
             }
 
