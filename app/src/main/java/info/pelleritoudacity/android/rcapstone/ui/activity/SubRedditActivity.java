@@ -127,23 +127,29 @@ public class SubRedditActivity extends BaseActivity
 
                 }
 
-            } else if ((getIntent() != null) &&
-                    (!TextUtils.isEmpty(getIntent().getStringExtra(Costant.EXTRA_SUBREDDIT_TARGET)))) {
+            }
 
-                mRedditCategory = getIntent().getStringExtra(Costant.EXTRA_SUBREDDIT_CATEGORY);
-                mRedditTarget = getIntent().getStringExtra(Costant.EXTRA_SUBREDDIT_TARGET);
+            if (TextUtils.isEmpty(mRedditTarget)) {
 
-            } else {
+                if ((getIntent() != null) &&
+                        (!TextUtils.isEmpty(getIntent().getStringExtra(Costant.EXTRA_SUBREDDIT_TARGET)))) {
 
-                if (!TextUtils.isEmpty(Preference.getLastCategory(mContext))) {
-                    mRedditCategory = Preference.getLastCategory(mContext);
-                    mRedditTarget = Preference.getLastTarget(mContext);
+                    mRedditCategory = getIntent().getStringExtra(Costant.EXTRA_SUBREDDIT_CATEGORY);
+                    mRedditTarget = getIntent().getStringExtra(Costant.EXTRA_SUBREDDIT_TARGET);
 
                 } else {
-                    if (getTabArrayList() != null) {
-                        mRedditCategory = getTabArrayList().get(0);
-                        mRedditTarget = null;
+
+                    if (!TextUtils.isEmpty(Preference.getLastCategory(mContext))) {
+                        mRedditCategory = Preference.getLastCategory(mContext);
+                        mRedditTarget = Preference.getLastTarget(mContext);
+
+                    } else {
+                        if (getTabArrayList() != null) {
+                            mRedditCategory = getTabArrayList().get(0);
+                            mRedditTarget = null;
+                        }
                     }
+
                 }
 
             }
