@@ -32,11 +32,14 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
+import butterknife.BindView;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubScriptionsFragment;
@@ -45,10 +48,20 @@ import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import timber.log.Timber;
 
-public class SubManageActivity extends BaseActivity {
+public class SubManageActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
+
+    @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
+    @BindView(R.id.submanage_container)
+    public CoordinatorLayout mContainer;
+
+    @SuppressWarnings("unused")
+    @BindView(R.id.swipe_refresh_submanage)
+    public SwipeRefreshLayout mRefreshLayout;
+
 
     private static WeakReference<Context> sWeakContext;
     private static WeakReference<android.support.v4.app.FragmentManager> sWeakFragmentManager;
+    private static WeakReference<SwipeRefreshLayout> sWeakSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +70,12 @@ public class SubManageActivity extends BaseActivity {
 
         sWeakContext = new WeakReference<>(getApplicationContext());
         sWeakFragmentManager = new WeakReference<>(getSupportFragmentManager());
+        sWeakSwipeRefreshLayout = new WeakReference<>(mRefreshLayout);
 
-        if (Preference.isInsertPrefs(getApplicationContext())) {
-            new RemovedItemSubRedditAsyncTask().execute();
-        } else {
-            Toast.makeText(getApplicationContext(), getText(R.string.text_manage_nolinks), Toast.LENGTH_LONG).show();
-        }
+        mRefreshLayout.setOnRefreshListener(this);
+
+        mRefreshLayout.setRefreshing(true);
+        onRefresh();
 
     }
 
@@ -77,11 +90,24 @@ public class SubManageActivity extends BaseActivity {
             SubScriptionsFragment subScriptionsFragment = SubScriptionsFragment.newInstance();
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_list_container, subScriptionsFragment).commit();
+
+            mRefreshLayout.setRefreshing(false);
+        }
+
+    }
+
+
+    @Override
+    public void onRefresh() {
+        if (Preference.isInsertPrefs(getApplicationContext())) {
+            new SubManageAsyncTask().execute();
+        } else {
+            Snackbar.make(mContainer, R.string.text_manage_nolinks, Snackbar.LENGTH_LONG).show();
         }
     }
 
 
-    private static class RemovedItemSubRedditAsyncTask extends AsyncTask<Void, Void, Cursor> {
+    private static class SubManageAsyncTask extends AsyncTask<Void, Void, Cursor> {
 
         @Override
         protected Cursor doInBackground(Void... voids) {
@@ -134,6 +160,8 @@ public class SubManageActivity extends BaseActivity {
                                     R.anim.layout_animation_from_right)
                             .replace(R.id.fragment_list_container, subScriptionsFragment).commit();
 
+                    sWeakSwipeRefreshLayout.get().setRefreshing(false);
+
                 }
             } finally {
                 if ((cursor != null) && (!cursor.isClosed())) {
@@ -148,5 +176,4 @@ public class SubManageActivity extends BaseActivity {
         context.startActivity(new Intent(context, SubRedditActivity.class).putExtra(Costant.EXTRA_RESTORE_MANAGE, Costant.RESTORE_MANAGE_REDIRECT)
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_NO_ANIMATION));
     }
-
 }

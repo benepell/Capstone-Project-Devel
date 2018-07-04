@@ -85,7 +85,6 @@ public class SubRedditActivity extends BaseActivity
     private Context mContext;
     private String mRedditCategory;
     private String mRedditTarget;
-    private boolean isRefresh;
     public static MediaSessionCompat sMediaSessionCompat = null;
     private SubRedditTab mSubRedditTab;
 
@@ -237,7 +236,10 @@ public class SubRedditActivity extends BaseActivity
             T3Operation data = new T3Operation(getApplicationContext(), listenerData);
             if (data.saveData(mRedditCategory, mRedditTarget)) {
                 startFragment(mRedditCategory, mRedditTarget);
-                mRefreshLayout.setRefreshing(false);
+               if(mRefreshLayout!=null){
+                   mRefreshLayout.setRefreshing(false);
+
+               }
             } else {
                 // todo comment not available implement function
                 Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
@@ -333,7 +335,6 @@ public class SubRedditActivity extends BaseActivity
             Snackbar.make(mContainer, R.string.error_refresh_offline, Snackbar.LENGTH_LONG).show();
 
         } else if (getApplicationContext() != null) {
-            isRefresh = true;
             initRest(Preference.getLastCategory(getApplicationContext()), Preference.getLastTarget(mContext), NetworkUtil.isOnline(mContext));
         }
 

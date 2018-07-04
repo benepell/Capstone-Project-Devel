@@ -42,7 +42,6 @@ public class SubRedditDetailActivity extends BaseActivity
     private String mStrId = null;
     private String mCategory;
     private Context mContext;
-    private boolean isRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +58,6 @@ public class SubRedditDetailActivity extends BaseActivity
             mCategory = intent.getStringExtra(Costant.EXTRA_SUBREDDIT_DETAIL_CATEGORY);
 
             if (intent.getBooleanExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_DETAIL_REFRESH, false)) {
-                isRefresh = true;
                 mStrId = Preference.getLastComment(mContext);
                 mCategory = Preference.getLastCategory(mContext);
             }
