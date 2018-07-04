@@ -37,13 +37,13 @@ import com.google.android.exoplayer2.util.Util;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 
-public class SettingsFragment extends PreferenceFragmentCompat {
+public class SettingsFragment extends PreferenceFragmentCompat  {
 
     private String mAppVersionName;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        addPreferencesFromResource(R.xml.pref_general_settings);
+        setPreferencesFromResource(R.xml.pref_general_settings,rootKey);
 
         prefMail();
         prefVersion();
