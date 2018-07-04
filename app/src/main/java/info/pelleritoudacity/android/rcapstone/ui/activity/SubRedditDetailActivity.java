@@ -67,16 +67,11 @@ public class SubRedditDetailActivity extends BaseActivity
         }
 
         if (mContext != null) {
-            if (isRefresh) {
-                mSwipeRefreshLayout.setRefreshing(true);
-                onRefresh();
+            mSwipeRefreshLayout.setRefreshing(true);
+            onRefresh();
 
-            } else {
-                Preference.setLastComment(mContext, mStrId);
-                initRest(mCategory, mStrId, PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext));
-
-            }
-
+            Preference.setLastComment(mContext, mStrId);
+            initRest(mCategory, mStrId, PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext));
 
         }
 

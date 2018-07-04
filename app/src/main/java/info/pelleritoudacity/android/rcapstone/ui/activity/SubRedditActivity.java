@@ -162,16 +162,13 @@ public class SubRedditActivity extends BaseActivity
         createTabLayout();
 
         if (mContext != null) {
-            if (isRefresh) {
                 mRefreshLayout.setRefreshing(true);
                 onRefresh();
 
-            } else {
                 Preference.setLastCategory(mContext, mRedditCategory);
                 Preference.setLastTarget(mContext, mRedditTarget);
                 initRest(mRedditCategory, mRedditTarget, NetworkUtil.isOnline(mContext));
 
-            }
         }
 
     }
@@ -260,6 +257,7 @@ public class SubRedditActivity extends BaseActivity
             mRedditCategory = category;
             Preference.setLastCategory(mContext, mRedditCategory);
             Preference.setLastTarget(mContext, mRedditTarget);
+            mRefreshLayout.setRefreshing(true);
             initRest(category, null, NetworkUtil.isOnline(mContext));
 
         }
