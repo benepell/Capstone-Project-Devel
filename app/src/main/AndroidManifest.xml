@@ -17,12 +17,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppThemeLight.NoActionBar">
 
         <activity
             android:name=".ui.activity.SubRedditActivity"
             android:label="@string/title_activity_subreddit"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppThemeLight.NoActionBar">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,6 +35,11 @@
 
         </activity>
 
+        <activity
+            android:name=".ui.activity.SubRedditDetailActivity"
+            android:label="@string/title_activity_subreddit_detail"
+            android:theme="@style/AppThemeLight.NoActionBar"/>
+
 
         <activity android:name=".ui.activity.BaseActivity" />
 
@@ -43,7 +48,7 @@
             android:excludeFromRecents="true"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".ui.activity.SubRedditActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppThemeLight">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.SubRedditActivity" />
@@ -55,7 +60,7 @@
             android:label="@string/title_activity_subreddit"
             android:noHistory="true"
             android:parentActivityName=".ui.activity.SubRedditActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppThemeLight.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.SubRedditActivity" />
@@ -68,7 +73,7 @@
             android:launchMode="singleTop"
             android:noHistory="true"
             android:parentActivityName=".ui.activity.SubRedditActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppThemeLight.NoActionBar" />
 
         <activity
             android:name=".ui.activity.LogoutActivity"
@@ -77,7 +82,7 @@
             android:launchMode="singleTop"
             android:noHistory="true"
             android:parentActivityName=".ui.activity.SubRedditActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppThemeLight.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.SubRedditActivity" />
@@ -88,7 +93,7 @@
             android:name=".ui.activity.MediaYoutubeActivity"
             android:label="@string/title_activity_subreddit"
             android:parentActivityName=".ui.activity.SubRedditActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppThemeLight">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.SubRedditActivity" />
@@ -116,7 +121,7 @@
 
 
         <activity android:name=".ui.activity.SubRedditFullScreenActivity" />
-        <activity android:name=".ui.activity.SubRedditDetailActivity"></activity>
+
     </application>
 
 </manifest>

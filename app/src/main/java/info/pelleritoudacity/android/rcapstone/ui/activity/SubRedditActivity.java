@@ -161,12 +161,12 @@ public class SubRedditActivity extends BaseActivity
         createTabLayout();
 
         if (mContext != null) {
-                mRefreshLayout.setRefreshing(true);
-                onRefresh();
+            mRefreshLayout.setRefreshing(true);
+            onRefresh();
 
-                Preference.setLastCategory(mContext, mRedditCategory);
-                Preference.setLastTarget(mContext, mRedditTarget);
-                initRest(mRedditCategory, mRedditTarget, NetworkUtil.isOnline(mContext));
+            Preference.setLastCategory(mContext, mRedditCategory);
+            Preference.setLastTarget(mContext, mRedditTarget);
+            initRest(mRedditCategory, mRedditTarget, NetworkUtil.isOnline(mContext));
 
         }
 
@@ -221,7 +221,7 @@ public class SubRedditActivity extends BaseActivity
             }
 
 
-            if(intent.getBooleanExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_REFRESH,false)){
+            if (intent.getBooleanExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_REFRESH, false)) {
                 mRefreshLayout.setRefreshing(true);
                 onRefresh();
             }
@@ -236,10 +236,10 @@ public class SubRedditActivity extends BaseActivity
             T3Operation data = new T3Operation(getApplicationContext(), listenerData);
             if (data.saveData(mRedditCategory, mRedditTarget)) {
                 startFragment(mRedditCategory, mRedditTarget);
-               if(mRefreshLayout!=null){
-                   mRefreshLayout.setRefreshing(false);
+                if (mRefreshLayout != null) {
+                    mRefreshLayout.setRefreshing(false);
 
-               }
+                }
             } else {
                 // todo comment not available implement function
                 Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
@@ -313,7 +313,8 @@ public class SubRedditActivity extends BaseActivity
 
     @Override
     public void onBackPressed() {
-        if (mSubRedditTab != null) {
+        if ((mSubRedditTab != null) && (Preference.isTabHistory(mContext
+        ))) {
             String historyCategory = mSubRedditTab.getHistoryPosition();
             if (!TextUtils.isEmpty(historyCategory)) {
                 mSubRedditTab.positionSelected(historyCategory);

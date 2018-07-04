@@ -216,7 +216,11 @@ public class SubScriptionsFragment extends Fragment
 
         if (context != null) {
             Preference.setRestoreManage(context, 0);
-            AlertDialog.Builder dialog = new AlertDialog.Builder(context, R.style.confirmDialog);
+            int theme = R.style.confirmDialogDark;
+            if(Preference.isNightMode(context)){
+                theme = R.style.confirmDialogDark;
+            }
+            AlertDialog.Builder dialog = new AlertDialog.Builder(context, theme);
             dialog.setTitle(R.string.title_restore_confirm);
             dialog.setMessage(R.string.text_restore_data);
             dialog.setCancelable(true);

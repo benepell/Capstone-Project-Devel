@@ -29,6 +29,7 @@ package info.pelleritoudacity.android.rcapstone.ui.activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.FrameLayout;
@@ -42,6 +43,10 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            setTheme(R.style.AppThemeDark);
+        }
+
         setContentView(R.layout.activity_settings);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             FrameLayout frameLayout = findViewById(R.id.fragment_settings_container);
@@ -54,12 +59,5 @@ public class SettingsActivity extends AppCompatActivity {
                     .commit();
 
     }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        SubRedditActivity.homeActivity(this);
-    }
-
 
 }

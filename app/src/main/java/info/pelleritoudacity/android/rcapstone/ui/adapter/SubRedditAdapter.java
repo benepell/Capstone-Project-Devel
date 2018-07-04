@@ -30,6 +30,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -243,6 +244,10 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
             implements View.OnClickListener, ItemTouchHelperViewHolder {
 
         @SuppressWarnings("unused")
+        @BindView(R.id.card_subreddit)
+        CardView mCardView;
+
+        @SuppressWarnings("unused")
         @BindView(R.id.tv_title)
         TextView mTextViewTitle;
 
@@ -327,6 +332,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
+
         }
 
         public void bind(int position, String subRedditName, String nameRedditId, int numComments) {

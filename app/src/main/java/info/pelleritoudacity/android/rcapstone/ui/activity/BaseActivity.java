@@ -90,7 +90,7 @@ public class BaseActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-            setTheme(R.style.ThemeOverlay_AppCompat_Dark);
+            setTheme(R.style.AppThemeDark);
         }
 
         ViewStub mStub;
@@ -679,5 +679,4 @@ public class BaseActivity extends AppCompatActivity
     public void onErrorAboutMe(Throwable t) {
 
     }
-
 }

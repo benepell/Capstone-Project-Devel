@@ -187,6 +187,7 @@
     <string name="text_handle_description">handle image</string>
     <string name="title_menu_managesubs">Manage Subscriptions</string>
     <string name="title_activity_subreddit">RCapStone </string>
+    <string name="title_activity_subreddit_detail">Comments </string>
     <string name="title_activity_login">Login</string>
 
 

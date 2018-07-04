@@ -34,7 +34,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -48,20 +47,14 @@ import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import timber.log.Timber;
 
-public class SubManageActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class SubManageActivity extends BaseActivity {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.submanage_container)
     public CoordinatorLayout mContainer;
 
-    @SuppressWarnings("unused")
-    @BindView(R.id.swipe_refresh_submanage)
-    public SwipeRefreshLayout mRefreshLayout;
-
-
     private static WeakReference<Context> sWeakContext;
     private static WeakReference<android.support.v4.app.FragmentManager> sWeakFragmentManager;
-    private static WeakReference<SwipeRefreshLayout> sWeakSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,22 +63,14 @@ public class SubManageActivity extends BaseActivity implements SwipeRefreshLayou
 
         sWeakContext = new WeakReference<>(getApplicationContext());
         sWeakFragmentManager = new WeakReference<>(getSupportFragmentManager());
-        sWeakSwipeRefreshLayout = new WeakReference<>(mRefreshLayout);
 
-        mRefreshLayout.setOnRefreshListener(this);
-
-        mRefreshLayout.setRefreshing(true);
-        onRefresh();
-
-    }
-
-    @Override
-    public void onRefresh() {
         if (Preference.isInsertPrefs(getApplicationContext())) {
             new SubManageAsyncTask().execute();
         } else {
             Snackbar.make(mContainer, R.string.text_manage_nolinks, Snackbar.LENGTH_LONG).show();
         }
+
+
     }
 
     private static class SubManageAsyncTask extends AsyncTask<Void, Void, Cursor> {
@@ -140,8 +125,6 @@ public class SubManageActivity extends BaseActivity implements SwipeRefreshLayou
                                     R.anim.layout_animation_from_right,
                                     R.anim.layout_animation_from_right)
                             .replace(R.id.fragment_list_container, subScriptionsFragment).commit();
-
-                    sWeakSwipeRefreshLayout.get().setRefreshing(false);
 
                 }
             } finally {

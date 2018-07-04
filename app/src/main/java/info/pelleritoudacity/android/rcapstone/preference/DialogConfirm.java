@@ -55,7 +55,11 @@ public class DialogConfirm extends DialogPreference {
 
     @Override
     protected void onClick() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext(), R.style.confirmDialog);
+        int theme = R.style.confirmDialogLight;
+        if(Preference.isNightMode(sWeakReference.get().getApplicationContext())){
+            theme = R.style.confirmDialogDark;
+        }
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext(),theme );
         dialog.setTitle(R.string.title_dialog_confirm);
         dialog.setMessage(R.string.text_clear_data);
         dialog.setCancelable(true);
