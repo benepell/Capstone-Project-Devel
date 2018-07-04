@@ -61,8 +61,6 @@ import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
-import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
-import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.PermissionUtil.RequestPermissionExtStorage;
 import static info.pelleritoudacity.android.rcapstone.utility.SessionUtil.getRedditSessionExpired;
@@ -152,6 +150,7 @@ public class SubRedditActivity extends BaseActivity
 
                 }
 
+
             }
 
 
@@ -223,6 +222,12 @@ public class SubRedditActivity extends BaseActivity
                 Snackbar.make(mContainer,
                         R.string.text_logout_success, Snackbar.LENGTH_LONG).show();
 
+            }
+
+
+            if(intent.getBooleanExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_REFRESH,false)){
+                mRefreshLayout.setRefreshing(true);
+                onRefresh();
             }
 
         }
@@ -332,7 +337,6 @@ public class SubRedditActivity extends BaseActivity
         } else if (getApplicationContext() != null) {
             isRefresh = true;
             initRest(Preference.getLastCategory(getApplicationContext()), Preference.getLastTarget(mContext), NetworkUtil.isOnline(mContext));
-            Timber.d("VALXPREF cat %s target %s ", Preference.getLastCategory(getApplicationContext()), Preference.getLastTarget(getApplicationContext()));
         }
 
     }
