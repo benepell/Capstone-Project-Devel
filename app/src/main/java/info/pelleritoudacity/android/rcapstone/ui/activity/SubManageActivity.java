@@ -80,24 +80,6 @@ public class SubManageActivity extends BaseActivity implements SwipeRefreshLayou
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        startFragment();
-    }
-
-    private void startFragment() {
-        if (!getSupportFragmentManager().isStateSaved()) {
-            SubScriptionsFragment subScriptionsFragment = SubScriptionsFragment.newInstance();
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_list_container, subScriptionsFragment).commit();
-
-            mRefreshLayout.setRefreshing(false);
-        }
-
-    }
-
-
-    @Override
     public void onRefresh() {
         if (Preference.isInsertPrefs(getApplicationContext())) {
             new SubManageAsyncTask().execute();
@@ -105,7 +87,6 @@ public class SubManageActivity extends BaseActivity implements SwipeRefreshLayou
             Snackbar.make(mContainer, R.string.text_manage_nolinks, Snackbar.LENGTH_LONG).show();
         }
     }
-
 
     private static class SubManageAsyncTask extends AsyncTask<Void, Void, Cursor> {
 
@@ -147,7 +128,7 @@ public class SubManageActivity extends BaseActivity implements SwipeRefreshLayou
                         name = TextUtil.normalizeSubRedditLink(name);
                         arrayList.add(name);
                         String strPref = TextUtil.arrayToString(arrayList);
-                        Preference.setSubredditKey(context,strPref);
+                        Preference.setSubredditKey(context, strPref);
                     }
 
                     android.support.v4.app.FragmentManager fragmentManager = sWeakFragmentManager.get();

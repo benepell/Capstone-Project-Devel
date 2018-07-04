@@ -99,6 +99,7 @@ public interface Costant {
 
     String EXTRA_ACTIVITY_SUBREDDIT_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.subreddit.refresh";
     String EXTRA_ACTIVITY_SUBREDDIT_DETAIL_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.subreddit.detail.refresh";
+    String EXTRA_ACTIVITY_SUBMANAGE_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.submanage.refresh";
 
     String EXTRA_SUBREDDIT_SHARE_URL_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.subreddit.share.url.fullscreen";
     String EXTRA_SUBREDDIT_SHARE_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.subreddit.share.fullscreen";

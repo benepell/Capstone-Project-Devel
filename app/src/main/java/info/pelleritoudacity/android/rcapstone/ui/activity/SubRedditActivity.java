@@ -184,7 +184,7 @@ public class SubRedditActivity extends BaseActivity
         Preference.setVolumeMuted(mContext, Costant.IS_MUTED_AUDIO);
 
         if (Preference.isClearData(mContext)) {
-            Snackbar.make(findViewById(R.id.main_container), R.string.text_dialog_confirm_reset, Snackbar.LENGTH_LONG).show();
+            Snackbar.make(mContainer, R.string.text_dialog_confirm_reset, Snackbar.LENGTH_LONG).show();
             Preference.setClearData(mContext, false);
         }
 

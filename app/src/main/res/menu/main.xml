@@ -25,7 +25,6 @@
             <item
                 android:id="@+id/action_general_images"
                 android:checkable="true"
-                android:checked="true"
                 android:title="@string/title_general_images"
                 app:actionLayout="@layout/action_layout_styled_checkbox"
                 app:showAsAction="ifRoom|withText" />

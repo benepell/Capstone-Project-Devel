@@ -426,6 +426,12 @@ public class BaseActivity extends AppCompatActivity
                 getApplicationContext().startActivity(intentSubredditDetail);
                 break;
 
+            case R.layout.activity_submanage:
+                Intent intentSubmanage = new Intent(getApplicationContext(), SubManageActivity.class);
+                intentSubmanage.putExtra(Costant.EXTRA_ACTIVITY_SUBMANAGE_REFRESH, true);
+                getApplicationContext().startActivity(intentSubmanage);
+                break;
+
             default:
         }
 

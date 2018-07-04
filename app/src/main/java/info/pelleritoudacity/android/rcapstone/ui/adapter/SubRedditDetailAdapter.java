@@ -129,7 +129,6 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         @BindView(R.id.tv_points)
         TextView mTextViewPointsDetail;
 
-
         @SuppressWarnings("unused")
         @BindView(R.id.tv_body)
         TextView mTextViewBodyDetail;

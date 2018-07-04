@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SubRedditSelectedHelper;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtil;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
 import static info.pelleritoudacity.android.rcapstone.utility.NumberUtil.numberFormat;
@@ -77,6 +79,8 @@ public class SubRedditSelectedAdapter extends RecyclerView.Adapter<SubRedditSele
 
 
             holder.mTextViewTitle.setText(record.getTitle());
+            holder.mTextViewTitle.setClickable(Preference.isGeneralLinks(mContext));
+
             holder.mTextViewCreatedUtc.setText(DateUtil.getDiffTimeMinute(record.getCreatedUtc()));
 
             holder.mTextViewSubRedditNamePrefix.setText(record.getSubRedditNamePrefix());
@@ -98,8 +102,13 @@ public class SubRedditSelectedAdapter extends RecyclerView.Adapter<SubRedditSele
 
             SubRedditSelectedHelper helper = new SubRedditSelectedHelper(mContext);
 
-            helper.imageReddit(holder.mImageViewSubRedditSmall, record.getImagePreviewUrl(),
-                    record.getTitle(),record.getImagePreviewWidth(),record.getImagePreviewHeight());
+            if ((Preference.isGeneralImages(mContext)) &&
+                    (!TextUtils.isEmpty(record.getImagePreviewUrl()))) {
+
+                helper.imageReddit(holder.mImageViewSubRedditSmall, record.getImagePreviewUrl(),
+                        record.getTitle(), record.getImagePreviewWidth(), record.getImagePreviewHeight());
+
+            }
 
         }
     }
