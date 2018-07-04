@@ -179,10 +179,7 @@ public interface Costant {
     String SHOW_MORE_COMMENTS = "false";
     String STR_PARENT_COMMENT = "t3_";
     String DEFAULT_LISTING_KIND = "Listing";
-    String LIMIT_COMMENTS_RESULTS = "30";
-    String LIMIT_DEPTH_RESULTS = "8";
 
-    String LIMIT_REDDIT_RESULTS = "25";
     int LEVEL_DEPTH_PADDING = 20;
 
     String JSON_REPLIES_EMPTY = "\"replies\":\"\"";
@@ -221,6 +218,8 @@ public interface Costant {
     int PREFERENCE_SUBREDDIT_SORT = R.string.pref_subreddit_sort;
     int PREFERENCE_TIME_SORT = R.string.pref_time_sort;
     int PREFERENCE_SYNC_FREQUENCY = R.string.pref_sync_frequency;
+    int PREFERENCE_ITEM_PAGE = R.string.pref_item_page;
+    int PREFERENCE_DEPTH_PAGE = R.string.pref_depth_page;
     int PREFERENCE_VOLUME_MUTED = R.string.pref_volume_muted;
     int PREFERENCE_CLEAR_DATA = R.string.pref_clear_data;
     int PREFERENCE_TYPE_MODE = R.string.pref_type_mode;
@@ -230,7 +229,6 @@ public interface Costant {
     int PREFERENCE_LAST_CATEGORY = R.string.pref_last_category;
     int PREFERENCE_LAST_TARGET = R.string.pref_last_target;
     int PREFERENCE_LAST_COMMENT = R.string.pref_last_comment;
-    int PREFERENCE_TITLE_SYNC_FREQUENCY = R.string.pref_title_sync_frequency;
     int PREFERENCE_SESSION_USERNAME = R.string.pref_session_username;
     int PREFERENCE_RESTORE_MANAGE = R.string.pref_restore_manage;
     int PREFERENCE_REQUEST_PERMISSION = R.string.pref_request_permission;

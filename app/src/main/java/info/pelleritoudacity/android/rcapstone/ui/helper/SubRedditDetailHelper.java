@@ -7,6 +7,7 @@ import android.view.View;
 import java.util.List;
 
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
 public class SubRedditDetailHelper {
@@ -27,7 +28,7 @@ public class SubRedditDetailHelper {
                 viewIndicator.setVisibility(View.VISIBLE);
                 if (enablePadding) {
                     int padding = Costant.LEVEL_DEPTH_PADDING;
-                    int limit = Integer.parseInt(Costant.LIMIT_DEPTH_RESULTS);
+                    int limit = Preference.getDepthPage(mContext);
                     if (limit < 5) {
                         padding *= 2;
                     } else if (limit > 10) {

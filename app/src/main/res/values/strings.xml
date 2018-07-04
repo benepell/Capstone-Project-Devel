@@ -1,5 +1,5 @@
-    <!DOCTYPE resources [<!ENTITY app_name "RcapStone">]>
-    <resources>
+<!DOCTYPE resources [<!ENTITY app_name "RcapStone">]>
+<resources>
     <string name="app_name">&app_name;</string>
 
     <string name="title_activity_settings">Settings</string>
@@ -88,6 +88,56 @@
         <item>43200</item>
         <item>86400</item>
         <item>172800</item>
+    </string-array>
+
+    <string name="pref_item_page" translatable="false">info.pelleritoudacity.android.rcapstone.pref.item.page</string>
+    <string name="pref_title_item_page" translatable="false">Items Page Result</string>
+    <string-array name="pref_items_page_titles">
+        <item>10 items</item>
+        <item>20 items</item>
+        <item>25 items</item>
+        <item>30 items</item>
+        <item>50 items</item>
+        <item>75 items</item>
+        <item>100 items</item>
+    </string-array>
+    <string-array name="pref_items_page_values" translatable="false">
+        <item>10</item>
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
+        <item>50</item>
+        <item>75</item>
+        <item>100</item>
+    </string-array>
+
+    <string name="pref_depth_page" translatable="false">info.pelleritoudacity.android.rcapstone.pref.depth.page</string>
+    <string name="pref_title_depth_page" translatable="false">Comments Level Depth</string>
+    <string-array name="pref_depth_page_titles">
+        <item>none</item>
+        <item>1 level</item>
+        <item>2 levels</item>
+        <item>3 levels</item>
+        <item>4 levels</item>
+        <item>5 levels</item>
+        <item>6 levels</item>
+        <item>7 levels</item>
+        <item>8 levels</item>
+        <item>9 levels</item>
+        <item>10 levels</item>
+    </string-array>
+    <string-array name="pref_depth_page_values" translatable="false">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
     </string-array>
 
     <string name="title_clear_data">Factory data reset</string>

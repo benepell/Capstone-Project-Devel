@@ -45,8 +45,8 @@ public class SubRedditDetailManager {
         String strTimeSort = Preference.getTimeSort(mContext);
 
         mFieldMap = new HashMap<>();
-        mFieldMap.put("depth", Costant.LIMIT_DEPTH_RESULTS);
-        mFieldMap.put("limit", Costant.LIMIT_COMMENTS_RESULTS);
+        mFieldMap.put("depth", String.valueOf(Preference.getDepthPage(mContext)));
+        mFieldMap.put("limit", String.valueOf(Preference.getItemPage(mContext)));
         mFieldMap.put("showedits", "false");
         mFieldMap.put("showmore", Costant.SHOW_MORE_COMMENTS);
         if(!TextUtils.isEmpty(strTimeSort)){

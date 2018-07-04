@@ -208,7 +208,7 @@ public class T1Operation {
 
     private void recursiveReplies(Replies r, int childrenId) {
         Replies replies = getReplies(r, childrenId);
-        int max = Integer.parseInt(Costant.LIMIT_DEPTH_RESULTS);
+        int max = Preference.getDepthPage(mContext);
         while ((replies != null) || (max > 0)) {
             replies = getReplies(replies, childrenId);
             max--;

@@ -3,6 +3,7 @@ package info.pelleritoudacity.android.rcapstone.utility;
 import android.content.Context;
 
 import info.pelleritoudacity.android.rcapstone.R;
+import timber.log.Timber;
 
 public class Preference {
 
@@ -23,6 +24,7 @@ public class Preference {
             R.string.pref_last_target,
             R.string.pref_last_comment,
             R.string.pref_sync_frequency,
+            R.string.pref_item_page,
             R.string.pref_volume_muted,
             R.string.pref_clear_data,
             R.string.pref_type_mode,
@@ -214,14 +216,6 @@ public class Preference {
         return PrefManager.getStringPref(context, Costant.PREFERENCE_SUBREDDIT_SORT);
     }
 
-    public static void setSyncFrequency(Context context, int i) {
-        PrefManager.putIntPref(context, Costant.PREFERENCE_SYNC_FREQUENCY, i);
-    }
-
-    public static int getSyncFrequency(Context context) {
-        return PrefManager.getIntPref(context, Costant.PREFERENCE_SYNC_FREQUENCY);
-    }
-
 
     public static Boolean isGeneralGifs(Context context) {
         return PrefManager.getBoolPref(context, Costant.PREFERENCE_GENERAL_GIFS);
@@ -284,7 +278,6 @@ public class Preference {
         return PrefManager.isGeneralSettings(context, context.getString(Costant.PREFERENCE_NIGHT_MODE));
     }
 
-
     public static void clearAll(Context context) {
         PrefManager.clearPref(context, prefArrays);
     }
@@ -293,5 +286,16 @@ public class Preference {
         PrefManager.clearGeneralSettings(context);
     }
 
+    public static int getSyncFrequency(Context context) {
+        return PrefManager.getIntGeneralSettings(context, Costant.PREFERENCE_SYNC_FREQUENCY);
+    }
+
+    public static int getItemPage(Context context) {
+        return PrefManager.getIntGeneralSettings(context, Costant.PREFERENCE_ITEM_PAGE);
+    }
+
+    public static int getDepthPage(Context context) {
+        return PrefManager.getIntGeneralSettings(context, Costant.PREFERENCE_DEPTH_PAGE);
+    }
 
 }

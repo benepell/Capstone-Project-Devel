@@ -36,6 +36,8 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import timber.log.Timber;
 
@@ -73,80 +75,82 @@ public class TextUtil {
 
     public static String textFromHtml(String url) {
         if (!TextUtils.isEmpty(url)) {
-            String msgCompose[] = {"\\(/message/compose/\\?","\\(\\/r/"};
+            String msgCompose[] = {"\\(/message/compose/\\?", "\\(\\/r/"};
             url = url.replaceAll("&amp;", "&");
             url = url.replaceAll("&lt;", "<");
             url = url.replaceAll("&gt;", ">");
-            url = url.replaceAll(msgCompose[0],"(" + Costant.REDDIT_BASE_URL+ msgCompose[0].substring(3));
-            url = url.replaceAll(msgCompose[1],"(" + Costant.REDDIT_BASE_URL+ msgCompose[1].substring(4));
+            url = url.replaceAll(msgCompose[0], "(" + Costant.REDDIT_BASE_URL + msgCompose[0].substring(3));
+            url = url.replaceAll(msgCompose[1], "(" + Costant.REDDIT_BASE_URL + msgCompose[1].substring(4));
 
             if (Build.VERSION.SDK_INT >= 24) {
-                Html.fromHtml(url,Html.FROM_HTML_MODE_LEGACY).toString();
+                Html.fromHtml(url, Html.FROM_HTML_MODE_LEGACY).toString();
             } else {
                 Html.fromHtml(url).toString();
 
             }
             return url;
         }
-        return  url;
+        return url;
     }
 
-    public static String buildCommentLink (String redditnamePrefix, String redditNameId){
-            Uri.Builder builderRedditComments = new Uri.Builder();
+    public static String buildCommentLink(String redditnamePrefix, String redditNameId) {
+        Uri.Builder builderRedditComments = new Uri.Builder();
 
-            return builderRedditComments.scheme("https")
-                    .authority(Costant.REDDIT_AUTH_URL)
-                    .appendEncodedPath(redditnamePrefix)
-                    .appendPath(Costant.REDDIT_COMMENTS)
-                    .appendPath(redditNameId).build().toString();
+        return builderRedditComments.scheme("https")
+                .authority(Costant.REDDIT_AUTH_URL)
+                .appendEncodedPath(redditnamePrefix)
+                .appendPath(Costant.REDDIT_COMMENTS)
+                .appendPath(redditNameId).build().toString();
 
-        }
-
-        public static String buildCommentDetailLink (String permalink){
-            Uri.Builder builderRedditComments = new Uri.Builder();
-
-            return builderRedditComments.scheme("https")
-                    .authority(Costant.REDDIT_AUTH_URL)
-                    .appendEncodedPath(permalink).build().toString();
-
-        }
-        public static String youtubeValue (String youtubeUrl){
-            int nSearchLeft;
-            int nSearchRight;
-
-            Uri uri = null;
-            try {
-                uri = Uri.parse(URLDecoder.decode(youtubeUrl, StandardCharsets.UTF_8.name()));
-
-            } catch (UnsupportedEncodingException e) {
-                Timber.e("youtubeValue error %s", e.getMessage());
-            }
-
-            if (uri.getAuthority().equals("www.youtube.com")) {
-
-                String v = uri.getQueryParameter("v");
-
-                if ((v == null) && (uri.getEncodedPath().equals("/attribution_link"))) {
-                    return Uri.parse(uri.getQueryParameter("u")).getQueryParameter("v");
-                }
-                return v;
-
-            } else if (uri.getAuthority().equals("youtu.be")) {
-                youtubeUrl = uri.getEncodedPath();
-
-                nSearchLeft = youtubeUrl.indexOf("/");
-                nSearchRight = youtubeUrl.indexOf("&");
-
-                if (nSearchLeft >= 0) {
-                    if (nSearchRight > 0) {
-                        return youtubeUrl.substring(nSearchLeft + 1, nSearchRight);
-
-                    } else {
-                        return youtubeUrl.substring(nSearchLeft + 1);
-
-                    }
-                }
-            }
-            return "";
-        }
     }
+
+    public static String buildCommentDetailLink(String permalink) {
+        Uri.Builder builderRedditComments = new Uri.Builder();
+
+        return builderRedditComments.scheme("https")
+                .authority(Costant.REDDIT_AUTH_URL)
+                .appendEncodedPath(permalink).build().toString();
+
+    }
+
+    public static String youtubeValue(String youtubeUrl) {
+        int nSearchLeft;
+        int nSearchRight;
+
+        Uri uri = null;
+        try {
+            uri = Uri.parse(URLDecoder.decode(youtubeUrl, StandardCharsets.UTF_8.name()));
+
+        } catch (UnsupportedEncodingException e) {
+            Timber.e("youtubeValue error %s", e.getMessage());
+        }
+
+        if (uri.getAuthority().equals("www.youtube.com")) {
+
+            String v = uri.getQueryParameter("v");
+
+            if ((v == null) && (uri.getEncodedPath().equals("/attribution_link"))) {
+                return Uri.parse(uri.getQueryParameter("u")).getQueryParameter("v");
+            }
+            return v;
+
+        } else if (uri.getAuthority().equals("youtu.be")) {
+            youtubeUrl = uri.getEncodedPath();
+
+            nSearchLeft = youtubeUrl.indexOf("/");
+            nSearchRight = youtubeUrl.indexOf("&");
+
+            if (nSearchLeft >= 0) {
+                if (nSearchRight > 0) {
+                    return youtubeUrl.substring(nSearchLeft + 1, nSearchRight);
+
+                } else {
+                    return youtubeUrl.substring(nSearchLeft + 1);
+
+                }
+            }
+        }
+        return "";
+    }
+
+}
