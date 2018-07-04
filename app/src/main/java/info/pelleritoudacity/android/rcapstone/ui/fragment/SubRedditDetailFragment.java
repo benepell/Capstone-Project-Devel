@@ -28,6 +28,8 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.ui.adapter.SubRedditDetailAdapter;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
+import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.Costant.SUBREDDIT_DETAIL_LOADER_ID;
@@ -153,7 +155,7 @@ public class SubRedditDetailFragment extends Fragment
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        return new SubRedditDetailFragmentAsyncTask(Objects.requireNonNull(getActivity()));
+        return new SubRedditDetailFragmentAsyncTask(Objects.requireNonNull(getActivity()), Preference.isLoginOver18(getContext()));
     }
 
     @Override
@@ -181,9 +183,11 @@ public class SubRedditDetailFragment extends Fragment
     private static class SubRedditDetailFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
 
         Cursor cursorData = null;
+        private final boolean isOver18;
 
-        SubRedditDetailFragmentAsyncTask(@NonNull Context context) {
+        SubRedditDetailFragmentAsyncTask(@NonNull Context context, boolean isOver18) {
             super(context);
+            this.isOver18 = isOver18;
         }
 
         @Override
@@ -201,8 +205,13 @@ public class SubRedditDetailFragment extends Fragment
             try {
                 Uri uri = Contract.T1dataEntry.CONTENT_URI;
 
-                String selection = Contract.T1dataEntry.COLUMN_NAME_LINK_ID + " =?";
-                String[] selectionArgs = new String[]{ Costant.STR_PARENT_COMMENT + sStrId};
+                String strOver18 = String.valueOf(Utility.boolToInt(isOver18));
+
+                String selection = Contract.T1dataEntry.COLUMN_NAME_LINK_ID + " =?" + " AND "+
+                        Contract.T1dataEntry.COLUMN_NAME_OVER18 + " <=?";
+
+                String[] selectionArgs = new String[]{ Costant.STR_PARENT_COMMENT + sStrId,strOver18};
+
                 String sortOrder = Contract.T1dataEntry.COLUMN_NAME_CHILDREN_ID + " ASC," +
                         Contract.T1dataEntry.COLUMN_NAME_DEPTH + " ASC";
 

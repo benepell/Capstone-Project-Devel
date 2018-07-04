@@ -1,5 +1,5 @@
-<!DOCTYPE resources [<!ENTITY app_name "RcapStone">]>
-<resources>
+    <!DOCTYPE resources [<!ENTITY app_name "RcapStone">]>
+    <resources>
     <string name="app_name">&app_name;</string>
 
     <string name="title_activity_settings">Settings</string>
@@ -7,6 +7,8 @@
     <string name="content_authority" translatable="false">info.pelleritoudacity.android.rcapstone</string>
 
     <string name="pref_insert_prefs" translatable="false">info.pelleritoudacity.android.rcapstone.pref.insert.prefs</string>
+
+    <string name="text_time_now">now</string>
 
     <string name="error_state_critical">Unable to start &app_name;\n cause: %1$s\n Please, start factory data reset in menu settings or restart app. </string>
     <string name="error_refresh_offline">Data not Working!, refresh is not available.  </string>
@@ -136,6 +138,7 @@
     <string name="title_menu_managesubs">Manage Subscriptions</string>
     <string name="title_activity_subreddit">RCapStone </string>
     <string name="title_activity_login">Login</string>
+
 
     <string name="text_login_success">You have successfully logged in</string>
     <string name="text_nav_anonymous">Anonymous</string>

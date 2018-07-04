@@ -70,7 +70,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
             if (!TextUtils.isEmpty(record.getAuthor()))
                 holder.mTextViewAuthorDetail.setText(record.getAuthor() + ":");
 
-            holder.mTextViewPostedOnDetail.setText(DateUtil.getDiffTimeMinute(record.getCreated()));
+            holder.mTextViewPostedOnDetail.setText(DateUtil.getDiffTimeMinute(mContext, record.getCreated()));
 
             holder.mTextViewPointsDetail.setText(record.getScore());
 

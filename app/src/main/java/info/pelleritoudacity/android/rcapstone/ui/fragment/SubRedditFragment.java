@@ -32,6 +32,9 @@ import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
 import info.pelleritoudacity.android.rcapstone.ui.adapter.SubRedditAdapter;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
+import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.Costant.SUBREDDIT_LOADER_ID;
@@ -178,7 +181,8 @@ public class SubRedditFragment extends Fragment
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        return new SubRedditFragmentAsyncTask(Objects.requireNonNull(getActivity()));
+        return new SubRedditFragmentAsyncTask(Objects.requireNonNull(getActivity()),
+                Preference.isLoginOver18(getContext()));
     }
 
     @Override
@@ -215,13 +219,16 @@ public class SubRedditFragment extends Fragment
     private static class SubRedditFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
 
         Cursor cursorData = null;
+        private final boolean isOver18;
 
-        SubRedditFragmentAsyncTask(@NonNull Context context) {
+        SubRedditFragmentAsyncTask(@NonNull Context context, boolean isOver18) {
             super(context);
+            this.isOver18 = isOver18;
         }
 
         @Override
         protected void onStartLoading() {
+
             if (cursorData != null) {
                 deliverResult(cursorData);
             } else {
@@ -237,23 +244,29 @@ public class SubRedditFragment extends Fragment
                 String selection = null;
                 String[] selectionArgs = new String[0];
 
+                String strOver18 = String.valueOf(Utility.boolToInt(isOver18));
+
                 if (!TextUtils.isEmpty(sTarget)) {
                     if (sTarget.equals(Costant.SUBREDDIT_TARGET_ALL)) {
-                        selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?";
-                        selectionArgs = new String[]{sTarget};
+                        selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?" + " AND " +
+                                Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " <=?";
+                        selectionArgs = new String[]{sTarget, strOver18};
 
                     } else if (sTarget.equals(Costant.SUBREDDIT_TARGET_POPULAR)) {
-                        selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?";
-                        selectionArgs = new String[]{sTarget};
+                        selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?" + " AND " +
+                                Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " <=?";
+                        selectionArgs = new String[]{sTarget, strOver18};
 
                     }
 
                 } else {
-                    selection = Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " LIKE ?";
-                    selectionArgs = new String[]{sSubReddit};
+                    selection = Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " LIKE ?" + " AND " +
+                            Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " <=?";
+                    selectionArgs = new String[]{sSubReddit, strOver18};
 
+
+                    Timber.d("STROVER18 %s", strOver18);
                 }
-
 
 
                 return getContext().getContentResolver().query(uri,

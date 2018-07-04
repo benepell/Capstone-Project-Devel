@@ -209,6 +209,7 @@ public interface Costant {
     String LABEL_TIME_ALL = "all";
     String LABEL_TIME_NOTHING = "";
 
+    int TIME_APPROX_NOW = 60 * 60 * 2;
 
     int PREFERENCE_INSERT_PREFS = R.string.pref_insert_prefs;
     int PREFERENCE_LOGIN_START = R.string.pref_login_start;

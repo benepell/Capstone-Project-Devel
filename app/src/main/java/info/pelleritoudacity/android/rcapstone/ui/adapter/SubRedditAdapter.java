@@ -111,7 +111,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         }
 
         if (record != null) {
-            holder.mTextViewCreatedUtc.setText(DateUtil.getDiffTimeMinute(record.getCreatedUtc()));
+            holder.mTextViewCreatedUtc.setText(DateUtil.getDiffTimeMinute(mContext,record.getCreatedUtc()));
 
             SubRedditHelper subRedditHelper = new SubRedditHelper(mContext);
 

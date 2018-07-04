@@ -26,12 +26,14 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.ui.adapter.SubRedditSelectedAdapter;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
+import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.Costant.SUBREDDIT_SELECTED_LOADER_ID;
 
 public class SubRedditSelectedFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<Cursor>{
+        implements LoaderManager.LoaderCallbacks<Cursor> {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.rv_fragment_reddit_selected)
@@ -127,7 +129,7 @@ public class SubRedditSelectedFragment extends Fragment
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        return new SubRedditDetailFragmentAsyncTask(Objects.requireNonNull(getActivity()));
+        return new SubRedditDetailFragmentAsyncTask(Objects.requireNonNull(getActivity()), Preference.isLoginOver18(mContext));
     }
 
     @Override
@@ -146,9 +148,11 @@ public class SubRedditSelectedFragment extends Fragment
     private static class SubRedditDetailFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
 
         Cursor cursorData = null;
+        private final boolean isOver18;
 
-        SubRedditDetailFragmentAsyncTask(@NonNull Context context) {
+        SubRedditDetailFragmentAsyncTask(@NonNull Context context, boolean isOver18) {
             super(context);
+            this.isOver18 = isOver18;
         }
 
         @Override
@@ -164,9 +168,14 @@ public class SubRedditSelectedFragment extends Fragment
         @Override
         public Cursor loadInBackground() {
             try {
+                String strOver18 = String.valueOf(Utility.boolToInt(isOver18));
+
                 Uri uri = Contract.T3dataEntry.CONTENT_URI;
-                String selection = Contract.T3dataEntry.COLUMN_NAME_ID + " =?";
-                String[] selectionArgs = new String[]{sStrId};
+
+                String selection = Contract.T3dataEntry.COLUMN_NAME_ID + " =?" + " AND "+
+                        Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " <=?";
+
+                String[] selectionArgs = new String[]{sStrId,strOver18};
 
                 return getContext().getContentResolver().query(uri,
                         null,

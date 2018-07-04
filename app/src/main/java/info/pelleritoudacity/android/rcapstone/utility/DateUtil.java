@@ -25,6 +25,7 @@
  */
 package info.pelleritoudacity.android.rcapstone.utility;
 
+import android.content.Context;
 import android.text.format.DateUtils;
 
 import java.text.ParseException;
@@ -32,6 +33,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+
+import info.pelleritoudacity.android.rcapstone.R;
 
 public class DateUtil {
 
@@ -57,8 +60,15 @@ public class DateUtil {
         }
     }
 
-    public static String getDiffTimeMinute(long time) {
-        return DateUtils.getRelativeTimeSpanString(time, System.currentTimeMillis() / 1000,
+    public static String getDiffTimeMinute(Context context, long time) {
+
+        long timeDiff = (System.currentTimeMillis()/1000) - time;
+
+        if(timeDiff < Costant.TIME_APPROX_NOW) {
+            return context.getResources().getString(R.string.text_time_now);
+        }
+
+        return DateUtils.getRelativeTimeSpanString(time, System.currentTimeMillis()/1000 ,
                 DateUtils.MINUTE_IN_MILLIS,
                 DateUtils.FORMAT_ABBREV_TIME).toString();
 

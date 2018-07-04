@@ -3,10 +3,7 @@ package info.pelleritoudacity.android.rcapstone.ui.adapter;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -15,10 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,7 +22,6 @@ import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditSelectedFrag
 import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SubRedditSelectedHelper;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
-import info.pelleritoudacity.android.rcapstone.utility.ImageUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
@@ -81,7 +73,7 @@ public class SubRedditSelectedAdapter extends RecyclerView.Adapter<SubRedditSele
             holder.mTextViewTitle.setText(record.getTitle());
             holder.mTextViewTitle.setClickable(Preference.isGeneralLinks(mContext));
 
-            holder.mTextViewCreatedUtc.setText(DateUtil.getDiffTimeMinute(record.getCreatedUtc()));
+            holder.mTextViewCreatedUtc.setText(DateUtil.getDiffTimeMinute(mContext, record.getCreatedUtc()));
 
             holder.mTextViewSubRedditNamePrefix.setText(record.getSubRedditNamePrefix());
 
