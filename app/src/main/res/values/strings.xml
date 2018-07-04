@@ -134,7 +134,7 @@
     <string name="title_menu_create">Create Post</string>
     <string name="text_handle_description">handle image</string>
     <string name="title_menu_managesubs">Manage Subscriptions</string>
-    <string name="title_activity_subreddit">RCAPSTONE APP</string>
+    <string name="title_activity_subreddit">RCapStone </string>
     <string name="title_activity_login">Login</string>
 
     <string name="text_login_success">You have successfully logged in</string>
