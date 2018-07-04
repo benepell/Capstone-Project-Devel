@@ -17,6 +17,7 @@
 
     <string name="pref_type_mode" translatable="false">pref.type.mode</string>
     <string name="pref_last_category" translatable="false">info.pelleritoudacity.android.rcapstone.pref.last.category</string>
+    <string name="pref_last_target" translatable="false">info.pelleritoudacity.android.rcapstone.pref.last.target</string>
 
     <string name="pref_last_comment" translatable="false">info.pelleritoudacity.android.rcapstone.pref.last.comment</string>
 
@@ -133,7 +134,7 @@
     <string name="title_menu_create">Create Post</string>
     <string name="text_handle_description">handle image</string>
     <string name="title_menu_managesubs">Manage Subscriptions</string>
-    <string name="title_activity_submanage">Manage SubScriptions</string>
+    <string name="title_activity_subreddit">RCAPSTONE APP</string>
     <string name="title_activity_login">Login</string>
 
     <string name="text_login_success">You have successfully logged in</string>
@@ -143,6 +144,8 @@
     <string name="text_logout_success">Logout successfly. Anonymous mode is actived</string>
     <string name="reddit_adultcontent_text">Item not available - Enable NSFW content on Reddit</string>
     <string name="reddit_nologinadultcontent_text">Click on the log in to retrieve your personal login information</string>
+
+    <string name="text_no_comments">comments not present</string>
 
     <string name="text_comments_subreddit">comments</string>
     <string name="text_manage_nolinks">No Archive Available for Manage Subscriptions.</string>

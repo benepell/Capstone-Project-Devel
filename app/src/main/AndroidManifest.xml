@@ -18,68 +18,75 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+
         <activity
-            android:name=".ui.activity.MainActivity"
-            android:exported="true">
+            android:name=".ui.activity.SubRedditActivity"
+            android:label="@string/title_activity_subreddit"
+            android:theme="@style/AppTheme.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
+
         </activity>
+
+
         <activity android:name=".ui.activity.BaseActivity" />
+
         <activity
             android:name=".ui.activity.SettingsActivity"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".ui.activity.MainActivity"
+            android:parentActivityName=".ui.activity.SubRedditActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.MainActivity" />
+                android:value=".ui.activity.SubRedditActivity" />
         </activity>
+
         <activity
             android:name=".ui.activity.SubManageActivity"
             android:excludeFromRecents="true"
-            android:label="@string/title_activity_submanage"
+            android:label="@string/title_activity_subreddit"
             android:noHistory="true"
-            android:parentActivityName=".ui.activity.MainActivity"
+            android:parentActivityName=".ui.activity.SubRedditActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.MainActivity" />
+                android:value=".ui.activity.SubRedditActivity" />
         </activity>
+
         <activity
             android:name=".ui.activity.LoginActivity"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_login"
             android:launchMode="singleTop"
             android:noHistory="true"
-            android:parentActivityName=".ui.activity.MainActivity"
+            android:parentActivityName=".ui.activity.SubRedditActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".ui.activity.LogoutActivity"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_logout"
             android:launchMode="singleTop"
             android:noHistory="true"
-            android:parentActivityName=".ui.activity.MainActivity"
+            android:parentActivityName=".ui.activity.SubRedditActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.MainActivity" />
+                android:value=".ui.activity.SubRedditActivity" />
         </activity>
-        <activity
-            android:name=".ui.activity.SubRedditActivity"
-            android:label="@string/title_activity_submanage"
-            android:theme="@style/AppTheme.NoActionBar" />
+
+
         <activity
             android:name=".ui.activity.MediaYoutubeActivity"
-            android:label="@string/title_activity_submanage"
+            android:label="@string/title_activity_subreddit"
             android:parentActivityName=".ui.activity.SubRedditActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -106,6 +113,7 @@
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
+
 
         <activity android:name=".ui.activity.SubRedditFullScreenActivity" />
         <activity android:name=".ui.activity.SubRedditDetailActivity"></activity>

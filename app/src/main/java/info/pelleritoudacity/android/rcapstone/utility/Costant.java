@@ -117,6 +117,9 @@ public interface Costant {
 
     String EXTRA_YOUTUBE_PARAM = "info.pelleritoudacity.android.rcapstone.extra.youtube.param";
 
+    String ACTION_SHORTCUT_POPULAR = "info.pelleritoudacity.android.rcapstone.shortcut.popular";
+    String ACTION_SHORTCUT_ALL = "info.pelleritoudacity.android.rcapstone.shortcut.all";
+    String ACTION_SHORTCUT_SEARCH = "info.pelleritoudacity.android.rcapstone.shortcut.search";
 
     String USER_AGENT_CACHE = "info.pelleritoudacity.android.rcapstone.exo.player.CacheDataSourceFactory";
     String USER_AGENT_MEDIA = "info.pelleritoudacity.android.rcapstone.exo.player.media";
@@ -223,6 +226,7 @@ public interface Costant {
     int PREFERENCE_LOGIN_OVER18 = R.string.pref_login_over18;
     int PREFERENCE_TAB_HISTORY = R.string.pref_tab_history;
     int PREFERENCE_LAST_CATEGORY = R.string.pref_last_category;
+    int PREFERENCE_LAST_TARGET = R.string.pref_last_target;
     int PREFERENCE_LAST_COMMENT = R.string.pref_last_comment;
     int PREFERENCE_TITLE_SYNC_FREQUENCY = R.string.pref_title_sync_frequency;
     int PREFERENCE_SESSION_USERNAME = R.string.pref_session_username;

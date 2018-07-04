@@ -58,7 +58,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        MainActivity.homeActivity(this);
+        SubRedditActivity.homeActivity(this);
     }
 
 

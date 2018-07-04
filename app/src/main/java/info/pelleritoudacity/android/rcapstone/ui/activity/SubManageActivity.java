@@ -145,7 +145,7 @@ public class SubManageActivity extends BaseActivity {
     }
 
     public static void manageToMainActivity(Context context) {
-        context.startActivity(new Intent(context, MainActivity.class).putExtra(Costant.EXTRA_RESTORE_MANAGE, Costant.RESTORE_MANAGE_REDIRECT)
+        context.startActivity(new Intent(context, SubRedditActivity.class).putExtra(Costant.EXTRA_RESTORE_MANAGE, Costant.RESTORE_MANAGE_REDIRECT)
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_NO_ANIMATION));
     }
 

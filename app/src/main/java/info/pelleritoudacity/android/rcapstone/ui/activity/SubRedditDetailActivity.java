@@ -2,6 +2,7 @@ package info.pelleritoudacity.android.rcapstone.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
@@ -25,6 +26,10 @@ import info.pelleritoudacity.android.rcapstone.utility.Preference;
 public class SubRedditDetailActivity extends BaseActivity
         implements SubRedditDetailExecute.RestSubReddit,
         SubRedditDetailFragment.OnFragmentInteractionListener, SwipeRefreshLayout.OnRefreshListener {
+
+    @SuppressWarnings("unused")
+    @BindView(R.id.subreddit_detail_container)
+    CoordinatorLayout mContainer;
 
     @SuppressWarnings("unused")
     @BindView(R.id.nested_scrollview_detail)
@@ -85,7 +90,7 @@ public class SubRedditDetailActivity extends BaseActivity
                 startFragment(mStrId);
                 mSwipeRefreshLayout.setRefreshing(false);
             } else {
-                Snackbar.make(findViewById(R.id.fragment_subreddit_detail_container), R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
+                Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
             }
         }
     }
@@ -132,7 +137,7 @@ public class SubRedditDetailActivity extends BaseActivity
     public void onRefresh() {
         if (!NetworkUtil.isOnline(mContext)) {
             mSwipeRefreshLayout.setRefreshing(false);
-            Snackbar.make(findViewById(R.id.subreddit_detail_container), R.string.error_refresh_offline, Snackbar.LENGTH_LONG).show();
+            Snackbar.make(mContainer, R.string.error_refresh_offline, Snackbar.LENGTH_LONG).show();
 
         } else if (mContext != null) {
             initRest(Preference.getLastCategory(mContext), Preference.getLastComment(mContext),

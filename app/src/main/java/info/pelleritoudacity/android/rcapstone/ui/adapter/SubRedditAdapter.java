@@ -41,6 +41,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
 import com.google.android.exoplayer2.ui.PlayerView;
@@ -217,7 +218,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
                     TextUtil.buildCommentLink(record.getSubRedditNamePrefix(), record.getNameIdReddit()), record.getNameReddit());
 
 
-            holder.bind(holder.getAdapterPosition(), record.getSubReddit(), record.getNameIdReddit());
+            holder.bind(holder.getAdapterPosition(), record.getSubReddit(), record.getNameIdReddit(), record.getNumComments());
 
 
             mListener.adapterPosition(holder.getAdapterPosition(), record.getSubReddit());
@@ -320,6 +321,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         private int mPosition;
         private String mSubRedditName;
         private String mNameRedditId;
+        private int mNumComments;
 
         SubRedditHolder(View itemView) {
             super(itemView);
@@ -327,10 +329,11 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
             itemView.setOnClickListener(this);
         }
 
-        public void bind(int position, String subRedditName, String nameRedditId) {
+        public void bind(int position, String subRedditName, String nameRedditId, int numComments) {
             mPosition = position;
             mSubRedditName = subRedditName;
             mNameRedditId = nameRedditId;
+            mNumComments = numComments;
         }
 
         @Override
@@ -345,10 +348,16 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
         @Override
         public void onClick(View view) {
-            mContext.startActivity(new Intent(mContext, SubRedditDetailActivity.class)
-                    .putExtra(Costant.EXTRA_SUBREDDIT_DETAIL_POSITION, mPosition)
-                    .putExtra(Costant.EXTRA_SUBREDDIT_DETAIL_CATEGORY, mSubRedditName)
-                    .putExtra(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID, mNameRedditId));
+
+            if(mNumComments >0){
+                mContext.startActivity(new Intent(mContext, SubRedditDetailActivity.class)
+                        .putExtra(Costant.EXTRA_SUBREDDIT_DETAIL_POSITION, mPosition)
+                        .putExtra(Costant.EXTRA_SUBREDDIT_DETAIL_CATEGORY, mSubRedditName)
+                        .putExtra(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID, mNameRedditId));
+
+            }else {
+                Toast.makeText(mContext,mContext.getString(R.string.text_no_comments),Toast.LENGTH_LONG).show();
+            }
 
         }
     }

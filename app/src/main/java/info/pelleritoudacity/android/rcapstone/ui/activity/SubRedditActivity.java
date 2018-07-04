@@ -33,6 +33,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -40,7 +41,6 @@ import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import com.google.android.exoplayer2.util.Util;
 
@@ -49,22 +49,32 @@ import java.util.Objects;
 import butterknife.BindView;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Operation.T3Operation;
+import info.pelleritoudacity.android.rcapstone.data.rest.RefreshTokenExecute;
+import info.pelleritoudacity.android.rcapstone.data.rest.RestExecute;
 import info.pelleritoudacity.android.rcapstone.media.MediaSession;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.data.rest.SubRedditExecute;
+import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditFragment;
 import info.pelleritoudacity.android.rcapstone.ui.view.SubRedditTab;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
+import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.PermissionUtil.RequestPermissionExtStorage;
+import static info.pelleritoudacity.android.rcapstone.utility.SessionUtil.getRedditSessionExpired;
 
 
 public class SubRedditActivity extends BaseActivity
         implements SubRedditExecute.RestSubReddit, ActivityCompat.OnRequestPermissionsResultCallback,
         SubRedditTab.OnTabListener, SwipeRefreshLayout.OnRefreshListener {
+
+    @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
+    @BindView(R.id.subreddit_container)
+    public CoordinatorLayout mContainer;
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.tab_layout)
@@ -90,36 +100,61 @@ public class SubRedditActivity extends BaseActivity
 
         mRefreshLayout.setOnRefreshListener(this);
 
+        firstInit();
+
         if (Util.SDK_INT > 23) {
             RequestPermissionExtStorage(SubRedditActivity.this);
             PermissionUtil.isDeniedPermissionExtStorage(SubRedditActivity.this);
         }
 
-
         if (savedInstanceState == null) {
 
-            if (TextUtils.isEmpty(mRedditCategory)) {
-                Intent intentCategory = getIntent();
-                if (intentCategory != null) {
-                    mRedditCategory = intentCategory.getStringExtra(Costant.EXTRA_SUBREDDIT_CATEGORY);
-                    mRedditTarget = intentCategory.getStringExtra(Costant.EXTRA_SUBREDDIT_TARGET);
+            if (Util.SDK_INT > 24) {
+                if ((getIntent() != null) &&
+                        getIntent().getAction().equals(Costant.ACTION_SHORTCUT_ALL)) {
 
-                    if (intentCategory.getBooleanExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_REFRESH, false)) {
-                        isRefresh = true;
-                        mRedditCategory = Preference.getLastCategory(mContext);
+                    mRedditCategory = Costant.SUBREDDIT_CATEGORY_ALL;
+                    mRedditTarget = Costant.SUBREDDIT_TARGET_ALL;
 
-                    }
+                } else if ((getIntent() != null) &&
+                        getIntent().getAction().equals(Costant.ACTION_SHORTCUT_POPULAR)) {
 
-                    createTabLayout();
+                    mRedditCategory = Costant.SUBREDDIT_CATEGORY_POPULAR;
+                    mRedditTarget = Costant.SUBREDDIT_TARGET_POPULAR;
+
+                } else if ((getIntent() != null) &&
+                        getIntent().getAction().equals(Costant.ACTION_SHORTCUT_SEARCH)) {
+
                 }
+
+            } else if ((getIntent() != null) &&
+                    (!TextUtils.isEmpty(getIntent().getStringExtra(Costant.EXTRA_SUBREDDIT_TARGET)))) {
+
+                mRedditCategory = getIntent().getStringExtra(Costant.EXTRA_SUBREDDIT_CATEGORY);
+                mRedditTarget = getIntent().getStringExtra(Costant.EXTRA_SUBREDDIT_TARGET);
+
+            } else {
+
+                if (!TextUtils.isEmpty(Preference.getLastCategory(mContext))) {
+                    mRedditCategory = Preference.getLastCategory(mContext);
+                    mRedditTarget = Preference.getLastTarget(mContext);
+
+                } else {
+                    if (getTabArrayList() != null) {
+                        mRedditCategory = getTabArrayList().get(0);
+                        mRedditTarget = null;
+                    }
+                }
+
             }
+
 
         } else {
             mRedditCategory = savedInstanceState.getString(Costant.EXTRA_SUBREDDIT_CATEGORY);
             mRedditTarget = savedInstanceState.getString(Costant.EXTRA_SUBREDDIT_TARGET);
-            createTabLayout();
-
         }
+
+        createTabLayout();
 
         if (mContext != null) {
             if (isRefresh) {
@@ -128,11 +163,63 @@ public class SubRedditActivity extends BaseActivity
 
             } else {
                 Preference.setLastCategory(mContext, mRedditCategory);
+                Preference.setLastTarget(mContext, mRedditTarget);
                 initRest(mRedditCategory, mRedditTarget, NetworkUtil.isOnline(mContext));
 
             }
         }
 
+    }
+
+    private void firstInit() {
+
+        if (!Preference.isInsertPrefs(mContext)) {
+            new RestExecute(getApplicationContext()).syncData();
+
+        }
+
+        initializeFirebaseDispatcherService();
+
+        Preference.setVolumeMuted(mContext, Costant.IS_MUTED_AUDIO);
+
+        if (Preference.isClearData(mContext)) {
+            Snackbar.make(findViewById(R.id.main_container), R.string.text_dialog_confirm_reset, Snackbar.LENGTH_LONG).show();
+            Preference.setClearData(mContext, false);
+        }
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            int restore = intent.getIntExtra(Costant.EXTRA_RESTORE_MANAGE, 0);
+
+            switch (restore) {
+                case Costant.RESTORE_MANAGE_RESTORE:
+                    Preference.setRestoreManage(mContext,
+                            Costant.RESTORE_MANAGE_RESTORE);
+                    startActivity(new Intent(this, SubManageActivity.class)
+                            .putExtra(Costant.EXTRA_RESTORE_MANAGE, Costant.RESTORE_MANAGE_RESTORE));
+
+                    break;
+                case Costant.RESTORE_MANAGE_REDIRECT:
+                    startActivity(new Intent(this, SubManageActivity.class)
+                            .putExtra(Costant.EXTRA_RESTORE_MANAGE, Costant.RESTORE_MANAGE_REDIRECT));
+                    break;
+
+            }
+
+            boolean isLogged = intent.getBooleanExtra(Costant.EXTRA_LOGIN_SUCCESS, false);
+            boolean isLogout = intent.getBooleanExtra(Costant.EXTRA_LOGOUT_SUCCESS, false);
+
+            if (isLogged) {
+                Snackbar.make(mContainer,
+                        R.string.text_login_success, Snackbar.LENGTH_LONG).show();
+
+            } else if (isLogout) {
+                Snackbar.make(mContainer,
+                        R.string.text_logout_success, Snackbar.LENGTH_LONG).show();
+
+            }
+
+        }
     }
 
     @Override
@@ -145,7 +232,7 @@ public class SubRedditActivity extends BaseActivity
                 mRefreshLayout.setRefreshing(false);
             } else {
                 // todo comment not available implement function
-                Snackbar.make(findViewById(R.id.subreddit_container), R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
+                Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
             }
         }
     }
@@ -160,6 +247,8 @@ public class SubRedditActivity extends BaseActivity
         if (mContext != null) {
             mRedditTarget = null;
             mRedditCategory = category;
+            Preference.setLastCategory(mContext, mRedditCategory);
+            Preference.setLastTarget(mContext, mRedditTarget);
             initRest(category, null, NetworkUtil.isOnline(mContext));
 
         }
@@ -232,12 +321,12 @@ public class SubRedditActivity extends BaseActivity
 
         if (!NetworkUtil.isOnline(mContext)) {
             mRefreshLayout.setRefreshing(false);
-            Snackbar.make(findViewById(R.id.subreddit_container), R.string.error_refresh_offline, Snackbar.LENGTH_LONG).show();
+            Snackbar.make(mContainer, R.string.error_refresh_offline, Snackbar.LENGTH_LONG).show();
 
         } else if (getApplicationContext() != null) {
             isRefresh = true;
-            initRest(Preference.getLastCategory(getApplicationContext()), mRedditTarget, NetworkUtil.isOnline(mContext));
-
+            initRest(Preference.getLastCategory(getApplicationContext()), Preference.getLastTarget(mContext), NetworkUtil.isOnline(mContext));
+            Timber.d("VALXPREF cat %s target %s ", Preference.getLastCategory(getApplicationContext()), Preference.getLastTarget(getApplicationContext()));
         }
 
     }
@@ -285,5 +374,31 @@ public class SubRedditActivity extends BaseActivity
         mSubRedditTab.initTab();
         mSubRedditTab.positionSelected(mRedditCategory);
     }
+
+
+    public static void homeActivity(Context context) {
+        context.startActivity(new Intent(context, SubRedditActivity.class)
+                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_ANIMATION
+                        | Intent.FLAG_ACTIVITY_NO_HISTORY));
+    }
+
+
+    private void initializeFirebaseDispatcherService() {
+
+        if (Preference.isLoginStart(mContext)) {
+
+            int redditSessionExpired = getRedditSessionExpired(getApplicationContext());
+            if (redditSessionExpired <= Costant.SESSION_TIMEOUT_DEFAULT) {
+
+                String strRefreshToken = Preference.getSessionRefreshToken(mContext);
+                new RefreshTokenExecute(strRefreshToken).syncData(getApplicationContext());
+
+            } else {
+
+                FirebaseRefreshTokenSync.initialize(this, redditSessionExpired);
+            }
+        }
+    }
+
 
 }

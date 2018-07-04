@@ -48,7 +48,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
@@ -170,7 +169,7 @@ public class BaseActivity extends AppCompatActivity
         MenuInflater inflater = getMenuInflater();
 
         switch (getLayoutResource()) {
-            case R.layout.activity_main:
+            case R.layout.activity_subreddit:
                 inflater.inflate(R.menu.main, menu);
                 break;
             case R.layout.activity_submanage:
@@ -197,8 +196,7 @@ public class BaseActivity extends AppCompatActivity
         MenuItem menuItemLogin;
         MenuItem menuItemLogout;
 
-        if ((getLayoutResource() == R.layout.activity_main) ||
-                (getLayoutResource() == R.layout.activity_subreddit)) {
+        if (getLayoutResource() == R.layout.activity_subreddit) {
 
             menuItemLogin = menu.findItem(R.id.menu_action_login);
             menuItemLogout = menu.findItem(R.id.menu_action_logout);
@@ -235,8 +233,7 @@ public class BaseActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if ((getLayoutResource() == R.layout.activity_main) ||
-                (getLayoutResource() == R.layout.activity_subreddit) ||
+        if ((getLayoutResource() == R.layout.activity_subreddit) ||
                 (getLayoutResource() == R.layout.activity_sub_reddit_detail) ||
                 (getLayoutResource() == R.layout.activity_submanage)) {
 
@@ -244,7 +241,7 @@ public class BaseActivity extends AppCompatActivity
             switch (id) {
 
                 case R.id.menu_action_restore:
-                    startActivity(new Intent(this, MainActivity.class).putExtra(Costant.EXTRA_RESTORE_MANAGE, Costant.RESTORE_MANAGE_RESTORE));
+                    startActivity(new Intent(this, SubRedditActivity.class).putExtra(Costant.EXTRA_RESTORE_MANAGE, Costant.RESTORE_MANAGE_RESTORE));
                     return true;
                 case R.id.menu_action_login:
                     startActivity(new Intent(this, LoginActivity.class));
@@ -275,38 +272,38 @@ public class BaseActivity extends AppCompatActivity
                 case R.id.submenu_top_hour:
                     Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_TOP);
                     Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_HOUR);
-                    MainActivity.homeActivity(getApplicationContext());
+                    SubRedditActivity.homeActivity(getApplicationContext());
                     break;
                 case R.id.submenu_top_day:
                     Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_TOP);
                     Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_DAY);
-                    MainActivity.homeActivity(getApplicationContext());
+                    SubRedditActivity.homeActivity(getApplicationContext());
                     break;
                 case R.id.submenu_top_week:
                     Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_TOP);
                     Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_WEEK);
-                    MainActivity.homeActivity(getApplicationContext());
+                    SubRedditActivity.homeActivity(getApplicationContext());
                     break;
                 case R.id.submenu_top_month:
                     Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_TOP);
                     Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_MONTH);
-                    MainActivity.homeActivity(getApplicationContext());
+                    SubRedditActivity.homeActivity(getApplicationContext());
                     break;
                 case R.id.submenu_top_year:
                     Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_TOP);
                     Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_YEAR);
-                    MainActivity.homeActivity(getApplicationContext());
+                    SubRedditActivity.homeActivity(getApplicationContext());
                     break;
                 case R.id.submenu_top_all:
                     Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_TOP);
                     Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_ALL);
-                    MainActivity.homeActivity(getApplicationContext());
+                    SubRedditActivity.homeActivity(getApplicationContext());
                     break;
 
                 case R.id.submenu_controver_hour:
                     Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_CONTROVERSIAL);
                     Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_HOUR);
-                    MainActivity.homeActivity(getApplicationContext());
+                    SubRedditActivity.homeActivity(getApplicationContext());
                     break;
                 case R.id.submenu_controver_day:
                     Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_CONTROVERSIAL);
@@ -315,51 +312,51 @@ public class BaseActivity extends AppCompatActivity
                 case R.id.submenu_controver_week:
                     Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_CONTROVERSIAL);
                     Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_WEEK);
-                    MainActivity.homeActivity(getApplicationContext());
+                    SubRedditActivity.homeActivity(getApplicationContext());
                     break;
                 case R.id.submenu_controver_month:
                     Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_CONTROVERSIAL);
                     Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_MONTH);
-                    MainActivity.homeActivity(getApplicationContext());
+                    SubRedditActivity.homeActivity(getApplicationContext());
                     break;
                 case R.id.submenu_controver_year:
                     Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_CONTROVERSIAL);
                     Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_YEAR);
-                    MainActivity.homeActivity(getApplicationContext());
+                    SubRedditActivity.homeActivity(getApplicationContext());
                     break;
                 case R.id.submenu_controver_all:
                     Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_CONTROVERSIAL);
                     Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_ALL);
-                    MainActivity.homeActivity(getApplicationContext());
+                    SubRedditActivity.homeActivity(getApplicationContext());
                     break;
                 case R.id.action_general_images:
                     Preference.setGeneralImages(getApplicationContext(), !Preference.isGeneralImages(getApplicationContext()));
-                    MainActivity.homeActivity(getApplicationContext());
+                    SubRedditActivity.homeActivity(getApplicationContext());
                     break;
 
                 case R.id.action_general_gifs:
                     Preference.setGeneralGifs(getApplicationContext(), !Preference.isGeneralGifs(getApplicationContext()));
-                    MainActivity.homeActivity(getApplicationContext());
+                    SubRedditActivity.homeActivity(getApplicationContext());
                     break;
 
                 case R.id.action_general_albums:
                     Preference.setGeneralAlbums(getApplicationContext(), !Preference.isGeneralAlbums(getApplicationContext()));
-                    MainActivity.homeActivity(getApplicationContext());
+                    SubRedditActivity.homeActivity(getApplicationContext());
                     break;
 
                 case R.id.action_general_videos:
                     Preference.setGeneralVideos(getApplicationContext(), !Preference.isGeneralVideos(getApplicationContext()));
-                    MainActivity.homeActivity(getApplicationContext());
+                    SubRedditActivity.homeActivity(getApplicationContext());
                     break;
 
                 case R.id.action_general_self:
                     Preference.setGeneralSelf(getApplicationContext(), !Preference.isGeneralSelf(getApplicationContext()));
-                    MainActivity.homeActivity(getApplicationContext());
+                    SubRedditActivity.homeActivity(getApplicationContext());
                     break;
 
                 case R.id.action_general_links:
                     Preference.setGeneralLinks(getApplicationContext(), !Preference.isGeneralLinks(getApplicationContext()));
-                    MainActivity.homeActivity(getApplicationContext());
+                    SubRedditActivity.homeActivity(getApplicationContext());
                     break;
 
 
@@ -418,18 +415,18 @@ public class BaseActivity extends AppCompatActivity
     private void menuClickRefresh(int layoutResource) {
         switch (layoutResource) {
             case R.layout.activity_subreddit:
-                Intent intentSubreddit = new Intent(getApplicationContext(),SubRedditActivity.class);
-                intentSubreddit.putExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_REFRESH,true);
+                Intent intentSubreddit = new Intent(getApplicationContext(), SubRedditActivity.class);
+                intentSubreddit.putExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_REFRESH, true);
                 getApplicationContext().startActivity(intentSubreddit);
                 break;
 
             case R.layout.activity_sub_reddit_detail:
-                Intent intentSubredditDetail = new Intent(getApplicationContext(),SubRedditDetailActivity.class);
-                intentSubredditDetail.putExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_DETAIL_REFRESH,true);
+                Intent intentSubredditDetail = new Intent(getApplicationContext(), SubRedditDetailActivity.class);
+                intentSubredditDetail.putExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_DETAIL_REFRESH, true);
                 getApplicationContext().startActivity(intentSubredditDetail);
                 break;
 
-                default:
+            default:
         }
 
     }
@@ -466,7 +463,6 @@ public class BaseActivity extends AppCompatActivity
     private void menuNavigation(NavigationView navigationView) {
 
         switch (getLayoutResource()) {
-            case R.layout.activity_main:
             case R.layout.activity_subreddit:
             case R.layout.activity_sub_reddit_detail:
             default:
@@ -645,7 +641,7 @@ public class BaseActivity extends AppCompatActivity
 
 
     protected void openHomeActivity() {
-        startActivity(new Intent(this, MainActivity.class)
+        startActivity(new Intent(this, SubRedditActivity.class)
                 .setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION));
     }
 

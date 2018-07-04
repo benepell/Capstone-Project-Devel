@@ -9,8 +9,8 @@
         android:shortcutLongLabel="@string/shortcut_long_text_all"
         android:shortcutShortLabel="@string/shortcut_text_all">
         <intent
-            android:action="@string/shortcut_intent_action_all"
-            android:targetClass="info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity"
+            android:action="info.pelleritoudacity.android.rcapstone.shortcut.all"
+            android:targetClass="info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity"
             android:targetPackage="info.pelleritoudacity.android.rcapstone.free.debug" />
     </shortcut>
 
@@ -23,8 +23,8 @@
         android:shortcutLongLabel="@string/shortcut_long_text_popular"
         android:shortcutShortLabel="@string/shortcut_text_popular">
         <intent
-            android:action="@string/shortcut_intent_action_popular"
-            android:targetClass="info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity"
+            android:action="info.pelleritoudacity.android.rcapstone.shortcut.popular"
+            android:targetClass="info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity"
             android:targetPackage="info.pelleritoudacity.android.rcapstone.free.debug" />
     </shortcut>
 
@@ -37,8 +37,8 @@
         android:shortcutLongLabel="@string/shortcut_long_text_search"
         android:shortcutShortLabel="@string/shortcut_text_search">
         <intent
-            android:action="@string/shortcut_intent_action_search"
-            android:targetClass="info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity"
+            android:action="info.pelleritoudacity.android.rcapstone.shortcut.search"
+            android:targetClass="info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity"
             android:targetPackage="info.pelleritoudacity.android.rcapstone.free.debug" />
     </shortcut>
 

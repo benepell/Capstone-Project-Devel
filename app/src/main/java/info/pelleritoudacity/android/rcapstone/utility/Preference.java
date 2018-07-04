@@ -20,6 +20,7 @@ public class Preference {
             R.string.pref_tab_history,
             R.string.pref_time_sort,
             R.string.pref_last_category,
+            R.string.pref_last_target,
             R.string.pref_last_comment,
             R.string.pref_sync_frequency,
             R.string.pref_volume_muted,
@@ -123,6 +124,14 @@ public class Preference {
 
     public static void setLastCategory(Context context, String s) {
         PrefManager.putStringPref(context, Costant.PREFERENCE_LAST_CATEGORY, s);
+    }
+
+    public static void setLastTarget(Context context, String s) {
+        PrefManager.putStringPref(context, Costant.PREFERENCE_LAST_TARGET, s);
+    }
+
+    public static String getLastTarget(Context context) {
+        return PrefManager.getStringPref(context, Costant.PREFERENCE_LAST_TARGET);
     }
 
     public static String getLastComment(Context context) {
