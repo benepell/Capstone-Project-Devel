@@ -109,24 +109,24 @@ public class SubRedditActivity extends BaseActivity
 
         if (savedInstanceState == null) {
 
-            if (Util.SDK_INT > 24) {
-                if ((getIntent() != null) &&
-                        getIntent().getAction().equals(Costant.ACTION_SHORTCUT_ALL)) {
+            if ((Util.SDK_INT > 24) && (getIntent() != null) && (getIntent().getAction() != null)) {
 
-                    mRedditCategory = Costant.SUBREDDIT_CATEGORY_ALL;
-                    mRedditTarget = Costant.SUBREDDIT_TARGET_ALL;
+                switch (getIntent().getAction()) {
 
-                } else if ((getIntent() != null) &&
-                        getIntent().getAction().equals(Costant.ACTION_SHORTCUT_POPULAR)) {
+                    case Costant.ACTION_SHORTCUT_ALL:
+                        mRedditCategory = Costant.SUBREDDIT_CATEGORY_ALL;
+                        mRedditTarget = Costant.SUBREDDIT_TARGET_ALL;
+                        break;
 
-                    mRedditCategory = Costant.SUBREDDIT_CATEGORY_POPULAR;
-                    mRedditTarget = Costant.SUBREDDIT_TARGET_POPULAR;
+                    case Costant.ACTION_SHORTCUT_POPULAR:
+                        mRedditCategory = Costant.SUBREDDIT_CATEGORY_ALL;
+                        mRedditTarget = Costant.SUBREDDIT_TARGET_ALL;
+                        break;
 
-                } else if ((getIntent() != null) &&
-                        getIntent().getAction().equals(Costant.ACTION_SHORTCUT_SEARCH)) {
+                    case Costant.ACTION_SHORTCUT_SEARCH:
+                        break;
 
                 }
-
             }
 
             if (TextUtils.isEmpty(mRedditTarget)) {
