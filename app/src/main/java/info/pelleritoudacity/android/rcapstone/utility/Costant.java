@@ -117,6 +117,7 @@ public interface Costant {
     String EXTRA_RESTORE_MANAGE = "info.pelleritoudacity.android.rcapstone.extra.restore.manage";
 
     String EXTRA_YOUTUBE_PARAM = "info.pelleritoudacity.android.rcapstone.extra.youtube.param";
+    String EXTRA_YOUTUBE_TITLE = "info.pelleritoudacity.android.rcapstone.extra.youtube.title";
 
     String ACTION_SHORTCUT_POPULAR = "info.pelleritoudacity.android.rcapstone.shortcut.popular";
     String ACTION_SHORTCUT_ALL = "info.pelleritoudacity.android.rcapstone.shortcut.all";

@@ -177,7 +177,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
                             TextUtil.textFromHtml(record.getThumbnailUrlOembed()),
                             record.getThumbnailOembedWidth(), record.getThumbnailOembedHeight(),
                             TextUtil.textFromHtml(record.getVideoUrl()), record.getVideoOembedWidth(),
-                            record.getVideoOembedHeight());
+                            record.getVideoOembedHeight(),record.getTitle());
 
                     holder.mImageViewSubReddit.setVisibility(View.GONE);
                     break;

@@ -161,7 +161,7 @@ public class SubRedditHelper {
 
     public void youtubeVideoFirstFrame(FrameLayout layout, ImageView imageView, ProgressBar progressBar,
                                        String thumbnailUrl, int thumbnailWidth, int thumbnailHeight,
-                                       String videoUrl, int videoWidth, int videoHeight) {
+                                       String videoUrl, int videoWidth, int videoHeight,String title) {
         Glide.with(mContext)
                 .asBitmap()
                 .load(thumbnailUrl)
@@ -192,7 +192,9 @@ public class SubRedditHelper {
                         imageView.setOnClickListener(v -> {
                             progressBar.setVisibility(View.VISIBLE);
                             mContext.startActivity(new Intent(mContext,
-                                    MediaYoutubeActivity.class).putExtra(Costant.EXTRA_YOUTUBE_PARAM, videoUrl)
+                                    MediaYoutubeActivity.class)
+                                    .putExtra(Costant.EXTRA_YOUTUBE_PARAM, videoUrl)
+                                    .putExtra(Costant.EXTRA_YOUTUBE_TITLE,title)
 
                             );
                             layout.setVisibility(View.VISIBLE);

@@ -8,6 +8,7 @@
     <integer name="icon_card_bottom">25</integer>
     <integer name="list_body_text_detail">30</integer>
 
+    <integer name="icon_toolbar_back">25</integer>
     <integer name="icon_size_fullscreen">30</integer>
     <integer name="icon_size_exit_fullscreen">30</integer>
     <integer name="icon_size_muted">25</integer>
