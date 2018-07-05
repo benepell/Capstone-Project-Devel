@@ -27,6 +27,7 @@
 package info.pelleritoudacity.android.rcapstone.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -81,16 +82,10 @@ public class SubScriptionsFragment extends Fragment
     public SubScriptionsFragment() {
     }
 
-    public static SubScriptionsFragment newInstance() {
-        return new SubScriptionsFragment();
-    }
-
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getActivity();
-
     }
 
     @Override
@@ -207,7 +202,8 @@ public class SubScriptionsFragment extends Fragment
     public void onItemRemove(int position, String description) {
         DataUtils dataUtils = new DataUtils(mContext);
         if (dataUtils.updateManageRemoved(description)) {
-            SubManageActivity.manageToMainActivity(mContext);
+            startActivity(new Intent(mContext, SubManageActivity.class)
+                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_NO_ANIMATION));
         }
 
     }
@@ -217,7 +213,7 @@ public class SubScriptionsFragment extends Fragment
         if (context != null) {
             Preference.setRestoreManage(context, 0);
             int theme = R.style.confirmDialogDark;
-            if(Preference.isNightMode(context)){
+            if (Preference.isNightMode(context)) {
                 theme = R.style.confirmDialogDark;
             }
             AlertDialog.Builder dialog = new AlertDialog.Builder(context, theme);
@@ -227,8 +223,8 @@ public class SubScriptionsFragment extends Fragment
 
             dialog.setPositiveButton(R.string.text_positive_restore_confirm, (dialog1, which) -> {
                 if (new DataUtils(context).updateManageRestore()) {
-                    // todo new entry
-                    SubManageActivity.manageToMainActivity(context);
+                    startActivity(new Intent(context, SubManageActivity.class)
+                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_NO_ANIMATION));
                 }
             });
 

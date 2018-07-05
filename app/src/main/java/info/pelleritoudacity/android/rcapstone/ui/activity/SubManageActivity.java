@@ -27,9 +27,7 @@
 package info.pelleritoudacity.android.rcapstone.ui.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
-import android.net.Network;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -44,7 +42,6 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.rest.RestExecute;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubScriptionsFragment;
-import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
@@ -56,19 +53,15 @@ public class SubManageActivity extends BaseActivity {
     @BindView(R.id.submanage_container)
     public CoordinatorLayout mContainer;
 
-    private static WeakReference<Context> sWeakContext;
-    private static WeakReference<android.support.v4.app.FragmentManager> sWeakFragmentManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setLayoutResource(R.layout.activity_submanage);
         super.onCreate(savedInstanceState);
 
-        sWeakContext = new WeakReference<>(getApplicationContext());
-        sWeakFragmentManager = new WeakReference<>(getSupportFragmentManager());
+        WeakReference<Context> mWeakContext = new WeakReference<>(getApplicationContext());
 
         if (Preference.isInsertPrefs(getApplicationContext())) {
-            new SubManageAsyncTask().execute();
+            new SubManageAsyncTask(mWeakContext).execute();
 
         } else if ((!Preference.isInsertPrefs(getApplicationContext()) && (NetworkUtil.isOnline(getApplicationContext())))) {
             new RestExecute(getApplicationContext()).syncData();
@@ -80,12 +73,35 @@ public class SubManageActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        startFragment();
+    }
+
+    private void startFragment() {
+        SubScriptionsFragment subScriptionsFragment = new SubScriptionsFragment();
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                        android.R.anim.slide_in_left,
+                        android.R.anim.slide_out_right,
+                        R.anim.layout_animation_from_right,
+                        R.anim.layout_animation_from_right)
+                .replace(R.id.fragment_list_container, subScriptionsFragment).commit();
+    }
+
     private static class SubManageAsyncTask extends AsyncTask<Void, Void, Cursor> {
+
+        private final WeakReference<Context> mWeakContext;
+
+        SubManageAsyncTask(WeakReference<Context> weakContext) {
+            mWeakContext = weakContext;
+        }
 
         @Override
         protected Cursor doInBackground(Void... voids) {
             try {
-                Context context = sWeakContext.get();
+                Context context = mWeakContext.get();
 
                 Uri uri = Contract.PrefSubRedditEntry.CONTENT_URI;
                 String selection = Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED + " =? AND " + Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE + " =?";
@@ -106,7 +122,7 @@ public class SubManageActivity extends BaseActivity {
         @Override
         protected void onPostExecute(Cursor cursor) {
             super.onPostExecute(cursor);
-            Context context = sWeakContext.get();
+            Context context = mWeakContext.get();
 
             try {
 
@@ -122,18 +138,8 @@ public class SubManageActivity extends BaseActivity {
                         String strPref = TextUtil.arrayToString(arrayList);
                         Preference.setSubredditKey(context, strPref);
                     }
-
-                    android.support.v4.app.FragmentManager fragmentManager = sWeakFragmentManager.get();
-                    SubScriptionsFragment subScriptionsFragment = new SubScriptionsFragment();
-                    fragmentManager.beginTransaction()
-                            .setCustomAnimations(
-                                    android.R.anim.slide_in_left,
-                                    android.R.anim.slide_out_right,
-                                    R.anim.layout_animation_from_right,
-                                    R.anim.layout_animation_from_right)
-                            .replace(R.id.fragment_list_container, subScriptionsFragment).commit();
-
                 }
+
             } finally {
                 if ((cursor != null) && (!cursor.isClosed())) {
                     cursor.close();
@@ -144,8 +150,4 @@ public class SubManageActivity extends BaseActivity {
 
     }
 
-    public static void manageToMainActivity(Context context) {
-        context.startActivity(new Intent(context, SubRedditActivity.class).putExtra(Costant.EXTRA_RESTORE_MANAGE, Costant.RESTORE_MANAGE_REDIRECT)
-                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_NO_ANIMATION));
-    }
 }
