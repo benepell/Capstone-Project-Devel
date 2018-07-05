@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -59,10 +58,10 @@
             android:gravity="center_horizontal"
             android:maxLines="@integer/list_body_text_subtitle"
             android:paddingBottom="@dimen/list_padding_vertical_author"
-            android:paddingEnd= "@dimen/list_padding_horizontal_author"
+            android:paddingEnd="@dimen/list_padding_horizontal_author"
             android:paddingStart="@dimen/list_padding_horizontal_author"
-            android:textColor="@color/deep_orange_A400"
-            android:textStyle="italic" />
+            android:textColor="?android:attr/colorAccent"
+            android:textStyle="bold|italic" />
 
         <TextView
             android:id="@+id/tv_domain_selected"
@@ -76,9 +75,8 @@
             android:paddingBottom="@dimen/list_padding_vertical_author"
             android:paddingEnd="@dimen/list_padding_horizontal_author"
             android:paddingStart="@dimen/list_padding_horizontal_author"
-            android:textColor="@color/textColorSecondary"
+            android:textColor="?android:attr/textColorSecondary"
             android:textStyle="normal" />
-
 
 
     </LinearLayout>
@@ -104,7 +102,7 @@
             android:paddingBottom="@dimen/list_padding_vertical_author"
             android:paddingEnd="@dimen/list_padding_horizontal_author"
             android:paddingStart="@dimen/list_padding_horizontal_author"
-            android:textColor="@color/textColorSecondary"
+            android:textColor="?android:attr/textColorSecondary"
             android:textStyle="bold" />
 
         <TextView
@@ -139,6 +137,6 @@
 
     </LinearLayout>
 
-    <include layout="@layout/inc_select_bottom"/>
+    <include layout="@layout/inc_select_bottom" />
 
 </LinearLayout>
