@@ -26,29 +26,54 @@
 
 package info.pelleritoudacity.android.rcapstone.ui.fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.content.IntentCompat;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
+import android.widget.Toast;
 
 import com.google.android.exoplayer2.util.Util;
 
 import info.pelleritoudacity.android.rcapstone.R;
+import info.pelleritoudacity.android.rcapstone.ui.activity.SettingsActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 
-public class SettingsFragment extends PreferenceFragmentCompat  {
+public class SettingsFragment extends PreferenceFragmentCompat {
 
     private String mAppVersionName;
+    OnSettingsFragmentInteraction mListener;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        setPreferencesFromResource(R.xml.pref_general_settings,rootKey);
+        setPreferencesFromResource(R.xml.pref_general_settings, rootKey);
 
+        applyTheme(getActivity());
         prefMail();
         prefVersion();
         prefOver18();
+
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mListener = (OnSettingsFragmentInteraction) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().getLocalClassName() + "must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
 
     private void prefMail() {
         final Preference mailTo = findPreference("pref_contact");
@@ -100,20 +125,35 @@ public class SettingsFragment extends PreferenceFragmentCompat  {
             boolean isOver18 = info.pelleritoudacity.android.rcapstone.utility.Preference.isLoginOver18(getContext());
             boolean isLogged = info.pelleritoudacity.android.rcapstone.utility.Preference.isLoginStart(getContext());
 
-            if(isLogged){
+            if (isLogged) {
 
-                if(isOver18){
+                if (isOver18) {
                     prefAdultFilter.setEnabled(true);
 
-                }else {
+                } else {
                     prefAdultFilter.setEnabled(false);
                     prefAdultFilter.setSummary(R.string.reddit_adultcontent_text);
                 }
-            }else {
+            } else {
                 prefAdultFilter.setEnabled(false);
                 prefAdultFilter.setSummary(R.string.reddit_nologinadultcontent_text);
             }
 
         }
+    }
+
+    private void applyTheme(Context context) {
+        final Preference preference = findPreference(getString(R.string.pref_night_mode));
+        preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                mListener.applytheme(true);
+                return true;
+            }
+        });
+
+    }
+
+    public interface OnSettingsFragmentInteraction {
+        void applytheme(boolean b);
     }
 }

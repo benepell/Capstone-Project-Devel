@@ -544,12 +544,16 @@ public class BaseActivity extends AppCompatActivity
 
             int groupId = menu.findItem(R.id.nav_mode_subs).getGroupId();
 
+            int colorTheme = Color.DKGRAY;
+            if(Preference.isNightMode(getApplicationContext())){
+                colorTheme = Color.WHITE;
+            }
             for (String string : mTabArrayList) {
 
                 TypefaceSpan typefaceSpan = new TypefaceSpan("/font/roboto_thin.ttf"); // OR  THIS
                 SpannableStringBuilder title = new SpannableStringBuilder(string);
                 title.setSpan(typefaceSpan, 0, title.length(), 0);
-                title.setSpan(new ForegroundColorSpan(Color.DKGRAY), 0, title.length(), 0);
+                title.setSpan(new ForegroundColorSpan(colorTheme), 0, title.length(), 0);
 
                 MenuItem menuItem = menu.add(groupId, Menu.NONE, Menu.NONE, title);
 

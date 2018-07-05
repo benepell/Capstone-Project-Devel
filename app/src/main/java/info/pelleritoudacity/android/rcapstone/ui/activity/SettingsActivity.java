@@ -26,6 +26,7 @@
 
 package info.pelleritoudacity.android.rcapstone.ui.activity;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -37,7 +38,7 @@ import android.widget.FrameLayout;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SettingsFragment;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity implements SettingsFragment.OnSettingsFragmentInteraction {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,6 @@ public class SettingsActivity extends AppCompatActivity {
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.AppThemeDark);
         }
-
         setContentView(R.layout.activity_settings);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             FrameLayout frameLayout = findViewById(R.id.fragment_settings_container);
@@ -54,10 +54,32 @@ public class SettingsActivity extends AppCompatActivity {
             frameLayout.setLayoutAnimation(layoutAnimationController);
         }
 
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_settings_container, new SettingsFragment())
-                    .commit();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_settings_container, new SettingsFragment())
+                .commit();
 
     }
 
+    @Override
+    public void applytheme(boolean b) {
+        if (b) {
+            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+            }
+            startActivity(new Intent(this, SettingsActivity.class)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this, SubRedditActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+
+    }
 }
