@@ -148,77 +148,20 @@ public class SubRedditActivity extends BaseActivity
 
         createTabLayout();
 
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
         if (mContext != null) {
             mRefreshLayout.setRefreshing(true);
-            onRefresh();
-
             Preference.setLastCategory(mContext, mRedditCategory);
             Preference.setLastTarget(mContext, mRedditTarget);
-            initRest(mRedditCategory, mRedditTarget, NetworkUtil.isOnline(mContext));
-
+            onRefresh();
         }
 
     }
 
-
-    private void firstInit() {
-
-        initializeFirebaseDispatcherService();
-
-        Preference.setVolumeMuted(mContext, Costant.IS_MUTED_AUDIO);
-
-        if (Preference.isClearData(mContext)) {
-            Snackbar.make(mContainer, R.string.text_dialog_confirm_reset, Snackbar.LENGTH_LONG).show();
-            Preference.setClearData(mContext, false);
-        }
-
-        Intent intent = getIntent();
-        if (intent != null) {
-            int restore = intent.getIntExtra(Costant.EXTRA_RESTORE_MANAGE, 0);
-
-            switch (restore) {
-                case Costant.RESTORE_MANAGE_RESTORE:
-                    Preference.setRestoreManage(mContext,
-                            Costant.RESTORE_MANAGE_RESTORE);
-                    startActivity(new Intent(this, SubManageActivity.class)
-                            .putExtra(Costant.EXTRA_RESTORE_MANAGE, Costant.RESTORE_MANAGE_RESTORE));
-
-                    break;
-                case Costant.RESTORE_MANAGE_REDIRECT:
-                    startActivity(new Intent(this, SubManageActivity.class)
-                            .putExtra(Costant.EXTRA_RESTORE_MANAGE, Costant.RESTORE_MANAGE_REDIRECT));
-                    break;
-
-            }
-
-            boolean isLogged = intent.getBooleanExtra(Costant.EXTRA_LOGIN_SUCCESS, false);
-            boolean isLogout = intent.getBooleanExtra(Costant.EXTRA_LOGOUT_SUCCESS, false);
-
-            if (isLogged) {
-                Snackbar.make(mContainer,
-                        R.string.text_login_success, Snackbar.LENGTH_LONG).show();
-
-            } else if (isLogout) {
-                Snackbar.make(mContainer,
-                        R.string.text_logout_success, Snackbar.LENGTH_LONG).show();
-
-            }
-
-
-            if (intent.getBooleanExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_REFRESH, false)) {
-                mRefreshLayout.setRefreshing(true);
-                onRefresh();
-            }
-
-        }
-    }
 
     @Override
     public void onRestSubReddit(T3 listenerData) {
@@ -228,7 +171,6 @@ public class SubRedditActivity extends BaseActivity
                 createUI(mRedditCategory, mRedditTarget);
 
             } else {
-                // todo comment not available implement function
                 Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
             }
         }
@@ -312,19 +254,55 @@ public class SubRedditActivity extends BaseActivity
 
     }
 
-    public static class MediaReceiver extends BroadcastReceiver {
+    private void firstInit() {
 
-        public MediaReceiver() {
+        initializeFirebaseDispatcherService();
+
+        Preference.setVolumeMuted(mContext, Costant.IS_MUTED_AUDIO);
+
+        if (Preference.isClearData(mContext)) {
+            Snackbar.make(mContainer, R.string.text_dialog_confirm_reset, Snackbar.LENGTH_LONG).show();
+            Preference.setClearData(mContext, false);
         }
 
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (sMediaSessionCompat != null) {
-                MediaButtonReceiver.handleIntent(sMediaSessionCompat, intent);
+        Intent intent = getIntent();
+        if (intent != null) {
+            int restore = intent.getIntExtra(Costant.EXTRA_RESTORE_MANAGE, 0);
+
+            switch (restore) {
+                case Costant.RESTORE_MANAGE_RESTORE:
+                    Preference.setRestoreManage(mContext,
+                            Costant.RESTORE_MANAGE_RESTORE);
+                    startActivity(new Intent(this, SubManageActivity.class)
+                            .putExtra(Costant.EXTRA_RESTORE_MANAGE, Costant.RESTORE_MANAGE_RESTORE));
+
+                    break;
+                case Costant.RESTORE_MANAGE_REDIRECT:
+                    startActivity(new Intent(this, SubManageActivity.class)
+                            .putExtra(Costant.EXTRA_RESTORE_MANAGE, Costant.RESTORE_MANAGE_REDIRECT));
+                    break;
+
             }
+
+            boolean isLogged = intent.getBooleanExtra(Costant.EXTRA_LOGIN_SUCCESS, false);
+            boolean isLogout = intent.getBooleanExtra(Costant.EXTRA_LOGOUT_SUCCESS, false);
+
+            if (isLogged) {
+                Snackbar.make(mContainer,
+                        R.string.text_login_success, Snackbar.LENGTH_LONG).show();
+
+            } else if (isLogout) {
+                Snackbar.make(mContainer,
+                        R.string.text_logout_success, Snackbar.LENGTH_LONG).show();
+
+            }
+
+            if (intent.getBooleanExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_REFRESH, false)) {
+                mRefreshLayout.setRefreshing(true);
+                onRefresh();
+            }
+
         }
-
-
     }
 
 
@@ -332,6 +310,12 @@ public class SubRedditActivity extends BaseActivity
         updateTabPosition();
         startFragment(link, target);
         mRefreshLayout.setRefreshing(false);
+    }
+
+    private void createTabLayout() {
+        mSubRedditTab = new SubRedditTab(this, mTabLayout, getTabArrayList());
+        mSubRedditTab.initTab();
+        mSubRedditTab.positionSelected(mRedditCategory);
     }
 
     private void updateTabPosition() {
@@ -344,13 +328,6 @@ public class SubRedditActivity extends BaseActivity
         }
     }
 
-    private void startFragment(String link, String target) {
-        SubRedditFragment subRedditFragment = SubRedditFragment.newInstance(link, target);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_subreddit_container, subRedditFragment).commit();
-
-    }
-
     private void initRest(String link, String target, boolean stateNetworkOnline) {
         if (!TextUtils.isEmpty(link)) {
             if (stateNetworkOnline) {
@@ -358,24 +335,16 @@ public class SubRedditActivity extends BaseActivity
             } else {
                 createUI(link, target);
 
-
             }
 
         }
     }
 
-    private void createTabLayout() {
-        mSubRedditTab = new SubRedditTab(this, mTabLayout, getTabArrayList());
-        mSubRedditTab.initTab();
-        mSubRedditTab.positionSelected(mRedditCategory);
+    private void startFragment(String link, String target) {
+        SubRedditFragment subRedditFragment = SubRedditFragment.newInstance(link, target);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_subreddit_container, subRedditFragment).commit();
 
-    }
-
-
-    public static void homeActivity(Context context) {
-        context.startActivity(new Intent(context, SubRedditActivity.class)
-                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_ANIMATION
-                        | Intent.FLAG_ACTIVITY_NO_HISTORY));
     }
 
 
@@ -394,6 +363,28 @@ public class SubRedditActivity extends BaseActivity
                 FirebaseRefreshTokenSync.initialize(this, redditSessionExpired);
             }
         }
+    }
+
+
+    public static void homeActivity(Context context) {
+        context.startActivity(new Intent(context, SubRedditActivity.class)
+                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_ANIMATION
+                        | Intent.FLAG_ACTIVITY_NO_HISTORY));
+    }
+
+
+    public static class MediaReceiver extends BroadcastReceiver {
+
+        public MediaReceiver() {
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (sMediaSessionCompat != null) {
+                MediaButtonReceiver.handleIntent(sMediaSessionCompat, intent);
+            }
+        }
+
     }
 
 }
