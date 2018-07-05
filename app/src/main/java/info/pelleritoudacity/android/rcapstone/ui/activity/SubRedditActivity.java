@@ -127,61 +127,6 @@ public class SubRedditActivity extends BaseActivity
 
     }
 
-
-    @Override
-    public void onRestSubReddit(T3 listenerData) {
-        if ((getApplicationContext() != null) && (listenerData != null)) {
-            T3Operation data = new T3Operation(getApplicationContext(), listenerData);
-            if (data.saveData(mRedditCategory, mRedditTarget)) {
-                createUI(mRedditCategory, mRedditTarget);
-
-            } else {
-                Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
-            }
-        }
-
-
-    }
-
-
-    @Override
-    public void onErrorSubReddit(Throwable t) {
-
-    }
-
-    @Override
-    public void tabSelected(int position, String category) {
-
-        if (mContext != null) {
-            mRedditTarget = null;
-            mRedditCategory = category;
-
-            if (mRedditCategory.compareTo(Preference.getLastCategory(mContext)) != 0) {
-
-                Preference.setLastCategory(mContext, mRedditCategory);
-                Preference.setLastTarget(mContext, mRedditTarget);
-                mRefreshLayout.setRefreshing(true);
-
-                startActivity(new Intent(this, SubRedditActivity.class)
-                        .putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, mRedditCategory)
-                        .putExtra(Costant.EXTRA_TAB_POSITION, position)
-
-                );
-
-            }
-        }
-
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (Costant.IS_MEDIA_SESSION) {
-            MediaSession.removeNotification(mContext);
-        }
-    }
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putString(Costant.EXTRA_SUBREDDIT_CATEGORY, mRedditCategory);
@@ -204,6 +149,54 @@ public class SubRedditActivity extends BaseActivity
             super.onBackPressed();
 
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (Costant.IS_MEDIA_SESSION) {
+            MediaSession.removeNotification(mContext);
+        }
+    }
+
+    @Override
+    public void onRestSubReddit(T3 listenerData) {
+        if ((getApplicationContext() != null) && (listenerData != null)) {
+            T3Operation data = new T3Operation(getApplicationContext(), listenerData);
+            if (data.saveData(mRedditCategory, mRedditTarget)) {
+                createUI(mRedditCategory, mRedditTarget);
+
+            } else {
+                Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
+            }
+        }
+
+    }
+
+    @Override
+    public void onErrorSubReddit(Throwable t) { }
+
+    @Override
+    public void tabSelected(int position, String category) {
+        if (mContext != null) {
+            mRedditTarget = null;
+            mRedditCategory = category;
+
+            if (mRedditCategory.compareTo(Preference.getLastCategory(mContext)) != 0) {
+
+                Preference.setLastCategory(mContext, mRedditCategory);
+                Preference.setLastTarget(mContext, mRedditTarget);
+                mRefreshLayout.setRefreshing(true);
+
+                startActivity(new Intent(this, SubRedditActivity.class)
+                        .putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, mRedditCategory)
+                        .putExtra(Costant.EXTRA_TAB_POSITION, position)
+
+                );
+
+            }
+        }
+
     }
 
     @Override
@@ -321,7 +314,6 @@ public class SubRedditActivity extends BaseActivity
         return false;
     }
 
-
     private boolean menuTargetLink(Intent intent) {
         if ((intent != null) &&
                 (!TextUtils.isEmpty(intent.getStringExtra(Costant.EXTRA_SUBREDDIT_TARGET)))) {
@@ -388,6 +380,5 @@ public class SubRedditActivity extends BaseActivity
         }
 
     }
-
 
 }
