@@ -48,7 +48,6 @@ public class SubRedditFragment extends Fragment
     private Context mContext;
     private Unbinder unbinder;
 
-//    private Parcelable mListState;
     private int sWindowPlayer;
     private boolean sIsAutoRun;
     private long sPositionPlayer;
@@ -120,18 +119,12 @@ public class SubRedditFragment extends Fragment
 
         }
         if (savedInstanceState != null) {
-//            mListState = savedInstanceState.getParcelable(Costant.EXTRA_FRAGMENT_STATE);
-
             sWindowPlayer = savedInstanceState.getInt(Costant.BUNDLE_EXOPLAYER_WINDOW, C.INDEX_UNSET);
             sPositionPlayer = savedInstanceState.getLong(Costant.BUNDLE_EXOPLAYER_POSITION, C.TIME_UNSET);
             sIsAutoRun = savedInstanceState.getBoolean(Costant.BUNDLE_EXOPLAYER_AUTOPLAY, false);
 
-            Timber.d("STATEX before %s",mSubReddit);
-
             mSubReddit = savedInstanceState.getString(Costant.EXTRA_SUBREDDIT_CATEGORY);
             mTarget = savedInstanceState.getString(Costant.EXTRA_SUBREDDIT_TARGET);
-            Timber.d("STATEX after %s",mSubReddit);
-
             isIMA = savedInstanceState.getBoolean(Costant.EXTRA_MEDIA_IMA);
         }
 
@@ -142,8 +135,6 @@ public class SubRedditFragment extends Fragment
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-//        mListState = mLayoutManager.onSaveInstanceState();
-//        outState.putParcelable(Costant.EXTRA_FRAGMENT_STATE, mListState);
         outState.putString(Costant.EXTRA_SUBREDDIT_CATEGORY,mSubReddit);
         outState.putString(Costant.EXTRA_SUBREDDIT_TARGET,mTarget);
         outState.putBoolean(Costant.EXTRA_MEDIA_IMA,isIMA);
@@ -198,14 +189,6 @@ public class SubRedditFragment extends Fragment
         }
     }
 
-   /* @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
-        }
-    }
-*/
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
         mAdapter.swapCursor(null);

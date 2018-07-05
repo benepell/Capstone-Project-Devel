@@ -31,7 +31,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
     private final SubRedditDetailFragment mListener;
     private Cursor mCursor;
     private ImageButton[] mArrayButton;
-    private static int mSelectorPosition = RecyclerView.NO_POSITION;
+    private int mSelectorPosition = RecyclerView.NO_POSITION;
 
     public SubRedditDetailAdapter(SubRedditDetailFragment listener) {
         mListener = listener;

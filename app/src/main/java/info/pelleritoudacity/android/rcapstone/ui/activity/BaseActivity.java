@@ -77,7 +77,6 @@ public class BaseActivity extends AppCompatActivity
     public ArrayList<String> getTabArrayList() {
         return mTabArrayList;
     }
-
     private ArrayList<String> mTabArrayList;
 
     @Override

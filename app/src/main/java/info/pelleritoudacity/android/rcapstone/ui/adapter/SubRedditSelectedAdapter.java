@@ -33,7 +33,6 @@ public class SubRedditSelectedAdapter extends RecyclerView.Adapter<SubRedditSele
     private final SubRedditSelectedFragment mListener;
     private Cursor mCursor;
     private ImageButton[] mArrayButton;
-    private static int mSelectorPosition = RecyclerView.NO_POSITION;
 
 
     public SubRedditSelectedAdapter(SubRedditSelectedFragment listener) {
@@ -167,10 +166,6 @@ public class SubRedditSelectedAdapter extends RecyclerView.Adapter<SubRedditSele
             ButterKnife.bind(this, itemView);
 
         }
-
-        void bind() {
-        }
-
 
     }
 

@@ -108,8 +108,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
     public void onBindViewHolder(@NonNull RedditHolder holder, int position) {
         mCursor.moveToPosition(position);
 
-        String name;
-        name = mCursor.getString(mCursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME));
+        String name = mCursor.getString(mCursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME));
 
         mArrayList.add(position, name);
         mArrayList = MapUtil.removeArrayListDuplicate(mArrayList);
@@ -197,7 +196,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
     @Override
     public void onItemDismiss(int position) {
         if (getItemCount() > Costant.DEFAULT_SUBREDDIT_ITEMS) {
-//            mRestore = false;
+
             String description = mArrayList.get(position);
 
             mListener.onItemRemove(position, description);
