@@ -41,10 +41,9 @@ public class SubRedditDetailFragment extends Fragment
     @BindView(R.id.rv_fragment_reddit_detail)
     RecyclerView mRecyclerView;
 
-    private Context mContext;
     private Unbinder unbinder;
 
-    private static String sStrId = null;
+    private String mStrId;
     private Parcelable mState;
 
     private LinearLayoutManager mLayoutManager;
@@ -66,10 +65,8 @@ public class SubRedditDetailFragment extends Fragment
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mContext = getActivity();
-
         if (getArguments() != null) {
-            sStrId = getArguments().getString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL);
+            mStrId = getArguments().getString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL);
         }
 
     }
@@ -111,6 +108,8 @@ public class SubRedditDetailFragment extends Fragment
         }
         if (savedInstanceState != null) {
             mState = savedInstanceState.getParcelable(Costant.EXTRA_FRAGMENT_DETAIL_STATE);
+            mStrId = savedInstanceState.getString(Costant.EXTRA_FRAGMENT_DETAIL_STRING_ID);
+
         }
     }
 
@@ -136,6 +135,8 @@ public class SubRedditDetailFragment extends Fragment
         super.onSaveInstanceState(outState);
         mState = mLayoutManager.onSaveInstanceState();
         outState.putParcelable(Costant.EXTRA_FRAGMENT_DETAIL_STATE, mState);
+        outState.putString(Costant.EXTRA_FRAGMENT_DETAIL_STRING_ID, mStrId);
+
     }
 
     @Override
@@ -155,7 +156,7 @@ public class SubRedditDetailFragment extends Fragment
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        return new SubRedditDetailFragmentAsyncTask(Objects.requireNonNull(getActivity()), Preference.isLoginOver18(getContext()));
+        return new SubRedditDetailFragmentAsyncTask(Objects.requireNonNull(getActivity()), mStrId, Preference.isLoginOver18(getContext()));
     }
 
     @Override
@@ -177,17 +178,19 @@ public class SubRedditDetailFragment extends Fragment
 
     @Override
     public void clickSelector(int position, int itemCount) {
-        mListener.clickSelector(position,itemCount);
+        mListener.clickSelector(position, itemCount);
     }
 
     private static class SubRedditDetailFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
 
         Cursor cursorData = null;
         private final boolean isOver18;
+        private final String mStringId;
 
-        SubRedditDetailFragmentAsyncTask(@NonNull Context context, boolean isOver18) {
+        SubRedditDetailFragmentAsyncTask(@NonNull Context context, String strId, boolean isOver18) {
             super(context);
             this.isOver18 = isOver18;
+            mStringId = strId;
         }
 
         @Override
@@ -207,10 +210,10 @@ public class SubRedditDetailFragment extends Fragment
 
                 String strOver18 = String.valueOf(Utility.boolToInt(isOver18));
 
-                String selection = Contract.T1dataEntry.COLUMN_NAME_LINK_ID + " =?" + " AND "+
+                String selection = Contract.T1dataEntry.COLUMN_NAME_LINK_ID + " =?" + " AND " +
                         Contract.T1dataEntry.COLUMN_NAME_OVER18 + " <=?";
 
-                String[] selectionArgs = new String[]{ Costant.STR_PARENT_COMMENT + sStrId,strOver18};
+                String[] selectionArgs = new String[]{Costant.STR_PARENT_COMMENT + mStringId, strOver18};
 
                 String sortOrder = Contract.T1dataEntry.COLUMN_NAME_CHILDREN_ID + " ASC," +
                         Contract.T1dataEntry.COLUMN_NAME_DEPTH + " ASC";

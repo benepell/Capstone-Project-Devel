@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -42,8 +41,7 @@ public class SubRedditSelectedFragment extends Fragment
     private Context mContext;
     private Unbinder unbinder;
 
-    private static String sStrId = null;
-    private Parcelable mParcelState;
+    private String mStrId;
 
     private LinearLayoutManager mLayoutManager;
     private SubRedditSelectedAdapter mAdapter;
@@ -66,7 +64,7 @@ public class SubRedditSelectedFragment extends Fragment
         mContext = getActivity();
 
         if (getArguments() != null) {
-            sStrId = getArguments().getString(Costant.EXTRA_FRAGMENT_SUBREDDIT_SELECTED);
+            mStrId = getArguments().getString(Costant.EXTRA_FRAGMENT_SUBREDDIT_SELECTED);
         }
 
     }
@@ -101,23 +99,19 @@ public class SubRedditSelectedFragment extends Fragment
 
         }
         if (savedInstanceState != null) {
-            mParcelState = savedInstanceState.getParcelable(Costant.EXTRA_FRAGMENT_SELECTED_STATE);
+            mStrId = savedInstanceState.getString(Costant.EXTRA_FRAGMENT_STRING_ID);
         }
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        mParcelState = mLayoutManager.onSaveInstanceState();
-        outState.putParcelable(Costant.EXTRA_FRAGMENT_SELECTED_STATE, mParcelState);
+        outState.putString(Costant.EXTRA_FRAGMENT_STRING_ID, mStrId);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (mParcelState != null) {
-            mLayoutManager.onRestoreInstanceState(mParcelState);
-        }
     }
 
     @Override
@@ -129,7 +123,7 @@ public class SubRedditSelectedFragment extends Fragment
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        return new SubRedditDetailFragmentAsyncTask(Objects.requireNonNull(getActivity()), Preference.isLoginOver18(mContext));
+        return new SubRedditDetailFragmentAsyncTask(Objects.requireNonNull(getActivity()),mStrId ,Preference.isLoginOver18(mContext));
     }
 
     @Override
@@ -144,15 +138,16 @@ public class SubRedditSelectedFragment extends Fragment
         mAdapter.swapCursor(null);
     }
 
-
     private static class SubRedditDetailFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
 
         Cursor cursorData = null;
         private final boolean isOver18;
+        private final String mStringId;
 
-        SubRedditDetailFragmentAsyncTask(@NonNull Context context, boolean isOver18) {
+        SubRedditDetailFragmentAsyncTask(@NonNull Context context,String stringId ,boolean isOver18) {
             super(context);
             this.isOver18 = isOver18;
+            mStringId = stringId;
         }
 
         @Override
@@ -172,10 +167,10 @@ public class SubRedditSelectedFragment extends Fragment
 
                 Uri uri = Contract.T3dataEntry.CONTENT_URI;
 
-                String selection = Contract.T3dataEntry.COLUMN_NAME_ID + " =?" + " AND "+
+                String selection = Contract.T3dataEntry.COLUMN_NAME_ID + " =?" + " AND " +
                         Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " <=?";
 
-                String[] selectionArgs = new String[]{sStrId,strOver18};
+                String[] selectionArgs = new String[]{mStringId, strOver18};
 
                 return getContext().getContentResolver().query(uri,
                         null,

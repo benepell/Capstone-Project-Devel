@@ -95,7 +95,10 @@ public interface Costant {
     String EXTRA_FRAGMENT_TARGET = "info.pelleritoudacity.android.rcapstone.extra.fragment.target";
     String EXTRA_FRAGMENT_STATE = "info.pelleritoudacity.android.rcapstone.extra.fragment.state";
     String EXTRA_FRAGMENT_DETAIL_STATE = "info.pelleritoudacity.android.rcapstone.extra.fragment.detail.state";
+    String EXTRA_FRAGMENT_DETAIL_STRING_ID = "info.pelleritoudacity.android.rcapstone.extra.fragment.detail.string.id";
+    String EXTRA_FRAGMENT_STRING_ID = "info.pelleritoudacity.android.rcapstone.extra.fragment.string.id";
     String EXTRA_FRAGMENT_SELECTED_STATE = "info.pelleritoudacity.android.rcapstone.extra.fragment.selected.state";
+    String EXTRA_TAB_POSITION = "info.pelleritoudacity.android.rcapstone.extra.tab.position";
 
     String EXTRA_ACTIVITY_SUBREDDIT_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.subreddit.refresh";
     String EXTRA_ACTIVITY_SUBREDDIT_DETAIL_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.subreddit.detail.refresh";
@@ -106,7 +109,7 @@ public interface Costant {
     String EXTRA_SUBREDDIT_EXIT_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.subreddit.exit.fullscreen";
     String EXTRA_SUBREDDIT_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.subreddit.fullscreen";
     String EXTRA_SUBREDDIT_TARGET = "info.pelleritoudacity.android.rcapstone.extra.subreddit.target";
-    String EXTRA_SUBREDDIT_TAB = "info.pelleritoudacity.android.rcapstone.extra.subreddit.tab";
+    String EXTRA_MEDIA_IMA = "info.pelleritoudacity.android.rcapstone.extra.media.ima";
     String SUBREDDIT_CATEGORY_ALL = "all";
     String SUBREDDIT_CATEGORY_POPULAR = "popular";
     String SUBREDDIT_TARGET_ALL = "info.pelleritoudacity.android.rcapstone.subreddit.target.all";

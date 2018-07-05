@@ -28,6 +28,8 @@ package info.pelleritoudacity.android.rcapstone.ui.view;
 
 import android.support.design.widget.TabLayout;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -60,9 +62,12 @@ public class SubRedditTab implements TabLayout.OnTabSelectedListener {
     public void positionSelected(String category) {
         if (!TextUtils.isEmpty(category)) {
             int indexText = mTabList.indexOf(category);
+
             if (indexText >= 0) {
                 Objects.requireNonNull(mTabLayout.getTabAt(indexText)).select();
+
             }
+
         }
     }
 
@@ -70,6 +75,8 @@ public class SubRedditTab implements TabLayout.OnTabSelectedListener {
         createTab();
         mTabLayout.setTabGravity(android.support.design.widget.TabLayout.GRAVITY_FILL);
         mTabLayout.addOnTabSelectedListener(this);
+
+
     }
 
     @Override

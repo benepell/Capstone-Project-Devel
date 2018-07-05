@@ -29,6 +29,7 @@ package info.pelleritoudacity.android.rcapstone.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Network;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -41,8 +42,10 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
+import info.pelleritoudacity.android.rcapstone.data.rest.RestExecute;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubScriptionsFragment;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import timber.log.Timber;
@@ -66,10 +69,14 @@ public class SubManageActivity extends BaseActivity {
 
         if (Preference.isInsertPrefs(getApplicationContext())) {
             new SubManageAsyncTask().execute();
+
+        } else if ((!Preference.isInsertPrefs(getApplicationContext()) && (NetworkUtil.isOnline(getApplicationContext())))) {
+            new RestExecute(getApplicationContext()).syncData();
+
         } else {
             Snackbar.make(mContainer, R.string.text_manage_nolinks, Snackbar.LENGTH_LONG).show();
-        }
 
+        }
 
     }
 
@@ -134,6 +141,7 @@ public class SubManageActivity extends BaseActivity {
 
             }
         }
+
     }
 
     public static void manageToMainActivity(Context context) {

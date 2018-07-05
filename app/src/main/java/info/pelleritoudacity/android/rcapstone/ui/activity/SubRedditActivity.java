@@ -26,31 +26,26 @@
 
 package info.pelleritoudacity.android.rcapstone.ui.activity;
 
-import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
+import android.view.ViewGroup;
 
 import com.google.android.exoplayer2.util.Util;
 
-import java.util.Objects;
 
 import butterknife.BindView;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Operation.T3Operation;
 import info.pelleritoudacity.android.rcapstone.data.rest.RefreshTokenExecute;
-import info.pelleritoudacity.android.rcapstone.data.rest.RestExecute;
 import info.pelleritoudacity.android.rcapstone.media.MediaSession;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.data.rest.SubRedditExecute;
@@ -59,15 +54,13 @@ import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditFragment;
 import info.pelleritoudacity.android.rcapstone.ui.view.SubRedditTab;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
-import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 
-import static info.pelleritoudacity.android.rcapstone.utility.PermissionUtil.RequestPermissionExtStorage;
 import static info.pelleritoudacity.android.rcapstone.utility.SessionUtil.getRedditSessionExpired;
 
 
 public class SubRedditActivity extends BaseActivity
-        implements SubRedditExecute.RestSubReddit, ActivityCompat.OnRequestPermissionsResultCallback,
+        implements SubRedditExecute.RestSubReddit,
         SubRedditTab.OnTabListener, SwipeRefreshLayout.OnRefreshListener {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
@@ -98,11 +91,6 @@ public class SubRedditActivity extends BaseActivity
         mRefreshLayout.setOnRefreshListener(this);
 
         firstInit();
-
-        if (Util.SDK_INT > 23) {
-            RequestPermissionExtStorage(SubRedditActivity.this);
-            PermissionUtil.isDeniedPermissionExtStorage(SubRedditActivity.this);
-        }
 
         if (savedInstanceState == null) {
 
@@ -160,6 +148,13 @@ public class SubRedditActivity extends BaseActivity
 
         createTabLayout();
 
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         if (mContext != null) {
             mRefreshLayout.setRefreshing(true);
             onRefresh();
@@ -172,12 +167,8 @@ public class SubRedditActivity extends BaseActivity
 
     }
 
+
     private void firstInit() {
-
-        if (!Preference.isInsertPrefs(mContext)) {
-            new RestExecute(getApplicationContext()).syncData();
-
-        }
 
         initializeFirebaseDispatcherService();
 
@@ -231,21 +222,20 @@ public class SubRedditActivity extends BaseActivity
 
     @Override
     public void onRestSubReddit(T3 listenerData) {
-
-        if (listenerData != null) {
+        if ((getApplicationContext() != null) && (listenerData != null)) {
             T3Operation data = new T3Operation(getApplicationContext(), listenerData);
             if (data.saveData(mRedditCategory, mRedditTarget)) {
-                startFragment(mRedditCategory, mRedditTarget);
-                if (mRefreshLayout != null) {
-                    mRefreshLayout.setRefreshing(false);
+                createUI(mRedditCategory, mRedditTarget);
 
-                }
             } else {
                 // todo comment not available implement function
                 Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
             }
         }
+
+
     }
+
 
     @Override
     public void onErrorSubReddit(Throwable t) {
@@ -254,17 +244,28 @@ public class SubRedditActivity extends BaseActivity
 
     @Override
     public void tabSelected(int position, String category) {
+
         if (mContext != null) {
             mRedditTarget = null;
             mRedditCategory = category;
-            Preference.setLastCategory(mContext, mRedditCategory);
-            Preference.setLastTarget(mContext, mRedditTarget);
-            mRefreshLayout.setRefreshing(true);
-            initRest(category, null, NetworkUtil.isOnline(mContext));
 
+            if (mRedditCategory.compareTo(Preference.getLastCategory(mContext)) != 0) {
+
+                Preference.setLastCategory(mContext, mRedditCategory);
+                Preference.setLastTarget(mContext, mRedditTarget);
+                mRefreshLayout.setRefreshing(true);
+
+                startActivity(new Intent(this, SubRedditActivity.class)
+                        .putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, mRedditCategory)
+                        .putExtra(Costant.EXTRA_TAB_POSITION, position)
+
+                );
+
+            }
         }
 
     }
+
 
     @Override
     protected void onDestroy() {
@@ -272,36 +273,6 @@ public class SubRedditActivity extends BaseActivity
         if (Costant.IS_MEDIA_SESSION) {
             MediaSession.removeNotification(mContext);
         }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case Costant.PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Preference.setWriteExternalStorage(mContext, true);
-                    Preference.setRequestPermission(mContext, false);
-
-                }
-            }
-        }
-    }
-
-    @Override
-    public boolean shouldShowRequestPermissionRationale(@NonNull String permission) {
-        if ((!Objects.equals(permission, Manifest.permission.WRITE_EXTERNAL_STORAGE)) ||
-                (PermissionUtil.isPermissionExtStorage(mContext) ||
-                        Preference.isRequestPermission(mContext))) {
-            return super.shouldShowRequestPermissionRationale(permission);
-        }
-        ActivityCompat.requestPermissions(SubRedditActivity.this,
-                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                Costant.PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
-        Preference.setRequestPermission(mContext, true);
-        return super.shouldShowRequestPermissionRationale(permission);
     }
 
     @Override
@@ -356,13 +327,27 @@ public class SubRedditActivity extends BaseActivity
 
     }
 
-    private void startFragment(String link, String target) {
 
-        if (!getSupportFragmentManager().isStateSaved()) {
-            SubRedditFragment subRedditFragment = SubRedditFragment.newInstance(link, target);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_subreddit_container, subRedditFragment).commit();
+    private void createUI(String link, String target) {
+        updateTabPosition();
+        startFragment(link, target);
+        mRefreshLayout.setRefreshing(false);
+    }
+
+    private void updateTabPosition() {
+        int position = getTabArrayList().indexOf(Preference.getLastCategory(mContext));
+        if (position > 0) {
+            position -= 1;
+            int right = ((ViewGroup) mTabLayout.getChildAt(0)).getChildAt(position).getRight();
+            mTabLayout.scrollTo(right, 0);
+
         }
+    }
+
+    private void startFragment(String link, String target) {
+        SubRedditFragment subRedditFragment = SubRedditFragment.newInstance(link, target);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_subreddit_container, subRedditFragment).commit();
 
     }
 
@@ -371,8 +356,8 @@ public class SubRedditActivity extends BaseActivity
             if (stateNetworkOnline) {
                 new SubRedditExecute(mContext, link).getData(this);
             } else {
-                startFragment(link, target);
-                mRefreshLayout.setRefreshing(false);
+                createUI(link, target);
+
 
             }
 
@@ -383,6 +368,7 @@ public class SubRedditActivity extends BaseActivity
         mSubRedditTab = new SubRedditTab(this, mTabLayout, getTabArrayList());
         mSubRedditTab.initTab();
         mSubRedditTab.positionSelected(mRedditCategory);
+
     }
 
 
@@ -409,6 +395,5 @@ public class SubRedditActivity extends BaseActivity
             }
         }
     }
-
 
 }

@@ -33,7 +33,6 @@ import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
 import info.pelleritoudacity.android.rcapstone.ui.adapter.SubRedditAdapter;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
-import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
 
@@ -49,14 +48,14 @@ public class SubRedditFragment extends Fragment
     private Context mContext;
     private Unbinder unbinder;
 
-    private Parcelable mListState;
+//    private Parcelable mListState;
     private int sWindowPlayer;
     private boolean sIsAutoRun;
     private long sPositionPlayer;
-    private static boolean isIMA = false;
+    private boolean isIMA = false;
 
-    private static String sSubReddit;
-    private static String sTarget;
+    private String mSubReddit;
+    private String mTarget;
     private MediaPlayer mMediaPlayer;
 
     private LinearLayoutManager mLayoutManager;
@@ -83,8 +82,8 @@ public class SubRedditFragment extends Fragment
         mContext = getActivity();
 
         if (getArguments() != null) {
-            sSubReddit = getArguments().getString(Costant.EXTRA_FRAGMENT_SUBREDDIT);
-            sTarget = getArguments().getString(Costant.EXTRA_FRAGMENT_TARGET);
+            mSubReddit = getArguments().getString(Costant.EXTRA_FRAGMENT_SUBREDDIT);
+            mTarget = getArguments().getString(Costant.EXTRA_FRAGMENT_TARGET);
 
         }
     }
@@ -121,12 +120,19 @@ public class SubRedditFragment extends Fragment
 
         }
         if (savedInstanceState != null) {
-            mListState = savedInstanceState.getParcelable(Costant.EXTRA_FRAGMENT_STATE);
+//            mListState = savedInstanceState.getParcelable(Costant.EXTRA_FRAGMENT_STATE);
 
             sWindowPlayer = savedInstanceState.getInt(Costant.BUNDLE_EXOPLAYER_WINDOW, C.INDEX_UNSET);
             sPositionPlayer = savedInstanceState.getLong(Costant.BUNDLE_EXOPLAYER_POSITION, C.TIME_UNSET);
             sIsAutoRun = savedInstanceState.getBoolean(Costant.BUNDLE_EXOPLAYER_AUTOPLAY, false);
 
+            Timber.d("STATEX before %s",mSubReddit);
+
+            mSubReddit = savedInstanceState.getString(Costant.EXTRA_SUBREDDIT_CATEGORY);
+            mTarget = savedInstanceState.getString(Costant.EXTRA_SUBREDDIT_TARGET);
+            Timber.d("STATEX after %s",mSubReddit);
+
+            isIMA = savedInstanceState.getBoolean(Costant.EXTRA_MEDIA_IMA);
         }
 
 
@@ -136,8 +142,11 @@ public class SubRedditFragment extends Fragment
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        mListState = mLayoutManager.onSaveInstanceState();
-        outState.putParcelable(Costant.EXTRA_FRAGMENT_STATE, mListState);
+//        mListState = mLayoutManager.onSaveInstanceState();
+//        outState.putParcelable(Costant.EXTRA_FRAGMENT_STATE, mListState);
+        outState.putString(Costant.EXTRA_SUBREDDIT_CATEGORY,mSubReddit);
+        outState.putString(Costant.EXTRA_SUBREDDIT_TARGET,mTarget);
+        outState.putBoolean(Costant.EXTRA_MEDIA_IMA,isIMA);
         if (mMediaPlayer != null) {
             outState.putInt(Costant.BUNDLE_EXOPLAYER_WINDOW, mMediaPlayer.getResumeWindow());
             outState.putLong(Costant.BUNDLE_EXOPLAYER_POSITION, mMediaPlayer.getResumePosition());
@@ -172,9 +181,6 @@ public class SubRedditFragment extends Fragment
     @Override
     public void onResume() {
         super.onResume();
-        if (mListState != null) {
-            mLayoutManager.onRestoreInstanceState(mListState);
-        }
     }
 
 
@@ -182,7 +188,7 @@ public class SubRedditFragment extends Fragment
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
         return new SubRedditFragmentAsyncTask(Objects.requireNonNull(getActivity()),
-                Preference.isLoginOver18(getContext()));
+                Preference.isLoginOver18(getContext()),mSubReddit,mTarget);
     }
 
     @Override
@@ -192,6 +198,14 @@ public class SubRedditFragment extends Fragment
         }
     }
 
+   /* @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+        }
+    }
+*/
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
         mAdapter.swapCursor(null);
@@ -220,10 +234,15 @@ public class SubRedditFragment extends Fragment
 
         Cursor cursorData = null;
         private final boolean isOver18;
+        private final String mCategoryReddit;
+        private final String mTargetReddit;
 
-        SubRedditFragmentAsyncTask(@NonNull Context context, boolean isOver18) {
+
+        SubRedditFragmentAsyncTask(@NonNull Context context, boolean isOver18,String categoryReddit, String targetReddit) {
             super(context);
             this.isOver18 = isOver18;
+            mCategoryReddit = categoryReddit;
+            mTargetReddit = targetReddit;
         }
 
         @Override
@@ -246,23 +265,23 @@ public class SubRedditFragment extends Fragment
 
                 String strOver18 = String.valueOf(Utility.boolToInt(isOver18));
 
-                if (!TextUtils.isEmpty(sTarget)) {
-                    if (sTarget.equals(Costant.SUBREDDIT_TARGET_ALL)) {
+                if (!TextUtils.isEmpty(mTargetReddit)) {
+                    if (mTargetReddit.equals(Costant.SUBREDDIT_TARGET_ALL)) {
                         selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?" + " AND " +
                                 Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " <=?";
-                        selectionArgs = new String[]{sTarget, strOver18};
+                        selectionArgs = new String[]{mTargetReddit, strOver18};
 
-                    } else if (sTarget.equals(Costant.SUBREDDIT_TARGET_POPULAR)) {
+                    } else if (mTargetReddit.equals(Costant.SUBREDDIT_TARGET_POPULAR)) {
                         selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?" + " AND " +
                                 Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " <=?";
-                        selectionArgs = new String[]{sTarget, strOver18};
+                        selectionArgs = new String[]{mTargetReddit, strOver18};
 
                     }
 
                 } else {
                     selection = Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " LIKE ?" + " AND " +
                             Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " <=?";
-                    selectionArgs = new String[]{sSubReddit, strOver18};
+                    selectionArgs = new String[]{mCategoryReddit, strOver18};
 
 
                     Timber.d("STROVER18 %s", strOver18);
@@ -292,6 +311,5 @@ public class SubRedditFragment extends Fragment
             }
         }
     }
-
 
 }
