@@ -203,8 +203,9 @@ public class SubRedditActivity extends BaseActivity
     public void onRefresh() {
 
         if (!NetworkUtil.isOnline(mContext)) {
+            createUI(Preference.getLastCategory(getApplicationContext()),Preference.getLastTarget(getApplicationContext()));
             mRefreshLayout.setRefreshing(false);
-            Snackbar.make(mContainer, R.string.error_refresh_offline, Snackbar.LENGTH_LONG).show();
+            Snackbar.make(mContainer, R.string.list_snackbar_offline_text, Snackbar.LENGTH_LONG).show();
 
         } else if (getApplicationContext() != null) {
             initRest(Preference.getLastCategory(getApplicationContext()), Preference.getLastTarget(mContext), NetworkUtil.isOnline(mContext));
