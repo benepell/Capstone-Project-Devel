@@ -272,38 +272,38 @@ public class BaseActivity extends AppCompatActivity
                 case R.id.submenu_top_hour:
                     Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_TOP);
                     Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_HOUR);
-                    SubRedditActivity.homeActivity(getApplicationContext());
+                    startActivity(new Intent(this, SubRedditActivity.class));
                     break;
                 case R.id.submenu_top_day:
                     Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_TOP);
                     Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_DAY);
-                    SubRedditActivity.homeActivity(getApplicationContext());
+                    startActivity(new Intent(this, SubRedditActivity.class));
                     break;
                 case R.id.submenu_top_week:
                     Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_TOP);
                     Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_WEEK);
-                    SubRedditActivity.homeActivity(getApplicationContext());
+                    startActivity(new Intent(this, SubRedditActivity.class));
                     break;
                 case R.id.submenu_top_month:
                     Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_TOP);
                     Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_MONTH);
-                    SubRedditActivity.homeActivity(getApplicationContext());
+                    startActivity(new Intent(this, SubRedditActivity.class));
                     break;
                 case R.id.submenu_top_year:
                     Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_TOP);
                     Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_YEAR);
-                    SubRedditActivity.homeActivity(getApplicationContext());
+                    startActivity(new Intent(this, SubRedditActivity.class));
                     break;
                 case R.id.submenu_top_all:
                     Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_TOP);
                     Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_ALL);
-                    SubRedditActivity.homeActivity(getApplicationContext());
+                    startActivity(new Intent(this, SubRedditActivity.class));
                     break;
 
                 case R.id.submenu_controver_hour:
                     Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_CONTROVERSIAL);
                     Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_HOUR);
-                    SubRedditActivity.homeActivity(getApplicationContext());
+                    startActivity(new Intent(this, SubRedditActivity.class));
                     break;
                 case R.id.submenu_controver_day:
                     Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_CONTROVERSIAL);
@@ -312,51 +312,51 @@ public class BaseActivity extends AppCompatActivity
                 case R.id.submenu_controver_week:
                     Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_CONTROVERSIAL);
                     Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_WEEK);
-                    SubRedditActivity.homeActivity(getApplicationContext());
+                    startActivity(new Intent(this, SubRedditActivity.class));
                     break;
                 case R.id.submenu_controver_month:
                     Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_CONTROVERSIAL);
                     Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_MONTH);
-                    SubRedditActivity.homeActivity(getApplicationContext());
+                    startActivity(new Intent(this, SubRedditActivity.class));
                     break;
                 case R.id.submenu_controver_year:
                     Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_CONTROVERSIAL);
                     Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_YEAR);
-                    SubRedditActivity.homeActivity(getApplicationContext());
+                    startActivity(new Intent(this, SubRedditActivity.class));
                     break;
                 case R.id.submenu_controver_all:
                     Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_CONTROVERSIAL);
                     Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_ALL);
-                    SubRedditActivity.homeActivity(getApplicationContext());
+                    startActivity(new Intent(this, SubRedditActivity.class));
                     break;
                 case R.id.action_general_images:
                     Preference.setGeneralImages(getApplicationContext(), !Preference.isGeneralImages(getApplicationContext()));
-                    SubRedditActivity.homeActivity(getApplicationContext());
+                    startActivity(new Intent(this, SubRedditActivity.class));
                     break;
 
                 case R.id.action_general_gifs:
                     Preference.setGeneralGifs(getApplicationContext(), !Preference.isGeneralGifs(getApplicationContext()));
-                    SubRedditActivity.homeActivity(getApplicationContext());
+                    startActivity(new Intent(this, SubRedditActivity.class));
                     break;
 
                 case R.id.action_general_albums:
                     Preference.setGeneralAlbums(getApplicationContext(), !Preference.isGeneralAlbums(getApplicationContext()));
-                    SubRedditActivity.homeActivity(getApplicationContext());
+                    startActivity(new Intent(this, SubRedditActivity.class));
                     break;
 
                 case R.id.action_general_videos:
                     Preference.setGeneralVideos(getApplicationContext(), !Preference.isGeneralVideos(getApplicationContext()));
-                    SubRedditActivity.homeActivity(getApplicationContext());
+                    startActivity(new Intent(this, SubRedditActivity.class));
                     break;
 
                 case R.id.action_general_self:
                     Preference.setGeneralSelf(getApplicationContext(), !Preference.isGeneralSelf(getApplicationContext()));
-                    SubRedditActivity.homeActivity(getApplicationContext());
+                    startActivity(new Intent(this, SubRedditActivity.class));
                     break;
 
                 case R.id.action_general_links:
                     Preference.setGeneralLinks(getApplicationContext(), !Preference.isGeneralLinks(getApplicationContext()));
-                    SubRedditActivity.homeActivity(getApplicationContext());
+                    startActivity(new Intent(this, SubRedditActivity.class));
                     break;
 
 

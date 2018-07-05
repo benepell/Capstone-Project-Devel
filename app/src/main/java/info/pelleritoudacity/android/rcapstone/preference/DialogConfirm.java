@@ -28,6 +28,7 @@ package info.pelleritoudacity.android.rcapstone.preference;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.DialogPreference;
@@ -108,7 +109,7 @@ public class DialogConfirm extends DialogPreference {
             Context context = sWeakReference.get();
             if (context != null) {
                 Preference.setClearData(context,true);
-                SubRedditActivity.homeActivity(context);
+                context.startActivity(new Intent(context, SubRedditActivity.class));
             }
         }
     }
