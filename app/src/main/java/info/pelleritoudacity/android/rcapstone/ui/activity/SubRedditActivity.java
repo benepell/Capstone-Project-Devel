@@ -305,10 +305,11 @@ public class SubRedditActivity extends BaseActivity
     }
 
     private void startFragment(String link, String target) {
-        SubRedditFragment subRedditFragment = SubRedditFragment.newInstance(link, target);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_subreddit_container, subRedditFragment).commit();
-
+        if (!getSupportFragmentManager().isStateSaved()) {
+            SubRedditFragment subRedditFragment = SubRedditFragment.newInstance(link, target);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_subreddit_container, subRedditFragment).commit();
+        }
     }
 
     private boolean menuHistoryLink(Context context) {
