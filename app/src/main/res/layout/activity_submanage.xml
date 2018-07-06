@@ -9,12 +9,17 @@
 
     <include layout="@layout/app_bar_layout" />
 
-
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/fragment_list_container"
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nested_scrollview_submanage"
+        style="@style/ScrollBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/fragment_list_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
+    </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

@@ -113,7 +113,14 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
         mArrayList.add(position, name);
         mArrayList = MapUtil.removeArrayListDuplicate(mArrayList);
 
+        int colorImageHandle = Color.BLACK;
+
+        if(Preference.isNightMode(mContext)){
+            colorImageHandle = Color.WHITE;
+        }
+
         holder.mImageViewRedditHandle.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_view_headline)
+                .color(colorImageHandle)
                 .respectFontBounds(true));
 
 

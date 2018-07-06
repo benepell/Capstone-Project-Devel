@@ -30,7 +30,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -74,8 +73,6 @@ public class SubScriptionsFragment extends Fragment
 
     private SubScriptionsAdapter mAdapter;
     private ItemTouchHelper mItemTouchHelper;
-    private Parcelable mListState;
-    private LinearLayoutManager mLayoutManager;
     private Context mContext;
     private Unbinder unbinder;
 
@@ -99,21 +96,10 @@ public class SubScriptionsFragment extends Fragment
                 alerDialog(getActivity());
             }
 
-        } else {
-            mListState = Objects.requireNonNull(savedInstanceState).getParcelable(Costant.EXTRA_SUBSCRIPTION_STATE);
         }
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        restartLoader();
-        if (mListState != null) {
-            mLayoutManager.onRestoreInstanceState(mListState);
-        }
-
-    }
 
     private void restartLoader() {
         if (getActivity() != null) {
@@ -130,8 +116,8 @@ public class SubScriptionsFragment extends Fragment
         unbinder = ButterKnife.bind(this, view);
 
         if ((getActivity() != null) && (getActivity().findViewById(R.id.fragment_list_container) != null)) {
-            mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-            mRecyclerView.setLayoutManager(mLayoutManager);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+            mRecyclerView.setLayoutManager(layoutManager);
         }
 
         mRecyclerView.setHasFixedSize(true);
@@ -235,13 +221,6 @@ public class SubScriptionsFragment extends Fragment
 
         }
 
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        mListState = mLayoutManager.onSaveInstanceState();
-        outState.putParcelable(Costant.EXTRA_FRAGMENT_STATE, mListState);
     }
 
 

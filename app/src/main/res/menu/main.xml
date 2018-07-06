@@ -15,6 +15,7 @@
 
 
     <item
+        android:id="@+id/submenu_filter_general"
         android:enabled="true"
         android:title="@string/title_submenu_general"
         android:visible="true">
@@ -67,6 +68,7 @@
 
 
     <item
+        android:id="@+id/submenu_filter_posts"
         android:enabled="true"
         android:title="@string/title_submenu_filter"
         android:visible="true">
@@ -90,6 +92,7 @@
                 android:title="@string/title_submenu_rising"
                 android:visible="true" />
             <item
+                android:id="@+id/submenu_filter_top"
                 android:enabled="true"
                 android:title="@string/title_submenu_top"
                 android:visible="true">
@@ -132,6 +135,7 @@
             </item>
 
             <item
+                android:id="@+id/submenu_filter_controver"
                 android:enabled="true"
                 android:title="@string/title_submenu_controver"
                 android:visible="true">
@@ -176,6 +180,7 @@
 
 
     <item
+        android:id="@+id/menu_action_create"
         android:enabled="true"
         android:title="@string/title_menu_create"
         android:visible="true" />

@@ -51,8 +51,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         prefMail();
         prefVersion();
         prefOver18();
-
     }
+
 
     @Override
     public void onAttach(Context context) {
@@ -137,6 +137,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         }
     }
+
 
     private void applyTheme(Context context) {
         final Preference preference = findPreference(getString(R.string.pref_night_mode));

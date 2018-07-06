@@ -21,16 +21,19 @@
         android:visible="false" />
 
     <item
+        android:id="@+id/menu_action_filter"
         android:enabled="true"
         android:title="@string/title_menu_filter"
         android:visible="true">
         <menu>
 
             <item
+                android:id="@+id/submenu_filter_confidence"
                 android:enabled="true"
                 android:title="@string/title_submenu_hot"
                 android:visible="true" />
             <item
+                android:id="@+id/submenu_filter_top"
                 android:enabled="true"
                 android:title="@string/title_submenu_top"
                 android:visible="true" />
@@ -40,10 +43,12 @@
                 android:title="@string/title_submenu_new"
                 android:visible="true" />
             <item
+                android:id="@+id/submenu_filter_old"
                 android:enabled="true"
                 android:title="@string/title_submenu_rising"
                 android:visible="true" />
             <item
+                android:id="@+id/submenu_filter_controver"
                 android:enabled="true"
                 android:title="@string/title_submenu_controver"
                 android:visible="true" />
@@ -52,6 +57,7 @@
     </item>
 
     <item
+        android:id="@+id/menu_action_create"
         android:enabled="true"
         android:title="@string/title_menu_create"
         android:visible="true" />

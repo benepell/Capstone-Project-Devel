@@ -115,7 +115,7 @@
                 android:paddingBottom="@dimen/list_padding_vertical_author"
                 android:paddingEnd="@dimen/list_padding_horizontal_author"
                 android:paddingStart="@dimen/list_padding_horizontal_author"
-                android:textColor="@color/textColorSecondary"
+                android:textColor="?android:attr/textColorSecondary"
                 android:textStyle="bold" />
 
             <TextView
@@ -130,7 +130,7 @@
                 android:paddingBottom="@dimen/list_padding_vertical_author"
                 android:paddingEnd="@dimen/list_padding_horizontal_author"
                 android:paddingStart="@dimen/list_padding_horizontal_author"
-                android:textColor="@color/textColorSecondary"
+                android:textColor="?android:attr/textColorSecondary"
                 android:textStyle="italic" />
 
             <TextView
@@ -145,7 +145,7 @@
                 android:paddingBottom="@dimen/list_padding_vertical_author"
                 android:paddingEnd="@dimen/list_padding_horizontal_author"
                 android:paddingStart="@dimen/list_padding_horizontal_author"
-                android:textColor="@color/textColorSecondary"
+                android:textColor="?android:attr/textColorSecondary"
                 android:textStyle="italic" />
 
         </LinearLayout>
