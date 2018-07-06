@@ -43,12 +43,12 @@ public class T1Data implements Parcelable
     }
     ;
 
-    protected T1Data(Parcel in) {
+    T1Data(Parcel in) {
         this.modhash = ((String) in.readValue((String.class.getClassLoader())));
         this.dist = ((Integer) in.readValue((Integer.class.getClassLoader())));
         in.readList(this.children, (T1Listing.class.getClassLoader()));
-        this.after = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.before = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.after = in.readValue((Object.class.getClassLoader()));
+        this.before = in.readValue((Object.class.getClassLoader()));
     }
 
     public T1Data() {

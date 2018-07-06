@@ -5,13 +5,14 @@ import android.graphics.Color;
 import android.view.View;
 
 import java.util.List;
+import java.util.Objects;
 
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
 public class SubRedditDetailHelper {
-    Context mContext;
+    private final Context mContext;
 
     public SubRedditDetailHelper(Context context) {
         mContext = context;
@@ -20,7 +21,7 @@ public class SubRedditDetailHelper {
     public String initDepthIndicator(View viewIndicator, View viewCard, int depth, boolean enablePadding, boolean enableColorBackground) {
         if (getDepthBackground(depth) != null) {
 
-            String depthBackGroundColor = getDepthBackground(depth)[0];
+            String depthBackGroundColor = Objects.requireNonNull(getDepthBackground(depth))[0];
             if (depthBackGroundColor != null) {
 
 
@@ -40,7 +41,7 @@ public class SubRedditDetailHelper {
                 }
 
                 if(enableColorBackground){
-                    return getDepthBackground(depth)[1];
+                    return Objects.requireNonNull(getDepthBackground(depth))[1];
                 }
             }
 
@@ -48,7 +49,7 @@ public class SubRedditDetailHelper {
         return null;
     }
 
-    public String[] getDepthBackground(int depthLevel) {
+    private String[] getDepthBackground(int depthLevel) {
 
         List<String> colors = TextUtil.stringToArray(Costant.DEFAULT_COLOR_INDICATOR);
         List<String> backgrounds = TextUtil.stringToArray(Costant.DEFAULT_COLOR_BACKGROUND);

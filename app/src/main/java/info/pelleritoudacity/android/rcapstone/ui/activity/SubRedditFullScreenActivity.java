@@ -40,7 +40,6 @@ public class SubRedditFullScreenActivity extends AppCompatActivity {
     TextView mTVErrorPlayer;
 
 
-    private Context mContext;
     private String mVideoUri;
     private MediaPlayer mMediaPlayer;
 
@@ -50,7 +49,7 @@ public class SubRedditFullScreenActivity extends AppCompatActivity {
         ActivityUI.windowFullScreen(this);
         setContentView(R.layout.activity_sub_reddit_full_screen);
 
-        mContext = SubRedditFullScreenActivity.this;
+        Context mContext = SubRedditFullScreenActivity.this;
         Timber.plant(new Timber.DebugTree());
         ButterKnife.bind(this);
 

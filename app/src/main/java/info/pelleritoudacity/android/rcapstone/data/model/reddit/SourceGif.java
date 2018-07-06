@@ -61,7 +61,7 @@ public class SourceGif implements Parcelable
     }
     ;
 
-    protected SourceGif(Parcel in) {
+    SourceGif(Parcel in) {
         this.url = ((String) in.readValue((String.class.getClassLoader())));
         this.width = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.height = ((Integer) in.readValue((Integer.class.getClassLoader())));

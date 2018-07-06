@@ -67,7 +67,7 @@ public class Image implements Parcelable
     }
     ;
 
-    protected Image(Parcel in) {
+    Image(Parcel in) {
         this.source = ((Source) in.readValue((Source.class.getClassLoader())));
         in.readList(this.resolutions, (Resolution.class.getClassLoader()));
         this.variants = ((Variants) in.readValue((Variants.class.getClassLoader())));

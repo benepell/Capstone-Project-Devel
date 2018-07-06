@@ -94,7 +94,7 @@ public class RevokeTokenManager {
         mCall.enqueue(callback);
     }
 
-    public void cancelRequest() {
+    private void cancelRequest() {
         if (mCall != null) {
             mCall.cancel();
         }

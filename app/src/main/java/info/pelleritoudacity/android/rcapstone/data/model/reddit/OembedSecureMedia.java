@@ -65,7 +65,7 @@ public class OembedSecureMedia implements Parcelable
     }
     ;
 
-    protected OembedSecureMedia(Parcel in) {
+    OembedSecureMedia(Parcel in) {
         this.providerUrl = ((String) in.readValue((String.class.getClassLoader())));
         this.title = ((String) in.readValue((String.class.getClassLoader())));
         this.type = ((String) in.readValue((String.class.getClassLoader())));

@@ -106,7 +106,7 @@ public class RefreshTokenExecute {
     }
 
 
-    public interface RestRefreshToken {
+    interface RestRefreshToken {
 
         void onRestRefreshToken(RedditToken listenerData);
 

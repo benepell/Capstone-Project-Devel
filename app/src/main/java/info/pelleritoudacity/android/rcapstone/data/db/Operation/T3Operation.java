@@ -509,7 +509,7 @@ public class T3Operation {
         return false;
     }
 
-    public boolean isDeleteData(String category, String target) {
+    private boolean isDeleteData(String category, String target) {
         String timestamp = null;
         Uri uri = Contract.T3dataEntry.CONTENT_URI;
         String selection = Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " =?";
@@ -544,7 +544,7 @@ public class T3Operation {
         return isDeleted;
     }
 
-    public void deleteCategory(String contractPath, String category, String target) {
+    private void deleteCategory(String contractPath, String category, String target) {
         String where;
         Uri uri;
         String[] selectionArgs = {category};

@@ -67,7 +67,7 @@ public class SecureMediaEmbed implements Parcelable
     }
             ;
 
-    protected SecureMediaEmbed(Parcel in) {
+    SecureMediaEmbed(Parcel in) {
         this.content = ((String) in.readValue((String.class.getClassLoader())));
         this.width = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.scrolling = ((Boolean) in.readValue((Boolean.class.getClassLoader())));

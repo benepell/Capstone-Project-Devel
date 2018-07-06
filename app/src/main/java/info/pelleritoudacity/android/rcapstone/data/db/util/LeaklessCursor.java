@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteQuery;
 
 import timber.log.Timber;
 
-public class LeaklessCursor extends SQLiteCursor {
+class LeaklessCursor extends SQLiteCursor {
 
     public LeaklessCursor(SQLiteDatabase db, SQLiteCursorDriver driver,
                           String editTable, SQLiteQuery query) {

@@ -75,7 +75,6 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
     private MediaPlayer mMediaPlayer;
     private final ImaAdsLoader mImaAdsLoader;
     private final SubRedditFragment mListener;
-    private ImageButton[] mArrayButton;
 
     public SubRedditAdapter(SubRedditFragment listener, Context context, ImaAdsLoader imaAdsLoader) {
         mContext = context;
@@ -99,7 +98,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
     @Override
     public void onBindViewHolder(@NonNull SubRedditHolder holder, int position) {
 
-        mArrayButton = new ImageButton[]{holder.mImageButtonVoteUp, holder.mImageButtonVoteDown,
+        ImageButton[] mArrayButton = new ImageButton[]{holder.mImageButtonVoteUp, holder.mImageButtonVoteDown,
                 holder.mImageButtonPreferStars, holder.mImageButtonShowComments, holder.mImageButtonOpenBrowser};
 
         mCursor.moveToPosition(position);
@@ -335,7 +334,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
         }
 
-        public void bind(int position, String subRedditName, String nameRedditId, int numComments) {
+        void bind(int position, String subRedditName, String nameRedditId, int numComments) {
             mPosition = position;
             mSubRedditName = subRedditName;
             mNameRedditId = nameRedditId;

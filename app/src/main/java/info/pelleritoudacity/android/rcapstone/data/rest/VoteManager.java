@@ -21,8 +21,6 @@ public class VoteManager {
     private final String mAccessToken;
     private final String mDir;
     private final String mNameReddit;
-    private HashMap<String, String>mHearderMap;
-    private HashMap<String, String> mFieldMap;
     private Call<ResponseBody> mCall;
 
     private VoteManager(String token, String dir, String nameReddit) {
@@ -31,11 +29,11 @@ public class VoteManager {
         mDir = dir;
         mNameReddit = nameReddit;
 
-        mHearderMap = new HashMap<>();
+        HashMap<String, String> mHearderMap = new HashMap<>();
         mHearderMap.put("User-Agent", Costant.REDDIT_USER_AGENT);
         mHearderMap.put(Costant.REDDIT_AUTHORIZATION, Costant.REDDIT_BEARER + mAccessToken);
 
-        mFieldMap = new HashMap<>();
+        HashMap<String, String> mFieldMap = new HashMap<>();
         mFieldMap.put("dir", mDir);
         mFieldMap.put("id", mNameReddit);
 
@@ -74,7 +72,7 @@ public class VoteManager {
         mCall.enqueue(callback);
     }
 
-    public void cancelRequest() {
+    private void cancelRequest() {
         if (mCall != null) {
             mCall.cancel();
         }

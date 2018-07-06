@@ -3,11 +3,10 @@ package info.pelleritoudacity.android.rcapstone.utility;
 import android.content.Context;
 
 import info.pelleritoudacity.android.rcapstone.R;
-import timber.log.Timber;
 
 public class Preference {
 
-    static final int[] prefArrays = {
+    private static final int[] prefArrays = {
             R.string.pref_title_sync_frequency,
             R.string.pref_insert_prefs,
             R.string.pref_login_start,

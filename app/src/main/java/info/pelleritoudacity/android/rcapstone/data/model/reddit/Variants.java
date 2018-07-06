@@ -58,7 +58,7 @@ public class Variants implements Parcelable
     }
             ;
 
-    protected Variants(Parcel in) {
+    Variants(Parcel in) {
         this.gif = ((Gif) in.readValue((Gif.class.getClassLoader())));
         this.mp4 = ((Mp4) in.readValue((Mp4.class.getClassLoader())));
     }

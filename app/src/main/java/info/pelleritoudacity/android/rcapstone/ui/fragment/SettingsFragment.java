@@ -26,26 +26,22 @@
 
 package info.pelleritoudacity.android.rcapstone.ui.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.content.IntentCompat;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
-import android.widget.Toast;
 
 import com.google.android.exoplayer2.util.Util;
 
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.ui.activity.SettingsActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
     private String mAppVersionName;
-    OnSettingsFragmentInteraction mListener;
+    private OnSettingsFragmentInteraction mListener;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -144,11 +140,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
     private void applyTheme(Context context) {
         final Preference preference = findPreference(getString(R.string.pref_night_mode));
-        preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                mListener.applytheme(true);
-                return true;
-            }
+        preference.setOnPreferenceChangeListener((preference1, newValue) -> {
+            mListener.applytheme(true);
+            return true;
         });
 
     }

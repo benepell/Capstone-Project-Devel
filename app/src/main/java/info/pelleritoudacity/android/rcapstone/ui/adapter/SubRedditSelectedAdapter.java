@@ -30,14 +30,11 @@ import static info.pelleritoudacity.android.rcapstone.utility.NumberUtil.numberF
 public class SubRedditSelectedAdapter extends RecyclerView.Adapter<SubRedditSelectedAdapter.SubRedditSelectedHolder> {
 
     private final Context mContext;
-    private final SubRedditSelectedFragment mListener;
     private Cursor mCursor;
-    private ImageButton[] mArrayButton;
 
 
-    public SubRedditSelectedAdapter(SubRedditSelectedFragment listener) {
-        mListener = listener;
-        mContext = listener.getActivity();
+    public SubRedditSelectedAdapter(Context context) {
+        mContext = context;
     }
 
     @NonNull
@@ -55,7 +52,7 @@ public class SubRedditSelectedAdapter extends RecyclerView.Adapter<SubRedditSele
     @Override
     public void onBindViewHolder(@NonNull SubRedditSelectedHolder holder, int position) {
 
-        mArrayButton = new ImageButton[]{holder.mImageButtonVoteUp, holder.mImageButtonVoteDown,
+        ImageButton[] mArrayButton = new ImageButton[]{holder.mImageButtonVoteUp, holder.mImageButtonVoteDown,
                 holder.mImageButtonPreferStars, holder.mImageButtonShowComments, holder.mImageButtonOpenBrowser};
         mCursor.moveToPosition(position);
 

@@ -28,6 +28,8 @@ package info.pelleritoudacity.android.rcapstone.data.rest;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import java.lang.ref.WeakReference;
+
 import info.pelleritoudacity.android.rcapstone.data.db.Operation.T5Operation;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T5;
 import retrofit2.Call;
@@ -39,11 +41,11 @@ public class RestExecute {
 
     private final RestManager restManager;
     private T5 mReddit;
-    private Context mContext;
+    private final WeakReference<Context> mWeakContext;
 
-    public RestExecute(Context context) {
-        restManager = RestManager.getInstance(context);
-        mContext = context;
+    public RestExecute(WeakReference<Context> weakReference) {
+        restManager = RestManager.getInstance();
+        mWeakContext = weakReference;
     }
 
     public void loadData(final RestData myCallBack) {
@@ -74,7 +76,7 @@ public class RestExecute {
             public void onResponse(@NonNull Call<T5> call, @NonNull Response<T5> response) {
                 mReddit = response.body();
                 if (response.isSuccessful()) {
-                    T5Operation data = new T5Operation(mContext,mReddit);
+                    T5Operation data = new T5Operation(mWeakContext.get(),mReddit);
                     data.saveData();
                 }
             }
@@ -94,7 +96,7 @@ public class RestExecute {
         }
     }
 
-    public interface RestData {
+    interface RestData {
         void onRestData(T5 listenerData);
 
         void onErrorData(Throwable t);

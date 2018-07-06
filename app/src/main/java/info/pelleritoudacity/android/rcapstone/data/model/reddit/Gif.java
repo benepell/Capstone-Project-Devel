@@ -60,7 +60,7 @@ public class Gif implements Parcelable
     }
     ;
 
-    protected Gif(Parcel in) {
+    Gif(Parcel in) {
         this.source = ((SourceGif) in.readValue((SourceGif.class.getClassLoader())));
         in.readList(this.resolutions, (ResolutionGif.class.getClassLoader()));
     }

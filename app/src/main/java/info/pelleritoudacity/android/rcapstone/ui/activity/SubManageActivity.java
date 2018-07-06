@@ -64,7 +64,7 @@ public class SubManageActivity extends BaseActivity {
             new SubManageAsyncTask(mWeakContext).execute();
 
         } else if ((!Preference.isInsertPrefs(getApplicationContext()) && (NetworkUtil.isOnline(getApplicationContext())))) {
-            new RestExecute(getApplicationContext()).syncData();
+            new RestExecute(new WeakReference<>(getApplicationContext())).syncData();
 
         } else {
             Snackbar.make(mContainer, R.string.text_manage_nolinks, Snackbar.LENGTH_LONG).show();

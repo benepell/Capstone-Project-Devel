@@ -60,7 +60,7 @@ public class Mp4 implements Parcelable
     }
     ;
 
-    protected Mp4(Parcel in) {
+    Mp4(Parcel in) {
         this.source = ((SourceMp4) in.readValue((SourceMp4.class.getClassLoader())));
         in.readList(this.resolutions, (ResolutionMp4.class.getClassLoader()));
     }

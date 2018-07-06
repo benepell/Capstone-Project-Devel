@@ -29,6 +29,8 @@ package info.pelleritoudacity.android.rcapstone.data.rest;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import java.lang.ref.WeakReference;
+
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,8 +41,9 @@ public class SubRedditExecute {
     private T3 mReddit;
 
     public SubRedditExecute(Context context, String subReddit ) {
-        subRedditManager = SubRedditManager.getInstance(context,subReddit);
+        subRedditManager = SubRedditManager.getInstance(new WeakReference<>(context),subReddit);
     }
+
 
     public void getData(final RestSubReddit myCallBack) {
         Callback<T3> callback = new Callback<T3>() {

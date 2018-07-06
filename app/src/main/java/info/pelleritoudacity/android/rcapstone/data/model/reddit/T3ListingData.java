@@ -58,7 +58,7 @@ public class T3ListingData implements Parcelable
     }
     ;
 
-    protected T3ListingData(Parcel in) {
+    T3ListingData(Parcel in) {
         this.kind = ((String) in.readValue((String.class.getClassLoader())));
         this.data = ((T3Data) in.readValue((T3Data.class.getClassLoader())));
     }

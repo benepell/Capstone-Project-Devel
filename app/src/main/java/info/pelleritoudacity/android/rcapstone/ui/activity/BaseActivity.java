@@ -74,7 +74,7 @@ public class BaseActivity extends AppCompatActivity
     private View mNavHeaderView;
     private Unbinder unbinder;
 
-    public ArrayList<String> getTabArrayList() {
+    ArrayList<String> getTabArrayList() {
         return mTabArrayList;
     }
     private ArrayList<String> mTabArrayList;
@@ -649,7 +649,7 @@ public class BaseActivity extends AppCompatActivity
     }
 
 
-    protected void openHomeActivity() {
+    void openHomeActivity() {
         startActivity(new Intent(this, SubRedditActivity.class)
                 .setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION));
     }

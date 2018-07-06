@@ -29,6 +29,7 @@ package info.pelleritoudacity.android.rcapstone.data.rest;
 import android.content.Context;
 import android.text.TextUtils;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -42,7 +43,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import timber.log.Timber;
 
 public class SubRedditManager {
 
@@ -51,19 +51,23 @@ public class SubRedditManager {
     private final String mSubReddit;
     private final HashMap<String, String> mFieldMap;
     private Call<T3> mCall;
-    private Context mContext;
-    private SubRedditManager(Context context, String subReddit) {
-        mSubReddit = subReddit;
-        mContext = context;
 
-        String strTimeSort = Preference.getTimeSort(mContext);
+    private final WeakReference<Context> mWeakContext;
+
+    private SubRedditManager(WeakReference<Context> weakContext, String subReddit) {
+        mSubReddit = subReddit;
+        mWeakContext = weakContext;
+
+        Context context = mWeakContext.get();
+
+        String strTimeSort = Preference.getTimeSort(context);
 
         mFieldMap = new HashMap<>();
-        mFieldMap.put("limit", String.valueOf(Preference.getGeneralSettingsItemPage(mContext)));
+        mFieldMap.put("limit", String.valueOf(Preference.getGeneralSettingsItemPage(context)));
         mFieldMap.put("showedits", "false");
         mFieldMap.put("showmore", "true");
-        if(!TextUtils.isEmpty(strTimeSort)){
-            mFieldMap.put("t",strTimeSort );
+        if (!TextUtils.isEmpty(strTimeSort)) {
+            mFieldMap.put("t", strTimeSort);
 
         }
 
@@ -74,10 +78,10 @@ public class SubRedditManager {
                 .build();
 
 
-       String baseUrl = Costant.REDDIT_BASE_URL;
-       if(PermissionUtil.isLogged(mContext)){
-           baseUrl = Costant.REDDIT_OAUTH_URL;
-       }
+        String baseUrl = Costant.REDDIT_BASE_URL;
+        if (PermissionUtil.isLogged(context)) {
+            baseUrl = Costant.REDDIT_OAUTH_URL;
+        }
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .client(okHttpClient)
@@ -88,27 +92,29 @@ public class SubRedditManager {
 
     }
 
-    public static SubRedditManager getInstance(Context context, String subReddit) {
+    public static SubRedditManager getInstance(WeakReference<Context> weakContext, String subReddit) {
         if (sSubRedditManager != null) {
             sSubRedditManager.cancelRequest();
 
         }
 
-        sSubRedditManager = new SubRedditManager(context, subReddit);
+        sSubRedditManager = new SubRedditManager(weakContext, subReddit);
 
 
         return sSubRedditManager;
     }
 
     public void getSubRedditAPI(Callback<T3> callback) {
-        if(PermissionUtil.isLogged(mContext)){
-            mCall = sSubRedditAPI.getSubRedditAuth(Costant.REDDIT_BEARER + PermissionUtil.getToken(mContext),
+        Context context = mWeakContext.get();
+
+        if (PermissionUtil.isLogged(context)) {
+            mCall = sSubRedditAPI.getSubRedditAuth(Costant.REDDIT_BEARER + PermissionUtil.getToken(context),
                     mSubReddit,
-                    Preference.getSubredditSort(mContext),
+                    Preference.getSubredditSort(context),
                     mFieldMap);
 
-        }else {
-            mCall = sSubRedditAPI.getSubReddit(mSubReddit, Preference.getSubredditSort(mContext),mFieldMap);
+        } else {
+            mCall = sSubRedditAPI.getSubReddit(mSubReddit, Preference.getSubredditSort(context), mFieldMap);
 
         }
         mCall.enqueue(callback);

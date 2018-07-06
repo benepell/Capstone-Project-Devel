@@ -9,9 +9,9 @@ import com.google.android.exoplayer2.util.Util;
 
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 
-public class MediaSRC {
+class MediaSRC {
 
-    private Context mContext;
+    private final Context mContext;
 
     public MediaSRC(Context context) {
         mContext = context;

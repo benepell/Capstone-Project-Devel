@@ -345,7 +345,7 @@ public class T1Operation {
         return false;
     }
 
-    public boolean isDeleteData(String strId) {
+    private boolean isDeleteData(String strId) {
         String timestamp = null;
         Uri uri = Contract.T1dataEntry.CONTENT_URI;
         String selection = Contract.T1dataEntry.COLUMN_NAME_ID + " =?" + " OR " +
@@ -381,7 +381,7 @@ public class T1Operation {
         return isDeleted;
     }
 
-    public void deleteCategory(String id) {
+    private void deleteCategory(String id) {
         String where;
         Uri uri;
         String[] selectionArgs = {id, Costant.STR_PARENT_COMMENT + id};

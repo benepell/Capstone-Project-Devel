@@ -61,7 +61,7 @@ public class SourceMp4 implements Parcelable
     }
     ;
 
-    protected SourceMp4(Parcel in) {
+    SourceMp4(Parcel in) {
         this.url = ((String) in.readValue((String.class.getClassLoader())));
         this.width = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.height = ((Integer) in.readValue((Integer.class.getClassLoader())));

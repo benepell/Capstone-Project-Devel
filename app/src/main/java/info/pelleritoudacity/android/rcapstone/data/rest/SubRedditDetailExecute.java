@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T1;
@@ -12,14 +13,14 @@ import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import timber.log.Timber;
 
 public class SubRedditDetailExecute {
     private final SubRedditDetailManager subRedditDetailManager;
     private List<T1> mReddit;
 
     public SubRedditDetailExecute(Context context, String code, String subRedditName, String nameRedditId) {
-        subRedditDetailManager = SubRedditDetailManager.getInstance(context,code,subRedditName,nameRedditId,
+        subRedditDetailManager = SubRedditDetailManager.getInstance(new WeakReference<>(context
+                ) ,code,subRedditName,nameRedditId,
                 PermissionUtil.isLogged(context), Preference.getSubredditSort(context));
     }
 
@@ -38,7 +39,6 @@ public class SubRedditDetailExecute {
                 call.cancel();
                 if (call.isCanceled()) {
                     myCallBack.onErrorSubReddit(t);
-                    Timber.e("VALX %s",t.getCause());
                 }
             }
         };

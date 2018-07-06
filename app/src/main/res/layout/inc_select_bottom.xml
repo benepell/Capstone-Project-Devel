@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:contentDescription="TODO"
+                android:contentDescription="@string/image_vote_up"
                 android:ellipsize="end"
                 android:paddingBottom="@dimen/list_padding_vertical_author"
                 android:paddingEnd="@dimen/list_padding_horizontal_author"
@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:contentDescription="TODO"
+                android:contentDescription="@string/image_vote_down"
                 android:paddingBottom="@dimen/list_padding_vertical_author"
                 android:paddingEnd="@dimen/list_padding_horizontal_author"
                 android:paddingStart="@dimen/list_padding_horizontal_author" />
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:contentDescription="TODO"
+                android:contentDescription="@string/image_preferite_stars"
                 android:paddingBottom="@dimen/list_padding_vertical_author"
                 android:paddingEnd="@dimen/list_padding_horizontal_author"
                 android:paddingStart="@dimen/list_padding_horizontal_author" />
@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:contentDescription="TODO"
+                android:contentDescription="@string/image_show_comments"
                 android:paddingBottom="@dimen/list_padding_vertical_author"
                 android:paddingEnd="@dimen/list_padding_horizontal_author"
                 android:paddingStart="@dimen/list_padding_horizontal_author" />
@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:contentDescription="TODO"
+                android:contentDescription="@string/image_open_browser"
                 android:paddingBottom="@dimen/list_padding_vertical_author"
                 android:paddingEnd="@dimen/list_padding_horizontal_author"
                 android:paddingStart="@dimen/list_padding_horizontal_author" />

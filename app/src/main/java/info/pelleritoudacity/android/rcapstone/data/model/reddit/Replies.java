@@ -31,7 +31,7 @@ public class Replies implements Parcelable
 
     };
 
-    protected Replies(Parcel in) {
+    Replies(Parcel in) {
         this.kind = ((String) in.readValue((String.class.getClassLoader())));
         this.data = ((T1Data) in.readValue((T1Data.class.getClassLoader())));
     }

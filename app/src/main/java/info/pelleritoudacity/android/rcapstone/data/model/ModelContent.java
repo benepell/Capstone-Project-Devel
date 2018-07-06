@@ -29,8 +29,8 @@ package info.pelleritoudacity.android.rcapstone.data.model;
 public class ModelContent {
 
     private String url;
-    int width;
-    int height;
+    private int width;
+    private int height;
 
     public String getUrl() {
         return url;

@@ -32,7 +32,7 @@ public class Media implements Parcelable
     }
     ;
 
-    protected Media(Parcel in) {
+    Media(Parcel in) {
         this.type = ((String) in.readValue((String.class.getClassLoader())));
         this.oembedMedia = ((OembedMedia) in.readValue((OembedMedia.class.getClassLoader())));
     }

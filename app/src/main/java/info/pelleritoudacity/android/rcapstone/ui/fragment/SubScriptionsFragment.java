@@ -115,7 +115,7 @@ public class SubScriptionsFragment extends Fragment
 
     }
 
-    public void restartLoader() {
+    private void restartLoader() {
         if (getActivity() != null) {
             getActivity().getSupportLoaderManager().restartLoader(REDDIT_LOADER_ID, null, this);
         }
@@ -208,7 +208,7 @@ public class SubScriptionsFragment extends Fragment
 
     }
 
-    public void alerDialog(Context context) {
+    private void alerDialog(Context context) {
 
         if (context != null) {
             Preference.setRestoreManage(context, 0);

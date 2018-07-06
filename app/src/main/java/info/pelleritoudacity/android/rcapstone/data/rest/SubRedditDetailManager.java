@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -25,28 +26,28 @@ public class SubRedditDetailManager {
 
     private static RedditAPI sCommentsAPI;
     private static SubRedditDetailManager sSubRedditDetailManager;
-    private Context mContext;
+    private final WeakReference< Context>  mWeakContext;
     private final boolean mIsAuthenticate;
     private final String mAccessToken;
     private final String mNameRedditId;
     private final String mSubRedditName;
-    private HashMap<String, String> mFieldMap;
+    private final HashMap<String, String> mFieldMap;
     private Call<List<T1>> mCall;
 
 
-    private SubRedditDetailManager(Context context, String token, String subRedditName, String nameRedditId, boolean isAuthenticate, String sortBy) {
+    private SubRedditDetailManager(WeakReference<Context> weakContext, String token, String subRedditName, String nameRedditId, boolean isAuthenticate, String sortBy) {
 
-        mContext = context;
+        mWeakContext = weakContext;
         mIsAuthenticate = isAuthenticate;
         mAccessToken = token;
         mSubRedditName = subRedditName;
         mNameRedditId = nameRedditId;
 
-        String strTimeSort = Preference.getTimeSort(mContext);
+        String strTimeSort = Preference.getTimeSort(mWeakContext.get());
 
         mFieldMap = new HashMap<>();
-        mFieldMap.put("depth", String.valueOf(Preference.getGeneralSettingsDepthPage(mContext)));
-        mFieldMap.put("limit", String.valueOf(Preference.getGeneralSettingsItemPage(mContext)));
+        mFieldMap.put("depth", String.valueOf(Preference.getGeneralSettingsDepthPage(mWeakContext.get())));
+        mFieldMap.put("limit", String.valueOf(Preference.getGeneralSettingsItemPage(mWeakContext.get())));
         mFieldMap.put("showedits", "false");
         mFieldMap.put("showmore", Costant.SHOW_MORE_COMMENTS);
         if(!TextUtils.isEmpty(strTimeSort)){
@@ -92,19 +93,19 @@ public class SubRedditDetailManager {
         return GsonConverterFactory.create(gson);
     }
 
-    public static SubRedditDetailManager getInstance(Context context, String accessToken, String subRedditName, String nameRedditId, boolean isAuthenticate, String sortBy) {
+    public static SubRedditDetailManager getInstance(WeakReference<Context> weakContext, String accessToken, String subRedditName, String nameRedditId, boolean isAuthenticate, String sortBy) {
         if (sSubRedditDetailManager != null) {
             sSubRedditDetailManager.cancelRequest();
         }
 
-        sSubRedditDetailManager = new SubRedditDetailManager(context,accessToken, subRedditName, nameRedditId, isAuthenticate,sortBy);
+        sSubRedditDetailManager = new SubRedditDetailManager(weakContext,accessToken, subRedditName, nameRedditId, isAuthenticate,sortBy);
 
 
         return sSubRedditDetailManager;
     }
 
     public void getCommentsAPI(Callback<List<T1>> callback) {
-       String sortBy = Preference.getSubredditSort(mContext);
+       String sortBy = Preference.getSubredditSort(mWeakContext.get());
         if (mIsAuthenticate) {
             mCall = sCommentsAPI.getCommentsAuth(Costant.REDDIT_BEARER + mAccessToken,
                     mSubRedditName, mNameRedditId,

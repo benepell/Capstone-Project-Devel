@@ -13,7 +13,7 @@ import java.lang.reflect.Type;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T1;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 
-public class T1Deserializer implements JsonDeserializer<T1> {
+class T1Deserializer implements JsonDeserializer<T1> {
 
     @Override
     public T1 deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {

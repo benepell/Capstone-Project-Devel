@@ -61,7 +61,7 @@ public class ResolutionMp4 implements Parcelable
     }
     ;
 
-    protected ResolutionMp4(Parcel in) {
+    ResolutionMp4(Parcel in) {
         this.url = ((String) in.readValue((String.class.getClassLoader())));
         this.width = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.height = ((Integer) in.readValue((Integer.class.getClassLoader())));

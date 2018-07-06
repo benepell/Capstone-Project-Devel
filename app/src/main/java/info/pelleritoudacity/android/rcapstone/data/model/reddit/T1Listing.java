@@ -32,7 +32,7 @@ public class T1Listing implements Parcelable
     }
     ;
 
-    protected T1Listing(Parcel in) {
+    T1Listing(Parcel in) {
         this.kind = ((String) in.readValue((String.class.getClassLoader())));
         this.data = ((T1ListingData) in.readValue((T1ListingData.class.getClassLoader())));
     }

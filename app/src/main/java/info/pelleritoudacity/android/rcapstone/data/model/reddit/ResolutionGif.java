@@ -61,7 +61,7 @@ public class ResolutionGif implements Parcelable
     }
     ;
 
-    protected ResolutionGif(Parcel in) {
+    ResolutionGif(Parcel in) {
         this.url = ((String) in.readValue((String.class.getClassLoader())));
         this.width = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.height = ((Integer) in.readValue((Integer.class.getClassLoader())));

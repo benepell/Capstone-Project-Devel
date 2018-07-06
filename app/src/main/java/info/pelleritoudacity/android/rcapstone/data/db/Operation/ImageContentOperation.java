@@ -37,7 +37,7 @@ import info.pelleritoudacity.android.rcapstone.data.model.reddit.Resolution;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.Source;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3Data;
 
-public class ImageContentOperation {
+class ImageContentOperation {
 
     private final Context mContext;
 

@@ -283,7 +283,7 @@ public class T3Data  implements Parcelable
     }
             ;
 
-    protected T3Data (Parcel in) {
+    T3Data(Parcel in) {
         this.isCrosspostable = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         this.subredditId = ((String) in.readValue((String.class.getClassLoader())));
         this.approvedAtUtc = in.readValue((Object.class.getClassLoader()));

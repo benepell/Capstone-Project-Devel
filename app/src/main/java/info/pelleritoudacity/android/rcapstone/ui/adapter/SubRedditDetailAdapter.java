@@ -30,7 +30,6 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
     private final Context mContext;
     private final SubRedditDetailFragment mListener;
     private Cursor mCursor;
-    private ImageButton[] mArrayButton;
     private int mSelectorPosition = RecyclerView.NO_POSITION;
 
     public SubRedditDetailAdapter(SubRedditDetailFragment listener) {
@@ -53,7 +52,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
     @Override
     public void onBindViewHolder(@NonNull SubRedditDetailHolder holder, int position) {
 
-        mArrayButton = new ImageButton[]{holder.mImageButtonVoteUp, holder.mImageButtonVoteDown,
+        ImageButton[] mArrayButton = new ImageButton[]{holder.mImageButtonVoteUp, holder.mImageButtonVoteDown,
                 holder.mImageButtonPreferStars, holder.mImageButtonShowComments, holder.mImageButtonOpenBrowser};
 
         mCursor.moveToPosition(position);
@@ -68,7 +67,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         if (record != null) {
 
             if (!TextUtils.isEmpty(record.getAuthor()))
-                holder.mTextViewAuthorDetail.setText(record.getAuthor() + ":");
+                holder.mTextViewAuthorDetail.setText(record.getAuthor().concat(":"));
 
             holder.mTextViewPostedOnDetail.setText(DateUtil.getDiffTimeMinute(mContext, record.getCreated()));
 

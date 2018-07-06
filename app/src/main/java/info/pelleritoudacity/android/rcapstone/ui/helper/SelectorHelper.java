@@ -17,7 +17,7 @@ import info.pelleritoudacity.android.rcapstone.data.rest.VoteExecute;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 
 public class SelectorHelper {
-    Context mContext;
+    private final Context mContext;
 
     public SelectorHelper(Context context) {
         mContext = context;

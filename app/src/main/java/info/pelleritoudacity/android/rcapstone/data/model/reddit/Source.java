@@ -61,7 +61,7 @@ public class Source implements Parcelable
     }
     ;
 
-    protected Source(Parcel in) {
+    Source(Parcel in) {
         this.url = ((String) in.readValue((String.class.getClassLoader())));
         this.width = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.height = ((Integer) in.readValue((Integer.class.getClassLoader())));

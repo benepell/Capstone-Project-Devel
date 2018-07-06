@@ -47,8 +47,8 @@ public class AccessTokenManager {
     private Call<RedditToken> mCall;
 
 
-    final HashMap<String, String> headerMap;
-    final HashMap<String, String> fieldMap;
+    private final HashMap<String, String> headerMap;
+    private final HashMap<String, String> fieldMap;
 
 
     private AccessTokenManager(String code) {
@@ -97,7 +97,7 @@ public class AccessTokenManager {
         mCall.enqueue(callback);
     }
 
-    public void cancelRequest() {
+    private void cancelRequest() {
         if (mCall != null) {
             mCall.cancel();
         }

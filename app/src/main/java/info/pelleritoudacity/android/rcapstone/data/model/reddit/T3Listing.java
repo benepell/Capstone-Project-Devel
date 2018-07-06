@@ -68,7 +68,7 @@ public class T3Listing implements Parcelable
     }
     ;
 
-    protected T3Listing(Parcel in) {
+    T3Listing(Parcel in) {
         this.modhash = ((String) in.readValue((String.class.getClassLoader())));
         this.dist = ((Integer) in.readValue((Integer.class.getClassLoader())));
         in.readList(this.children, (T3ListingData.class.getClassLoader()));

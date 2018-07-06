@@ -43,7 +43,6 @@ public class SubRedditSelectedFragment extends Fragment
 
     private String mStrId;
 
-    private LinearLayoutManager mLayoutManager;
     private SubRedditSelectedAdapter mAdapter;
 
     public SubRedditSelectedFragment() {
@@ -77,18 +76,17 @@ public class SubRedditSelectedFragment extends Fragment
 
         unbinder = ButterKnife.bind(this, view);
 
-        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new SubRedditSelectedAdapter(this);
+        mAdapter = new SubRedditSelectedAdapter(mContext);
 
         mRecyclerView.setAdapter(mAdapter);
 
         return view;
     }
-
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

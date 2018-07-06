@@ -18,7 +18,7 @@ import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
 public class SubRedditSelectedHelper {
 
-    private Context mContext;
+    private final Context mContext;
 
     public SubRedditSelectedHelper(Context mContext) {
         this.mContext = mContext;

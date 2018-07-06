@@ -73,7 +73,7 @@ public class MediaPlayer {
 
     private final Context mContext;
 
-    final String mShortDescription;
+    private final String mShortDescription;
 
     private boolean mIsAutoPlay;
     private int mResumeWindow;
@@ -85,17 +85,14 @@ public class MediaPlayer {
     private SimpleExoPlayer mPlayer;
     private final ProgressBar mProgressBar;
 
-    final TextView mTvErrorPlayer;
+    private final TextView mTvErrorPlayer;
 
     private MediaSession mMediaSession;
     private final ImaAdsLoader mImaAdsLoader;
     private TextView mTvExoCountDown;
     private ImageView mImageMutedPlay;
     private int mAdapterPosition;
-    private ImageView mImageFullScreen;
-    private ImageView mImageExitFullScreen;
-    private ImageView mImageShareFullScreen;
-    private ImageView mImagePlay;
+    private final ImageView mImagePlay;
 
     private Handler mHandler;
     private final Runnable mRunnableRemainingPlay = this::countDown;
@@ -280,10 +277,10 @@ public class MediaPlayer {
         }
     }
 
-    public void getFullScreen(String videoUrl) {
+    private void getFullScreen(String videoUrl) {
         if ((mPlayer != null) && (mPlayerView != null)) {
 
-            mImageFullScreen = mPlayerView.findViewById(R.id.exo_full_screen);
+            ImageView mImageFullScreen = mPlayerView.findViewById(R.id.exo_full_screen);
 
             mImageFullScreen.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_fullscreen)
                     .sizeDp(mContext.getResources().getInteger(R.integer.icon_size_fullscreen))
@@ -294,10 +291,10 @@ public class MediaPlayer {
         }
     }
 
-    public void getExitFullScreen() {
+    private void getExitFullScreen() {
         if ((mPlayer != null) && (mPlayerView != null)) {
 
-            mImageExitFullScreen = mPlayerView.findViewById(R.id.exo_exit_full_screen);
+            ImageView mImageExitFullScreen = mPlayerView.findViewById(R.id.exo_exit_full_screen);
 
             mImageExitFullScreen.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_fullscreen_exit)
                     .sizeDp(mContext.getResources().getInteger(R.integer.icon_size_exit_fullscreen))
@@ -309,10 +306,10 @@ public class MediaPlayer {
         }
     }
 
-    public void getShareFullScreen(String url) {
+    private void getShareFullScreen(String url) {
         if ((mPlayer != null) && (mPlayerView != null)) {
 
-            mImageShareFullScreen = mPlayerView.findViewById(R.id.exo_share_full_screen);
+            ImageView mImageShareFullScreen = mPlayerView.findViewById(R.id.exo_share_full_screen);
 
             mImageShareFullScreen.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_share)
                     .sizeDp(mContext.getResources().getInteger(R.integer.icon_size_share))
@@ -347,7 +344,7 @@ public class MediaPlayer {
     }
 
 
-    public void hiddenPlayer() {
+    private void hiddenPlayer() {
         if(mImagePlay!=null){
             mImagePlay.setVisibility(View.VISIBLE);
         }
@@ -369,12 +366,12 @@ public class MediaPlayer {
     }
 
 
-    public long timeRemainingPlay() {
+    private long timeRemainingPlay() {
         return (mPlayer != null) ? mPlayer.getDuration() - mPlayer.getContentPosition() : 0;
     }
 
 
-    public void setMute(boolean toMute) {
+    private void setMute(boolean toMute) {
         if (toMute) {
             mPlayer.setVolume(0f);
             Preference.setVolumeMuted(mContext,true);
@@ -403,7 +400,7 @@ public class MediaPlayer {
     }
 
 
-    public boolean isMute() {
+    private boolean isMute() {
         return mPlayer != null && mPlayer.getVolume() == 0;
     }
 
@@ -440,7 +437,7 @@ public class MediaPlayer {
         }
     }
 
-    public void releaseHandler() {
+    private void releaseHandler() {
         if (mHandler != null) {
             mHandler.removeCallbacks(mRunnableRemainingPlay);
             mHandler = null;
@@ -459,7 +456,7 @@ public class MediaPlayer {
     }
 
 
-    protected SimpleExoPlayer createPlayer(boolean isRendering, boolean isAdaptiveStreaming) {
+    private SimpleExoPlayer createPlayer(boolean isRendering, boolean isAdaptiveStreaming) {
 
         int extensionRendererMode;
 

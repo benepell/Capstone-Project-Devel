@@ -40,7 +40,7 @@ import info.pelleritoudacity.android.rcapstone.data.model.reddit.SourceMp4;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3Data;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.Variants;
 
-public class VideoContentOperation {
+class VideoContentOperation {
 
     private final Context mContext;
 

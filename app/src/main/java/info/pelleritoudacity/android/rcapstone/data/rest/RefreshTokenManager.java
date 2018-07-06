@@ -47,8 +47,8 @@ public class RefreshTokenManager {
     private Call<RedditToken> mCall;
 
 
-    final HashMap<String, String> headerMap;
-    final HashMap<String, String> fieldMap;
+    private final HashMap<String, String> headerMap;
+    private final HashMap<String, String> fieldMap;
 
 
     private RefreshTokenManager(String refreshToken) {

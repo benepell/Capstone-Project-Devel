@@ -36,8 +36,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Objects;
 
 import timber.log.Timber;
 
@@ -83,9 +82,9 @@ public class TextUtil {
             url = url.replaceAll(msgCompose[1], "(" + Costant.REDDIT_BASE_URL + msgCompose[1].substring(4));
 
             if (Build.VERSION.SDK_INT >= 24) {
-                Html.fromHtml(url, Html.FROM_HTML_MODE_LEGACY).toString();
+                Html.fromHtml(url, Html.FROM_HTML_MODE_LEGACY);
             } else {
-                Html.fromHtml(url).toString();
+                Html.fromHtml(url);
 
             }
             return url;
@@ -125,7 +124,7 @@ public class TextUtil {
             Timber.e("youtubeValue error %s", e.getMessage());
         }
 
-        if (uri.getAuthority().equals("www.youtube.com")) {
+        if (Objects.requireNonNull(uri).getAuthority().equals("www.youtube.com")) {
 
             String v = uri.getQueryParameter("v");
 

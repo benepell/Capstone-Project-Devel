@@ -64,7 +64,7 @@ public class Preview implements Parcelable
     }
     ;
 
-    protected Preview(Parcel in) {
+    Preview(Parcel in) {
         in.readList(this.images, (Image.class.getClassLoader()));
         this.enabled = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         this.redditVideoPreview = ((RedditVideoPreview) in.readValue((RedditVideoPreview.class.getClassLoader())));

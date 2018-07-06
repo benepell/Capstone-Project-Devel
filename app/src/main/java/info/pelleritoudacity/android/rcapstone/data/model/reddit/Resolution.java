@@ -61,7 +61,7 @@ public class Resolution implements Parcelable
     }
     ;
 
-    protected Resolution(Parcel in) {
+    Resolution(Parcel in) {
         this.url = ((String) in.readValue((String.class.getClassLoader())));
         this.width = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.height = ((Integer) in.readValue((Integer.class.getClassLoader())));

@@ -50,9 +50,9 @@ import timber.log.Timber;
 
 public class LoginActivity extends BaseActivity {
 
-    //    @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
+    @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.login_webview)
-    public WebView mWebview;
+    protected WebView mWebview;
 
 
     @Override

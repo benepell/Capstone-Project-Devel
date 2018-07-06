@@ -83,7 +83,7 @@ public class ActivityUI {
         return context != null && context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 
-    public static boolean isPortraitOrientation(Context context) {
+    private static boolean isPortraitOrientation(Context context) {
         return context != null && context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
     }
 

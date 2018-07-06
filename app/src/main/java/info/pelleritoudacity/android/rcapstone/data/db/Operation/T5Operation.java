@@ -48,7 +48,7 @@ public class T5Operation {
         mModelT5 = modelT5;
     }
 
-    public boolean insertDataPrefSubReddit() {
+    private boolean insertDataPrefSubReddit() {
 
         if (mModelT5 == null) return false;
 
@@ -87,7 +87,7 @@ public class T5Operation {
         return countPrefSubData != 0;
     }
 
-    public boolean insertData() {
+    private boolean insertData() {
 
         if (mModelT5 == null) return false;
 

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -49,7 +48,6 @@ public class SubRedditFragment extends Fragment
     private Unbinder unbinder;
 
     private int sWindowPlayer;
-    private boolean sIsAutoRun;
     private long sPositionPlayer;
     private boolean isIMA = false;
 
@@ -57,7 +55,6 @@ public class SubRedditFragment extends Fragment
     private String mTarget;
     private MediaPlayer mMediaPlayer;
 
-    private LinearLayoutManager mLayoutManager;
     private SubRedditAdapter mAdapter;
 
 
@@ -95,7 +92,7 @@ public class SubRedditFragment extends Fragment
 
         unbinder = ButterKnife.bind(this, view);
 
-        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         mRecyclerView.setHasFixedSize(true);
@@ -121,7 +118,7 @@ public class SubRedditFragment extends Fragment
         if (savedInstanceState != null) {
             sWindowPlayer = savedInstanceState.getInt(Costant.BUNDLE_EXOPLAYER_WINDOW, C.INDEX_UNSET);
             sPositionPlayer = savedInstanceState.getLong(Costant.BUNDLE_EXOPLAYER_POSITION, C.TIME_UNSET);
-            sIsAutoRun = savedInstanceState.getBoolean(Costant.BUNDLE_EXOPLAYER_AUTOPLAY, false);
+            boolean sIsAutoRun = savedInstanceState.getBoolean(Costant.BUNDLE_EXOPLAYER_AUTOPLAY, false);
 
             mSubReddit = savedInstanceState.getString(Costant.EXTRA_SUBREDDIT_CATEGORY);
             mTarget = savedInstanceState.getString(Costant.EXTRA_SUBREDDIT_TARGET);

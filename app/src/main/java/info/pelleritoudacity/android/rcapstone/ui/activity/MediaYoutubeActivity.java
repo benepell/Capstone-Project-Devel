@@ -4,10 +4,7 @@ package info.pelleritoudacity.android.rcapstone.ui.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.text.TextUtils;
-import android.view.View;
-import android.widget.Toolbar;
 
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerFragment;

@@ -28,8 +28,6 @@ package info.pelleritoudacity.android.rcapstone.ui.view;
 
 import android.support.design.widget.TabLayout;
 import android.text.TextUtils;
-import android.view.View;
-import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -38,10 +36,10 @@ import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity;
 
 public class SubRedditTab implements TabLayout.OnTabSelectedListener {
 
-    private SubRedditActivity mListener;
-    private TabLayout mTabLayout;
-    private ArrayList<String> mTabList;
-    private ArrayList<String> mTabHistory;
+    private final SubRedditActivity mListener;
+    private final TabLayout mTabLayout;
+    private final ArrayList<String> mTabList;
+    private final ArrayList<String> mTabHistory;
 
     public SubRedditTab(SubRedditActivity listener, TabLayout tabLayout, ArrayList<String> tabList) {
         mListener = listener;
@@ -50,7 +48,7 @@ public class SubRedditTab implements TabLayout.OnTabSelectedListener {
         mTabHistory = new ArrayList<>();
     }
 
-    public void createTab() {
+    private void createTab() {
         if (mTabList != null) {
             mTabLayout.removeAllTabs();
             for (String string : mTabList) {

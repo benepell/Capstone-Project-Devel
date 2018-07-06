@@ -80,7 +80,7 @@ public class MediaSession {
         sMediaSessionCompat.setActive(true);
     }
 
-    public void showNotification(PlaybackStateCompat state) {
+    private void showNotification(PlaybackStateCompat state) {
 
         int icon;
         String play_pause;
@@ -160,15 +160,15 @@ public class MediaSession {
         this.mDescription = mDescription;
     }
 
-    public PlaybackStateCompat.Builder getStateBuilder() {
+    private PlaybackStateCompat.Builder getStateBuilder() {
         return mStateBuilder;
     }
 
-    public void setStateBuilder(PlaybackStateCompat.Builder mStateBuilder) {
+    private void setStateBuilder(PlaybackStateCompat.Builder mStateBuilder) {
         this.mStateBuilder = mStateBuilder;
     }
 
-    protected void mediaSessionState(boolean playWhenReady, int state) {
+    void mediaSessionState(boolean playWhenReady, int state) {
         switch (state) {
             case Player.STATE_READY:
                 if (playWhenReady) {
@@ -221,7 +221,7 @@ public class MediaSession {
 
     }
 
-    public interface MediaSessionCallback {
+    interface MediaSessionCallback {
         void onSimplePlayer(SimpleExoPlayer simpleExoPlayer);
     }
 }
