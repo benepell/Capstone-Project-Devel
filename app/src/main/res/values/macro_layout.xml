@@ -6,9 +6,6 @@
     <!-- list -->
     <dimen name="list_app_bar_elevation">4dp</dimen>
     <dimen name="list_side_margin">4dp</dimen>
-    <dimen name="list_side_padding_top">4dp</dimen>
-    <dimen name="list_side_padding_bottom">24dp</dimen>
-    <dimen name="list_card_horiz_margin">4dp</dimen>
     <dimen name="list_card_elevation">2dp</dimen>
 
 

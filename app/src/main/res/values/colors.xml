@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <color name="colorPrimary">@color/red_500</color>
     <color name="colorPrimaryDark">@color/red_700</color>
     <color name="colorAccent">@color/light_blue_A700</color>
@@ -8,9 +8,6 @@
 
     <color name="colorBackgroundItemSelected">#fff9c4</color>
     <color name="colorBackgroundItemNoSelected">@color/white</color>
-    <color name="colorBackgroundCard">@color/white</color>
-
-    <color name="colorBackgroundCardNight">@color/grey_800</color>
 
     <color name="red_A400">#FF1744</color>
 
@@ -20,21 +17,15 @@
     <color name="red_700">#D32F2F</color>
     <color name="light_blue_A700">#0091EA</color>
     <color name="blue_A700">#2962FF</color>
-    <color name="blue_900">#01579B</color>
     <color name="grey_600">#757575</color>
     <color name="grey_200">#EEEEEE</color>
     <color name="grey_400">#BDBDBD</color>
-    <color name="grey_800">#424242</color>
-    <color name="deep_orange_A400">#FF3D00</color>
     <color name="light_green_A700">#64DD17</color>
-    <color name="amber_100">#FFECB3</color>
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="primary_dark_material_dark">#fc6565</color>
-    <color name="primary_material_dark">#ffffff</color>
-    <color name="colorBackgroundFloating">#424242</color>
-    <color name="foreground_material_dark">#ffffff</color>
-    <color name="deep_purple_A200">#7C4DFF</color>
+    <color name="primary_dark_material_dark" tools:ignore="PrivateResource">#fc6565</color>
+    <color name="primary_material_dark" tools:ignore="PrivateResource">#ffffff</color>
+    <color name="foreground_material_dark" tools:ignore="PrivateResource">#ffffff</color>
 
 </resources>

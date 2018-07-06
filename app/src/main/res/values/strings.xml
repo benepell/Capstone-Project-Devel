@@ -33,7 +33,7 @@
     <string name="image_description_app">&app_name; Android Nano degree </string>
     <string name="url_app" translatable="false">http://android.pelleritoudacity.info/rcapstone</string>
 
-    <string name="list_snackbar_offline_text">No Internet connection &#8230; \n swipe here to try again.</string>
+    <string name="list_snackbar_offline_text">No Internet connection &#8230; swipe here to try again.</string>
 
     <string name="pref_app_version" translatable="false">pref_app_version</string>
     <string name="title_app_version">Version</string>
@@ -169,7 +169,6 @@
     <string name="title_menu_filter">Filter posts</string>
     <string name="title_submenu_general">General posts</string>
     <string name="title_submenu_filter">Filter posts</string>
-    <string name="title_general_favorites">favorite</string>
     <string name="title_submenu_hot">Hot</string>
     <string name="title_submenu_top">Top</string>
     <string name="title_submenu_new">New</string>
@@ -203,8 +202,6 @@
 
     <string name="text_comments_subreddit">comments</string>
     <string name="text_manage_nolinks">No Archive Available for Manage Subscriptions.</string>
-    <string name="abbr_hour_text">h</string>
-    <string name="abbr_day_text">d</string>
     <string name="text_icon_description">icon link description</string>
     <string name="manage_stars_description">enable subreddit link</string>
     <string name="title_menu_restore">restore</string>
@@ -222,17 +219,14 @@
 
     <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
 
-    <string name="shortcut_intent_action_popular">info.pelleritoudacity.android.rcapstone.shortcut.action.popular</string>
     <string name="shortcut_text_popular">Popular Reddit</string>
     <string name="shortcut_long_text_popular">Shortcut long text popular</string>
     <string name="shortcut_disabled_message_popular">shortcut disabled text popular</string>
 
-    <string name="shortcut_intent_action_all">info.pelleritoudacity.android.rcapstone.shortcut.action.all</string>
     <string name="shortcut_text_all">All Reddit</string>
     <string name="shortcut_long_text_all">Shortcut long text All</string>
     <string name="shortcut_disabled_message_all">shortcut disabled text All</string>
 
-    <string name="shortcut_intent_action_search">info.pelleritoudacity.android.rcapstone.shortcut.action.search</string>
     <string name="shortcut_text_search">Search Reddit</string>
     <string name="shortcut_long_text_search">Shortcut long text Search</string>
     <string name="shortcut_disabled_message_search">shortcut disabled text Search</string>
@@ -250,11 +244,11 @@
     <string name="pref_general_self" translatable="false">info.pelleritoudacity.android.rcapstone.pref.general.self</string>
     <string name="pref_general_links" translatable="false">info.pelleritoudacity.android.rcapstone.pref.general.links</string>
     <string name="pref_general_init" translatable="false">info.pelleritoudacity.android.rcapstone.pref.general.init</string>
-    <string name="image_background_protection_oval">image background protection oval</string>
-    <string name="image_background_protection">image background protection</string>
+    <string name="background_image_protection_oval">background image protection oval</string>
+    <string name="background_image_protection">background image protection</string>
     <string name="image_vote_up">image vote up</string>
     <string name="image_vote_down">image vote down</string>
-    <string name="image_preferite_stars">image preferite stars</string>
+    <string name="preferite_stars">preferite stars</string>
     <string name="image_show_comments">image show comments</string>
     <string name="image_open_browser">image open browser</string>
 

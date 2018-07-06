@@ -16,7 +16,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.v4.widget.NestedScrollView
-            android:id="@+id/nested_scrollview_subreddit"
+           android:id="@+id/nested_scrollview_subreddit"
             style="@style/ScrollBarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

@@ -24,7 +24,7 @@
         android:layout_gravity="center"
         android:background="@drawable/background_protection_oval"
         android:visibility="visible"
-        android:contentDescription="@string/image_background_protection_oval" />
+        android:contentDescription="@string/background_image_protection_oval" />
 
 
     <ProgressBar

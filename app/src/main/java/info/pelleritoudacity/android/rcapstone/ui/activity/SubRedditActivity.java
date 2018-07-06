@@ -35,6 +35,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.ViewGroup;
@@ -62,6 +63,10 @@ import static info.pelleritoudacity.android.rcapstone.utility.SessionUtil.getRed
 public class SubRedditActivity extends BaseActivity
         implements SubRedditExecute.RestSubReddit,
         SubRedditTab.OnTabListener, SwipeRefreshLayout.OnRefreshListener {
+
+    @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
+    @BindView(R.id.nested_scrollview_subreddit)
+    public NestedScrollView mNestedScrollView;
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.subreddit_container)

@@ -8,7 +8,6 @@
 
     <dimen name="list_padding_vertical_title">8dp</dimen>
     <dimen name="list_padding_horizontal_title">8dp</dimen>
-    <dimen name="list_padding_horizontal_subtitle">8dp</dimen>
 
     <dimen name="list_padding_vertical_author">8dp</dimen>
     <dimen name="list_padding_horizontal_author">8dp</dimen>

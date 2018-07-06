@@ -19,10 +19,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:background="@drawable/background_protection_oval"
-            android:contentDescription="@string/image_background_protection_oval" />
+            android:contentDescription="@string/background_image_protection_oval" />
 
         <TextView
-            android:id="@+id/exo_info"
             style="?android:attr/textAppearanceSmall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -49,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:background="@drawable/background_protection_oval"
-            android:contentDescription="@string/image_background_protection_oval" />
+            android:contentDescription="@string/background_image_protection_oval" />
 
 
     </LinearLayout>
