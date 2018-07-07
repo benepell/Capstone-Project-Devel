@@ -47,6 +47,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mikepenz.iconics.IconicsDrawable;
@@ -134,7 +135,18 @@ public class BaseActivity extends AppCompatActivity
         if (navigationView != null) {
             menuNavigation(navigationView);
             mNavHeaderView = navigationView.inflateHeaderView(R.layout.nav_header_base);
+
+            if(Preference.isNightMode(this)){
+                LinearLayout navContainer = mNavHeaderView.findViewById(R.id.nav_container);
+                navContainer.setBackgroundResource(R.drawable.dark_side_nav_bar);
+            }
+
+
+
         }
+
+
+
 
 
         if (PermissionUtil.isLogged(getApplicationContext())) {

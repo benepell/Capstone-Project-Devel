@@ -71,6 +71,7 @@
         android:id="@+id/submenu_filter_posts"
         android:enabled="true"
         android:title="@string/title_submenu_filter"
+        android:iconTint="@color/grey_600"
         android:visible="true">
 
         <menu xmlns:android="http://schemas.android.com/apk/res/android"
