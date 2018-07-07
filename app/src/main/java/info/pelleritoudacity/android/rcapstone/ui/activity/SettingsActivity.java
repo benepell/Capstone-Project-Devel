@@ -45,7 +45,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
 
         super.onCreate(savedInstanceState);
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-            setTheme(R.style.AppThemeDark);
+            setTheme(R.style.AppThemeSettingsDark);
         }
         setContentView(R.layout.activity_settings);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {

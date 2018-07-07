@@ -77,6 +77,7 @@ public class BaseActivity extends AppCompatActivity
     ArrayList<String> getTabArrayList() {
         return mTabArrayList;
     }
+
     private ArrayList<String> mTabArrayList;
 
     @Override
@@ -544,7 +545,7 @@ public class BaseActivity extends AppCompatActivity
             int groupId = menu.findItem(R.id.nav_mode_subs).getGroupId();
 
             int colorTheme = Color.DKGRAY;
-            if(Preference.isNightMode(getApplicationContext())){
+            if (Preference.isNightMode(getApplicationContext())) {
                 colorTheme = Color.WHITE;
             }
             for (String string : mTabArrayList) {
