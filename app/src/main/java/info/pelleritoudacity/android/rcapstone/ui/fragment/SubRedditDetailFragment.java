@@ -81,14 +81,17 @@ public class SubRedditDetailFragment extends Fragment
 
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
 
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getActivity()), LinearLayoutManager.VERTICAL));
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(Objects.requireNonNull(getActivity()), LinearLayoutManager.VERTICAL);
+
+        dividerItemDecoration.setDrawable(Objects.requireNonNull(getActivity()).getResources().getDrawable(R.drawable.divider_decoration));
+
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
 
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         mRecyclerView.setHasFixedSize(true);
-
 
         mAdapter = new SubRedditDetailAdapter(this);
 
