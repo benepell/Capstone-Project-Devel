@@ -4,6 +4,7 @@ package info.pelleritoudacity.android.rcapstone.ui.adapter;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditSelectedFrag
 import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SubRedditSelectedHelper;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
+import info.pelleritoudacity.android.rcapstone.utility.ImageUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
@@ -83,7 +85,11 @@ public class SubRedditSelectedAdapter extends RecyclerView.Adapter<SubRedditSele
             );
 
 
-            String strBackGroundColor = "#FFFFFF";
+            String strBackGroundColor = ImageUtil.getStringFromColor(mContext, R.color.colorBackground);
+            if (Preference.isNightMode(mContext)) {
+                strBackGroundColor = ImageUtil.getStringFromColor(mContext, R.color.colorBackgroundDark);
+            }
+
             SelectorHelper selectorHelper = new SelectorHelper(mContext);
             selectorHelper.cardBottomLink(mArrayButton, strBackGroundColor,
                     TextUtil.buildCommentDetailLink(record.getPermanentLink()), record.getSubRedditName());

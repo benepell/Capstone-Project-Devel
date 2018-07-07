@@ -50,7 +50,9 @@ package info.pelleritoudacity.android.rcapstone.utility;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -58,6 +60,8 @@ import android.util.DisplayMetrics;
 import android.widget.ImageView;
 
 import java.util.Objects;
+
+import info.pelleritoudacity.android.rcapstone.R;
 
 public class ImageUtil {
 
@@ -100,6 +104,10 @@ public class ImageUtil {
         }
     }
 
+    public static String getStringFromColor(Context context, int idColor) {
+
+        return ((context != null) && (idColor != 0)) ? "#" + Integer.toHexString(ContextCompat.getColor(context, idColor)) : null;
+    }
 
 
 }
