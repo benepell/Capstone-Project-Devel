@@ -41,6 +41,7 @@ public class Contract {
     public static final String PATH_T5DATAS = "_t5datas";
     public static final String PATH_T3DATAS = "_t3datas";
     public static final String PATH_T1DATAS = "_t1datas";
+    public static final String PATH_T1MORESDATAS = "_t1moresdatas";
     public static final String PATH_PREFSUBREDDIT = "_prefsubreddit";
 
 
@@ -422,5 +423,26 @@ public class Contract {
 
     }
 
+
+    public static class T1MoresDataEntry implements BaseColumns {
+
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_T1MORESDATAS).build();
+
+        public static final String CONTENT_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_T1MORESDATAS;
+
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_T1MORESDATAS;
+
+        public static final String TABLE_NAME = "_t1moresdatas";
+        public static final String COLUMN_NAME_MORE_TIME_LAST_MODIFIED = "_time_last_modified";
+        public static final String COLUMN_NAME_MORE_COUNT = "_name_more_count";
+        public static final String COLUMN_NAME_MORE_NAME = "_name_more_name";
+        public static final String COLUMN_NAME_MORE_ID = "_name_more_id";
+        public static final String COLUMN_NAME_MORES_PARENT_ID = "_mores_parent_id";
+        public static final String COLUMN_NAME_MORE_DEPTH = "_name_more_depth";
+        public static final String COLUMN_NAME_MORE_CHILDREN = "_name_more_children";
+    }
 
 }

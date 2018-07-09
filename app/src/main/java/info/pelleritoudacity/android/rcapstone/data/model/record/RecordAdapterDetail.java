@@ -6,6 +6,7 @@ public class RecordAdapterDetail {
     private int depth;
     private int voteDowns;
     private int created;
+    private int numComments;
 
     private boolean isSaved;
     private boolean isArchived;
@@ -275,4 +276,14 @@ public class RecordAdapterDetail {
     public void setDepth(int depth) {
         this.depth = depth;
     }
+
+    public int getNumComments() {
+        return numComments;
+    }
+
+    public void setNumComments(int numComments) {
+        this.numComments = numComments;
+    }
+
+
 }

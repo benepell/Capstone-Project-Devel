@@ -60,6 +60,8 @@ public class ContentProvider extends android.content.ContentProvider {
     private static final int T1DATAS = 600;
     private static final int T1DATA_WITH_ID = 601;
 
+    private static final int T1MORESDATAS = 700;
+    private static final int T1MORESDATA_WITH_ID = 701;
 
     private static final UriMatcher sUriMatMATCHER = buildURIMatcher();
 
@@ -82,9 +84,11 @@ public class ContentProvider extends android.content.ContentProvider {
         uriMatcher.addURI(Contract.CONTENT_AUTHORITY, Contract.PATH_T1DATAS, T1DATAS);
         uriMatcher.addURI(Contract.CONTENT_AUTHORITY, Contract.PATH_T1DATAS + "/#", T1DATA_WITH_ID);
 
+        uriMatcher.addURI(Contract.CONTENT_AUTHORITY, Contract.PATH_T1MORESDATAS, T1MORESDATAS);
+        uriMatcher.addURI(Contract.CONTENT_AUTHORITY, Contract.PATH_T1MORESDATAS + "/#", T1MORESDATA_WITH_ID);
+
         uriMatcher.addURI(Contract.CONTENT_AUTHORITY, Contract.PATH_PREFSUBREDDIT, PREFSUBREDDITS);
         uriMatcher.addURI(Contract.CONTENT_AUTHORITY, Contract.PATH_T3DATAS + "/#", PREFSUBREDDIT_WITH_ID);
-
 
 
         return uriMatcher;
@@ -97,6 +101,7 @@ public class ContentProvider extends android.content.ContentProvider {
         mDbHelper = new DbHelper(context);
         return true;
     }
+
 
     @Nullable
     @Override
@@ -280,6 +285,33 @@ public class ContentProvider extends android.content.ContentProvider {
                         null,
                         sortOrder);
 
+            case T1MORESDATAS:
+                returnCursor = db.query(Contract.T1MoresDataEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+
+                break;
+
+            case T1MORESDATA_WITH_ID:
+
+                id = uri.getPathSegments().get(1);
+
+                mSelection = "_id=?";
+                mSelectionArgs = new String[]{id};
+
+                //noinspection UnusedAssignment
+                returnCursor = db.query(Contract.T1MoresDataEntry.TABLE_NAME,
+                        projection,
+                        mSelection,
+                        mSelectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+
             default:
                 throw new UnsupportedOperationException("Uri not found: " + uri);
         }
@@ -337,6 +369,11 @@ public class ContentProvider extends android.content.ContentProvider {
             case T1DATA_WITH_ID:
                 return Contract.T1dataEntry.CONTENT_ITEM_TYPE;
 
+            case T1MORESDATAS:
+                return Contract.T1MoresDataEntry.CONTENT_TYPE;
+
+            case T1MORESDATA_WITH_ID:
+                return Contract.T1MoresDataEntry.CONTENT_ITEM_TYPE;
 
             default:
                 throw new UnsupportedOperationException("Uri not found: " + uri);
@@ -403,6 +440,17 @@ public class ContentProvider extends android.content.ContentProvider {
                 id = db.insert(Contract.T1dataEntry.TABLE_NAME, null, values);
                 if (id > 0) {
                     returnUri = ContentUris.withAppendedId(Contract.T1dataEntry.CONTENT_URI, id);
+                } else {
+                    throw new android.database.SQLException("Failed to insert row .." + uri);
+                }
+
+                break;
+
+            case T1MORESDATAS:
+
+                id = db.insert(Contract.T1MoresDataEntry.TABLE_NAME, null, values);
+                if (id > 0) {
+                    returnUri = ContentUris.withAppendedId(Contract.T1MoresDataEntry.CONTENT_URI, id);
                 } else {
                     throw new android.database.SQLException("Failed to insert row .." + uri);
                 }
@@ -533,6 +581,20 @@ public class ContentProvider extends android.content.ContentProvider {
                         new String[]{String.valueOf(id)});
                 break;
 
+            case T1MORESDATAS:
+                recordDelete = db.delete(Contract.T1MoresDataEntry.TABLE_NAME,
+                        selection,
+                        selectionArgs);
+                break;
+
+            case T1MORESDATA_WITH_ID:
+
+                id = Integer.parseInt(uri.getPathSegments().get(1));
+
+                recordDelete = db.delete(Contract.T1MoresDataEntry.TABLE_NAME,
+                        "_id=?",
+                        new String[]{String.valueOf(id)});
+                break;
 
             default:
                 throw new UnsupportedOperationException("Uri not found: " + uri);
@@ -654,6 +716,23 @@ public class ContentProvider extends android.content.ContentProvider {
                 id = Integer.parseInt(uri.getPathSegments().get(1));
 
                 rowsUpdate = db.update(Contract.T1dataEntry.TABLE_NAME,
+                        values,
+                        "_id=?",
+                        new String[]{String.valueOf(id)});
+                break;
+
+            case T1MORESDATAS:
+                rowsUpdate = db.update(Contract.T1MoresDataEntry.TABLE_NAME,
+                        values,
+                        selection,
+                        selectionArgs);
+                break;
+
+            case T1MORESDATA_WITH_ID:
+
+                id = Integer.parseInt(uri.getPathSegments().get(1));
+
+                rowsUpdate = db.update(Contract.T1MoresDataEntry.TABLE_NAME,
                         values,
                         "_id=?",
                         new String[]{String.valueOf(id)});
@@ -845,6 +924,35 @@ public class ContentProvider extends android.content.ContentProvider {
                         }
 
                         long _id = db.insertOrThrow(Contract.T1dataEntry.TABLE_NAME, null, value);
+                        if (_id != -1) {
+                            rowsInserted++;
+                        }
+                    }
+                    db.setTransactionSuccessful();
+
+                } catch (SQLiteException e) {
+                    Timber.v("Attempting to insert %s", e.getMessage());
+                } finally {
+                    db.endTransaction();
+                }
+                if ((getContext() != null) && (rowsInserted > 0)) {
+                    getContext().getContentResolver().notifyChange(uri, null);
+                }
+
+                return rowsInserted;
+
+            case T1MORESDATAS:
+                db.beginTransaction();
+                rowsInserted = 0;
+
+                try {
+                    for (ContentValues value : values) {
+
+                        if (value == null) {
+                            throw new IllegalArgumentException("Cannot have null content values");
+                        }
+
+                        long _id = db.insertOrThrow(Contract.T1MoresDataEntry.TABLE_NAME, null, value);
                         if (_id != -1) {
                             rowsInserted++;
                         }

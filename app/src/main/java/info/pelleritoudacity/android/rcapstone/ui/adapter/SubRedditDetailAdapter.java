@@ -66,18 +66,21 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
 
         if (record != null) {
 
-            if (!TextUtils.isEmpty(record.getAuthor()))
+            String numCom = String.valueOf(record.getNumComments());
+            if (!TextUtils.isEmpty(record.getAuthor())) {
                 holder.mTextViewAuthorDetail.setText(record.getAuthor().concat(":"));
+            }
 
             holder.mTextViewPostedOnDetail.setText(DateUtil.getDiffTimeMinute(mContext, record.getCreated()));
 
             holder.mTextViewPointsDetail.setText(record.getScore());
-
             if (!TextUtils.isEmpty(record.getTitle()))
                 holder.mTextViewBodyDetail.setText(TextUtil.textFromHtml(record.getTitle()));
 
-            if (!TextUtils.isEmpty(record.getBody()))
+            if (!TextUtils.isEmpty(record.getBody())) {
                 holder.mTextViewBodyDetail.setText(TextUtil.textFromHtml(record.getBody()));
+
+            }
 
             holder.mTextViewBodyDetail.setClickable(Preference.isGeneralLinks(mContext));
 

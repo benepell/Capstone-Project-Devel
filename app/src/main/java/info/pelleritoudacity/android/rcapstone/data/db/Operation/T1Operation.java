@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.widget.LinearLayout;
 
 import java.util.List;
 
@@ -21,8 +22,6 @@ import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
 
-import static info.pelleritoudacity.android.rcapstone.utility.DateUtil.getSecondsTimeStamp;
-
 public class T1Operation {
 
     private final Context mContext;
@@ -35,18 +34,17 @@ public class T1Operation {
 
     private boolean insertData() {
         if ((mModelT1 != null) && (mModelT1.size() > 0)) {
-            for (int i = 0; i < mModelT1.size(); i++) {
+            // index = 0 not used in my app
+            for (int i = 1; i < mModelT1.size(); i++) {
                 if (mModelT1.get(i).getData() != null) {
                     if (!insertRecordData(i)) return false;
 
                 }
             }
             return true;
-
         }
         return false;
     }
-
 
     private boolean insertRecordData(int indexRoot) {
 
@@ -124,8 +122,6 @@ public class T1Operation {
                 dataUtils.putNullCV(arrT1CV[j], Contract.T1dataEntry.COLUMN_NAME_DEPTH,
                         t1Model.getDepth());
 
-                Timber.d("Xbody %s", t1Model.getBody());
-
                 dataUtils.putNullCV(arrT1CV[j], Contract.T1dataEntry.COLUMN_NAME_BODY_HTML,
                         t1Model.getBodyHtml());
 
@@ -192,12 +188,11 @@ public class T1Operation {
                 dataUtils.putNullCV(arrT1CV[j], Contract.T1dataEntry.COLUMN_NAME_HIDESCORE,
                         Utility.boolToInt(t1Model.getScoreHidden()));
 
-                    recursiveReplies(t1Model.getReplies(), childrenId);
+                recursiveReplies(t1Model.getReplies(), childrenId);
 
             }
 
         }
-
 
         final Uri uriReddit = mContext.getContentResolver().insert(Contract.RedditEntry.CONTENT_URI, arrayCVT1);
         final Uri uriData = mContext.getContentResolver().insert(Contract.DataEntry.CONTENT_URI, dataCV);
@@ -208,26 +203,58 @@ public class T1Operation {
 
     private void recursiveReplies(Replies r, int childrenId) {
         Replies replies = getReplies(r, childrenId);
-        int max = Preference.getGeneralSettingsDepthPage(mContext);
-        while ((replies != null) || (max > 0)) {
+        while ((replies != null)) {
             replies = getReplies(replies, childrenId);
-            max--;
         }
     }
 
     private Replies getReplies(Replies replies, int childrenId) {
-        if ((replies != null) && (replies.getData() != null) && (replies.getKind().contains(Costant.DEFAULT_LISTING_KIND))) {
+
+        if ((replies != null) && (replies.getData() != null)) {
+
             List<T1Listing> listings = replies.getData().getChildren();
 
             for (T1Listing t1Listings : listings) {
-                insertReplies(t1Listings.getData(), t1Listings.getData().getDepth(), childrenId);
+
+                if (t1Listings.getData().getReplies() != null) {
+                    insertReplies(t1Listings.getData(), t1Listings.getData().getDepth(), childrenId);
+
+                    if (t1Listings.getData().getReplies().getData() != null) {
+
+                        List<T1Listing> mores = t1Listings.getData().getReplies().getData().getChildren();
+
+                        for (T1Listing t1more : mores) {
+
+                            if ((t1Listings.getData().getReplies() != null) &&
+                                    (t1more.getKind().contains(Costant.DEFAULT_MORE_KIND))) {
+                                insertMore(t1more.getData());
+
+                            }
+
+                        }
+                    } else if (t1Listings.getData() != null) {
+                        if ((t1Listings.getData().getReplies() != null) &&
+                                (t1Listings.getKind().contains(Costant.DEFAULT_COMMENT_KIND))) {
+                            insertReplies(t1Listings.getData(), t1Listings.getData().getDepth(), childrenId);
+
+                        }
+                    }
+                }
 
                 if ((t1Listings.getData().getReplies() != null) &&
                         (t1Listings.getData().getReplies().getKind().contains(Costant.DEFAULT_LISTING_KIND))) {
                     return t1Listings.getData().getReplies();
+
+                } else if ((t1Listings != null) &&
+                        (t1Listings.getKind().contains(Costant.DEFAULT_MORE_KIND))) {
+                    insertMore(t1Listings.getData());
+
+                    return t1Listings.getData().getReplies();
                 }
             }
+
         }
+
         return null;
     }
 
@@ -246,7 +273,7 @@ public class T1Operation {
             cv.put(Contract.T1dataEntry.COLUMN_NAME_CHILDREN_ID,
                     childrenId);
 
-            Timber.d("INSERTREPLY level %s childrenId %s",level,childrenId);
+            Timber.d("INSERTREPLY level %s childrenId %s", level, childrenId);
             cv.put(Contract.T1dataEntry.COLUMN_NAME_LINK_ID,
                     repliesListingData.getLinkId());
 
@@ -335,60 +362,92 @@ public class T1Operation {
 
     }
 
+    private void insertMore(T1ListingData repliesListingData) {
+
+        if ((repliesListingData != null)) {
+
+            int sizeCV = repliesListingData.getChildren().size();
+
+            ContentValues cv = new ContentValues();
+
+            int count = repliesListingData.getCount();
+            String name = repliesListingData.getName();
+            String strId = repliesListingData.getId();
+            String strparentId = repliesListingData.getParentId();
+            int depth = repliesListingData.getDepth();
+
+            cv.put(Contract.T1MoresDataEntry.COLUMN_NAME_MORE_COUNT, count);
+            cv.put(Contract.T1MoresDataEntry.COLUMN_NAME_MORE_NAME, name);
+            cv.put(Contract.T1MoresDataEntry.COLUMN_NAME_MORE_ID, strId);
+            cv.put(Contract.T1MoresDataEntry.COLUMN_NAME_MORES_PARENT_ID, strparentId);
+            cv.put(Contract.T1MoresDataEntry.COLUMN_NAME_MORE_DEPTH, depth);
+
+            String strMoreChildren = "";
+            for (int i = 0; i < sizeCV - 1; i++) {
+                strMoreChildren += repliesListingData.getChildren().get(i).concat(Costant.STRING_SEPARATOR);
+            }
+            if (sizeCV > 0) {
+                strMoreChildren += repliesListingData.getChildren().get(sizeCV - 1);
+                cv.put(Contract.T1MoresDataEntry.COLUMN_NAME_MORE_CHILDREN, strMoreChildren);
+
+            }
+
+            Uri uri = mContext.getContentResolver().insert(Contract.T1MoresDataEntry.CONTENT_URI, cv);
+
+            if (uri != null) {
+                updateNumCommentsT1(mContext, strparentId, sizeCV);
+
+            }
+
+        }
+
+    }
+
+    private void updateNumCommentsT1(Context context, String parentId, int count) {
+
+        if (!TextUtils.isEmpty(parentId) && count > 0) {
+
+            String strRemoveT1ParentId = parentId.replaceAll(Costant.STR_PARENT_COMMENT, "");
+            String strRemoveTParentId = strRemoveT1ParentId.replaceAll(Costant.STR_PARENT_LINK, "");
+            ContentValues cvUpdate = new ContentValues();
+            cvUpdate.put(Contract.T1dataEntry.COLUMN_NAME_NUMCOMMENTS, count);
+
+            context.getContentResolver().update(Contract.T1dataEntry.CONTENT_URI,
+                    cvUpdate, Contract.T1dataEntry.COLUMN_NAME_ID + " =?",
+                    new String[]{String.valueOf(strRemoveTParentId)});
+
+        }
+
+    }
+
     public boolean saveData(String strId) {
         if (!TextUtils.isEmpty(strId)) {
-            if (isDeleteData(strId)) {
-                deleteCategory(strId);
-            }
+            deleteMore(strId);
+            deleteCategory(strId);
             return insertData();
         }
         return false;
     }
 
-    private boolean isDeleteData(String strId) {
-        String timestamp = null;
-        Uri uri = Contract.T1dataEntry.CONTENT_URI;
-        String selection = Contract.T1dataEntry.COLUMN_NAME_ID + " =?" + " OR " +
-                Contract.T1dataEntry.COLUMN_NAME_LINK_ID + " =?";
-        String[] selectionArgs = {strId, Costant.STR_PARENT_COMMENT + strId};
-
-        Cursor cursor = null;
-        boolean isDeleted = false;
-        try {
-
-            cursor = mContext.getContentResolver().query(uri, null, selection, selectionArgs, null);
-
-            if (cursor != null && cursor.getCount() > 0) {
-                cursor.moveToFirst();
-                timestamp = cursor.getString(cursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_TIME_LAST_MODIFIED));
-            }
-
-            if (!TextUtils.isEmpty(timestamp)) {
-                int timeUpdateDatabase = Preference.getGeneralSettingsSyncFrequency(mContext);
-                isDeleted = getSecondsTimeStamp(timestamp) > timeUpdateDatabase;
-            }
-
-        } catch (Exception e) {
-
-            Timber.d("DATABASE isDeleteT1 %s", e.getMessage());
-
-        } finally {
-            if ((cursor != null) && (!cursor.isClosed())) {
-                cursor.close();
-            }
-        }
-
-        return isDeleted;
-    }
-
     private void deleteCategory(String id) {
         String where;
         Uri uri;
-        String[] selectionArgs = {id, Costant.STR_PARENT_COMMENT + id};
-
+        String[] selectionArgs = {id, Costant.STR_PARENT_LINK + id};
         uri = Contract.T1dataEntry.CONTENT_URI;
         where = Contract.T1dataEntry.COLUMN_NAME_ID + " =?" + " OR " +
                 Contract.T1dataEntry.COLUMN_NAME_LINK_ID + " =?";
+
+        if (uri != null) {
+            mContext.getContentResolver().delete(uri, where, selectionArgs);
+        }
+
+    }
+
+    private void deleteMore(String id) {
+        Uri uri = Contract.T1MoresDataEntry.CONTENT_URI;
+        String where = Contract.T1MoresDataEntry.COLUMN_NAME_MORE_ID + " =?";
+        String[] selectionArgs = {id};
+
         if (uri != null) {
             mContext.getContentResolver().delete(uri, where, selectionArgs);
         }

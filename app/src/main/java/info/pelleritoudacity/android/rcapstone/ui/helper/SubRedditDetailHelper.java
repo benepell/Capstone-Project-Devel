@@ -24,7 +24,6 @@ public class SubRedditDetailHelper {
             String depthBackGroundColor = Objects.requireNonNull(getDepthBackground(depth))[0];
             if (depthBackGroundColor != null) {
 
-
                 viewIndicator.setBackgroundColor(Color.parseColor(depthBackGroundColor));
                 viewIndicator.setVisibility(View.VISIBLE);
                 if (enablePadding) {

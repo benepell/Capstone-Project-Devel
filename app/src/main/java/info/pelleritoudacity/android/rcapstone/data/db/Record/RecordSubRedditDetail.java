@@ -21,11 +21,11 @@ public class RecordSubRedditDetail {
         if (mCursor != null) {
             initRecord();
 
-            if(mRecord!=null){
-               recordList = new ArrayList<>(1);
-               recordList.add(mRecord);
+            if (mRecord != null) {
+                recordList = new ArrayList<>(1);
+                recordList.add(mRecord);
 
-           }
+            }
         }
 
         return recordList;
@@ -125,6 +125,8 @@ public class RecordSubRedditDetail {
         mRecord.setDepth(mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_DEPTH)));
 
+        mRecord.setNumComments(mCursor.getInt(
+                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_NUMCOMMENTS)));
 
     }
 

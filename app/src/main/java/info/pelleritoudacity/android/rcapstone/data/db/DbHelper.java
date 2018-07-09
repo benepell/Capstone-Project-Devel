@@ -371,16 +371,30 @@ class DbHelper extends SQLiteOpenHelper {
                         ");";
 
 
+        final String SQL_CREATE_T1MORESDATA_TABLE =
+                "CREATE TABLE IF NOT EXISTS " + Contract.T1MoresDataEntry.TABLE_NAME + " (" +
+                        Contract.T1MoresDataEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        Contract.T1MoresDataEntry.COLUMN_NAME_MORE_TIME_LAST_MODIFIED + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
+                        Contract.T1MoresDataEntry.COLUMN_NAME_MORE_COUNT + " INTEGER DEFAULT 0, " +
+                        Contract.T1MoresDataEntry.COLUMN_NAME_MORE_NAME + " TEXT, " +
+                        Contract.T1MoresDataEntry.COLUMN_NAME_MORE_ID + " TEXT, " +
+                        Contract.T1MoresDataEntry.COLUMN_NAME_MORES_PARENT_ID + " INTEGER DEFAULT 0, " +
+                        Contract.T1MoresDataEntry.COLUMN_NAME_MORE_DEPTH + " INTEGER DEFAULT 0, " +
+                        Contract.T1MoresDataEntry.COLUMN_NAME_MORE_CHILDREN + " TEXT, " +
+
+                        " FOREIGN KEY (" + Contract.T1MoresDataEntry.COLUMN_NAME_MORES_PARENT_ID + ") REFERENCES " +
+                        Contract.T1dataEntry.TABLE_NAME + "(" + Contract.T1dataEntry.COLUMN_NAME_ID + ")" +
+                        ");";
+
+
         db.execSQL(SQL_CREATE_REDDIT_TABLE);
         db.execSQL(SQL_CREATE_DATA_TABLE);
         db.execSQL(SQL_CREATE_T5DATA_TABLE);
         db.execSQL(SQL_CREATE_T3DATA_TABLE);
         db.execSQL(SQL_CREATE_PREFSUBREDDIT_TABLE);
         db.execSQL(SQL_CREATE_T1DATA_TABLE);
+        db.execSQL(SQL_CREATE_T1MORESDATA_TABLE);
 
-      /*  Timber.d("SQL STATEMENT:  " +
-                SQL_CREATE_REDDIT_TABLE + " " + SQL_CREATE_DATA_TABLE + " " +
-                SQL_CREATE_T5DATA_TABLE + SQL_CREATE_T3DATA_TABLE + SQL_CREATE_PREFSUBREDDIT_TABLE);*/
     }
 
     @Override
@@ -391,6 +405,7 @@ class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + Contract.T3dataEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + Contract.PrefSubRedditEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + Contract.T1dataEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + Contract.T1MoresDataEntry.TABLE_NAME);
         onCreate(db);
     }
 

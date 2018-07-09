@@ -84,7 +84,6 @@ public class SubRedditSelectedAdapter extends RecyclerView.Adapter<SubRedditSele
                             mContext.getString(R.string.text_comments_subreddit))
             );
 
-
             String strBackGroundColor = ImageUtil.getStringFromColor(mContext, R.color.colorBackground);
             if (Preference.isNightMode(mContext)) {
                 strBackGroundColor = ImageUtil.getStringFromColor(mContext, R.color.colorBackgroundDark);
@@ -162,7 +161,6 @@ public class SubRedditSelectedAdapter extends RecyclerView.Adapter<SubRedditSele
         @SuppressWarnings("unused")
         @BindView(R.id.image_open_browser)
         ImageButton mImageButtonOpenBrowser;
-
 
         SubRedditSelectedHolder(@NonNull View itemView) {
             super(itemView);

@@ -180,9 +180,13 @@ public interface Costant {
 
     String DEFAULT_SORT_BY = "new";
 
-    String SHOW_MORE_COMMENTS = "false";
-    String STR_PARENT_COMMENT = "t3_";
+    String SHOW_MORE_COMMENTS = "true";
+    String STR_PARENT_LINK = "t3_";
+    String STR_PARENT_COMMENT = "t1_";
+
     String DEFAULT_LISTING_KIND = "Listing";
+    String DEFAULT_MORE_KIND = "more";
+    String DEFAULT_COMMENT_KIND = "t1";
 
     int LEVEL_DEPTH_PADDING = 20;
 

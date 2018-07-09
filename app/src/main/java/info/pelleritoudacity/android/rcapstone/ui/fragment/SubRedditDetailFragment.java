@@ -176,7 +176,6 @@ public class SubRedditDetailFragment extends Fragment
 
     @Override
     public void adapterPosition(int position, String category) {
-
     }
 
     @Override
@@ -216,7 +215,7 @@ public class SubRedditDetailFragment extends Fragment
                 String selection = Contract.T1dataEntry.COLUMN_NAME_LINK_ID + " =?" + " AND " +
                         Contract.T1dataEntry.COLUMN_NAME_OVER18 + " <=?";
 
-                String[] selectionArgs = new String[]{Costant.STR_PARENT_COMMENT + mStringId, strOver18};
+                String[] selectionArgs = new String[]{Costant.STR_PARENT_LINK + mStringId, strOver18};
 
                 String sortOrder = Contract.T1dataEntry.COLUMN_NAME_CHILDREN_ID + " ASC," +
                         Contract.T1dataEntry.COLUMN_NAME_DEPTH + " ASC";
@@ -226,6 +225,7 @@ public class SubRedditDetailFragment extends Fragment
                         selection,
                         selectionArgs,
                         sortOrder);
+
 
             } catch (Exception e) {
                 Timber.e("Failed to asynchronously load data. ");
