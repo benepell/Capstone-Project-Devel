@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/menu_action_login"
@@ -18,7 +18,8 @@
         android:id="@+id/submenu_filter_general"
         android:enabled="true"
         android:title="@string/title_submenu_general"
-        android:visible="true">
+        android:visible="true"
+        app:showAsAction="withText">
 
         <menu xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -66,12 +67,13 @@
         </menu>
     </item>
 
-
     <item
         android:id="@+id/submenu_filter_posts"
         android:enabled="true"
+        android:icon="@drawable/ic_sort_24dp"
         android:title="@string/title_submenu_filter"
-        android:visible="true">
+        android:visible="true"
+        app:showAsAction="ifRoom">
 
         <menu xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto">

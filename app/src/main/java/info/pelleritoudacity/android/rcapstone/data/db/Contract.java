@@ -410,7 +410,8 @@ public class Contract {
         public static final String COLUMN_NAME_CREATEDUTC = "_createdUtc";
         public static final String COLUMN_NAME_SUBREDDITNAMEPREFIXED = "_subredditNamePrefixed";
         public static final String COLUMN_NAME_UPS = "_ups";
-        public static final String COLUMN_NAME_NUMCOMMENTS = "_numComments";
+        public static final String COLUMN_NAME_NUMCOMMENTS = "_name_num_comments";
+        public static final String COLUMN_NAME_MORECOMMENTS = "_name_more_comments";
         public static final String COLUMN_NAME_ISSELF = "_isSelf";
         public static final String COLUMN_NAME_WHITELISTSTATUS = "_whitelistStatus";
         public static final String COLUMN_NAME_BODY_HTML = "_body_html";

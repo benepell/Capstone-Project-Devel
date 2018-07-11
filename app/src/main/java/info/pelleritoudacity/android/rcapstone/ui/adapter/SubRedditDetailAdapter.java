@@ -1,8 +1,15 @@
 package info.pelleritoudacity.android.rcapstone.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.text.util.Linkify;
@@ -12,18 +19,32 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+
+import java.lang.ref.WeakReference;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
+import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.Record.RecordSubRedditDetail;
+import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapterDetail;
+import info.pelleritoudacity.android.rcapstone.data.rest.RevokeTokenExecute;
+import info.pelleritoudacity.android.rcapstone.ui.activity.SubManageActivity;
+import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity;
+import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditDetailActivity;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditDetailFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SubRedditDetailHelper;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+import timber.log.Timber;
 
 public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetailAdapter.SubRedditDetailHolder> {
 
@@ -31,6 +52,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
     private final SubRedditDetailFragment mListener;
     private Cursor mCursor;
     private int mSelectorPosition = RecyclerView.NO_POSITION;
+    private String mStrArrId;
 
     public SubRedditDetailAdapter(SubRedditDetailFragment listener) {
         mListener = listener;
@@ -106,6 +128,41 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
                 holder.mSelectorContainer.setVisibility(View.VISIBLE);
             }
 
+            String strId = record.getLinkId().replaceAll(Costant.STR_PARENT_LINK, "");
+            String category = record.getSubReddit();
+            String strArrId = record.getMoreComments();
+            String strLinkId = record.getLinkId();
+            if (record.getNumComments() > 0) {
+
+                holder.mTextViewReplies.setText(String.format("%s %s", String.valueOf(record.getNumComments()), mContext.getString(R.string.text_more_replies)));
+                holder.mTextViewReplies.setVisibility(View.VISIBLE);
+
+                holder.mTextViewReplies.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        if (Preference.isLoginStart(mContext)) {
+
+                            Intent moreIntent = new Intent(mContext, SubRedditDetailActivity.class);
+                            moreIntent.putExtra(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID, strId);
+                            moreIntent.putExtra(Costant.EXTRA_MORE_DETAIL_STRING_LINKID, strLinkId);
+                            moreIntent.putExtra(Costant.EXTRA_MORE_DETAIL_STRING_ARRID, strArrId);
+                            moreIntent.putExtra(Costant.EXTRA_SUBREDDIT_DETAIL_CATEGORY, category);
+                            // moreIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK );
+                            mContext.startActivity(moreIntent);
+
+                            holder.mTextViewReplies.setVisibility(View.INVISIBLE);
+                        } else {
+                            Toast.makeText(mContext, mContext.getString(R.string.text_start_login), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+            } else {
+                holder.mTextViewReplies.setVisibility(View.GONE);
+
+            }
+
             mListener.adapterPosition(holder.getAdapterPosition(), record.getSubReddit());
         }
     }
@@ -134,6 +191,10 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         @SuppressWarnings("unused")
         @BindView(R.id.tv_body)
         TextView mTextViewBodyDetail;
+
+        @SuppressWarnings("unused")
+        @BindView(R.id.tv_replies)
+        TextView mTextViewReplies;
 
         @SuppressWarnings("unused")
         @BindView(R.id.card_linear)
@@ -224,4 +285,5 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
 
         void clickSelector(int position, int itemCount);
     }
+
 }

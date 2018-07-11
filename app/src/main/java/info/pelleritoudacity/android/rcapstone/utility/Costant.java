@@ -37,7 +37,7 @@ public interface Costant {
 
     String YOUTUBE_DEVELOPER_KEY = BuildConfig.YOUTUBE_DEVELOPER_KEY;
     boolean YOUTUBE_CLIENT_AUTOSTART = true;
-    boolean DEFAULT_VIEWPAGER_DETAIL = true;
+//    boolean DEFAULT_VIEWPAGER_DETAIL = true;
 
     String REDDIT_CLIENT_ID = BuildConfig.REDDIT_CLIENT_ID;
     String REDDIT_REDIRECT_URL = BuildConfig.REDDIT_REDIRECT_URL;
@@ -46,7 +46,6 @@ public interface Costant {
     String PERMISSION_STATE_REDDIT = "identity, edit, flair, history, modconfig, modflair, modlog, modposts, modwiki, mysubreddits, privatemessages, read, report, save, submit, subscribe, vote, wikiedit, wikiread";
 
     String REDDIT_COMMENTS = "comments";
-
     String BASE_TYPE_YOUTUBE = "youtube.com";
     String BASE_TYPE_VIMEO = "vimeo.com";
 
@@ -90,22 +89,22 @@ public interface Costant {
     String EXTRA_SUBREDDIT_DETAIL_STR_ID = "info.pelleritoudacity.android.rcapstone.extra.subreddit.detail.str.id";
     String EXTRA_SUBREDDIT_DETAIL_POSITION = "info.pelleritoudacity.android.rcapstone.extra.subreddit.detail.position";
     String EXTRA_FRAGMENT_SUBREDDIT = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit";
-    String EXTRA_FRAGMENT_SUBREDDIT_DETAIL = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.detail";
+    String EXTRA_FRAGMENT_SUBREDDIT_DETAIL_STRID = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.detail.strid";
+    String EXTRA_FRAGMENT_SUBREDDIT_DETAIL_LINKID = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.detail.linkid";
+    String EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ARRID = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.detail.arrid";
     String EXTRA_FRAGMENT_SUBREDDIT_SELECTED = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.selected";
     String EXTRA_FRAGMENT_TARGET = "info.pelleritoudacity.android.rcapstone.extra.fragment.target";
-    String EXTRA_FRAGMENT_STATE = "info.pelleritoudacity.android.rcapstone.extra.fragment.state";
-    String EXTRA_FRAGMENT_DETAIL_STATE = "info.pelleritoudacity.android.rcapstone.extra.fragment.detail.state";
     String EXTRA_FRAGMENT_DETAIL_STRING_ID = "info.pelleritoudacity.android.rcapstone.extra.fragment.detail.string.id";
     String EXTRA_FRAGMENT_STRING_ID = "info.pelleritoudacity.android.rcapstone.extra.fragment.string.id";
-    String EXTRA_FRAGMENT_SELECTED_STATE = "info.pelleritoudacity.android.rcapstone.extra.fragment.selected.state";
     String EXTRA_TAB_POSITION = "info.pelleritoudacity.android.rcapstone.extra.tab.position";
+
+    String EXTRA_MORE_DETAIL_STRING_ARRID = "info.pelleritoudacity.android.rcapstone.extra.fragment.more.detail.string.arrid";
+    String EXTRA_MORE_DETAIL_STRING_LINKID = "info.pelleritoudacity.android.rcapstone.extra.fragment.more.detail.string.linkid";
 
     String EXTRA_ACTIVITY_SUBREDDIT_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.subreddit.refresh";
     String EXTRA_ACTIVITY_SUBREDDIT_DETAIL_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.subreddit.detail.refresh";
     String EXTRA_ACTIVITY_SUBMANAGE_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.submanage.refresh";
 
-    String EXTRA_SUBREDDIT_SHARE_URL_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.subreddit.share.url.fullscreen";
-    String EXTRA_SUBREDDIT_SHARE_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.subreddit.share.fullscreen";
     String EXTRA_SUBREDDIT_EXIT_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.subreddit.exit.fullscreen";
     String EXTRA_SUBREDDIT_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.subreddit.fullscreen";
     String EXTRA_SUBREDDIT_TARGET = "info.pelleritoudacity.android.rcapstone.extra.subreddit.target";
@@ -115,7 +114,6 @@ public interface Costant {
     String SUBREDDIT_TARGET_ALL = "info.pelleritoudacity.android.rcapstone.subreddit.target.all";
     String SUBREDDIT_TARGET_POPULAR = "info.pelleritoudacity.android.rcapstone.subreddit.target.popular";
 
-    String EXTRA_SUBSCRIPTION_STATE = "info.pelleritoudacity.android.rcapstone.extra.subscription.state";
 
     String EXTRA_RESTORE_MANAGE = "info.pelleritoudacity.android.rcapstone.extra.restore.manage";
 
@@ -126,13 +124,7 @@ public interface Costant {
     String ACTION_SHORTCUT_ALL = "info.pelleritoudacity.android.rcapstone.shortcut.all";
     String ACTION_SHORTCUT_SEARCH = "info.pelleritoudacity.android.rcapstone.shortcut.search";
 
-    String USER_AGENT_CACHE = "info.pelleritoudacity.android.rcapstone.exo.player.CacheDataSourceFactory";
     String USER_AGENT_MEDIA = "info.pelleritoudacity.android.rcapstone.exo.player.media";
-    String CACHE_MEDIA_DIR = "media";
-    long EXT_CACHE_SIZE_MAX = 500 * 1024 * 1024;
-    long EXT_CACHE_FILE_SIZE_MAX = 40 * 1024 * 1024;
-    long CACHE_SIZE_MAX = 100 * 1024 * 1024;
-    long CACHE_FILE_SIZE_MAX = 20 * 1024 * 1024;
 
     int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 10;
 
@@ -146,7 +138,6 @@ public interface Costant {
     int DEFAULT_SUBREDDIT_ITEMS = 3;
     int REMOVED_SUBREDDIT_ITEMS = 1;
     int RESTORE_SUBREDDIT_ITEMS = 0;
-    int RESTORE_SUBREDDIT_POSITION = 0;
 
     int DEFAULT_SUBREDDIT_VISIBLE = 1;
     boolean DEFAULT_GENERAL_SETTINGS = true;

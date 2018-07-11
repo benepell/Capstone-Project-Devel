@@ -1,13 +1,15 @@
 package info.pelleritoudacity.android.rcapstone.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -15,6 +17,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,21 +45,20 @@ public class SubRedditDetailFragment extends Fragment
     RecyclerView mRecyclerView;
 
     private Unbinder unbinder;
-
     private String mStrId;
-    private Parcelable mState;
+    private String mStrLinkId;
 
-    private LinearLayoutManager mLayoutManager;
     private SubRedditDetailAdapter mAdapter;
     private OnFragmentInteractionListener mListener;
 
     public SubRedditDetailFragment() {
     }
 
-    public static SubRedditDetailFragment newInstance(String strId) {
+    public static SubRedditDetailFragment newInstance(String strId, String strLinkId) {
         SubRedditDetailFragment fragment = new SubRedditDetailFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL, strId);
+        bundle.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_STRID, strId);
+        bundle.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_LINKID, strLinkId);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -66,7 +68,8 @@ public class SubRedditDetailFragment extends Fragment
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mStrId = getArguments().getString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL);
+            mStrId = getArguments().getString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_STRID);
+            mStrLinkId = getArguments().getString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_LINKID);
         }
 
     }
@@ -79,7 +82,7 @@ public class SubRedditDetailFragment extends Fragment
 
         unbinder = ButterKnife.bind(this, view);
 
-        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(Objects.requireNonNull(getActivity()), LinearLayoutManager.VERTICAL);
 
@@ -89,7 +92,7 @@ public class SubRedditDetailFragment extends Fragment
 
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setLayoutManager(layoutManager);
 
         mRecyclerView.setHasFixedSize(true);
 
@@ -110,7 +113,6 @@ public class SubRedditDetailFragment extends Fragment
 
         }
         if (savedInstanceState != null) {
-            mState = savedInstanceState.getParcelable(Costant.EXTRA_FRAGMENT_DETAIL_STATE);
             mStrId = savedInstanceState.getString(Costant.EXTRA_FRAGMENT_DETAIL_STRING_ID);
 
         }
@@ -136,18 +138,8 @@ public class SubRedditDetailFragment extends Fragment
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        mState = mLayoutManager.onSaveInstanceState();
-        outState.putParcelable(Costant.EXTRA_FRAGMENT_DETAIL_STATE, mState);
         outState.putString(Costant.EXTRA_FRAGMENT_DETAIL_STRING_ID, mStrId);
 
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mState != null) {
-            mLayoutManager.onRestoreInstanceState(mState);
-        }
     }
 
     @Override
@@ -159,7 +151,7 @@ public class SubRedditDetailFragment extends Fragment
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        return new SubRedditDetailFragmentAsyncTask(Objects.requireNonNull(getActivity()), mStrId, Preference.isLoginOver18(getContext()));
+        return new SubRedditDetailFragmentAsyncTask(Objects.requireNonNull(getActivity()), mStrId, mStrLinkId,Preference.isLoginOver18(getContext()));
     }
 
     @Override
@@ -183,16 +175,19 @@ public class SubRedditDetailFragment extends Fragment
         mListener.clickSelector(position, itemCount);
     }
 
+
     private static class SubRedditDetailFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
 
         Cursor cursorData = null;
         private final boolean isOver18;
         private final String mStringId;
+        private final String mStrLinkId;
 
-        SubRedditDetailFragmentAsyncTask(@NonNull Context context, String strId, boolean isOver18) {
+        SubRedditDetailFragmentAsyncTask(@NonNull Context context, String strId, String strLinkId, boolean isOver18) {
             super(context);
             this.isOver18 = isOver18;
             mStringId = strId;
+            mStrLinkId = strLinkId;
         }
 
         @Override
@@ -215,7 +210,14 @@ public class SubRedditDetailFragment extends Fragment
                 String selection = Contract.T1dataEntry.COLUMN_NAME_LINK_ID + " =?" + " AND " +
                         Contract.T1dataEntry.COLUMN_NAME_OVER18 + " <=?";
 
-                String[] selectionArgs = new String[]{Costant.STR_PARENT_LINK + mStringId, strOver18};
+                String[] selectionArgs;
+                if (TextUtils.isEmpty(mStrLinkId)) {
+                    selectionArgs = new String[]{Costant.STR_PARENT_LINK + mStringId, strOver18};
+
+                }  else {
+                    selectionArgs = new String[]{mStrLinkId, strOver18};
+
+                }
 
                 String sortOrder = Contract.T1dataEntry.COLUMN_NAME_CHILDREN_ID + " ASC," +
                         Contract.T1dataEntry.COLUMN_NAME_DEPTH + " ASC";

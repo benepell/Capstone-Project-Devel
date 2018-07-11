@@ -356,6 +356,7 @@ class DbHelper extends SQLiteOpenHelper {
                         Contract.T1dataEntry.COLUMN_NAME_SUBREDDITNAMEPREFIXED + " TEXT, " +
                         Contract.T1dataEntry.COLUMN_NAME_UPS + " INTEGER DEFAULT 0, " +
                         Contract.T1dataEntry.COLUMN_NAME_NUMCOMMENTS + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_MORECOMMENTS + " TEXT, " +
                         Contract.T1dataEntry.COLUMN_NAME_ISSELF + " INTEGER DEFAULT 0, " +
                         Contract.T1dataEntry.COLUMN_NAME_WHITELISTSTATUS + " TEXT, " +
                         Contract.T1dataEntry.COLUMN_NAME_MODNOTE + " TEXT, " +

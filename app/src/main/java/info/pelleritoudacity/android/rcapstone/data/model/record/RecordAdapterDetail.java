@@ -35,6 +35,8 @@ public class RecordAdapterDetail {
     private String linkId;
     private String parentId;
     private String url;
+    private String moreComments;
+
 
 
     public String getSubReddit() {
@@ -283,6 +285,14 @@ public class RecordAdapterDetail {
 
     public void setNumComments(int numComments) {
         this.numComments = numComments;
+    }
+
+    public String getMoreComments() {
+        return moreComments;
+    }
+
+    public void setMoreComments(String moreComments) {
+        this.moreComments = moreComments;
     }
 
 

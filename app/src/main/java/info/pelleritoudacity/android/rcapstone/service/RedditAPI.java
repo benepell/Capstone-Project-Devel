@@ -35,6 +35,7 @@ import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T5;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.RedditAboutMe;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.RedditToken;
+import info.pelleritoudacity.android.rcapstone.data.rest.More;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -85,6 +86,13 @@ public interface RedditAPI {
 
                                    @QueryMap Map<String, String> options
     );
+
+    @GET("/api/morechildren/")
+    @Headers("User-Agent: " + Costant.REDDIT_USER_AGENT)
+    Call<More> getMoreCommentsAuth(@Header("Authorization") String authorization,
+                                   @QueryMap Map<String, String> options
+    );
+
 
     @FormUrlEncoded
     @POST("/api/v1/access_token")

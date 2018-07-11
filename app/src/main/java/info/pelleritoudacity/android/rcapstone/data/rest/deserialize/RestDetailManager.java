@@ -1,4 +1,4 @@
-package info.pelleritoudacity.android.rcapstone.data.rest;
+package info.pelleritoudacity.android.rcapstone.data.rest.deserialize;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -22,10 +22,10 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class SubRedditDetailManager {
+public class RestDetailManager {
 
     private static RedditAPI sCommentsAPI;
-    private static SubRedditDetailManager sSubRedditDetailManager;
+    private static RestDetailManager sRestDetailManager;
     private final WeakReference< Context>  mWeakContext;
     private final boolean mIsAuthenticate;
     private final String mAccessToken;
@@ -35,7 +35,7 @@ public class SubRedditDetailManager {
     private Call<List<T1>> mCall;
 
 
-    private SubRedditDetailManager(WeakReference<Context> weakContext, String token, String subRedditName, String nameRedditId, boolean isAuthenticate, String sortBy) {
+    private RestDetailManager(WeakReference<Context> weakContext, String token, String subRedditName, String nameRedditId, boolean isAuthenticate, String sortBy) {
 
         mWeakContext = weakContext;
         mIsAuthenticate = isAuthenticate;
@@ -93,15 +93,15 @@ public class SubRedditDetailManager {
         return GsonConverterFactory.create(gson);
     }
 
-    public static SubRedditDetailManager getInstance(WeakReference<Context> weakContext, String accessToken, String subRedditName, String nameRedditId, boolean isAuthenticate, String sortBy) {
-        if (sSubRedditDetailManager != null) {
-            sSubRedditDetailManager.cancelRequest();
+    public static RestDetailManager getInstance(WeakReference<Context> weakContext, String accessToken, String subRedditName, String nameRedditId, boolean isAuthenticate, String sortBy) {
+        if (sRestDetailManager != null) {
+            sRestDetailManager.cancelRequest();
         }
 
-        sSubRedditDetailManager = new SubRedditDetailManager(weakContext,accessToken, subRedditName, nameRedditId, isAuthenticate,sortBy);
+        sRestDetailManager = new RestDetailManager(weakContext,accessToken, subRedditName, nameRedditId, isAuthenticate,sortBy);
 
 
-        return sSubRedditDetailManager;
+        return sRestDetailManager;
     }
 
     public void getCommentsAPI(Callback<List<T1>> callback) {

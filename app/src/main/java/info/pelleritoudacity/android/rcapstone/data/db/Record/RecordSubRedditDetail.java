@@ -47,6 +47,9 @@ public class RecordSubRedditDetail {
         mRecord.setSubRedditId(mCursor.getString(
                 mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_SUBREDDITID)));
 
+        mRecord.setLinkId(mCursor.getString(
+                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_LINK_ID)));
+
         mRecord.setSubRedditName(mCursor.getString(
                 mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_NAME)));
 
@@ -127,6 +130,9 @@ public class RecordSubRedditDetail {
 
         mRecord.setNumComments(mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_NUMCOMMENTS)));
+
+        mRecord.setMoreComments(mCursor.getString(
+                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_MORECOMMENTS)));
 
     }
 

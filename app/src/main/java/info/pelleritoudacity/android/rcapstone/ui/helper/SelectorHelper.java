@@ -80,7 +80,7 @@ public class SelectorHelper {
 
 
                 } else {
-                    Toast.makeText(mContext, "Please Login ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, R.string.text_start_login, Toast.LENGTH_LONG).show();
                 }
             });
 

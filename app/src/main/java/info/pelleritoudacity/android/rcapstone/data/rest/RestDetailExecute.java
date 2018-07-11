@@ -8,18 +8,19 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T1;
+import info.pelleritoudacity.android.rcapstone.data.rest.deserialize.RestDetailManager;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SubRedditDetailExecute {
-    private final SubRedditDetailManager subRedditDetailManager;
+public class RestDetailExecute {
+    private final RestDetailManager restDetailManager;
     private List<T1> mReddit;
 
-    public SubRedditDetailExecute(Context context, String code, String subRedditName, String nameRedditId) {
-        subRedditDetailManager = SubRedditDetailManager.getInstance(new WeakReference<>(context
+    public RestDetailExecute(Context context, String code, String subRedditName, String nameRedditId) {
+        restDetailManager = RestDetailManager.getInstance(new WeakReference<>(context
                 ) ,code,subRedditName,nameRedditId,
                 PermissionUtil.isLogged(context), Preference.getSubredditSort(context));
     }
@@ -42,13 +43,13 @@ public class SubRedditDetailExecute {
                 }
             }
         };
-        subRedditDetailManager.getCommentsAPI(callback);
+        restDetailManager.getCommentsAPI(callback);
     }
 
 
     public void cancelRequest() {
-        if (subRedditDetailManager != null) {
-            subRedditDetailManager.cancelRequest();
+        if (restDetailManager != null) {
+            restDetailManager.cancelRequest();
         }
     }
 
