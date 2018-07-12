@@ -526,7 +526,6 @@ public class Contract {
     }
 
 
-
     public static class T1MoresDataEntry implements BaseColumns {
 
         public static final Uri CONTENT_URI =

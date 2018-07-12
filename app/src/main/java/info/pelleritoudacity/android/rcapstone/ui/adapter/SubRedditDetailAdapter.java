@@ -1,18 +1,8 @@
 package info.pelleritoudacity.android.rcapstone.ui.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.AsyncTaskLoader;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.text.util.Linkify;
@@ -25,22 +15,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-
-import java.lang.ref.WeakReference;
-import java.util.Objects;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.Record.RecordSubRedditDetail;
-import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapterDetail;
-import info.pelleritoudacity.android.rcapstone.data.rest.RevokeTokenExecute;
-import info.pelleritoudacity.android.rcapstone.ui.activity.SubManageActivity;
-import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity;
-import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditDetailActivity;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditDetailFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SubRedditDetailHelper;
@@ -48,7 +27,6 @@ import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
-import timber.log.Timber;
 
 public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetailAdapter.SubRedditDetailHolder> {
 
@@ -94,7 +72,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
 
             String numCom = String.valueOf(record.getNumComments());
             if (!TextUtils.isEmpty(record.getAuthor())) {
-                holder.mTextViewAuthorDetail.setText("id"+record.getChildrenId() + " " +record.getAuthor().concat(":"));
+                holder.mTextViewAuthorDetail.setText(record.getAuthor().concat(":"));
             }
 
             holder.mTextViewPostedOnDetail.setText(DateUtil.getDiffTimeMinute(mContext, record.getCreated()));
@@ -141,17 +119,14 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
                 holder.mTextViewReplies.setText(String.format("%s %s", String.valueOf(record.getNumComments()), mContext.getString(R.string.text_more_replies)));
                 holder.mTextViewReplies.setVisibility(View.VISIBLE);
 
-                holder.mTextViewReplies.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+                holder.mTextViewReplies.setOnClickListener(view -> {
 
-                        if (Preference.isLoginStart(mContext)) {
-                            mListener.moreComments(category,strId,strLinkId,strArrId);
-                            holder.mTextViewReplies.setVisibility(View.INVISIBLE);
+                    if (Preference.isLoginStart(mContext)) {
+                        mListener.moreComments(category, strId, strLinkId, strArrId);
+                        holder.mTextViewReplies.setVisibility(View.INVISIBLE);
 
-                        } else {
-                            Toast.makeText(mContext, mContext.getString(R.string.text_start_login), Toast.LENGTH_SHORT).show();
-                        }
+                    } else {
+                        Toast.makeText(mContext, mContext.getString(R.string.text_start_login), Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -246,9 +221,6 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
             });
         }
 
-        void bind() {
-        }
-
         @Override
         public void onClick(View view) {
             clickSelector(getAdapterPosition());
@@ -285,7 +257,8 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         void adapterPosition(int position, String category);
 
         void clickSelector(int position, int itemCount);
-        void moreComments(String category, String strId, String linkId, String strArrId );
+
+        void moreComments(String category, String strId, String linkId, String strArrId);
     }
 
 }

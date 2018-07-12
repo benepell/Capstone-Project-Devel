@@ -1,5 +1,6 @@
 package info.pelleritoudacity.android.rcapstone.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -182,17 +183,19 @@ public class SubRedditDetailFragment extends Fragment
         mListener.clickSelector(position, itemCount);
     }
 
+    @SuppressLint("CommitTransaction")
     @Override
     public void moreComments(String category, String strId, String linkId, String strArrId) {
+
         mListener.moreComments(category, strId, linkId, strArrId);
 
         SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(strId, linkId);
-        mListener.childMoreFragment( getChildFragmentManager().beginTransaction()
+        mListener.childMoreFragment(getChildFragmentManager().beginTransaction()
                 .replace(R.id.fragment_subreddit_more_container, fragment));
-        Preference.setMoreFragmentTransaction(getActivity().getApplicationContext(),true);
+
+        Preference.setMoreFragmentTransaction(Objects.requireNonNull(getActivity()).getApplicationContext(), true);
 
     }
-
 
     private static class SubRedditDetailFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
 
@@ -228,16 +231,13 @@ public class SubRedditDetailFragment extends Fragment
         public Cursor loadInBackground() {
             try {
 
-
-                Uri uri;
-
                 String strOver18 = String.valueOf(Utility.boolToInt(isOver18));
 
                 String selection = Contract.T1dataEntry.COLUMN_NAME_LINK_ID + " =?" + " AND " +
                         Contract.T1dataEntry.COLUMN_NAME_OVER18 + " <=?";
 
+                Uri uri;
                 String[] selectionArgs;
-
                 if (TextUtils.isEmpty(mStrLinkId)) {
                     uri = Contract.T1dataEntry.CONTENT_URI;
                     selectionArgs = new String[]{Costant.STR_PARENT_LINK + mStringId, strOver18};
@@ -248,13 +248,11 @@ public class SubRedditDetailFragment extends Fragment
 
                 }
 
-                String sortOrder = null;
                 return getContext().getContentResolver().query(uri,
                         null,
                         selection,
                         selectionArgs,
-                        sortOrder);
-
+                        null);
 
             } catch (Exception e) {
                 Timber.e("Failed to asynchronously load data. ");
@@ -277,7 +275,9 @@ public class SubRedditDetailFragment extends Fragment
 
     public interface OnFragmentInteractionListener {
         void clickSelector(int position, int itemCount);
+
         void moreComments(String category, String strId, String linkId, String strArrId);
+
         void childMoreFragment(FragmentTransaction child);
     }
 

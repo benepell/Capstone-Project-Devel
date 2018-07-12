@@ -5,7 +5,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.text.TextUtils;
 
-import java.lang.reflect.Array;
 import java.util.List;
 
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
@@ -227,8 +226,7 @@ public class T1Operation {
                         (t1Listings.getData().getReplies().getKind().contains(Costant.DEFAULT_LISTING_KIND))) {
                     return t1Listings.getData().getReplies();
 
-                } else if ((t1Listings != null) &&
-                        (t1Listings.getKind().contains(Costant.DEFAULT_MORE_KIND))) {
+                } else if(t1Listings.getKind().contains(Costant.DEFAULT_MORE_KIND)) {
                     insertMore(t1Listings.getData());
 
                     return t1Listings.getData().getReplies();

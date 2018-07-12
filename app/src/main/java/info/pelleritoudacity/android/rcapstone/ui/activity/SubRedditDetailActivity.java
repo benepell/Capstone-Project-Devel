@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -27,7 +25,6 @@ import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
-import timber.log.Timber;
 
 public class SubRedditDetailActivity extends BaseActivity
         implements RestDetailExecute.RestSubReddit,
@@ -90,7 +87,7 @@ public class SubRedditDetailActivity extends BaseActivity
         if ((listenerData != null) && (mStrId != null)) {
             T1Operation data = new T1Operation(getApplicationContext());
             if (data.saveData(listenerData, mStrId)) {
-                startFragment(mStrId, null);
+                startFragment(mStrId);
                 mSwipeRefreshLayout.setRefreshing(false);
             } else {
                 Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
@@ -98,12 +95,12 @@ public class SubRedditDetailActivity extends BaseActivity
         }
     }
 
-    private void startFragment(String category, String strLinkId) {
+    private void startFragment(String category) {
         if (!getSupportFragmentManager().isStateSaved()) {
             SubRedditSelectedFragment subRedditSelectedFragment = SubRedditSelectedFragment.newInstance(category);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_subreddit_selected_container, subRedditSelectedFragment).commit();
-            SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(category, strLinkId);
+            SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(category, null);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_subreddit_detail_container, fragment).commit();
         }
@@ -125,7 +122,7 @@ public class SubRedditDetailActivity extends BaseActivity
                             .getMoreData(this);
                 }
             } else {
-                startFragment(strId, null);
+                startFragment(strId);
 
             }
         }
@@ -179,7 +176,9 @@ public class SubRedditDetailActivity extends BaseActivity
     public void onRestSubRedditMore(More listenerData, String mStrArrid) {
         if (listenerData != null) {
             if (listenerData.getJson().getData() != null) {
+
                 T1Operation t1moreOperation = new T1Operation(getApplicationContext());
+
                 if (t1moreOperation.saveMoreData(listenerData.getJson(), mStrArrId)) {
                     if ((mMoreFragmentTransaction != null) && Preference.isMoreFragmentTransaction(mContext)) {
                         mMoreFragmentTransaction.commit();
@@ -194,11 +193,9 @@ public class SubRedditDetailActivity extends BaseActivity
 
             }
 
-
         }
 
     }
-
 
     @Override
     public void onErrorSubRedditMore(Throwable t) {

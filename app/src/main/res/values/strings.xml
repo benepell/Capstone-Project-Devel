@@ -252,7 +252,7 @@
     <string name="preferite_stars">preferite stars</string>
     <string name="image_show_comments">image show comments</string>
     <string name="image_open_browser">image open browser</string>
-    <string name="text_more_replies">more replies...</string>
+    <string name="text_more_replies">more replies…</string>
     <string name="text_start_login">Please Login</string>
 
 </resources>
