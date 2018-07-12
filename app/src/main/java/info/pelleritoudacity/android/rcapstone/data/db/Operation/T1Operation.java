@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import java.lang.reflect.Array;
 import java.util.List;
 
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
@@ -19,6 +20,7 @@ import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
+import timber.log.Timber;
 
 public class T1Operation {
 
@@ -29,8 +31,7 @@ public class T1Operation {
         mContext = context;
     }
 
-
-    private boolean insertMoreData(MoreJson moreJson) {
+    private boolean insertMoreData(MoreJson moreJson, String strId) {
 
         List<MoreThing> moreThings = moreJson.getData().getThings();
 
@@ -44,7 +45,7 @@ public class T1Operation {
 
         }
 
-        return mContext.getContentResolver().bulkInsert(Contract.T1dataEntry.CONTENT_URI, arrContentValues) > 0;
+        return mContext.getContentResolver().bulkInsert(Contract.T1MdataEntry.CONTENT_URI, arrContentValues) > 0;
 
     }
 
@@ -52,15 +53,15 @@ public class T1Operation {
 
         if (modelT1 == null) return false;
 
-        for (T1 t1s : modelT1) {
-            ContentValues[] arrT1CV = new ContentValues[t1s.getData().getChildren().size()];
+        for (int x = 1; x < modelT1.size(); x++) {
+            ContentValues[] arrT1CV = new ContentValues[modelT1.get(x).getData().getChildren().size()];
             int i = 0;
-            for (T1Listing t1Listings : t1s.getData().getChildren()) {
+            for (T1Listing t1Listings : modelT1.get(x).getData().getChildren()) {
                 arrT1CV[i] = getInsertCV(t1Listings.getData(), arrT1CV[i], i + 1);
                 recursiveReplies(t1Listings.getData().getReplies(), i + 1);
                 i++;
             }
-             mContext.getContentResolver().bulkInsert(Contract.T1dataEntry.CONTENT_URI, arrT1CV);
+            mContext.getContentResolver().bulkInsert(Contract.T1dataEntry.CONTENT_URI, arrT1CV);
         }
 
         return true;
@@ -401,8 +402,9 @@ public class T1Operation {
 
     }
 
-    public boolean saveData(List<T1> modelT1,String strId) {
+    public boolean saveData(List<T1> modelT1, String strId) {
         if (!TextUtils.isEmpty(strId)) {
+            Timber.d("STRING BASE %s", strId);
             deleteMore(strId);
             deleteCategory(strId);
             return insertData(modelT1);
@@ -412,7 +414,8 @@ public class T1Operation {
 
     public boolean saveMoreData(MoreJson moreJson, String strId) {
         if ((moreJson != null)) {
-            return insertMoreData(moreJson);
+            mContext.getContentResolver().delete(Contract.T1MdataEntry.CONTENT_URI,null,null);
+            return insertMoreData(moreJson, strId);
         }
         return false;
     }
@@ -445,6 +448,7 @@ public class T1Operation {
 
     public void clearData() {
         mContext.getContentResolver().delete(Contract.T1dataEntry.CONTENT_URI, null, null);
+        mContext.getContentResolver().delete(Contract.T1MdataEntry.CONTENT_URI, null, null);
         mContext.getContentResolver().delete(Contract.T1MoresDataEntry.CONTENT_URI, null, null);
         mContext.getContentResolver().delete(Contract.PrefSubRedditEntry.CONTENT_URI, null, null);
     }

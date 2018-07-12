@@ -103,6 +103,7 @@ public class BaseActivity extends AppCompatActivity
             mStub.setLayoutResource(getLayoutResource());
             mStub.inflate();
 
+
         }
 
         Toolbar toolbar = findViewById(R.id.toolbar);

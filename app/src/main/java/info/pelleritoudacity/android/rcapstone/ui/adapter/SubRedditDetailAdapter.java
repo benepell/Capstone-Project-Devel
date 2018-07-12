@@ -6,8 +6,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +19,7 @@ import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -90,7 +94,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
 
             String numCom = String.valueOf(record.getNumComments());
             if (!TextUtils.isEmpty(record.getAuthor())) {
-                holder.mTextViewAuthorDetail.setText(record.getAuthor().concat(":"));
+                holder.mTextViewAuthorDetail.setText("id"+record.getChildrenId() + " " +record.getAuthor().concat(":"));
             }
 
             holder.mTextViewPostedOnDetail.setText(DateUtil.getDiffTimeMinute(mContext, record.getCreated()));
@@ -142,16 +146,9 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
                     public void onClick(View view) {
 
                         if (Preference.isLoginStart(mContext)) {
-
-                            Intent moreIntent = new Intent(mContext, SubRedditDetailActivity.class);
-                            moreIntent.putExtra(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID, strId);
-                            moreIntent.putExtra(Costant.EXTRA_MORE_DETAIL_STRING_LINKID, strLinkId);
-                            moreIntent.putExtra(Costant.EXTRA_MORE_DETAIL_STRING_ARRID, strArrId);
-                            moreIntent.putExtra(Costant.EXTRA_SUBREDDIT_DETAIL_CATEGORY, category);
-                            // moreIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK );
-                            mContext.startActivity(moreIntent);
-
+                            mListener.moreComments(category,strId,strLinkId,strArrId);
                             holder.mTextViewReplies.setVisibility(View.INVISIBLE);
+
                         } else {
                             Toast.makeText(mContext, mContext.getString(R.string.text_start_login), Toast.LENGTH_SHORT).show();
                         }
@@ -195,6 +192,10 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         @SuppressWarnings("unused")
         @BindView(R.id.tv_replies)
         TextView mTextViewReplies;
+
+        @SuppressWarnings("unused")
+        @BindView(R.id.fragment_subreddit_more_container)
+        FrameLayout mMoreContainer;
 
         @SuppressWarnings("unused")
         @BindView(R.id.card_linear)
@@ -284,6 +285,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         void adapterPosition(int position, String category);
 
         void clickSelector(int position, int itemCount);
+        void moreComments(String category, String strId, String linkId, String strArrId );
     }
 
 }

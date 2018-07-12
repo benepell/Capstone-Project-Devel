@@ -31,7 +31,7 @@ public class RestMoreManager {
     private Call<More> mCall;
 
 
-    private RestMoreManager(WeakReference<Context> weakContext, String token, String linkId, String strArrId) {
+    private RestMoreManager(WeakReference<Context> weakContext, String token ,String linkId, String strArrId) {
 
         mWeakContext = weakContext;
         mAccessToken = token;
@@ -79,7 +79,7 @@ public class RestMoreManager {
             sRestMoreManager.cancelRequest();
         }
 */
-        sRestMoreManager = new RestMoreManager(weakContext, accessToken, nameRedditId, strArrId);
+        sRestMoreManager = new RestMoreManager(weakContext, accessToken ,nameRedditId, strArrId);
 
 
         return sRestMoreManager;

@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -25,6 +27,7 @@ import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
+import timber.log.Timber;
 
 public class SubRedditDetailActivity extends BaseActivity
         implements RestDetailExecute.RestSubReddit,
@@ -47,6 +50,8 @@ public class SubRedditDetailActivity extends BaseActivity
     private Context mContext;
     private String mStrLinkId;
     private String mStrArrId;
+    private FragmentTransaction mMoreFragmentTransaction;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +66,6 @@ public class SubRedditDetailActivity extends BaseActivity
         if (intent != null) {
             mStrId = intent.getStringExtra(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID);
             mCategory = intent.getStringExtra(Costant.EXTRA_SUBREDDIT_DETAIL_CATEGORY);
-            mStrArrId = intent.getStringExtra(Costant.EXTRA_MORE_DETAIL_STRING_ARRID);
-            mStrLinkId = intent.getStringExtra(Costant.EXTRA_MORE_DETAIL_STRING_LINKID);
 
             if (intent.getBooleanExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_DETAIL_REFRESH, false)) {
                 mStrId = Preference.getLastComment(mContext);
@@ -106,6 +109,7 @@ public class SubRedditDetailActivity extends BaseActivity
         }
     }
 
+
     private void initRest(String category, String strId, String tokenLogin, boolean stateNetworkOnline, String strLinkId, String strArrId) {
         if (!TextUtils.isEmpty(strId)) {
             if (stateNetworkOnline) {
@@ -141,6 +145,24 @@ public class SubRedditDetailActivity extends BaseActivity
     }
 
     @Override
+    public void moreComments(String category, String strId, String linkId, String strArrId) {
+        if (!TextUtils.isEmpty(strArrId)) {
+            mCategory = category;
+            mStrId = strId;
+            mStrLinkId = linkId;
+            mStrArrId = strArrId;
+            mSwipeRefreshLayout.setRefreshing(true);
+            onRefresh();
+        }
+
+    }
+
+    @Override
+    public void childMoreFragment(FragmentTransaction child) {
+        mMoreFragmentTransaction = child;
+    }
+
+    @Override
     public void onRefresh() {
         if (!NetworkUtil.isOnline(mContext)) {
             mSwipeRefreshLayout.setRefreshing(false);
@@ -150,7 +172,6 @@ public class SubRedditDetailActivity extends BaseActivity
             initRest(Preference.getLastCategory(mContext), Preference.getLastComment(mContext),
                     PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext), mStrLinkId, mStrArrId);
 
-
         }
     }
 
@@ -159,10 +180,18 @@ public class SubRedditDetailActivity extends BaseActivity
         if (listenerData != null) {
             if (listenerData.getJson().getData() != null) {
                 T1Operation t1moreOperation = new T1Operation(getApplicationContext());
-                if (t1moreOperation.saveMoreData(listenerData.getJson(),mStrId)) {
-                    startFragment(mCategory, mStrLinkId);
-                    mSwipeRefreshLayout.setRefreshing(false);
+                if (t1moreOperation.saveMoreData(listenerData.getJson(), mStrArrId)) {
+                    if ((mMoreFragmentTransaction != null) && Preference.isMoreFragmentTransaction(mContext)) {
+                        mMoreFragmentTransaction.commit();
+                        Preference.setMoreFragmentTransaction(mContext, false);
+
+                    }
+
+                    if (mSwipeRefreshLayout != null) {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
                 }
+
             }
 
 

@@ -244,6 +244,7 @@
     <string name="pref_general_self" translatable="false">info.pelleritoudacity.android.rcapstone.pref.general.self</string>
     <string name="pref_general_links" translatable="false">info.pelleritoudacity.android.rcapstone.pref.general.links</string>
     <string name="pref_general_init" translatable="false">info.pelleritoudacity.android.rcapstone.pref.general.init</string>
+    <string name="pref_more_fragment_transaction" translatable="false">info.pelleritoudacity.android.rcapstone.pref.more.fragment.transaction</string>
     <string name="background_image_protection_oval">background image protection oval</string>
     <string name="background_image_protection">background image protection</string>
     <string name="image_vote_up">image vote up</string>

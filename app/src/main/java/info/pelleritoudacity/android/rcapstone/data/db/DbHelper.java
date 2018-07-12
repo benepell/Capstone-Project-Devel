@@ -31,6 +31,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import info.pelleritoudacity.android.rcapstone.data.db.util.LeaklessCursorFactory;
+import info.pelleritoudacity.android.rcapstone.data.model.reddit.T1Data;
+import timber.log.Timber;
 
 class DbHelper extends SQLiteOpenHelper {
 
@@ -278,9 +280,7 @@ class DbHelper extends SQLiteOpenHelper {
                         ");";
 
 
-        final String SQL_CREATE_T1DATA_TABLE =
-                "CREATE TABLE IF NOT EXISTS " + Contract.T1dataEntry.TABLE_NAME + " (" +
-                        Contract.T1dataEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        final String T1DATA_GENERAL = Contract.T1dataEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         Contract.T1dataEntry.COLUMN_NAME_TIME_LAST_MODIFIED + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
                         Contract.T1dataEntry.COLUMN_NAME_ISCROSSPOSTABLE + " INTEGER DEFAULT 0, " +
                         Contract.T1dataEntry.COLUMN_NAME_SUBREDDIT + " TEXT, " +
@@ -365,11 +365,11 @@ class DbHelper extends SQLiteOpenHelper {
                         Contract.T1dataEntry.COLUMN_NAME_DISTINGUISHED + " TEXT, " +
                         Contract.T1dataEntry.COLUMN_NAME_SELFTEXT + " TEXT, " +
                         Contract.T1dataEntry.COLUMN_NAME_AUTHORFLAIRCSSCLASS + " TEXT, " +
-                        Contract.T1dataEntry.COLUMN_NAME_SORT_BY + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_SORT_BY + " TEXT " ;
 
-                        " FOREIGN KEY (" + Contract.T1dataEntry.COLUMN_NAME_CHILDREN_ID + ") REFERENCES " +
-                        Contract.DataEntry.TABLE_NAME + "(" + Contract.DataEntry._ID + ")" +
-                        ");";
+        final String SQL_CREATE_T1DATA_TABLE = "CREATE TABLE IF NOT EXISTS " + Contract.T1dataEntry.TABLE_NAME + " (" + T1DATA_GENERAL + ");";
+
+        final String SQL_CREATE_T1MDATA_TABLE =  "CREATE TABLE IF NOT EXISTS " + Contract.T1MdataEntry.TABLE_NAME + " (" +T1DATA_GENERAL + ");";;
 
 
         final String SQL_CREATE_T1MORESDATA_TABLE =
@@ -394,8 +394,10 @@ class DbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_T3DATA_TABLE);
         db.execSQL(SQL_CREATE_PREFSUBREDDIT_TABLE);
         db.execSQL(SQL_CREATE_T1DATA_TABLE);
+        db.execSQL(SQL_CREATE_T1MDATA_TABLE);
         db.execSQL(SQL_CREATE_T1MORESDATA_TABLE);
 
+   Timber.d("CREATE SQL %s %s",SQL_CREATE_T1DATA_TABLE,SQL_CREATE_T1MDATA_TABLE);
     }
 
     @Override
@@ -406,6 +408,7 @@ class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + Contract.T3dataEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + Contract.PrefSubRedditEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + Contract.T1dataEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + Contract.T1MdataEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + Contract.T1MoresDataEntry.TABLE_NAME);
         onCreate(db);
     }

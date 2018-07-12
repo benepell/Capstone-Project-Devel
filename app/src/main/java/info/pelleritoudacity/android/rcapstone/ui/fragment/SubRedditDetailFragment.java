@@ -1,15 +1,13 @@
 package info.pelleritoudacity.android.rcapstone.ui.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -36,6 +34,7 @@ import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.Costant.SUBREDDIT_DETAIL_LOADER_ID;
+import static info.pelleritoudacity.android.rcapstone.utility.Costant.SUBREDDIT_MORE_DETAIL_LOADER_ID;
 
 public class SubRedditDetailFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor>, SubRedditDetailAdapter.OnAdapterListener {
@@ -47,7 +46,6 @@ public class SubRedditDetailFragment extends Fragment
     private Unbinder unbinder;
     private String mStrId;
     private String mStrLinkId;
-
     private SubRedditDetailAdapter mAdapter;
     private OnFragmentInteractionListener mListener;
 
@@ -59,6 +57,7 @@ public class SubRedditDetailFragment extends Fragment
         Bundle bundle = new Bundle();
         bundle.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_STRID, strId);
         bundle.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_LINKID, strLinkId);
+
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -109,13 +108,21 @@ public class SubRedditDetailFragment extends Fragment
         super.onActivityCreated(savedInstanceState);
 
         if (getActivity() != null) {
-            getActivity().getSupportLoaderManager().initLoader(SUBREDDIT_DETAIL_LOADER_ID, null, this).forceLoad();
+            if (TextUtils.isEmpty(mStrLinkId)) {
+                getActivity().getSupportLoaderManager().initLoader(SUBREDDIT_DETAIL_LOADER_ID, null, this).forceLoad();
+
+            } else {
+                getActivity().getSupportLoaderManager().initLoader(SUBREDDIT_MORE_DETAIL_LOADER_ID, null, this).forceLoad();
+
+            }
 
         }
+
         if (savedInstanceState != null) {
             mStrId = savedInstanceState.getString(Costant.EXTRA_FRAGMENT_DETAIL_STRING_ID);
 
         }
+
     }
 
     @Override
@@ -151,7 +158,7 @@ public class SubRedditDetailFragment extends Fragment
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        return new SubRedditDetailFragmentAsyncTask(Objects.requireNonNull(getActivity()), mStrId, mStrLinkId,Preference.isLoginOver18(getContext()));
+        return new SubRedditDetailFragmentAsyncTask(Objects.requireNonNull(getActivity()), mStrId, mStrLinkId, Preference.isLoginOver18(getContext()));
     }
 
     @Override
@@ -173,6 +180,17 @@ public class SubRedditDetailFragment extends Fragment
     @Override
     public void clickSelector(int position, int itemCount) {
         mListener.clickSelector(position, itemCount);
+    }
+
+    @Override
+    public void moreComments(String category, String strId, String linkId, String strArrId) {
+        mListener.moreComments(category, strId, linkId, strArrId);
+
+        SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(strId, linkId);
+        mListener.childMoreFragment( getChildFragmentManager().beginTransaction()
+                .replace(R.id.fragment_subreddit_more_container, fragment));
+        Preference.setMoreFragmentTransaction(getActivity().getApplicationContext(),true);
+
     }
 
 
@@ -199,11 +217,19 @@ public class SubRedditDetailFragment extends Fragment
             }
         }
 
+        @Override
+        protected void onStopLoading() {
+            super.onStopLoading();
+            cancelLoad();
+        }
+
         @Nullable
         @Override
         public Cursor loadInBackground() {
             try {
-                Uri uri = Contract.T1dataEntry.CONTENT_URI;
+
+
+                Uri uri;
 
                 String strOver18 = String.valueOf(Utility.boolToInt(isOver18));
 
@@ -211,17 +237,18 @@ public class SubRedditDetailFragment extends Fragment
                         Contract.T1dataEntry.COLUMN_NAME_OVER18 + " <=?";
 
                 String[] selectionArgs;
+
                 if (TextUtils.isEmpty(mStrLinkId)) {
+                    uri = Contract.T1dataEntry.CONTENT_URI;
                     selectionArgs = new String[]{Costant.STR_PARENT_LINK + mStringId, strOver18};
 
-                }  else {
+                } else {
+                    uri = Contract.T1MdataEntry.CONTENT_URI;
                     selectionArgs = new String[]{mStrLinkId, strOver18};
 
                 }
 
-                String sortOrder = Contract.T1dataEntry.COLUMN_NAME_CHILDREN_ID + " ASC," +
-                        Contract.T1dataEntry.COLUMN_NAME_DEPTH + " ASC";
-
+                String sortOrder = null;
                 return getContext().getContentResolver().query(uri,
                         null,
                         selection,
@@ -250,6 +277,8 @@ public class SubRedditDetailFragment extends Fragment
 
     public interface OnFragmentInteractionListener {
         void clickSelector(int position, int itemCount);
+        void moreComments(String category, String strId, String linkId, String strArrId);
+        void childMoreFragment(FragmentTransaction child);
     }
 
 }

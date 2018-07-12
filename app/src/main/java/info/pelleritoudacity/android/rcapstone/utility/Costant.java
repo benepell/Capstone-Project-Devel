@@ -69,6 +69,7 @@ public interface Costant {
     int SUBREDDIT_LOADER_ID = 2;
     int SUBREDDIT_DETAIL_LOADER_ID = 3;
     int SUBREDDIT_SELECTED_LOADER_ID = 4;
+    int SUBREDDIT_MORE_DETAIL_LOADER_ID = 5;
 
     int NAV_MODE_HOME = 0;
     int NAV_MODE_SUBSCRIPTIONS = 4;
@@ -91,6 +92,7 @@ public interface Costant {
     String EXTRA_FRAGMENT_SUBREDDIT = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit";
     String EXTRA_FRAGMENT_SUBREDDIT_DETAIL_STRID = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.detail.strid";
     String EXTRA_FRAGMENT_SUBREDDIT_DETAIL_LINKID = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.detail.linkid";
+    String EXTRA_FRAGMENT_SUBREDDIT_DETAIL_MOREDATAS = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.detail.moredatas";
     String EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ARRID = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.detail.arrid";
     String EXTRA_FRAGMENT_SUBREDDIT_SELECTED = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.selected";
     String EXTRA_FRAGMENT_TARGET = "info.pelleritoudacity.android.rcapstone.extra.fragment.target";
@@ -241,5 +243,6 @@ public interface Costant {
     int PREFERENCE_GENERAL_VIDEOS = R.string.pref_general_videos;
     int PREFERENCE_GENERAL_SELF = R.string.pref_general_self;
     int PREFERENCE_GENERAL_LINKS = R.string.pref_general_links;
+    int PREFERENCE_MORE_FRAGMENT_TRANSACTION = R.string.pref_more_fragment_transaction;
 
 }
