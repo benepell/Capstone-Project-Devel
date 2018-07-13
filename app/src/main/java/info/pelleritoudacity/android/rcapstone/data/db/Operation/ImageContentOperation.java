@@ -36,6 +36,7 @@ import info.pelleritoudacity.android.rcapstone.data.model.ModelContent;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.Resolution;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.Source;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3Data;
+import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3ListingData;
 
 class ImageContentOperation {
 
@@ -46,7 +47,7 @@ class ImageContentOperation {
     }
 
 
-    public ArrayList<ModelContent> showImageT3(T3Data t3DataChild, boolean originalSize) {
+    public ArrayList<ModelContent> showImageT3(T3ListingData t3DataChild, boolean originalSize) {
 
         int sizeResolution = 0;
         ArrayList<ModelContent> optimizeArrayList;

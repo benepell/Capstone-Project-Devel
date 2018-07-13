@@ -146,16 +146,17 @@ public class BaseActivity extends AppCompatActivity
 
         }
 
-
-
-
-
         if (PermissionUtil.isLogged(getApplicationContext())) {
             new AboutMeExecute(PermissionUtil.getToken(getApplicationContext())).loginData(this);
         }
 
         if (TextUtils.isEmpty(Preference.getSubredditSort(getApplicationContext()))) {
             Preference.setSubredditSort(getApplicationContext(), Costant.DEFAULT_SORT_BY);
+
+        }
+
+        if (TextUtils.isEmpty(Preference.getTimeSort(getApplicationContext()))) {
+            Preference.setSubredditSort(getApplicationContext(), Costant.DEFAULT_SORT_TIME);
 
         }
 
@@ -550,7 +551,7 @@ public class BaseActivity extends AppCompatActivity
             String prefString = Preference.getSubredditKey(getApplicationContext());
 
             if (!TextUtils.isEmpty(prefString)) {
-                stringLink = prefString;
+                prefString = Costant.DEFAULT_START_CATEGORY;
             }
 
             mTabArrayList = stringToArray(stringLink);

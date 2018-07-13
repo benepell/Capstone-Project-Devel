@@ -4,6 +4,8 @@ package info.pelleritoudacity.android.rcapstone.ui.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.graphics.ColorUtils;
+import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 
 import com.google.android.youtube.player.YouTubePlayer;
@@ -16,6 +18,8 @@ import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.utility.ActivityUI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.ImageUtil;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import timber.log.Timber;
 
@@ -32,6 +36,9 @@ public class MediaYoutubeActivity extends YouTubeFailureRecoveryActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityUI.youtubeFullScreen(this);
+        if (Preference.isNightMode(this)) {
+            setTheme(R.style.AppThemeDark);
+        }
         setContentView(R.layout.activity_media_youtube);
 
         Timber.plant(new Timber.DebugTree());
@@ -56,6 +63,9 @@ public class MediaYoutubeActivity extends YouTubeFailureRecoveryActivity {
                 .respectFontBounds(true));
         mToolbar.setNavigationOnClickListener(v -> onBackPressed());
 
+        if(Preference.isNightMode(this)){
+            mToolbar.setBackgroundColor(ImageUtil.getColor(getApplicationContext(),R.color.colorBackgroundDark) );
+        }
     }
 
     @Override

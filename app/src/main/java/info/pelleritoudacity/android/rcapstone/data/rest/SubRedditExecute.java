@@ -30,22 +30,25 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 public class SubRedditExecute {
     private final SubRedditManager subRedditManager;
     private T3 mReddit;
+    private List<T3> mRedditList;
 
-    public SubRedditExecute(Context context, String subReddit ) {
-        subRedditManager = SubRedditManager.getInstance(new WeakReference<>(context),subReddit);
+    public SubRedditExecute(Context context, String subReddit) {
+        subRedditManager = SubRedditManager.getInstance(new WeakReference<>(context), subReddit);
     }
 
 
-    public void getData(final RestSubReddit myCallBack) {
+    public void getData(OnRestSubReddit myCallBack) {
         Callback<T3> callback = new Callback<T3>() {
             @Override
             public void onResponse(@NonNull Call<T3> call, @NonNull Response<T3> response) {
@@ -57,6 +60,8 @@ public class SubRedditExecute {
 
             @Override
             public void onFailure(@NonNull Call<T3> call, @NonNull Throwable t) {
+                Timber.e(t.getMessage());
+                Timber.e(t.getCause());
                 call.cancel();
                 if (call.isCanceled()) {
                     myCallBack.onErrorSubReddit(t);
@@ -64,6 +69,29 @@ public class SubRedditExecute {
             }
         };
         subRedditManager.getSubRedditAPI(callback);
+    }
+
+    public void getDataList(OnRestSubRedditList myCallBack) {
+        Callback<List<T3>> callback = new Callback<List<T3>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<T3>> call, @NonNull Response<List<T3>> response) {
+                if (response.isSuccessful()) {
+                    mRedditList = response.body();
+                    myCallBack.onRestSubReddit(mRedditList);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<T3>> call, @NonNull Throwable t) {
+                Timber.e(t.getMessage());
+                Timber.e(t.getCause());
+                call.cancel();
+                if (call.isCanceled()) {
+                    myCallBack.onErrorSubReddit(t);
+                }
+            }
+        };
+        subRedditManager.getSortSubRedditAPI(callback);
     }
 
 
@@ -74,8 +102,14 @@ public class SubRedditExecute {
     }
 
 
+    public interface OnRestSubRedditList {
 
-    public interface RestSubReddit {
+        void onRestSubReddit(List<T3> listenerDataList);
+
+        void onErrorSubReddit(Throwable tList);
+    }
+
+    public interface OnRestSubReddit {
 
         void onRestSubReddit(T3 listenerData);
 

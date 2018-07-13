@@ -255,4 +255,6 @@
     <string name="text_more_replies">more replies…</string>
     <string name="text_start_login">Please Login</string>
 
+    <string name="default_items_page_titles" translatable="false">25</string>
+    <string name="default_depth_page_titles" translatable="false">6</string>
 </resources>

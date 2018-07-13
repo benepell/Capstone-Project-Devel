@@ -107,6 +107,7 @@ public interface Costant {
     String EXTRA_ACTIVITY_SUBREDDIT_DETAIL_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.subreddit.detail.refresh";
     String EXTRA_ACTIVITY_SUBMANAGE_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.submanage.refresh";
 
+
     String EXTRA_SUBREDDIT_EXIT_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.subreddit.exit.fullscreen";
     String EXTRA_SUBREDDIT_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.subreddit.fullscreen";
     String EXTRA_SUBREDDIT_TARGET = "info.pelleritoudacity.android.rcapstone.extra.subreddit.target";
@@ -133,6 +134,8 @@ public interface Costant {
     int OK_HTTP_CONNECTION_TIMEOUT = 60;
     int OK_HTTP_CONNECTION_READ_TIMEOUT = 30;
     int OK_HTTP_CONNECTION_WRITE_TIMEOUT = 15;
+
+    String DEFAULT_START_CATEGORY = "AskReddit";
 
     String DEFAULT_SUBREDDIT_CATEGORY = "AskReddit,politics,worldnews,nba,videos,funny," +
             "todayilearned,soccer,cfb,gaming,movies,news,gifs,aww,wtf,showerthoughts,technology";
@@ -171,7 +174,8 @@ public interface Costant {
     String PATTERN_HH_MM_SS = "HH:mm:ss";
     String PATTERN_MM_SS = "mm:ss";
 
-    String DEFAULT_SORT_BY = "new";
+    String DEFAULT_SORT_BY = "top";
+    String DEFAULT_SORT_TIME = "month";
 
     String SHOW_MORE_COMMENTS = "true";
     String STR_PARENT_LINK = "t3_";

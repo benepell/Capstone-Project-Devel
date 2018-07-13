@@ -34,7 +34,7 @@
         android:title="@string/pref_title_sync_frequency" />
 
     <ListPreference
-        android:defaultValue="25"
+        android:defaultValue="@string/default_items_page_titles"
         android:entries="@array/pref_items_page_titles"
         android:entryValues="@array/pref_items_page_values"
         android:key="@string/pref_item_page"
@@ -43,7 +43,7 @@
         android:title="@string/pref_title_item_page" />
 
     <ListPreference
-        android:defaultValue="5"
+        android:defaultValue="@string/default_depth_page_titles"
         android:entries="@array/pref_depth_page_titles"
         android:entryValues="@array/pref_depth_page_values"
         android:key="@string/pref_depth_page"

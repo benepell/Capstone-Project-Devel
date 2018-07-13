@@ -38,6 +38,7 @@ import info.pelleritoudacity.android.rcapstone.data.model.reddit.Mp4;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.ResolutionMp4;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.SourceMp4;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3Data;
+import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3ListingData;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.Variants;
 
 class VideoContentOperation {
@@ -48,7 +49,7 @@ class VideoContentOperation {
         mContext = context;
     }
 
-    public ArrayList<ModelContent> showVideoContent(T3Data t3DataChild, boolean originalSize) {
+    public ArrayList<ModelContent> showVideoContent(T3ListingData t3DataChild, boolean originalSize) {
 
         int sizeResolution = 0;
 

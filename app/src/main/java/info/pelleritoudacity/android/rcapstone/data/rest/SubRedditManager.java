@@ -31,6 +31,7 @@ import android.text.TextUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
@@ -39,6 +40,7 @@ import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -49,8 +51,8 @@ public class SubRedditManager {
     private static RedditAPI sSubRedditAPI;
     private static SubRedditManager sSubRedditManager;
     private final String mSubReddit;
-    private final HashMap<String, String> mFieldMap;
     private Call<T3> mCall;
+    private Call<List<T3>> mCallList;
 
     private final WeakReference<Context> mWeakContext;
 
@@ -60,21 +62,15 @@ public class SubRedditManager {
 
         Context context = mWeakContext.get();
 
-        String strTimeSort = Preference.getTimeSort(context);
-
-        mFieldMap = new HashMap<>();
-        mFieldMap.put("limit", String.valueOf(Preference.getGeneralSettingsItemPage(context)));
-        mFieldMap.put("showedits", "false");
-        mFieldMap.put("showmore", "true");
-        if (!TextUtils.isEmpty(strTimeSort)) {
-            mFieldMap.put("t", strTimeSort);
-
-        }
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        // todo remove interceptor
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS);
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(Costant.OK_HTTP_CONNECTION_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(Costant.OK_HTTP_CONNECTION_READ_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(Costant.OK_HTTP_CONNECTION_WRITE_TIMEOUT, TimeUnit.SECONDS)
+                .addInterceptor(httpLoggingInterceptor)
                 .build();
 
 
@@ -93,13 +89,11 @@ public class SubRedditManager {
     }
 
     public static SubRedditManager getInstance(WeakReference<Context> weakContext, String subReddit) {
+
         if (sSubRedditManager != null) {
             sSubRedditManager.cancelRequest();
-
         }
-
         sSubRedditManager = new SubRedditManager(weakContext, subReddit);
-
 
         return sSubRedditManager;
     }
@@ -107,17 +101,49 @@ public class SubRedditManager {
     public void getSubRedditAPI(Callback<T3> callback) {
         Context context = mWeakContext.get();
 
+        HashMap<String, String> fieldMap;
+        fieldMap = new HashMap<>();
+        fieldMap.put("limit", String.valueOf(Preference.getGeneralSettingsItemPage(context)));
+        fieldMap.put("showedits", "false");
+        fieldMap.put("showmore", "true");
+
         if (PermissionUtil.isLogged(context)) {
             mCall = sSubRedditAPI.getSubRedditAuth(Costant.REDDIT_BEARER + PermissionUtil.getToken(context),
-                    mSubReddit,
-                    Preference.getSubredditSort(context),
-                    mFieldMap);
+                    mSubReddit, fieldMap);
 
         } else {
-            mCall = sSubRedditAPI.getSubReddit(mSubReddit, Preference.getSubredditSort(context), mFieldMap);
+            mCall = sSubRedditAPI.getSubReddit(mSubReddit, fieldMap);
 
         }
         mCall.enqueue(callback);
+    }
+
+    public void getSortSubRedditAPI(Callback<List<T3>> callback) {
+        Context context = mWeakContext.get();
+
+        HashMap<String, String> fieldMap;
+        fieldMap = new HashMap<>();
+        fieldMap.put("limit", String.valueOf(Preference.getGeneralSettingsItemPage(context)));
+        fieldMap.put("showedits", "false");
+        fieldMap.put("showmore", "true");
+
+        String strTimeSort = Preference.getTimeSort(context);
+        if (!TextUtils.isEmpty(strTimeSort)) {
+            fieldMap.put("t", strTimeSort);
+
+        }
+
+        if (PermissionUtil.isLogged(context)) {
+            mCallList = sSubRedditAPI.getSortSubRedditAuth(Costant.REDDIT_BEARER + PermissionUtil.getToken(context),
+                    mSubReddit,
+                    Preference.getSubredditSort(context),
+                    fieldMap);
+
+        } else {
+            mCallList = sSubRedditAPI.getSortSubReddit(mSubReddit, Preference.getSubredditSort(context), fieldMap);
+
+        }
+        mCallList.enqueue(callback);
     }
 
     public void cancelRequest() {
