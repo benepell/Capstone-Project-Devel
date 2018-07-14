@@ -69,7 +69,6 @@ public interface Costant {
     int SUBREDDIT_LOADER_ID = 2;
     int SUBREDDIT_DETAIL_LOADER_ID = 3;
     int SUBREDDIT_SELECTED_LOADER_ID = 4;
-    int SUBREDDIT_MORE_DETAIL_LOADER_ID = 5;
 
     int NAV_MODE_HOME = 0;
     int NAV_MODE_SUBSCRIPTIONS = 4;
@@ -78,6 +77,9 @@ public interface Costant {
 
     String PATH_SEPARATOR = "/";
     String STRING_SEPARATOR = ",";
+
+    String DETAIL_MORE_REPLIES = "1";
+    String NONE_DETAIL_MORE_REPLIES = "0";
 
     int RESTORE_MANAGE_RESTORE = 1;
     int RESTORE_MANAGE_REDIRECT = 2;
@@ -229,6 +231,7 @@ public interface Costant {
     int PREFERENCE_CLEAR_DATA = R.string.pref_clear_data;
     int PREFERENCE_TYPE_MODE = R.string.pref_type_mode;
     int PREFERENCE_LOGIN_NAME = R.string.pref_login_name;
+    int PREFERENCE_FRAGMENT_MORE_LINK_ID = R.string.pref_more_fragment_more_link_id;
     int PREFERENCE_LOGIN_OVER18 = R.string.pref_login_over18;
     int PREFERENCE_TAB_HISTORY = R.string.pref_tab_history;
     int PREFERENCE_LAST_CATEGORY = R.string.pref_last_category;

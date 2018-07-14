@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -35,7 +36,6 @@ import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.Costant.SUBREDDIT_DETAIL_LOADER_ID;
-import static info.pelleritoudacity.android.rcapstone.utility.Costant.SUBREDDIT_MORE_DETAIL_LOADER_ID;
 
 public class SubRedditDetailFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor>, SubRedditDetailAdapter.OnAdapterListener {
@@ -46,18 +46,16 @@ public class SubRedditDetailFragment extends Fragment
 
     private Unbinder unbinder;
     private String mStrId;
-    private String mStrLinkId;
     private SubRedditDetailAdapter mAdapter;
     private OnFragmentInteractionListener mListener;
 
     public SubRedditDetailFragment() {
     }
 
-    public static SubRedditDetailFragment newInstance(String strId, String strLinkId) {
+    public static SubRedditDetailFragment newInstance(String strId) {
         SubRedditDetailFragment fragment = new SubRedditDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_STRID, strId);
-        bundle.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_LINKID, strLinkId);
 
         fragment.setArguments(bundle);
         return fragment;
@@ -69,7 +67,6 @@ public class SubRedditDetailFragment extends Fragment
 
         if (getArguments() != null) {
             mStrId = getArguments().getString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_STRID);
-            mStrLinkId = getArguments().getString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_LINKID);
         }
 
     }
@@ -108,23 +105,18 @@ public class SubRedditDetailFragment extends Fragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (getActivity() != null) {
-            if (TextUtils.isEmpty(mStrLinkId)) {
-                getActivity().getSupportLoaderManager().initLoader(SUBREDDIT_DETAIL_LOADER_ID, null, this).forceLoad();
-
-            } else {
-                getActivity().getSupportLoaderManager().initLoader(SUBREDDIT_MORE_DETAIL_LOADER_ID, null, this).forceLoad();
-
-            }
-
-        }
-
         if (savedInstanceState != null) {
             mStrId = savedInstanceState.getString(Costant.EXTRA_FRAGMENT_DETAIL_STRING_ID);
+        }
+
+        if (getActivity() != null) {
+            getActivity().getSupportLoaderManager().initLoader(SUBREDDIT_DETAIL_LOADER_ID, null, this).forceLoad();
 
         }
 
+
     }
+
 
     @Override
     public void onAttach(Context context) {
@@ -159,7 +151,7 @@ public class SubRedditDetailFragment extends Fragment
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        return new SubRedditDetailFragmentAsyncTask(Objects.requireNonNull(getActivity()), mStrId, mStrLinkId, Preference.isLoginOver18(getContext()));
+        return new SubRedditDetailFragmentAsyncTask(Objects.requireNonNull(getActivity()), mStrId, Preference.isLoginOver18(getContext()));
     }
 
     @Override
@@ -185,14 +177,13 @@ public class SubRedditDetailFragment extends Fragment
 
     @SuppressLint("CommitTransaction")
     @Override
-    public void moreComments(String category, String strId, String linkId, String strArrId) {
+    public void moreComments(String category, String strId,  String strArrId) {
 
-        mListener.moreComments(category, strId, linkId, strArrId);
+        mListener.moreComments(category, strId,  strArrId);
 
-        SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(strId, linkId);
+        SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(strId);
         mListener.childMoreFragment(getChildFragmentManager().beginTransaction()
                 .replace(R.id.fragment_subreddit_more_container, fragment));
-
         Preference.setMoreFragmentTransaction(Objects.requireNonNull(getActivity()).getApplicationContext(), true);
 
     }
@@ -202,13 +193,13 @@ public class SubRedditDetailFragment extends Fragment
         Cursor cursorData = null;
         private final boolean isOver18;
         private final String mStringId;
-        private final String mStrLinkId;
+        private Context mContext;
 
-        SubRedditDetailFragmentAsyncTask(@NonNull Context context, String strId, String strLinkId, boolean isOver18) {
+        SubRedditDetailFragmentAsyncTask(@NonNull Context context, String strId, boolean isOver18) {
             super(context);
+            mContext = context;
             this.isOver18 = isOver18;
             mStringId = strId;
-            mStrLinkId = strLinkId;
         }
 
         @Override
@@ -234,17 +225,16 @@ public class SubRedditDetailFragment extends Fragment
                 String strOver18 = String.valueOf(Utility.boolToInt(isOver18));
 
                 String selection = Contract.T1dataEntry.COLUMN_NAME_LINK_ID + " =?" + " AND " +
+                        Contract.T1dataEntry.COLUMN_NAME_MORE_REPLIES + " =?" + " AND " +
                         Contract.T1dataEntry.COLUMN_NAME_OVER18 + " <=?";
 
-                Uri uri;
+                Uri uri = Contract.T1dataEntry.CONTENT_URI;
                 String[] selectionArgs;
-                if (TextUtils.isEmpty(mStrLinkId)) {
-                    uri = Contract.T1dataEntry.CONTENT_URI;
-                    selectionArgs = new String[]{Costant.STR_PARENT_LINK + mStringId, strOver18};
+                if (!TextUtils.isEmpty( Preference.getMoreLinkId(mContext))) {
+                    selectionArgs = new String[]{Preference.getMoreLinkId(mContext), Costant.DETAIL_MORE_REPLIES, strOver18};
 
                 } else {
-                    uri = Contract.T1MdataEntry.CONTENT_URI;
-                    selectionArgs = new String[]{mStrLinkId, strOver18};
+                    selectionArgs = new String[]{Costant.STR_PARENT_LINK + mStringId, Costant.NONE_DETAIL_MORE_REPLIES, strOver18};
 
                 }
 
@@ -276,7 +266,7 @@ public class SubRedditDetailFragment extends Fragment
     public interface OnFragmentInteractionListener {
         void clickSelector(int position, int itemCount);
 
-        void moreComments(String category, String strId, String linkId, String strArrId);
+        void moreComments(String category, String strId,  String strArrId);
 
         void childMoreFragment(FragmentTransaction child);
     }

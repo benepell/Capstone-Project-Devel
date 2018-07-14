@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 import info.pelleritoudacity.android.rcapstone.data.rest.More;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -25,17 +26,15 @@ public class RestMoreManager {
     private static RestMoreManager sRestMoreManager;
     private final WeakReference<Context> mWeakContext;
     private final String mAccessToken;
-    private final String mLinkId;
     private final String mStrArrId;
     private HashMap<String, String> mFieldMap;
     private Call<More> mCall;
 
 
-    private RestMoreManager(WeakReference<Context> weakContext, String token ,String linkId, String strArrId) {
+    private RestMoreManager(WeakReference<Context> weakContext, String token , String strArrId) {
 
         mWeakContext = weakContext;
         mAccessToken = token;
-        mLinkId = linkId;
         mStrArrId = strArrId;
 
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
@@ -73,13 +72,12 @@ public class RestMoreManager {
     }
 
 
-    public static RestMoreManager getInstance(WeakReference<Context> weakContext, String accessToken,
-                                              String nameRedditId, String strArrId) {
+    public static RestMoreManager getInstance(WeakReference<Context> weakContext, String accessToken, String strArrId) {
        /* if (sRestMoreManager != null) {
             sRestMoreManager.cancelRequest();
         }
 */
-        sRestMoreManager = new RestMoreManager(weakContext, accessToken ,nameRedditId, strArrId);
+        sRestMoreManager = new RestMoreManager(weakContext, accessToken , strArrId);
 
 
         return sRestMoreManager;
@@ -90,7 +88,7 @@ public class RestMoreManager {
         mFieldMap = new HashMap<>();
 //        mFieldMap.put("sort", Preference.getSubredditSort(mWeakContext.get()));
         mFieldMap.put("api_type", "json");
-        mFieldMap.put("link_id", mLinkId);
+        mFieldMap.put("link_id", Preference.getMoreLinkId(mWeakContext.get()));
         mFieldMap.put("children", mStrArrId);
 
 

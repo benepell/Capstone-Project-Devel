@@ -5,7 +5,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.text.TextUtils;
 
-import java.lang.reflect.Array;
 import java.util.List;
 
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
@@ -41,11 +40,11 @@ public class T1Operation {
 
         for (int i = 0; i < size; i++) {
 
-            arrContentValues[i] = getInsertCV(moreThings.get(i).getData(), arrContentValues[i], i + 1);
+            arrContentValues[i] = getInsertCV(moreThings.get(i).getData(), arrContentValues[i], i + 1, true);
 
         }
 
-        return mContext.getContentResolver().bulkInsert(Contract.T1MdataEntry.CONTENT_URI, arrContentValues) > 0;
+        return mContext.getContentResolver().bulkInsert(Contract.T1dataEntry.CONTENT_URI, arrContentValues) > 0;
 
     }
 
@@ -57,7 +56,7 @@ public class T1Operation {
             ContentValues[] arrT1CV = new ContentValues[modelT1.get(x).getData().getChildren().size()];
             int i = 0;
             for (T1Listing t1Listings : modelT1.get(x).getData().getChildren()) {
-                arrT1CV[i] = getInsertCV(t1Listings.getData(), arrT1CV[i], i + 1);
+                arrT1CV[i] = getInsertCV(t1Listings.getData(), arrT1CV[i], i + 1, false);
                 recursiveReplies(t1Listings.getData().getReplies(), i + 1);
                 i++;
             }
@@ -70,12 +69,16 @@ public class T1Operation {
 
 
     private ContentValues getInsertCV(T1ListingData t1ListingData, ContentValues cv,
-                                      int childrenId) {
+                                      int childrenId, boolean isMore) {
 
         if (t1ListingData != null) {
             cv = new ContentValues();
 
             DataUtils dataUtils = new DataUtils(mContext);
+
+            if(isMore){
+                cv.put(Contract.T1dataEntry.COLUMN_NAME_MORE_REPLIES,Costant.DETAIL_MORE_REPLIES);
+            }
 
             cv.put(Contract.T1dataEntry.COLUMN_NAME_ID,
                     t1ListingData.getId());
@@ -414,7 +417,10 @@ public class T1Operation {
 
     public boolean saveMoreData(MoreJson moreJson, String strId) {
         if ((moreJson != null)) {
-            mContext.getContentResolver().delete(Contract.T1MdataEntry.CONTENT_URI,null,null);
+
+            String where = Contract.T1dataEntry.COLUMN_NAME_MORE_REPLIES.concat(" =?");
+            String[] selectArgs = {Costant.DETAIL_MORE_REPLIES};
+            mContext.getContentResolver().delete(Contract.T1dataEntry.CONTENT_URI,where,selectArgs);
             return insertMoreData(moreJson, strId);
         }
         return false;
@@ -448,7 +454,6 @@ public class T1Operation {
 
     public void clearData() {
         mContext.getContentResolver().delete(Contract.T1dataEntry.CONTENT_URI, null, null);
-        mContext.getContentResolver().delete(Contract.T1MdataEntry.CONTENT_URI, null, null);
         mContext.getContentResolver().delete(Contract.T1MoresDataEntry.CONTENT_URI, null, null);
         mContext.getContentResolver().delete(Contract.PrefSubRedditEntry.CONTENT_URI, null, null);
     }

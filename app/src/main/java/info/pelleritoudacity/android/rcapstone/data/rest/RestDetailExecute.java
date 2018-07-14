@@ -14,6 +14,7 @@ import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 public class RestDetailExecute {
     private final RestDetailManager restDetailManager;
@@ -37,6 +38,7 @@ public class RestDetailExecute {
 
             @Override
             public void onFailure(@NonNull Call<List<T1>> call, @NonNull Throwable t) {
+                Timber.e("CAUSEFAILURE %s",t.getCause());
                 call.cancel();
                 if (call.isCanceled()) {
                     myCallBack.onErrorSubReddit(t);

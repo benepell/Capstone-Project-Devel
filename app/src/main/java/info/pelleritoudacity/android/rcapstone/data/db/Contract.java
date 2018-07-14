@@ -41,7 +41,6 @@ public class Contract {
     public static final String PATH_T5DATAS = "_t5datas";
     public static final String PATH_T3DATAS = "_t3datas";
     public static final String PATH_T1DATAS = "_t1datas";
-    public static final String PATH_T1MDATAS = "_t1datas";
     public static final String PATH_T1MORESDATAS = "_t1moresdatas";
     public static final String PATH_PREFSUBREDDIT = "_prefsubreddit";
 
@@ -337,106 +336,7 @@ public class Contract {
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_T1DATAS;
 
         public static final String TABLE_NAME = "_t1datas";
-        public static final String COLUMN_NAME_ISCROSSPOSTABLE = "_isCrosspostable";
-        public static final String COLUMN_NAME_SUBREDDITID = "_subredditId";
-        public static final String COLUMN_NAME_APPROVEDATUTC = "_approvedAtUtc";
-        public static final String COLUMN_NAME_WLS = "_wls";
-        public static final String COLUMN_NAME_MODREASONBY = "_modReasonBy";
-        public static final String COLUMN_NAME_BANNEDBY = "_bannedBy";
-        public static final String COLUMN_NAME_NUMREPORTS = "_numReports";
-        public static final String COLUMN_NAME_LINK_ID = "_link_id";
-        public static final String COLUMN_NAME_REMOVALREASON = "_removalReason";
-        public static final String COLUMN_NAME_THUMBNAILWIDTH = "_thumbnailWidth";
-        public static final String COLUMN_NAME_SUBREDDIT = "_subreddit";
-        public static final String COLUMN_NAME_SELFTEXTHTML = "_selftextHtml";
-        public static final String COLUMN_NAME_SELFTEXT = "_selftext";
-        public static final String COLUMN_NAME_LIKES = "_likes";
-        public static final String COLUMN_NAME_SUGGESTEDSORT = "_suggestedSort";
-        public static final String COLUMN_NAME_USERREPORTS = "_userReports";
-        public static final String COLUMN_NAME_SECUREMEDIA = "_secureMedia";
-        public static final String COLUMN_NAME_ISREDDITMEDIADOMAIN = "_isRedditMediaDomain";
-        public static final String COLUMN_NAME_SAVED = "_saved";
-        public static final String COLUMN_NAME_ID = "_name_id";
-        public static final String COLUMN_NAME_CHILDREN_ID = "_name_children_id";
-        public static final String COLUMN_NAME_BANNEDATUTC = "_bannedAtUtc";
-        public static final String COLUMN_NAME_MODREASONTITLE = "_modReasonTitle";
-        public static final String COLUMN_NAME_VIEWCOUNT = "_viewCount";
-        public static final String COLUMN_NAME_ARCHIVED = "_archived";
-        public static final String COLUMN_NAME_CLICKED = "_clicked";
-        public static final String COLUMN_NAME_NOFOLLOW = "_noFollow";
-        public static final String COLUMN_NAME_AUTHOR = "_author";
-        public static final String COLUMN_NAME_NUMCROSSPOSTS = "_numCrossposts";
-        public static final String COLUMN_NAME_LINKFLAIRTEXT = "_linkFlairText";
-        public static final String COLUMN_NAME_CANMODPOST = "_canModPost";
-        public static final String COLUMN_NAME_SENDREPLIES = "_sendReplies";
-        public static final String COLUMN_NAME_PINNED = "_pinned";
-        public static final String COLUMN_NAME_SCORE = "_score";
-        public static final String COLUMN_NAME_APPROVEDBY = "_approvedBy";
-        public static final String COLUMN_NAME_OVER18 = "_over18";
-        public static final String COLUMN_NAME_REPORTREASONS = "_reportReasons";
-        public static final String COLUMN_NAME_DOMAIN = "_domain";
-        public static final String COLUMN_NAME_HIDDEN = "_hidden";
-        public static final String COLUMN_NAME_DEPTH = "_depth";
-        public static final String COLUMN_NAME_PREVIEW = "_preview";
-        public static final String COLUMN_NAME_PWLS = "_pwls";
-        public static final String COLUMN_NAME_THUMBNAIL = "_thumbnail";
-        public static final String COLUMN_NAME_EDITED = "_edited";
-        public static final String COLUMN_NAME_LINKFLAIRCSSCLASS = "_linkFlairCssClass";
-        public static final String COLUMN_NAME_AUTHORFLAIRCSSCLASS = "_authorFlairCssClass";
-        public static final String COLUMN_NAME_CONTESTMODE = "_contestMode";
-        public static final String COLUMN_NAME_GILDED = "_gilded";
-        public static final String COLUMN_NAME_LOCKED = "_locked";
-        public static final String COLUMN_NAME_DOWNS = "_downs";
-        public static final String COLUMN_NAME_MODREPORTS = "_modReports";
-        public static final String COLUMN_NAME_BODY = "_body";
-        public static final String COLUMN_NAME_SUBREDDITSUBSCRIBERS = "_subredditSubscribers";
-        public static final String COLUMN_NAME_SECUREMEDIAEMBED = "_secureMediaEmbed";
-        public static final String COLUMN_NAME_MEDIAEMBED = "_mediaEmbed";
-        public static final String COLUMN_NAME_STICKIED = "_stickied";
-        public static final String COLUMN_NAME_VISITED = "_visited";
-        public static final String COLUMN_NAME_CANGILD = "_canGild";
-        public static final String COLUMN_NAME_THUMBNAILHEIGHT = "_thumbnailHeight";
-        public static final String COLUMN_NAME_NAME = "_name";
-        public static final String COLUMN_NAME_SPOILER = "_spoiler";
-        public static final String COLUMN_NAME_PERMALINK = "_permalink";
-        public static final String COLUMN_NAME_SUBREDDITTYPE = "_subredditType";
-        public static final String COLUMN_NAME_PARENT_ID = "_parent_id";
-        public static final String COLUMN_NAME_PARENTWHITELISTSTATUS = "_parentWhitelistStatus";
-        public static final String COLUMN_NAME_HIDESCORE = "_hideScore";
-        public static final String COLUMN_NAME_CREATED = "_created";
-        public static final String COLUMN_NAME_URL = "_url";
-        public static final String COLUMN_NAME_AUTHORFLAIRTEXT = "_authorFlairText";
-        public static final String COLUMN_NAME_QUARANTINE = "_quarantine";
-        public static final String COLUMN_NAME_TITLE = "_title";
-        public static final String COLUMN_NAME_CREATEDUTC = "_createdUtc";
-        public static final String COLUMN_NAME_SUBREDDITNAMEPREFIXED = "_subredditNamePrefixed";
-        public static final String COLUMN_NAME_UPS = "_ups";
-        public static final String COLUMN_NAME_NUMCOMMENTS = "_name_num_comments";
-        public static final String COLUMN_NAME_MORECOMMENTS = "_name_more_comments";
-        public static final String COLUMN_NAME_ISSELF = "_isSelf";
-        public static final String COLUMN_NAME_WHITELISTSTATUS = "_whitelistStatus";
-        public static final String COLUMN_NAME_BODY_HTML = "_body_html";
-        public static final String COLUMN_NAME_MODNOTE = "_modNote";
-        public static final String COLUMN_NAME_MEDIA = "_media";
-        public static final String COLUMN_NAME_ISVIDEO = "_isVideo";
-        public static final String COLUMN_NAME_DISTINGUISHED = "_distinguished";
-        public static final String COLUMN_NAME_TIME_LAST_MODIFIED = "_time_last_modified";
-        public static final String COLUMN_NAME_SORT_BY = "_sort_by";
-
-    }
-
-    public static class T1MdataEntry implements BaseColumns {
-
-        public static final Uri CONTENT_URI =
-                BASE_CONTENT_URI.buildUpon().appendPath(PATH_T1MDATAS).build();
-
-        public static final String CONTENT_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_T1MDATAS;
-
-        public static final String CONTENT_ITEM_TYPE =
-                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_T1MDATAS;
-
-        public static final String TABLE_NAME = "_t1mdatas";
+        public static final String COLUMN_NAME_MORE_REPLIES = "_more_replies";
         public static final String COLUMN_NAME_ISCROSSPOSTABLE = "_isCrosspostable";
         public static final String COLUMN_NAME_SUBREDDITID = "_subredditId";
         public static final String COLUMN_NAME_APPROVEDATUTC = "_approvedAtUtc";

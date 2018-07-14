@@ -45,7 +45,6 @@ public class SubRedditDetailActivity extends BaseActivity
     private String mStrId = null;
     private String mCategory;
     private Context mContext;
-    private String mStrLinkId;
     private String mStrArrId;
     private FragmentTransaction mMoreFragmentTransaction;
 
@@ -76,7 +75,7 @@ public class SubRedditDetailActivity extends BaseActivity
             onRefresh();
 
             Preference.setLastComment(mContext, mStrId);
-            initRest(mCategory, mStrId, PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext), mStrLinkId, mStrArrId);
+            initRest(mCategory, mStrId, PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext),  mStrArrId);
 
         }
 
@@ -100,14 +99,14 @@ public class SubRedditDetailActivity extends BaseActivity
             SubRedditSelectedFragment subRedditSelectedFragment = SubRedditSelectedFragment.newInstance(category);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_subreddit_selected_container, subRedditSelectedFragment).commit();
-            SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(category, null);
+            SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(category);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_subreddit_detail_container, fragment).commit();
         }
     }
 
 
-    private void initRest(String category, String strId, String tokenLogin, boolean stateNetworkOnline, String strLinkId, String strArrId) {
+    private void initRest(String category, String strId, String tokenLogin, boolean stateNetworkOnline, String strArrId) {
         if (!TextUtils.isEmpty(strId)) {
             if (stateNetworkOnline) {
                 if (TextUtils.isEmpty(strArrId)) {
@@ -118,7 +117,7 @@ public class SubRedditDetailActivity extends BaseActivity
 
                 } else {
 
-                    new RestMoreExecute(mContext, tokenLogin, strLinkId, strArrId)
+                    new RestMoreExecute(mContext, tokenLogin,  strArrId)
                             .getMoreData(this);
                 }
             } else {
@@ -142,11 +141,10 @@ public class SubRedditDetailActivity extends BaseActivity
     }
 
     @Override
-    public void moreComments(String category, String strId, String linkId, String strArrId) {
+    public void moreComments(String category, String strId,  String strArrId) {
         if (!TextUtils.isEmpty(strArrId)) {
             mCategory = category;
             mStrId = strId;
-            mStrLinkId = linkId;
             mStrArrId = strArrId;
             mSwipeRefreshLayout.setRefreshing(true);
             onRefresh();
@@ -167,7 +165,7 @@ public class SubRedditDetailActivity extends BaseActivity
 
         } else if (mContext != null) {
             initRest(Preference.getLastCategory(mContext), Preference.getLastComment(mContext),
-                    PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext), mStrLinkId, mStrArrId);
+                    PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext),  mStrArrId);
 
         }
     }
@@ -176,6 +174,7 @@ public class SubRedditDetailActivity extends BaseActivity
     public void onRestSubRedditMore(More listenerData, String mStrArrid) {
         if (listenerData != null) {
             if (listenerData.getJson().getData() != null) {
+
 
                 T1Operation t1moreOperation = new T1Operation(getApplicationContext());
 

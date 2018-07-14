@@ -97,7 +97,7 @@ public class SubRedditActivity extends BaseActivity
         super.onCreate(savedInstanceState);
 
         mContext = SubRedditActivity.this;
-
+        Preference.setMoreLinkId(mContext,"");
         mRefreshLayout.setOnRefreshListener(this);
 
         firstInit();
@@ -136,6 +136,7 @@ public class SubRedditActivity extends BaseActivity
     protected void onSaveInstanceState(Bundle outState) {
         outState.putString(Costant.EXTRA_SUBREDDIT_CATEGORY, mRedditCategory);
         outState.putString(Costant.EXTRA_SUBREDDIT_TARGET, mRedditTarget);
+        mFragmentTransaction = null;
         super.onSaveInstanceState(outState);
     }
 

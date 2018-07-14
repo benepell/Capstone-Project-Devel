@@ -34,7 +34,6 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
     private final SubRedditDetailFragment mListener;
     private Cursor mCursor;
     private int mSelectorPosition = RecyclerView.NO_POSITION;
-    private String mStrArrId;
 
     public SubRedditDetailAdapter(SubRedditDetailFragment listener) {
         mListener = listener;
@@ -113,7 +112,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
             String strId = record.getLinkId().replaceAll(Costant.STR_PARENT_LINK, "");
             String category = record.getSubReddit();
             String strArrId = record.getMoreComments();
-            String strLinkId = record.getLinkId();
+            String linkId = record.getLinkId();
             if (record.getNumComments() > 0) {
 
                 holder.mTextViewReplies.setText(String.format("%s %s", String.valueOf(record.getNumComments()), mContext.getString(R.string.text_more_replies)));
@@ -122,7 +121,8 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
                 holder.mTextViewReplies.setOnClickListener(view -> {
 
                     if (Preference.isLoginStart(mContext)) {
-                        mListener.moreComments(category, strId, strLinkId, strArrId);
+                        mListener.moreComments(category, strId, strArrId);
+                        Preference.setMoreLinkId(mContext, linkId);
                         holder.mTextViewReplies.setVisibility(View.INVISIBLE);
 
                     } else {
@@ -258,7 +258,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
 
         void clickSelector(int position, int itemCount);
 
-        void moreComments(String category, String strId, String linkId, String strArrId);
+        void moreComments(String category, String strId, String strArrId);
     }
 
 }

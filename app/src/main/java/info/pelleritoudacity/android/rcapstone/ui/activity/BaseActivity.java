@@ -103,7 +103,6 @@ public class BaseActivity extends AppCompatActivity
             mStub.setLayoutResource(getLayoutResource());
             mStub.inflate();
 
-
         }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -137,12 +136,10 @@ public class BaseActivity extends AppCompatActivity
             menuNavigation(navigationView);
             mNavHeaderView = navigationView.inflateHeaderView(R.layout.nav_header_base);
 
-            if(Preference.isNightMode(this)){
+            if (Preference.isNightMode(this)) {
                 LinearLayout navContainer = mNavHeaderView.findViewById(R.id.nav_container);
                 navContainer.setBackgroundResource(R.drawable.dark_side_nav_bar);
             }
-
-
 
         }
 
@@ -173,6 +170,7 @@ public class BaseActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
 
         } else {
+            Preference.setMoreLinkId(getApplicationContext(), "");
             super.onBackPressed();
         }
 

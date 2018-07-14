@@ -38,7 +38,9 @@ public class Preference {
             R.string.pref_general_self,
             R.string.pref_general_links,
             R.string.pref_general_init,
-            R.string.pref_more_fragment_transaction
+            R.string.pref_more_fragment_transaction,
+            R.string.pref_more_fragment_more_link_id
+
 
 
     };
@@ -150,6 +152,14 @@ public class Preference {
 
     public static void setLoginName(Context context, String s) {
         PrefManager.putStringPref(context, Costant.PREFERENCE_LOGIN_NAME, s);
+    }
+
+    public static String getMoreLinkId(Context context) {
+        return PrefManager.getStringPref(context, Costant.PREFERENCE_FRAGMENT_MORE_LINK_ID);
+    }
+
+    public static void setMoreLinkId(Context context, String s) {
+        PrefManager.putStringPref(context, Costant.PREFERENCE_FRAGMENT_MORE_LINK_ID, s);
     }
 
     public static String getSessionRefreshToken(Context context) {
