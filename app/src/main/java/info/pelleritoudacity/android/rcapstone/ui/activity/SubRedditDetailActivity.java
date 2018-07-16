@@ -46,7 +46,6 @@ public class SubRedditDetailActivity extends BaseActivity
     private String mCategory;
     private Context mContext;
     private String mStrArrId;
-    private FragmentTransaction mMoreFragmentTransaction;
 
 
     @Override
@@ -75,7 +74,8 @@ public class SubRedditDetailActivity extends BaseActivity
             onRefresh();
 
             Preference.setLastComment(mContext, mStrId);
-            initRest(mCategory, mStrId, PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext),  mStrArrId);
+            // todo set value strArrid
+            initRest(mCategory, mStrId, PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext), mStrArrId);
 
         }
 
@@ -96,9 +96,11 @@ public class SubRedditDetailActivity extends BaseActivity
 
     private void startFragment(String category) {
         if (!getSupportFragmentManager().isStateSaved()) {
+
             SubRedditSelectedFragment subRedditSelectedFragment = SubRedditSelectedFragment.newInstance(category);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_subreddit_selected_container, subRedditSelectedFragment).commit();
+
             SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(category);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_subreddit_detail_container, fragment).commit();
@@ -129,32 +131,13 @@ public class SubRedditDetailActivity extends BaseActivity
 
 
     @Override
-    public void onErrorSubReddit(Throwable t) {
-
-    }
+    public void onErrorSubReddit(Throwable t) {}
 
     @Override
     public void clickSelector(int position, int itemCount) {
         if (position == itemCount - 1) {
             mNestedScrollView.smoothScrollBy(0, mNestedScrollView.getBottom());
         }
-    }
-
-    @Override
-    public void moreComments(String category, String strId,  String strArrId) {
-        if (!TextUtils.isEmpty(strArrId)) {
-            mCategory = category;
-            mStrId = strId;
-            mStrArrId = strArrId;
-            mSwipeRefreshLayout.setRefreshing(true);
-            onRefresh();
-        }
-
-    }
-
-    @Override
-    public void childMoreFragment(FragmentTransaction child) {
-        mMoreFragmentTransaction = child;
     }
 
     @Override
@@ -179,11 +162,8 @@ public class SubRedditDetailActivity extends BaseActivity
                 T1Operation t1moreOperation = new T1Operation(getApplicationContext());
 
                 if (t1moreOperation.saveMoreData(listenerData.getJson(), mStrArrId)) {
-                    if ((mMoreFragmentTransaction != null) && Preference.isMoreFragmentTransaction(mContext)) {
-                        mMoreFragmentTransaction.commit();
-                        Preference.setMoreFragmentTransaction(mContext, false);
 
-                    }
+                    // todo set operation open fragment etc... set value strarrid
 
                     if (mSwipeRefreshLayout != null) {
                         mSwipeRefreshLayout.setRefreshing(false);

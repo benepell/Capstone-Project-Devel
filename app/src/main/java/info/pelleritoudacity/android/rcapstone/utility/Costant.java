@@ -250,6 +250,5 @@ public interface Costant {
     int PREFERENCE_GENERAL_VIDEOS = R.string.pref_general_videos;
     int PREFERENCE_GENERAL_SELF = R.string.pref_general_self;
     int PREFERENCE_GENERAL_LINKS = R.string.pref_general_links;
-    int PREFERENCE_MORE_FRAGMENT_TRANSACTION = R.string.pref_more_fragment_transaction;
 
 }

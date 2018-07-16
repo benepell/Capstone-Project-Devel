@@ -9,7 +9,6 @@ import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -60,6 +59,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
 
         mCursor.moveToPosition(position);
 
+        // todo control code list
         RecordSubRedditDetail recordList = new RecordSubRedditDetail(mCursor);
         RecordAdapterDetail record = null;
         if (recordList.getRecordList() != null) {
@@ -68,7 +68,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         }
 
         if (record != null) {
-
+            // todo use format %1 for numcom
             String numCom = String.valueOf(record.getNumComments());
             if (!TextUtils.isEmpty(record.getAuthor())) {
                 holder.mTextViewAuthorDetail.setText(record.getAuthor().concat(":"));
@@ -109,10 +109,6 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
                 holder.mSelectorContainer.setVisibility(View.VISIBLE);
             }
 
-            String strId = record.getLinkId().replaceAll(Costant.STR_PARENT_LINK, "");
-            String category = record.getSubReddit();
-            String strArrId = record.getMoreComments();
-            String linkId = record.getLinkId();
             if (record.getNumComments() > 0) {
 
                 holder.mTextViewReplies.setText(String.format("%s %s", String.valueOf(record.getNumComments()), mContext.getString(R.string.text_more_replies)));
@@ -121,8 +117,6 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
                 holder.mTextViewReplies.setOnClickListener(view -> {
 
                     if (Preference.isLoginStart(mContext)) {
-                        mListener.moreComments(category, strId, strArrId);
-                        Preference.setMoreLinkId(mContext, linkId);
                         holder.mTextViewReplies.setVisibility(View.INVISIBLE);
 
                     } else {
@@ -167,10 +161,6 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         @SuppressWarnings("unused")
         @BindView(R.id.tv_replies)
         TextView mTextViewReplies;
-
-        @SuppressWarnings("unused")
-        @BindView(R.id.fragment_subreddit_more_container)
-        FrameLayout mMoreContainer;
 
         @SuppressWarnings("unused")
         @BindView(R.id.card_linear)
@@ -258,7 +248,6 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
 
         void clickSelector(int position, int itemCount);
 
-        void moreComments(String category, String strId, String strArrId);
     }
 
 }

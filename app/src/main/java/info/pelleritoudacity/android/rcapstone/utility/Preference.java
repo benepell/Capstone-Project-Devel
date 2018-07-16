@@ -38,7 +38,6 @@ public class Preference {
             R.string.pref_general_self,
             R.string.pref_general_links,
             R.string.pref_general_init,
-            R.string.pref_more_fragment_transaction,
             R.string.pref_more_fragment_more_link_id
 
 
@@ -261,14 +260,6 @@ public class Preference {
 
     public static Boolean isGeneralSelf(Context context) {
         return PrefManager.getBoolPref(context, Costant.PREFERENCE_GENERAL_SELF);
-    }
-
-    public static void setMoreFragmentTransaction(Context context, Boolean b) {
-        PrefManager.putBoolPref(context, Costant.PREFERENCE_MORE_FRAGMENT_TRANSACTION, b);
-    }
-
-    public static Boolean isMoreFragmentTransaction(Context context) {
-        return PrefManager.getBoolPref(context, Costant.PREFERENCE_MORE_FRAGMENT_TRANSACTION);
     }
 
     public static void setGeneralSelf(Context context, Boolean b) {

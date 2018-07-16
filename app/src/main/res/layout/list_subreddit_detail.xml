@@ -113,12 +113,6 @@
                         android:textColor="?android:attr/textColorLink"
                         android:visibility="gone" />
 
-                    <FrameLayout
-                        android:id="@+id/fragment_subreddit_more_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-
                 </LinearLayout>
 
 
