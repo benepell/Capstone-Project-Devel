@@ -92,13 +92,18 @@ public interface Costant {
     String EXTRA_SUBREDDIT_DETAIL_STR_ID = "info.pelleritoudacity.android.rcapstone.extra.subreddit.detail.str.id";
     String EXTRA_SUBREDDIT_DETAIL_POSITION = "info.pelleritoudacity.android.rcapstone.extra.subreddit.detail.position";
     String EXTRA_FRAGMENT_SUBREDDIT = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit";
+    String EXTRA_FRAGMENT_SUBREDDIT_DETAIL_POSITION = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.detail.position";
+    String EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ID = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.detail.id";
     String EXTRA_FRAGMENT_SUBREDDIT_DETAIL_STRID = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.detail.strid";
     String EXTRA_FRAGMENT_SUBREDDIT_DETAIL_LINKID = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.detail.linkid";
+    String EXTRA_FRAGMENT_SUBREDDIT_DETAIL_IS_CHILD = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.detail.is.child";
     String EXTRA_FRAGMENT_SUBREDDIT_DETAIL_MOREDATAS = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.detail.moredatas";
     String EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ARRID = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.detail.arrid";
     String EXTRA_FRAGMENT_SUBREDDIT_SELECTED = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.selected";
     String EXTRA_FRAGMENT_TARGET = "info.pelleritoudacity.android.rcapstone.extra.fragment.target";
     String EXTRA_FRAGMENT_DETAIL_STRING_ID = "info.pelleritoudacity.android.rcapstone.extra.fragment.detail.string.id";
+    String EXTRA_FRAGMENT_DETAIL_POSITION = "info.pelleritoudacity.android.rcapstone.extra.fragment.detail.position";
+    String EXTRA_FRAGMENT_DETAIL_ID = "info.pelleritoudacity.android.rcapstone.extra.fragment.detail.id";
     String EXTRA_FRAGMENT_STRING_ID = "info.pelleritoudacity.android.rcapstone.extra.fragment.string.id";
     String EXTRA_TAB_POSITION = "info.pelleritoudacity.android.rcapstone.extra.tab.position";
 

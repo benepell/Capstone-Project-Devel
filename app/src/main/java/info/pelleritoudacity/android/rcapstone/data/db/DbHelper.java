@@ -282,6 +282,7 @@ class DbHelper extends SQLiteOpenHelper {
                 "CREATE TABLE IF NOT EXISTS " + Contract.T1dataEntry.TABLE_NAME + " (" +
                         Contract.T1dataEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         Contract.T1dataEntry.COLUMN_NAME_MORE_REPLIES + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_MORE_LEVEL_REPLIES + " INTEGER DEFAULT 0, " +
                         Contract.T1dataEntry.COLUMN_NAME_TIME_LAST_MODIFIED + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
                         Contract.T1dataEntry.COLUMN_NAME_ISCROSSPOSTABLE + " INTEGER DEFAULT 0, " +
                         Contract.T1dataEntry.COLUMN_NAME_SUBREDDIT + " TEXT, " +

@@ -2,6 +2,7 @@ package info.pelleritoudacity.android.rcapstone.data.model.record;
 
 public class RecordAdapterDetail {
 
+    private int mId;
     private int createdUtc;
     private int depth;
     private int voteDowns;
@@ -36,7 +37,6 @@ public class RecordAdapterDetail {
     private String parentId;
     private String url;
     private String moreComments;
-
 
 
     public String getSubReddit() {
@@ -189,6 +189,14 @@ public class RecordAdapterDetail {
 
     public void setGilded(String gilded) {
         this.gilded = gilded;
+    }
+
+    public int getId() {
+        return mId;
+    }
+
+    public void setId(int id) {
+        mId = id;
     }
 
     public int getCreated() {

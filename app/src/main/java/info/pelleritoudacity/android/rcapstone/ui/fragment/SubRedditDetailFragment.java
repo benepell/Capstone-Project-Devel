@@ -14,6 +14,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
+import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.ui.adapter.SubRedditDetailAdapter;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
@@ -43,16 +45,27 @@ public class SubRedditDetailFragment extends Fragment
 
     private Unbinder unbinder;
     private String mStrId;
+    private String mStrLinkId;
     private SubRedditDetailAdapter mAdapter;
     private OnFragmentInteractionListener mListener;
+    private int mId;
+    private String mStrArrId;
+    private boolean isChildFragment;
+    private int mPosition;
+
 
     public SubRedditDetailFragment() {
     }
 
-    public static SubRedditDetailFragment newInstance(String strId) {
+    public static SubRedditDetailFragment newInstance(int position,String strId, int id, String strArrId, String strLinkId, boolean childFragment) {
         SubRedditDetailFragment fragment = new SubRedditDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_STRID, strId);
+        bundle.putInt(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_POSITION, position);
+        bundle.putInt(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ID, id);
+        bundle.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ARRID, strArrId);
+        bundle.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_LINKID, strLinkId);
+        bundle.putBoolean(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_IS_CHILD, childFragment);
 
         fragment.setArguments(bundle);
         return fragment;
@@ -64,6 +77,11 @@ public class SubRedditDetailFragment extends Fragment
 
         if (getArguments() != null) {
             mStrId = getArguments().getString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_STRID);
+            mStrLinkId = getArguments().getString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_LINKID);
+            mId = getArguments().getInt(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ID);
+            mPosition = getArguments().getInt(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_POSITION);
+            mStrArrId = getArguments().getString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ARRID);
+            isChildFragment = getArguments().getBoolean(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_IS_CHILD);
         }
 
     }
@@ -90,13 +108,24 @@ public class SubRedditDetailFragment extends Fragment
 
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new SubRedditDetailAdapter(this);
+        mAdapter = new SubRedditDetailAdapter(this,mPosition);
 
         mRecyclerView.setAdapter(mAdapter);
+
 
         return view;
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() != null) {
+            getActivity().getSupportLoaderManager().restartLoader(SUBREDDIT_DETAIL_LOADER_ID, null, this);
+
+        }
+
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -104,9 +133,14 @@ public class SubRedditDetailFragment extends Fragment
 
         if (savedInstanceState != null) {
             mStrId = savedInstanceState.getString(Costant.EXTRA_FRAGMENT_DETAIL_STRING_ID);
+            mId = savedInstanceState.getInt(Costant.EXTRA_FRAGMENT_DETAIL_ID);
+            mPosition = savedInstanceState.getInt(Costant.EXTRA_FRAGMENT_DETAIL_POSITION);
+            mStrLinkId = savedInstanceState.getString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_LINKID);
+            isChildFragment = savedInstanceState.getBoolean(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_IS_CHILD);
+
         }
 
-        if (getActivity() != null) {
+        if ((getActivity() != null) && (!TextUtils.isEmpty(mStrLinkId))) {
             getActivity().getSupportLoaderManager().initLoader(SUBREDDIT_DETAIL_LOADER_ID, null, this).forceLoad();
 
         }
@@ -136,6 +170,10 @@ public class SubRedditDetailFragment extends Fragment
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(Costant.EXTRA_FRAGMENT_DETAIL_STRING_ID, mStrId);
+        outState.putInt(Costant.EXTRA_FRAGMENT_DETAIL_ID, mId);
+        outState.putInt(Costant.EXTRA_FRAGMENT_DETAIL_POSITION, mPosition);
+        outState.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ARRID, mStrArrId);
+        outState.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_LINKID, mStrLinkId);
 
     }
 
@@ -148,7 +186,8 @@ public class SubRedditDetailFragment extends Fragment
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        return new SubRedditDetailFragmentAsyncTask(Objects.requireNonNull(getActivity()), mStrId, Preference.isLoginOver18(getContext()));
+        return new SubRedditDetailFragmentAsyncTask(Objects.requireNonNull(getActivity()), mStrId, mId, mStrArrId, mStrLinkId,
+                Preference.isLoginOver18(getContext()), isChildFragment);
     }
 
     @Override
@@ -172,16 +211,30 @@ public class SubRedditDetailFragment extends Fragment
         mListener.clickSelector(position, itemCount);
     }
 
+    @Override
+    public void onClickMore(int position,int id, String linkId, String strId, String strArrId) {
+        mListener.onClickMore(position,id, linkId, strId, strArrId);
+    }
+
     private static class SubRedditDetailFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
 
         Cursor cursorData = null;
         private final boolean isOver18;
-        private final String mStringId;
+        private final String mStrId;
+        private final String mArrStrId;
+        private final String mStrLinkId;
+        private final int mId;
+        private final boolean isChildFragment;
 
-        SubRedditDetailFragmentAsyncTask(Context context, String strId, boolean isOver18) {
+
+        SubRedditDetailFragmentAsyncTask(Context context, String strId, int id, String strArrId, String strLinkId, boolean isOver18, boolean childFragment) {
             super(context);
             this.isOver18 = isOver18;
-            mStringId = strId;
+            mStrId = strId;
+            mStrLinkId = strLinkId;
+            mId = id;
+            mArrStrId = strArrId;
+            isChildFragment = childFragment;
         }
 
         @Override
@@ -212,22 +265,30 @@ public class SubRedditDetailFragment extends Fragment
 
                 Uri uri = Contract.T1dataEntry.CONTENT_URI;
                 String[] selectionArgs;
+                String sortBy = null;
 
-                // todo old condition remove if not used
-                //                if (!TextUtils.isEmpty( Preference.getMoreLinkId(mContext))) {
-//                    selectionArgs = new String[]{Preference.getMoreLinkId(mContext), Costant.DETAIL_MORE_REPLIES, strOver18};
-//
-//                } else {
-//                    selectionArgs = new String[]{Costant.STR_PARENT_LINK + mStringId, Costant.NONE_DETAIL_MORE_REPLIES, strOver18};
+                if (isChildFragment && (!TextUtils.isEmpty(mStrLinkId))) {
 
-//                }
-                selectionArgs = new String[]{Costant.STR_PARENT_LINK + mStringId, Costant.NONE_DETAIL_MORE_REPLIES, strOver18};
+                    DataUtils d = new DataUtils(getContext());
+
+                    selection = Contract.T1dataEntry._ID + " =?" + " OR " +
+                            Contract.T1dataEntry.COLUMN_NAME_ID + " IN(" + d.stringInQuestionMark(mArrStrId) + ")";
+
+                    selectionArgs = ((mId + ",") + (mArrStrId))
+                            .split(Costant.STRING_SEPARATOR);
+
+                } else {
+
+                    selectionArgs = new String[]{Costant.STR_PARENT_LINK + mStrId, Costant.NONE_DETAIL_MORE_REPLIES, strOver18};
+
+                }
+
 
                 return getContext().getContentResolver().query(uri,
                         null,
                         selection,
                         selectionArgs,
-                        null);
+                        sortBy);
 
             } catch (Exception e) {
                 Timber.e("Failed to asynchronously load data. ");
@@ -250,6 +311,9 @@ public class SubRedditDetailFragment extends Fragment
 
     public interface OnFragmentInteractionListener {
         void clickSelector(int position, int itemCount);
+
+        void onClickMore(int position,int id, String linkId, String strId, String strArrId);
+
     }
 
 }

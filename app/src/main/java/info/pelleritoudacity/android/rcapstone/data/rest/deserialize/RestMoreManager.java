@@ -27,15 +27,17 @@ public class RestMoreManager {
     private final WeakReference<Context> mWeakContext;
     private final String mAccessToken;
     private final String mStrArrId;
+    private final String mStrLinkId;
     private HashMap<String, String> mFieldMap;
     private Call<More> mCall;
 
 
-    private RestMoreManager(WeakReference<Context> weakContext, String token , String strArrId) {
+    private RestMoreManager(WeakReference<Context> weakContext, String token, String strArrId, String linkId) {
 
         mWeakContext = weakContext;
         mAccessToken = token;
         mStrArrId = strArrId;
+        mStrLinkId = linkId;
 
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         // todo remove interceptor
@@ -63,7 +65,7 @@ public class RestMoreManager {
     }
 
 
-   private static GsonConverterFactory buildGsonConverter() {
+    private static GsonConverterFactory buildGsonConverter() {
 
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(More.class, new MoreDeserializer());
@@ -72,12 +74,12 @@ public class RestMoreManager {
     }
 
 
-    public static RestMoreManager getInstance(WeakReference<Context> weakContext, String accessToken, String strArrId) {
+    public static RestMoreManager getInstance(WeakReference<Context> weakContext, String accessToken, String strArrId, String linkId) {
        /* if (sRestMoreManager != null) {
             sRestMoreManager.cancelRequest();
         }
 */
-        sRestMoreManager = new RestMoreManager(weakContext, accessToken , strArrId);
+        sRestMoreManager = new RestMoreManager(weakContext, accessToken, strArrId, linkId);
 
 
         return sRestMoreManager;
@@ -88,7 +90,7 @@ public class RestMoreManager {
         mFieldMap = new HashMap<>();
 //        mFieldMap.put("sort", Preference.getSubredditSort(mWeakContext.get()));
         mFieldMap.put("api_type", "json");
-        mFieldMap.put("link_id", Preference.getMoreLinkId(mWeakContext.get()));
+        mFieldMap.put("link_id", mStrLinkId);
         mFieldMap.put("children", mStrArrId);
 
 

@@ -2,13 +2,16 @@ package info.pelleritoudacity.android.rcapstone.ui.adapter;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,9 +20,11 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
+import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.Record.RecordSubRedditDetail;
 import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapterDetail;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditDetailFragment;
+import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SubRedditDetailHelper;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
@@ -33,10 +38,13 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
     private final SubRedditDetailFragment mListener;
     private Cursor mCursor;
     private int mSelectorPosition = RecyclerView.NO_POSITION;
+    private SubRedditDetailFragment mChildFragment;
+    private final int mPosition;
 
-    public SubRedditDetailAdapter(SubRedditDetailFragment listener) {
+    public SubRedditDetailAdapter(SubRedditDetailFragment listener, int position) {
         mListener = listener;
         mContext = listener.getActivity();
+        mPosition = position;
     }
 
 
@@ -109,6 +117,11 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
                 holder.mSelectorContainer.setVisibility(View.VISIBLE);
             }
 
+            int id = record.getId();
+            String strId = record.getLinkId().replaceAll(Costant.STR_PARENT_LINK, "");
+            String strLinkId = record.getLinkId();
+            String strArrId = record.getMoreComments();
+
             if (record.getNumComments() > 0) {
 
                 holder.mTextViewReplies.setText(String.format("%s %s", String.valueOf(record.getNumComments()), mContext.getString(R.string.text_more_replies)));
@@ -118,6 +131,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
 
                     if (Preference.isLoginStart(mContext)) {
                         holder.mTextViewReplies.setVisibility(View.INVISIBLE);
+                        mListener.onClickMore(position, id, strLinkId, strId, strArrId);
 
                     } else {
                         Toast.makeText(mContext, mContext.getString(R.string.text_start_login), Toast.LENGTH_SHORT).show();
@@ -129,7 +143,22 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
 
             }
 
+            childFragment(mListener, position, id, strId, strLinkId, strArrId);
+
             mListener.adapterPosition(holder.getAdapterPosition(), record.getSubReddit());
+        }
+    }
+
+    private void childFragment(SubRedditDetailFragment listener, int position, int id, String strId, String strLinkId, String strArrId) {
+        if ((mChildFragment == null) && (position == mPosition &&
+                (id == (listener.getArguments().getInt(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ID))))) {
+
+            if (!TextUtils.isEmpty(strLinkId)) {
+                mChildFragment = SubRedditDetailFragment.newInstance(position, strId, id, strArrId, strLinkId, true);
+                listener.getChildFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_subreddit_more_container, mChildFragment).commit();
+
+            }
         }
     }
 
@@ -165,6 +194,10 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         @SuppressWarnings("unused")
         @BindView(R.id.card_linear)
         LinearLayout mCardLinear;
+
+        @SuppressWarnings("unused")
+        @BindView(R.id.fragment_subreddit_more_container)
+        FrameLayout mChildFragment;
 
         @SuppressWarnings("unused")
         @BindView(R.id.view_depth)
@@ -247,6 +280,8 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         void adapterPosition(int position, String category);
 
         void clickSelector(int position, int itemCount);
+
+        void onClickMore(int position, int id, String linkId, String strId, String strArrId);
 
     }
 

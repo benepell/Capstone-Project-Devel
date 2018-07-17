@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
@@ -46,6 +45,9 @@ public class SubRedditDetailActivity extends BaseActivity
     private String mCategory;
     private Context mContext;
     private String mStrArrId;
+    private String mStrLinkId;
+    private int mId;
+    private int mPosition;
 
 
     @Override
@@ -69,15 +71,10 @@ public class SubRedditDetailActivity extends BaseActivity
 
         }
 
-        if (mContext != null) {
-            mSwipeRefreshLayout.setRefreshing(true);
-            onRefresh();
+        Preference.setLastComment(mContext, mStrId);
 
-            Preference.setLastComment(mContext, mStrId);
-            // todo set value strArrid
-            initRest(mCategory, mStrId, PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext), mStrArrId);
-
-        }
+        mSwipeRefreshLayout.setRefreshing(true);
+        onRefresh();
 
     }
 
@@ -86,7 +83,7 @@ public class SubRedditDetailActivity extends BaseActivity
         if ((listenerData != null) && (mStrId != null)) {
             T1Operation data = new T1Operation(getApplicationContext());
             if (data.saveData(listenerData, mStrId)) {
-                startFragment(mStrId);
+                startFragment(mPosition,mStrId);
                 mSwipeRefreshLayout.setRefreshing(false);
             } else {
                 Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
@@ -94,21 +91,26 @@ public class SubRedditDetailActivity extends BaseActivity
         }
     }
 
-    private void startFragment(String category) {
-        if (!getSupportFragmentManager().isStateSaved()) {
+    private void startFragment(int position,String strId) {
+        SubRedditSelectedFragment subRedditSelectedFragment = SubRedditSelectedFragment.newInstance(strId);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_subreddit_selected_container, subRedditSelectedFragment).commitAllowingStateLoss();
 
-            SubRedditSelectedFragment subRedditSelectedFragment = SubRedditSelectedFragment.newInstance(category);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_subreddit_selected_container, subRedditSelectedFragment).commit();
+        SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(position,strId, 0, null, null,false);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_subreddit_detail_container, fragment).commitAllowingStateLoss();
 
-            SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(category);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_subreddit_detail_container, fragment).commit();
-        }
+    }
+
+    private void startMoreFragment(int position,String strId, int id, String strArrId, String strLinkId) {
+        SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(position,strId, id, strArrId, strLinkId,false);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_subreddit_detail_container, fragment).commitAllowingStateLoss();
+
     }
 
 
-    private void initRest(String category, String strId, String tokenLogin, boolean stateNetworkOnline, String strArrId) {
+    private void initRest(String strId, String strArrId, String strLinkId, String category, String tokenLogin, boolean stateNetworkOnline) {
         if (!TextUtils.isEmpty(strId)) {
             if (stateNetworkOnline) {
                 if (TextUtils.isEmpty(strArrId)) {
@@ -118,12 +120,12 @@ public class SubRedditDetailActivity extends BaseActivity
                             strId).getData(this);
 
                 } else {
-
-                    new RestMoreExecute(mContext, tokenLogin,  strArrId)
+                    new RestMoreExecute(mContext, tokenLogin, strArrId, strLinkId)
                             .getMoreData(this);
+
                 }
             } else {
-                startFragment(strId);
+                startFragment(mPosition,strId);
 
             }
         }
@@ -131,7 +133,8 @@ public class SubRedditDetailActivity extends BaseActivity
 
 
     @Override
-    public void onErrorSubReddit(Throwable t) {}
+    public void onErrorSubReddit(Throwable t) {
+    }
 
     @Override
     public void clickSelector(int position, int itemCount) {
@@ -141,14 +144,30 @@ public class SubRedditDetailActivity extends BaseActivity
     }
 
     @Override
+    public void onClickMore(int position,int id, String linkId, String strId, String strArrId) {
+        mPosition = position;
+        mId = id;
+        mStrId = strId;
+        mStrLinkId = linkId;
+        mStrArrId = strArrId;
+        mSwipeRefreshLayout.setRefreshing(true);
+        onRefresh();
+    }
+
+    @Override
     public void onRefresh() {
         if (!NetworkUtil.isOnline(mContext)) {
             mSwipeRefreshLayout.setRefreshing(false);
             Snackbar.make(mContainer, R.string.error_refresh_offline, Snackbar.LENGTH_LONG).show();
 
-        } else if (mContext != null) {
-            initRest(Preference.getLastCategory(mContext), Preference.getLastComment(mContext),
-                    PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext),  mStrArrId);
+        } else if (!TextUtils.isEmpty(mStrArrId)) {
+            // todo review here
+            initRest(mStrId, mStrArrId, mStrLinkId, Preference.getLastCategory(mContext),
+                    PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext));
+
+        } else {
+            initRest(Preference.getLastComment(mContext), null, null, Preference.getLastCategory(mContext),
+                    PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext));
 
         }
     }
@@ -158,11 +177,12 @@ public class SubRedditDetailActivity extends BaseActivity
         if (listenerData != null) {
             if (listenerData.getJson().getData() != null) {
 
-
                 T1Operation t1moreOperation = new T1Operation(getApplicationContext());
 
                 if (t1moreOperation.saveMoreData(listenerData.getJson(), mStrArrId)) {
 
+
+                    startMoreFragment(mPosition,mStrId, mId,mStrArrId ,mStrLinkId);
                     // todo set operation open fragment etc... set value strarrid
 
                     if (mSwipeRefreshLayout != null) {

@@ -123,7 +123,7 @@ public class DataUtils {
         String stringPref = restorePrefFromDb();
 
         if (!TextUtils.isEmpty(restorePrefFromDb())) {
-            Preference.setSubredditKey(mContext,stringPref);
+            Preference.setSubredditKey(mContext, stringPref);
 
         } else {
 
@@ -253,7 +253,7 @@ public class DataUtils {
 
             String stringPref = restoreStarsOrderFromDb();
             if (!TextUtils.isEmpty(stringPref)) {
-                Preference.setSubredditKey(mContext,stringPref);
+                Preference.setSubredditKey(mContext, stringPref);
 
             }
 
@@ -379,6 +379,21 @@ public class DataUtils {
     public void clearDataPrivacy() {
         clearDataAll();
         Preference.clearAll(mContext);
+    }
+
+    public String stringInQuestionMark(String s) {
+
+        String r = "";
+
+        if (!TextUtils.isEmpty(s)) {
+            String[] arrS = s.split(Costant.STRING_SEPARATOR);
+            for (String s1 : arrS) {
+                r += "?,";
+            }
+            r = r.substring(0, r.length() - 1);
+
+        }
+        return r;
     }
 
 }

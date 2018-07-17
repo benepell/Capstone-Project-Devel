@@ -337,6 +337,7 @@ public class Contract {
 
         public static final String TABLE_NAME = "_t1datas";
         public static final String COLUMN_NAME_MORE_REPLIES = "_more_replies";
+        public static final String COLUMN_NAME_MORE_LEVEL_REPLIES = "_more_level_replies";
         public static final String COLUMN_NAME_ISCROSSPOSTABLE = "_isCrosspostable";
         public static final String COLUMN_NAME_SUBREDDITID = "_subredditId";
         public static final String COLUMN_NAME_APPROVEDATUTC = "_approvedAtUtc";

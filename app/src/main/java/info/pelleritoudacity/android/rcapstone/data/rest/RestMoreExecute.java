@@ -17,10 +17,10 @@ public class RestMoreExecute {
     private More mReddit;
     private final String mStrArrid;
 
-    public RestMoreExecute(Context context, String code , String strArrId) {
+    public RestMoreExecute(Context context, String code , String strArrId, String linkId) {
 
         restMoreManager = RestMoreManager.getInstance(new WeakReference<>(context),
-                code,  strArrId);
+                code,  strArrId,linkId);
         mStrArrid = strArrId;
     }
 

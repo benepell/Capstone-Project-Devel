@@ -35,6 +35,9 @@ public class RecordSubRedditDetail {
 
         mRecord = new RecordAdapterDetail();
 
+        mRecord.setId(mCursor.getInt(
+                mCursor.getColumnIndex(Contract.T1dataEntry._ID)));
+
         mRecord.setSubReddit(mCursor.getString(
                 mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_SUBREDDIT)));
 

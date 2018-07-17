@@ -76,9 +76,13 @@ public class T1Operation {
 
             DataUtils dataUtils = new DataUtils(mContext);
 
-            if(isMore){
-                cv.put(Contract.T1dataEntry.COLUMN_NAME_MORE_REPLIES,Costant.DETAIL_MORE_REPLIES);
+            if (isMore) {
+                cv.put(Contract.T1dataEntry.COLUMN_NAME_MORE_REPLIES, childrenId + Costant.DETAIL_MORE_REPLIES);
+
             }
+
+            cv.put(Contract.T1dataEntry.COLUMN_NAME_TIME_LAST_MODIFIED,
+                    System.currentTimeMillis());
 
             cv.put(Contract.T1dataEntry.COLUMN_NAME_ID,
                     t1ListingData.getId());
@@ -420,7 +424,7 @@ public class T1Operation {
 
             String where = Contract.T1dataEntry.COLUMN_NAME_MORE_REPLIES.concat(" =?");
             String[] selectArgs = {Costant.DETAIL_MORE_REPLIES};
-            mContext.getContentResolver().delete(Contract.T1dataEntry.CONTENT_URI,where,selectArgs);
+            mContext.getContentResolver().delete(Contract.T1dataEntry.CONTENT_URI, where, selectArgs);
             return insertMoreData(moreJson, strId);
         }
         return false;

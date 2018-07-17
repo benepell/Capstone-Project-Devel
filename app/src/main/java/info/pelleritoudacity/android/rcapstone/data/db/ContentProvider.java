@@ -103,849 +103,853 @@ public class ContentProvider extends android.content.ContentProvider {
     }
 
 
-    @Nullable
-    @Override
-    public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
+        @Nullable
+        @Override
+        public Cursor query (@NonNull Uri uri, @Nullable String[]projection, @Nullable String
+        selection, @Nullable String[]selectionArgs, @Nullable String sortOrder){
 
-        String mSelection;
-        String[] mSelectionArgs;
+            String mSelection;
+            String[] mSelectionArgs;
 
-        final SQLiteDatabase db = mDbHelper.getReadableDatabase();
+            final SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
-        int match = sUriMatMATCHER.match(uri);
+            int match = sUriMatMATCHER.match(uri);
 
-        Cursor returnCursor;
+            Cursor returnCursor;
 
-        switch (match) {
+            switch (match) {
 
-            case REDDITS:
+                case REDDITS:
 
-                returnCursor = db.query(Contract.RedditEntry.TABLE_NAME,
-                        projection,
-                        selection,
-                        selectionArgs,
-                        null,
-                        null,
-                        sortOrder);
+                    returnCursor = db.query(Contract.RedditEntry.TABLE_NAME,
+                            projection,
+                            selection,
+                            selectionArgs,
+                            null,
+                            null,
+                            sortOrder);
 
-                break;
+                    break;
 
-            case REDDIT_WITH_ID:
+                case REDDIT_WITH_ID:
 
-                String id = uri.getPathSegments().get(1);
+                    String id = uri.getPathSegments().get(1);
 
-                mSelection = " = ? ";
-                mSelectionArgs = new String[]{id};
+                    mSelection = " = ? ";
+                    mSelectionArgs = new String[]{id};
 
-                returnCursor = db.query(Contract.RedditEntry.TABLE_NAME,
-                        projection,
-                        mSelection,
-                        mSelectionArgs,
-                        null,
-                        null,
-                        sortOrder);
-                break;
+                    returnCursor = db.query(Contract.RedditEntry.TABLE_NAME,
+                            projection,
+                            mSelection,
+                            mSelectionArgs,
+                            null,
+                            null,
+                            sortOrder);
+                    break;
 
-            case DATAS:
+                case DATAS:
 
-                returnCursor = db.query(Contract.DataEntry.TABLE_NAME,
-                        projection,
-                        selection,
-                        selectionArgs,
-                        null,
-                        null,
-                        sortOrder);
+                    returnCursor = db.query(Contract.DataEntry.TABLE_NAME,
+                            projection,
+                            selection,
+                            selectionArgs,
+                            null,
+                            null,
+                            sortOrder);
 
-                break;
+                    break;
 
-            case DATA_WITH_ID:
+                case DATA_WITH_ID:
 
-                id = uri.getPathSegments().get(1);
+                    id = uri.getPathSegments().get(1);
 
-                mSelection = "_id=?";
-                mSelectionArgs = new String[]{id};
+                    mSelection = "_id=?";
+                    mSelectionArgs = new String[]{id};
 
-                returnCursor = db.query(Contract.DataEntry.TABLE_NAME,
-                        projection,
-                        mSelection,
-                        mSelectionArgs,
-                        null,
-                        null,
-                        sortOrder);
+                    returnCursor = db.query(Contract.DataEntry.TABLE_NAME,
+                            projection,
+                            mSelection,
+                            mSelectionArgs,
+                            null,
+                            null,
+                            sortOrder);
 
-                break;
+                    break;
 
-            case T5DATAS:
-                returnCursor = db.query(Contract.T5dataEntry.TABLE_NAME,
-                        projection,
-                        selection,
-                        selectionArgs,
-                        null,
-                        null,
-                        sortOrder);
+                case T5DATAS:
+                    returnCursor = db.query(Contract.T5dataEntry.TABLE_NAME,
+                            projection,
+                            selection,
+                            selectionArgs,
+                            null,
+                            null,
+                            sortOrder);
 
-                break;
+                    break;
 
-            case T5DATA_WITH_ID:
+                case T5DATA_WITH_ID:
 
-                id = uri.getPathSegments().get(1);
+                    id = uri.getPathSegments().get(1);
 
-                mSelection = "_id=?";
-                mSelectionArgs = new String[]{id};
+                    mSelection = "_id=?";
+                    mSelectionArgs = new String[]{id};
 
-                returnCursor = db.query(Contract.T5dataEntry.TABLE_NAME,
-                        projection,
-                        mSelection,
-                        mSelectionArgs,
-                        null,
-                        null,
-                        sortOrder);
+                    returnCursor = db.query(Contract.T5dataEntry.TABLE_NAME,
+                            projection,
+                            mSelection,
+                            mSelectionArgs,
+                            null,
+                            null,
+                            sortOrder);
 
-                break;
+                    break;
 
-            case T3DATAS:
-                returnCursor = db.query(Contract.T3dataEntry.TABLE_NAME,
-                        projection,
-                        selection,
-                        selectionArgs,
-                        null,
-                        null,
-                        sortOrder);
+                case T3DATAS:
+                    returnCursor = db.query(Contract.T3dataEntry.TABLE_NAME,
+                            projection,
+                            selection,
+                            selectionArgs,
+                            null,
+                            null,
+                            sortOrder);
 
-                break;
+                    break;
 
-            case T3DATA_WITH_ID:
+                case T3DATA_WITH_ID:
 
-                id = uri.getPathSegments().get(1);
+                    id = uri.getPathSegments().get(1);
 
-                mSelection = "_id=?";
-                mSelectionArgs = new String[]{id};
+                    mSelection = "_id=?";
+                    mSelectionArgs = new String[]{id};
 
-                //noinspection UnusedAssignment
-                returnCursor = db.query(Contract.T3dataEntry.TABLE_NAME,
-                        projection,
-                        mSelection,
-                        mSelectionArgs,
-                        null,
-                        null,
-                        sortOrder);
+                    //noinspection UnusedAssignment
+                    returnCursor = db.query(Contract.T3dataEntry.TABLE_NAME,
+                            projection,
+                            mSelection,
+                            mSelectionArgs,
+                            null,
+                            null,
+                            sortOrder);
 
-            case PREFSUBREDDITS:
-                returnCursor = db.query(Contract.PrefSubRedditEntry.TABLE_NAME,
-                        projection,
-                        selection,
-                        selectionArgs,
-                        null,
-                        null,
-                        sortOrder);
+                case PREFSUBREDDITS:
+                    returnCursor = db.query(Contract.PrefSubRedditEntry.TABLE_NAME,
+                            projection,
+                            selection,
+                            selectionArgs,
+                            null,
+                            null,
+                            sortOrder);
 
-                break;
+                    break;
 
-            case PREFSUBREDDIT_WITH_ID:
+                case PREFSUBREDDIT_WITH_ID:
 
-                id = uri.getPathSegments().get(1);
+                    id = uri.getPathSegments().get(1);
 
-                mSelection = "_id=?";
-                mSelectionArgs = new String[]{id};
+                    mSelection = "_id=?";
+                    mSelectionArgs = new String[]{id};
 
-                returnCursor = db.query(Contract.PrefSubRedditEntry.TABLE_NAME,
-                        projection,
-                        mSelection,
-                        mSelectionArgs,
-                        null,
-                        null,
-                        sortOrder);
+                    returnCursor = db.query(Contract.PrefSubRedditEntry.TABLE_NAME,
+                            projection,
+                            mSelection,
+                            mSelectionArgs,
+                            null,
+                            null,
+                            sortOrder);
 
-                break;
+                    break;
 
-            case T1DATAS:
-                returnCursor = db.query(Contract.T1dataEntry.TABLE_NAME,
-                        projection,
-                        selection,
-                        selectionArgs,
-                        null,
-                        null,
-                        sortOrder);
+                case T1DATAS:
+                    returnCursor = db.query(Contract.T1dataEntry.TABLE_NAME,
+                            projection,
+                            selection,
+                            selectionArgs,
+                            null,
+                            null,
+                            sortOrder);
 
-                break;
+                    break;
 
-            case T1DATA_WITH_ID:
+                case T1DATA_WITH_ID:
 
-                id = uri.getPathSegments().get(1);
+                    id = uri.getPathSegments().get(1);
 
-                mSelection = "_id=?";
-                mSelectionArgs = new String[]{id};
+                    mSelection = "_id=?";
+                    mSelectionArgs = new String[]{id};
 
-                //noinspection UnusedAssignment
-                returnCursor = db.query(Contract.T1dataEntry.TABLE_NAME,
-                        projection,
-                        mSelection,
-                        mSelectionArgs,
-                        null,
-                        null,
-                        sortOrder);
+                    //noinspection UnusedAssignment
+                    returnCursor = db.query(Contract.T1dataEntry.TABLE_NAME,
+                            projection,
+                            mSelection,
+                            mSelectionArgs,
+                            null,
+                            null,
+                            sortOrder);
 
-            case T1MORESDATAS:
-                returnCursor = db.query(Contract.T1MoresDataEntry.TABLE_NAME,
-                        projection,
-                        selection,
-                        selectionArgs,
-                        null,
-                        null,
-                        sortOrder);
+                case T1MORESDATAS:
+                    returnCursor = db.query(Contract.T1MoresDataEntry.TABLE_NAME,
+                            projection,
+                            selection,
+                            selectionArgs,
+                            null,
+                            null,
+                            sortOrder);
 
-                break;
+                    break;
 
-            case T1MORESDATA_WITH_ID:
+                case T1MORESDATA_WITH_ID:
 
-                id = uri.getPathSegments().get(1);
+                    id = uri.getPathSegments().get(1);
 
-                mSelection = "_id=?";
-                mSelectionArgs = new String[]{id};
+                    mSelection = "_id=?";
+                    mSelectionArgs = new String[]{id};
 
-                //noinspection UnusedAssignment
-                returnCursor = db.query(Contract.T1MoresDataEntry.TABLE_NAME,
-                        projection,
-                        mSelection,
-                        mSelectionArgs,
-                        null,
-                        null,
-                        sortOrder);
+                    //noinspection UnusedAssignment
+                    returnCursor = db.query(Contract.T1MoresDataEntry.TABLE_NAME,
+                            projection,
+                            mSelection,
+                            mSelectionArgs,
+                            null,
+                            null,
+                            sortOrder);
 
-            default:
-                throw new UnsupportedOperationException("Uri not found: " + uri);
+                default:
+                    throw new UnsupportedOperationException("Uri not found: " + uri);
+            }
+
+            if (getContext() != null) {
+
+                returnCursor.setNotificationUri(getContext().getContentResolver(), uri);
+            }
+
+            return returnCursor;
+
         }
 
-        if (getContext() != null) {
+        @Nullable
+        @Override
+        public String getType (@NonNull Uri uri){
 
-            returnCursor.setNotificationUri(getContext().getContentResolver(), uri);
+            int match = sUriMatMATCHER.match(uri);
+
+            switch (match) {
+
+                case REDDITS:
+                    return Contract.RedditEntry.CONTENT_TYPE;
+
+                case REDDIT_WITH_ID:
+                    return Contract.RedditEntry.CONTENT_ITEM_TYPE;
+
+                case DATAS:
+                    return Contract.DataEntry.CONTENT_TYPE;
+
+                case DATA_WITH_ID:
+                    return Contract.DataEntry.CONTENT_ITEM_TYPE;
+
+                case T5DATAS:
+                    return Contract.T5dataEntry.CONTENT_TYPE;
+
+                case T5DATA_WITH_ID:
+                    return Contract.T5dataEntry.CONTENT_ITEM_TYPE;
+
+                case T3DATAS:
+                    return Contract.T3dataEntry.CONTENT_TYPE;
+
+                case T3DATA_WITH_ID:
+                    return Contract.T3dataEntry.CONTENT_ITEM_TYPE;
+
+                case PREFSUBREDDITS:
+                    return Contract.PrefSubRedditEntry.CONTENT_TYPE;
+
+                case PREFSUBREDDIT_WITH_ID:
+                    return Contract.PrefSubRedditEntry.CONTENT_ITEM_TYPE;
+
+                case T1DATAS:
+                    return Contract.T1dataEntry.CONTENT_TYPE;
+
+                case T1DATA_WITH_ID:
+                    return Contract.T1dataEntry.CONTENT_ITEM_TYPE;
+
+                case T1MORESDATAS:
+                    return Contract.T1MoresDataEntry.CONTENT_TYPE;
+
+                case T1MORESDATA_WITH_ID:
+                    return Contract.T1MoresDataEntry.CONTENT_ITEM_TYPE;
+
+                default:
+                    throw new UnsupportedOperationException("Uri not found: " + uri);
+            }
+
         }
 
-        return returnCursor;
+        @Nullable
+        @Override
+        public Uri insert (@NonNull Uri uri, @Nullable ContentValues values){
 
-    }
+            long id;
+            final SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
-    @Nullable
-    @Override
-    public String getType(@NonNull Uri uri) {
+            int match = sUriMatMATCHER.match(uri);
 
-        int match = sUriMatMATCHER.match(uri);
+            Uri returnUri;
 
-        switch (match) {
+            switch (match) {
 
-            case REDDITS:
-                return Contract.RedditEntry.CONTENT_TYPE;
+                case REDDITS:
 
-            case REDDIT_WITH_ID:
-                return Contract.RedditEntry.CONTENT_ITEM_TYPE;
+                    id = db.insert(Contract.RedditEntry.TABLE_NAME, null, values);
+                    if (id > 0) {
+                        returnUri = ContentUris.withAppendedId(Contract.RedditEntry.CONTENT_URI, id);
+                    } else {
+                        throw new android.database.SQLException("Failed to insert row .." + uri);
+                    }
+                    break;
 
-            case DATAS:
-                return Contract.DataEntry.CONTENT_TYPE;
+                case DATAS:
+                    id = db.insert(Contract.DataEntry.TABLE_NAME, null, values);
+                    if (id > 0) {
+                        returnUri = ContentUris.withAppendedId(Contract.DataEntry.CONTENT_URI, id);
+                    } else {
+                        throw new android.database.SQLException("Failed to insert row .." + uri);
+                    }
+                    break;
 
-            case DATA_WITH_ID:
-                return Contract.DataEntry.CONTENT_ITEM_TYPE;
+                case T5DATAS:
 
-            case T5DATAS:
-                return Contract.T5dataEntry.CONTENT_TYPE;
+                    id = db.insert(Contract.T5dataEntry.TABLE_NAME, null, values);
+                    if (id > 0) {
+                        returnUri = ContentUris.withAppendedId(Contract.T5dataEntry.CONTENT_URI, id);
+                    } else {
+                        throw new android.database.SQLException("Failed to insert row .." + uri);
+                    }
 
-            case T5DATA_WITH_ID:
-                return Contract.T5dataEntry.CONTENT_ITEM_TYPE;
+                    break;
 
-            case T3DATAS:
-                return Contract.T3dataEntry.CONTENT_TYPE;
+                case T3DATAS:
 
-            case T3DATA_WITH_ID:
-                return Contract.T3dataEntry.CONTENT_ITEM_TYPE;
+                    id = db.insert(Contract.T3dataEntry.TABLE_NAME, null, values);
+                    if (id > 0) {
+                        returnUri = ContentUris.withAppendedId(Contract.T3dataEntry.CONTENT_URI, id);
+                    } else {
+                        throw new android.database.SQLException("Failed to insert row .." + uri);
+                    }
 
-            case PREFSUBREDDITS:
-                return Contract.PrefSubRedditEntry.CONTENT_TYPE;
+                    break;
 
-            case PREFSUBREDDIT_WITH_ID:
-                return Contract.PrefSubRedditEntry.CONTENT_ITEM_TYPE;
+                case T1DATAS:
 
-            case T1DATAS:
-                return Contract.T1dataEntry.CONTENT_TYPE;
+                    id = db.insert(Contract.T1dataEntry.TABLE_NAME, null, values);
+                    if (id > 0) {
+                        returnUri = ContentUris.withAppendedId(Contract.T1dataEntry.CONTENT_URI, id);
+                    } else {
+                        throw new android.database.SQLException("Failed to insert row .." + uri);
+                    }
 
-            case T1DATA_WITH_ID:
-                return Contract.T1dataEntry.CONTENT_ITEM_TYPE;
+                    break;
 
-            case T1MORESDATAS:
-                return Contract.T1MoresDataEntry.CONTENT_TYPE;
+                case T1MORESDATAS:
 
-            case T1MORESDATA_WITH_ID:
-                return Contract.T1MoresDataEntry.CONTENT_ITEM_TYPE;
+                    id = db.insert(Contract.T1MoresDataEntry.TABLE_NAME, null, values);
+                    if (id > 0) {
+                        returnUri = ContentUris.withAppendedId(Contract.T1MoresDataEntry.CONTENT_URI, id);
+                    } else {
+                        throw new android.database.SQLException("Failed to insert row .." + uri);
+                    }
 
-            default:
-                throw new UnsupportedOperationException("Uri not found: " + uri);
-        }
+                    break;
 
-    }
+                case PREFSUBREDDITS:
 
-    @Nullable
-    @Override
-    public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
+                    id = db.insert(Contract.PrefSubRedditEntry.TABLE_NAME, null, values);
+                    if (id > 0) {
+                        returnUri = ContentUris.withAppendedId(Contract.PrefSubRedditEntry.CONTENT_URI, id);
+                    } else {
+                        throw new android.database.SQLException("Failed to insert row .." + uri);
+                    }
 
-        long id;
-        final SQLiteDatabase db = mDbHelper.getWritableDatabase();
+                    break;
 
-        int match = sUriMatMATCHER.match(uri);
-
-        Uri returnUri;
-
-        switch (match) {
-
-            case REDDITS:
-
-                id = db.insert(Contract.RedditEntry.TABLE_NAME, null, values);
-                if (id > 0) {
-                    returnUri = ContentUris.withAppendedId(Contract.RedditEntry.CONTENT_URI, id);
-                } else {
-                    throw new android.database.SQLException("Failed to insert row .." + uri);
-                }
-                break;
-
-            case DATAS:
-                id = db.insert(Contract.DataEntry.TABLE_NAME, null, values);
-                if (id > 0) {
-                    returnUri = ContentUris.withAppendedId(Contract.DataEntry.CONTENT_URI, id);
-                } else {
-                    throw new android.database.SQLException("Failed to insert row .." + uri);
-                }
-                break;
-
-            case T5DATAS:
-
-                id = db.insert(Contract.T5dataEntry.TABLE_NAME, null, values);
-                if (id > 0) {
-                    returnUri = ContentUris.withAppendedId(Contract.T5dataEntry.CONTENT_URI, id);
-                } else {
-                    throw new android.database.SQLException("Failed to insert row .." + uri);
-                }
-
-                break;
-
-            case T3DATAS:
-
-                id = db.insert(Contract.T3dataEntry.TABLE_NAME, null, values);
-                if (id > 0) {
-                    returnUri = ContentUris.withAppendedId(Contract.T3dataEntry.CONTENT_URI, id);
-                } else {
-                    throw new android.database.SQLException("Failed to insert row .." + uri);
-                }
-
-                break;
-
-            case T1DATAS:
-
-                id = db.insert(Contract.T1dataEntry.TABLE_NAME, null, values);
-                if (id > 0) {
-                    returnUri = ContentUris.withAppendedId(Contract.T1dataEntry.CONTENT_URI, id);
-                } else {
-                    throw new android.database.SQLException("Failed to insert row .." + uri);
-                }
-
-                break;
-
-            case T1MORESDATAS:
-
-                id = db.insert(Contract.T1MoresDataEntry.TABLE_NAME, null, values);
-                if (id > 0) {
-                    returnUri = ContentUris.withAppendedId(Contract.T1MoresDataEntry.CONTENT_URI, id);
-                } else {
-                    throw new android.database.SQLException("Failed to insert row .." + uri);
-                }
-
-                break;
-
-            case PREFSUBREDDITS:
-
-                id = db.insert(Contract.PrefSubRedditEntry.TABLE_NAME, null, values);
-                if (id > 0) {
-                    returnUri = ContentUris.withAppendedId(Contract.PrefSubRedditEntry.CONTENT_URI, id);
-                } else {
-                    throw new android.database.SQLException("Failed to insert row .." + uri);
-                }
-
-                break;
-
-            default:
-                throw new UnsupportedOperationException("Uri not found: " + uri);
-        }
-        if (getContext() != null) {
-
-            getContext().getContentResolver().notifyChange(uri, null);
-        }
-
-        return returnUri;
-    }
-
-    @Override
-    public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-
-        int id;
-        final SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
-        int match = sUriMatMATCHER.match(uri);
-
-        int recordDelete;
-
-        switch (match) {
-
-            case REDDITS:
-                recordDelete = db.delete(Contract.RedditEntry.TABLE_NAME,
-                        selection,
-                        selectionArgs);
-                break;
-
-            case REDDIT_WITH_ID:
-                id = Integer.parseInt(uri.getPathSegments().get(1));
-
-                recordDelete = db.delete(Contract.RedditEntry.TABLE_NAME,
-                        "_id=?",
-                        new String[]{String.valueOf(id)});
-                break;
-
-
-            case DATAS:
-                recordDelete = db.delete(Contract.DataEntry.TABLE_NAME,
-                        selection,
-                        selectionArgs);
-                break;
-
-            case DATA_WITH_ID:
-
-                id = Integer.parseInt(uri.getPathSegments().get(1));
-
-                recordDelete = db.delete(Contract.DataEntry.TABLE_NAME,
-                        "_id=?",
-                        new String[]{String.valueOf(id)});
-                break;
-
-            case T5DATAS:
-                recordDelete = db.delete(Contract.T5dataEntry.TABLE_NAME,
-                        selection,
-                        selectionArgs);
-                break;
-
-            case T5DATA_WITH_ID:
-
-                id = Integer.parseInt(uri.getPathSegments().get(1));
-
-                recordDelete = db.delete(Contract.T5dataEntry.TABLE_NAME,
-                        "_id=?",
-                        new String[]{String.valueOf(id)});
-                break;
-
-            case T3DATAS:
-                recordDelete = db.delete(Contract.T3dataEntry.TABLE_NAME,
-                        selection,
-                        selectionArgs);
-                break;
-
-            case T3DATA_WITH_ID:
-
-                id = Integer.parseInt(uri.getPathSegments().get(1));
-
-                recordDelete = db.delete(Contract.T3dataEntry.TABLE_NAME,
-                        "_id=?",
-                        new String[]{String.valueOf(id)});
-                break;
-
-            case PREFSUBREDDITS:
-                recordDelete = db.delete(Contract.PrefSubRedditEntry.TABLE_NAME,
-                        selection,
-                        selectionArgs);
-                break;
-
-            case PREFSUBREDDIT_WITH_ID:
-
-                id = Integer.parseInt(uri.getPathSegments().get(1));
-
-                recordDelete = db.delete(Contract.PrefSubRedditEntry.TABLE_NAME,
-                        "_id=?",
-                        new String[]{String.valueOf(id)});
-                break;
-
-            case T1DATAS:
-                recordDelete = db.delete(Contract.T1dataEntry.TABLE_NAME,
-                        selection,
-                        selectionArgs);
-                break;
-
-            case T1DATA_WITH_ID:
-
-                id = Integer.parseInt(uri.getPathSegments().get(1));
-
-                recordDelete = db.delete(Contract.T1dataEntry.TABLE_NAME,
-                        "_id=?",
-                        new String[]{String.valueOf(id)});
-                break;
-
-            case T1MORESDATAS:
-                recordDelete = db.delete(Contract.T1MoresDataEntry.TABLE_NAME,
-                        selection,
-                        selectionArgs);
-                break;
-
-            case T1MORESDATA_WITH_ID:
-
-                id = Integer.parseInt(uri.getPathSegments().get(1));
-
-                recordDelete = db.delete(Contract.T1MoresDataEntry.TABLE_NAME,
-                        "_id=?",
-                        new String[]{String.valueOf(id)});
-                break;
-
-            default:
-                throw new UnsupportedOperationException("Uri not found: " + uri);
-        }
-
-        if ((getContext() != null) && (recordDelete != 0)) {
-            getContext().getContentResolver().notifyChange(uri, null);
-        }
-
-        return recordDelete;
-    }
-
-    @Override
-    public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
-
-        int id;
-        int rowsUpdate;
-
-        final SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
-        int match = sUriMatMATCHER.match(uri);
-
-
-        switch (match) {
-
-            case REDDITS:
-                rowsUpdate = db.update(Contract.RedditEntry.TABLE_NAME,
-                        values,
-                        selection,
-                        selectionArgs);
-                break;
-
-            case REDDIT_WITH_ID:
-                id = Integer.parseInt(uri.getPathSegments().get(1));
-
-                rowsUpdate = db.update(Contract.RedditEntry.TABLE_NAME,
-                        values,
-                        "_id=?",
-                        new String[]{String.valueOf(id)});
-                break;
-
-            case DATAS:
-                rowsUpdate = db.update(Contract.DataEntry.TABLE_NAME,
-                        values,
-                        selection,
-                        selectionArgs);
-                break;
-
-            case DATA_WITH_ID:
-
-                id = Integer.parseInt(uri.getPathSegments().get(1));
-
-                rowsUpdate = db.update(Contract.DataEntry.TABLE_NAME,
-                        values,
-                        "_id=?",
-                        new String[]{String.valueOf(id)});
-                break;
-
-            case T5DATAS:
-                rowsUpdate = db.update(Contract.T5dataEntry.TABLE_NAME,
-                        values,
-                        selection,
-                        selectionArgs);
-                break;
-
-            case T5DATA_WITH_ID:
-
-                id = Integer.parseInt(uri.getPathSegments().get(1));
-
-                rowsUpdate = db.update(Contract.T5dataEntry.TABLE_NAME,
-                        values,
-                        "_id=?",
-                        new String[]{String.valueOf(id)});
-                break;
-
-            case T3DATAS:
-                rowsUpdate = db.update(Contract.T3dataEntry.TABLE_NAME,
-                        values,
-                        selection,
-                        selectionArgs);
-                break;
-
-            case T3DATA_WITH_ID:
-
-                id = Integer.parseInt(uri.getPathSegments().get(1));
-
-                rowsUpdate = db.update(Contract.T3dataEntry.TABLE_NAME,
-                        values,
-                        "_id=?",
-                        new String[]{String.valueOf(id)});
-                break;
-
-            case PREFSUBREDDITS:
-                rowsUpdate = db.update(Contract.PrefSubRedditEntry.TABLE_NAME,
-                        values,
-                        selection,
-                        selectionArgs);
-                break;
-
-            case PREFSUBREDDIT_WITH_ID:
-
-                id = Integer.parseInt(uri.getPathSegments().get(1));
-
-                rowsUpdate = db.update(Contract.PrefSubRedditEntry.TABLE_NAME,
-                        values,
-                        "_id=?",
-                        new String[]{String.valueOf(id)});
-                break;
-
-            case T1DATAS:
-                rowsUpdate = db.update(Contract.T1dataEntry.TABLE_NAME,
-                        values,
-                        selection,
-                        selectionArgs);
-                break;
-
-            case T1DATA_WITH_ID:
-
-                id = Integer.parseInt(uri.getPathSegments().get(1));
-
-                rowsUpdate = db.update(Contract.T1dataEntry.TABLE_NAME,
-                        values,
-                        "_id=?",
-                        new String[]{String.valueOf(id)});
-                break;
-
-            case T1MORESDATAS:
-                rowsUpdate = db.update(Contract.T1MoresDataEntry.TABLE_NAME,
-                        values,
-                        selection,
-                        selectionArgs);
-                break;
-
-            case T1MORESDATA_WITH_ID:
-
-                id = Integer.parseInt(uri.getPathSegments().get(1));
-
-                rowsUpdate = db.update(Contract.T1MoresDataEntry.TABLE_NAME,
-                        values,
-                        "_id=?",
-                        new String[]{String.valueOf(id)});
-                break;
-
-            default:
-                throw new UnsupportedOperationException("Uri not found: " + uri);
-        }
-
-        if (rowsUpdate != 0) {
+                default:
+                    throw new UnsupportedOperationException("Uri not found: " + uri);
+            }
             if (getContext() != null) {
 
                 getContext().getContentResolver().notifyChange(uri, null);
             }
+
+            return returnUri;
         }
 
-        return rowsUpdate;
-    }
+        @Override
+        public int delete (@NonNull Uri uri, @Nullable String selection, @Nullable String[]
+        selectionArgs){
 
-    @Override
-    public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
+            int id;
+            final SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
-        final SQLiteDatabase db = mDbHelper.getWritableDatabase();
+            int match = sUriMatMATCHER.match(uri);
 
-        int match = sUriMatMATCHER.match(uri);
+            int recordDelete;
 
+            switch (match) {
 
-        int rowsInserted;
-        switch (match) {
+                case REDDITS:
+                    recordDelete = db.delete(Contract.RedditEntry.TABLE_NAME,
+                            selection,
+                            selectionArgs);
+                    break;
 
-            case REDDITS:
-                db.beginTransaction();
-                rowsInserted = 0;
+                case REDDIT_WITH_ID:
+                    id = Integer.parseInt(uri.getPathSegments().get(1));
 
-                try {
-                    // insert all data
-                    for (ContentValues value : values) {
-                        if (value == null) {
-                            throw new IllegalArgumentException("Cannot have null content values");
-                        }
-
-                        long _id = db.insertOrThrow(Contract.RedditEntry.TABLE_NAME, null, value);
-                        if (_id != -1) {
-                            rowsInserted++;
-                        }
-                    }
-                    db.setTransactionSuccessful();
-
-                } catch (SQLiteException e) {
-                    Timber.v("Attempting to insert %s", e.getMessage());
-                } finally {
-                    // execute after ..... when is complete
-                    db.endTransaction();
-                }
-                if ((getContext() != null) && (rowsInserted > 0)) {
-                    getContext().getContentResolver().notifyChange(uri, null);
-                }
-
-                return rowsInserted;
-
-            case DATAS:
-                db.beginTransaction();
-                rowsInserted = 0;
-
-                try {
-                    // insert all data
-                    for (ContentValues value : values) {
-
-                        if (value == null) {
-                            throw new IllegalArgumentException("Cannot have null content values");
-                        }
+                    recordDelete = db.delete(Contract.RedditEntry.TABLE_NAME,
+                            "_id=?",
+                            new String[]{String.valueOf(id)});
+                    break;
 
 
-                        long _id = db.insertOrThrow(Contract.DataEntry.TABLE_NAME, null, value);
-                        if (_id != -1) {
-                            rowsInserted++;
-                        }
-                    }
-                    db.setTransactionSuccessful();
+                case DATAS:
+                    recordDelete = db.delete(Contract.DataEntry.TABLE_NAME,
+                            selection,
+                            selectionArgs);
+                    break;
 
-                } catch (SQLiteException e) {
-                    Timber.v("Attempting to insert %s", e.getMessage());
-                } finally {
-                    // execute after ..... when is complete
-                    db.endTransaction();
-                }
-                if ((getContext() != null) && (rowsInserted > 0)) {
-                    getContext().getContentResolver().notifyChange(uri, null);
-                }
+                case DATA_WITH_ID:
 
-                return rowsInserted;
+                    id = Integer.parseInt(uri.getPathSegments().get(1));
 
-            case T5DATAS:
-                db.beginTransaction();
-                rowsInserted = 0;
+                    recordDelete = db.delete(Contract.DataEntry.TABLE_NAME,
+                            "_id=?",
+                            new String[]{String.valueOf(id)});
+                    break;
 
-                try {
-                    for (ContentValues value : values) {
+                case T5DATAS:
+                    recordDelete = db.delete(Contract.T5dataEntry.TABLE_NAME,
+                            selection,
+                            selectionArgs);
+                    break;
 
-                        if (value == null) {
-                            throw new IllegalArgumentException("Cannot have null content values");
-                        }
+                case T5DATA_WITH_ID:
 
-                        long _id = db.insertOrThrow(Contract.T5dataEntry.TABLE_NAME, null, value);
-                        if (_id != -1) {
-                            rowsInserted++;
-                        }
-                    }
-                    db.setTransactionSuccessful();
+                    id = Integer.parseInt(uri.getPathSegments().get(1));
 
-                } catch (SQLiteException e) {
-                    Timber.v("Attempting to insert %s", e.getMessage());
-                } finally {
-                    db.endTransaction();
-                }
-                if ((getContext() != null) && (rowsInserted > 0)) {
-                    getContext().getContentResolver().notifyChange(uri, null);
-                }
+                    recordDelete = db.delete(Contract.T5dataEntry.TABLE_NAME,
+                            "_id=?",
+                            new String[]{String.valueOf(id)});
+                    break;
 
-                return rowsInserted;
+                case T3DATAS:
+                    recordDelete = db.delete(Contract.T3dataEntry.TABLE_NAME,
+                            selection,
+                            selectionArgs);
+                    break;
 
-            case T3DATAS:
-                db.beginTransaction();
-                rowsInserted = 0;
+                case T3DATA_WITH_ID:
 
-                try {
-                    for (ContentValues value : values) {
+                    id = Integer.parseInt(uri.getPathSegments().get(1));
 
-                        if (value == null) {
-                            throw new IllegalArgumentException("Cannot have null content values");
-                        }
+                    recordDelete = db.delete(Contract.T3dataEntry.TABLE_NAME,
+                            "_id=?",
+                            new String[]{String.valueOf(id)});
+                    break;
 
-                        long _id = db.insertOrThrow(Contract.T3dataEntry.TABLE_NAME, null, value);
-                        if (_id != -1) {
-                            rowsInserted++;
-                        }
-                    }
-                    db.setTransactionSuccessful();
+                case PREFSUBREDDITS:
+                    recordDelete = db.delete(Contract.PrefSubRedditEntry.TABLE_NAME,
+                            selection,
+                            selectionArgs);
+                    break;
 
-                } catch (SQLiteException e) {
-                    Timber.v("Attempting to insert %s", e.getMessage());
-                } finally {
-                    db.endTransaction();
-                }
-                if ((getContext() != null) && (rowsInserted > 0)) {
-                    getContext().getContentResolver().notifyChange(uri, null);
-                }
+                case PREFSUBREDDIT_WITH_ID:
 
-                return rowsInserted;
+                    id = Integer.parseInt(uri.getPathSegments().get(1));
 
-            case PREFSUBREDDITS:
-                db.beginTransaction();
-                rowsInserted = 0;
+                    recordDelete = db.delete(Contract.PrefSubRedditEntry.TABLE_NAME,
+                            "_id=?",
+                            new String[]{String.valueOf(id)});
+                    break;
 
-                try {
-                    for (ContentValues value : values) {
+                case T1DATAS:
+                    recordDelete = db.delete(Contract.T1dataEntry.TABLE_NAME,
+                            selection,
+                            selectionArgs);
+                    break;
 
-                        if (value == null) {
-                            throw new IllegalArgumentException("Cannot have null content values");
-                        }
+                case T1DATA_WITH_ID:
 
-                        long _id = db.insertOrThrow(Contract.PrefSubRedditEntry.TABLE_NAME, null, value);
-                        if (_id != -1) {
-                            rowsInserted++;
-                        }
-                    }
-                    db.setTransactionSuccessful();
+                    id = Integer.parseInt(uri.getPathSegments().get(1));
 
-                } catch (SQLiteException e) {
-                    Timber.v("Attempting to insert %s", e.getMessage());
-                } finally {
-                    db.endTransaction();
-                }
-                if ((getContext() != null) && (rowsInserted > 0)) {
-                    getContext().getContentResolver().notifyChange(uri, null);
-                }
+                    recordDelete = db.delete(Contract.T1dataEntry.TABLE_NAME,
+                            "_id=?",
+                            new String[]{String.valueOf(id)});
+                    break;
 
-                return rowsInserted;
+                case T1MORESDATAS:
+                    recordDelete = db.delete(Contract.T1MoresDataEntry.TABLE_NAME,
+                            selection,
+                            selectionArgs);
+                    break;
 
-            case T1DATAS:
-                db.beginTransaction();
-                rowsInserted = 0;
+                case T1MORESDATA_WITH_ID:
 
-                try {
-                    for (ContentValues value : values) {
+                    id = Integer.parseInt(uri.getPathSegments().get(1));
 
-                        if (value == null) {
-                            throw new IllegalArgumentException("Cannot have null content values");
-                        }
+                    recordDelete = db.delete(Contract.T1MoresDataEntry.TABLE_NAME,
+                            "_id=?",
+                            new String[]{String.valueOf(id)});
+                    break;
 
-                        long _id = db.insertOrThrow(Contract.T1dataEntry.TABLE_NAME, null, value);
-                        if (_id != -1) {
-                            rowsInserted++;
-                        }
-                    }
-                    db.setTransactionSuccessful();
+                default:
+                    throw new UnsupportedOperationException("Uri not found: " + uri);
+            }
 
-                } catch (SQLiteException e) {
-                    Timber.v("Attempting to insert %s", e.getMessage());
-                } finally {
-                    db.endTransaction();
-                }
-                if ((getContext() != null) && (rowsInserted > 0)) {
-                    getContext().getContentResolver().notifyChange(uri, null);
-                }
+            if ((getContext() != null) && (recordDelete != 0)) {
+                getContext().getContentResolver().notifyChange(uri, null);
+            }
 
-                return rowsInserted;
-
-            default:
-                return super.bulkInsert(uri, values);
+            return recordDelete;
         }
 
+        @Override
+        public int update (@NonNull Uri uri, @Nullable ContentValues values, @Nullable String
+        selection, @Nullable String[]selectionArgs){
+
+            int id;
+            int rowsUpdate;
+
+            final SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+            int match = sUriMatMATCHER.match(uri);
+
+
+            switch (match) {
+
+                case REDDITS:
+                    rowsUpdate = db.update(Contract.RedditEntry.TABLE_NAME,
+                            values,
+                            selection,
+                            selectionArgs);
+                    break;
+
+                case REDDIT_WITH_ID:
+                    id = Integer.parseInt(uri.getPathSegments().get(1));
+
+                    rowsUpdate = db.update(Contract.RedditEntry.TABLE_NAME,
+                            values,
+                            "_id=?",
+                            new String[]{String.valueOf(id)});
+                    break;
+
+                case DATAS:
+                    rowsUpdate = db.update(Contract.DataEntry.TABLE_NAME,
+                            values,
+                            selection,
+                            selectionArgs);
+                    break;
+
+                case DATA_WITH_ID:
+
+                    id = Integer.parseInt(uri.getPathSegments().get(1));
+
+                    rowsUpdate = db.update(Contract.DataEntry.TABLE_NAME,
+                            values,
+                            "_id=?",
+                            new String[]{String.valueOf(id)});
+                    break;
+
+                case T5DATAS:
+                    rowsUpdate = db.update(Contract.T5dataEntry.TABLE_NAME,
+                            values,
+                            selection,
+                            selectionArgs);
+                    break;
+
+                case T5DATA_WITH_ID:
+
+                    id = Integer.parseInt(uri.getPathSegments().get(1));
+
+                    rowsUpdate = db.update(Contract.T5dataEntry.TABLE_NAME,
+                            values,
+                            "_id=?",
+                            new String[]{String.valueOf(id)});
+                    break;
+
+                case T3DATAS:
+                    rowsUpdate = db.update(Contract.T3dataEntry.TABLE_NAME,
+                            values,
+                            selection,
+                            selectionArgs);
+                    break;
+
+                case T3DATA_WITH_ID:
+
+                    id = Integer.parseInt(uri.getPathSegments().get(1));
+
+                    rowsUpdate = db.update(Contract.T3dataEntry.TABLE_NAME,
+                            values,
+                            "_id=?",
+                            new String[]{String.valueOf(id)});
+                    break;
+
+                case PREFSUBREDDITS:
+                    rowsUpdate = db.update(Contract.PrefSubRedditEntry.TABLE_NAME,
+                            values,
+                            selection,
+                            selectionArgs);
+                    break;
+
+                case PREFSUBREDDIT_WITH_ID:
+
+                    id = Integer.parseInt(uri.getPathSegments().get(1));
+
+                    rowsUpdate = db.update(Contract.PrefSubRedditEntry.TABLE_NAME,
+                            values,
+                            "_id=?",
+                            new String[]{String.valueOf(id)});
+                    break;
+
+                case T1DATAS:
+                    rowsUpdate = db.update(Contract.T1dataEntry.TABLE_NAME,
+                            values,
+                            selection,
+                            selectionArgs);
+                    break;
+
+                case T1DATA_WITH_ID:
+
+                    id = Integer.parseInt(uri.getPathSegments().get(1));
+
+                    rowsUpdate = db.update(Contract.T1dataEntry.TABLE_NAME,
+                            values,
+                            "_id=?",
+                            new String[]{String.valueOf(id)});
+                    break;
+
+                case T1MORESDATAS:
+                    rowsUpdate = db.update(Contract.T1MoresDataEntry.TABLE_NAME,
+                            values,
+                            selection,
+                            selectionArgs);
+                    break;
+
+                case T1MORESDATA_WITH_ID:
+
+                    id = Integer.parseInt(uri.getPathSegments().get(1));
+
+                    rowsUpdate = db.update(Contract.T1MoresDataEntry.TABLE_NAME,
+                            values,
+                            "_id=?",
+                            new String[]{String.valueOf(id)});
+                    break;
+
+                default:
+                    throw new UnsupportedOperationException("Uri not found: " + uri);
+            }
+
+            if (rowsUpdate != 0) {
+                if (getContext() != null) {
+
+                    getContext().getContentResolver().notifyChange(uri, null);
+                }
+            }
+
+            return rowsUpdate;
+        }
+
+
+        @Override
+        public int bulkInsert (@NonNull Uri uri, @NonNull ContentValues[]values){
+
+            final SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+            int match = sUriMatMATCHER.match(uri);
+
+
+            int rowsInserted;
+            switch (match) {
+
+                case REDDITS:
+                    db.beginTransaction();
+                    rowsInserted = 0;
+
+                    try {
+                        // insert all data
+                        for (ContentValues value : values) {
+                            if (value == null) {
+                                throw new IllegalArgumentException("Cannot have null content values");
+                            }
+
+                            long _id = db.insertOrThrow(Contract.RedditEntry.TABLE_NAME, null, value);
+                            if (_id != -1) {
+                                rowsInserted++;
+                            }
+                        }
+                        db.setTransactionSuccessful();
+
+                    } catch (SQLiteException e) {
+                        Timber.v("Attempting to insert %s", e.getMessage());
+                    } finally {
+                        // execute after ..... when is complete
+                        db.endTransaction();
+                    }
+                    if ((getContext() != null) && (rowsInserted > 0)) {
+                        getContext().getContentResolver().notifyChange(uri, null);
+                    }
+
+                    return rowsInserted;
+
+                case DATAS:
+                    db.beginTransaction();
+                    rowsInserted = 0;
+
+                    try {
+                        // insert all data
+                        for (ContentValues value : values) {
+
+                            if (value == null) {
+                                throw new IllegalArgumentException("Cannot have null content values");
+                            }
+
+
+                            long _id = db.insertOrThrow(Contract.DataEntry.TABLE_NAME, null, value);
+                            if (_id != -1) {
+                                rowsInserted++;
+                            }
+                        }
+                        db.setTransactionSuccessful();
+
+                    } catch (SQLiteException e) {
+                        Timber.v("Attempting to insert %s", e.getMessage());
+                    } finally {
+                        // execute after ..... when is complete
+                        db.endTransaction();
+                    }
+                    if ((getContext() != null) && (rowsInserted > 0)) {
+                        getContext().getContentResolver().notifyChange(uri, null);
+                    }
+
+                    return rowsInserted;
+
+                case T5DATAS:
+                    db.beginTransaction();
+                    rowsInserted = 0;
+
+                    try {
+                        for (ContentValues value : values) {
+
+                            if (value == null) {
+                                throw new IllegalArgumentException("Cannot have null content values");
+                            }
+
+                            long _id = db.insertOrThrow(Contract.T5dataEntry.TABLE_NAME, null, value);
+                            if (_id != -1) {
+                                rowsInserted++;
+                            }
+                        }
+                        db.setTransactionSuccessful();
+
+                    } catch (SQLiteException e) {
+                        Timber.v("Attempting to insert %s", e.getMessage());
+                    } finally {
+                        db.endTransaction();
+                    }
+                    if ((getContext() != null) && (rowsInserted > 0)) {
+                        getContext().getContentResolver().notifyChange(uri, null);
+                    }
+
+                    return rowsInserted;
+
+                case T3DATAS:
+                    db.beginTransaction();
+                    rowsInserted = 0;
+
+                    try {
+                        for (ContentValues value : values) {
+
+                            if (value == null) {
+                                throw new IllegalArgumentException("Cannot have null content values");
+                            }
+
+                            long _id = db.insertOrThrow(Contract.T3dataEntry.TABLE_NAME, null, value);
+                            if (_id != -1) {
+                                rowsInserted++;
+                            }
+                        }
+                        db.setTransactionSuccessful();
+
+                    } catch (SQLiteException e) {
+                        Timber.v("Attempting to insert %s", e.getMessage());
+                    } finally {
+                        db.endTransaction();
+                    }
+                    if ((getContext() != null) && (rowsInserted > 0)) {
+                        getContext().getContentResolver().notifyChange(uri, null);
+                    }
+
+                    return rowsInserted;
+
+                case PREFSUBREDDITS:
+                    db.beginTransaction();
+                    rowsInserted = 0;
+
+                    try {
+                        for (ContentValues value : values) {
+
+                            if (value == null) {
+                                throw new IllegalArgumentException("Cannot have null content values");
+                            }
+
+                            long _id = db.insertOrThrow(Contract.PrefSubRedditEntry.TABLE_NAME, null, value);
+                            if (_id != -1) {
+                                rowsInserted++;
+                            }
+                        }
+                        db.setTransactionSuccessful();
+
+                    } catch (SQLiteException e) {
+                        Timber.v("Attempting to insert %s", e.getMessage());
+                    } finally {
+                        db.endTransaction();
+                    }
+                    if ((getContext() != null) && (rowsInserted > 0)) {
+                        getContext().getContentResolver().notifyChange(uri, null);
+                    }
+
+                    return rowsInserted;
+
+                case T1DATAS:
+                    db.beginTransaction();
+                    rowsInserted = 0;
+
+                    try {
+                        for (ContentValues value : values) {
+
+                            if (value == null) {
+                                throw new IllegalArgumentException("Cannot have null content values");
+                            }
+
+                            long _id = db.insertOrThrow(Contract.T1dataEntry.TABLE_NAME, null, value);
+                            if (_id != -1) {
+                                rowsInserted++;
+                            }
+                        }
+                        db.setTransactionSuccessful();
+
+                    } catch (SQLiteException e) {
+                        Timber.v("Attempting to insert %s", e.getMessage());
+                    } finally {
+                        db.endTransaction();
+                    }
+                    if ((getContext() != null) && (rowsInserted > 0)) {
+                        getContext().getContentResolver().notifyChange(uri, null);
+                    }
+
+                    return rowsInserted;
+
+                default:
+                    return super.bulkInsert(uri, values);
+            }
+
+        }
+
+
     }
-
-
-}
