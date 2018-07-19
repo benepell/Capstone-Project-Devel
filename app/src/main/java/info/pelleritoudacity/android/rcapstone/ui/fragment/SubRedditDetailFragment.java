@@ -108,14 +108,13 @@ public class SubRedditDetailFragment extends Fragment
 
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new SubRedditDetailAdapter(this,mPosition);
+        mAdapter = new SubRedditDetailAdapter(this,mPosition,isChildFragment);
 
         mRecyclerView.setAdapter(mAdapter);
 
 
         return view;
     }
-
 
     @Override
     public void onResume() {
