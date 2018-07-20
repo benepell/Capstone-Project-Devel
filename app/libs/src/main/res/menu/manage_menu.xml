@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_action_restore"
+        android:enabled="true"
+        android:title="@string/title_menu_restore"
+        android:visible="true"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_action_login"
+        android:enabled="true"
+        android:title="@string/title_menu_login"
+        android:visible="true" />
+    <item
+        android:id="@+id/menu_action_logout"
+        android:enabled="true"
+        android:title="@string/title_menu_logout"
+        android:visible="false" />
+
+    <item
+        android:id="@+id/menu_action_filter"
+        android:enabled="true"
+        android:title="@string/title_menu_filter"
+        android:visible="true">
+        <menu>
+
+            <item
+                android:id="@+id/submenu_filter_confidence"
+                android:enabled="true"
+                android:title="@string/title_submenu_hot"
+                android:visible="true" />
+            <item
+                android:id="@+id/submenu_filter_top"
+                android:enabled="true"
+                android:title="@string/title_submenu_top"
+                android:visible="true" />
+            <item
+                android:id="@+id/submenu_filter_new"
+                android:enabled="true"
+                android:title="@string/title_submenu_new"
+                android:visible="true" />
+            <item
+                android:id="@+id/submenu_filter_old"
+                android:enabled="true"
+                android:title="@string/title_submenu_rising"
+                android:visible="true" />
+            <item
+                android:id="@+id/submenu_filter_controver"
+                android:enabled="true"
+                android:title="@string/title_submenu_controver"
+                android:visible="true" />
+
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/menu_action_create"
+        android:enabled="true"
+        android:title="@string/title_menu_create"
+        android:visible="true" />
+
+    <item
+        android:id="@+id/menu_action_refresh"
+        android:enabled="true"
+        android:title="@string/title_menu_mode_refresh"
+        android:visible="true" />
+
+    <item
+        android:id="@+id/menu_action_settings"
+        android:enabled="true"
+        android:title="@string/title_menu_mode_settings"
+        android:visible="true" />
+
+</menu>
+

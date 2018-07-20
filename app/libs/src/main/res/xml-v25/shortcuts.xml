@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/shortcut_all"
+        android:shortcutDisabledMessage="@string/shortcut_disabled_message_all"
+        android:shortcutId="shortcut_compose_all"
+        android:shortcutLongLabel="@string/shortcut_long_text_all"
+        android:shortcutShortLabel="@string/shortcut_text_all">
+        <intent
+            android:action="info.pelleritoudacity.android.rcapstone.shortcut.all"
+            android:targetClass="info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity"
+            android:targetPackage="info.pelleritoudacity.android.rcapstone.free.debug" />
+    </shortcut>
+
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/shortcut_popular"
+        android:shortcutDisabledMessage="@string/shortcut_disabled_message_popular"
+        android:shortcutId="shortcut_compose_popular"
+        android:shortcutLongLabel="@string/shortcut_long_text_popular"
+        android:shortcutShortLabel="@string/shortcut_text_popular">
+        <intent
+            android:action="info.pelleritoudacity.android.rcapstone.shortcut.popular"
+            android:targetClass="info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity"
+            android:targetPackage="info.pelleritoudacity.android.rcapstone.free.debug" />
+    </shortcut>
+
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/shortcut_search"
+        android:shortcutDisabledMessage="@string/shortcut_disabled_message_search"
+        android:shortcutId="shortcut_compose_search"
+        android:shortcutLongLabel="@string/shortcut_long_text_search"
+        android:shortcutShortLabel="@string/shortcut_text_search">
+        <intent
+            android:action="info.pelleritoudacity.android.rcapstone.shortcut.search"
+            android:targetClass="info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity"
+            android:targetPackage="info.pelleritoudacity.android.rcapstone.free.debug" />
+    </shortcut>
+
+
+</shortcuts>

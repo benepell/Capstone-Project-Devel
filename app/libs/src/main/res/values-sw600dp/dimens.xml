@@ -1,0 +1,6 @@
+<resources>
+    <!-- detail -->
+
+    <dimen name="settings_margin">16dp</dimen>
+
+</resources>

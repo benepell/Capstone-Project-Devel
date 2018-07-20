@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_action_login"
+        android:enabled="true"
+        android:title="@string/title_menu_login"
+        android:visible="true" />
+    <item
+        android:id="@+id/menu_action_logout"
+        android:enabled="true"
+        android:title="@string/title_menu_logout"
+        android:visible="false" />
+
+
+    <item
+        android:id="@+id/submenu_filter_general"
+        android:enabled="true"
+        android:title="@string/title_submenu_general"
+        android:visible="true"
+        app:showAsAction="withText">
+
+        <menu xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
+            <item
+                android:id="@+id/action_general_images"
+                android:checkable="true"
+                android:title="@string/title_general_images"
+                app:actionLayout="@layout/action_layout_styled_checkbox"
+                app:showAsAction="ifRoom|withText" />
+            <item
+                android:id="@+id/action_general_gifs"
+                android:checkable="true"
+                android:title="@string/title_general_gifs"
+                app:actionLayout="@layout/action_layout_styled_checkbox"
+                app:showAsAction="ifRoom|withText" />
+            <item
+                android:id="@+id/action_general_albums"
+                android:checkable="true"
+                android:title="@string/title_general_albums"
+                app:actionLayout="@layout/action_layout_styled_checkbox"
+                app:showAsAction="ifRoom|withText" />
+
+            <item
+                android:id="@+id/action_general_videos"
+                android:checkable="true"
+                android:title="@string/title_general_videos"
+                app:actionLayout="@layout/action_layout_styled_checkbox"
+                app:showAsAction="ifRoom|withText" />
+
+            <item
+                android:id="@+id/action_general_self"
+                android:checkable="true"
+                android:title="@string/title_general_self"
+                app:actionLayout="@layout/action_layout_styled_checkbox"
+                app:showAsAction="ifRoom|withText" />
+
+            <item
+                android:id="@+id/action_general_links"
+                android:checkable="true"
+                android:title="@string/title_general_links"
+                app:actionLayout="@layout/action_layout_styled_checkbox"
+                app:showAsAction="ifRoom|withText" />
+
+
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/submenu_filter_posts"
+        android:enabled="true"
+        android:icon="@drawable/ic_sort_24dp"
+        android:title="@string/title_submenu_filter"
+        android:visible="true"
+        app:showAsAction="ifRoom">
+
+        <menu xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
+            <item
+                android:id="@+id/submenu_filter_hot"
+                android:enabled="true"
+                android:title="@string/title_submenu_hot"
+                android:visible="true" />
+
+            <item
+                android:id="@+id/submenu_filter_new"
+                android:enabled="true"
+                android:title="@string/title_submenu_new"
+                android:visible="true" />
+            <item
+                android:id="@+id/submenu_filter_rising"
+                android:enabled="true"
+                android:title="@string/title_submenu_rising"
+                android:visible="true" />
+            <item
+                android:id="@+id/submenu_filter_top"
+                android:enabled="true"
+                android:title="@string/title_submenu_top"
+                android:visible="true">
+
+                <menu>
+                    <item
+                        android:id="@+id/submenu_top_hour"
+                        android:enabled="true"
+                        android:title="@string/title_filter_hour"
+                        android:visible="true" />
+                    <item
+                        android:id="@+id/submenu_top_day"
+                        android:enabled="true"
+                        android:title="@string/title_filter_day"
+                        android:visible="true" />
+                    <item
+                        android:id="@+id/submenu_top_week"
+                        android:enabled="true"
+                        android:title="@string/title_filter_week"
+                        android:visible="true" />
+                    <item
+                        android:id="@+id/submenu_top_month"
+                        android:enabled="true"
+                        android:title="@string/title_filter_month"
+                        android:visible="true" />
+                    <item
+                        android:id="@+id/submenu_top_year"
+                        android:enabled="true"
+                        android:title="@string/title_filter_year"
+                        android:visible="true" />
+                    <item
+                        android:id="@+id/submenu_top_all"
+                        android:enabled="true"
+                        android:title="@string/title_filter_all"
+                        android:visible="true" />
+
+                </menu>
+
+
+            </item>
+
+            <item
+                android:id="@+id/submenu_filter_controver"
+                android:enabled="true"
+                android:title="@string/title_submenu_controver"
+                android:visible="true">
+                <menu>
+                    <item
+                        android:id="@+id/submenu_controver_hour"
+                        android:enabled="true"
+                        android:title="@string/title_filter_hour"
+                        android:visible="true" />
+                    <item
+                        android:id="@+id/submenu_controver_day"
+                        android:enabled="true"
+                        android:title="@string/title_filter_day"
+                        android:visible="true" />
+                    <item
+                        android:id="@+id/submenu_controver_week"
+                        android:enabled="true"
+                        android:title="@string/title_filter_week"
+                        android:visible="true" />
+                    <item
+                        android:id="@+id/submenu_controver_month"
+                        android:enabled="true"
+                        android:title="@string/title_filter_month"
+                        android:visible="true" />
+                    <item
+                        android:id="@+id/submenu_controver_year"
+                        android:enabled="true"
+                        android:title="@string/title_filter_year"
+                        android:visible="true" />
+                    <item
+                        android:id="@+id/submenu_controver_all"
+                        android:enabled="true"
+                        android:title="@string/title_filter_all"
+                        android:visible="true" />
+
+                </menu>
+            </item>
+
+
+        </menu>
+    </item>
+
+
+    <item
+        android:id="@+id/menu_action_create"
+        android:enabled="true"
+        android:title="@string/title_menu_create"
+        android:visible="true" />
+
+    <item
+        android:id="@+id/menu_action_refresh"
+        android:enabled="true"
+        android:title="@string/title_menu_mode_refresh"
+        android:visible="true"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_action_settings"
+        android:enabled="true"
+        android:title="@string/title_menu_mode_settings"
+        android:visible="true" />
+
+</menu>
+
