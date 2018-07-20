@@ -116,15 +116,6 @@
                 </LinearLayout>
 
             </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/fragment_subreddit_more_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:orientation="vertical" />
-
-
         </LinearLayout>
 
         <include layout="@layout/inc_select_bottom" />

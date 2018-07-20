@@ -27,7 +27,7 @@ import info.pelleritoudacity.android.rcapstone.utility.Preference;
 
 public class SubRedditDetailActivity extends BaseActivity
         implements RestDetailExecute.RestSubReddit,
-        SubRedditDetailFragment.OnFragmentInteractionListener, RestMoreExecute.RestSubRedditMore, SwipeRefreshLayout.OnRefreshListener,NestedScrollView.OnScrollChangeListener {
+        SubRedditDetailFragment.OnFragmentInteractionListener, RestMoreExecute.RestSubRedditMore, SwipeRefreshLayout.OnRefreshListener {
 
     @SuppressWarnings("unused")
     @BindView(R.id.subreddit_detail_container)
@@ -48,7 +48,6 @@ public class SubRedditDetailActivity extends BaseActivity
     private String mStrLinkId;
     private int mId;
     private int mPosition;
-    private int mNestedScrollViewHeight;
 
 
     @Override
@@ -59,7 +58,6 @@ public class SubRedditDetailActivity extends BaseActivity
         mContext = getApplicationContext();
         Intent intent = getIntent();
 
-        mNestedScrollView.setOnScrollChangeListener(this);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         if (intent != null) {
@@ -98,18 +96,17 @@ public class SubRedditDetailActivity extends BaseActivity
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_subreddit_selected_container, subRedditSelectedFragment).commitAllowingStateLoss();
 
-        SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(position,strId, 0, null, null,false);
+        SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(position,strId, 0, null, null);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_subreddit_detail_container, fragment).commitAllowingStateLoss();
 
     }
 
     private void startMoreFragment(int position,String strId, int id, String strArrId, String strLinkId) {
-        SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(position,strId, id, strArrId, strLinkId,false);
+        SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(position,strId, id, strArrId, strLinkId);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_subreddit_detail_container, fragment).commitAllowingStateLoss();
 
-        mNestedScrollView.getChildAt(0).scrollTo(0,mNestedScrollViewHeight);
     }
 
 
@@ -184,9 +181,7 @@ public class SubRedditDetailActivity extends BaseActivity
 
                 if (t1moreOperation.saveMoreData(listenerData.getJson(), mStrArrId)) {
 
-
                     startMoreFragment(mPosition,mStrId, mId,mStrArrId ,mStrLinkId);
-                    // todo set operation open fragment etc... set value strarrid
 
                     if (mSwipeRefreshLayout != null) {
                         mSwipeRefreshLayout.setRefreshing(false);
@@ -202,10 +197,5 @@ public class SubRedditDetailActivity extends BaseActivity
     @Override
     public void onErrorSubRedditMore(Throwable t) {
 
-    }
-
-    @Override
-    public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-        mNestedScrollViewHeight = scrollY;
     }
 }

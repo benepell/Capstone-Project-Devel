@@ -50,14 +50,13 @@ public class SubRedditDetailFragment extends Fragment
     private OnFragmentInteractionListener mListener;
     private int mId;
     private String mStrArrId;
-    private boolean isChildFragment;
     private int mPosition;
 
 
     public SubRedditDetailFragment() {
     }
 
-    public static SubRedditDetailFragment newInstance(int position,String strId, int id, String strArrId, String strLinkId, boolean childFragment) {
+    public static SubRedditDetailFragment newInstance(int position,String strId, int id, String strArrId, String strLinkId) {
         SubRedditDetailFragment fragment = new SubRedditDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_STRID, strId);
@@ -65,7 +64,6 @@ public class SubRedditDetailFragment extends Fragment
         bundle.putInt(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ID, id);
         bundle.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ARRID, strArrId);
         bundle.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_LINKID, strLinkId);
-        bundle.putBoolean(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_IS_CHILD, childFragment);
 
         fragment.setArguments(bundle);
         return fragment;
@@ -81,7 +79,6 @@ public class SubRedditDetailFragment extends Fragment
             mId = getArguments().getInt(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ID);
             mPosition = getArguments().getInt(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_POSITION);
             mStrArrId = getArguments().getString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ARRID);
-            isChildFragment = getArguments().getBoolean(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_IS_CHILD);
         }
 
     }
@@ -108,13 +105,14 @@ public class SubRedditDetailFragment extends Fragment
 
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new SubRedditDetailAdapter(this,mPosition,isChildFragment);
+        mAdapter = new SubRedditDetailAdapter(this);
 
         mRecyclerView.setAdapter(mAdapter);
 
 
         return view;
     }
+
 
     @Override
     public void onResume() {
@@ -135,7 +133,6 @@ public class SubRedditDetailFragment extends Fragment
             mId = savedInstanceState.getInt(Costant.EXTRA_FRAGMENT_DETAIL_ID);
             mPosition = savedInstanceState.getInt(Costant.EXTRA_FRAGMENT_DETAIL_POSITION);
             mStrLinkId = savedInstanceState.getString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_LINKID);
-            isChildFragment = savedInstanceState.getBoolean(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_IS_CHILD);
 
         }
 
@@ -186,7 +183,7 @@ public class SubRedditDetailFragment extends Fragment
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
         return new SubRedditDetailFragmentAsyncTask(Objects.requireNonNull(getActivity()), mStrId, mId, mStrArrId, mStrLinkId,
-                Preference.isLoginOver18(getContext()), isChildFragment);
+                Preference.isLoginOver18(getContext()));
     }
 
     @Override
@@ -223,17 +220,15 @@ public class SubRedditDetailFragment extends Fragment
         private final String mArrStrId;
         private final String mStrLinkId;
         private final int mId;
-        private final boolean isChildFragment;
 
 
-        SubRedditDetailFragmentAsyncTask(Context context, String strId, int id, String strArrId, String strLinkId, boolean isOver18, boolean childFragment) {
+        SubRedditDetailFragmentAsyncTask(Context context, String strId, int id, String strArrId, String strLinkId, boolean isOver18) {
             super(context);
             this.isOver18 = isOver18;
             mStrId = strId;
             mStrLinkId = strLinkId;
             mId = id;
             mArrStrId = strArrId;
-            isChildFragment = childFragment;
         }
 
         @Override
@@ -266,7 +261,7 @@ public class SubRedditDetailFragment extends Fragment
                 String[] selectionArgs;
                 String sortBy = null;
 
-                if (isChildFragment && (!TextUtils.isEmpty(mStrLinkId))) {
+                if (!TextUtils.isEmpty(mStrLinkId)) {
 
                     DataUtils d = new DataUtils(getContext());
 

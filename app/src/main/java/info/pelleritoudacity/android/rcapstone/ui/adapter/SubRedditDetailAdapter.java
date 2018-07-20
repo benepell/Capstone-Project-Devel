@@ -38,30 +38,17 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
     private final SubRedditDetailFragment mListener;
     private Cursor mCursor;
     private int mSelectorPosition = RecyclerView.NO_POSITION;
-    private SubRedditDetailFragment mChildFragment;
-    private final int mPosition;
-    private boolean isChildFragment;
 
-    public SubRedditDetailAdapter(SubRedditDetailFragment listener, int position, boolean childFragment) {
+    public SubRedditDetailAdapter(SubRedditDetailFragment listener) {
         mListener = listener;
         mContext = listener.getActivity();
-        mPosition = position;
-        isChildFragment = childFragment;
     }
 
 
     @NonNull
     @Override
     public SubRedditDetailHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        int layoutId;
-
-        if(!isChildFragment){
-            layoutId = R.layout.list_subreddit_detail;
-        }else {
-            layoutId = R.layout.list_subreddit_child_detail;
-        }
-
-
+        int layoutId = R.layout.list_subreddit_detail;
         LayoutInflater inflater = LayoutInflater.from(mContext);
 
         View view = inflater.inflate(layoutId, parent, false);
@@ -153,29 +140,8 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
 
             }
 
-            childFragment(mListener, holder.mChildContainer, position, id, strId, strLinkId, strArrId);
-
             mListener.adapterPosition(holder.getAdapterPosition(), record.getSubReddit());
         }
-    }
-
-    private void childFragment(SubRedditDetailFragment listener, LinearLayout container, int position, int id, String strId, String strLinkId, String strArrId) {
-
-        mChildFragment = SubRedditDetailFragment.newInstance(position, strId, id, strArrId, strLinkId, true);
-        listener.getChildFragmentManager().beginTransaction()
-                .replace(R.id.fragment_subreddit_more_container, mChildFragment).commit();
-
-
-        if ((mChildFragment == null) && (position == mPosition &&
-                (id == (listener.getArguments().getInt(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ID))))) {
-
-            if (!TextUtils.isEmpty(strLinkId)) {
-                container.setVisibility(View.VISIBLE);
-            }
-        } else {
-            container.setVisibility(View.GONE);
-        }
-
     }
 
     @Override
@@ -210,10 +176,6 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         @SuppressWarnings("unused")
         @BindView(R.id.card_linear)
         LinearLayout mCardLinear;
-
-        @SuppressWarnings("unused")
-        @BindView(R.id.fragment_subreddit_more_container)
-        LinearLayout mChildContainer;
 
         @SuppressWarnings("unused")
         @BindView(R.id.view_depth)
