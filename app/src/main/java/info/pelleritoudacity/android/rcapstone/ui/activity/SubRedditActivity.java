@@ -97,7 +97,6 @@ public class SubRedditActivity extends BaseActivity
         super.onCreate(savedInstanceState);
 
         mContext = SubRedditActivity.this;
-        Preference.setMoreLinkId(mContext,"");
         mRefreshLayout.setOnRefreshListener(this);
 
         firstInit();

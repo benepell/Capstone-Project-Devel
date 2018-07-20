@@ -31,6 +31,7 @@ import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+import timber.log.Timber;
 
 public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetailAdapter.SubRedditDetailHolder> {
 
@@ -38,10 +39,12 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
     private final SubRedditDetailFragment mListener;
     private Cursor mCursor;
     private int mSelectorPosition = RecyclerView.NO_POSITION;
+    private final String mLinkId;
 
-    public SubRedditDetailAdapter(SubRedditDetailFragment listener) {
+    public SubRedditDetailAdapter(SubRedditDetailFragment listener, String linkId) {
         mListener = listener;
         mContext = listener.getActivity();
+        mLinkId = linkId;
     }
 
 
@@ -119,7 +122,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
             String strLinkId = record.getLinkId();
             String strArrId = record.getMoreComments();
 
-            if (record.getNumComments() > 0) {
+            if ((record.getNumComments() > 0) && (TextUtils.isEmpty(mLinkId))) {
 
                 holder.mTextViewReplies.setText(String.format("%s %s", String.valueOf(record.getNumComments()), mContext.getString(R.string.text_more_replies)));
                 holder.mTextViewReplies.setVisibility(View.VISIBLE);
@@ -128,8 +131,8 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
 
                     if (Preference.isLoginStart(mContext)) {
                         holder.mTextViewReplies.setVisibility(View.INVISIBLE);
-                        mListener.onClickMore(position, id, strLinkId, strId, strArrId);
 
+                        mListener.onClickMore(position, id, strLinkId, strId, strArrId);
                     } else {
                         Toast.makeText(mContext, mContext.getString(R.string.text_start_login), Toast.LENGTH_SHORT).show();
                     }

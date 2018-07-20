@@ -181,11 +181,20 @@ public class T3Operation {
 
         }
 
-        final Uri uriReddit = mContext.getContentResolver().insert(Contract.RedditEntry.CONTENT_URI, subRedditCVT3);
-        final Uri uriData = mContext.getContentResolver().insert(Contract.DataEntry.CONTENT_URI, dataCV);
-        int countT3Data = mContext.getContentResolver().bulkInsert(Contract.T3dataEntry.CONTENT_URI, arrT3CV);
+        try {
+            final Uri uriReddit = mContext.getContentResolver().insert(Contract.RedditEntry.CONTENT_URI, subRedditCVT3);
+            final Uri uriData = mContext.getContentResolver().insert(Contract.DataEntry.CONTENT_URI, dataCV);
+            int countT3Data = mContext.getContentResolver().bulkInsert(Contract.T3dataEntry.CONTENT_URI, arrT3CV);
 
-        return uriReddit != null && uriData != null && countT3Data != 0;
+            return uriReddit != null && uriData != null && countT3Data != 0;
+
+        } catch (IllegalStateException e) {
+            Timber.e("insert data error %s", e.getCause());
+
+        }
+
+        return false;
+
     }
 
 
@@ -581,15 +590,27 @@ public class T3Operation {
                 where = null;
         }
 
-        if (uri != null) {
-            mContext.getContentResolver().delete(uri, where, selectionArgs);
+        try {
+            if (uri != null) {
+                mContext.getContentResolver().delete(uri, where, selectionArgs);
+            }
+        } catch (IllegalStateException e) {
+            Timber.e("delete category error %s", e.getCause());
+
         }
 
     }
 
     public void clearData() {
-        mContext.getContentResolver().delete(Contract.T3dataEntry.CONTENT_URI, null, null);
-        mContext.getContentResolver().delete(Contract.PrefSubRedditEntry.CONTENT_URI, null, null);
+        try {
+            mContext.getContentResolver().delete(Contract.T3dataEntry.CONTENT_URI, null, null);
+            mContext.getContentResolver().delete(Contract.PrefSubRedditEntry.CONTENT_URI, null, null);
+
+        } catch (IllegalStateException e) {
+            Timber.e("clear data error %s", e.getCause());
+
+        }
+
     }
 
 

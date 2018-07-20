@@ -38,6 +38,7 @@ import info.pelleritoudacity.android.rcapstone.data.model.reddit.T5Listing;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+import timber.log.Timber;
 
 public class T5Operation {
     private final T5 mModelT5;
@@ -82,9 +83,14 @@ public class T5Operation {
                     position);
         }
 
-        int countPrefSubData = mContext.getContentResolver().bulkInsert(Contract.PrefSubRedditEntry.CONTENT_URI, arrCV);
+        try {
+            int countPrefSubData = mContext.getContentResolver().bulkInsert(Contract.PrefSubRedditEntry.CONTENT_URI, arrCV);
+            return countPrefSubData != 0;
 
-        return countPrefSubData != 0;
+        } catch (IllegalStateException e) {
+            Timber.e("insert data error %s", e.getCause());
+        }
+        return false;
     }
 
     private boolean insertData() {
@@ -318,11 +324,20 @@ public class T5Operation {
 
         }
 
-        final Uri uriReddit = mContext.getContentResolver().insert(Contract.RedditEntry.CONTENT_URI, redditCV);
-        final Uri uriData = mContext.getContentResolver().insert(Contract.DataEntry.CONTENT_URI, dataCV);
-        int countT5Data = mContext.getContentResolver().bulkInsert(Contract.T5dataEntry.CONTENT_URI, arrCV);
+        try {
+            final Uri uriReddit = mContext.getContentResolver().insert(Contract.RedditEntry.CONTENT_URI, redditCV);
+            final Uri uriData = mContext.getContentResolver().insert(Contract.DataEntry.CONTENT_URI, dataCV);
+            int countT5Data = mContext.getContentResolver().bulkInsert(Contract.T5dataEntry.CONTENT_URI, arrCV);
 
-        return uriReddit != null && uriData != null && countT5Data != 0;
+            return uriReddit != null && uriData != null && countT5Data != 0;
+
+        } catch (IllegalStateException e) {
+            Timber.e("Insert data error %s", e.getCause());
+
+        }
+
+        return false;
+
     }
 
     public void saveData() {
@@ -332,16 +347,23 @@ public class T5Operation {
 
             if (!Preference.isInsertPrefs(mContext)) {
                 if (insertDataPrefSubReddit()) {
-                    Preference.setInsertPrefs(mContext,true);
+                    Preference.setInsertPrefs(mContext, true);
                 }
             }
         }
     }
 
     public void clearData() {
-        mContext.getContentResolver().delete(Contract.RedditEntry.CONTENT_URI, null, null);
-        mContext.getContentResolver().delete(Contract.DataEntry.CONTENT_URI, null, null);
-        mContext.getContentResolver().delete(Contract.T5dataEntry.CONTENT_URI, null, null);
+        try {
+            mContext.getContentResolver().delete(Contract.RedditEntry.CONTENT_URI, null, null);
+            mContext.getContentResolver().delete(Contract.DataEntry.CONTENT_URI, null, null);
+            mContext.getContentResolver().delete(Contract.T5dataEntry.CONTENT_URI, null, null);
+
+        } catch (IllegalStateException e) {
+            Timber.e("clear data error %s", e.getCause());
+
+        }
+
     }
 
 

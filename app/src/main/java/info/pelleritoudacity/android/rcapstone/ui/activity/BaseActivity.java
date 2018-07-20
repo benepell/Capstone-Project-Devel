@@ -170,7 +170,6 @@ public class BaseActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
 
         } else {
-            Preference.setMoreLinkId(getApplicationContext(), "");
             super.onBackPressed();
         }
 

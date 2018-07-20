@@ -56,7 +56,7 @@ public class SubRedditDetailFragment extends Fragment
     public SubRedditDetailFragment() {
     }
 
-    public static SubRedditDetailFragment newInstance(int position,String strId, int id, String strArrId, String strLinkId) {
+    public static SubRedditDetailFragment newInstance(int position, String strId, int id, String strArrId, String strLinkId) {
         SubRedditDetailFragment fragment = new SubRedditDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_STRID, strId);
@@ -80,7 +80,6 @@ public class SubRedditDetailFragment extends Fragment
             mPosition = getArguments().getInt(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_POSITION);
             mStrArrId = getArguments().getString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ARRID);
         }
-
     }
 
     @Nullable
@@ -105,10 +104,9 @@ public class SubRedditDetailFragment extends Fragment
 
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new SubRedditDetailAdapter(this);
+        mAdapter = new SubRedditDetailAdapter(this, mStrLinkId);
 
         mRecyclerView.setAdapter(mAdapter);
-
 
         return view;
     }
@@ -136,11 +134,11 @@ public class SubRedditDetailFragment extends Fragment
 
         }
 
-        if ((getActivity() != null) && (!TextUtils.isEmpty(mStrLinkId))) {
+        /*if ((getActivity() != null) && (!TextUtils.isEmpty(mStrLinkId))) {
             getActivity().getSupportLoaderManager().initLoader(SUBREDDIT_DETAIL_LOADER_ID, null, this).forceLoad();
 
         }
-
+*/
 
     }
 
@@ -208,8 +206,8 @@ public class SubRedditDetailFragment extends Fragment
     }
 
     @Override
-    public void onClickMore(int position,int id, String linkId, String strId, String strArrId) {
-        mListener.onClickMore(position,id, linkId, strId, strArrId);
+    public void onClickMore(int position, int id, String linkId, String strId, String strArrId) {
+        mListener.onClickMore(position, id, linkId, strId, strArrId);
     }
 
     private static class SubRedditDetailFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
@@ -306,7 +304,7 @@ public class SubRedditDetailFragment extends Fragment
     public interface OnFragmentInteractionListener {
         void clickSelector(int position, int itemCount);
 
-        void onClickMore(int position,int id, String linkId, String strId, String strArrId);
+        void onClickMore( int position, int id, String linkId, String strId, String strArrId);
 
     }
 

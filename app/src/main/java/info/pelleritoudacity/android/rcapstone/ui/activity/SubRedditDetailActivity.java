@@ -2,9 +2,11 @@ package info.pelleritoudacity.android.rcapstone.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
@@ -24,10 +26,13 @@ import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
+import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+import timber.log.Timber;
 
 public class SubRedditDetailActivity extends BaseActivity
         implements RestDetailExecute.RestSubReddit,
-        SubRedditDetailFragment.OnFragmentInteractionListener, RestMoreExecute.RestSubRedditMore, SwipeRefreshLayout.OnRefreshListener {
+        SubRedditDetailFragment.OnFragmentInteractionListener, RestMoreExecute.RestSubRedditMore,
+        SwipeRefreshLayout.OnRefreshListener {
 
     @SuppressWarnings("unused")
     @BindView(R.id.subreddit_detail_container)
@@ -73,6 +78,15 @@ public class SubRedditDetailActivity extends BaseActivity
 
         Preference.setLastComment(mContext, mStrId);
 
+        if (savedInstanceState != null) {
+            mStrId = savedInstanceState.getString(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID);
+            mStrLinkId = savedInstanceState.getString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_LINKID);
+            mStrArrId = savedInstanceState.getString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ARRID);
+            mId = savedInstanceState.getInt(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ID);
+            mPosition = savedInstanceState.getInt(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_POSITION);
+
+        }
+
         mSwipeRefreshLayout.setRefreshing(true);
         onRefresh();
 
@@ -83,7 +97,7 @@ public class SubRedditDetailActivity extends BaseActivity
         if ((listenerData != null) && (mStrId != null)) {
             T1Operation data = new T1Operation(getApplicationContext());
             if (data.saveData(listenerData, mStrId)) {
-                startFragment(mPosition,mStrId);
+                startFragment(mPosition, mStrId);
                 mSwipeRefreshLayout.setRefreshing(false);
             } else {
                 Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
@@ -91,19 +105,19 @@ public class SubRedditDetailActivity extends BaseActivity
         }
     }
 
-    private void startFragment(int position,String strId) {
+    private void startFragment(int position, String strId) {
         SubRedditSelectedFragment subRedditSelectedFragment = SubRedditSelectedFragment.newInstance(strId);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_subreddit_selected_container, subRedditSelectedFragment).commitAllowingStateLoss();
 
-        SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(position,strId, 0, null, null);
+        SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(position, strId, 0, null, null);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_subreddit_detail_container, fragment).commitAllowingStateLoss();
 
     }
 
-    private void startMoreFragment(int position,String strId, int id, String strArrId, String strLinkId) {
-        SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(position,strId, id, strArrId, strLinkId);
+    private void startMoreFragment(int position, String strId, int id, String strArrId, String strLinkId) {
+        SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(position, strId, id, strArrId, strLinkId);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_subreddit_detail_container, fragment).commitAllowingStateLoss();
 
@@ -125,12 +139,11 @@ public class SubRedditDetailActivity extends BaseActivity
 
                 }
             } else {
-                startFragment(mPosition,strId);
+                startFragment(mPosition, strId);
 
             }
         }
     }
-
 
     @Override
     public void onErrorSubReddit(Throwable t) {
@@ -144,7 +157,7 @@ public class SubRedditDetailActivity extends BaseActivity
     }
 
     @Override
-    public void onClickMore(int position,int id, String linkId, String strId, String strArrId) {
+    public void onClickMore(int position, int id, String linkId, String strId, String strArrId) {
         mPosition = position;
         mId = id;
         mStrId = strId;
@@ -172,6 +185,19 @@ public class SubRedditDetailActivity extends BaseActivity
         }
     }
 
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID, mStrId);
+        outState.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ARRID, mStrArrId);
+        outState.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_LINKID, mStrLinkId);
+        outState.putInt(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ID, mId);
+        outState.putInt(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_POSITION, mPosition);
+
+        super.onSaveInstanceState(outState);
+
+    }
+
     @Override
     public void onRestSubRedditMore(More listenerData, String mStrArrid) {
         if (listenerData != null) {
@@ -181,7 +207,7 @@ public class SubRedditDetailActivity extends BaseActivity
 
                 if (t1moreOperation.saveMoreData(listenerData.getJson(), mStrArrId)) {
 
-                    startMoreFragment(mPosition,mStrId, mId,mStrArrId ,mStrLinkId);
+                    startMoreFragment(mPosition, mStrId, mId, mStrArrId, mStrLinkId);
 
                     if (mSwipeRefreshLayout != null) {
                         mSwipeRefreshLayout.setRefreshing(false);
@@ -196,6 +222,17 @@ public class SubRedditDetailActivity extends BaseActivity
 
     @Override
     public void onErrorSubRedditMore(Throwable t) {
-
+        Timber.e("subredddit more error %s", t.getCause());
     }
+
+    @Override
+    public void onBackPressed() {
+        if (!TextUtils.isEmpty(mStrArrId)) {
+            mStrArrId = null;
+            startFragment(mPosition, mStrId);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 }

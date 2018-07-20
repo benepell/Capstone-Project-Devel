@@ -94,6 +94,7 @@ public interface Costant {
     String EXTRA_FRAGMENT_SUBREDDIT = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit";
     String EXTRA_FRAGMENT_SUBREDDIT_DETAIL_POSITION = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.detail.position";
     String EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ID = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.detail.id";
+    String EXTRA_FRAGMENT_SUBREDDIT_DETAIL_NESTED_SCROLL_HEIGHT = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.detail.nestd.scroll.height";
     String EXTRA_FRAGMENT_SUBREDDIT_DETAIL_STRID = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.detail.strid";
     String EXTRA_FRAGMENT_SUBREDDIT_DETAIL_LINKID = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.detail.linkid";
     String EXTRA_FRAGMENT_SUBREDDIT_DETAIL_IS_CHILD = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.detail.is.child";
@@ -236,7 +237,7 @@ public interface Costant {
     int PREFERENCE_CLEAR_DATA = R.string.pref_clear_data;
     int PREFERENCE_TYPE_MODE = R.string.pref_type_mode;
     int PREFERENCE_LOGIN_NAME = R.string.pref_login_name;
-    int PREFERENCE_FRAGMENT_MORE_LINK_ID = R.string.pref_more_fragment_more_link_id;
+    int PREFERENCE_FRAGMENT_MORE_NESTED_POSITION_HEIGHT = R.string.pref_more_fragment_more_nested_position_height;
     int PREFERENCE_LOGIN_OVER18 = R.string.pref_login_over18;
     int PREFERENCE_TAB_HISTORY = R.string.pref_tab_history;
     int PREFERENCE_LAST_CATEGORY = R.string.pref_last_category;
