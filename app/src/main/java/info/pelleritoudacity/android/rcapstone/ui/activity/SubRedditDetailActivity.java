@@ -32,7 +32,7 @@ import timber.log.Timber;
 public class SubRedditDetailActivity extends BaseActivity
         implements RestDetailExecute.RestSubReddit,
         SubRedditDetailFragment.OnFragmentInteractionListener, RestMoreExecute.RestSubRedditMore,
-        SwipeRefreshLayout.OnRefreshListener {
+        SwipeRefreshLayout.OnRefreshListener, NestedScrollView.OnScrollChangeListener {
 
     @SuppressWarnings("unused")
     @BindView(R.id.subreddit_detail_container)
@@ -53,6 +53,7 @@ public class SubRedditDetailActivity extends BaseActivity
     private String mStrLinkId;
     private int mId;
     private int mPosition;
+    private int mMoreNestedScrollHeight;
 
 
     @Override
@@ -85,6 +86,10 @@ public class SubRedditDetailActivity extends BaseActivity
             mId = savedInstanceState.getInt(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ID);
             mPosition = savedInstanceState.getInt(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_POSITION);
 
+        }
+
+        if(mId == 0){
+            mNestedScrollView.setOnScrollChangeListener(this);
         }
 
         mSwipeRefreshLayout.setRefreshing(true);
@@ -183,6 +188,14 @@ public class SubRedditDetailActivity extends BaseActivity
                     PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext));
 
         }
+
+        if(mNestedScrollView!=null){
+          if( mNestedScrollView.getChildAt(0).getScrollY()>0){
+              mNestedScrollView.getChildAt(0).setScrollY(mNestedScrollView.getTop());
+
+          }
+        }
+
     }
 
 
@@ -225,14 +238,26 @@ public class SubRedditDetailActivity extends BaseActivity
         Timber.e("subredddit more error %s", t.getCause());
     }
 
+
     @Override
     public void onBackPressed() {
         if (!TextUtils.isEmpty(mStrArrId)) {
             mStrArrId = null;
             startFragment(mPosition, mStrId);
+
+            if(Preference.getMoreNestedPositionHeight(mContext)>0){
+                mNestedScrollView.getChildAt(0).setScrollY(Preference.getMoreNestedPositionHeight(mContext));
+
+            }
         } else {
             super.onBackPressed();
         }
     }
 
+    @Override
+    public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+       if(scrollY>0){
+           Preference.setMoreNestedPositionHeight(mContext,scrollY);
+       }
+    }
 }

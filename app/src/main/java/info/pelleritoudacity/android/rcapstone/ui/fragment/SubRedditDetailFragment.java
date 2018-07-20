@@ -188,6 +188,7 @@ public class SubRedditDetailFragment extends Fragment
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
         if ((data != null) && (mAdapter != null)) {
             mAdapter.swapCursor(data);
+
         }
     }
 
