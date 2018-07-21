@@ -272,7 +272,7 @@ public class DataUtils {
         Timber.d("BEGIN toposition %s", toPosition);
 
 
-        if ((fromPosition == 0) && (toPosition == 0)) {
+        if ((fromPosition == 0) && (toPosition == 0) && (fromPosition == toPosition)) {
             return false;
 
         } else {

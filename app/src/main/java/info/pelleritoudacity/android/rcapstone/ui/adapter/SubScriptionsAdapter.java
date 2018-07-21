@@ -128,7 +128,7 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
             if (motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN) {
                 mDragStartListener.onStartDrag(holder);
             }
-            v.getParent().requestDisallowInterceptTouchEvent(true);
+//            v.getParent().requestDisallowInterceptTouchEvent(true);
             return false;
         });
 
@@ -251,12 +251,25 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
 
         @Override
         public void onItemSelected() {
-            itemView.setBackgroundColor(ImageUtil.getColor(mContext, R.color.colorBackgroundItemSelected));
+
+            if(Preference.isNightMode(mContext)){
+                itemView.setBackgroundColor(ImageUtil.getColor(mContext, R.color.colorDarkBackgroundItemSelected));
+
+            }else {
+                itemView.setBackgroundColor(ImageUtil.getColor(mContext, R.color.colorBackgroundItemSelected));
+
+            }
         }
 
         @Override
         public void onItemClear() {
-            itemView.setBackgroundColor(ImageUtil.getColor(mContext, R.color.colorBackgroundItemNoSelected));
+            if(Preference.isNightMode(mContext)){
+                itemView.setBackgroundColor(ImageUtil.getColor(mContext, R.color.colorDarkBackgroundItemNoSelected));
+
+            }else {
+                itemView.setBackgroundColor(ImageUtil.getColor(mContext, R.color.colorBackgroundItemNoSelected));
+
+            }
         }
 
         public void bind() {

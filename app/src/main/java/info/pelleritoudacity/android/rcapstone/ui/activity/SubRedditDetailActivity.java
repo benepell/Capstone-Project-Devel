@@ -2,11 +2,9 @@ package info.pelleritoudacity.android.rcapstone.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
@@ -26,7 +24,6 @@ import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
-import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import timber.log.Timber;
 
 public class SubRedditDetailActivity extends BaseActivity
@@ -46,14 +43,12 @@ public class SubRedditDetailActivity extends BaseActivity
     @BindView(R.id.swipe_refresh_subreddit_detail)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-    private String mStrId = null;
-    private String mCategory;
     private Context mContext;
-    private String mStrArrId;
-    private String mStrLinkId;
     private int mId;
     private int mPosition;
-    private int mMoreNestedScrollHeight;
+    private String mStrId = null;
+    private String mStrArrId;
+    private String mStrLinkId;
 
 
     @Override
@@ -68,11 +63,9 @@ public class SubRedditDetailActivity extends BaseActivity
 
         if (intent != null) {
             mStrId = intent.getStringExtra(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID);
-            mCategory = intent.getStringExtra(Costant.EXTRA_SUBREDDIT_DETAIL_CATEGORY);
 
             if (intent.getBooleanExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_DETAIL_REFRESH, false)) {
                 mStrId = Preference.getLastComment(mContext);
-                mCategory = Preference.getLastCategory(mContext);
             }
 
         }
@@ -212,13 +205,13 @@ public class SubRedditDetailActivity extends BaseActivity
     }
 
     @Override
-    public void onRestSubRedditMore(More listenerData, String mStrArrid) {
+    public void onRestSubRedditMore(More listenerData, String strArrId) {
         if (listenerData != null) {
             if (listenerData.getJson().getData() != null) {
 
                 T1Operation t1moreOperation = new T1Operation(getApplicationContext());
 
-                if (t1moreOperation.saveMoreData(listenerData.getJson(), mStrArrId)) {
+                if (t1moreOperation.saveMoreData(listenerData.getJson(), strArrId)) {
 
                     startMoreFragment(mPosition, mStrId, mId, mStrArrId, mStrLinkId);
 
@@ -235,7 +228,7 @@ public class SubRedditDetailActivity extends BaseActivity
 
     @Override
     public void onErrorSubRedditMore(Throwable t) {
-        Timber.e("subredddit more error %s", t.getCause());
+        Timber.e("sub reddit more error %s", t.getMessage());
     }
 
 

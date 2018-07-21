@@ -45,6 +45,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import timber.log.Timber;
 
 public class SubRedditManager {
 
@@ -107,6 +108,7 @@ public class SubRedditManager {
         fieldMap.put("showedits", "false");
         fieldMap.put("showmore", "true");
 
+        Timber.d("PREFERENX %s", Preference.getGeneralSettingsItemPage(context));
         if (PermissionUtil.isLogged(context)) {
             mCall = sSubRedditAPI.getSubRedditAuth(Costant.REDDIT_BEARER + PermissionUtil.getToken(context),
                     mSubReddit, fieldMap);

@@ -543,15 +543,13 @@ public class BaseActivity extends AppCompatActivity
     private void menuGroupSubs(Context context, Menu menu) {
         if ((context != null) && (menu != null)) {
 
-            String stringLink = Costant.DEFAULT_SUBREDDIT_CATEGORY;
-
             String prefString = Preference.getSubredditKey(getApplicationContext());
 
-            if (!TextUtils.isEmpty(prefString)) {
-                prefString = Costant.DEFAULT_START_CATEGORY;
+            if (TextUtils.isEmpty(prefString)) {
+                prefString = Costant.DEFAULT_SUBREDDIT_CATEGORY;
             }
 
-            mTabArrayList = stringToArray(stringLink);
+            mTabArrayList = stringToArray(prefString);
 
             int groupId = menu.findItem(R.id.nav_mode_subs).getGroupId();
 

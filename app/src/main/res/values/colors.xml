@@ -8,6 +8,8 @@
 
     <color name="colorBackgroundItemSelected">#fff9c4</color>
     <color name="colorBackgroundItemNoSelected">@color/white</color>
+    <color name="colorDarkBackgroundItemSelected">@color/colorBackgroundDark</color>
+    <color name="colorDarkBackgroundItemNoSelected">@color/grey_800</color>
     <color name="colorBackground">@color/white</color>
     <color name="colorBackgroundDark">@color/grey_800</color>
 

@@ -37,7 +37,7 @@ class PrefManager {
 
     @SuppressWarnings("unused")
     static boolean isGeneralSettings(Context context, String key) {
-        PreferenceManager.setDefaultValues(context, R.xml.pref_general_settings, false);
+        PreferenceManager.setDefaultValues(context, R.xml.pref_general_settings, true);
 
         SharedPreferences sharedPref =
                 PreferenceManager.getDefaultSharedPreferences(context);
@@ -46,7 +46,7 @@ class PrefManager {
     }
 
     static int getIntGeneralSettings(Context context, @SuppressWarnings("SameParameterValue") int key) {
-        PreferenceManager.setDefaultValues(context, R.xml.pref_general_settings, false);
+        PreferenceManager.setDefaultValues(context, R.xml.pref_general_settings, true);
 
         SharedPreferences sharedPref =
                 PreferenceManager.getDefaultSharedPreferences(context);
@@ -56,7 +56,7 @@ class PrefManager {
 
 
     static void clearGeneralSettings(Context context) {
-        PreferenceManager.setDefaultValues(context, R.xml.pref_general_settings, false);
+        PreferenceManager.setDefaultValues(context, R.xml.pref_general_settings, true);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         sharedPreferences.edit().clear().apply();
     }
