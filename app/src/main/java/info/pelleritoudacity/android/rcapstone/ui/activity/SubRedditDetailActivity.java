@@ -81,7 +81,7 @@ public class SubRedditDetailActivity extends BaseActivity
 
         }
 
-        if(mId == 0){
+        if (mId == 0) {
             mNestedScrollView.setOnScrollChangeListener(this);
         }
 
@@ -167,12 +167,18 @@ public class SubRedditDetailActivity extends BaseActivity
 
     @Override
     public void onRefresh() {
+
+        if (mNestedScrollView != null) {
+            if (mNestedScrollView.getChildAt(0).getScrollY() > 0) {
+                mNestedScrollView.getChildAt(0).setScrollY(mNestedScrollView.getTop());
+            }
+        }
+
         if (!NetworkUtil.isOnline(mContext)) {
             mSwipeRefreshLayout.setRefreshing(false);
             Snackbar.make(mContainer, R.string.error_refresh_offline, Snackbar.LENGTH_LONG).show();
 
         } else if (!TextUtils.isEmpty(mStrArrId)) {
-            // todo review here
             initRest(mStrId, mStrArrId, mStrLinkId, Preference.getLastCategory(mContext),
                     PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext));
 
@@ -182,12 +188,6 @@ public class SubRedditDetailActivity extends BaseActivity
 
         }
 
-        if(mNestedScrollView!=null){
-          if( mNestedScrollView.getChildAt(0).getScrollY()>0){
-              mNestedScrollView.getChildAt(0).setScrollY(mNestedScrollView.getTop());
-
-          }
-        }
 
     }
 
@@ -238,7 +238,7 @@ public class SubRedditDetailActivity extends BaseActivity
             mStrArrId = null;
             startFragment(mPosition, mStrId);
 
-            if(Preference.getMoreNestedPositionHeight(mContext)>0){
+            if (Preference.getMoreNestedPositionHeight(mContext) > 0) {
                 mNestedScrollView.getChildAt(0).setScrollY(Preference.getMoreNestedPositionHeight(mContext));
 
             }
@@ -249,8 +249,8 @@ public class SubRedditDetailActivity extends BaseActivity
 
     @Override
     public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-       if(scrollY>0){
-           Preference.setMoreNestedPositionHeight(mContext,scrollY);
-       }
+        if (scrollY > 0) {
+            Preference.setMoreNestedPositionHeight(mContext, scrollY);
+        }
     }
 }

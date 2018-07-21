@@ -246,10 +246,10 @@ public class SubRedditActivity extends BaseActivity
     @Override
     public void onRefresh() {
 
-        updateTabPosition();
         if (TextUtils.isEmpty(Preference.getLastCategory(getApplicationContext()))) {
             Preference.setLastCategory(getApplicationContext(), Costant.DEFAULT_START_CATEGORY);
         }
+        updateTabPosition();
 
         mFragmentTransaction = beginFragmentTransaction(Preference.getLastCategory(getApplicationContext()),
                 Preference.getLastTarget(getApplicationContext()));
@@ -324,8 +324,12 @@ public class SubRedditActivity extends BaseActivity
     }
 
     private void updateTabPosition() {
-        int position = getTabArrayList().indexOf(Preference.getLastCategory(mContext));
-        if (position > 0) {
+        int position = 0;
+        if ((mContext != null) && (!TextUtils.isEmpty(Preference.getLastCategory(mContext)))) {
+            position = getTabArrayList().indexOf(Preference.getLastCategory(mContext));
+
+        }
+        if ((position > 0) && (mTabLayout != null) && (mTabLayout.getTabCount() > position)) {
             position -= 1;
             int right = ((ViewGroup) mTabLayout.getChildAt(0)).getChildAt(position).getRight();
             mTabLayout.scrollTo(right, 0);
