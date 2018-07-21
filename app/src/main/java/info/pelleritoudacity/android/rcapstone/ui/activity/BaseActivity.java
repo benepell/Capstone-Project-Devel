@@ -393,10 +393,12 @@ public class BaseActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_mode_all:
+                Preference.setTypeMode(getApplicationContext(), Costant.NAV_MODE_ALL);
                 targetMenuMain(R.id.nav_mode_all);
                 break;
 
             case R.id.nav_mode_popular:
+                Preference.setTypeMode(getApplicationContext(), Costant.NAV_MODE_POPOLAR);
                 targetMenuMain(R.id.nav_mode_popular);
                 break;
 
@@ -406,6 +408,7 @@ public class BaseActivity extends AppCompatActivity
                 startActivity(new Intent(this, SubManageActivity.class));
                 break;
             case R.id.nav_mode_refresh:
+                Preference.setTypeMode(getApplicationContext(), Costant.NAV_MODE_SEARCH);
                 menuClickRefresh(getLayoutResource());
                 item.setEnabled(true);
                 break;
@@ -524,14 +527,37 @@ public class BaseActivity extends AppCompatActivity
             itemModeSettings.setIcon(new IconicsDrawable(context, MaterialDesignIconic.Icon.gmi_settings)
                     .respectFontBounds(true));
 
+            itemModePopularText.setChecked(false);
+            itemModeAllText.setChecked(false);
+            itemModeSearchText.setChecked(false);
+            itemModeSubscriptions.setChecked(false);
+            itemModeRefresh.setChecked(false);
+            itemModeSettings.setChecked(false);
+
             switch (Preference.getTypeMode(getApplicationContext())) {
+                case Costant.NAV_MODE_HOME:
+                    itemHome.setEnabled(true);
+                    break;
+                case Costant.NAV_MODE_POPOLAR:
+                    itemModePopularText.setEnabled(true);
+                    itemModePopularText.setChecked(true);
+                    break;
+                case Costant.NAV_MODE_ALL:
+                    itemModeAllText.setEnabled(true);
+                    itemModeAllText.setChecked(true);
+                    break;
+                case Costant.NAV_MODE_SEARCH:
+                    itemModeSearchText.setEnabled(true);
+                    itemModeSearchText.setChecked(true);
+                    break;
                 case Costant.NAV_MODE_SUBSCRIPTIONS:
                     itemModeSubscriptions.setEnabled(true);
-                    itemModeSubscriptions.setChecked(false);
                     break;
                 case Costant.NAV_MODE_REFRESH:
                     itemModeRefresh.setEnabled(true);
-                    itemModeRefresh.setChecked(false);
+                    break;
+                case Costant.NAV_MODE_SETTINGS:
+                    itemModeSettings.setEnabled(true);
                     break;
                 default:
                     itemHome.setChecked(false);
@@ -569,6 +595,13 @@ public class BaseActivity extends AppCompatActivity
                 menuItem.setIcon(new IconicsDrawable(this, MaterialDesignIconic.Icon.gmi_account_circle)
                         .respectFontBounds(true));
 
+                if (Preference.getLastCategory(context).equals(String.valueOf(title)) && (!TextUtils.isEmpty( Preference.getLastTarget(context)))) {
+                    menuItem.setChecked(true);
+                } else {
+                    menuItem.setChecked(false);
+
+                }
+
                 menuItem.setOnMenuItemClickListener(item -> {
                     Intent intent = new Intent(getApplication(), SubRedditActivity.class);
                     intent.putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, item.getTitle().toString());
@@ -581,6 +614,7 @@ public class BaseActivity extends AppCompatActivity
 
                     return true;
                 });
+
 
             }
 

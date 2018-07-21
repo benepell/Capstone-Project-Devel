@@ -71,10 +71,13 @@ public interface Costant {
     int SUBREDDIT_DETAIL_LOADER_ID = 3;
     int SUBREDDIT_SELECTED_LOADER_ID = 4;
 
-    int NAV_MODE_HOME = 0;
-    int NAV_MODE_SUBSCRIPTIONS = 4;
-    int NAV_MODE_REFRESH = 5;
-    int NAV_MODE_SETTINGS = 6;
+    int NAV_MODE_HOME = 1;
+    int NAV_MODE_POPOLAR = 2;
+    int NAV_MODE_ALL = 3;
+    int NAV_MODE_SEARCH = 4;
+    int NAV_MODE_SUBSCRIPTIONS = 5;
+    int NAV_MODE_REFRESH = 6;
+    int NAV_MODE_SETTINGS = 7;
 
     String STRING_SEPARATOR = ",";
 
