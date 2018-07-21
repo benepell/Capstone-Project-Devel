@@ -33,7 +33,6 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.widget.NestedScrollView;
@@ -59,7 +58,6 @@ import info.pelleritoudacity.android.rcapstone.ui.view.SubRedditTab;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
-import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.SessionUtil.getRedditSessionExpired;
 
@@ -69,12 +67,12 @@ public class SubRedditActivity extends BaseActivity
         SubRedditTab.OnTabListener, SwipeRefreshLayout.OnRefreshListener {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
-    @BindView(R.id.nested_scrollview_subreddit)
-    public NestedScrollView mNestedScrollView;
-
-    @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.subreddit_container)
     public CoordinatorLayout mContainer;
+
+    @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
+    @BindView(R.id.nested_scrollview_subreddit)
+    public NestedScrollView mNestedScrollView;
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.tab_layout)
@@ -87,8 +85,17 @@ public class SubRedditActivity extends BaseActivity
     private Context mContext;
     private String mRedditCategory;
     private String mRedditTarget;
+
+    public boolean isDrawerLink() {
+        return drawerLink;
+    }
+
+    public void setDrawerLink(boolean drawerLink) {
+        this.drawerLink = drawerLink;
+    }
+
+    private boolean drawerLink;
     public static MediaSessionCompat sMediaSessionCompat = null;
-    private FragmentTransaction mFragmentTransaction;
     private SubRedditTab mSubRedditTab;
 
     @Override
@@ -97,21 +104,24 @@ public class SubRedditActivity extends BaseActivity
         super.onCreate(savedInstanceState);
 
         mContext = SubRedditActivity.this;
+
         mRefreshLayout.setOnRefreshListener(this);
 
         firstInit();
-        initDefaultPreference(mContext);
 
         if (savedInstanceState == null) {
             if (!menuShortcutLauncher(getIntent())) {
                 if (!menuTargetLink(getIntent())) {
-                    if (!menuHistoryLink(mContext)) {
-                        if (getTabArrayList() != null) {
-                            mRedditCategory = getTabArrayList().get(0);
-                            mRedditTarget = null;
+                    if (!menuDrawerLink(getIntent())) {
+                        if (!menuHistoryLink(mContext)) {
+                            if (getTabArrayList() != null) {
+                                mRedditCategory = getTabArrayList().get(0);
+                                mRedditTarget = null;
+                            }
                         }
                     }
                 }
+
             }
 
         } else {
@@ -130,12 +140,10 @@ public class SubRedditActivity extends BaseActivity
 
     }
 
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putString(Costant.EXTRA_SUBREDDIT_CATEGORY, mRedditCategory);
         outState.putString(Costant.EXTRA_SUBREDDIT_TARGET, mRedditTarget);
-        mFragmentTransaction = null;
         super.onSaveInstanceState(outState);
     }
 
@@ -169,15 +177,9 @@ public class SubRedditActivity extends BaseActivity
         if ((getApplicationContext() != null) && (listenerData != null)) {
             T3Operation data = new T3Operation(getApplicationContext(), listenerData);
             if (data.saveData(mRedditCategory, mRedditTarget)) {
-                // todo update datasave
-                if ((mFragmentTransaction != null) && (mRefreshLayout != null)) {
-                    mFragmentTransaction.commit();
-                    mFragmentTransaction = null;
-                    mRefreshLayout.setRefreshing(false);
-                }
+                createUI(mRedditCategory, mRedditTarget);
 
             } else {
-
                 Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
             }
         }
@@ -186,7 +188,6 @@ public class SubRedditActivity extends BaseActivity
 
     @Override
     public void onRestSubReddit(List<T3> listenerDataList) {
-
         if ((getApplicationContext() != null) && (listenerDataList != null)) {
 
             int i = listenerDataList.size();
@@ -195,12 +196,7 @@ public class SubRedditActivity extends BaseActivity
                 T3Operation data = new T3Operation(getApplicationContext(), listenerData);
                 if (data.saveData(mRedditCategory, mRedditTarget)) {
 
-                    // todo update datasave
-                    if ((i == 0) && (mFragmentTransaction != null) && (mRefreshLayout != null)) {
-                        mFragmentTransaction.commit();
-                        mFragmentTransaction = null;
-                        mRefreshLayout.setRefreshing(false);
-                    }
+                    createUI(mRedditCategory, mRedditTarget);
 
                 } else {
                     Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
@@ -212,14 +208,11 @@ public class SubRedditActivity extends BaseActivity
 
         }
 
-
     }
 
     @Override
     public void onErrorSubReddit(Throwable t) {
-
     }
-
 
     @Override
     public void tabSelected(int position, String category) {
@@ -228,6 +221,7 @@ public class SubRedditActivity extends BaseActivity
             mRedditCategory = category;
 
             if (mRedditCategory.compareTo(Preference.getLastCategory(mContext)) != 0) {
+
                 Preference.setLastCategory(mContext, mRedditCategory);
                 Preference.setLastTarget(mContext, mRedditTarget);
                 mRefreshLayout.setRefreshing(true);
@@ -246,22 +240,13 @@ public class SubRedditActivity extends BaseActivity
     @Override
     public void onRefresh() {
 
-        if (TextUtils.isEmpty(Preference.getLastCategory(getApplicationContext()))) {
-            Preference.setLastCategory(getApplicationContext(), Costant.DEFAULT_START_CATEGORY);
-        }
-        updateTabPosition();
-
-        mFragmentTransaction = beginFragmentTransaction(Preference.getLastCategory(getApplicationContext()),
-                Preference.getLastTarget(getApplicationContext()));
-
         if (!NetworkUtil.isOnline(mContext)) {
+            createUI(Preference.getLastCategory(getApplicationContext()), Preference.getLastTarget(getApplicationContext()));
             mRefreshLayout.setRefreshing(false);
-            mFragmentTransaction.commit();
-            mFragmentTransaction = null;
             Snackbar.make(mContainer, R.string.list_snackbar_offline_text, Snackbar.LENGTH_LONG).show();
 
         } else if (getApplicationContext() != null) {
-            initRest(Preference.getLastCategory(this), Preference.getLastTarget(mContext), NetworkUtil.isOnline(mContext));
+            initRest(Preference.getLastCategory(getApplicationContext()), Preference.getLastTarget(mContext), NetworkUtil.isOnline(mContext));
         }
 
     }
@@ -317,66 +302,77 @@ public class SubRedditActivity extends BaseActivity
         }
     }
 
+    private void createUI(String link, String target) {
+        updateTabPosition(isDrawerLink());
+        startFragment(link, target);
+        mRefreshLayout.setRefreshing(false);
+    }
+
     private void createTabLayout() {
         mSubRedditTab = new SubRedditTab(this, mTabLayout, getTabArrayList());
         mSubRedditTab.initTab();
         mSubRedditTab.positionSelected(mRedditCategory);
     }
 
-    private void updateTabPosition() {
-        int position = 0;
-        if ((mContext != null) && (!TextUtils.isEmpty(Preference.getLastCategory(mContext)))) {
-            position = getTabArrayList().indexOf(Preference.getLastCategory(mContext));
+    private void updateTabPosition(boolean drawerLink) {
+        if (Preference.getLastCategory(mContext) != null) {
 
-        }
-        if ((position > 0) && (mTabLayout != null) && (mTabLayout.getTabCount() > position)) {
-            position -= 1;
-            int right = ((ViewGroup) mTabLayout.getChildAt(0)).getChildAt(position).getRight();
-            mTabLayout.scrollTo(right, 0);
+            int position = getTabArrayList().indexOf(Preference.getLastCategory(mContext));
+            if ((position > 0) && (mTabLayout != null) && (position < mTabLayout.getTabCount())) {
+                position -= 1;
+                int right = ((ViewGroup) mTabLayout.getChildAt(0)).getChildAt(position).getRight();
+                mTabLayout.scrollTo(right, 0);
 
+                if (drawerLink) {
+                    mSubRedditTab.addHistory(Preference.getLastCategory(mContext));
+                }
+
+            }
         }
     }
 
     private void initRest(String link, String target, boolean stateNetworkOnline) {
-
         if (!TextUtils.isEmpty(link)) {
+            if (stateNetworkOnline) {
+                if (!TextUtils.isEmpty(Preference.getLastTarget(mContext))) {
+                    // select option popolar or all - menu drawer
+                    new SubRedditExecute(mContext, link).getData(this);
 
-            if (!TextUtils.isEmpty(Preference.getLastTarget(mContext))) {
-                // select option popolar or all - menu drawer
-                new SubRedditExecute(mContext, link).getData(this);
+                } else {
+
+                    switch (Preference.getSubredditSort(mContext)) {
+
+                        case Costant.LABEL_SUBMENU_RISING:
+                        case Costant.LABEL_SUBMENU_NEW:
+                        case Costant.LABEL_SUBMENU_HOT:
+
+                            new SubRedditExecute(mContext, link).getDataList(this);
+                            break;
+
+                        case Costant.LABEL_SUBMENU_CONTROVERSIAL:
+                        case Costant.LABEL_SUBMENU_TOP:
+                            new SubRedditExecute(mContext, link).getData(this);
+                            break;
+
+                        default:
+                            new SubRedditExecute(mContext, link).getData(this);
+                    }
+                }
 
             } else {
-
-                switch (Preference.getSubredditSort(mContext)) {
-
-                    case Costant.LABEL_SUBMENU_RISING:
-                    case Costant.LABEL_SUBMENU_NEW:
-                    case Costant.LABEL_SUBMENU_HOT:
-
-                        new SubRedditExecute(mContext, link).getDataList(this);
-                        break;
-
-                    case Costant.LABEL_SUBMENU_CONTROVERSIAL:
-                    case Costant.LABEL_SUBMENU_TOP:
-                        new SubRedditExecute(mContext, link).getData(this);
-                        break;
-
-                    default:
-                        new SubRedditExecute(mContext, link).getData(this);
-                }
+                createUI(link, target);
 
             }
 
         }
     }
 
-    private FragmentTransaction beginFragmentTransaction(String link, String target) {
+    private void startFragment(String link, String target) {
         if (!getSupportFragmentManager().isStateSaved()) {
             SubRedditFragment subRedditFragment = SubRedditFragment.newInstance(link, target);
-            return getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_subreddit_container, subRedditFragment);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_subreddit_container, subRedditFragment).commit();
         }
-        return null;
     }
 
     private boolean menuHistoryLink(Context context) {
@@ -395,6 +391,18 @@ public class SubRedditActivity extends BaseActivity
             mRedditCategory = intent.getStringExtra(Costant.EXTRA_SUBREDDIT_CATEGORY);
             mRedditTarget = intent.getStringExtra(Costant.EXTRA_SUBREDDIT_TARGET);
 
+            return true;
+        }
+        return false;
+    }
+
+
+    private boolean menuDrawerLink(Intent intent) {
+        if ((intent != null) &&
+                (!TextUtils.isEmpty(intent.getStringExtra(Costant.EXTRA_SUBREDDIT_CATEGORY)))) {
+
+            mRedditCategory = intent.getStringExtra(Costant.EXTRA_SUBREDDIT_CATEGORY);
+            setDrawerLink(true);
             return true;
         }
         return false;
@@ -441,19 +449,6 @@ public class SubRedditActivity extends BaseActivity
         }
     }
 
-    private void initDefaultPreference(Context context) {
-
-        Timber.d("VALUX titles %s", Preference.getGeneralSettingsItemPage(context));
-        Timber.d("VALUX depth %s", Preference.getGeneralSettingsDepthPage(context));
-        Timber.d("VALUX sync %s", Preference.getGeneralSettingsSyncFrequency(context));
-        Timber.d("VALUX sort %s", Preference.getSubredditSort(context));
-        Timber.d("VALUX timeSort %s", Preference.getTimeSort(context));
-        Timber.d("VALUX typeMode %s", Preference.getTypeMode(context));
-
-
-    }
-
-
     public static class MediaReceiver extends BroadcastReceiver {
 
         public MediaReceiver() {
@@ -467,4 +462,5 @@ public class SubRedditActivity extends BaseActivity
         }
 
     }
+
 }

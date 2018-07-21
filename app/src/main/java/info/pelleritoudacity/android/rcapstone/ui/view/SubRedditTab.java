@@ -99,7 +99,7 @@ public class SubRedditTab implements TabLayout.OnTabSelectedListener {
         mTabHistory.clear();
     }
 
-    private void addHistory(String category) {
+    public void addHistory(String category) {
         if (mTabHistory.size() == 0) {
             mTabHistory.add(mTabList.get(0));
         }
