@@ -527,16 +527,11 @@ public class BaseActivity extends AppCompatActivity
             itemModeSettings.setIcon(new IconicsDrawable(context, MaterialDesignIconic.Icon.gmi_settings)
                     .respectFontBounds(true));
 
-            itemModePopularText.setChecked(false);
-            itemModeAllText.setChecked(false);
-            itemModeSearchText.setChecked(false);
-            itemModeSubscriptions.setChecked(false);
-            itemModeRefresh.setChecked(false);
-            itemModeSettings.setChecked(false);
 
             switch (Preference.getTypeMode(getApplicationContext())) {
                 case Costant.NAV_MODE_HOME:
                     itemHome.setEnabled(true);
+                    itemHome.setChecked(false);
                     break;
                 case Costant.NAV_MODE_POPOLAR:
                     itemModePopularText.setEnabled(true);
@@ -552,12 +547,15 @@ public class BaseActivity extends AppCompatActivity
                     break;
                 case Costant.NAV_MODE_SUBSCRIPTIONS:
                     itemModeSubscriptions.setEnabled(true);
+                    itemModeSubscriptions.setChecked(true);
                     break;
                 case Costant.NAV_MODE_REFRESH:
                     itemModeRefresh.setEnabled(true);
+                    itemModeRefresh.setChecked(false);
                     break;
                 case Costant.NAV_MODE_SETTINGS:
                     itemModeSettings.setEnabled(true);
+                    itemModeSettings.setChecked(false);
                     break;
                 default:
                     itemHome.setChecked(false);
@@ -595,9 +593,9 @@ public class BaseActivity extends AppCompatActivity
                 menuItem.setIcon(new IconicsDrawable(this, MaterialDesignIconic.Icon.gmi_account_circle)
                         .respectFontBounds(true));
 
-                if (Preference.getLastCategory(context).equals(String.valueOf(title)) && (!TextUtils.isEmpty( Preference.getLastTarget(context)))) {
+                if (Preference.getLastCategory(context).equals(String.valueOf(title))) {
                     menuItem.setChecked(true);
-                } else {
+                } else{
                     menuItem.setChecked(false);
 
                 }
