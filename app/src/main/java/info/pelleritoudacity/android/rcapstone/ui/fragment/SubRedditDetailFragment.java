@@ -28,6 +28,7 @@ import butterknife.Unbinder;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
+import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
 import info.pelleritoudacity.android.rcapstone.ui.adapter.SubRedditDetailAdapter;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
@@ -44,27 +45,18 @@ public class SubRedditDetailFragment extends Fragment
     RecyclerView mRecyclerView;
 
     private Unbinder unbinder;
-    private String mStrId;
-    private String mStrLinkId;
     private SubRedditDetailAdapter mAdapter;
     private OnFragmentInteractionListener mListener;
-    private int mId;
-    private String mStrArrId;
-    private int mPosition;
+    private DetailModel model;
 
 
     public SubRedditDetailFragment() {
     }
 
-    public static SubRedditDetailFragment newInstance(int position, String strId, int id, String strArrId, String strLinkId) {
+    public static SubRedditDetailFragment newInstance(DetailModel m) {
         SubRedditDetailFragment fragment = new SubRedditDetailFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_STRID, strId);
-        bundle.putInt(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_POSITION, position);
-        bundle.putInt(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ID, id);
-        bundle.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ARRID, strArrId);
-        bundle.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_LINKID, strLinkId);
-
+        bundle.putParcelable(Costant.EXTRA_FRAGMENT_PARCEL_SUBREDDIT_DETAIL, m);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -74,11 +66,7 @@ public class SubRedditDetailFragment extends Fragment
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mStrId = getArguments().getString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_STRID);
-            mStrLinkId = getArguments().getString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_LINKID);
-            mId = getArguments().getInt(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ID);
-            mPosition = getArguments().getInt(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_POSITION);
-            mStrArrId = getArguments().getString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ARRID);
+            model = getArguments().getParcelable(Costant.EXTRA_FRAGMENT_PARCEL_SUBREDDIT_DETAIL);
         }
     }
 
@@ -104,7 +92,7 @@ public class SubRedditDetailFragment extends Fragment
 
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new SubRedditDetailAdapter(this, mStrLinkId);
+        mAdapter = new SubRedditDetailAdapter(this, model);
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -127,18 +115,9 @@ public class SubRedditDetailFragment extends Fragment
         super.onActivityCreated(savedInstanceState);
 
         if (savedInstanceState != null) {
-            mStrId = savedInstanceState.getString(Costant.EXTRA_FRAGMENT_DETAIL_STRING_ID);
-            mId = savedInstanceState.getInt(Costant.EXTRA_FRAGMENT_DETAIL_ID);
-            mPosition = savedInstanceState.getInt(Costant.EXTRA_FRAGMENT_DETAIL_POSITION);
-            mStrLinkId = savedInstanceState.getString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_LINKID);
+            model = savedInstanceState.getParcelable(Costant.EXTRA_FRAGMENT_PARCEL_SUBREDDIT_DETAIL);
 
         }
-
-        /*if ((getActivity() != null) && (!TextUtils.isEmpty(mStrLinkId))) {
-            getActivity().getSupportLoaderManager().initLoader(SUBREDDIT_DETAIL_LOADER_ID, null, this).forceLoad();
-
-        }
-*/
 
     }
 
@@ -162,12 +141,8 @@ public class SubRedditDetailFragment extends Fragment
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putParcelable(Costant.EXTRA_FRAGMENT_PARCEL_SUBREDDIT_DETAIL,model);
         super.onSaveInstanceState(outState);
-        outState.putString(Costant.EXTRA_FRAGMENT_DETAIL_STRING_ID, mStrId);
-        outState.putInt(Costant.EXTRA_FRAGMENT_DETAIL_ID, mId);
-        outState.putInt(Costant.EXTRA_FRAGMENT_DETAIL_POSITION, mPosition);
-        outState.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ARRID, mStrArrId);
-        outState.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_LINKID, mStrLinkId);
 
     }
 
@@ -180,7 +155,7 @@ public class SubRedditDetailFragment extends Fragment
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        return new SubRedditDetailFragmentAsyncTask(Objects.requireNonNull(getActivity()), mStrId, mId, mStrArrId, mStrLinkId,
+        return new SubRedditDetailFragmentAsyncTask(Objects.requireNonNull(getActivity()), model,
                 Preference.isLoginOver18(getContext()));
     }
 
@@ -207,27 +182,21 @@ public class SubRedditDetailFragment extends Fragment
     }
 
     @Override
-    public void onClickMore(int position, int id, String linkId, String strId, String strArrId) {
-        mListener.onClickMore(position, id, linkId, strId, strArrId);
+    public void onClickMore(DetailModel detailModel) {
+        mListener.onClickMore(detailModel);
     }
 
     private static class SubRedditDetailFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
 
         Cursor cursorData = null;
         private final boolean isOver18;
-        private final String mStrId;
-        private final String mArrStrId;
-        private final String mStrLinkId;
-        private final int mId;
+        private final DetailModel m;
 
 
-        SubRedditDetailFragmentAsyncTask(Context context, String strId, int id, String strArrId, String strLinkId, boolean isOver18) {
+        SubRedditDetailFragmentAsyncTask(Context context, DetailModel model, boolean isOver18) {
             super(context);
             this.isOver18 = isOver18;
-            mStrId = strId;
-            mStrLinkId = strLinkId;
-            mId = id;
-            mArrStrId = strArrId;
+            m = model;
         }
 
         @Override
@@ -258,30 +227,28 @@ public class SubRedditDetailFragment extends Fragment
 
                 Uri uri = Contract.T1dataEntry.CONTENT_URI;
                 String[] selectionArgs;
-                String sortBy = null;
 
-                if (!TextUtils.isEmpty(mStrLinkId)) {
+                if (!TextUtils.isEmpty(m.getStrLinkId())) {
 
                     DataUtils d = new DataUtils(getContext());
 
                     selection = Contract.T1dataEntry._ID + " =?" + " OR " +
-                            Contract.T1dataEntry.COLUMN_NAME_ID + " IN(" + d.stringInQuestionMark(mArrStrId) + ")";
+                            Contract.T1dataEntry.COLUMN_NAME_ID + " IN(" + d.stringInQuestionMark(m.getStrArrId()) + ")";
 
-                    selectionArgs = ((mId + ",") + (mArrStrId))
+                    selectionArgs = ((m.getId() + ",") + (m.getStrArrId()))
                             .split(Costant.STRING_SEPARATOR);
 
                 } else {
 
-                    selectionArgs = new String[]{Costant.STR_PARENT_LINK + mStrId, Costant.NONE_DETAIL_MORE_REPLIES, strOver18};
+                    selectionArgs = new String[]{Costant.STR_PARENT_LINK + m.getStrId(), Costant.NONE_DETAIL_MORE_REPLIES, strOver18};
 
                 }
-
 
                 return getContext().getContentResolver().query(uri,
                         null,
                         selection,
                         selectionArgs,
-                        sortBy);
+                        null);
 
             } catch (Exception e) {
                 Timber.e("Failed to asynchronously load data. ");
@@ -305,7 +272,7 @@ public class SubRedditDetailFragment extends Fragment
     public interface OnFragmentInteractionListener {
         void clickSelector(int position, int itemCount);
 
-        void onClickMore( int position, int id, String linkId, String strId, String strArrId);
+        void onClickMore(DetailModel detailModel );
 
     }
 

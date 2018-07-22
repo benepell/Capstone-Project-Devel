@@ -85,17 +85,10 @@ public class SubRedditActivity extends BaseActivity
     private Context mContext;
     private String mRedditCategory;
     private String mRedditTarget;
-
-    public boolean isDrawerLink() {
-        return drawerLink;
-    }
-
-    public void setDrawerLink(boolean drawerLink) {
-        this.drawerLink = drawerLink;
-    }
-
     private boolean drawerLink;
+
     public static MediaSessionCompat sMediaSessionCompat = null;
+
     private SubRedditTab mSubRedditTab;
 
     @Override
@@ -449,6 +442,14 @@ public class SubRedditActivity extends BaseActivity
         }
     }
 
+    public boolean isDrawerLink() {
+        return drawerLink;
+    }
+
+    public void setDrawerLink(boolean drawerLink) {
+        this.drawerLink = drawerLink;
+    }
+
     public static class MediaReceiver extends BroadcastReceiver {
 
         public MediaReceiver() {
@@ -462,5 +463,6 @@ public class SubRedditActivity extends BaseActivity
         }
 
     }
+
 
 }

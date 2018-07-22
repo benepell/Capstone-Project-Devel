@@ -302,7 +302,6 @@ public class Contract {
         public static final String COLUMN_NAME_VARIANT_VIDEO_MP4_WIDTH = "_variant_video_mp4_width";
         public static final String COLUMN_NAME_VARIANT_VIDEO_MP4_HEIGHT = "_variant_video_mp4_height";
 
-
         public static final String COLUMN_NAME_TIME_LAST_MODIFIED = "_time_last_modified";
 
         public static final String COLUMN_NAME_MEDIA_TYPE = "_media_type";

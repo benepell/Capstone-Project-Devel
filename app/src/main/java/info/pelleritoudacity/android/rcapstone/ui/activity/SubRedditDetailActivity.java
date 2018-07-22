@@ -15,6 +15,7 @@ import butterknife.BindView;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Operation.T1Operation;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T1;
+import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
 import info.pelleritoudacity.android.rcapstone.data.rest.More;
 import info.pelleritoudacity.android.rcapstone.data.rest.RestDetailExecute;
 import info.pelleritoudacity.android.rcapstone.data.rest.RestMoreExecute;
@@ -44,12 +45,7 @@ public class SubRedditDetailActivity extends BaseActivity
     SwipeRefreshLayout mSwipeRefreshLayout;
 
     private Context mContext;
-    private int mId;
-    private int mPosition;
-    private String mStrId = null;
-    private String mStrArrId;
-    private String mStrLinkId;
-
+    private DetailModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,27 +57,27 @@ public class SubRedditDetailActivity extends BaseActivity
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
-        if (intent != null) {
-            mStrId = intent.getStringExtra(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID);
+        if (savedInstanceState == null) {
+            model = new DetailModel();
 
-            if (intent.getBooleanExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_DETAIL_REFRESH, false)) {
-                mStrId = Preference.getLastComment(mContext);
+            if (intent != null) {
+
+                model.setStrId(intent.getStringExtra(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID));
+
+                if (intent.getBooleanExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_DETAIL_REFRESH, false)) {
+                    model.setStrId(Preference.getLastComment(mContext));
+                }
+
             }
 
-        }
+            Preference.setLastComment(mContext, model.getStrId());
 
-        Preference.setLastComment(mContext, mStrId);
-
-        if (savedInstanceState != null) {
-            mStrId = savedInstanceState.getString(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID);
-            mStrLinkId = savedInstanceState.getString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_LINKID);
-            mStrArrId = savedInstanceState.getString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ARRID);
-            mId = savedInstanceState.getInt(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ID);
-            mPosition = savedInstanceState.getInt(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_POSITION);
+        } else {
+            model = savedInstanceState.getParcelable(Costant.EXTRA_PARCEL_ACTIVITY_DETAIL);
 
         }
 
-        if (mId == 0) {
+        if (model.getId() == 0) {
             mNestedScrollView.setOnScrollChangeListener(this);
         }
 
@@ -92,10 +88,10 @@ public class SubRedditDetailActivity extends BaseActivity
 
     @Override
     public void onRestSubReddit(List<T1> listenerData) {
-        if ((listenerData != null) && (mStrId != null)) {
+        if ((listenerData != null) && (model.getStrId() != null)) {
             T1Operation data = new T1Operation(getApplicationContext());
-            if (data.saveData(listenerData, mStrId)) {
-                startFragment(mPosition, mStrId);
+            if (data.saveData(listenerData, model.getStrId())) {
+                startFragment(model);
                 mSwipeRefreshLayout.setRefreshing(false);
             } else {
                 Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
@@ -103,19 +99,24 @@ public class SubRedditDetailActivity extends BaseActivity
         }
     }
 
-    private void startFragment(int position, String strId) {
-        SubRedditSelectedFragment subRedditSelectedFragment = SubRedditSelectedFragment.newInstance(strId);
+    private void startFragment(DetailModel m) {
+
+        m.setId(0);
+        m.setStrArrId(null);
+        m.setStrLinkId(null);
+
+        SubRedditSelectedFragment subRedditSelectedFragment = SubRedditSelectedFragment.newInstance(m.getStrId());
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_subreddit_selected_container, subRedditSelectedFragment).commitAllowingStateLoss();
 
-        SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(position, strId, 0, null, null);
+        SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(m);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_subreddit_detail_container, fragment).commitAllowingStateLoss();
 
     }
 
-    private void startMoreFragment(int position, String strId, int id, String strArrId, String strLinkId) {
-        SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(position, strId, id, strArrId, strLinkId);
+    private void startMoreFragment(DetailModel m) {
+        SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(m);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_subreddit_detail_container, fragment).commitAllowingStateLoss();
 
@@ -137,7 +138,7 @@ public class SubRedditDetailActivity extends BaseActivity
 
                 }
             } else {
-                startFragment(mPosition, strId);
+                startFragment(model);
 
             }
         }
@@ -155,12 +156,8 @@ public class SubRedditDetailActivity extends BaseActivity
     }
 
     @Override
-    public void onClickMore(int position, int id, String linkId, String strId, String strArrId) {
-        mPosition = position;
-        mId = id;
-        mStrId = strId;
-        mStrLinkId = linkId;
-        mStrArrId = strArrId;
+    public void onClickMore(DetailModel detailModel) {
+        model = detailModel;
         mSwipeRefreshLayout.setRefreshing(true);
         onRefresh();
     }
@@ -178,8 +175,8 @@ public class SubRedditDetailActivity extends BaseActivity
             mSwipeRefreshLayout.setRefreshing(false);
             Snackbar.make(mContainer, R.string.error_refresh_offline, Snackbar.LENGTH_LONG).show();
 
-        } else if (!TextUtils.isEmpty(mStrArrId)) {
-            initRest(mStrId, mStrArrId, mStrLinkId, Preference.getLastCategory(mContext),
+        } else if (!TextUtils.isEmpty(model.getStrArrId())) {
+            initRest(model.getStrId(), model.getStrArrId(), model.getStrLinkId(), Preference.getLastCategory(mContext),
                     PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext));
 
         } else {
@@ -191,15 +188,9 @@ public class SubRedditDetailActivity extends BaseActivity
 
     }
 
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putString(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID, mStrId);
-        outState.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ARRID, mStrArrId);
-        outState.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_LINKID, mStrLinkId);
-        outState.putInt(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_ID, mId);
-        outState.putInt(Costant.EXTRA_FRAGMENT_SUBREDDIT_DETAIL_POSITION, mPosition);
-
+        outState.putParcelable(Costant.EXTRA_PARCEL_ACTIVITY_DETAIL, model);
         super.onSaveInstanceState(outState);
 
     }
@@ -213,7 +204,7 @@ public class SubRedditDetailActivity extends BaseActivity
 
                 if (t1moreOperation.saveMoreData(listenerData.getJson(), strArrId)) {
 
-                    startMoreFragment(mPosition, mStrId, mId, mStrArrId, mStrLinkId);
+                    startMoreFragment(model);
 
                     if (mSwipeRefreshLayout != null) {
                         mSwipeRefreshLayout.setRefreshing(false);
@@ -234,9 +225,9 @@ public class SubRedditDetailActivity extends BaseActivity
 
     @Override
     public void onBackPressed() {
-        if (!TextUtils.isEmpty(mStrArrId)) {
-            mStrArrId = null;
-            startFragment(mPosition, mStrId);
+        if (!TextUtils.isEmpty(model.getStrArrId())) {
+            model.setStrArrId(null);
+            startFragment(model);
 
             if (Preference.getMoreNestedPositionHeight(mContext) > 0) {
                 mNestedScrollView.getChildAt(0).setScrollY(Preference.getMoreNestedPositionHeight(mContext));
