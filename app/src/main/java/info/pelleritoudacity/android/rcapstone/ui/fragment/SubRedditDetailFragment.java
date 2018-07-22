@@ -141,7 +141,7 @@ public class SubRedditDetailFragment extends Fragment
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putParcelable(Costant.EXTRA_FRAGMENT_PARCEL_SUBREDDIT_DETAIL,model);
+        outState.putParcelable(Costant.EXTRA_FRAGMENT_PARCEL_SUBREDDIT_DETAIL, model);
         super.onSaveInstanceState(outState);
 
     }
@@ -272,7 +272,7 @@ public class SubRedditDetailFragment extends Fragment
     public interface OnFragmentInteractionListener {
         void clickSelector(int position, int itemCount);
 
-        void onClickMore(DetailModel detailModel );
+        void onClickMore(DetailModel detailModel);
 
     }
 

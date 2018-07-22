@@ -43,6 +43,7 @@ import android.view.ViewGroup;
 import com.google.android.exoplayer2.util.Util;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -55,6 +56,7 @@ import info.pelleritoudacity.android.rcapstone.data.rest.SubRedditExecute;
 import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditFragment;
 import info.pelleritoudacity.android.rcapstone.ui.view.SubRedditTab;
+import info.pelleritoudacity.android.rcapstone.ui.view.TabData;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
@@ -90,6 +92,7 @@ public class SubRedditActivity extends BaseActivity
     public static MediaSessionCompat sMediaSessionCompat = null;
 
     private SubRedditTab mSubRedditTab;
+    private ArrayList<String> mTabArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +103,8 @@ public class SubRedditActivity extends BaseActivity
 
         mRefreshLayout.setOnRefreshListener(this);
 
+        mTabArrayList = new TabData(mContext).getTabArrayList();
+
         firstInit();
 
         if (savedInstanceState == null) {
@@ -107,8 +112,8 @@ public class SubRedditActivity extends BaseActivity
                 if (!menuTargetLink(getIntent())) {
                     if (!menuDrawerLink(getIntent())) {
                         if (!menuHistoryLink(mContext)) {
-                            if (getTabArrayList() != null) {
-                                mRedditCategory = getTabArrayList().get(0);
+                            if (mTabArrayList != null) {
+                                mRedditCategory = mTabArrayList.get(0);
                                 mRedditTarget = null;
                             }
                         }
@@ -302,7 +307,7 @@ public class SubRedditActivity extends BaseActivity
     }
 
     private void createTabLayout() {
-        mSubRedditTab = new SubRedditTab(this, mTabLayout, getTabArrayList());
+        mSubRedditTab = new SubRedditTab(this, mTabLayout, mTabArrayList);
         mSubRedditTab.initTab();
         mSubRedditTab.positionSelected(mRedditCategory);
     }
@@ -310,7 +315,7 @@ public class SubRedditActivity extends BaseActivity
     private void updateTabPosition(boolean drawerLink) {
         if (Preference.getLastCategory(mContext) != null) {
 
-            int position = getTabArrayList().indexOf(Preference.getLastCategory(mContext));
+            int position = mTabArrayList.indexOf(Preference.getLastCategory(mContext));
             if ((position > 0) && (mTabLayout != null) && (position < mTabLayout.getTabCount())) {
                 position -= 1;
                 int right = ((ViewGroup) mTabLayout.getChildAt(0)).getChildAt(position).getRight();
@@ -463,6 +468,5 @@ public class SubRedditActivity extends BaseActivity
         }
 
     }
-
 
 }

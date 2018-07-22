@@ -26,6 +26,7 @@
 
 package info.pelleritoudacity.android.rcapstone.ui.view;
 
+import android.content.Context;
 import android.support.design.widget.TabLayout;
 import android.text.TextUtils;
 
@@ -33,6 +34,10 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
+
+import static info.pelleritoudacity.android.rcapstone.utility.TextUtil.stringToArray;
 
 public class SubRedditTab implements TabLayout.OnTabSelectedListener {
 
@@ -123,6 +128,7 @@ public class SubRedditTab implements TabLayout.OnTabSelectedListener {
         }
         return category;
     }
+
 
     public interface OnTabListener {
         void tabSelected(int position, String category);

@@ -27,7 +27,6 @@ package info.pelleritoudacity.android.rcapstone.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -38,10 +37,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
-import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.TypefaceSpan;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -54,32 +50,25 @@ import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 
 
-import java.util.ArrayList;
-
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.RedditAboutMe;
 import info.pelleritoudacity.android.rcapstone.data.rest.AboutMeExecute;
+import info.pelleritoudacity.android.rcapstone.ui.helper.MenuBase;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import timber.log.Timber;
-
-import static info.pelleritoudacity.android.rcapstone.utility.TextUtil.stringToArray;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AboutMeExecute.RestAboutMe {
 
     private int mLayoutResource;
     private View mNavHeaderView;
+    private MenuBase menuBase;
     private Unbinder unbinder;
 
-    ArrayList<String> getTabArrayList() {
-        return mTabArrayList;
-    }
-
-    private ArrayList<String> mTabArrayList;
 
     @Override
     protected void onDestroy() {
@@ -104,6 +93,8 @@ public class BaseActivity extends AppCompatActivity
             mStub.inflate();
 
         }
+
+        menuBase = new MenuBase(getApplicationContext(), getLayoutResource());
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -203,7 +194,6 @@ public class BaseActivity extends AppCompatActivity
 
     @Override
     protected boolean onPrepareOptionsPanel(View view, Menu menu) {
-        Context context = getApplicationContext();
         MenuItem menuItemLogin;
         MenuItem menuItemLogout;
 
@@ -234,8 +224,7 @@ public class BaseActivity extends AppCompatActivity
                     menuItemLogin.setChecked(false);
             }
 
-            menuGeneralSettings(context, menu, Costant.DEFAULT_GENERAL_SETTINGS);
-
+            menuBase.menuGeneralSettings(menu);
         }
 
         return true;
@@ -243,140 +232,19 @@ public class BaseActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (getLayoutResource()) {
 
-        if ((getLayoutResource() == R.layout.activity_subreddit) ||
-                (getLayoutResource() == R.layout.activity_sub_reddit_detail) ||
-                (getLayoutResource() == R.layout.activity_submanage)) {
+            case R.layout.activity_subreddit:
+            case R.layout.activity_sub_reddit_detail:
+            case R.layout.activity_submanage:
 
-            int id = item.getItemId();
-            switch (id) {
+                menuBase.menuItemSelected(item);
+                break;
 
-                case R.id.menu_action_restore:
-                    startActivity(new Intent(this, SubRedditActivity.class).putExtra(Costant.EXTRA_RESTORE_MANAGE, Costant.RESTORE_MANAGE_RESTORE));
-                    return true;
-                case R.id.menu_action_login:
-                    startActivity(new Intent(this, LoginActivity.class));
-                    return true;
-                case R.id.menu_action_logout:
-                    startActivity(new Intent(this, LogoutActivity.class));
-                    return true;
-                case R.id.menu_action_refresh:
-                    menuClickRefresh(getLayoutResource());
-                    return true;
-                case R.id.menu_action_settings:
-                    startActivity(new Intent(this, SettingsActivity.class));
-                    return true;
-
-                case R.id.submenu_filter_hot:
-                    Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_HOT);
-                    Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_NOTHING);
-                    break;
-                case R.id.submenu_filter_new:
-                    Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_NEW);
-                    Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_NOTHING);
-                    break;
-                case R.id.submenu_filter_rising:
-                    Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_RISING);
-                    Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_NOTHING);
-                    break;
-
-                case R.id.submenu_top_hour:
-                    Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_TOP);
-                    Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_HOUR);
-                    startActivity(new Intent(this, SubRedditActivity.class));
-                    break;
-                case R.id.submenu_top_day:
-                    Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_TOP);
-                    Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_DAY);
-                    startActivity(new Intent(this, SubRedditActivity.class));
-                    break;
-                case R.id.submenu_top_week:
-                    Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_TOP);
-                    Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_WEEK);
-                    startActivity(new Intent(this, SubRedditActivity.class));
-                    break;
-                case R.id.submenu_top_month:
-                    Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_TOP);
-                    Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_MONTH);
-                    startActivity(new Intent(this, SubRedditActivity.class));
-                    break;
-                case R.id.submenu_top_year:
-                    Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_TOP);
-                    Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_YEAR);
-                    startActivity(new Intent(this, SubRedditActivity.class));
-                    break;
-                case R.id.submenu_top_all:
-                    Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_TOP);
-                    Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_ALL);
-                    startActivity(new Intent(this, SubRedditActivity.class));
-                    break;
-
-                case R.id.submenu_controver_hour:
-                    Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_CONTROVERSIAL);
-                    Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_HOUR);
-                    startActivity(new Intent(this, SubRedditActivity.class));
-                    break;
-                case R.id.submenu_controver_day:
-                    Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_CONTROVERSIAL);
-                    Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_DAY);
-                    break;
-                case R.id.submenu_controver_week:
-                    Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_CONTROVERSIAL);
-                    Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_WEEK);
-                    startActivity(new Intent(this, SubRedditActivity.class));
-                    break;
-                case R.id.submenu_controver_month:
-                    Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_CONTROVERSIAL);
-                    Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_MONTH);
-                    startActivity(new Intent(this, SubRedditActivity.class));
-                    break;
-                case R.id.submenu_controver_year:
-                    Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_CONTROVERSIAL);
-                    Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_YEAR);
-                    startActivity(new Intent(this, SubRedditActivity.class));
-                    break;
-                case R.id.submenu_controver_all:
-                    Preference.setSubredditSort(getApplicationContext(), Costant.LABEL_SUBMENU_CONTROVERSIAL);
-                    Preference.setTimeSort(getApplicationContext(), Costant.LABEL_TIME_ALL);
-                    startActivity(new Intent(this, SubRedditActivity.class));
-                    break;
-                case R.id.action_general_images:
-                    Preference.setGeneralImages(getApplicationContext(), !Preference.isGeneralImages(getApplicationContext()));
-                    startActivity(new Intent(this, SubRedditActivity.class));
-                    break;
-
-                case R.id.action_general_gifs:
-                    Preference.setGeneralGifs(getApplicationContext(), !Preference.isGeneralGifs(getApplicationContext()));
-                    startActivity(new Intent(this, SubRedditActivity.class));
-                    break;
-
-                case R.id.action_general_albums:
-                    Preference.setGeneralAlbums(getApplicationContext(), !Preference.isGeneralAlbums(getApplicationContext()));
-                    startActivity(new Intent(this, SubRedditActivity.class));
-                    break;
-
-                case R.id.action_general_videos:
-                    Preference.setGeneralVideos(getApplicationContext(), !Preference.isGeneralVideos(getApplicationContext()));
-                    startActivity(new Intent(this, SubRedditActivity.class));
-                    break;
-
-                case R.id.action_general_self:
-                    Preference.setGeneralSelf(getApplicationContext(), !Preference.isGeneralSelf(getApplicationContext()));
-                    startActivity(new Intent(this, SubRedditActivity.class));
-                    break;
-
-                case R.id.action_general_links:
-                    Preference.setGeneralLinks(getApplicationContext(), !Preference.isGeneralLinks(getApplicationContext()));
-                    startActivity(new Intent(this, SubRedditActivity.class));
-                    break;
-
-
-                default:
-                    return super.onOptionsItemSelected(item);
-            }
-
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return true;
+        return super.onOptionsItemSelected(item);
 
     }
 
@@ -384,101 +252,14 @@ public class BaseActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        int id = item.getItemId();
-        switch (id) {
+        menuBase.navigationItemSelected(item);
 
-            case R.id.nav_home:
-                Preference.setTypeMode(getApplicationContext(), Costant.NAV_MODE_HOME);
-                openHomeActivity();
-                break;
-
-            case R.id.nav_mode_all:
-                Preference.setTypeMode(getApplicationContext(), Costant.NAV_MODE_ALL);
-                targetMenuMain(R.id.nav_mode_all);
-                break;
-
-            case R.id.nav_mode_popular:
-                Preference.setTypeMode(getApplicationContext(), Costant.NAV_MODE_POPOLAR);
-                targetMenuMain(R.id.nav_mode_popular);
-                break;
-
-            case R.id.nav_mode_subscriptions:
-                Preference.setTypeMode(getApplicationContext(), Costant.NAV_MODE_SUBSCRIPTIONS);
-                item.setEnabled(true);
-                startActivity(new Intent(this, SubManageActivity.class));
-                break;
-            case R.id.nav_mode_refresh:
-                Preference.setTypeMode(getApplicationContext(), Costant.NAV_MODE_SEARCH);
-                menuClickRefresh(getLayoutResource());
-                item.setEnabled(true);
-                break;
-
-            case R.id.nav_mode_settings:
-                Preference.setTypeMode(getApplicationContext(), Costant.NAV_MODE_SETTINGS);
-                item.setEnabled(true);
-                startActivity(new Intent(this, SettingsActivity.class));
-                break;
-
-        }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
 
     }
 
-    private void menuClickRefresh(int layoutResource) {
-        switch (layoutResource) {
-            case R.layout.activity_subreddit:
-                Intent intentSubreddit = new Intent(getApplicationContext(), SubRedditActivity.class);
-                intentSubreddit.putExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_REFRESH, true);
-                getApplicationContext().startActivity(intentSubreddit);
-                break;
-
-            case R.layout.activity_sub_reddit_detail:
-                Intent intentSubredditDetail = new Intent(getApplicationContext(), SubRedditDetailActivity.class);
-                intentSubredditDetail.putExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_DETAIL_REFRESH, true);
-                getApplicationContext().startActivity(intentSubredditDetail);
-                break;
-
-            case R.layout.activity_submanage:
-                Intent intentSubmanage = new Intent(getApplicationContext(), SubManageActivity.class);
-                intentSubmanage.putExtra(Costant.EXTRA_ACTIVITY_SUBMANAGE_REFRESH, true);
-                getApplicationContext().startActivity(intentSubmanage);
-                break;
-
-            default:
-        }
-
-    }
-
-    private void targetMenuMain(int resource) {
-
-        String constantCategory = null;
-        String constantsTarget = null;
-
-        switch (resource) {
-
-            case R.id.nav_mode_popular:
-                constantCategory = Costant.SUBREDDIT_CATEGORY_POPULAR;
-                constantsTarget = Costant.SUBREDDIT_TARGET_POPULAR;
-                break;
-
-            case R.id.nav_mode_all:
-                constantCategory = Costant.SUBREDDIT_CATEGORY_ALL;
-                constantsTarget = Costant.SUBREDDIT_TARGET_ALL;
-                break;
-
-        }
-
-        Intent intent = new Intent(getApplication(), SubRedditActivity.class);
-        intent.putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, constantCategory);
-        intent.putExtra(Costant.EXTRA_SUBREDDIT_TARGET, constantsTarget);
-
-        if (this.getClass().getSimpleName().equals(SubRedditActivity.class.getSimpleName())) {
-            finish();
-        }
-        startActivity(intent);
-    }
 
     private void menuNavigation(NavigationView navigationView) {
 
@@ -487,207 +268,12 @@ public class BaseActivity extends AppCompatActivity
             case R.layout.activity_sub_reddit_detail:
             default:
                 navigationView.inflateMenu(R.menu.activity_base_drawer_main);
-                menuItemBase(getApplicationContext(), navigationView.getMenu());
-                menuGroupSubs(getApplicationContext(), navigationView.getMenu());
+                menuBase.menuNavigation(navigationView.getMenu());
+                menuBase.navigationSubCategory(navigationView.getMenu());
         }
 
         navigationView.setNavigationItemSelectedListener(this);
 
-    }
-
-    private void menuItemBase(Context context, Menu menu) {
-        if ((context != null) && (menu != null)) {
-            MenuItem itemHome = menu.findItem(R.id.nav_home);
-
-            MenuItem itemModePopularText = menu.findItem(R.id.nav_mode_popular);
-            MenuItem itemModeAllText = menu.findItem(R.id.nav_mode_all);
-            MenuItem itemModeSearchText = menu.findItem(R.id.nav_mode_search);
-            MenuItem itemModeSubscriptions = menu.findItem(R.id.nav_mode_subscriptions);
-            MenuItem itemModeRefresh = menu.findItem(R.id.nav_mode_refresh);
-            MenuItem itemModeSettings = menu.findItem(R.id.nav_mode_settings);
-
-            itemHome.setIcon(new IconicsDrawable(context, MaterialDesignIconic.Icon.gmi_home)
-                    .respectFontBounds(true));
-
-            itemModePopularText.setIcon(new IconicsDrawable(context, MaterialDesignIconic.Icon.gmi_trending_up)
-                    .respectFontBounds(true));
-
-            itemModeAllText.setIcon(new IconicsDrawable(context, MaterialDesignIconic.Icon.gmi_view_comfy)
-                    .respectFontBounds(true));
-
-            itemModeSearchText.setIcon(new IconicsDrawable(context, MaterialDesignIconic.Icon.gmi_search)
-                    .respectFontBounds(true));
-
-            itemModeSubscriptions.setIcon(new IconicsDrawable(context, MaterialDesignIconic.Icon.gmi_view_headline)
-                    .respectFontBounds(true));
-
-            itemModeRefresh.setIcon(new IconicsDrawable(context, MaterialDesignIconic.Icon.gmi_refresh)
-                    .respectFontBounds(true));
-
-            itemModeSettings.setIcon(new IconicsDrawable(context, MaterialDesignIconic.Icon.gmi_settings)
-                    .respectFontBounds(true));
-
-
-            switch (Preference.getTypeMode(getApplicationContext())) {
-                case Costant.NAV_MODE_HOME:
-                    itemHome.setEnabled(true);
-                    itemHome.setChecked(false);
-                    break;
-                case Costant.NAV_MODE_POPOLAR:
-                    itemModePopularText.setEnabled(true);
-                    itemModePopularText.setChecked(true);
-                    break;
-                case Costant.NAV_MODE_ALL:
-                    itemModeAllText.setEnabled(true);
-                    itemModeAllText.setChecked(true);
-                    break;
-                case Costant.NAV_MODE_SEARCH:
-                    itemModeSearchText.setEnabled(true);
-                    itemModeSearchText.setChecked(true);
-                    break;
-                case Costant.NAV_MODE_SUBSCRIPTIONS:
-                    itemModeSubscriptions.setEnabled(true);
-                    itemModeSubscriptions.setChecked(true);
-                    break;
-                case Costant.NAV_MODE_REFRESH:
-                    itemModeRefresh.setEnabled(true);
-                    itemModeRefresh.setChecked(false);
-                    break;
-                case Costant.NAV_MODE_SETTINGS:
-                    itemModeSettings.setEnabled(true);
-                    itemModeSettings.setChecked(false);
-                    break;
-                default:
-                    itemHome.setChecked(false);
-            }
-        }
-
-    }
-
-    private void menuGroupSubs(Context context, Menu menu) {
-        if ((context != null) && (menu != null)) {
-
-            String prefString = Preference.getSubredditKey(getApplicationContext());
-
-            if (TextUtils.isEmpty(prefString)) {
-                prefString = Costant.DEFAULT_SUBREDDIT_CATEGORY;
-            }
-
-            mTabArrayList = stringToArray(prefString);
-
-            int groupId = menu.findItem(R.id.nav_mode_subs).getGroupId();
-
-            int colorTheme = Color.DKGRAY;
-            if (Preference.isNightMode(getApplicationContext())) {
-                colorTheme = Color.WHITE;
-            }
-            for (String string : mTabArrayList) {
-
-                TypefaceSpan typefaceSpan = new TypefaceSpan("/font/roboto_thin.ttf"); // OR  THIS
-                SpannableStringBuilder title = new SpannableStringBuilder(string);
-                title.setSpan(typefaceSpan, 0, title.length(), 0);
-                title.setSpan(new ForegroundColorSpan(colorTheme), 0, title.length(), 0);
-
-                MenuItem menuItem = menu.add(groupId, Menu.NONE, Menu.NONE, title);
-
-                menuItem.setIcon(new IconicsDrawable(this, MaterialDesignIconic.Icon.gmi_account_circle)
-                        .respectFontBounds(true));
-
-                if (Preference.getLastCategory(context).equals(String.valueOf(title))) {
-                    menuItem.setChecked(true);
-                } else{
-                    menuItem.setChecked(false);
-
-                }
-
-                menuItem.setOnMenuItemClickListener(item -> {
-                    Intent intent = new Intent(getApplication(), SubRedditActivity.class);
-                    intent.putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, item.getTitle().toString());
-
-                    if (this.getClass().getSimpleName().equals(SubRedditActivity.class.getSimpleName())) {
-                        finish();
-                    }
-
-                    startActivity(intent);
-
-                    return true;
-                });
-
-
-            }
-
-        }
-    }
-
-    private void menuGeneralSettings(Context context, Menu menu, boolean defaultValue) {
-
-        MenuItem itemGeneralImages = menu.findItem(R.id.action_general_images);
-        MenuItem itemGeneralVideos = menu.findItem(R.id.action_general_videos);
-        MenuItem itemGeneralGifs = menu.findItem(R.id.action_general_gifs);
-        MenuItem itemGeneralAlbums = menu.findItem(R.id.action_general_albums);
-        MenuItem itemGeneralLinks = menu.findItem(R.id.action_general_links);
-        MenuItem itemGeneralSelf = menu.findItem(R.id.action_general_self);
-
-        if (!Preference.isGeneralInit(context)) {
-            Preference.setGeneralImages(context, defaultValue);
-            Preference.setGeneralVideos(context, defaultValue);
-            Preference.setGeneralGifs(context, defaultValue);
-            Preference.setGeneralAlbums(context, defaultValue);
-            Preference.setGeneralLinks(context, defaultValue);
-            Preference.setGeneralSelf(context, defaultValue);
-
-            itemGeneralImages.setChecked(defaultValue);
-            itemGeneralVideos.setChecked(defaultValue);
-            itemGeneralGifs.setChecked(defaultValue);
-            itemGeneralAlbums.setChecked(defaultValue);
-            itemGeneralLinks.setChecked(defaultValue);
-            itemGeneralSelf.setChecked(defaultValue);
-
-            Preference.setGeneralInit(context, true);
-
-        } else {
-            if (Preference.isGeneralImages(context)) {
-                itemGeneralImages.setChecked(true);
-            } else {
-                itemGeneralImages.setChecked(false);
-
-            }
-
-            if (Preference.isGeneralGifs(context)) {
-                itemGeneralGifs.setChecked(true);
-            } else {
-                itemGeneralGifs.setChecked(false);
-
-            }
-
-            if (Preference.isGeneralAlbums(context)) {
-                itemGeneralAlbums.setChecked(true);
-            } else {
-                itemGeneralAlbums.setChecked(false);
-
-            }
-
-            if (Preference.isGeneralVideos(context)) {
-                itemGeneralVideos.setChecked(true);
-            } else {
-                itemGeneralVideos.setChecked(false);
-
-            }
-
-            if (Preference.isGeneralLinks(context)) {
-                itemGeneralLinks.setChecked(true);
-            } else {
-                itemGeneralLinks.setChecked(false);
-
-            }
-
-            if (Preference.isGeneralSelf(context)) {
-                itemGeneralSelf.setChecked(true);
-            } else {
-                itemGeneralSelf.setChecked(false);
-
-            }
-        }
     }
 
 
@@ -724,4 +310,5 @@ public class BaseActivity extends AppCompatActivity
     public void onErrorAboutMe(Throwable t) {
 
     }
+
 }
