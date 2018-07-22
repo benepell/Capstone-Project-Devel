@@ -1,4 +1,4 @@
-package info.pelleritoudacity.android.rcapstone.ui.view;
+package info.pelleritoudacity.android.rcapstone.data.other;
 
 import android.content.Context;
 import android.text.TextUtils;

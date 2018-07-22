@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.text.SpannableStringBuilder;
-import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.TypefaceSpan;
 import android.view.Menu;
@@ -16,19 +15,15 @@ import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic
 import java.util.ArrayList;
 
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.ui.activity.BaseActivity;
 import info.pelleritoudacity.android.rcapstone.ui.activity.LoginActivity;
 import info.pelleritoudacity.android.rcapstone.ui.activity.LogoutActivity;
 import info.pelleritoudacity.android.rcapstone.ui.activity.SettingsActivity;
 import info.pelleritoudacity.android.rcapstone.ui.activity.SubManageActivity;
 import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity;
 import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditDetailActivity;
-import info.pelleritoudacity.android.rcapstone.ui.view.SubRedditTab;
-import info.pelleritoudacity.android.rcapstone.ui.view.TabData;
+import info.pelleritoudacity.android.rcapstone.data.other.TabData;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
-
-import static info.pelleritoudacity.android.rcapstone.utility.TextUtil.stringToArray;
 
 public class MenuBase {
 

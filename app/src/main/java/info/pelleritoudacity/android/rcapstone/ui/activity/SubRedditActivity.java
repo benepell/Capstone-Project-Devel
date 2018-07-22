@@ -56,7 +56,7 @@ import info.pelleritoudacity.android.rcapstone.data.rest.SubRedditExecute;
 import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditFragment;
 import info.pelleritoudacity.android.rcapstone.ui.view.SubRedditTab;
-import info.pelleritoudacity.android.rcapstone.ui.view.TabData;
+import info.pelleritoudacity.android.rcapstone.data.other.TabData;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
