@@ -60,6 +60,8 @@ import info.pelleritoudacity.android.rcapstone.data.other.TabData;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
+import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.SessionUtil.getRedditSessionExpired;
 
@@ -130,6 +132,7 @@ public class SubRedditActivity extends BaseActivity
         }
 
         createTabLayout();
+
         Preference.setLastCategory(mContext, mRedditCategory);
         Preference.setLastTarget(mContext, mRedditTarget);
 
@@ -244,7 +247,9 @@ public class SubRedditActivity extends BaseActivity
             Snackbar.make(mContainer, R.string.list_snackbar_offline_text, Snackbar.LENGTH_LONG).show();
 
         } else if (getApplicationContext() != null) {
-            initRest(Preference.getLastCategory(getApplicationContext()), Preference.getLastTarget(mContext), NetworkUtil.isOnline(mContext));
+            String lastCategory = Preference.getLastCategory(getApplicationContext());
+            if(TextUtils.isEmpty(lastCategory)) lastCategory = TextUtil.stringToArray(Costant.DEFAULT_SUBREDDIT_CATEGORY).get(0);
+            initRest(lastCategory, Preference.getLastTarget(mContext), NetworkUtil.isOnline(mContext));
         }
 
     }

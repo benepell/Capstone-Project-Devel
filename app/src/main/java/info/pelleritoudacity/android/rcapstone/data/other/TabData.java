@@ -5,7 +5,6 @@ import android.text.TextUtils;
 
 import java.util.ArrayList;
 
-import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 
