@@ -94,7 +94,6 @@ public class SubRedditDetailActivity extends BaseActivity
             T1Operation data = new T1Operation(getApplicationContext());
             if (data.saveData(listenerData, model.getStrId())) {
                 startFragment(model);
-                mSwipeRefreshLayout.setRefreshing(false);
             } else {
                 Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
             }
@@ -125,6 +124,10 @@ public class SubRedditDetailActivity extends BaseActivity
         SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(m);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_subreddit_detail_container, fragment).commitAllowingStateLoss();
+
+        if (mSwipeRefreshLayout != null) {
+            if (mSwipeRefreshLayout.isRefreshing()) mSwipeRefreshLayout.setRefreshing(false);
+        }
 
     }
 
@@ -191,7 +194,11 @@ public class SubRedditDetailActivity extends BaseActivity
         }
 
         if (!NetworkUtil.isOnline(mContext)) {
-            mSwipeRefreshLayout.setRefreshing(false);
+
+            if (mSwipeRefreshLayout != null) {
+                if (mSwipeRefreshLayout.isRefreshing()) mSwipeRefreshLayout.setRefreshing(false);
+            }
+
             Snackbar.make(mContainer, R.string.error_refresh_offline, Snackbar.LENGTH_LONG).show();
 
         } else if (!TextUtils.isEmpty(model.getStrArrId())) {
@@ -227,9 +234,6 @@ public class SubRedditDetailActivity extends BaseActivity
 
                     startMoreFragment(model);
 
-                    if (mSwipeRefreshLayout != null) {
-                        mSwipeRefreshLayout.setRefreshing(false);
-                    }
                 }
 
             }

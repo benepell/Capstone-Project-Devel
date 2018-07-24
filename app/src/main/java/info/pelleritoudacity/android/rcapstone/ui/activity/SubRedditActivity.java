@@ -38,7 +38,6 @@ import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
-import android.view.ViewGroup;
 
 
 import java.util.ArrayList;
@@ -109,7 +108,6 @@ public class SubRedditActivity extends BaseActivity
         firstInit();
 
         mLauncherMenu = new MenuLauncherDetail(mContext, getIntent());
-
 
         mSubRedditTab = new SubRedditTab(this, mTabLayout, mTabArrayList);
         mSubRedditTab.initTab();
@@ -228,7 +226,6 @@ public class SubRedditActivity extends BaseActivity
 
         if (!NetworkUtil.isOnline(mContext)) {
             createUI(Preference.getLastCategory(getApplicationContext()), Preference.getLastTarget(getApplicationContext()));
-            mRefreshLayout.setRefreshing(false);
             Snackbar.make(mContainer, R.string.list_snackbar_offline_text, Snackbar.LENGTH_LONG).show();
 
         } else if (getApplicationContext() != null) {
@@ -295,7 +292,6 @@ public class SubRedditActivity extends BaseActivity
 
         }
         startFragment(link, target);
-        mRefreshLayout.setRefreshing(false);
     }
 
 
@@ -340,6 +336,11 @@ public class SubRedditActivity extends BaseActivity
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_subreddit_container, subRedditFragment).commit();
         }
+
+        if (mRefreshLayout != null) {
+            if (mRefreshLayout.isRefreshing()) mRefreshLayout.setRefreshing(false);
+        }
+
     }
 
 
@@ -360,7 +361,6 @@ public class SubRedditActivity extends BaseActivity
         }
     }
 
-
     public static class MediaReceiver extends BroadcastReceiver {
 
         public MediaReceiver() {
@@ -374,5 +374,4 @@ public class SubRedditActivity extends BaseActivity
         }
 
     }
-
 }
