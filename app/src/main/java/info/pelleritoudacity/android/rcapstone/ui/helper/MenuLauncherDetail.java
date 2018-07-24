@@ -1,0 +1,130 @@
+package info.pelleritoudacity.android.rcapstone.ui.helper;
+
+import android.content.Context;
+import android.content.Intent;
+import android.text.TextUtils;
+
+import com.google.android.exoplayer2.util.Util;
+
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
+import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+
+public class MenuLauncherDetail {
+
+    private final Context mContext;
+    private final Intent mIntent;
+
+    String category;
+    String target;
+
+    public MenuLauncherDetail(Context context, Intent intent) {
+        mContext = context;
+        mIntent = intent;
+    }
+
+    public boolean showMenu() {
+
+        if (menuShortcutLauncher(mIntent)) {
+            saveLastPreference();
+            return true;
+        }
+
+        if (menuTargetLink(mIntent)) {
+            saveLastPreference();
+            return true;
+        }
+
+        if(menuHistoryLink()){
+            return true;
+        }else {
+            menuDefaultValue();
+            saveLastPreference();
+            return true;
+
+        }
+
+
+//        return false;
+    }
+
+
+    private boolean menuDefaultValue(){
+        setCategory(TextUtil.stringToArray(Costant.DEFAULT_SUBREDDIT_CATEGORY).get(0));
+        setTarget(Costant.SUBREDDIT_TARGET_DEFAULT_START_VALUE);
+        return true;
+    }
+
+    private boolean menuHistoryLink() {
+        if (!TextUtils.isEmpty(Preference.getLastCategory(mContext)) &&
+                (!TextUtils.isEmpty(Preference.getLastTarget(mContext)))) {
+            setCategory(Preference.getLastCategory(mContext));
+            setTarget(Preference.getLastTarget(mContext));
+            return true;
+        }
+        return false;
+    }
+
+
+    private boolean menuShortcutLauncher(Intent intent) {
+        if ((Util.SDK_INT > 24) && (intent != null) && (intent.getAction() != null)) {
+
+            switch (intent.getAction()) {
+
+                case Costant.ACTION_SHORTCUT_ALL:
+                    setCategory(Costant.SUBREDDIT_CATEGORY_ALL);
+                    setTarget(Costant.SUBREDDIT_TARGET_ALL);
+                    return true;
+
+                case Costant.ACTION_SHORTCUT_POPULAR:
+                    setCategory(Costant.SUBREDDIT_CATEGORY_ALL);
+                    setTarget(Costant.SUBREDDIT_TARGET_ALL);
+                    return true;
+
+                case Costant.ACTION_SHORTCUT_PREFERITE:
+                    setCategory(Costant.SUBREDDIT_CATEGORY_PREFERITE);
+                    setTarget(Costant.SUBREDDIT_TARGET_PREFERITE);
+                    return true;
+            }
+
+        }
+        return false;
+    }
+
+
+    private boolean menuTargetLink(Intent intent) {
+
+        if ((!TextUtils.isEmpty(intent.getStringExtra(Costant.EXTRA_SUBREDDIT_TARGET)) &&
+                (!TextUtils.isEmpty(intent.getStringExtra(Costant.EXTRA_SUBREDDIT_CATEGORY))))) {
+
+            setCategory(intent.getStringExtra(Costant.EXTRA_SUBREDDIT_CATEGORY));
+            setTarget(intent.getStringExtra(Costant.EXTRA_SUBREDDIT_TARGET));
+
+            return true;
+        }
+        return false;
+    }
+
+
+    public void saveLastPreference() {
+        Preference.setLastCategory(mContext, getCategory());
+        Preference.setLastTarget(mContext, getTarget());
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
+    }
+
+}
