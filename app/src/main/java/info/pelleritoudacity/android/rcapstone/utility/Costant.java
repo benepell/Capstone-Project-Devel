@@ -26,6 +26,7 @@
 
 package info.pelleritoudacity.android.rcapstone.utility;
 
+
 import info.pelleritoudacity.android.rcapstone.BuildConfig;
 import info.pelleritoudacity.android.rcapstone.R;
 
@@ -76,9 +77,11 @@ public interface Costant {
     int NAV_MODE_SUBSCRIPTIONS = 5;
     int NAV_MODE_REFRESH = 6;
     int NAV_MODE_SETTINGS = 7;
+    int NAV_MODE_PREFERITE = 8;
 
     String STRING_SEPARATOR = ",";
 
+    String SUBREDDIT_PREFERITE_SAVED = "1";
     String DETAIL_MORE_REPLIES = "1";
     String NONE_DETAIL_MORE_REPLIES = "0";
 
@@ -113,8 +116,10 @@ public interface Costant {
     String EXTRA_MEDIA_IMA = "info.pelleritoudacity.android.rcapstone.extra.media.ima";
     String SUBREDDIT_CATEGORY_ALL = "all";
     String SUBREDDIT_CATEGORY_POPULAR = "popular";
+    String SUBREDDIT_CATEGORY_PREFERITE = "preferite";
     String SUBREDDIT_TARGET_ALL = "info.pelleritoudacity.android.rcapstone.subreddit.target.all";
     String SUBREDDIT_TARGET_POPULAR = "info.pelleritoudacity.android.rcapstone.subreddit.target.popular";
+    String SUBREDDIT_TARGET_PREFERITE = "info.pelleritoudacity.android.rcapstone.subreddit.target.preferite";
 
 
     String EXTRA_RESTORE_MANAGE = "info.pelleritoudacity.android.rcapstone.extra.restore.manage";
@@ -124,7 +129,7 @@ public interface Costant {
 
     String ACTION_SHORTCUT_POPULAR = "info.pelleritoudacity.android.rcapstone.shortcut.popular";
     String ACTION_SHORTCUT_ALL = "info.pelleritoudacity.android.rcapstone.shortcut.all";
-    String ACTION_SHORTCUT_SEARCH = "info.pelleritoudacity.android.rcapstone.shortcut.search";
+    String ACTION_SHORTCUT_PREFERITE = "info.pelleritoudacity.android.rcapstone.shortcut.preferite";
 
     String USER_AGENT_MEDIA = "info.pelleritoudacity.android.rcapstone.exo.player.media";
 

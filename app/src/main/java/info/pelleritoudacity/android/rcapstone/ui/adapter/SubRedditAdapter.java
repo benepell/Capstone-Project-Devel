@@ -215,7 +215,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
             SelectorHelper selectorHelper = new SelectorHelper(mContext);
 
             selectorHelper.cardBottomLink(mArrayButton, null,
-                    TextUtil.buildCommentLink(record.getSubRedditNamePrefix(), record.getNameIdReddit()), record.getNameReddit());
+                    TextUtil.buildCommentLink(record.getSubRedditNamePrefix(), record.getNameIdReddit()), record.getNameReddit(),record.isSaved() );
 
 
             holder.bind(holder.getAdapterPosition(), record.getSubReddit(), record.getNameIdReddit(), record.getNumComments());

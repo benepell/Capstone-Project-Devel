@@ -129,6 +129,18 @@ public interface RedditAPI {
     Call<ResponseBody> postVote(@Header("Authorization") String authorization,
                                 @Field("dir") String dir,
                                 @Field("id") String nameReddit);
+    @FormUrlEncoded
+    @POST("/api/save")
+    @Headers("User-Agent: " + Costant.REDDIT_USER_AGENT)
+    Call<ResponseBody> postPrefSave(@Header("Authorization") String authorization,
+                                @Field("id") String nameReddit);
+	
+	@FormUrlEncoded
+    @POST("/api/unsave")
+    @Headers("User-Agent: " + Costant.REDDIT_USER_AGENT)
+    Call<ResponseBody> postPrefUnSave(@Header("Authorization") String authorization,
+                                @Field("id") String nameReddit);
+
 
 
 }

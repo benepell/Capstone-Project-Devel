@@ -91,7 +91,7 @@ public class SubRedditSelectedAdapter extends RecyclerView.Adapter<SubRedditSele
 
             SelectorHelper selectorHelper = new SelectorHelper(mContext);
             selectorHelper.cardBottomLink(mArrayButton, strBackGroundColor,
-                    TextUtil.buildCommentDetailLink(record.getPermanentLink()), record.getSubRedditName());
+                    TextUtil.buildCommentDetailLink(record.getPermanentLink()), record.getSubRedditName(),record.isSaved());
 
             SubRedditSelectedHelper helper = new SubRedditSelectedHelper(mContext);
 

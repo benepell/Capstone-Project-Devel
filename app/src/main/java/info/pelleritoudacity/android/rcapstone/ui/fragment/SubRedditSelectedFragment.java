@@ -121,7 +121,7 @@ public class SubRedditSelectedFragment extends Fragment
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        return new SubRedditDetailFragmentAsyncTask(Objects.requireNonNull(getActivity()),mStrId ,Preference.isLoginOver18(mContext));
+        return new SubRedditDetailFragmentAsyncTask(Objects.requireNonNull(getActivity()), mStrId, Preference.isLoginOver18(mContext));
     }
 
     @Override
@@ -142,7 +142,7 @@ public class SubRedditSelectedFragment extends Fragment
         private final boolean isOver18;
         private final String mStringId;
 
-        SubRedditDetailFragmentAsyncTask(@NonNull Context context,String stringId ,boolean isOver18) {
+        SubRedditDetailFragmentAsyncTask(@NonNull Context context, String stringId, boolean isOver18) {
             super(context);
             this.isOver18 = isOver18;
             mStringId = stringId;

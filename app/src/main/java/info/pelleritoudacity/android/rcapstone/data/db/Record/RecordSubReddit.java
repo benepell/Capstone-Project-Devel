@@ -55,6 +55,9 @@ public class RecordSubReddit {
         mRecord.setSubRedditSubscriptions(mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_SUBSCRIBERS)));
 
+        mRecord.setSaved(mCursor.getInt(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SAVED)) != 0);
+
         mRecord.setTitle(mCursor.getString(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_TITLE)));
 

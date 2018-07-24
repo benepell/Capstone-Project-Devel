@@ -32,6 +32,7 @@ import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
 import info.pelleritoudacity.android.rcapstone.ui.adapter.SubRedditAdapter;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
+import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
 
@@ -132,9 +133,9 @@ public class SubRedditFragment extends Fragment
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(Costant.EXTRA_SUBREDDIT_CATEGORY,mSubReddit);
-        outState.putString(Costant.EXTRA_SUBREDDIT_TARGET,mTarget);
-        outState.putBoolean(Costant.EXTRA_MEDIA_IMA,isIMA);
+        outState.putString(Costant.EXTRA_SUBREDDIT_CATEGORY, mSubReddit);
+        outState.putString(Costant.EXTRA_SUBREDDIT_TARGET, mTarget);
+        outState.putBoolean(Costant.EXTRA_MEDIA_IMA, isIMA);
         if (mMediaPlayer != null) {
             outState.putInt(Costant.BUNDLE_EXOPLAYER_WINDOW, mMediaPlayer.getResumeWindow());
             outState.putLong(Costant.BUNDLE_EXOPLAYER_POSITION, mMediaPlayer.getResumePosition());
@@ -176,7 +177,7 @@ public class SubRedditFragment extends Fragment
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
         return new SubRedditFragmentAsyncTask(Objects.requireNonNull(getActivity()),
-                Preference.isLoginOver18(getContext()),mSubReddit,mTarget);
+                Preference.isLoginOver18(getContext()), mSubReddit, mTarget);
     }
 
     @Override
@@ -218,7 +219,7 @@ public class SubRedditFragment extends Fragment
         private final String mTargetReddit;
 
 
-        SubRedditFragmentAsyncTask(@NonNull Context context, boolean isOver18,String categoryReddit, String targetReddit) {
+        SubRedditFragmentAsyncTask(@NonNull Context context, boolean isOver18, String categoryReddit, String targetReddit) {
             super(context);
             this.isOver18 = isOver18;
             mCategoryReddit = categoryReddit;
@@ -241,32 +242,34 @@ public class SubRedditFragment extends Fragment
             try {
                 Uri uri = Contract.T3dataEntry.CONTENT_URI;
                 String selection = null;
-                String[] selectionArgs = new String[0];
+                String[] selectionArgs;
 
                 String strOver18 = String.valueOf(Utility.boolToInt(isOver18));
 
-                if (!TextUtils.isEmpty(mTargetReddit)) {
-                    if (mTargetReddit.equals(Costant.SUBREDDIT_TARGET_ALL)) {
+                switch (mTargetReddit == null ? "" : mTargetReddit) {
+                    case Costant.SUBREDDIT_TARGET_ALL:
                         selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?" + " AND " +
                                 Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " <=?";
                         selectionArgs = new String[]{mTargetReddit, strOver18};
+                        break;
 
-                    } else if (mTargetReddit.equals(Costant.SUBREDDIT_TARGET_POPULAR)) {
+                    case Costant.SUBREDDIT_TARGET_POPULAR:
                         selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?" + " AND " +
                                 Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " <=?";
                         selectionArgs = new String[]{mTargetReddit, strOver18};
+                        break;
 
-                    }
+                    case Costant.SUBREDDIT_TARGET_PREFERITE: selection = Contract.T3dataEntry.COLUMN_NAME_SAVED + " =?";
+                        selectionArgs = new String[]{Costant.SUBREDDIT_PREFERITE_SAVED};
 
-                } else {
-                    selection = Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " LIKE ?" + " AND " +
-                            Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " <=?";
-                    selectionArgs = new String[]{mCategoryReddit, strOver18};
+                        break;
 
+                    default:
+                        selection = Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " LIKE ?" + " AND " +
+                                Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " <=?";
+                        selectionArgs = new String[]{mCategoryReddit, strOver18};
 
-                    Timber.d("STROVER18 %s", strOver18);
                 }
-
 
                 return getContext().getContentResolver().query(uri,
                         null,

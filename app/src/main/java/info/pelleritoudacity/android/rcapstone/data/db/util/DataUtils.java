@@ -262,6 +262,24 @@ public class DataUtils {
         return count > 0;
     }
 
+
+    public boolean updateLocalDbStars(int visible, String category) {
+
+        int count;
+
+        Uri uri = Contract.T3dataEntry.CONTENT_URI;
+        String where = Contract.T3dataEntry.COLUMN_NAME_NAME + " =?";
+        String[] selectionArgs = {category};
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Contract.T3dataEntry.COLUMN_NAME_SAVED, visible);
+
+        count = mContext.getContentResolver().update(uri, contentValues, where, selectionArgs);
+
+        return count > 0;
+    }
+
+
     public boolean moveManage(int fromPosition, int toPosition) {
 
         Cursor cursor = null;

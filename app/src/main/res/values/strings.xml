@@ -185,6 +185,8 @@
     <string name="title_menu_create">Create Post</string>
     <string name="text_handle_description">handle image</string>
     <string name="title_menu_managesubs">Manage Subscriptions</string>
+    <string name="title_menu_preferite">Preferite</string>
+
     <string name="title_activity_subreddit">RCapStone </string>
     <string name="title_activity_subreddit_detail">Comments </string>
     <string name="title_activity_login">Login</string>
@@ -227,9 +229,9 @@
     <string name="shortcut_long_text_all">Shortcut long text All</string>
     <string name="shortcut_disabled_message_all">shortcut disabled text All</string>
 
-    <string name="shortcut_text_search">Search Reddit</string>
-    <string name="shortcut_long_text_search">Shortcut long text Search</string>
-    <string name="shortcut_disabled_message_search">shortcut disabled text Search</string>
+    <string name="shortcut_text_preferite">Preferite Reddit</string>
+    <string name="shortcut_long_text_preferite">Shortcut long text Preferite</string>
+    <string name="shortcut_disabled_message_preferite">shortcut disabled text Preferite</string>
     <string name="title_general_images">Images</string>
     <string name="title_general_gifs">Gifs</string>
     <string name="title_general_albums">Albums</string>

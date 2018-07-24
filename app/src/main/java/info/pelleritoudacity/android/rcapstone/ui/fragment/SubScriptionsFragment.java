@@ -226,7 +226,7 @@ public class SubScriptionsFragment extends Fragment
 
     private static class RedditFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
 
-        Cursor mRedditData = null;
+        Cursor mCursor = null;
 
         RedditFragmentAsyncTask(@NonNull Context context) {
             super(context);
@@ -234,8 +234,8 @@ public class SubScriptionsFragment extends Fragment
 
         @Override
         protected void onStartLoading() {
-            if (mRedditData != null) {
-                deliverResult(mRedditData);
+            if (mCursor != null) {
+                deliverResult(mCursor);
             } else {
                 forceLoad();
             }
@@ -265,14 +265,15 @@ public class SubScriptionsFragment extends Fragment
             } catch (Exception e) {
                 Timber.e("Failed to asynchronously load data. ");
                 e.printStackTrace();
-                return null;
+
+               return null;
             }
         }
 
         @Override
         public void deliverResult(Cursor data) {
             if ((data != null) && (data.getCount() > 0)) {
-                mRedditData = data;
+                mCursor = data;
                 super.deliverResult(data);
             } else {
                 forceLoad();

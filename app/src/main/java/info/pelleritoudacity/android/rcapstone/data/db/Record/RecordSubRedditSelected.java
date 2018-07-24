@@ -54,6 +54,9 @@ public class RecordSubRedditSelected {
         mRecord.setPermanentLink(mCursor.getString(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PERMALINK)));
 
+        mRecord.setSaved(mCursor.getInt(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SAVED)) != 0);
+
         mRecord.setSubRedditNamePrefix(mCursor.getString(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_NAME_PREFIXE)));
 

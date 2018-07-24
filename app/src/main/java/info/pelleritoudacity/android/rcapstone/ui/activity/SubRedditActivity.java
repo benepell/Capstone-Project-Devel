@@ -339,7 +339,13 @@ public class SubRedditActivity extends BaseActivity
             if (stateNetworkOnline) {
                 if (!TextUtils.isEmpty(Preference.getLastTarget(mContext))) {
                     // select option popolar or all - menu drawer
-                    new SubRedditExecute(mContext, link).getData(this);
+                    if(Preference.getLastTarget(mContext).equals(Costant.SUBREDDIT_TARGET_PREFERITE)){
+                        createUI(link,target);
+                    }else {
+                        new SubRedditExecute(mContext, link).getData(this);
+
+                    }
+
 
                 } else {
 
@@ -426,7 +432,9 @@ public class SubRedditActivity extends BaseActivity
                     mRedditTarget = Costant.SUBREDDIT_TARGET_ALL;
                     return true;
 
-                case Costant.ACTION_SHORTCUT_SEARCH:
+                case Costant.ACTION_SHORTCUT_PREFERITE:
+                    mRedditCategory = Costant.SUBREDDIT_CATEGORY_PREFERITE;
+                    mRedditTarget = Costant.SUBREDDIT_TARGET_PREFERITE;
                     return true;
 
             }

@@ -18,7 +18,10 @@ public class RecordAdapter {
 
     private Long createdUtc;
 
+    private boolean saved;
+
     private String imagePreviewUrl;
+
     private String nameIdReddit;
     private String nameReddit;
     private String subRedditIdText;
@@ -33,6 +36,13 @@ public class RecordAdapter {
     private String videoFrameOembed;
     private String videoAuthorNameOembed;
 
+    public boolean isSaved() {
+        return saved;
+    }
+
+    public void setSaved(boolean saved) {
+        this.saved = saved;
+    }
 
     public int getIdReddit() {
         return idReddit;

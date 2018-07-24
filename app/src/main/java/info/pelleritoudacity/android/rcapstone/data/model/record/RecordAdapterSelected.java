@@ -10,7 +10,10 @@ public class RecordAdapterSelected {
 
     private Long createdUtc;
 
+    private boolean saved;
+
     private String imagePreviewUrl;
+
     private String subReddit;
     private String subRedditName;
     private String title;
@@ -18,7 +21,6 @@ public class RecordAdapterSelected {
     private String permanentLink;
     private String subRedditNamePrefix;
     private String domain;
-
     public int getScore() {
         return score;
     }
@@ -57,6 +59,14 @@ public class RecordAdapterSelected {
 
     public void setCreated(int created) {
         this.created = created;
+    }
+
+    public boolean isSaved() {
+        return saved;
+    }
+
+    public void setSaved(boolean saved) {
+        this.saved = saved;
     }
 
     public Long getCreatedUtc() {

@@ -190,6 +190,12 @@ public class MenuBase {
                 item.setEnabled(true);
                 mContext.startActivity(new Intent(mContext, SubManageActivity.class));
                 break;
+
+            case R.id.nav_mode_preferite:
+                Preference.setTypeMode(mContext, Costant.NAV_MODE_PREFERITE);
+                targetMenuMain(R.id.nav_mode_preferite);
+                break;
+
             case R.id.nav_mode_refresh:
                 Preference.setTypeMode(mContext, Costant.NAV_MODE_SEARCH);
                 menuClickRefresh(mLayoutResource);
@@ -215,6 +221,7 @@ public class MenuBase {
         MenuItem itemModeAllText = menu.findItem(R.id.nav_mode_all);
         MenuItem itemModeSearchText = menu.findItem(R.id.nav_mode_search);
         MenuItem itemModeSubscriptions = menu.findItem(R.id.nav_mode_subscriptions);
+        MenuItem itemModePreferite = menu.findItem(R.id.nav_mode_preferite);
         MenuItem itemModeRefresh = menu.findItem(R.id.nav_mode_refresh);
         MenuItem itemModeSettings = menu.findItem(R.id.nav_mode_settings);
 
@@ -260,6 +267,10 @@ public class MenuBase {
             case Costant.NAV_MODE_SUBSCRIPTIONS:
                 itemModeSubscriptions.setEnabled(true);
                 itemModeSubscriptions.setChecked(true);
+                break;
+            case Costant.NAV_MODE_PREFERITE:
+                itemModePreferite.setEnabled(true);
+                itemModePreferite.setChecked(true);
                 break;
             case Costant.NAV_MODE_REFRESH:
                 itemModeRefresh.setEnabled(true);
@@ -365,6 +376,12 @@ public class MenuBase {
                 constantsTarget = Costant.SUBREDDIT_TARGET_ALL;
                 break;
 
+            case R.id.nav_mode_preferite:
+                // todo comment "" for old category function
+                constantCategory ="";
+                constantsTarget = Costant.SUBREDDIT_TARGET_PREFERITE;
+                break;
+
         }
 
         Intent intent = new Intent(mContext, SubRedditActivity.class);
@@ -444,7 +461,6 @@ public class MenuBase {
             }
         }
     }
-
 
 
 }
