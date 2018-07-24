@@ -18,6 +18,7 @@ import info.pelleritoudacity.android.rcapstone.data.model.reddit.T1ListingData;
 import info.pelleritoudacity.android.rcapstone.data.rest.MoreJson;
 import info.pelleritoudacity.android.rcapstone.data.rest.MoreThing;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
@@ -131,6 +132,9 @@ public class T1Operation {
 
             dataUtils.putNullCV(cv, Contract.T1dataEntry.COLUMN_NAME_PARENT_ID,
                     repliesListingData.getParentId());
+
+            cv.put(Contract.T1dataEntry.COLUMN_NAME_TIME_LAST_MODIFIED, DateUtil.getNowTimeStamp());
+
 
             dataUtils.putNullCV(cv, Contract.T1dataEntry.COLUMN_NAME_NAME,
                     repliesListingData.getName());

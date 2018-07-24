@@ -27,6 +27,7 @@ package info.pelleritoudacity.android.rcapstone.utility;
 
 import android.content.Context;
 import android.text.format.DateUtils;
+import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,6 +36,8 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import info.pelleritoudacity.android.rcapstone.R;
+import info.pelleritoudacity.android.rcapstone.data.db.Contract;
+import timber.log.Timber;
 
 public class DateUtil {
 
@@ -51,7 +54,8 @@ public class DateUtil {
             SimpleDateFormat dateFormat = new SimpleDateFormat(
                     "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
             date = dateFormat.parse(timestamp);
-            Long diffTime = System.currentTimeMillis() - date.getTime();
+
+            long diffTime = System.currentTimeMillis() - date.getTime();
 
             return (int) TimeUnit.MILLISECONDS.toSeconds(diffTime);
         } catch (ParseException e) {
@@ -60,15 +64,24 @@ public class DateUtil {
         }
     }
 
+
+    public static String getNowTimeStamp() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+
+        return dateFormat.format(System.currentTimeMillis());
+
+    }
+
     public static String getDiffTimeMinute(Context context, long time) {
 
-        long timeDiff = (System.currentTimeMillis()/1000) - time;
+        long timeDiff = (System.currentTimeMillis() / 1000) - time;
 
-        if(timeDiff < Costant.TIME_APPROX_NOW) {
+        if (timeDiff < Costant.TIME_APPROX_NOW) {
             return context.getResources().getString(R.string.text_time_now);
         }
 
-        return DateUtils.getRelativeTimeSpanString(time, System.currentTimeMillis()/1000 ,
+        return DateUtils.getRelativeTimeSpanString(time, System.currentTimeMillis() / 1000,
                 DateUtils.MINUTE_IN_MILLIS,
                 DateUtils.FORMAT_ABBREV_TIME).toString();
 

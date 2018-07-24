@@ -32,11 +32,15 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.text.TextUtils;
 
+
 import info.pelleritoudacity.android.rcapstone.data.db.Operation.T3Operation;
 import info.pelleritoudacity.android.rcapstone.data.db.Operation.T5Operation;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
+import info.pelleritoudacity.android.rcapstone.utility.NumberUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
+import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import timber.log.Timber;
 
 public class DataUtils {
@@ -46,6 +50,49 @@ public class DataUtils {
     public DataUtils(Context context) {
         mContext = context;
     }
+
+
+    public boolean isSyncData(Uri uri, String category, long timeoutseconds) {
+
+        Cursor cursor = null;
+        boolean isSync = false;
+
+        if ((uri == null) || (timeoutseconds <= 0)) return false;
+
+        try {
+
+            long lastTime = 0;
+            String selection = null;
+            String[] selectionArgs = {category};
+
+             if (uri.equals(Contract.T3dataEntry.CONTENT_URI)) {
+                selection = Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " LIKE ?";
+
+
+            }
+
+            cursor = mContext.getContentResolver().query(uri, null, selection, selectionArgs, null);
+
+            if ((cursor != null) && (cursor.getCount() >= 0)) {
+                cursor.moveToFirst();
+                lastTime = DateUtil.getSecondsTimeStamp(cursor.getString(cursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_TIME_LAST_MODIFIED)));
+            }
+
+            isSync =  timeoutseconds - lastTime   > 0;
+
+
+        } catch (Exception e) {
+            Timber.e("DATABASE isSyncData %s", e.getMessage());
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return isSync;
+    }
+
 
     public boolean isRecordData() {
 

@@ -32,7 +32,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
@@ -293,6 +295,8 @@ public class T3Operation {
 
             DataUtils dataUtils = new DataUtils(context);
 
+            cv.put(Contract.T3dataEntry.COLUMN_NAME_TIME_LAST_MODIFIED, DateUtil.getNowTimeStamp());
+
             cv.put(Contract.T3dataEntry.COLUMN_NAME_IS_CROSSPOSTABLE,
                     Utility.boolToInt(t3ListingData.getIsCrosspostable()));
 
@@ -521,7 +525,6 @@ public class T3Operation {
         return cv;
     }
 
-
     public boolean saveData(String category, String target) {
         if (!TextUtils.isEmpty(category)) {
             if (isDeleteData(category, target)) {
@@ -544,7 +547,7 @@ public class T3Operation {
 
             cursor = mContext.getContentResolver().query(uri, null, selection, selectionArgs, null);
 
-            if (cursor != null && cursor.getCount() > 0) {
+          /*  if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 timestamp = cursor.getString(cursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_TIME_LAST_MODIFIED));
             }
@@ -553,7 +556,7 @@ public class T3Operation {
                 int timeUpdateDatabase = Preference.getGeneralSettingsSyncFrequency(mContext);
                 isDeleted = getSecondsTimeStamp(timestamp) > timeUpdateDatabase;
             }
-
+*/
         } catch (Exception e) {
 
             Timber.d("DATABASE isDeleteT3 %s", e.getMessage());

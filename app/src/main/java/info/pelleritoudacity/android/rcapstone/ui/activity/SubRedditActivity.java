@@ -46,7 +46,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import info.pelleritoudacity.android.rcapstone.R;
+import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.Operation.T3Operation;
+import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.rest.RefreshTokenExecute;
 import info.pelleritoudacity.android.rcapstone.media.MediaSession;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
@@ -108,6 +110,10 @@ public class SubRedditActivity extends BaseActivity
 
         mLauncherMenu = new MenuLauncherDetail(mContext, getIntent());
 
+
+        mSubRedditTab = new SubRedditTab(this, mTabLayout, mTabArrayList);
+        mSubRedditTab.initTab();
+
         if (mLauncherMenu.showMenu()) {
             mRefreshLayout.setRefreshing(true);
             onRefresh();
@@ -115,9 +121,10 @@ public class SubRedditActivity extends BaseActivity
             mCategory = Preference.getLastCategory(mContext);
             mTarget = Preference.getLastTarget(mContext);
 
+            mSubRedditTab.positionSelected(mCategory);
+
         }
 
-        createTabLayout();
     }
 
     @Override
@@ -283,40 +290,46 @@ public class SubRedditActivity extends BaseActivity
     }
 
     private void createUI(String link, String target) {
-        mSubRedditTab.updateTabPosition();
+        if((mCategory != null && mTarget != null)){
+            mSubRedditTab.updateTabPosition();
+
+        }
         startFragment(link, target);
         mRefreshLayout.setRefreshing(false);
     }
 
-    private void createTabLayout() {
-        mSubRedditTab = new SubRedditTab(this, mTabLayout, mTabArrayList);
-        mSubRedditTab.initTab();
-        mSubRedditTab.positionSelected(mCategory);
-    }
 
 
     private void initRest(String link, String target, boolean stateNetworkOnline) {
-        if (!stateNetworkOnline) {
-            createUI(link, target);
+        if (!TextUtils.isEmpty(link)) {
 
-        } else {
-            switch (Preference.getSubredditSort(mContext)) {
+            if ((!stateNetworkOnline) || (
+                    new DataUtils(mContext).isSyncData(Contract.T3dataEntry.CONTENT_URI,
+                            link,
+                            Preference.getGeneralSettingsSyncFrequency(mContext)))) {
 
-                case Costant.LABEL_SUBMENU_RISING:
-                case Costant.LABEL_SUBMENU_NEW:
-                case Costant.LABEL_SUBMENU_HOT:
+                createUI(link, target);
 
-                    new SubRedditExecute(mContext, link, target).getDataList(this);
-                    break;
+            } else {
+                switch (Preference.getSubredditSort(mContext)) {
 
-                case Costant.LABEL_SUBMENU_CONTROVERSIAL:
-                case Costant.LABEL_SUBMENU_TOP:
-                    new SubRedditExecute(mContext, link, target).getData(this);
-                    break;
+                    case Costant.LABEL_SUBMENU_RISING:
+                    case Costant.LABEL_SUBMENU_NEW:
+                    case Costant.LABEL_SUBMENU_HOT:
 
-                default:
-                    new SubRedditExecute(mContext, link, target).getData(this);
+                        new SubRedditExecute(mContext, link, target).getDataList(this);
+                        break;
+
+                    case Costant.LABEL_SUBMENU_CONTROVERSIAL:
+                    case Costant.LABEL_SUBMENU_TOP:
+                        new SubRedditExecute(mContext, link, target).getData(this);
+                        break;
+
+                    default:
+                        new SubRedditExecute(mContext, link, target).getData(this);
+                }
             }
+
         }
     }
 

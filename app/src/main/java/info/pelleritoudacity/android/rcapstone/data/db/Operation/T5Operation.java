@@ -36,6 +36,7 @@ import info.pelleritoudacity.android.rcapstone.data.model.reddit.T5;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T5Data;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T5Listing;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import timber.log.Timber;
@@ -72,6 +73,8 @@ public class T5Operation {
 
             dataUtils.putNullCV(arrCV[i], Contract.PrefSubRedditEntry.COLUMN_NAME_IMAGE,
                     t5Model.getIconImg());
+
+            arrCV[i].put(Contract.T5dataEntry.COLUMN_NAME_TIME_LAST_MODIFIED, DateUtil.getNowTimeStamp());
 
             arrCV[i].put(Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE,
                     Costant.DEFAULT_SUBREDDIT_VISIBLE);
