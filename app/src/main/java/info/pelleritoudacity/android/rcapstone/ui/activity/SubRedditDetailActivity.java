@@ -13,7 +13,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import info.pelleritoudacity.android.rcapstone.R;
+import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.Operation.T1Operation;
+import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T1;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
 import info.pelleritoudacity.android.rcapstone.data.rest.More;
@@ -113,6 +115,10 @@ public class SubRedditDetailActivity extends BaseActivity
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_subreddit_detail_container, fragment).commitAllowingStateLoss();
 
+        if (mSwipeRefreshLayout != null) {
+            if (mSwipeRefreshLayout.isRefreshing()) mSwipeRefreshLayout.setRefreshing(false);
+        }
+
     }
 
     private void startMoreFragment(DetailModel m) {
@@ -124,22 +130,35 @@ public class SubRedditDetailActivity extends BaseActivity
 
 
     private void initRest(String strId, String strArrId, String strLinkId, String category, String tokenLogin, boolean stateNetworkOnline) {
+
         if (!TextUtils.isEmpty(strId)) {
-            if (stateNetworkOnline) {
+
+            if (!stateNetworkOnline) {
+                startFragment(model);
+
+            } else {
+
                 if (TextUtils.isEmpty(strArrId)) {
-                    new RestDetailExecute(mContext,
-                            tokenLogin,
-                            category,
-                            strId).getData(this);
+
+                    if (new DataUtils(mContext).isSyncDataDetail(Contract.T1dataEntry.CONTENT_URI,
+                            model, Preference.getGeneralSettingsSyncFrequency(mContext))) {
+
+                        startFragment(model);
+
+                    } else {
+
+                        new RestDetailExecute(mContext,
+                                tokenLogin,
+                                category,
+                                strId).getData(this);
+                    }
 
                 } else {
+
                     new RestMoreExecute(mContext, tokenLogin, strArrId, strLinkId)
                             .getMoreData(this);
 
                 }
-            } else {
-                startFragment(model);
-
             }
         }
     }
@@ -176,10 +195,12 @@ public class SubRedditDetailActivity extends BaseActivity
             Snackbar.make(mContainer, R.string.error_refresh_offline, Snackbar.LENGTH_LONG).show();
 
         } else if (!TextUtils.isEmpty(model.getStrArrId())) {
+
             initRest(model.getStrId(), model.getStrArrId(), model.getStrLinkId(), Preference.getLastCategory(mContext),
                     PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext));
 
         } else {
+
             initRest(Preference.getLastComment(mContext), null, null, Preference.getLastCategory(mContext),
                     PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext));
 
