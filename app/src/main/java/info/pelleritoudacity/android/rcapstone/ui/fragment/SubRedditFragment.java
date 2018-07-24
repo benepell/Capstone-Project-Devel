@@ -246,7 +246,7 @@ public class SubRedditFragment extends Fragment
 
                 String strOver18 = String.valueOf(Utility.boolToInt(isOver18));
 
-                switch (mTargetReddit == null ? "" : mTargetReddit) {
+                switch (mTargetReddit) {
                     case Costant.SUBREDDIT_TARGET_ALL:
                         selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?" + " AND " +
                                 Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " <=?";
@@ -259,11 +259,13 @@ public class SubRedditFragment extends Fragment
                         selectionArgs = new String[]{mTargetReddit, strOver18};
                         break;
 
-                    case Costant.SUBREDDIT_TARGET_PREFERITE: selection = Contract.T3dataEntry.COLUMN_NAME_SAVED + " =?";
+                    case Costant.SUBREDDIT_TARGET_PREFERITE:
+                        selection = Contract.T3dataEntry.COLUMN_NAME_SAVED + " =?";
                         selectionArgs = new String[]{Costant.SUBREDDIT_PREFERITE_SAVED};
 
                         break;
 
+                    case Costant.SUBREDDIT_TARGET_NAVIGATION:
                     default:
                         selection = Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " LIKE ?" + " AND " +
                                 Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " <=?";

@@ -117,9 +117,15 @@ public interface Costant {
     String SUBREDDIT_CATEGORY_ALL = "all";
     String SUBREDDIT_CATEGORY_POPULAR = "popular";
     String SUBREDDIT_CATEGORY_PREFERITE = "preferite";
+
+
+    String SUBREDDIT_TARGET_DEFAULT_START_VALUE = "info.pelleritoudacity.android.rcapstone.subreddit.target.default.start.value";
     String SUBREDDIT_TARGET_ALL = "info.pelleritoudacity.android.rcapstone.subreddit.target.all";
     String SUBREDDIT_TARGET_POPULAR = "info.pelleritoudacity.android.rcapstone.subreddit.target.popular";
     String SUBREDDIT_TARGET_PREFERITE = "info.pelleritoudacity.android.rcapstone.subreddit.target.preferite";
+    String SUBREDDIT_TARGET_TAB = "info.pelleritoudacity.android.rcapstone.subreddit.target.tab";
+    String SUBREDDIT_TARGET_NAVIGATION = "info.pelleritoudacity.android.rcapstone.subreddit.target.navigation";
+    String SUBREDDIT_TARGET_SORT = "info.pelleritoudacity.android.rcapstone.subreddit.target.sort";
 
 
     String EXTRA_RESTORE_MANAGE = "info.pelleritoudacity.android.rcapstone.extra.restore.manage";
@@ -141,6 +147,7 @@ public interface Costant {
 
     String DEFAULT_SUBREDDIT_CATEGORY = "AskReddit,politics,worldnews,nba,videos,funny," +
             "todayilearned,soccer,cfb,gaming,movies,news,gifs,aww,wtf,showerthoughts,technology";
+
 
     int DEFAULT_SUBREDDIT_ITEMS = 3;
     int REMOVED_SUBREDDIT_ITEMS = 1;

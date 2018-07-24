@@ -322,7 +322,7 @@ public class MenuBase {
             menuItem.setOnMenuItemClickListener(item -> {
                 Intent intent = new Intent(mContext, SubRedditActivity.class);
                 intent.putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, item.getTitle().toString());
-
+                intent.putExtra(Costant.EXTRA_SUBREDDIT_TARGET,Costant.SUBREDDIT_TARGET_NAVIGATION );
 
                 mContext.startActivity(intent);
                 return true;
@@ -378,7 +378,7 @@ public class MenuBase {
 
             case R.id.nav_mode_preferite:
                 // todo comment "" for old category function
-                constantCategory ="";
+                constantCategory =Preference.getLastCategory(mContext);
                 constantsTarget = Costant.SUBREDDIT_TARGET_PREFERITE;
                 break;
 

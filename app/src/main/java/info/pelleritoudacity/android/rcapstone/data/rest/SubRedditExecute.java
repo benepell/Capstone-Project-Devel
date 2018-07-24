@@ -43,8 +43,8 @@ public class SubRedditExecute {
     private T3 mReddit;
     private List<T3> mRedditList;
 
-    public SubRedditExecute(Context context, String subReddit) {
-        subRedditManager = SubRedditManager.getInstance(new WeakReference<>(context), subReddit);
+    public SubRedditExecute(Context context, String category, String target) {
+        subRedditManager = SubRedditManager.getInstance(new WeakReference<>(context), category, target);
     }
 
 

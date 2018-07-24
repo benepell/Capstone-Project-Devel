@@ -29,6 +29,7 @@ package info.pelleritoudacity.android.rcapstone.ui.view;
 import android.content.Context;
 import android.support.design.widget.TabLayout;
 import android.text.TextUtils;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -45,12 +46,14 @@ public class SubRedditTab implements TabLayout.OnTabSelectedListener {
     private final TabLayout mTabLayout;
     private final ArrayList<String> mTabList;
     private final ArrayList<String> mTabHistory;
+    private final Context mContext;
 
     public SubRedditTab(SubRedditActivity listener, TabLayout tabLayout, ArrayList<String> tabList) {
         mListener = listener;
         mTabLayout = tabLayout;
         mTabList = tabList;
         mTabHistory = new ArrayList<>();
+        mContext = listener.getApplicationContext();
     }
 
     private void createTab() {
@@ -108,7 +111,9 @@ public class SubRedditTab implements TabLayout.OnTabSelectedListener {
         if (mTabHistory.size() == 0) {
             mTabHistory.add(mTabList.get(0));
         }
+
         mTabHistory.add(category);
+
     }
 
     public int getHistorySize() {
@@ -133,4 +138,19 @@ public class SubRedditTab implements TabLayout.OnTabSelectedListener {
     public interface OnTabListener {
         void tabSelected(int position, String category);
     }
+
+    public void updateTabPosition() {
+        if (Preference.getLastCategory(mContext) != null) {
+
+            int position = mTabList.indexOf(Preference.getLastCategory(mContext));
+            if ((position > 0) && (mTabLayout != null) && (position < mTabLayout.getTabCount())) {
+                position -= 1;
+                int right = ((ViewGroup) mTabLayout.getChildAt(0)).getChildAt(position).getRight();
+                mTabLayout.scrollTo(right, 0);
+                addHistory(Preference.getLastCategory(mContext));
+
+            }
+        }
+    }
+
 }

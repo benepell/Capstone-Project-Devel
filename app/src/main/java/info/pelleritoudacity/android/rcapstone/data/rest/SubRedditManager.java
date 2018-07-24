@@ -89,7 +89,7 @@ public class SubRedditManager {
 
     }
 
-    public static SubRedditManager getInstance(WeakReference<Context> weakContext, String subReddit) {
+    public static SubRedditManager getInstance(WeakReference<Context> weakContext, String subReddit, String target) {
 
         if (sSubRedditManager != null) {
             sSubRedditManager.cancelRequest();
