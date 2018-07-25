@@ -75,8 +75,13 @@ public class DataUtils {
             cursor = mContext.getContentResolver().query(uri, null, selection, selectionArgs, null);
 
             if ((cursor != null) && (cursor.getCount() >= 0)) {
-                cursor.moveToFirst();
-                lastTime = DateUtil.getSecondsTimeStamp(cursor.getString(cursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_TIME_LAST_MODIFIED)));
+                if(cursor.moveToFirst()){
+                    lastTime = DateUtil.getSecondsTimeStamp(cursor.getString(cursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_TIME_LAST_MODIFIED)));
+
+                }else {
+                    return false;
+                }
+
             }
 
             isSync = timeoutseconds - lastTime > 0;
@@ -117,8 +122,12 @@ public class DataUtils {
             cursor = mContext.getContentResolver().query(uri, null, selection, selectionArgs, null);
 
             if ((cursor != null) && (cursor.getCount() >= 0)) {
-                cursor.moveToFirst();
-                lastTime = DateUtil.getSecondsTimeStamp(cursor.getString(cursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_TIME_LAST_MODIFIED)));
+                if (cursor.moveToFirst()){
+                    lastTime = DateUtil.getSecondsTimeStamp(cursor.getString(cursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_TIME_LAST_MODIFIED)));
+
+                }else {
+                    return false;
+                }
             }
 
             isSync = timeoutseconds - lastTime > 0;

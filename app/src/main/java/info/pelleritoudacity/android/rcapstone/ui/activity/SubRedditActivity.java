@@ -26,13 +26,17 @@
 
 package info.pelleritoudacity.android.rcapstone.ui.activity;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.widget.NestedScrollView;
@@ -40,14 +44,18 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 
 
+import com.google.android.exoplayer2.util.Util;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.Operation.T3Operation;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
+import info.pelleritoudacity.android.rcapstone.data.rest.PrefManager;
 import info.pelleritoudacity.android.rcapstone.data.rest.RefreshTokenExecute;
 import info.pelleritoudacity.android.rcapstone.media.MediaSession;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
@@ -60,13 +68,15 @@ import info.pelleritoudacity.android.rcapstone.data.other.TabData;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
+import info.pelleritoudacity.android.rcapstone.utility.Utility;
 
+import static info.pelleritoudacity.android.rcapstone.utility.PermissionUtil.RequestPermissionExtStorage;
 import static info.pelleritoudacity.android.rcapstone.utility.SessionUtil.getRedditSessionExpired;
 
 
 public class SubRedditActivity extends BaseActivity
         implements SubRedditExecute.OnRestSubReddit, SubRedditExecute.OnRestSubRedditList,
-        SubRedditTab.OnTabListener, SwipeRefreshLayout.OnRefreshListener {
+        SubRedditTab.OnTabListener, SwipeRefreshLayout.OnRefreshListener,ActivityCompat.OnRequestPermissionsResultCallback {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.subreddit_container)
@@ -100,6 +110,12 @@ public class SubRedditActivity extends BaseActivity
         super.onCreate(savedInstanceState);
 
         mContext = SubRedditActivity.this;
+
+        if (Util.SDK_INT > 23) {
+            RequestPermissionExtStorage(SubRedditActivity.this);
+            Preference.setRequestPermission(getApplicationContext(),false);
+        }
+
 
         mRefreshLayout.setOnRefreshListener(this);
 
@@ -193,6 +209,36 @@ public class SubRedditActivity extends BaseActivity
         }
 
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case Costant.PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Preference.setWriteExternalStorage(mContext, true);
+                    Preference.setRequestPermission(mContext,  false);
+                }
+            }
+        }
+    }
+
+    @Override
+    public boolean shouldShowRequestPermissionRationale(@NonNull String permission) {
+        if ((!Objects.equals(permission, Manifest.permission.WRITE_EXTERNAL_STORAGE)) ||
+                (Preference.isWriteExternalStorage(mContext) ||
+                        Preference.isRequestPermission(mContext))) {
+            return super.shouldShowRequestPermissionRationale(permission);
+        }
+        ActivityCompat.requestPermissions(SubRedditActivity.this,
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                Costant.PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+        Preference.setRequestPermission(mContext, true);
+        return super.shouldShowRequestPermissionRationale(permission);
+    }
+
 
     @Override
     public void onErrorSubReddit(Throwable t) {

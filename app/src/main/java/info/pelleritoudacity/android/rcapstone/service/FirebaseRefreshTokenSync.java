@@ -52,13 +52,13 @@ public class FirebaseRefreshTokenSync {
             Job syncJob = dispatcher.newJobBuilder()
                     .setService(FirebaseRefreshTokenService.class)
                     .setTag(Costant.TOKEN_SYNC_TAG)
-                    .setConstraints(Constraint.ON_ANY_NETWORK)
-                    .setLifetime(Lifetime.FOREVER)
-                    .setRecurring(true)
+                    .setConstraints(Constraint.ON_UNMETERED_NETWORK)
+                    .setLifetime(Lifetime.UNTIL_NEXT_BOOT)
+                    .setRecurring(false)
                     .setTrigger(Trigger.executionWindow(
                             sync_interval,
                             sync_interval + sync_flex))
-                    .setReplaceCurrent(true)
+                    .setReplaceCurrent(false)
                     .build();
 
             dispatcher.schedule(syncJob);
