@@ -92,7 +92,6 @@ public class SubRedditTab implements TabLayout.OnTabSelectedListener {
         addHistory(mTabList.get(position));
 
         mListener.tabSelected(position, mTabList.get(position));
-
     }
 
     @Override
@@ -101,6 +100,7 @@ public class SubRedditTab implements TabLayout.OnTabSelectedListener {
 
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
+        mListener.tabReselected(tab.getPosition(), mTabList.get(tab.getPosition()));
     }
 
     public void clearHistory() {
@@ -137,6 +137,8 @@ public class SubRedditTab implements TabLayout.OnTabSelectedListener {
 
     public interface OnTabListener {
         void tabSelected(int position, String category);
+
+        void tabReselected(int position, String category);
     }
 
     public void updateTabPosition() {

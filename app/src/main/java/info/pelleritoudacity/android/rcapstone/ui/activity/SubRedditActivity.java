@@ -26,6 +26,7 @@
 
 package info.pelleritoudacity.android.rcapstone.ui.activity;
 
+
 import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -41,8 +42,10 @@ import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
-
+import android.view.Menu;
+import android.view.View;
 
 import com.google.android.exoplayer2.util.Util;
 
@@ -55,28 +58,26 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.Operation.T3Operation;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
-import info.pelleritoudacity.android.rcapstone.data.rest.PrefManager;
-import info.pelleritoudacity.android.rcapstone.data.rest.RefreshTokenExecute;
-import info.pelleritoudacity.android.rcapstone.media.MediaSession;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
+import info.pelleritoudacity.android.rcapstone.data.other.TabData;
+import info.pelleritoudacity.android.rcapstone.data.rest.RefreshTokenExecute;
 import info.pelleritoudacity.android.rcapstone.data.rest.SubRedditExecute;
+import info.pelleritoudacity.android.rcapstone.media.MediaSession;
 import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditFragment;
+import info.pelleritoudacity.android.rcapstone.ui.helper.MenuBase;
 import info.pelleritoudacity.android.rcapstone.ui.helper.MenuLauncherDetail;
 import info.pelleritoudacity.android.rcapstone.ui.view.SubRedditTab;
-import info.pelleritoudacity.android.rcapstone.data.other.TabData;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
-import info.pelleritoudacity.android.rcapstone.utility.Utility;
 
 import static info.pelleritoudacity.android.rcapstone.utility.PermissionUtil.RequestPermissionExtStorage;
 import static info.pelleritoudacity.android.rcapstone.utility.SessionUtil.getRedditSessionExpired;
 
-
 public class SubRedditActivity extends BaseActivity
         implements SubRedditExecute.OnRestSubReddit, SubRedditExecute.OnRestSubRedditList,
-        SubRedditTab.OnTabListener, SwipeRefreshLayout.OnRefreshListener,ActivityCompat.OnRequestPermissionsResultCallback {
+        SubRedditTab.OnTabListener, SwipeRefreshLayout.OnRefreshListener, ActivityCompat.OnRequestPermissionsResultCallback, SearchView.OnQueryTextListener {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.subreddit_container)
@@ -102,6 +103,7 @@ public class SubRedditActivity extends BaseActivity
 
     private String mCategory;
     private String mTarget;
+    private String mquerySearchText;
     private MenuLauncherDetail mLauncherMenu;
 
     @Override
@@ -113,7 +115,7 @@ public class SubRedditActivity extends BaseActivity
 
         if (Util.SDK_INT > 23) {
             RequestPermissionExtStorage(SubRedditActivity.this);
-            Preference.setRequestPermission(getApplicationContext(),false);
+            Preference.setRequestPermission(getApplicationContext(), false);
         }
 
 
@@ -127,6 +129,15 @@ public class SubRedditActivity extends BaseActivity
 
         mSubRedditTab = new SubRedditTab(this, mTabLayout, mTabArrayList);
         mSubRedditTab.initTab();
+
+        if (getIntent() != null) {
+            mquerySearchText = getIntent().getStringExtra(Costant.EXTRA_SUBREDDIT_SEARCH);
+            if (TextUtils.isEmpty(mquerySearchText) &&
+                    (Preference.getLastTarget(mContext)).equals(Costant.SUBREDDIT_TARGET_SEARCH)) {
+
+                Preference.setLastTarget(mContext, Costant.SUBREDDIT_TARGET_DEFAULT_START_VALUE);
+            }
+        }
 
         if (mLauncherMenu.showMenu()) {
             mRefreshLayout.setRefreshing(true);
@@ -177,7 +188,7 @@ public class SubRedditActivity extends BaseActivity
             T3Operation data = new T3Operation(getApplicationContext(), listenerData);
 
             if ((mCategory != null && mTarget != null) && (data.saveData(mCategory, mTarget))) {
-                createUI(mCategory, mTarget);
+                createUI(mCategory, mTarget, null);
 
             } else {
                 Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
@@ -196,7 +207,7 @@ public class SubRedditActivity extends BaseActivity
                 T3Operation data = new T3Operation(getApplicationContext(), listenerData);
                 if ((mCategory != null && mTarget != null) && (data.saveData(mCategory, mTarget))) {
 
-                    createUI(mCategory, mTarget);
+                    createUI(mCategory, mTarget, null);
 
                 } else {
                     Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
@@ -219,7 +230,7 @@ public class SubRedditActivity extends BaseActivity
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Preference.setWriteExternalStorage(mContext, true);
-                    Preference.setRequestPermission(mContext,  false);
+                    Preference.setRequestPermission(mContext, false);
                 }
             }
         }
@@ -246,7 +257,10 @@ public class SubRedditActivity extends BaseActivity
 
     @Override
     public void tabSelected(int position, String category) {
-        if (mContext != null) {
+        if ((mContext != null) &&
+                (!TextUtils.isEmpty(category) &&
+                        (!TextUtils.isEmpty(Preference.getLastTarget(mContext))))) {
+
 
             if (category.compareTo(Preference.getLastCategory(mContext)) != 0) {
 
@@ -268,17 +282,42 @@ public class SubRedditActivity extends BaseActivity
     }
 
     @Override
+    public void tabReselected(int position, String category) {
+        if (position > 0) {
+            closeSearch(category);
+        }
+    }
+
+    
+    
+    @Override
     public void onRefresh() {
 
-        if (!NetworkUtil.isOnline(mContext)) {
-            createUI(Preference.getLastCategory(getApplicationContext()), Preference.getLastTarget(getApplicationContext()));
+        if (Preference.getLastTarget(mContext).equals(Costant.SUBREDDIT_TARGET_SEARCH) && (!TextUtils.isEmpty(mquerySearchText))) {
+            createUI(Preference.getLastCategory(getApplicationContext()), Preference.getLastTarget(getApplicationContext()), mquerySearchText);
+
+        } else if (!NetworkUtil.isOnline(mContext)) {
+            createUI(Preference.getLastCategory(getApplicationContext()), Preference.getLastTarget(getApplicationContext()), null);
             Snackbar.make(mContainer, R.string.list_snackbar_offline_text, Snackbar.LENGTH_LONG).show();
 
-        } else if (getApplicationContext() != null) {
+        } else {
 
             initRest(Preference.getLastCategory(mContext), Preference.getLastTarget(mContext), NetworkUtil.isOnline(mContext));
         }
 
+    }
+
+
+    @Override
+    protected boolean onPrepareOptionsPanel(View view, Menu menu) {
+
+        if (menu.findItem(R.id.menu_action_search) == null) {
+            getMenuInflater().inflate(R.menu.menu_search, menu);
+            MenuBase menuBase = new MenuBase(mContext, R.layout.activity_subreddit);
+            menuBase.menuItemSearch(this, getComponentName(), menu);
+        }
+
+        return super.onPrepareOptionsPanel(view, menu);
     }
 
     private void firstInit() {
@@ -332,14 +371,13 @@ public class SubRedditActivity extends BaseActivity
         }
     }
 
-    private void createUI(String link, String target) {
-        if((mCategory != null && mTarget != null)){
+    private void createUI(String link, String target, String querySearch) {
+        if ((mCategory != null && mTarget != null) && (TextUtils.isEmpty(querySearch))) {
             mSubRedditTab.updateTabPosition();
 
         }
-        startFragment(link, target);
+        startFragment(link, target, querySearch);
     }
-
 
 
     private void initRest(String link, String target, boolean stateNetworkOnline) {
@@ -350,7 +388,7 @@ public class SubRedditActivity extends BaseActivity
                             link,
                             Preference.getGeneralSettingsSyncFrequency(mContext)))) {
 
-                createUI(link, target);
+                createUI(link, target, null);
 
             } else {
                 switch (Preference.getSubredditSort(mContext)) {
@@ -376,9 +414,9 @@ public class SubRedditActivity extends BaseActivity
     }
 
 
-    private void startFragment(String link, String target) {
+    private void startFragment(String link, String target, String querySearch) {
         if (!getSupportFragmentManager().isStateSaved()) {
-            SubRedditFragment subRedditFragment = SubRedditFragment.newInstance(link, target);
+            SubRedditFragment subRedditFragment = SubRedditFragment.newInstance(link, target, querySearch);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_subreddit_container, subRedditFragment).commit();
         }
@@ -407,6 +445,22 @@ public class SubRedditActivity extends BaseActivity
         }
     }
 
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        Intent intent = new Intent(getApplicationContext(), SubRedditActivity.class);
+        intent.putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, Preference.getLastCategory(mContext));
+        intent.putExtra(Costant.EXTRA_SUBREDDIT_TARGET, Costant.SUBREDDIT_TARGET_SEARCH);
+        intent.putExtra(Costant.EXTRA_SUBREDDIT_SEARCH, s);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
+        startActivity(intent);
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s) {
+        return false;
+    }
+
     public static class MediaReceiver extends BroadcastReceiver {
 
         public MediaReceiver() {
@@ -419,5 +473,16 @@ public class SubRedditActivity extends BaseActivity
             }
         }
 
+    }
+    
+    private void closeSearch(String category){
+        if (Preference.getLastTarget(mContext).equals(Costant.SUBREDDIT_TARGET_SEARCH) &&
+                (!TextUtils.isEmpty(mquerySearchText))) {
+            startActivity(new Intent(mContext, SubRedditActivity.class)
+                    .putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, category)
+                    .putExtra(Costant.EXTRA_SUBREDDIT_TARGET, Costant.SUBREDDIT_TARGET_DEFAULT_START_VALUE)
+                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NO_HISTORY)
+            );
+        }
     }
 }

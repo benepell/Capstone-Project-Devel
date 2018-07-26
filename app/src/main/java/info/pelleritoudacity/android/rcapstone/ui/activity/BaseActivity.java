@@ -193,38 +193,11 @@ public class BaseActivity extends AppCompatActivity
 
     @Override
     protected boolean onPrepareOptionsPanel(View view, Menu menu) {
-        MenuItem menuItemLogin;
-        MenuItem menuItemLogout;
 
-        if (getLayoutResource() == R.layout.activity_subreddit) {
-
-            menuItemLogin = menu.findItem(R.id.menu_action_login);
-            menuItemLogout = menu.findItem(R.id.menu_action_logout);
-
-            if (Preference.isLoginStart(getApplicationContext())) {
-                menuItemLogin.setVisible(false);
-                menuItemLogout.setVisible(true);
-            } else {
-                menuItemLogin.setVisible(true);
-                menuItemLogout.setVisible(false);
-            }
-
-            int prefMenu = 0;
-
-            if (getApplicationContext() != null) {
-                prefMenu = Preference.getTypeMode(getApplicationContext());
-
-            }
-
-            switch (prefMenu) {
-
-                case Costant.NAV_MODE_HOME:
-                default:
-                    menuItemLogin.setChecked(false);
-            }
-
-            menuBase.menuGeneralSettings(menu);
-        }
+//        menuBase.menuItemSearch(this, getComponentName(), menu);
+        menuBase.menuItemIfRoom(menu);
+        menuBase.menuItemLogin(menu, Preference.isLoginStart(getApplicationContext()));
+        menuBase.menuGeneralSettings(menu);
 
         return true;
     }

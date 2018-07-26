@@ -1,8 +1,12 @@
 package info.pelleritoudacity.android.rcapstone.ui.helper;
 
+import android.app.Activity;
+import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v7.widget.SearchView;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.TypefaceSpan;
@@ -462,5 +466,60 @@ public class MenuBase {
         }
     }
 
+    public void menuItemIfRoom(Menu menu) {
+
+        MenuItem menuItemFilter = menu.findItem(R.id.submenu_filter_posts);
+
+        menuItemFilter.setIcon(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_sort)
+                .color(Color.WHITE)
+                .sizeDp(24)
+                .respectFontBounds(true));
+
+    }
+
+    public void menuItemSearch(Activity listener, ComponentName componentName, Menu menu) {
+
+        MenuItem menuItemSearch = menu.findItem(R.id.menu_action_search);
+
+        menuItemSearch.setIcon(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_search)
+                .color(Color.WHITE)
+                .sizeDp(24)
+                .respectFontBounds(true));
+
+        SearchManager searchManager = (SearchManager) mContext.getSystemService(Context.SEARCH_SERVICE);
+
+        SearchView searchView = null;
+        if (menuItemSearch != null) {
+            searchView = (SearchView) menuItemSearch.getActionView();
+        }
+        if (searchView != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName));
+
+            searchView.setQueryHint("Search People");
+            searchView.setOnQueryTextListener((SearchView.OnQueryTextListener) listener);
+            searchView.setIconified(false);
+
+        }
+
+
+    }
+
+    public void menuItemLogin(Menu menu, boolean isLogged) {
+
+        MenuItem menuItemLogin;
+        MenuItem menuItemLogout;
+
+        menuItemLogin = menu.findItem(R.id.menu_action_login);
+        menuItemLogout = menu.findItem(R.id.menu_action_logout);
+
+        if (isLogged) {
+            menuItemLogin.setVisible(false);
+            menuItemLogout.setVisible(true);
+        } else {
+            menuItemLogin.setVisible(true);
+            menuItemLogout.setVisible(false);
+        }
+
+    }
 
 }

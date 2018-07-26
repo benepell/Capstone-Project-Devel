@@ -24,7 +24,9 @@
             android:theme="@style/AppThemeLight.NoActionBar">
 
             <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
@@ -37,7 +39,7 @@
         <activity
             android:name=".ui.activity.SubRedditDetailActivity"
             android:label="@string/title_activity_subreddit_detail"
-            android:theme="@style/AppThemeLight.NoActionBar"/>
+            android:theme="@style/AppThemeLight.NoActionBar" />
 
 
         <activity android:name=".ui.activity.BaseActivity" />

@@ -57,16 +57,18 @@ public class SubRedditFragment extends Fragment
     private MediaPlayer mMediaPlayer;
 
     private SubRedditAdapter mAdapter;
+    private String mQuerySearch;
 
 
     public SubRedditFragment() {
     }
 
-    public static SubRedditFragment newInstance(String subReddit, String target) {
+    public static SubRedditFragment newInstance(String subReddit, String target, String querySearch) {
         SubRedditFragment fragment = new SubRedditFragment();
         Bundle bundle = new Bundle();
         bundle.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT, subReddit);
         bundle.putString(Costant.EXTRA_FRAGMENT_TARGET, target);
+        bundle.putString(Costant.EXTRA_FRAGMENT_SEARCH, querySearch);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -81,6 +83,7 @@ public class SubRedditFragment extends Fragment
         if (getArguments() != null) {
             mSubReddit = getArguments().getString(Costant.EXTRA_FRAGMENT_SUBREDDIT);
             mTarget = getArguments().getString(Costant.EXTRA_FRAGMENT_TARGET);
+            mQuerySearch = getArguments().getString(Costant.EXTRA_FRAGMENT_SEARCH);
 
         }
     }
@@ -135,6 +138,7 @@ public class SubRedditFragment extends Fragment
         super.onSaveInstanceState(outState);
         outState.putString(Costant.EXTRA_SUBREDDIT_CATEGORY, mSubReddit);
         outState.putString(Costant.EXTRA_SUBREDDIT_TARGET, mTarget);
+        outState.putString(Costant.EXTRA_SUBREDDIT_SEARCH, mQuerySearch);
         outState.putBoolean(Costant.EXTRA_MEDIA_IMA, isIMA);
         if (mMediaPlayer != null) {
             outState.putInt(Costant.BUNDLE_EXOPLAYER_WINDOW, mMediaPlayer.getResumeWindow());
@@ -177,7 +181,7 @@ public class SubRedditFragment extends Fragment
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
         return new SubRedditFragmentAsyncTask(Objects.requireNonNull(getActivity()),
-                Preference.isLoginOver18(getContext()), mSubReddit, mTarget);
+                Preference.isLoginOver18(getContext()), mSubReddit, mTarget, mQuerySearch);
     }
 
     @Override
@@ -217,13 +221,15 @@ public class SubRedditFragment extends Fragment
         private final boolean isOver18;
         private final String mCategoryReddit;
         private final String mTargetReddit;
+        private final String mQuerySearch;
 
 
-        SubRedditFragmentAsyncTask(@NonNull Context context, boolean isOver18, String categoryReddit, String targetReddit) {
+        SubRedditFragmentAsyncTask(@NonNull Context context, boolean isOver18, String categoryReddit, String targetReddit, String querySearch) {
             super(context);
             this.isOver18 = isOver18;
             mCategoryReddit = categoryReddit;
             mTargetReddit = targetReddit;
+            mQuerySearch = querySearch;
         }
 
         @Override
@@ -260,9 +266,16 @@ public class SubRedditFragment extends Fragment
                         break;
 
                     case Costant.SUBREDDIT_TARGET_PREFERITE:
+
                         selection = Contract.T3dataEntry.COLUMN_NAME_SAVED + " =?";
                         selectionArgs = new String[]{Costant.SUBREDDIT_PREFERITE_SAVED};
+                        break;
 
+                    case Costant.SUBREDDIT_TARGET_SEARCH:
+                        selection = Contract.T3dataEntry.COLUMN_NAME_TITLE + " like ?" + " AND "+
+                                Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " LIKE ?" + " AND " +
+                                Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " <=?";
+                        selectionArgs = new String[]{"%"+mQuerySearch+"%",mCategoryReddit, strOver18,};
                         break;
 
                     case Costant.SUBREDDIT_TARGET_NAVIGATION:
