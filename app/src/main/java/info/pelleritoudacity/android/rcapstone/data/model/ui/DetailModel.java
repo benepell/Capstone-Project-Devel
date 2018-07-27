@@ -7,10 +7,10 @@ public class DetailModel implements Parcelable{
 
     private int id;
     private int position;
+    private int target;
     private String strId = null;
     private String strArrId;
     private String strLinkId;
-    private String strTarget;
     private String strQuerySearch;
 
     public DetailModel() {
@@ -22,7 +22,7 @@ public class DetailModel implements Parcelable{
         strId = in.readString();
         strArrId = in.readString();
         strLinkId = in.readString();
-        strTarget = in.readString();
+        target = in.readInt();
         strQuerySearch = in.readString();
     }
 
@@ -78,12 +78,12 @@ public class DetailModel implements Parcelable{
         this.strLinkId = strLinkId;
     }
 
-    public String getStrTarget() {
-        return strTarget;
+    public int getTarget() {
+        return target;
     }
 
-    public void setStrTarget(String strTarget) {
-        this.strTarget = strTarget;
+    public void setTarget(int target) {
+        this.target = target;
     }
 
     public String getStrQuerySearch() {
@@ -106,7 +106,7 @@ public class DetailModel implements Parcelable{
         parcel.writeString(strId);
         parcel.writeString(strArrId);
         parcel.writeString(strLinkId);
-        parcel.writeString(strTarget);
+        parcel.writeInt(target);
         parcel.writeString(strQuerySearch);
     }
 }

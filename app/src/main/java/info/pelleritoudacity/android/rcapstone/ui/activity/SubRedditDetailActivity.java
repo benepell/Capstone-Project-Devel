@@ -28,6 +28,7 @@ import info.pelleritoudacity.android.rcapstone.data.rest.RestMoreExecute;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditDetailFragment;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditSelectedFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.MenuBase;
+import info.pelleritoudacity.android.rcapstone.ui.helper.SubRedditDetailHelper;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
@@ -73,7 +74,7 @@ public class SubRedditDetailActivity extends BaseActivity
 
                 if (model == null) {
                     model = new DetailModel();
-                    model.setStrTarget(Costant.SUBREDDIT_TARGET_DETAIL);
+                    model.setTarget(Costant.TARGET_DETAIL);
                     model.setStrId(intent.getStringExtra(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID));
 
                     if (intent.getBooleanExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_DETAIL_REFRESH, false)) {
@@ -143,41 +144,9 @@ public class SubRedditDetailActivity extends BaseActivity
 
     }
 
-
-    private void initRest(DetailModel m, String tokenLogin, boolean stateNetworkOnline) {
-
-        if (!TextUtils.isEmpty(m.getStrId())) {
-
-            if ((!stateNetworkOnline)) {
-                startFragment(model);
-
-            } else {
-                // todo condition: detail
-                if (model.getStrTarget().equals(Costant.SUBREDDIT_TARGET_DETAIL_SEARCH)) {
-                    startFragment(model);
-                } else if (TextUtils.isEmpty(m.getStrArrId())) {
-                    m.setStrTarget(Costant.SUBREDDIT_TARGET_DETAIL);
-                    // todo condition detail no update data
-                    if (new DataUtils(mContext).isSyncDataDetail(Contract.T1dataEntry.CONTENT_URI,
-                            model, Preference.getGeneralSettingsSyncFrequency(mContext))) {
-
-                        startFragment(model);
-
-                    } else {
-
-                        // todo condition: detail update data
-                        new RestDetailExecute(mContext, tokenLogin, m).getData(this);
-                    }
-
-                } else {
-                    // todo condition moredetail
-                    m.setStrTarget(Costant.SUBREDDIT_TARGET_MORE_DETAIL);
-                    new RestMoreExecute(mContext, tokenLogin, m)
-                            .getMoreData(this);
-
-                }
-            }
-        }
+    private boolean isUpdateData() {
+        return new DataUtils(mContext).isSyncDataDetail(Contract.T1dataEntry.CONTENT_URI,
+                model, Preference.getGeneralSettingsSyncFrequency(mContext));
     }
 
     @Override
@@ -207,27 +176,35 @@ public class SubRedditDetailActivity extends BaseActivity
             }
         }
 
-        if (!NetworkUtil.isOnline(mContext)) {
+        SubRedditDetailHelper detailHelper = new SubRedditDetailHelper(mContext);
 
-            if (mSwipeRefreshLayout != null) {
-                if (mSwipeRefreshLayout.isRefreshing()) mSwipeRefreshLayout.setRefreshing(false);
-            }
+        String tokenLogin = PermissionUtil.getToken(mContext);
 
-            Snackbar.make(mContainer, R.string.error_refresh_offline, Snackbar.LENGTH_LONG).show();
+        switch (detailHelper.getJob(model, isUpdateData(), NetworkUtil.isOnline(mContext))) {
 
-        } else if (!TextUtils.isEmpty(model.getStrArrId())) {
+            case Costant.TARGET_DETAIL_NO_UPDATE:
 
-            model.setStrTarget(Costant.SUBREDDIT_TARGET_MORE_DETAIL);
-            initRest(model, PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext));
+                if ((mSwipeRefreshLayout != null) && (mSwipeRefreshLayout.isRefreshing())) {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+                startFragment(model);
 
-        } else {
+                break;
 
-            if(!model.getStrTarget().equals(Costant.SUBREDDIT_TARGET_DETAIL_SEARCH)){
-                model.setStrTarget(Costant.SUBREDDIT_TARGET_DETAIL);
+            case Costant.TARGET_DETAIL:
+                new RestDetailExecute(mContext, tokenLogin, model).getData(this);
+                break;
 
-            }
+            case Costant.TARGET_MORE_DETAIL:
+                new RestMoreExecute(mContext, tokenLogin, model).getMoreData(this);
+                break;
 
-            initRest(model, PermissionUtil.getToken(mContext), NetworkUtil.isOnline(mContext));
+            case Costant.TARGET_DETAIL_SEARCH:
+                startFragment(model);
+                break;
+
+            case Costant.TARGET_MORE_DETAIL_SEARCH:
+                break;
 
         }
 
@@ -278,16 +255,17 @@ public class SubRedditDetailActivity extends BaseActivity
         return super.onPrepareOptionsPanel(view, menu);
     }
 
+
     @Override
     public void onBackPressed() {
         if (!TextUtils.isEmpty(model.getStrArrId())) {
-            model.setStrTarget(Costant.SUBREDDIT_TARGET_DETAIL);
+            model.setTarget(Costant.TARGET_DETAIL);
             startFragment(model);
 
             if (Preference.getMoreNestedPositionHeight(mContext) > 0) {
                 mNestedScrollView.getChildAt(0).setScrollY(Preference.getMoreNestedPositionHeight(mContext));
-
             }
+
         } else {
             super.onBackPressed();
         }
@@ -303,7 +281,7 @@ public class SubRedditDetailActivity extends BaseActivity
     @Override
     public boolean onQueryTextSubmit(String s) {
         Intent intent = new Intent(getApplicationContext(), SubRedditDetailActivity.class);
-        model.setStrTarget(Costant.SUBREDDIT_TARGET_DETAIL_SEARCH);
+        model.setTarget(Costant.TARGET_DETAIL_SEARCH);
         model.setStrQuerySearch(s);
         intent.putExtra(Costant.EXTRA_PARCEL_DETAIL_MODEL, model);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);

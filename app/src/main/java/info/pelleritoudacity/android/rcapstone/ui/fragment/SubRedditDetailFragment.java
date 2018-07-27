@@ -228,14 +228,14 @@ public class SubRedditDetailFragment extends Fragment
                 String[] selectionArgs = null;
 
                 // todo condition moredetail
-                switch (m.getStrTarget()) {
+                switch (m.getTarget()) {
 
-                    case Costant.SUBREDDIT_TARGET_DETAIL:
+                    case Costant.TARGET_DETAIL:
                         selectionArgs = new String[]{Costant.STR_PARENT_LINK + m.getStrId(), Costant.NONE_DETAIL_MORE_REPLIES, strOver18};
 
                         break;
 
-                    case Costant.SUBREDDIT_TARGET_DETAIL_SEARCH:
+                    case Costant.TARGET_DETAIL_SEARCH:
                         selection = Contract.T1dataEntry.COLUMN_NAME_BODY + " LIKE ?" + " AND " +
                                 Contract.T1dataEntry.COLUMN_NAME_LINK_ID + " =?" + " AND " +
                                 Contract.T1dataEntry.COLUMN_NAME_MORE_REPLIES + " =?" + " AND " +
@@ -245,7 +245,7 @@ public class SubRedditDetailFragment extends Fragment
 
                         break;
 
-                    case Costant.SUBREDDIT_TARGET_MORE_DETAIL:
+                    case Costant.TARGET_MORE_DETAIL:
 
                         DataUtils d = new DataUtils(getContext());
 

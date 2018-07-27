@@ -2,12 +2,15 @@ package info.pelleritoudacity.android.rcapstone.ui.helper;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.view.View;
 
 import java.util.List;
 import java.util.Objects;
 
+import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
@@ -39,7 +42,7 @@ public class SubRedditDetailHelper {
 
                 }
 
-                if(enableColorBackground){
+                if (enableColorBackground) {
                     return Objects.requireNonNull(getDepthBackground(depth))[1];
                 }
             }
@@ -65,6 +68,30 @@ public class SubRedditDetailHelper {
         }
 
         return null;
+    }
+
+    public int getJob(DetailModel m, boolean updateData, boolean online) {
+
+        if (m != null) {
+            if (TextUtils.isEmpty(m.getStrArrId())) {
+                if ((updateData || !online)) {
+                    return Costant.TARGET_DETAIL_NO_UPDATE;
+                }
+
+                if (!TextUtils.isEmpty(m.getStrId())) {
+                    m.setTarget(Costant.TARGET_DETAIL);
+                    return Costant.TARGET_DETAIL;
+                }
+
+            } else {
+                // more detail update always
+                    m.setTarget(Costant.TARGET_MORE_DETAIL);
+                    return Costant.TARGET_MORE_DETAIL;
+            }
+        }
+
+        return 0;
+
     }
 
 }

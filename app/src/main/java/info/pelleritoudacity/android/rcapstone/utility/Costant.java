@@ -133,10 +133,12 @@ public interface Costant {
     String SUBREDDIT_TARGET_NAVIGATION = "info.pelleritoudacity.android.rcapstone.subreddit.target.navigation";
     String SUBREDDIT_TARGET_SORT = "info.pelleritoudacity.android.rcapstone.subreddit.target.sort";
 
-    String SUBREDDIT_TARGET_DETAIL = "info.pelleritoudacity.android.rcapstone.subreddit.target.detail";
-    String SUBREDDIT_TARGET_MORE_DETAIL = "info.pelleritoudacity.android.rcapstone.subreddit.target.more.detail";
-    String SUBREDDIT_TARGET_DETAIL_SEARCH = "info.pelleritoudacity.android.rcapstone.subreddit.target.detail.search";
-    String SUBREDDIT_TARGET_MORE_DETAIL_SEARCH = "info.pelleritoudacity.android.rcapstone.subreddit.target.more.detail.search";
+
+    int TARGET_DETAIL_NO_UPDATE = 200;
+    int TARGET_DETAIL = 201;
+    int TARGET_MORE_DETAIL = 202;
+    int TARGET_DETAIL_SEARCH = 203;
+    int TARGET_MORE_DETAIL_SEARCH = 204;
 
 
     String EXTRA_RESTORE_MANAGE = "info.pelleritoudacity.android.rcapstone.extra.restore.manage";
