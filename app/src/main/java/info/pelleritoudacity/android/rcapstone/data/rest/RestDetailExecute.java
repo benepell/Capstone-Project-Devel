@@ -39,7 +39,7 @@ public class RestDetailExecute {
 
             @Override
             public void onFailure(@NonNull Call<List<T1>> call, @NonNull Throwable t) {
-                Timber.e("CAUSEFAILURE %s",t.getCause());
+                Timber.e("CAUSEFAILURE %s",t.getMessage());
                 call.cancel();
                 if (call.isCanceled()) {
                     myCallBack.onErrorSubReddit(t);

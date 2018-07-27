@@ -10,7 +10,6 @@ import retrofit2.Response;
 
 public class PrefExecute {
     private final PrefManager mPrefManager;
-    private ResponseBody mResponseBody;
 
     public PrefExecute(String code, String id) {
         mPrefManager = PrefManager.getInstance(code, id);

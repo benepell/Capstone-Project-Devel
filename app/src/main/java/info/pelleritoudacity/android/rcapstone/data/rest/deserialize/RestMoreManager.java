@@ -23,28 +23,20 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RestMoreManager {
 
     private static RedditAPI sCommentsAPI;
-    private static RestMoreManager sRestMoreManager;
-    private final WeakReference<Context> mWeakContext;
     private final String mAccessToken;
-    private HashMap<String, String> mFieldMap;
     private Call<More> mCall;
     private final DetailModel model;
 
 
     private RestMoreManager(WeakReference<Context> weakContext, String token, DetailModel model) {
 
-        mWeakContext = weakContext;
         mAccessToken = token;
         this.model = model;
-        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-        // todo remove interceptor
-        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(Costant.OK_HTTP_CONNECTION_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(Costant.OK_HTTP_CONNECTION_READ_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(Costant.OK_HTTP_CONNECTION_WRITE_TIMEOUT, TimeUnit.SECONDS)
-                .addInterceptor(httpLoggingInterceptor)
                 .build();
 
         String baseUrl;
@@ -55,7 +47,6 @@ public class RestMoreManager {
                 .baseUrl(baseUrl)
                 .client(okHttpClient)
                 .addConverterFactory(buildGsonConverter())
-//                .addConverterFactory(GsonConverterFactory.create())
                 .build();
         sCommentsAPI = retrofit.create(RedditAPI.class);
 
@@ -72,30 +63,16 @@ public class RestMoreManager {
 
 
     public static RestMoreManager getInstance(WeakReference<Context> weakContext, String accessToken, DetailModel model) {
-       /* if (sRestMoreManager != null) {
-            sRestMoreManager.cancelRequest();
-        }
-*/
-        sRestMoreManager = new RestMoreManager(weakContext, accessToken, model);
-
-
-        return sRestMoreManager;
+        return new RestMoreManager(weakContext, accessToken, model);
     }
 
     public void getMoreCommentsAPI(Callback<More> callback) {
 
-        mFieldMap = new HashMap<>();
-//        mFieldMap.put("sort", Preference.getSubredditSort(mWeakContext.get()));
+        HashMap<String, String> mFieldMap = new HashMap<>();
         mFieldMap.put("api_type", "json");
         mFieldMap.put("link_id", model.getStrLinkId());
         mFieldMap.put("children",model.getStrArrId());
 
-
-      /*  if (!TextUtils.isEmpty(Preference.getTimeSort(mWeakContext.get()))) {
-            mFieldMap.put("t", Preference.getTimeSort(mWeakContext.get()));
-
-        }
-      */
         mCall = sCommentsAPI.getMoreCommentsAuth(Costant.REDDIT_BEARER + mAccessToken,
                 mFieldMap);
 

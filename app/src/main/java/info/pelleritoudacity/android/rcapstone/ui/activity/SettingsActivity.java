@@ -61,7 +61,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
     }
 
     @Override
-    public void applytheme(boolean b) {
+    public void applyTheme(boolean b) {
         if (b) {
             if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);

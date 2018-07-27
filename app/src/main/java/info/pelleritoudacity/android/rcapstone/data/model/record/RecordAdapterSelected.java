@@ -53,6 +53,7 @@ public class RecordAdapterSelected {
         this.imagePreviewHeight = imagePreviewHeight;
     }
 
+    @SuppressWarnings("unused")
     public int getCreated() {
         return created;
     }
@@ -85,6 +86,7 @@ public class RecordAdapterSelected {
         this.imagePreviewUrl = imagePreviewUrl;
     }
 
+    @SuppressWarnings("unused")
     public String getSubReddit() {
         return subReddit;
     }
@@ -109,6 +111,7 @@ public class RecordAdapterSelected {
         this.title = title;
     }
 
+    @SuppressWarnings("unused")
     public String getAuthor() {
         return author;
     }

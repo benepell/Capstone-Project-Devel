@@ -28,13 +28,10 @@ package info.pelleritoudacity.android.rcapstone.data.db.Operation;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.net.Uri;
 import android.text.TextUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
@@ -42,10 +39,8 @@ import info.pelleritoudacity.android.rcapstone.data.model.ModelContent;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.Media;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.OembedMedia;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.RedditVideoPreview;
-import info.pelleritoudacity.android.rcapstone.data.model.reddit.T1ListingData;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3Data;
-import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3Listing;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3ListingData;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.Variants;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
@@ -53,8 +48,6 @@ import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
-
-import static info.pelleritoudacity.android.rcapstone.utility.DateUtil.getSecondsTimeStamp;
 
 public class T3Operation {
 
@@ -191,7 +184,7 @@ public class T3Operation {
             return uriReddit != null && uriData != null && countT3Data != 0;
 
         } catch (IllegalStateException e) {
-            Timber.e("insert data error %s", e.getCause());
+            Timber.e("insert data error %s", e.getMessage());
 
         }
 
@@ -200,6 +193,7 @@ public class T3Operation {
     }
 
 
+    @SuppressWarnings("SpellCheckingInspection")
     private ContentValues getInsertOembedMediaCV(Context context, OembedMedia o, ContentValues cv) {
 
         if (o != null) {
@@ -527,55 +521,20 @@ public class T3Operation {
 
     public boolean saveData(String category, String target) {
         if (!TextUtils.isEmpty(category)) {
-            if (isDeleteData(category, target)) {
-                deleteCategory(Contract.PATH_T3DATAS, category, target);
-            }
+            deleteCategory(category);
+
             return insertData(target);
         }
         return false;
     }
 
-    private boolean isDeleteData(String category, String target) {
-        String timestamp = null;
-        Uri uri = Contract.T3dataEntry.CONTENT_URI;
-        String selection = Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " =?";
-        String[] selectionArgs = {category};
 
-        Cursor cursor = null;
-        boolean isDeleted = false;
-        try {
-
-            cursor = mContext.getContentResolver().query(uri, null, selection, selectionArgs, null);
-
-          /*  if (cursor != null && cursor.getCount() > 0) {
-                cursor.moveToFirst();
-                timestamp = cursor.getString(cursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_TIME_LAST_MODIFIED));
-            }
-
-            if (!TextUtils.isEmpty(timestamp)) {
-                int timeUpdateDatabase = Preference.getGeneralSettingsSyncFrequency(mContext);
-                isDeleted = getSecondsTimeStamp(timestamp) > timeUpdateDatabase;
-            }
-*/
-        } catch (Exception e) {
-
-            Timber.d("DATABASE isDeleteT3 %s", e.getMessage());
-
-        } finally {
-            if ((cursor != null) && (!cursor.isClosed())) {
-                cursor.close();
-            }
-        }
-
-        return isDeleted;
-    }
-
-    private void deleteCategory(String contractPath, String category, String target) {
+    private void deleteCategory(String category) {
         String where;
         Uri uri;
         String[] selectionArgs = {category};
 
-        switch (contractPath) {
+        switch (Contract.PATH_T3DATAS) {
 
             case Contract.PATH_T3DATAS:
                 uri = Contract.T3dataEntry.CONTENT_URI;
@@ -598,7 +557,7 @@ public class T3Operation {
                 mContext.getContentResolver().delete(uri, where, selectionArgs);
             }
         } catch (IllegalStateException e) {
-            Timber.e("delete category error %s", e.getCause());
+            Timber.e("delete category error %s", e.getMessage());
 
         }
 
@@ -610,7 +569,7 @@ public class T3Operation {
             mContext.getContentResolver().delete(Contract.PrefSubRedditEntry.CONTENT_URI, null, null);
 
         } catch (IllegalStateException e) {
-            Timber.e("clear data error %s", e.getCause());
+            Timber.e("clear data error %s", e.getMessage());
 
         }
 

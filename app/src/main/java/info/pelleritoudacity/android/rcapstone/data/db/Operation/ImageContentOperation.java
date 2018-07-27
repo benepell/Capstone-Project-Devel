@@ -35,7 +35,6 @@ import java.util.List;
 import info.pelleritoudacity.android.rcapstone.data.model.ModelContent;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.Resolution;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.Source;
-import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3Data;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3ListingData;
 
 class ImageContentOperation {

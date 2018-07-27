@@ -35,10 +35,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity;
-import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
-
-import static info.pelleritoudacity.android.rcapstone.utility.TextUtil.stringToArray;
 
 public class SubRedditTab implements TabLayout.OnTabSelectedListener {
 
@@ -107,7 +104,7 @@ public class SubRedditTab implements TabLayout.OnTabSelectedListener {
         mTabHistory.clear();
     }
 
-    public void addHistory(String category) {
+    private void addHistory(String category) {
         if (mTabHistory.size() == 0) {
             mTabHistory.add(mTabList.get(0));
         }

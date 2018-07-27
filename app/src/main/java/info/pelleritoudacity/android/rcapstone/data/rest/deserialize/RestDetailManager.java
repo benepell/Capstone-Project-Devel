@@ -16,7 +16,6 @@ import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -55,16 +54,10 @@ public class RestDetailManager {
 
         }
 
-
-        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-        // todo remove interceptor
-        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
-
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(Costant.OK_HTTP_CONNECTION_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(Costant.OK_HTTP_CONNECTION_READ_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(Costant.OK_HTTP_CONNECTION_WRITE_TIMEOUT, TimeUnit.SECONDS)
-                .addInterceptor(httpLoggingInterceptor)
                 .build();
 
         String baseUrl;
@@ -79,7 +72,6 @@ public class RestDetailManager {
                 .baseUrl(baseUrl)
                 .client(okHttpClient)
                 .addConverterFactory(buildGsonConverter())
-//                .addConverterFactory(GsonConverterFactory.create())
                 .build();
         sCommentsAPI = retrofit.create(RedditAPI.class);
 

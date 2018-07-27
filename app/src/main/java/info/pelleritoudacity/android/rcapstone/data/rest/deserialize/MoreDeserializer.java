@@ -21,7 +21,6 @@ class MoreDeserializer implements JsonDeserializer<More> {
         Gson gson = new Gson();
         JsonObject objectData = json.getAsJsonObject();
 
-        Timber.d("DESERIAL %s",objectData.toString());
         String strRemoveEmptyString = objectData.toString().replaceAll(Costant.JSON_REPLIES_EMPTY, Costant.JSON_REPLIES_REPLACE);
 
         return gson.fromJson(strRemoveEmptyString, More.class);

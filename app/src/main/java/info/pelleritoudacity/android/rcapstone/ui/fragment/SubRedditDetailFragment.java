@@ -172,10 +172,6 @@ public class SubRedditDetailFragment extends Fragment
     }
 
     @Override
-    public void adapterPosition(int position, String category) {
-    }
-
-    @Override
     public void clickSelector(int position, int itemCount) {
         mListener.clickSelector(position, itemCount);
     }
@@ -266,7 +262,6 @@ public class SubRedditDetailFragment extends Fragment
                                 .split(Costant.STRING_SEPARATOR);
 
                         break;
-
 
                 }
 

@@ -36,7 +36,6 @@ import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import timber.log.Timber;
 
 public class SubRedditExecute {
     private final SubRedditManager subRedditManager;
@@ -60,8 +59,6 @@ public class SubRedditExecute {
 
             @Override
             public void onFailure(@NonNull Call<T3> call, @NonNull Throwable t) {
-                Timber.e(t.getMessage());
-                Timber.e(t.getCause());
                 call.cancel();
                 if (call.isCanceled()) {
                     myCallBack.onErrorSubReddit(t);
@@ -83,8 +80,6 @@ public class SubRedditExecute {
 
             @Override
             public void onFailure(@NonNull Call<List<T3>> call, @NonNull Throwable t) {
-                Timber.e(t.getMessage());
-                Timber.e(t.getCause());
                 call.cancel();
                 if (call.isCanceled()) {
                     myCallBack.onErrorSubReddit(t);

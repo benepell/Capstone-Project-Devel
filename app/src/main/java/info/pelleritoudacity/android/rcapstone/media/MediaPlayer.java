@@ -113,7 +113,7 @@ public class MediaPlayer {
 
     public void initPlayerFullScreen(Uri mediaUri) {
 
-        mPlayer = createPlayer(Costant.IS_RENDERING_VIDEO, Costant.IS_ADAPTIVE_STREAMING);
+        mPlayer = createPlayer(Costant.IS_ADAPTIVE_STREAMING);
 
         mPlayerView.setPlayer(mPlayer);
 
@@ -171,7 +171,7 @@ public class MediaPlayer {
             mHandler = new Handler();
 
 
-            mPlayer = createPlayer(Costant.IS_RENDERING_VIDEO, Costant.IS_ADAPTIVE_STREAMING);
+            mPlayer = createPlayer(Costant.IS_ADAPTIVE_STREAMING);
 
             mPlayerView.setPlayer(mPlayer);
 
@@ -456,11 +456,11 @@ public class MediaPlayer {
     }
 
 
-    private SimpleExoPlayer createPlayer(boolean isRendering, boolean isAdaptiveStreaming) {
+    private SimpleExoPlayer createPlayer(boolean isAdaptiveStreaming) {
 
         int extensionRendererMode;
 
-        if (isRendering) {
+        if (Costant.IS_RENDERING_VIDEO) {
             extensionRendererMode = DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON;
 
         } else {

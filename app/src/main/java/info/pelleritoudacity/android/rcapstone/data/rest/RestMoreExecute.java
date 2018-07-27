@@ -11,7 +11,6 @@ import info.pelleritoudacity.android.rcapstone.data.rest.deserialize.RestMoreMan
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import timber.log.Timber;
 
 public class RestMoreExecute {
     private final RestMoreManager restMoreManager;

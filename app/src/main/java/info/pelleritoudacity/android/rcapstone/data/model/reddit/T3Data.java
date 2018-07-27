@@ -43,12 +43,12 @@ public class T3Data implements Parcelable
     }
     ;
 
-    protected T3Data(Parcel in) {
+    T3Data(Parcel in) {
         this.modhash = ((String) in.readValue((String.class.getClassLoader())));
         this.dist = ((Integer) in.readValue((Integer.class.getClassLoader())));
         in.readList(this.children, (T3Listing.class.getClassLoader()));
         this.after = ((String) in.readValue((String.class.getClassLoader())));
-        this.before = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.before = in.readValue((Object.class.getClassLoader()));
     }
 
     public T3Data() {
@@ -58,6 +58,7 @@ public class T3Data implements Parcelable
         return modhash;
     }
 
+    @SuppressWarnings("unused")
     public void setModhash(String modhash) {
         this.modhash = modhash;
     }
@@ -66,6 +67,7 @@ public class T3Data implements Parcelable
         return dist;
     }
 
+    @SuppressWarnings("unused")
     public void setDist(Integer dist) {
         this.dist = dist;
     }
@@ -74,6 +76,7 @@ public class T3Data implements Parcelable
         return children;
     }
 
+    @SuppressWarnings("unused")
     public void setChildren(List<T3Listing> children) {
         this.children = children;
     }
@@ -82,6 +85,7 @@ public class T3Data implements Parcelable
         return after;
     }
 
+    @SuppressWarnings("unused")
     public void setAfter(String after) {
         this.after = after;
     }
@@ -90,6 +94,7 @@ public class T3Data implements Parcelable
         return before;
     }
 
+    @SuppressWarnings("unused")
     public void setBefore(Object before) {
         this.before = before;
     }

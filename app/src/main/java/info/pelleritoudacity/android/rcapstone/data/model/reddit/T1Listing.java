@@ -44,6 +44,7 @@ public class T1Listing implements Parcelable
         return kind;
     }
 
+    @SuppressWarnings("unused")
     public void setKind(String kind) {
         this.kind = kind;
     }
@@ -52,6 +53,7 @@ public class T1Listing implements Parcelable
         return data;
     }
 
+    @SuppressWarnings("unused")
     public void setData(T1ListingData data) {
         this.data = data;
     }

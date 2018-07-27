@@ -23,9 +23,9 @@
 
     <shortcut
         android:enabled="false"
-        android:icon="@drawable/shortcut_preferite">
+        android:icon="@drawable/shortcut_favorite">
         <intent
-            android:action="info.pelleritoudacity.android.rcapstone.menu.shortcut.launcher.preferite"
+            android:action="info.pelleritoudacity.android.rcapstone.menu.shortcut.launcher.favorite"
             android:targetClass="info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity"
             android:targetPackage="info.pelleritoudacity.android.rcapstone.free.debug" />
     </shortcut>

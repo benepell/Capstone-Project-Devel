@@ -67,6 +67,7 @@ public class RedditVideoPreview implements Serializable
         return fallbackUrl;
     }
 
+    @SuppressWarnings("unused")
     public void setFallbackUrl(String fallbackUrl) {
         this.fallbackUrl = fallbackUrl;
     }
@@ -75,6 +76,7 @@ public class RedditVideoPreview implements Serializable
         return height;
     }
 
+    @SuppressWarnings("unused")
     public void setHeight(Integer height) {
         this.height = height;
     }
@@ -83,6 +85,7 @@ public class RedditVideoPreview implements Serializable
         return width;
     }
 
+    @SuppressWarnings("unused")
     public void setWidth(Integer width) {
         this.width = width;
     }
@@ -91,6 +94,7 @@ public class RedditVideoPreview implements Serializable
         return scrubberMediaUrl;
     }
 
+    @SuppressWarnings("unused")
     public void setScrubberMediaUrl(String scrubberMediaUrl) {
         this.scrubberMediaUrl = scrubberMediaUrl;
     }
@@ -99,6 +103,7 @@ public class RedditVideoPreview implements Serializable
         return dashUrl;
     }
 
+    @SuppressWarnings("unused")
     public void setDashUrl(String dashUrl) {
         this.dashUrl = dashUrl;
     }
@@ -107,6 +112,7 @@ public class RedditVideoPreview implements Serializable
         return duration;
     }
 
+    @SuppressWarnings("unused")
     public void setDuration(Integer duration) {
         this.duration = duration;
     }
@@ -115,6 +121,7 @@ public class RedditVideoPreview implements Serializable
         return hlsUrl;
     }
 
+    @SuppressWarnings("unused")
     public void setHlsUrl(String hlsUrl) {
         this.hlsUrl = hlsUrl;
     }
@@ -123,6 +130,7 @@ public class RedditVideoPreview implements Serializable
         return isGif;
     }
 
+    @SuppressWarnings("unused")
     public void setIsGif(Boolean isGif) {
         this.isGif = isGif;
     }
@@ -131,6 +139,7 @@ public class RedditVideoPreview implements Serializable
         return transcodingStatus;
     }
 
+    @SuppressWarnings("unused")
     public void setTranscodingStatus(String transcodingStatus) {
         this.transcodingStatus = transcodingStatus;
     }

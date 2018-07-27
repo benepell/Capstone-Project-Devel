@@ -26,10 +26,8 @@ public class TabData {
             prefString = Costant.DEFAULT_SUBREDDIT_CATEGORY;
         }
 
-        ArrayList<String> tabArrayList = stringToArray(prefString);
 
-
-        return tabArrayList;
+        return stringToArray(prefString);
     }
 
 }

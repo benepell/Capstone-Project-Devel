@@ -12,7 +12,6 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +31,6 @@ import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
 import info.pelleritoudacity.android.rcapstone.ui.adapter.SubRedditAdapter;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
-import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
 
@@ -122,7 +120,6 @@ public class SubRedditFragment extends Fragment
         if (savedInstanceState != null) {
             sWindowPlayer = savedInstanceState.getInt(Costant.BUNDLE_EXOPLAYER_WINDOW, C.INDEX_UNSET);
             sPositionPlayer = savedInstanceState.getLong(Costant.BUNDLE_EXOPLAYER_POSITION, C.TIME_UNSET);
-            boolean sIsAutoRun = savedInstanceState.getBoolean(Costant.BUNDLE_EXOPLAYER_AUTOPLAY, false);
 
             mSubReddit = savedInstanceState.getString(Costant.EXTRA_SUBREDDIT_CATEGORY);
             mTarget = savedInstanceState.getString(Costant.EXTRA_SUBREDDIT_TARGET);
@@ -170,12 +167,6 @@ public class SubRedditFragment extends Fragment
             }
         }
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
 
     @NonNull
     @Override
@@ -247,7 +238,7 @@ public class SubRedditFragment extends Fragment
         public Cursor loadInBackground() {
             try {
                 Uri uri = Contract.T3dataEntry.CONTENT_URI;
-                String selection = null;
+                String selection;
                 String[] selectionArgs;
 
                 String strOver18 = String.valueOf(Utility.boolToInt(isOver18));
@@ -265,10 +256,10 @@ public class SubRedditFragment extends Fragment
                         selectionArgs = new String[]{mTargetReddit, strOver18};
                         break;
 
-                    case Costant.SUBREDDIT_TARGET_PREFERITE:
+                    case Costant.SUBREDDIT_TARGET_FAVORITE:
 
                         selection = Contract.T3dataEntry.COLUMN_NAME_SAVED + " =?";
-                        selectionArgs = new String[]{Costant.SUBREDDIT_PREFERITE_SAVED};
+                        selectionArgs = new String[]{Costant.SUBREDDIT_FAVORITE_SAVED};
                         break;
 
                     case Costant.SUBREDDIT_TARGET_SEARCH:

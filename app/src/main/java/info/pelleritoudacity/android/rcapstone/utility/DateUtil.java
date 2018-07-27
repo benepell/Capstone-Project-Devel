@@ -27,7 +27,6 @@ package info.pelleritoudacity.android.rcapstone.utility;
 
 import android.content.Context;
 import android.text.format.DateUtils;
-import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,8 +35,6 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.db.Contract;
-import timber.log.Timber;
 
 public class DateUtil {
 

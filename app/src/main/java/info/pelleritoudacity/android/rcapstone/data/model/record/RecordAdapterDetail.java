@@ -39,6 +39,7 @@ public class RecordAdapterDetail {
     private String moreComments;
 
 
+    @SuppressWarnings("unused")
     public String getSubReddit() {
         return subReddit;
     }
@@ -47,6 +48,7 @@ public class RecordAdapterDetail {
         this.subReddit = subReddit;
     }
 
+    @SuppressWarnings("unused")
     public String getStrId() {
         return strId;
     }
@@ -55,6 +57,7 @@ public class RecordAdapterDetail {
         this.strId = strId;
     }
 
+    @SuppressWarnings("unused")
     public String getChildrenId() {
         return childrenId;
     }
@@ -63,6 +66,7 @@ public class RecordAdapterDetail {
         this.childrenId = childrenId;
     }
 
+    @SuppressWarnings("unused")
     public String getSubRedditId() {
         return subRedditId;
     }
@@ -79,6 +83,7 @@ public class RecordAdapterDetail {
         this.subRedditName = subRedditName;
     }
 
+    @SuppressWarnings("unused")
     public String getUps() {
         return ups;
     }
@@ -95,6 +100,7 @@ public class RecordAdapterDetail {
         this.title = title;
     }
 
+    @SuppressWarnings("unused")
     public int getVoteDowns() {
         return voteDowns;
     }
@@ -103,6 +109,7 @@ public class RecordAdapterDetail {
         this.voteDowns = voteDowns;
     }
 
+    @SuppressWarnings("unused")
     public String getApprovedAtUtc() {
         return approvedAtUtc;
     }
@@ -119,6 +126,7 @@ public class RecordAdapterDetail {
         this.author = author;
     }
 
+    @SuppressWarnings("unused")
     public String getStickied() {
         return stickied;
     }
@@ -135,6 +143,7 @@ public class RecordAdapterDetail {
         isSaved = saved;
     }
 
+    @SuppressWarnings("unused")
     public boolean isArchived() {
         return isArchived;
     }
@@ -143,6 +152,7 @@ public class RecordAdapterDetail {
         isArchived = archived;
     }
 
+    @SuppressWarnings("unused")
     public boolean isNoFollow() {
         return isNoFollow;
     }
@@ -151,6 +161,7 @@ public class RecordAdapterDetail {
         isNoFollow = noFollow;
     }
 
+    @SuppressWarnings("unused")
     public boolean isSendReplies() {
         return isSendReplies;
     }
@@ -159,6 +170,7 @@ public class RecordAdapterDetail {
         isSendReplies = sendReplies;
     }
 
+    @SuppressWarnings("unused")
     public boolean isCanGild() {
         return isCanGild;
     }
@@ -167,6 +179,7 @@ public class RecordAdapterDetail {
         isCanGild = canGild;
     }
 
+    @SuppressWarnings("unused")
     public boolean isModNote() {
         return isModNote;
     }
@@ -175,6 +188,7 @@ public class RecordAdapterDetail {
         isModNote = modNote;
     }
 
+    @SuppressWarnings("unused")
     public boolean isHideScore() {
         return isHideScore;
     }
@@ -183,6 +197,7 @@ public class RecordAdapterDetail {
         isHideScore = hideScore;
     }
 
+    @SuppressWarnings("unused")
     public String getGilded() {
         return gilded;
     }
@@ -223,6 +238,7 @@ public class RecordAdapterDetail {
         this.permanentLink = permanentLink;
     }
 
+    @SuppressWarnings("unused")
     public String getSubRedditType() {
         return subRedditType;
     }
@@ -231,6 +247,7 @@ public class RecordAdapterDetail {
         this.subRedditType = subRedditType;
     }
 
+    @SuppressWarnings("unused")
     public int getCreatedUtc() {
         return createdUtc;
     }
@@ -247,6 +264,7 @@ public class RecordAdapterDetail {
         this.body = body;
     }
 
+    @SuppressWarnings("unused")
     public String getBodyHtml() {
         return bodyHtml;
     }
@@ -263,6 +281,7 @@ public class RecordAdapterDetail {
         this.linkId = linkId;
     }
 
+    @SuppressWarnings("unused")
     public String getParentId() {
         return parentId;
     }
@@ -271,6 +290,7 @@ public class RecordAdapterDetail {
         this.parentId = parentId;
     }
 
+    @SuppressWarnings("unused")
     public String getUrl() {
         return url;
     }

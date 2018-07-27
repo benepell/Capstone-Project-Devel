@@ -15,8 +15,8 @@ public class MenuLauncherDetail {
     private final Context mContext;
     private final Intent mIntent;
 
-    String category;
-    String target;
+    private String category;
+    private String target;
 
     public MenuLauncherDetail(Context context, Intent intent) {
         mContext = context;
@@ -81,9 +81,9 @@ public class MenuLauncherDetail {
                     setTarget(Costant.SUBREDDIT_TARGET_ALL);
                     return true;
 
-                case Costant.ACTION_SHORTCUT_PREFERITE:
-                    setCategory(Costant.SUBREDDIT_CATEGORY_PREFERITE);
-                    setTarget(Costant.SUBREDDIT_TARGET_PREFERITE);
+                case Costant.ACTION_SHORTCUT_FAVORITE:
+                    setCategory(Costant.SUBREDDIT_CATEGORY_FAVORITE);
+                    setTarget(Costant.SUBREDDIT_TARGET_FAVORITE);
                     return true;
             }
 
@@ -111,7 +111,7 @@ public class MenuLauncherDetail {
         Preference.setLastTarget(mContext, getTarget());
     }
 
-    public String getCategory() {
+    private String getCategory() {
         return category;
     }
 
@@ -119,7 +119,7 @@ public class MenuLauncherDetail {
         this.category = category;
     }
 
-    public String getTarget() {
+    private String getTarget() {
         return target;
     }
 

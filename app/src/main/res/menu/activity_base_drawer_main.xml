@@ -30,7 +30,7 @@
 
         <item
             android:id="@+id/nav_mode_preferite"
-            android:title="@string/title_menu_preferite" />
+            android:title="@string/title_menu_favorite" />
 
 
         <item

@@ -32,26 +32,31 @@ public class SecureMedia implements Parcelable
     }
     ;
 
-    SecureMedia(Parcel in) {
+    private SecureMedia(Parcel in) {
         this.type = ((String) in.readValue((String.class.getClassLoader())));
         this.oembedSecureMedia = ((OembedSecureMedia) in.readValue((OembedSecureMedia.class.getClassLoader())));
     }
 
+    @SuppressWarnings("unused")
     public SecureMedia() {
     }
 
+    @SuppressWarnings("unused")
     public String getType() {
         return type;
     }
 
+    @SuppressWarnings("unused")
     public void setType(String type) {
         this.type = type;
     }
 
+    @SuppressWarnings({"unused", "SpellCheckingInspection"})
     public OembedSecureMedia getOembedSecureMedia() {
         return oembedSecureMedia;
     }
 
+    @SuppressWarnings("unused")
     public void setOembedSecureMedia(OembedSecureMedia oembedSecureMedia) {
         this.oembedSecureMedia = oembedSecureMedia;
     }

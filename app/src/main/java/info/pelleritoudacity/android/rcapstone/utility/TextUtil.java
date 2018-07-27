@@ -92,12 +92,12 @@ public class TextUtil {
         return url;
     }
 
-    public static String buildCommentLink(String redditnamePrefix, String redditNameId) {
+    public static String buildCommentLink(String redditNamePrefix, String redditNameId) {
         Uri.Builder builderRedditComments = new Uri.Builder();
 
         return builderRedditComments.scheme("https")
                 .authority(Costant.REDDIT_AUTH_URL)
-                .appendEncodedPath(redditnamePrefix)
+                .appendEncodedPath(redditNamePrefix)
                 .appendPath(Costant.REDDIT_COMMENTS)
                 .appendPath(redditNameId).build().toString();
 

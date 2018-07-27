@@ -11,7 +11,6 @@ import java.util.Objects;
 
 import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
-import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
@@ -104,9 +103,10 @@ public class SubRedditDetailHelper {
 
     }
 
-    public DetailModel initModelTarget(Intent intent, DetailModel model) {
+    public DetailModel initModelTarget(Intent intent) {
         if (intent != null) {
 
+            DetailModel model;
             if (intent.getParcelableExtra(Costant.EXTRA_PARCEL_DETAIL_MODEL) != null) {
                 model = intent.getParcelableExtra(Costant.EXTRA_PARCEL_DETAIL_MODEL);
 
@@ -124,12 +124,12 @@ public class SubRedditDetailHelper {
             }
 
             if (intent.getStringExtra(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID) != null) {
-                model.setStrId(intent.getStringExtra(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID));
+                Objects.requireNonNull(model).setStrId(intent.getStringExtra(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID));
 
             }
 
             if (intent.getBooleanExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_DETAIL_REFRESH, false)) {
-                model.setStrId(Preference.getLastComment(mContext));
+                Objects.requireNonNull(model).setStrId(Preference.getLastComment(mContext));
             }
 
             return model;

@@ -47,6 +47,7 @@ public class RedditAboutMe {
         return name;
     }
 
+    @SuppressWarnings("unused")
     public void setName(String name) {
         this.name = name;
     }
@@ -55,14 +56,17 @@ public class RedditAboutMe {
         return over18;
     }
 
+    @SuppressWarnings("unused")
     public void setOver18(boolean over18) {
         this.over18 = over18;
     }
 
+    @SuppressWarnings("unused")
     public String getId() {
         return id;
     }
 
+    @SuppressWarnings("unused")
     public void setId(String id) {
         this.id = id;
     }

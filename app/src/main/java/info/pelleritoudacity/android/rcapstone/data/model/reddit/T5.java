@@ -64,6 +64,7 @@ public class T5 implements Parcelable
         this.data = ((T5Listing) in.readValue((T5Listing.class.getClassLoader())));
     }
 
+    @SuppressWarnings("unused")
     public T5() {
     }
 
@@ -71,6 +72,7 @@ public class T5 implements Parcelable
         return kind;
     }
 
+    @SuppressWarnings("unused")
     public void setKind(String kind) {
         this.kind = kind;
     }
@@ -79,6 +81,7 @@ public class T5 implements Parcelable
         return data;
     }
 
+    @SuppressWarnings("unused")
     public void setData(T5Listing data) {
         this.data = data;
     }

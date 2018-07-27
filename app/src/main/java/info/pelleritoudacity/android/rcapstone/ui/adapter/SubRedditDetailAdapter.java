@@ -142,7 +142,6 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
 
             }
 
-            mListener.adapterPosition(holder.getAdapterPosition(), record.getSubReddit());
         }
     }
 
@@ -257,7 +256,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
 
     public interface OnAdapterListener {
 
-        void adapterPosition(int position, String category);
+//        void adapterPosition(int position, String category);
 
         void clickSelector(int position, int itemCount);
 

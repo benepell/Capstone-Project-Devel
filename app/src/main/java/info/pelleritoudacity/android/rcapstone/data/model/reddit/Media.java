@@ -12,6 +12,7 @@ public class Media implements Parcelable
     @SerializedName("type")
     @Expose
     private String type;
+    @SuppressWarnings("SpellCheckingInspection")
     @SerializedName("oembed")
     @Expose
     private OembedMedia oembedMedia;
@@ -44,6 +45,7 @@ public class Media implements Parcelable
         return type;
     }
 
+    @SuppressWarnings("unused")
     public void setType(String type) {
         this.type = type;
     }
@@ -52,6 +54,7 @@ public class Media implements Parcelable
         return oembedMedia;
     }
 
+    @SuppressWarnings("unused")
     public void setOembed(OembedMedia oembedMedia) {
         this.oembedMedia = oembedMedia;
     }

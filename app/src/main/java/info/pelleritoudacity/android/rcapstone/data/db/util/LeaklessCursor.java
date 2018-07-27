@@ -9,7 +9,7 @@ import timber.log.Timber;
 
 class LeaklessCursor extends SQLiteCursor {
 
-    public LeaklessCursor(SQLiteDatabase db, SQLiteCursorDriver driver,
+    public LeaklessCursor( SQLiteCursorDriver driver,
                           String editTable, SQLiteQuery query) {
         super(driver, editTable, query);
     }

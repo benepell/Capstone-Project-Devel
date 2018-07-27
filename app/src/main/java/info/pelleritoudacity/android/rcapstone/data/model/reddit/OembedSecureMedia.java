@@ -65,6 +65,7 @@ public class OembedSecureMedia implements Parcelable
     }
     ;
 
+    @SuppressWarnings("SpellCheckingInspection")
     OembedSecureMedia(Parcel in) {
         this.providerUrl = ((String) in.readValue((String.class.getClassLoader())));
         this.title = ((String) in.readValue((String.class.getClassLoader())));
@@ -84,106 +85,132 @@ public class OembedSecureMedia implements Parcelable
     public OembedSecureMedia() {
     }
 
+    @SuppressWarnings("unused")
     public String getProviderUrl() {
         return providerUrl;
     }
 
+    @SuppressWarnings("unused")
     public void setProviderUrl(String providerUrl) {
         this.providerUrl = providerUrl;
     }
 
+    @SuppressWarnings("unused")
     public String getTitle() {
         return title;
     }
 
+    @SuppressWarnings("unused")
     public void setTitle(String title) {
         this.title = title;
     }
 
+    @SuppressWarnings("unused")
     public String getType() {
         return type;
     }
 
+    @SuppressWarnings("unused")
     public void setType(String type) {
         this.type = type;
     }
 
+    @SuppressWarnings("unused")
     public String getHtml() {
         return html;
     }
 
+    @SuppressWarnings("unused")
     public void setHtml(String html) {
         this.html = html;
     }
 
+    @SuppressWarnings("unused")
     public String getAuthorName() {
         return authorName;
     }
 
+    @SuppressWarnings("unused")
     public void setAuthorName(String authorName) {
         this.authorName = authorName;
     }
 
+    @SuppressWarnings("unused")
     public Integer getHeight() {
         return height;
     }
 
+    @SuppressWarnings("unused")
     public void setHeight(Integer height) {
         this.height = height;
     }
 
+    @SuppressWarnings("unused")
     public Integer getWidth() {
         return width;
     }
 
+    @SuppressWarnings("unused")
     public void setWidth(Integer width) {
         this.width = width;
     }
 
+    @SuppressWarnings("unused")
     public String getVersion() {
         return version;
     }
 
+    @SuppressWarnings("unused")
     public void setVersion(String version) {
         this.version = version;
     }
 
+    @SuppressWarnings("unused")
     public Integer getThumbnailWidth() {
         return thumbnailWidth;
     }
 
+    @SuppressWarnings("unused")
     public void setThumbnailWidth(Integer thumbnailWidth) {
         this.thumbnailWidth = thumbnailWidth;
     }
 
+    @SuppressWarnings("unused")
     public String getProviderName() {
         return providerName;
     }
 
+    @SuppressWarnings("unused")
     public void setProviderName(String providerName) {
         this.providerName = providerName;
     }
 
+    @SuppressWarnings("unused")
     public String getThumbnailUrl() {
         return thumbnailUrl;
     }
 
+    @SuppressWarnings("unused")
     public void setThumbnailUrl(String thumbnailUrl) {
         this.thumbnailUrl = thumbnailUrl;
     }
 
+    @SuppressWarnings("unused")
     public Integer getThumbnailHeight() {
         return thumbnailHeight;
     }
 
+    @SuppressWarnings("unused")
     public void setThumbnailHeight(Integer thumbnailHeight) {
         this.thumbnailHeight = thumbnailHeight;
     }
 
+    @SuppressWarnings("unused")
     public String getAuthorUrl() {
         return authorUrl;
     }
 
+    @SuppressWarnings("unused")
     public void setAuthorUrl(String authorUrl) {
         this.authorUrl = authorUrl;
     }

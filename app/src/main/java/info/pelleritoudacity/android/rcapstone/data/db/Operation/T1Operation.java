@@ -5,8 +5,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.text.TextUtils;
 
-import com.google.obf.kp;
-
 import java.util.List;
 
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
@@ -49,17 +47,17 @@ public class T1Operation {
                 String where = Contract.T1dataEntry.COLUMN_NAME_MORE_REPLIES.concat(" =?");
                 String[] selectArgs = {Costant.DETAIL_MORE_REPLIES};
                 mContext.getContentResolver().delete(Contract.T1dataEntry.CONTENT_URI, where, selectArgs);
-                return insertMoreData(moreJson, strId);
+                return insertMoreData(moreJson);
             }
 
         } catch (IllegalStateException e) {
-            Timber.e("save more data error %s", e.getCause());
+            Timber.e("save more data error %s", e.getMessage());
 
         }
         return false;
     }
 
-    private boolean insertMoreData(MoreJson moreJson, String strId) {
+    private boolean insertMoreData(MoreJson moreJson) {
 
         List<MoreThing> moreThings = moreJson.getData().getThings();
 
@@ -75,7 +73,7 @@ public class T1Operation {
             return mContext.getContentResolver().bulkInsert(Contract.T1dataEntry.CONTENT_URI, arrContentValues) > 0;
 
         } catch (IllegalStateException e) {
-            Timber.e("Insert more data error %s", e.getCause());
+            Timber.e("Insert more data error %s", e.getMessage());
             return false;
 
         }
@@ -101,13 +99,13 @@ public class T1Operation {
             return true;
 
         } catch (IllegalStateException e) {
-            Timber.e("Insert data error %s", e.getCause());
+            Timber.e("Insert data error %s", e.getMessage());
             return false;
 
         }
     }
 
-    public void insertReplies(T1ListingData repliesListingData, int level, int childrenId) {
+    private void insertReplies(T1ListingData repliesListingData, int level, int childrenId) {
 
         if ((repliesListingData != null) && (level > 0) && (childrenId > 0)) {
 
@@ -207,10 +205,10 @@ public class T1Operation {
                     Utility.boolToInt(repliesListingData.getScoreHidden()));
 
             try {
-                Uri uriReplies = mContext.getContentResolver().insert(Contract.T1dataEntry.CONTENT_URI, cv);
+                mContext.getContentResolver().insert(Contract.T1dataEntry.CONTENT_URI, cv);
 
             } catch (IllegalStateException e) {
-                Timber.e("Insert Replies error %s", e.getCause());
+                Timber.e("Insert Replies error %s", e.getMessage());
 
             }
         }
@@ -239,6 +237,7 @@ public class T1Operation {
 
             String strMoreChildren = "";
             for (int i = 0; i < sizeCV - 1; i++) {
+                //noinspection StringConcatenationInLoop
                 strMoreChildren += repliesListingData.getChildren().get(i).concat(Costant.STRING_SEPARATOR);
             }
             if (sizeCV > 0) {
@@ -256,7 +255,7 @@ public class T1Operation {
                 }
 
             } catch (IllegalStateException e) {
-                Timber.e("Insert More error %s", e.getCause());
+                Timber.e("Insert More error %s", e.getMessage());
 
             }
 
@@ -393,6 +392,7 @@ public class T1Operation {
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     private Replies getReplies(Replies replies, int childrenId) {
 
         if ((replies != null) && (replies.getData() != null)) {
@@ -430,7 +430,8 @@ public class T1Operation {
                         (t1Listings.getData().getReplies().getKind().contains(Costant.DEFAULT_LISTING_KIND))) {
                     return t1Listings.getData().getReplies();
 
-                } else if ((t1Listings != null) &&
+                } else //noinspection ConstantConditions
+                    if ((t1Listings != null) &&
                         (t1Listings.getKind().contains(Costant.DEFAULT_MORE_KIND))) {
                     insertMore(t1Listings.getData());
 
@@ -461,7 +462,7 @@ public class T1Operation {
                         new String[]{String.valueOf(strRemoveTParentId)});
 
             } catch (IllegalStateException e) {
-                Timber.e("update num comments error %s", e.getCause());
+                Timber.e("update num comments error %s", e.getMessage());
             }
 
         }
@@ -480,7 +481,7 @@ public class T1Operation {
             mContext.getContentResolver().delete(uri, where, selectionArgs);
 
         } catch (IllegalStateException e) {
-            Timber.e("delete category error %s", e.getCause());
+            Timber.e("delete category error %s", e.getMessage());
 
         }
 
@@ -496,21 +497,21 @@ public class T1Operation {
             mContext.getContentResolver().delete(uri, where, selectionArgs);
 
         } catch (IllegalStateException e) {
-            Timber.e("delete more error %s", e.getCause());
+            Timber.e("delete more error %s", e.getMessage());
         }
 
 
     }
 
-    public void clearData() {
+   /* public void clearData() {
         try {
             mContext.getContentResolver().delete(Contract.T1dataEntry.CONTENT_URI, null, null);
             mContext.getContentResolver().delete(Contract.T1MoresDataEntry.CONTENT_URI, null, null);
             mContext.getContentResolver().delete(Contract.PrefSubRedditEntry.CONTENT_URI, null, null);
 
         } catch (IllegalStateException e) {
-            Timber.e("clear data error %s", e.getCause());
+            Timber.e("clear data error %s", e.getMessage());
         }
     }
-
+*/
 }

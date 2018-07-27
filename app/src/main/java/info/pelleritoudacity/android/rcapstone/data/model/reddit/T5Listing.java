@@ -62,6 +62,7 @@ public class T5Listing implements Parcelable
         return after;
     }
 
+    @SuppressWarnings("unused")
     public void setAfter(String after) {
         this.after = after;
     }
@@ -70,6 +71,7 @@ public class T5Listing implements Parcelable
         return dist;
     }
 
+    @SuppressWarnings("unused")
     public void setDist(Integer dist) {
         this.dist = dist;
     }
@@ -78,6 +80,7 @@ public class T5Listing implements Parcelable
         return modhash;
     }
 
+    @SuppressWarnings("unused")
     public void setModhash(String modhash) {
         this.modhash = modhash;
     }
@@ -86,6 +89,7 @@ public class T5Listing implements Parcelable
         return whitelistStatus;
     }
 
+    @SuppressWarnings("unused")
     public void setWhitelistStatus(String whitelistStatus) {
         this.whitelistStatus = whitelistStatus;
     }
@@ -94,6 +98,7 @@ public class T5Listing implements Parcelable
         return children;
     }
 
+    @SuppressWarnings("unused")
     public void setChildren(List<T5ListingData> children) {
         this.children = children;
     }
@@ -102,6 +107,7 @@ public class T5Listing implements Parcelable
         return before;
     }
 
+    @SuppressWarnings("unused")
     public void setBefore(Object before) {
         this.before = before;
     }

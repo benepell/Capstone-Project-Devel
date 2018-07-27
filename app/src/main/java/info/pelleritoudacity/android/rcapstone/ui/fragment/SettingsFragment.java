@@ -47,7 +47,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.pref_general_settings, rootKey);
 
-        applyTheme(getActivity());
+        applyTheme();
         prefMail();
         prefVersion();
         prefOver18();
@@ -139,16 +139,16 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
 
 
-    private void applyTheme(Context context) {
+    private void applyTheme() {
         final Preference preference = findPreference(getString(R.string.pref_night_mode));
         preference.setOnPreferenceChangeListener((preference1, newValue) -> {
-            mListener.applytheme(true);
+            mListener.applyTheme(true);
             return true;
         });
 
     }
 
     public interface OnSettingsFragmentInteraction {
-        void applytheme(boolean b);
+        void applyTheme(boolean b);
     }
 }

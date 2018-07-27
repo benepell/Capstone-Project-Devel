@@ -35,7 +35,7 @@ public class MoreThing implements Parcelable
     }
     ;
 
-    protected MoreThing(Parcel in) {
+    MoreThing(Parcel in) {
         this.kind = ((String) in.readValue((String.class.getClassLoader())));
         this.data = ((T1ListingData) in.readValue((T1ListingData.class.getClassLoader())));
     }

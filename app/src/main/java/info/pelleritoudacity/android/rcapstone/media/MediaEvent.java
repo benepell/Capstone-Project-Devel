@@ -25,7 +25,6 @@ class MediaEvent implements Player.EventListener {
     public MediaEvent(MediaPlayer listener, MediaSession mediaSession, Handler handler,
                       Runnable runnable, TextView tvCountDown, TextView tvErrorPlayer) {
         mListener = listener;
-        TextView mTvCountDown = tvCountDown;
         mTvErrorPlayer = tvErrorPlayer;
         mMediaSession = mediaSession;
         mHandler = handler;

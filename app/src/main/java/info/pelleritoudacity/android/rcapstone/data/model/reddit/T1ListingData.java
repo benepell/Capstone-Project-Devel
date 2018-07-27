@@ -273,6 +273,7 @@ public class T1ListingData implements Parcelable {
         return subredditId;
     }
 
+    @SuppressWarnings("unused")
     public void setSubredditId(String subredditId) {
         this.subredditId = subredditId;
     }
@@ -281,6 +282,7 @@ public class T1ListingData implements Parcelable {
         return title;
     }
 
+    @SuppressWarnings("unused")
     public void setTitle(String title) {
         this.title = title;
     }
@@ -289,6 +291,7 @@ public class T1ListingData implements Parcelable {
         return approvedAtUtc;
     }
 
+    @SuppressWarnings("unused")
     public void setApprovedAtUtc(Object approvedAtUtc) {
         this.approvedAtUtc = approvedAtUtc;
     }
@@ -297,38 +300,47 @@ public class T1ListingData implements Parcelable {
         return ups;
     }
 
+    @SuppressWarnings("unused")
     public void setUps(Integer ups) {
         this.ups = ups;
     }
 
+    @SuppressWarnings("unused")
     public Object getModReasonBy() {
         return modReasonBy;
     }
 
+    @SuppressWarnings("unused")
     public void setModReasonBy(Object modReasonBy) {
         this.modReasonBy = modReasonBy;
     }
 
+    @SuppressWarnings("unused")
     public Object getBannedBy() {
         return bannedBy;
     }
 
+    @SuppressWarnings("unused")
     public void setBannedBy(Object bannedBy) {
         this.bannedBy = bannedBy;
     }
 
+    @SuppressWarnings("unused")
     public String getAuthorFlairType() {
         return authorFlairType;
     }
 
+    @SuppressWarnings("unused")
     public void setAuthorFlairType(String authorFlairType) {
         this.authorFlairType = authorFlairType;
     }
 
+    @SuppressWarnings("unused")
     public Object getRemovalReason() {
         return removalReason;
     }
 
+    @SuppressWarnings("unused")
     public void setRemovalReason(Object removalReason) {
         this.removalReason = removalReason;
     }
@@ -337,6 +349,7 @@ public class T1ListingData implements Parcelable {
         return linkId;
     }
 
+    @SuppressWarnings("unused")
     public void setLinkId(String linkId) {
         this.linkId = linkId;
     }
@@ -345,22 +358,27 @@ public class T1ListingData implements Parcelable {
         return url;
     }
 
+    @SuppressWarnings("unused")
     public void setUrl(String url) {
         this.url = url;
     }
 
+    @SuppressWarnings("unused")
     public String getAuthorFlairTemplateId() {
         return authorFlairTemplateId;
     }
 
+    @SuppressWarnings("unused")
     public void setAuthorFlairTemplateId(String authorFlairTemplateId) {
         this.authorFlairTemplateId = authorFlairTemplateId;
     }
 
+    @SuppressWarnings("unused")
     public Object getLikes() {
         return likes;
     }
 
+    @SuppressWarnings("unused")
     public void setLikes(Object likes) {
         this.likes = likes;
     }
@@ -369,6 +387,7 @@ public class T1ListingData implements Parcelable {
         return noFollow;
     }
 
+    @SuppressWarnings("unused")
     public void setNoFollow(Boolean noFollow) {
         this.noFollow = noFollow;
     }
@@ -377,13 +396,16 @@ public class T1ListingData implements Parcelable {
         return replies;
     }
 
+    @SuppressWarnings("unused")
     public void setReplies(Replies replies) {
         this.replies = replies;
     }
+    @SuppressWarnings("unused")
     public List<Object> getUserReports() {
         return userReports;
     }
 
+    @SuppressWarnings("unused")
     public void setUserReports(List<Object> userReports) {
         this.userReports = userReports;
     }
@@ -392,6 +414,7 @@ public class T1ListingData implements Parcelable {
         return saved;
     }
 
+    @SuppressWarnings("unused")
     public void setSaved(Boolean saved) {
         this.saved = saved;
     }
@@ -400,22 +423,27 @@ public class T1ListingData implements Parcelable {
         return id;
     }
 
+    @SuppressWarnings("unused")
     public void setId(String id) {
         this.id = id;
     }
 
+    @SuppressWarnings("unused")
     public Object getBannedAtUtc() {
         return bannedAtUtc;
     }
 
+    @SuppressWarnings("unused")
     public void setBannedAtUtc(Object bannedAtUtc) {
         this.bannedAtUtc = bannedAtUtc;
     }
 
+    @SuppressWarnings("unused")
     public Object getModReasonTitle() {
         return modReasonTitle;
     }
 
+    @SuppressWarnings("unused")
     public void setModReasonTitle(Object modReasonTitle) {
         this.modReasonTitle = modReasonTitle;
     }
@@ -424,6 +452,7 @@ public class T1ListingData implements Parcelable {
         return gilded;
     }
 
+    @SuppressWarnings("unused")
     public void setGilded(Integer gilded) {
         this.gilded = gilded;
     }
@@ -432,14 +461,17 @@ public class T1ListingData implements Parcelable {
         return archived;
     }
 
+    @SuppressWarnings("unused")
     public void setArchived(Boolean archived) {
         this.archived = archived;
     }
 
+    @SuppressWarnings("unused")
     public Object getReportReasons() {
         return reportReasons;
     }
 
+    @SuppressWarnings("unused")
     public void setReportReasons(Object reportReasons) {
         this.reportReasons = reportReasons;
     }
@@ -448,6 +480,7 @@ public class T1ListingData implements Parcelable {
         return author;
     }
 
+    @SuppressWarnings("unused")
     public void setAuthor(String author) {
         this.author = author;
     }
@@ -456,6 +489,7 @@ public class T1ListingData implements Parcelable {
         return canModPost;
     }
 
+    @SuppressWarnings("unused")
     public void setCanModPost(Boolean canModPost) {
         this.canModPost = canModPost;
     }
@@ -464,6 +498,7 @@ public class T1ListingData implements Parcelable {
         return sendReplies;
     }
 
+    @SuppressWarnings("unused")
     public void setSendReplies(Boolean sendReplies) {
         this.sendReplies = sendReplies;
     }
@@ -472,6 +507,7 @@ public class T1ListingData implements Parcelable {
         return parentId;
     }
 
+    @SuppressWarnings("unused")
     public void setParentId(String parentId) {
         this.parentId = parentId;
     }
@@ -480,14 +516,17 @@ public class T1ListingData implements Parcelable {
         return score;
     }
 
+    @SuppressWarnings("unused")
     public void setScore(Integer score) {
         this.score = score;
     }
 
+    @SuppressWarnings("unused")
     public Object getApprovedBy() {
         return approvedBy;
     }
 
+    @SuppressWarnings("unused")
     public void setApprovedBy(Object approvedBy) {
         this.approvedBy = approvedBy;
     }
@@ -496,6 +535,7 @@ public class T1ListingData implements Parcelable {
         return downs;
     }
 
+    @SuppressWarnings("unused")
     public void setDowns(Integer downs) {
         this.downs = downs;
     }
@@ -504,54 +544,67 @@ public class T1ListingData implements Parcelable {
         return body;
     }
 
+    @SuppressWarnings("unused")
     public void setBody(String body) {
         this.body = body;
     }
 
+    @SuppressWarnings("unused")
     public Object getEdited() {
         return edited;
     }
 
+    @SuppressWarnings("unused")
     public void setEdited(Object edited) {
         this.edited = edited;
     }
 
+    @SuppressWarnings("unused")
     public Object getAuthorFlairCssClass() {
         return authorFlairCssClass;
     }
 
+    @SuppressWarnings("unused")
     public void setAuthorFlairCssClass(Object authorFlairCssClass) {
         this.authorFlairCssClass = authorFlairCssClass;
     }
 
+    @SuppressWarnings("unused")
     public Boolean getCollapsed() {
         return collapsed;
     }
 
+    @SuppressWarnings("unused")
     public void setCollapsed(Boolean collapsed) {
         this.collapsed = collapsed;
     }
 
+    @SuppressWarnings("unused")
     public List<Object> getAuthorFlairRichtext() {
         return authorFlairRichtext;
     }
 
+    @SuppressWarnings("unused")
     public void setAuthorFlairRichtext(List<Object> authorFlairRichtext) {
         this.authorFlairRichtext = authorFlairRichtext;
     }
 
+    @SuppressWarnings("unused")
     public Boolean getIsSubmitter() {
         return isSubmitter;
     }
 
+    @SuppressWarnings("unused")
     public void setIsSubmitter(Boolean isSubmitter) {
         this.isSubmitter = isSubmitter;
     }
 
+    @SuppressWarnings("unused")
     public Object getCollapsedReason() {
         return collapsedReason;
     }
 
+    @SuppressWarnings("unused")
     public void setCollapsedReason(Object collapsedReason) {
         this.collapsedReason = collapsedReason;
     }
@@ -560,6 +613,7 @@ public class T1ListingData implements Parcelable {
         return bodyHtml;
     }
 
+    @SuppressWarnings("unused")
     public void setBodyHtml(String bodyHtml) {
         this.bodyHtml = bodyHtml;
     }
@@ -568,6 +622,7 @@ public class T1ListingData implements Parcelable {
         return stickied;
     }
 
+    @SuppressWarnings("unused")
     public void setStickied(Boolean stickied) {
         this.stickied = stickied;
     }
@@ -576,6 +631,7 @@ public class T1ListingData implements Parcelable {
         return subredditType;
     }
 
+    @SuppressWarnings("unused")
     public void setSubredditType(String subredditType) {
         this.subredditType = subredditType;
     }
@@ -584,6 +640,7 @@ public class T1ListingData implements Parcelable {
         return canGild;
     }
 
+    @SuppressWarnings("unused")
     public void setCanGild(Boolean canGild) {
         this.canGild = canGild;
     }
@@ -592,14 +649,17 @@ public class T1ListingData implements Parcelable {
         return subreddit;
     }
 
+    @SuppressWarnings("unused")
     public void setSubreddit(String subreddit) {
         this.subreddit = subreddit;
     }
 
+    @SuppressWarnings("unused")
     public Object getAuthorFlairTextColor() {
         return authorFlairTextColor;
     }
 
+    @SuppressWarnings("unused")
     public void setAuthorFlairTextColor(Object authorFlairTextColor) {
         this.authorFlairTextColor = authorFlairTextColor;
     }
@@ -608,6 +668,7 @@ public class T1ListingData implements Parcelable {
         return scoreHidden;
     }
 
+    @SuppressWarnings("unused")
     public void setScoreHidden(Boolean scoreHidden) {
         this.scoreHidden = scoreHidden;
     }
@@ -616,14 +677,17 @@ public class T1ListingData implements Parcelable {
         return permalink;
     }
 
+    @SuppressWarnings("unused")
     public void setPermalink(String permalink) {
         this.permalink = permalink;
     }
 
+    @SuppressWarnings("unused")
     public Object getNumReports() {
         return numReports;
     }
 
+    @SuppressWarnings("unused")
     public void setNumReports(Object numReports) {
         this.numReports = numReports;
     }
@@ -632,6 +696,7 @@ public class T1ListingData implements Parcelable {
         return name;
     }
 
+    @SuppressWarnings("unused")
     public void setName(String name) {
         this.name = name;
     }
@@ -640,22 +705,27 @@ public class T1ListingData implements Parcelable {
         return created;
     }
 
+    @SuppressWarnings("unused")
     public void setCreated(Double created) {
         this.created = created;
     }
 
+    @SuppressWarnings("unused")
     public Object getAuthorFlairText() {
         return authorFlairText;
     }
 
+    @SuppressWarnings("unused")
     public void setAuthorFlairText(Object authorFlairText) {
         this.authorFlairText = authorFlairText;
     }
 
+    @SuppressWarnings("unused")
     public String getRteMode() {
         return rteMode;
     }
 
+    @SuppressWarnings("unused")
     public void setRteMode(String rteMode) {
         this.rteMode = rteMode;
     }
@@ -664,22 +734,27 @@ public class T1ListingData implements Parcelable {
         return createdUtc;
     }
 
+    @SuppressWarnings("unused")
     public void setCreatedUtc(Double createdUtc) {
         this.createdUtc = createdUtc;
     }
 
+    @SuppressWarnings("unused")
     public String getSubredditNamePrefixed() {
         return subredditNamePrefixed;
     }
 
+    @SuppressWarnings("unused")
     public void setSubredditNamePrefixed(String subredditNamePrefixed) {
         this.subredditNamePrefixed = subredditNamePrefixed;
     }
 
+    @SuppressWarnings("unused")
     public Integer getControversiality() {
         return controversiality;
     }
 
+    @SuppressWarnings({"unused", "SpellCheckingInspection"})
     public void setControversiality(Integer controversiality) {
         this.controversiality = controversiality;
     }
@@ -688,38 +763,47 @@ public class T1ListingData implements Parcelable {
         return depth;
     }
 
+    @SuppressWarnings("unused")
     public void setDepth(Integer depth) {
         this.depth = depth;
     }
 
+    @SuppressWarnings("unused")
     public Object getAuthorFlairBackgroundColor() {
         return authorFlairBackgroundColor;
     }
 
+    @SuppressWarnings("unused")
     public void setAuthorFlairBackgroundColor(Object authorFlairBackgroundColor) {
         this.authorFlairBackgroundColor = authorFlairBackgroundColor;
     }
 
+    @SuppressWarnings("unused")
     public List<Object> getModReports() {
         return modReports;
     }
 
+    @SuppressWarnings("unused")
     public void setModReports(List<Object> modReports) {
         this.modReports = modReports;
     }
 
+    @SuppressWarnings("unused")
     public Object getModNote() {
         return modNote;
     }
 
+    @SuppressWarnings("unused")
     public void setModNote(Object modNote) {
         this.modNote = modNote;
     }
 
+    @SuppressWarnings("unused")
     public Object getDistinguished() {
         return distinguished;
     }
 
+    @SuppressWarnings("unused")
     public void setDistinguished(Object distinguished) {
         this.distinguished = distinguished;
     }
@@ -728,6 +812,7 @@ public class T1ListingData implements Parcelable {
         return count;
     }
 
+    @SuppressWarnings("unused")
     public void setCount(Integer count) {
         this.count = count;
     }
@@ -736,6 +821,7 @@ public class T1ListingData implements Parcelable {
         return children;
     }
 
+    @SuppressWarnings("unused")
     public void setChildren(List<String> children) {
         this.children = children;
     }

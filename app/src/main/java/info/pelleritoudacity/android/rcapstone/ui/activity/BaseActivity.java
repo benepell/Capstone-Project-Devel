@@ -25,7 +25,6 @@
  */
 package info.pelleritoudacity.android.rcapstone.ui.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -249,12 +248,6 @@ public class BaseActivity extends AppCompatActivity
 
         navigationView.setNavigationItemSelectedListener(this);
 
-    }
-
-
-    void openHomeActivity() {
-        startActivity(new Intent(this, SubRedditActivity.class)
-                .setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION));
     }
 
 

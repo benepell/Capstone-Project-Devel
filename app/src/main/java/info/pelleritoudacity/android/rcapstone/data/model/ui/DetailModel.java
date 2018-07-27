@@ -16,7 +16,7 @@ public class DetailModel implements Parcelable{
     public DetailModel() {
     }
 
-    protected DetailModel(Parcel in) {
+    private DetailModel(Parcel in) {
         id = in.readInt();
         position = in.readInt();
         strId = in.readString();
@@ -46,10 +46,12 @@ public class DetailModel implements Parcelable{
         this.id = id;
     }
 
+    @SuppressWarnings("unused")
     public int getPosition() {
         return position;
     }
 
+    @SuppressWarnings("unused")
     public void setPosition(int position) {
         this.position = position;
     }

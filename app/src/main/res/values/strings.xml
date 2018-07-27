@@ -185,7 +185,7 @@
     <string name="title_menu_create">Create Post</string>
     <string name="text_handle_description">handle image</string>
     <string name="title_menu_managesubs">Manage Subscriptions</string>
-    <string name="title_menu_preferite">Preferite</string>
+    <string name="title_menu_favorite">Favorite</string>
 
     <string name="title_activity_subreddit">RCapStone </string>
     <string name="title_activity_subreddit_detail">Comments </string>
@@ -229,9 +229,9 @@
     <string name="shortcut_long_text_all">Shortcut long text All</string>
     <string name="shortcut_disabled_message_all">shortcut disabled text All</string>
 
-    <string name="shortcut_text_preferite">Preferite Reddit</string>
-    <string name="shortcut_long_text_preferite">Shortcut long text Preferite</string>
-    <string name="shortcut_disabled_message_preferite">shortcut disabled text Preferite</string>
+    <string name="shortcut_text_favorite">Favorite Reddit</string>
+    <string name="shortcut_long_text_favorite">Shortcut long text favorite</string>
+    <string name="shortcut_disabled_message_favorite">Shortcut disabled text favorite</string>
     <string name="title_general_images">Images</string>
     <string name="title_general_gifs">Gifs</string>
     <string name="title_general_albums">Albums</string>
@@ -252,7 +252,7 @@
     <string name="background_image_protection">background image protection</string>
     <string name="image_vote_up">image vote up</string>
     <string name="image_vote_down">image vote down</string>
-    <string name="preferite_stars">preferite stars</string>
+    <string name="favorite_stars">Favorite stars</string>
     <string name="image_show_comments">image show comments</string>
     <string name="image_open_browser">image open browser</string>
     <string name="text_more_replies">more replies…</string>

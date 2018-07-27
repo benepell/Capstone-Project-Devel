@@ -320,6 +320,7 @@ public class T5Data implements Parcelable
         return suggestedCommentSort;
     }
 
+    @SuppressWarnings("unused")
     public void setSuggestedCommentSort(Object suggestedCommentSort) {
         this.suggestedCommentSort = suggestedCommentSort;
     }
@@ -328,6 +329,7 @@ public class T5Data implements Parcelable
         return hideAds;
     }
 
+    @SuppressWarnings("unused")
     public void setHideAds(Boolean hideAds) {
         this.hideAds = hideAds;
     }
@@ -336,6 +338,7 @@ public class T5Data implements Parcelable
         return bannerImg;
     }
 
+    @SuppressWarnings("unused")
     public void setBannerImg(String bannerImg) {
         this.bannerImg = bannerImg;
     }
@@ -344,6 +347,7 @@ public class T5Data implements Parcelable
         return userSrThemeEnabled;
     }
 
+    @SuppressWarnings("unused")
     public void setUserSrThemeEnabled(Boolean userSrThemeEnabled) {
         this.userSrThemeEnabled = userSrThemeEnabled;
     }
@@ -352,6 +356,7 @@ public class T5Data implements Parcelable
         return userFlairText;
     }
 
+    @SuppressWarnings("unused")
     public void setUserFlairText(Object userFlairText) {
         this.userFlairText = userFlairText;
     }
@@ -360,6 +365,7 @@ public class T5Data implements Parcelable
         return submitTextHtml;
     }
 
+    @SuppressWarnings("unused")
     public void setSubmitTextHtml(String submitTextHtml) {
         this.submitTextHtml = submitTextHtml;
     }
@@ -368,6 +374,7 @@ public class T5Data implements Parcelable
         return userIsBanned;
     }
 
+    @SuppressWarnings("unused")
     public void setUserIsBanned(Object userIsBanned) {
         this.userIsBanned = userIsBanned;
     }
@@ -376,6 +383,7 @@ public class T5Data implements Parcelable
         return wikiEnabled;
     }
 
+    @SuppressWarnings("unused")
     public void setWikiEnabled(Boolean wikiEnabled) {
         this.wikiEnabled = wikiEnabled;
     }
@@ -384,6 +392,7 @@ public class T5Data implements Parcelable
         return showMedia;
     }
 
+    @SuppressWarnings("unused")
     public void setShowMedia(Boolean showMedia) {
         this.showMedia = showMedia;
     }
@@ -392,6 +401,7 @@ public class T5Data implements Parcelable
         return id;
     }
 
+    @SuppressWarnings("unused")
     public void setId(String id) {
         this.id = id;
     }
@@ -400,30 +410,37 @@ public class T5Data implements Parcelable
         return displayNamePrefixed;
     }
 
+    @SuppressWarnings("unused")
     public void setDisplayNamePrefixed(String displayNamePrefixed) {
         this.displayNamePrefixed = displayNamePrefixed;
     }
 
+    @SuppressWarnings("unused")
     public String getSubmitText() {
         return submitText;
     }
 
+    @SuppressWarnings("unused")
     public void setSubmitText(String submitText) {
         this.submitText = submitText;
     }
 
+    @SuppressWarnings("unused")
     public Object getUserCanFlairInSr() {
         return userCanFlairInSr;
     }
 
+    @SuppressWarnings("unused")
     public void setUserCanFlairInSr(Object userCanFlairInSr) {
         this.userCanFlairInSr = userCanFlairInSr;
     }
 
+    @SuppressWarnings("unused")
     public String getDisplayName() {
         return displayName;
     }
 
+    @SuppressWarnings("unused")
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
@@ -432,6 +449,7 @@ public class T5Data implements Parcelable
         return headerImg;
     }
 
+    @SuppressWarnings("unused")
     public void setHeaderImg(String headerImg) {
         this.headerImg = headerImg;
     }
@@ -440,6 +458,7 @@ public class T5Data implements Parcelable
         return descriptionHtml;
     }
 
+    @SuppressWarnings("unused")
     public void setDescriptionHtml(String descriptionHtml) {
         this.descriptionHtml = descriptionHtml;
     }
@@ -448,6 +467,7 @@ public class T5Data implements Parcelable
         return title;
     }
 
+    @SuppressWarnings("unused")
     public void setTitle(String title) {
         this.title = title;
     }
@@ -456,6 +476,7 @@ public class T5Data implements Parcelable
         return collapseDeletedComments;
     }
 
+    @SuppressWarnings("unused")
     public void setCollapseDeletedComments(Boolean collapseDeletedComments) {
         this.collapseDeletedComments = collapseDeletedComments;
     }
@@ -464,6 +485,7 @@ public class T5Data implements Parcelable
         return userHasFavorited;
     }
 
+    @SuppressWarnings("unused")
     public void setUserHasFavorited(Object userHasFavorited) {
         this.userHasFavorited = userHasFavorited;
     }
@@ -472,6 +494,7 @@ public class T5Data implements Parcelable
         return over18;
     }
 
+    @SuppressWarnings("unused")
     public void setOver18(Boolean over18) {
         this.over18 = over18;
     }
@@ -480,6 +503,7 @@ public class T5Data implements Parcelable
         return publicDescriptionHtml;
     }
 
+    @SuppressWarnings("unused")
     public void setPublicDescriptionHtml(String publicDescriptionHtml) {
         this.publicDescriptionHtml = publicDescriptionHtml;
     }
@@ -488,6 +512,7 @@ public class T5Data implements Parcelable
         return allowVideos;
     }
 
+    @SuppressWarnings("unused")
     public void setAllowVideos(Boolean allowVideos) {
         this.allowVideos = allowVideos;
     }
@@ -496,14 +521,17 @@ public class T5Data implements Parcelable
         return spoilersEnabled;
     }
 
+    @SuppressWarnings("unused")
     public void setSpoilersEnabled(Boolean spoilersEnabled) {
         this.spoilersEnabled = spoilersEnabled;
     }
 
+    @SuppressWarnings("unused")
     public List<Integer> getIconSize() {
         return iconSize;
     }
 
+    @SuppressWarnings("unused")
     public void setIconSize(List<Integer> iconSize) {
         this.iconSize = iconSize;
     }
@@ -512,6 +540,7 @@ public class T5Data implements Parcelable
         return audienceTarget;
     }
 
+    @SuppressWarnings("unused")
     public void setAudienceTarget(String audienceTarget) {
         this.audienceTarget = audienceTarget;
     }
@@ -520,6 +549,7 @@ public class T5Data implements Parcelable
         return notificationLevel;
     }
 
+    @SuppressWarnings("unused")
     public void setNotificationLevel(Object notificationLevel) {
         this.notificationLevel = notificationLevel;
     }
@@ -528,6 +558,7 @@ public class T5Data implements Parcelable
         return activeUserCount;
     }
 
+    @SuppressWarnings("unused")
     public void setActiveUserCount(Object activeUserCount) {
         this.activeUserCount = activeUserCount;
     }
@@ -536,6 +567,7 @@ public class T5Data implements Parcelable
         return iconImg;
     }
 
+    @SuppressWarnings("unused")
     public void setIconImg(String iconImg) {
         this.iconImg = iconImg;
     }
@@ -544,6 +576,7 @@ public class T5Data implements Parcelable
         return headerTitle;
     }
 
+    @SuppressWarnings("unused")
     public void setHeaderTitle(String headerTitle) {
         this.headerTitle = headerTitle;
     }
@@ -552,6 +585,7 @@ public class T5Data implements Parcelable
         return description;
     }
 
+    @SuppressWarnings("unused")
     public void setDescription(String description) {
         this.description = description;
     }
@@ -560,6 +594,7 @@ public class T5Data implements Parcelable
         return userIsMuted;
     }
 
+    @SuppressWarnings("unused")
     public void setUserIsMuted(Object userIsMuted) {
         this.userIsMuted = userIsMuted;
     }
@@ -568,6 +603,7 @@ public class T5Data implements Parcelable
         return submitLinkLabel;
     }
 
+    @SuppressWarnings("unused")
     public void setSubmitLinkLabel(Object submitLinkLabel) {
         this.submitLinkLabel = submitLinkLabel;
     }
@@ -576,6 +612,7 @@ public class T5Data implements Parcelable
         return accountsActive;
     }
 
+    @SuppressWarnings("unused")
     public void setAccountsActive(Object accountsActive) {
         this.accountsActive = accountsActive;
     }
@@ -584,14 +621,17 @@ public class T5Data implements Parcelable
         return publicTraffic;
     }
 
+    @SuppressWarnings("unused")
     public void setPublicTraffic(Boolean publicTraffic) {
         this.publicTraffic = publicTraffic;
     }
 
+    @SuppressWarnings("unused")
     public List<Integer> getHeaderSize() {
         return headerSize;
     }
 
+    @SuppressWarnings("unused")
     public void setHeaderSize(List<Integer> headerSize) {
         this.headerSize = headerSize;
     }
@@ -600,6 +640,7 @@ public class T5Data implements Parcelable
         return subscribers;
     }
 
+    @SuppressWarnings("unused")
     public void setSubscribers(Integer subscribers) {
         this.subscribers = subscribers;
     }
@@ -608,6 +649,7 @@ public class T5Data implements Parcelable
         return userFlairCssClass;
     }
 
+    @SuppressWarnings("unused")
     public void setUserFlairCssClass(Object userFlairCssClass) {
         this.userFlairCssClass = userFlairCssClass;
     }
@@ -616,6 +658,7 @@ public class T5Data implements Parcelable
         return submitTextLabel;
     }
 
+    @SuppressWarnings("unused")
     public void setSubmitTextLabel(String submitTextLabel) {
         this.submitTextLabel = submitTextLabel;
     }
@@ -624,6 +667,7 @@ public class T5Data implements Parcelable
         return whitelistStatus;
     }
 
+    @SuppressWarnings("unused")
     public void setWhitelistStatus(String whitelistStatus) {
         this.whitelistStatus = whitelistStatus;
     }
@@ -632,6 +676,7 @@ public class T5Data implements Parcelable
         return userSrFlairEnabled;
     }
 
+    @SuppressWarnings("unused")
     public void setUserSrFlairEnabled(Object userSrFlairEnabled) {
         this.userSrFlairEnabled = userSrFlairEnabled;
     }
@@ -640,6 +685,7 @@ public class T5Data implements Parcelable
         return lang;
     }
 
+    @SuppressWarnings("unused")
     public void setLang(String lang) {
         this.lang = lang;
     }
@@ -648,6 +694,7 @@ public class T5Data implements Parcelable
         return userIsModerator;
     }
 
+    @SuppressWarnings("unused")
     public void setUserIsModerator(Object userIsModerator) {
         this.userIsModerator = userIsModerator;
     }
@@ -656,6 +703,7 @@ public class T5Data implements Parcelable
         return isEnrolledInNewModmail;
     }
 
+    @SuppressWarnings("unused")
     public void setIsEnrolledInNewModmail(Object isEnrolledInNewModmail) {
         this.isEnrolledInNewModmail = isEnrolledInNewModmail;
     }
@@ -664,6 +712,7 @@ public class T5Data implements Parcelable
         return keyColor;
     }
 
+    @SuppressWarnings("unused")
     public void setKeyColor(String keyColor) {
         this.keyColor = keyColor;
     }
@@ -672,6 +721,7 @@ public class T5Data implements Parcelable
         return name;
     }
 
+    @SuppressWarnings("unused")
     public void setName(String name) {
         this.name = name;
     }
@@ -680,6 +730,7 @@ public class T5Data implements Parcelable
         return userFlairEnabledInSr;
     }
 
+    @SuppressWarnings("unused")
     public void setUserFlairEnabledInSr(Boolean userFlairEnabledInSr) {
         this.userFlairEnabledInSr = userFlairEnabledInSr;
     }
@@ -688,6 +739,7 @@ public class T5Data implements Parcelable
         return allowVideogifs;
     }
 
+    @SuppressWarnings("unused")
     public void setAllowVideogifs(Boolean allowVideogifs) {
         this.allowVideogifs = allowVideogifs;
     }
@@ -696,6 +748,7 @@ public class T5Data implements Parcelable
         return url;
     }
 
+    @SuppressWarnings("unused")
     public void setUrl(String url) {
         this.url = url;
     }
@@ -704,6 +757,7 @@ public class T5Data implements Parcelable
         return quarantine;
     }
 
+    @SuppressWarnings("unused")
     public void setQuarantine(Boolean quarantine) {
         this.quarantine = quarantine;
     }
@@ -712,6 +766,7 @@ public class T5Data implements Parcelable
         return created;
     }
 
+    @SuppressWarnings("unused")
     public void setCreated(Double created) {
         this.created = created;
     }
@@ -720,14 +775,17 @@ public class T5Data implements Parcelable
         return createdUtc;
     }
 
+    @SuppressWarnings("unused")
     public void setCreatedUtc(Double createdUtc) {
         this.createdUtc = createdUtc;
     }
 
+    @SuppressWarnings("unused")
     public List<Integer> getBannerSize() {
         return bannerSize;
     }
 
+    @SuppressWarnings("unused")
     public void setBannerSize(List<Integer> bannerSize) {
         this.bannerSize = bannerSize;
     }
@@ -736,6 +794,7 @@ public class T5Data implements Parcelable
         return userIsContributor;
     }
 
+    @SuppressWarnings("unused")
     public void setUserIsContributor(Object userIsContributor) {
         this.userIsContributor = userIsContributor;
     }
@@ -744,6 +803,7 @@ public class T5Data implements Parcelable
         return allowDiscovery;
     }
 
+    @SuppressWarnings("unused")
     public void setAllowDiscovery(Boolean allowDiscovery) {
         this.allowDiscovery = allowDiscovery;
     }
@@ -752,6 +812,7 @@ public class T5Data implements Parcelable
         return accountsActiveIsFuzzed;
     }
 
+    @SuppressWarnings("unused")
     public void setAccountsActiveIsFuzzed(Boolean accountsActiveIsFuzzed) {
         this.accountsActiveIsFuzzed = accountsActiveIsFuzzed;
     }
@@ -760,6 +821,7 @@ public class T5Data implements Parcelable
         return advertiserCategory;
     }
 
+    @SuppressWarnings("unused")
     public void setAdvertiserCategory(String advertiserCategory) {
         this.advertiserCategory = advertiserCategory;
     }
@@ -768,6 +830,7 @@ public class T5Data implements Parcelable
         return publicDescription;
     }
 
+    @SuppressWarnings("unused")
     public void setPublicDescription(String publicDescription) {
         this.publicDescription = publicDescription;
     }
@@ -776,6 +839,7 @@ public class T5Data implements Parcelable
         return linkFlairEnabled;
     }
 
+    @SuppressWarnings("unused")
     public void setLinkFlairEnabled(Boolean linkFlairEnabled) {
         this.linkFlairEnabled = linkFlairEnabled;
     }
@@ -784,6 +848,7 @@ public class T5Data implements Parcelable
         return allowImages;
     }
 
+    @SuppressWarnings("unused")
     public void setAllowImages(Boolean allowImages) {
         this.allowImages = allowImages;
     }
@@ -792,6 +857,7 @@ public class T5Data implements Parcelable
         return showMediaPreview;
     }
 
+    @SuppressWarnings("unused")
     public void setShowMediaPreview(Boolean showMediaPreview) {
         this.showMediaPreview = showMediaPreview;
     }
@@ -800,6 +866,7 @@ public class T5Data implements Parcelable
         return commentScoreHideMins;
     }
 
+    @SuppressWarnings("unused")
     public void setCommentScoreHideMins(Integer commentScoreHideMins) {
         this.commentScoreHideMins = commentScoreHideMins;
     }
@@ -808,6 +875,7 @@ public class T5Data implements Parcelable
         return subredditType;
     }
 
+    @SuppressWarnings("unused")
     public void setSubredditType(String subredditType) {
         this.subredditType = subredditType;
     }
@@ -816,6 +884,7 @@ public class T5Data implements Parcelable
         return submissionType;
     }
 
+    @SuppressWarnings("unused")
     public void setSubmissionType(String submissionType) {
         this.submissionType = submissionType;
     }
@@ -824,6 +893,7 @@ public class T5Data implements Parcelable
         return userIsSubscriber;
     }
 
+    @SuppressWarnings("unused")
     public void setUserIsSubscriber(Object userIsSubscriber) {
         this.userIsSubscriber = userIsSubscriber;
     }

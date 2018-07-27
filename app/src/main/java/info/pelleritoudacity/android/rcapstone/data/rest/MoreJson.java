@@ -34,7 +34,7 @@ public class MoreJson implements Parcelable
     }
     ;
 
-    protected MoreJson(Parcel in) {
+    MoreJson(Parcel in) {
         in.readList(this.errors, (Object.class.getClassLoader()));
         this.data = ((MoreData) in.readValue((MoreData.class.getClassLoader())));
     }
@@ -42,10 +42,12 @@ public class MoreJson implements Parcelable
     public MoreJson() {
     }
 
+    @SuppressWarnings("unused")
     public List<Object> getErrors() {
         return errors;
     }
 
+    @SuppressWarnings("unused")
     public void setErrors(List<Object> errors) {
         this.errors = errors;
     }
@@ -54,6 +56,7 @@ public class MoreJson implements Parcelable
         return data;
     }
 
+    @SuppressWarnings("unused")
     public void setData(MoreData data) {
         this.data = data;
     }

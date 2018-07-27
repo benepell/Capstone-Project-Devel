@@ -91,7 +91,7 @@ public class T5Operation {
             return countPrefSubData != 0;
 
         } catch (IllegalStateException e) {
-            Timber.e("insert data error %s", e.getCause());
+            Timber.e("insert data error %s", e.getMessage());
         }
         return false;
     }
@@ -335,7 +335,7 @@ public class T5Operation {
             return uriReddit != null && uriData != null && countT5Data != 0;
 
         } catch (IllegalStateException e) {
-            Timber.e("Insert data error %s", e.getCause());
+            Timber.e("Insert data error %s", e.getMessage());
 
         }
 
@@ -363,7 +363,7 @@ public class T5Operation {
             mContext.getContentResolver().delete(Contract.T5dataEntry.CONTENT_URI, null, null);
 
         } catch (IllegalStateException e) {
-            Timber.e("clear data error %s", e.getCause());
+            Timber.e("clear data error %s", e.getMessage());
 
         }
 

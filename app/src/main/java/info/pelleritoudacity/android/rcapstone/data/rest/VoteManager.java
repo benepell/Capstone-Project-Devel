@@ -1,14 +1,12 @@
 package info.pelleritoudacity.android.rcapstone.data.rest;
 
 
-import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -29,23 +27,10 @@ public class VoteManager {
         mDir = dir;
         mNameReddit = nameReddit;
 
-        HashMap<String, String> mHearderMap = new HashMap<>();
-        mHearderMap.put("User-Agent", Costant.REDDIT_USER_AGENT);
-        mHearderMap.put(Costant.REDDIT_AUTHORIZATION, Costant.REDDIT_BEARER + mAccessToken);
-
-        HashMap<String, String> mFieldMap = new HashMap<>();
-        mFieldMap.put("dir", mDir);
-        mFieldMap.put("id", mNameReddit);
-
-        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-        // todo remove interceptor
-        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
-
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(Costant.OK_HTTP_CONNECTION_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(Costant.OK_HTTP_CONNECTION_READ_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(Costant.OK_HTTP_CONNECTION_WRITE_TIMEOUT, TimeUnit.SECONDS)
-                .addInterceptor(httpLoggingInterceptor)
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()

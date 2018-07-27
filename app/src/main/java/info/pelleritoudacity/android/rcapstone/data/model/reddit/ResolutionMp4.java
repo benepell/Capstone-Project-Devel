@@ -74,6 +74,7 @@ public class ResolutionMp4 implements Parcelable
         return url;
     }
 
+    @SuppressWarnings("unused")
     public void setUrl(String url) {
         this.url = url;
     }
@@ -82,6 +83,7 @@ public class ResolutionMp4 implements Parcelable
         return width;
     }
 
+    @SuppressWarnings("unused")
     public void setWidth(Integer width) {
         this.width = width;
     }
@@ -90,6 +92,7 @@ public class ResolutionMp4 implements Parcelable
         return height;
     }
 
+    @SuppressWarnings("unused")
     public void setHeight(Integer height) {
         this.height = height;
     }

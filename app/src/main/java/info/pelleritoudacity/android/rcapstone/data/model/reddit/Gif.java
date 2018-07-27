@@ -68,18 +68,22 @@ public class Gif implements Parcelable
     public Gif() {
     }
 
+    @SuppressWarnings("unused")
     public SourceGif getSource() {
         return source;
     }
 
+    @SuppressWarnings("unused")
     public void setSource(SourceGif source) {
         this.source = source;
     }
 
+    @SuppressWarnings("unused")
     public List<ResolutionGif> getResolutions() {
         return resolutions;
     }
 
+    @SuppressWarnings("unused")
     public void setResolutions(List<ResolutionGif> resolutions) {
         this.resolutions = resolutions;
     }

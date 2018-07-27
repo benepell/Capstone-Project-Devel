@@ -66,10 +66,12 @@ public class Variants implements Parcelable
     public Variants() {
     }
 
+    @SuppressWarnings("unused")
     public Gif getGif() {
         return gif;
     }
 
+    @SuppressWarnings("unused")
     public void setGif(Gif gif) {
         this.gif = gif;
     }
@@ -78,6 +80,7 @@ public class Variants implements Parcelable
         return mp4;
     }
 
+    @SuppressWarnings("unused")
     public void setMp4(Mp4 mp4) {
         this.mp4 = mp4;
     }

@@ -31,13 +31,13 @@
 
     <shortcut
         android:enabled="true"
-        android:icon="@drawable/shortcut_preferite"
-        android:shortcutDisabledMessage="@string/shortcut_disabled_message_preferite"
+        android:icon="@drawable/shortcut_favorite"
+        android:shortcutDisabledMessage="@string/shortcut_disabled_message_favorite"
         android:shortcutId="shortcut_compose_search"
-        android:shortcutLongLabel="@string/shortcut_long_text_preferite"
-        android:shortcutShortLabel="@string/shortcut_text_preferite">
+        android:shortcutLongLabel="@string/shortcut_long_text_favorite"
+        android:shortcutShortLabel="@string/shortcut_text_favorite">
         <intent
-            android:action="info.pelleritoudacity.android.rcapstone.menu.shortcut.launcher.preferite"
+            android:action="info.pelleritoudacity.android.rcapstone.menu.shortcut.launcher.favorite"
             android:targetClass="info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity"
             android:targetPackage="info.pelleritoudacity.android.rcapstone.free.debug" />
     </shortcut>

@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:contentDescription="@string/preferite_stars"
+                android:contentDescription="@string/favorite_stars"
                 android:paddingBottom="@dimen/list_padding_vertical_author"
                 android:paddingEnd="@dimen/list_padding_horizontal_author"
                 android:paddingStart="@dimen/list_padding_horizontal_author" />

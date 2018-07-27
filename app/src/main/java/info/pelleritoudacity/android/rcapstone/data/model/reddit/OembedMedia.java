@@ -65,6 +65,7 @@ public class OembedMedia implements Parcelable
     }
     ;
 
+    @SuppressWarnings("SpellCheckingInspection")
     OembedMedia(Parcel in) {
         this.providerUrl = ((String) in.readValue((String.class.getClassLoader())));
         this.title = ((String) in.readValue((String.class.getClassLoader())));
@@ -88,6 +89,7 @@ public class OembedMedia implements Parcelable
         return providerUrl;
     }
 
+    @SuppressWarnings("unused")
     public void setProviderUrl(String providerUrl) {
         this.providerUrl = providerUrl;
     }
@@ -96,6 +98,7 @@ public class OembedMedia implements Parcelable
         return title;
     }
 
+    @SuppressWarnings("unused")
     public void setTitle(String title) {
         this.title = title;
     }
@@ -104,6 +107,7 @@ public class OembedMedia implements Parcelable
         return type;
     }
 
+    @SuppressWarnings("unused")
     public void setType(String type) {
         this.type = type;
     }
@@ -112,6 +116,7 @@ public class OembedMedia implements Parcelable
         return html;
     }
 
+    @SuppressWarnings("unused")
     public void setHtml(String html) {
         this.html = html;
     }
@@ -120,6 +125,7 @@ public class OembedMedia implements Parcelable
         return authorName;
     }
 
+    @SuppressWarnings("unused")
     public void setAuthorName(String authorName) {
         this.authorName = authorName;
     }
@@ -128,6 +134,7 @@ public class OembedMedia implements Parcelable
         return height;
     }
 
+    @SuppressWarnings("unused")
     public void setHeight(Integer height) {
         this.height = height;
     }
@@ -136,6 +143,7 @@ public class OembedMedia implements Parcelable
         return width;
     }
 
+    @SuppressWarnings("unused")
     public void setWidth(Integer width) {
         this.width = width;
     }
@@ -144,6 +152,7 @@ public class OembedMedia implements Parcelable
         return version;
     }
 
+    @SuppressWarnings("unused")
     public void setVersion(String version) {
         this.version = version;
     }
@@ -152,14 +161,17 @@ public class OembedMedia implements Parcelable
         return thumbnailWidth;
     }
 
+    @SuppressWarnings("unused")
     public void setThumbnailWidth(Integer thumbnailWidth) {
         this.thumbnailWidth = thumbnailWidth;
     }
 
+    @SuppressWarnings("unused")
     public String getProviderName() {
         return providerName;
     }
 
+    @SuppressWarnings("unused")
     public void setProviderName(String providerName) {
         this.providerName = providerName;
     }
@@ -168,6 +180,7 @@ public class OembedMedia implements Parcelable
         return thumbnailUrl;
     }
 
+    @SuppressWarnings("unused")
     public void setThumbnailUrl(String thumbnailUrl) {
         this.thumbnailUrl = thumbnailUrl;
     }
@@ -176,6 +189,7 @@ public class OembedMedia implements Parcelable
         return thumbnailHeight;
     }
 
+    @SuppressWarnings("unused")
     public void setThumbnailHeight(Integer thumbnailHeight) {
         this.thumbnailHeight = thumbnailHeight;
     }
@@ -184,6 +198,7 @@ public class OembedMedia implements Parcelable
         return authorUrl;
     }
 
+    @SuppressWarnings("unused")
     public void setAuthorUrl(String authorUrl) {
         this.authorUrl = authorUrl;
     }

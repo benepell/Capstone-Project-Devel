@@ -55,6 +55,7 @@ public class RedditToken {
     @Expose 
     private String error;
  
+    @SuppressWarnings("unused")
     public String getScope() {
         return scope;
     } 
@@ -63,18 +64,22 @@ public class RedditToken {
         return refresh_token;
     } 
  
+    @SuppressWarnings("unused")
     public void setRefresh_token(String refresh_token) {
         this.refresh_token = refresh_token;
     } 
  
+    @SuppressWarnings("unused")
     public void setScope(String scope) {
         this.scope = scope;
     } 
  
+    @SuppressWarnings("unused")
     public String getToken_type() {
         return token_type;
     } 
  
+    @SuppressWarnings("unused")
     public void setToken_type(String token_type) {
         this.token_type = token_type;
     } 
@@ -83,6 +88,7 @@ public class RedditToken {
         return expires_in;
     } 
  
+    @SuppressWarnings("unused")
     public void setExpires_in(long expires_in) {
         this.expires_in = expires_in;
     } 
@@ -91,6 +97,7 @@ public class RedditToken {
         return access_token;
     } 
  
+    @SuppressWarnings("unused")
     public void setAccess_token(String access_token) {
         this.access_token = access_token;
     } 
@@ -107,10 +114,12 @@ public class RedditToken {
                 '}'; 
     } 
  
+    @SuppressWarnings("unused")
     public String getError() {
         return error;
     } 
  
+    @SuppressWarnings("unused")
     public void setError(String error) {
         this.error = error;
     } 

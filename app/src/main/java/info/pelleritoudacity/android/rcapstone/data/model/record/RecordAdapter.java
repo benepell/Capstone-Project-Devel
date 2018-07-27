@@ -13,6 +13,7 @@ public class RecordAdapter {
     private int videoOembedHeight;
     private int thumbnailOembedWidth;
     private int thumbnailOembedHeight;
+    @SuppressWarnings("SpellCheckingInspection")
     private int videoOembedWidth;
     private int subRedditSubscriptions;
 
@@ -44,6 +45,7 @@ public class RecordAdapter {
         this.saved = saved;
     }
 
+    @SuppressWarnings("unused")
     public int getIdReddit() {
         return idReddit;
     }
@@ -132,6 +134,7 @@ public class RecordAdapter {
         this.videoOembedWidth = videoOembedWidth;
     }
 
+    @SuppressWarnings("unused")
     public int getSubRedditSubscriptions() {
         return subRedditSubscriptions;
     }
@@ -172,6 +175,7 @@ public class RecordAdapter {
         this.nameReddit = nameReddit;
     }
 
+    @SuppressWarnings("unused")
     public String getSubRedditIdText() {
         return subRedditIdText;
     }
@@ -252,6 +256,7 @@ public class RecordAdapter {
         this.videoFrameOembed = videoFrameOembed;
     }
 
+    @SuppressWarnings("unused")
     public String getVideoAuthorNameOembed() {
         return videoAuthorNameOembed;
     }

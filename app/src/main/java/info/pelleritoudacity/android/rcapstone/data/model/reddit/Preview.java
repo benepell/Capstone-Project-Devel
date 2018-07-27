@@ -77,6 +77,7 @@ public class Preview implements Parcelable
         return images;
     }
 
+    @SuppressWarnings("unused")
     public void setImages(List<Image> images) {
         this.images = images;
     }
@@ -85,14 +86,17 @@ public class Preview implements Parcelable
         return redditVideoPreview;
     }
 
+    @SuppressWarnings("unused")
     public void setRedditVideoPreview(RedditVideoPreview redditVideoPreview) {
         this.redditVideoPreview = redditVideoPreview;
     }
 
+    @SuppressWarnings("unused")
     public Boolean getEnabled() {
         return enabled;
     }
 
+    @SuppressWarnings("unused")
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }

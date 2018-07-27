@@ -75,7 +75,7 @@ public class LogoutActivity extends BaseActivity
 
     }
 
-    protected void openHomeActivity() {
+    private void openHomeActivity() {
         Intent intent = new Intent(this, SubRedditActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
         intent.putExtra(Costant.EXTRA_LOGOUT_SUCCESS, true);

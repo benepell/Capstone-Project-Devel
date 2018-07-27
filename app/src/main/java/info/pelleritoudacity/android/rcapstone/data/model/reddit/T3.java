@@ -33,11 +33,12 @@ public class T3 implements Parcelable
     }
     ;
 
-    protected T3(Parcel in) {
+    private T3(Parcel in) {
         this.kind = ((String) in.readValue((String.class.getClassLoader())));
         this.data = ((T3Data) in.readValue((T3Data.class.getClassLoader())));
     }
 
+    @SuppressWarnings("unused")
     public T3() {
     }
 
@@ -45,6 +46,7 @@ public class T3 implements Parcelable
         return kind;
     }
 
+    @SuppressWarnings("unused")
     public void setKind(String kind) {
         this.kind = kind;
     }
@@ -53,6 +55,7 @@ public class T3 implements Parcelable
         return data;
     }
 
+    @SuppressWarnings("unused")
     public void setData(T3Data data) {
         this.data = data;
     }

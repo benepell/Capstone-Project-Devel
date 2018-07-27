@@ -50,7 +50,6 @@ package info.pelleritoudacity.android.rcapstone.utility;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
@@ -60,8 +59,6 @@ import android.util.DisplayMetrics;
 import android.widget.ImageView;
 
 import java.util.Objects;
-
-import info.pelleritoudacity.android.rcapstone.R;
 
 public class ImageUtil {
 

@@ -316,6 +316,7 @@ public class Contract {
         public static final String COLUMN_NAME_MEDIA_OEMBED_VERSION = "_media_oembed_version";
         public static final String COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_WIDTH = "_media_oembed_thumbnail_width";
         public static final String COLUMN_NAME_MEDIA_OEMBED_PROVIDER_NAME = "_media_oembed_provider_name";
+        @SuppressWarnings("SpellCheckingInspection")
         public static final String COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_URL = "_media_oembed_thumbnail_url";
         public static final String COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_HEIGHT = "_media_oembed_thumbnail_height";
         public static final String COLUMN_NAME_MEDIA_OEMBED_AUTHOR_URL = "_media_oembed_author_url";

@@ -53,7 +53,6 @@ public class SubRedditManager {
     private static SubRedditManager sSubRedditManager;
     private final String mSubReddit;
     private Call<T3> mCall;
-    private Call<List<T3>> mCallList;
 
     private final WeakReference<Context> mWeakContext;
 
@@ -135,6 +134,7 @@ public class SubRedditManager {
 
         }
 
+        Call<List<T3>> mCallList;
         if (PermissionUtil.isLogged(context)) {
             mCallList = sSubRedditAPI.getSortSubRedditAuth(Costant.REDDIT_BEARER + PermissionUtil.getToken(context),
                     mSubReddit,

@@ -54,18 +54,22 @@ public class T1Data implements Parcelable
     public T1Data() {
     }
 
+    @SuppressWarnings("unused")
     public String getModhash() {
         return modhash;
     }
 
+    @SuppressWarnings("unused")
     public void setModhash(String modhash) {
         this.modhash = modhash;
     }
 
+    @SuppressWarnings("unused")
     public Integer getDist() {
         return dist;
     }
 
+    @SuppressWarnings("unused")
     public void setDist(Integer dist) {
         this.dist = dist;
     }
@@ -74,22 +78,27 @@ public class T1Data implements Parcelable
         return children;
     }
 
+    @SuppressWarnings("unused")
     public void setChildren(List<T1Listing> children) {
         this.children = children;
     }
 
+    @SuppressWarnings("unused")
     public Object getAfter() {
         return after;
     }
 
+    @SuppressWarnings("unused")
     public void setAfter(Object after) {
         this.after = after;
     }
 
+    @SuppressWarnings("unused")
     public Object getBefore() {
         return before;
     }
 
+    @SuppressWarnings("unused")
     public void setBefore(Object before) {
         this.before = before;
     }

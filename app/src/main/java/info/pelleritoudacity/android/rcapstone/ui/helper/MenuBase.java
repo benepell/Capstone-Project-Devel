@@ -17,6 +17,7 @@ import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.ui.activity.LoginActivity;
@@ -196,7 +197,7 @@ public class MenuBase {
                 break;
 
             case R.id.nav_mode_preferite:
-                Preference.setTypeMode(mContext, Costant.NAV_MODE_PREFERITE);
+                Preference.setTypeMode(mContext, Costant.NAV_MODE_FAVORITE);
                 targetMenuMain(R.id.nav_mode_preferite);
                 break;
 
@@ -225,7 +226,7 @@ public class MenuBase {
         MenuItem itemModeAllText = menu.findItem(R.id.nav_mode_all);
         MenuItem itemModeSearchText = menu.findItem(R.id.nav_mode_search);
         MenuItem itemModeSubscriptions = menu.findItem(R.id.nav_mode_subscriptions);
-        MenuItem itemModePreferite = menu.findItem(R.id.nav_mode_preferite);
+        MenuItem itemModeFavorite = menu.findItem(R.id.nav_mode_preferite);
         MenuItem itemModeRefresh = menu.findItem(R.id.nav_mode_refresh);
         MenuItem itemModeSettings = menu.findItem(R.id.nav_mode_settings);
 
@@ -272,9 +273,9 @@ public class MenuBase {
                 itemModeSubscriptions.setEnabled(true);
                 itemModeSubscriptions.setChecked(true);
                 break;
-            case Costant.NAV_MODE_PREFERITE:
-                itemModePreferite.setEnabled(true);
-                itemModePreferite.setChecked(true);
+            case Costant.NAV_MODE_FAVORITE:
+                itemModeFavorite.setEnabled(true);
+                itemModeFavorite.setChecked(true);
                 break;
             case Costant.NAV_MODE_REFRESH:
                 itemModeRefresh.setEnabled(true);
@@ -383,7 +384,7 @@ public class MenuBase {
             case R.id.nav_mode_preferite:
                 // todo comment "" for old category function
                 constantCategory =Preference.getLastCategory(mContext);
-                constantsTarget = Costant.SUBREDDIT_TARGET_PREFERITE;
+                constantsTarget = Costant.SUBREDDIT_TARGET_FAVORITE;
                 break;
 
         }
@@ -489,11 +490,9 @@ public class MenuBase {
         SearchManager searchManager = (SearchManager) mContext.getSystemService(Context.SEARCH_SERVICE);
 
         SearchView searchView = null;
-        if (menuItemSearch != null) {
             searchView = (SearchView) menuItemSearch.getActionView();
-        }
         if (searchView != null) {
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName));
+            searchView.setSearchableInfo(Objects.requireNonNull(searchManager).getSearchableInfo(componentName));
 
             searchView.setQueryHint("Search People");
             searchView.setOnQueryTextListener((SearchView.OnQueryTextListener) listener);

@@ -74,34 +74,42 @@ public class MediaEmbed implements Parcelable
     public MediaEmbed() {
     }
 
+    @SuppressWarnings("unused")
     public String getContent() {
         return content;
     }
 
+    @SuppressWarnings("unused")
     public void setContent(String content) {
         this.content = content;
     }
 
+    @SuppressWarnings("unused")
     public Integer getWidth() {
         return width;
     }
 
+    @SuppressWarnings("unused")
     public void setWidth(Integer width) {
         this.width = width;
     }
 
+    @SuppressWarnings("unused")
     public Boolean getScrolling() {
         return scrolling;
     }
 
+    @SuppressWarnings("unused")
     public void setScrolling(Boolean scrolling) {
         this.scrolling = scrolling;
     }
 
+    @SuppressWarnings("unused")
     public Integer getHeight() {
         return height;
     }
 
+    @SuppressWarnings("unused")
     public void setHeight(Integer height) {
         this.height = height;
     }

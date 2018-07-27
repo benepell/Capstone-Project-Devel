@@ -1,6 +1,5 @@
 package info.pelleritoudacity.android.rcapstone.data.model.reddit;
 
-import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -41,6 +40,7 @@ public class T3ListingData implements Parcelable {
     @SerializedName("title")
     @Expose
     private String title;
+    @SuppressWarnings("SpellCheckingInspection")
     @SerializedName("link_flair_richtext")
     @Expose
     private List<Object> linkFlairRichtext = null;
@@ -300,13 +300,13 @@ public class T3ListingData implements Parcelable {
 
     };
 
-    protected T3ListingData(Parcel in) {
-        this.approvedAtUtc = ((Object) in.readValue((Object.class.getClassLoader())));
+    T3ListingData(Parcel in) {
+        this.approvedAtUtc = in.readValue((Object.class.getClassLoader()));
         this.subreddit = ((String) in.readValue((String.class.getClassLoader())));
         this.selftext = ((String) in.readValue((String.class.getClassLoader())));
         in.readList(this.userReports, (java.lang.Object.class.getClassLoader()));
         this.saved = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
-        this.modReasonTitle = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.modReasonTitle = in.readValue((Object.class.getClassLoader()));
         this.gilded = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.clicked = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         this.title = ((String) in.readValue((String.class.getClassLoader())));
@@ -318,48 +318,48 @@ public class T3ListingData implements Parcelable {
         this.preview = ((Preview) in.readValue((Preview.class.getClassLoader())));
         this.thumbnail = ((String) in.readValue((String.class.getClassLoader())));
         this.pwls = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        this.linkFlairCssClass = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.linkFlairCssClass = in.readValue((Object.class.getClassLoader()));
         this.downs = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.parentWhitelistStatus = ((String) in.readValue((String.class.getClassLoader())));
         this.hideScore = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         this.name = ((String) in.readValue((String.class.getClassLoader())));
         this.quarantine = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         this.linkFlairTextColor = ((String) in.readValue((String.class.getClassLoader())));
-        this.authorFlairBackgroundColor = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.authorFlairBackgroundColor = in.readValue((Object.class.getClassLoader()));
         this.subredditType = ((String) in.readValue((String.class.getClassLoader())));
         this.ups = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.domain = ((String) in.readValue((String.class.getClassLoader())));
         this.mediaEmbed = ((MediaEmbed) in.readValue((MediaEmbed.class.getClassLoader())));
-        this.authorFlairTemplateId = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.authorFlairTemplateId = in.readValue((Object.class.getClassLoader()));
         this.isOriginalContent = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
-        this.secureMedia = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.secureMedia = in.readValue((Object.class.getClassLoader()));
         this.isRedditMediaDomain = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
-        this.category = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.category = in.readValue((Object.class.getClassLoader()));
         this.secureMediaEmbed = ((SecureMediaEmbed) in.readValue((SecureMediaEmbed.class.getClassLoader())));
-        this.linkFlairText = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.linkFlairText = in.readValue((Object.class.getClassLoader()));
         this.canModPost = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         this.score = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        this.approvedBy = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.approvedBy = in.readValue((Object.class.getClassLoader()));
         this.thumbnail = ((String) in.readValue((String.class.getClassLoader())));
-        this.edited = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        this.authorFlairCssClass = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.edited = in.readValue((Integer.class.getClassLoader()));
+        this.authorFlairCssClass = in.readValue((Object.class.getClassLoader()));
         in.readList(this.authorFlairRichtext, (java.lang.Object.class.getClassLoader()));
-        this.contentCategories = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.contentCategories = in.readValue((Object.class.getClassLoader()));
         this.isSelf = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
-        this.modNote = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.modNote = in.readValue((Object.class.getClassLoader()));
         this.created = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.linkFlairType = ((String) in.readValue((String.class.getClassLoader())));
         this.wls = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.authorId = ((String) in.readValue((String.class.getClassLoader())));
-        this.postCategories = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.bannedBy = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.postCategories = in.readValue((Object.class.getClassLoader()));
+        this.bannedBy = in.readValue((Object.class.getClassLoader()));
         this.authorFlairType = ((String) in.readValue((String.class.getClassLoader())));
         this.contestMode = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
-        this.selftextHtml = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.likes = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.suggestedSort = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.bannedAtUtc = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.viewCount = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.selftextHtml = in.readValue((Object.class.getClassLoader()));
+        this.likes = in.readValue((Object.class.getClassLoader()));
+        this.suggestedSort = in.readValue((Object.class.getClassLoader()));
+        this.bannedAtUtc = in.readValue((Object.class.getClassLoader()));
+        this.viewCount = in.readValue((Object.class.getClassLoader()));
         this.archived = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         this.noFollow = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         this.isCrosspostable = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
@@ -370,21 +370,21 @@ public class T3ListingData implements Parcelable {
         this.canGild = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         this.spoiler = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         this.locked = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
-        this.authorFlairText = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.authorFlairText = in.readValue((Object.class.getClassLoader()));
         this.rteMode = ((String) in.readValue((String.class.getClassLoader())));
         this.visited = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
-        this.numReports = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.distinguished = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.numReports = in.readValue((Object.class.getClassLoader()));
+        this.distinguished = in.readValue((Object.class.getClassLoader()));
         this.subredditId = ((String) in.readValue((String.class.getClassLoader())));
-        this.modReasonBy = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.removalReason = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.modReasonBy = in.readValue((Object.class.getClassLoader()));
+        this.removalReason = in.readValue((Object.class.getClassLoader()));
         this.id = ((String) in.readValue((String.class.getClassLoader())));
-        this.reportReasons = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.reportReasons = in.readValue((Object.class.getClassLoader()));
         this.author = ((String) in.readValue((String.class.getClassLoader())));
         this.numCrossposts = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.numComments = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.sendReplies = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
-        this.authorFlairTextColor = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.authorFlairTextColor = in.readValue((Object.class.getClassLoader()));
         this.permalink = ((String) in.readValue((String.class.getClassLoader())));
         this.whitelistStatus = ((String) in.readValue((String.class.getClassLoader())));
         this.stickied = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
@@ -402,6 +402,7 @@ public class T3ListingData implements Parcelable {
         return approvedAtUtc;
     }
 
+    @SuppressWarnings("unused")
     public void setApprovedAtUtc(Object approvedAtUtc) {
         this.approvedAtUtc = approvedAtUtc;
     }
@@ -410,6 +411,7 @@ public class T3ListingData implements Parcelable {
         return subreddit;
     }
 
+    @SuppressWarnings("unused")
     public void setSubreddit(String subreddit) {
         this.subreddit = subreddit;
     }
@@ -418,14 +420,17 @@ public class T3ListingData implements Parcelable {
         return selftext;
     }
 
+    @SuppressWarnings("unused")
     public void setSelftext(String selftext) {
         this.selftext = selftext;
     }
 
+    @SuppressWarnings("unused")
     public List<Object> getUserReports() {
         return userReports;
     }
 
+    @SuppressWarnings("unused")
     public void setUserReports(List<Object> userReports) {
         this.userReports = userReports;
     }
@@ -434,6 +439,7 @@ public class T3ListingData implements Parcelable {
         return saved;
     }
 
+    @SuppressWarnings("unused")
     public void setSaved(Boolean saved) {
         this.saved = saved;
     }
@@ -442,6 +448,7 @@ public class T3ListingData implements Parcelable {
         return modReasonTitle;
     }
 
+    @SuppressWarnings("unused")
     public void setModReasonTitle(Object modReasonTitle) {
         this.modReasonTitle = modReasonTitle;
     }
@@ -450,6 +457,7 @@ public class T3ListingData implements Parcelable {
         return gilded;
     }
 
+    @SuppressWarnings("unused")
     public void setGilded(Integer gilded) {
         this.gilded = gilded;
     }
@@ -458,6 +466,7 @@ public class T3ListingData implements Parcelable {
         return clicked;
     }
 
+    @SuppressWarnings("unused")
     public void setClicked(Boolean clicked) {
         this.clicked = clicked;
     }
@@ -466,14 +475,17 @@ public class T3ListingData implements Parcelable {
         return title;
     }
 
+    @SuppressWarnings("unused")
     public void setTitle(String title) {
         this.title = title;
     }
 
+    @SuppressWarnings("unused")
     public List<Object> getLinkFlairRichtext() {
         return linkFlairRichtext;
     }
 
+    @SuppressWarnings("unused")
     public void setLinkFlairRichtext(List<Object> linkFlairRichtext) {
         this.linkFlairRichtext = linkFlairRichtext;
     }
@@ -482,6 +494,7 @@ public class T3ListingData implements Parcelable {
         return subredditNamePrefixed;
     }
 
+    @SuppressWarnings("unused")
     public void setSubredditNamePrefixed(String subredditNamePrefixed) {
         this.subredditNamePrefixed = subredditNamePrefixed;
     }
@@ -490,6 +503,7 @@ public class T3ListingData implements Parcelable {
         return hidden;
     }
 
+    @SuppressWarnings("unused")
     public void setHidden(Boolean hidden) {
         this.hidden = hidden;
     }
@@ -498,6 +512,7 @@ public class T3ListingData implements Parcelable {
         return preview;
     }
 
+    @SuppressWarnings("unused")
     public void setPreview(Preview preview) {
         this.preview = preview;
     }
@@ -506,6 +521,7 @@ public class T3ListingData implements Parcelable {
         return pwls;
     }
 
+    @SuppressWarnings("unused")
     public void setPwls(Integer pwls) {
         this.pwls = pwls;
     }
@@ -514,6 +530,7 @@ public class T3ListingData implements Parcelable {
         return thumbnailWidth;
     }
 
+    @SuppressWarnings("unused")
     public void setThumbnailWidth(Object thumbnailWidth) {
         this.thumbnailWidth = thumbnailWidth;
     }
@@ -522,6 +539,7 @@ public class T3ListingData implements Parcelable {
         return thumbnailHeight;
     }
 
+    @SuppressWarnings("unused")
     public void setThumbnailHeight(Object thumbnailHeight) {
         this.thumbnailHeight = thumbnailHeight;
     }
@@ -531,6 +549,7 @@ public class T3ListingData implements Parcelable {
         return linkFlairCssClass;
     }
 
+    @SuppressWarnings("unused")
     public void setLinkFlairCssClass(Object linkFlairCssClass) {
         this.linkFlairCssClass = linkFlairCssClass;
     }
@@ -539,6 +558,7 @@ public class T3ListingData implements Parcelable {
         return downs;
     }
 
+    @SuppressWarnings("unused")
     public void setDowns(Integer downs) {
         this.downs = downs;
     }
@@ -547,6 +567,7 @@ public class T3ListingData implements Parcelable {
         return parentWhitelistStatus;
     }
 
+    @SuppressWarnings("unused")
     public void setParentWhitelistStatus(String parentWhitelistStatus) {
         this.parentWhitelistStatus = parentWhitelistStatus;
     }
@@ -555,6 +576,7 @@ public class T3ListingData implements Parcelable {
         return hideScore;
     }
 
+    @SuppressWarnings("unused")
     public void setHideScore(Boolean hideScore) {
         this.hideScore = hideScore;
     }
@@ -563,6 +585,7 @@ public class T3ListingData implements Parcelable {
         return name;
     }
 
+    @SuppressWarnings("unused")
     public void setName(String name) {
         this.name = name;
     }
@@ -571,22 +594,27 @@ public class T3ListingData implements Parcelable {
         return quarantine;
     }
 
+    @SuppressWarnings("unused")
     public void setQuarantine(Boolean quarantine) {
         this.quarantine = quarantine;
     }
 
+    @SuppressWarnings("unused")
     public String getLinkFlairTextColor() {
         return linkFlairTextColor;
     }
 
+    @SuppressWarnings("unused")
     public void setLinkFlairTextColor(String linkFlairTextColor) {
         this.linkFlairTextColor = linkFlairTextColor;
     }
 
+    @SuppressWarnings("unused")
     public Object getAuthorFlairBackgroundColor() {
         return authorFlairBackgroundColor;
     }
 
+    @SuppressWarnings("unused")
     public void setAuthorFlairBackgroundColor(Object authorFlairBackgroundColor) {
         this.authorFlairBackgroundColor = authorFlairBackgroundColor;
     }
@@ -595,6 +623,7 @@ public class T3ListingData implements Parcelable {
         return subredditType;
     }
 
+    @SuppressWarnings("unused")
     public void setSubredditType(String subredditType) {
         this.subredditType = subredditType;
     }
@@ -603,6 +632,7 @@ public class T3ListingData implements Parcelable {
         return ups;
     }
 
+    @SuppressWarnings("unused")
     public void setUps(Integer ups) {
         this.ups = ups;
     }
@@ -611,38 +641,47 @@ public class T3ListingData implements Parcelable {
         return domain;
     }
 
+    @SuppressWarnings("unused")
     public void setDomain(String domain) {
         this.domain = domain;
     }
 
+    @SuppressWarnings("unused")
     public MediaEmbed getMediaEmbed() {
         return mediaEmbed;
     }
 
+    @SuppressWarnings("unused")
     public void setMediaEmbed(MediaEmbed mediaEmbed) {
         this.mediaEmbed = mediaEmbed;
     }
 
+    @SuppressWarnings("unused")
     public Object getAuthorFlairTemplateId() {
         return authorFlairTemplateId;
     }
 
+    @SuppressWarnings("unused")
     public void setAuthorFlairTemplateId(Object authorFlairTemplateId) {
         this.authorFlairTemplateId = authorFlairTemplateId;
     }
 
+    @SuppressWarnings("unused")
     public Boolean getIsOriginalContent() {
         return isOriginalContent;
     }
 
+    @SuppressWarnings("unused")
     public void setIsOriginalContent(Boolean isOriginalContent) {
         this.isOriginalContent = isOriginalContent;
     }
 
+    @SuppressWarnings("unused")
     public Object getSecureMedia() {
         return secureMedia;
     }
 
+    @SuppressWarnings("unused")
     public void setSecureMedia(Object secureMedia) {
         this.secureMedia = secureMedia;
     }
@@ -651,22 +690,27 @@ public class T3ListingData implements Parcelable {
         return isRedditMediaDomain;
     }
 
+    @SuppressWarnings("unused")
     public void setIsRedditMediaDomain(Boolean isRedditMediaDomain) {
         this.isRedditMediaDomain = isRedditMediaDomain;
     }
 
+    @SuppressWarnings("unused")
     public Object getCategory() {
         return category;
     }
 
+    @SuppressWarnings("unused")
     public void setCategory(Object category) {
         this.category = category;
     }
 
+    @SuppressWarnings("unused")
     public SecureMediaEmbed getSecureMediaEmbed() {
         return secureMediaEmbed;
     }
 
+    @SuppressWarnings("unused")
     public void setSecureMediaEmbed(SecureMediaEmbed secureMediaEmbed) {
         this.secureMediaEmbed = secureMediaEmbed;
     }
@@ -675,6 +719,7 @@ public class T3ListingData implements Parcelable {
         return linkFlairText;
     }
 
+    @SuppressWarnings("unused")
     public void setLinkFlairText(Object linkFlairText) {
         this.linkFlairText = linkFlairText;
     }
@@ -683,6 +728,7 @@ public class T3ListingData implements Parcelable {
         return canModPost;
     }
 
+    @SuppressWarnings("unused")
     public void setCanModPost(Boolean canModPost) {
         this.canModPost = canModPost;
     }
@@ -691,6 +737,7 @@ public class T3ListingData implements Parcelable {
         return score;
     }
 
+    @SuppressWarnings("unused")
     public void setScore(Integer score) {
         this.score = score;
     }
@@ -699,6 +746,7 @@ public class T3ListingData implements Parcelable {
         return approvedBy;
     }
 
+    @SuppressWarnings("unused")
     public void setApprovedBy(Object approvedBy) {
         this.approvedBy = approvedBy;
     }
@@ -707,6 +755,7 @@ public class T3ListingData implements Parcelable {
         return thumbnail;
     }
 
+    @SuppressWarnings("unused")
     public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
     }
@@ -715,6 +764,7 @@ public class T3ListingData implements Parcelable {
         return edited;
     }
 
+    @SuppressWarnings("unused")
     public void setEdited(Object edited) {
         this.edited = edited;
     }
@@ -723,22 +773,27 @@ public class T3ListingData implements Parcelable {
         return authorFlairCssClass;
     }
 
+    @SuppressWarnings("unused")
     public void setAuthorFlairCssClass(Object authorFlairCssClass) {
         this.authorFlairCssClass = authorFlairCssClass;
     }
 
+    @SuppressWarnings("unused")
     public List<Object> getAuthorFlairRichtext() {
         return authorFlairRichtext;
     }
 
+    @SuppressWarnings("unused")
     public void setAuthorFlairRichtext(List<Object> authorFlairRichtext) {
         this.authorFlairRichtext = authorFlairRichtext;
     }
 
+    @SuppressWarnings("unused")
     public Object getContentCategories() {
         return contentCategories;
     }
 
+    @SuppressWarnings("unused")
     public void setContentCategories(Object contentCategories) {
         this.contentCategories = contentCategories;
     }
@@ -747,6 +802,7 @@ public class T3ListingData implements Parcelable {
         return isSelf;
     }
 
+    @SuppressWarnings("unused")
     public void setIsSelf(Boolean isSelf) {
         this.isSelf = isSelf;
     }
@@ -755,6 +811,7 @@ public class T3ListingData implements Parcelable {
         return modNote;
     }
 
+    @SuppressWarnings("unused")
     public void setModNote(Object modNote) {
         this.modNote = modNote;
     }
@@ -763,14 +820,17 @@ public class T3ListingData implements Parcelable {
         return created;
     }
 
+    @SuppressWarnings("unused")
     public void setCreated(Integer created) {
         this.created = created;
     }
 
+    @SuppressWarnings("unused")
     public String getLinkFlairType() {
         return linkFlairType;
     }
 
+    @SuppressWarnings("unused")
     public void setLinkFlairType(String linkFlairType) {
         this.linkFlairType = linkFlairType;
     }
@@ -779,22 +839,27 @@ public class T3ListingData implements Parcelable {
         return wls;
     }
 
+    @SuppressWarnings("unused")
     public void setWls(Integer wls) {
         this.wls = wls;
     }
 
+    @SuppressWarnings("unused")
     public String getAuthorId() {
         return authorId;
     }
 
+    @SuppressWarnings("unused")
     public void setAuthorId(String authorId) {
         this.authorId = authorId;
     }
 
+    @SuppressWarnings("unused")
     public Object getPostCategories() {
         return postCategories;
     }
 
+    @SuppressWarnings("unused")
     public void setPostCategories(Object postCategories) {
         this.postCategories = postCategories;
     }
@@ -803,14 +868,17 @@ public class T3ListingData implements Parcelable {
         return bannedBy;
     }
 
+    @SuppressWarnings("unused")
     public void setBannedBy(Object bannedBy) {
         this.bannedBy = bannedBy;
     }
 
+    @SuppressWarnings("unused")
     public String getAuthorFlairType() {
         return authorFlairType;
     }
 
+    @SuppressWarnings("unused")
     public void setAuthorFlairType(String authorFlairType) {
         this.authorFlairType = authorFlairType;
     }
@@ -819,6 +887,7 @@ public class T3ListingData implements Parcelable {
         return contestMode;
     }
 
+    @SuppressWarnings("unused")
     public void setContestMode(Boolean contestMode) {
         this.contestMode = contestMode;
     }
@@ -827,6 +896,7 @@ public class T3ListingData implements Parcelable {
         return selftextHtml;
     }
 
+    @SuppressWarnings("unused")
     public void setSelftextHtml(Object selftextHtml) {
         this.selftextHtml = selftextHtml;
     }
@@ -835,6 +905,7 @@ public class T3ListingData implements Parcelable {
         return likes;
     }
 
+    @SuppressWarnings("unused")
     public void setLikes(Object likes) {
         this.likes = likes;
     }
@@ -843,6 +914,7 @@ public class T3ListingData implements Parcelable {
         return suggestedSort;
     }
 
+    @SuppressWarnings("unused")
     public void setSuggestedSort(Object suggestedSort) {
         this.suggestedSort = suggestedSort;
     }
@@ -851,6 +923,7 @@ public class T3ListingData implements Parcelable {
         return bannedAtUtc;
     }
 
+    @SuppressWarnings("unused")
     public void setBannedAtUtc(Object bannedAtUtc) {
         this.bannedAtUtc = bannedAtUtc;
     }
@@ -859,6 +932,7 @@ public class T3ListingData implements Parcelable {
         return viewCount;
     }
 
+    @SuppressWarnings("unused")
     public void setViewCount(Object viewCount) {
         this.viewCount = viewCount;
     }
@@ -867,6 +941,7 @@ public class T3ListingData implements Parcelable {
         return archived;
     }
 
+    @SuppressWarnings("unused")
     public void setArchived(Boolean archived) {
         this.archived = archived;
     }
@@ -875,6 +950,7 @@ public class T3ListingData implements Parcelable {
         return noFollow;
     }
 
+    @SuppressWarnings("unused")
     public void setNoFollow(Boolean noFollow) {
         this.noFollow = noFollow;
     }
@@ -883,6 +959,7 @@ public class T3ListingData implements Parcelable {
         return isCrosspostable;
     }
 
+    @SuppressWarnings("unused")
     public void setIsCrosspostable(Boolean isCrosspostable) {
         this.isCrosspostable = isCrosspostable;
     }
@@ -891,6 +968,7 @@ public class T3ListingData implements Parcelable {
         return pinned;
     }
 
+    @SuppressWarnings("unused")
     public void setPinned(Boolean pinned) {
         this.pinned = pinned;
     }
@@ -899,6 +977,7 @@ public class T3ListingData implements Parcelable {
         return over18;
     }
 
+    @SuppressWarnings("unused")
     public void setOver18(Boolean over18) {
         this.over18 = over18;
     }
@@ -907,14 +986,17 @@ public class T3ListingData implements Parcelable {
         return media;
     }
 
+    @SuppressWarnings("unused")
     public void setMedia(Media media) {
         this.media = media;
     }
 
+    @SuppressWarnings("unused")
     public Boolean getMediaOnly() {
         return mediaOnly;
     }
 
+    @SuppressWarnings("unused")
     public void setMediaOnly(Boolean mediaOnly) {
         this.mediaOnly = mediaOnly;
     }
@@ -923,6 +1005,7 @@ public class T3ListingData implements Parcelable {
         return canGild;
     }
 
+    @SuppressWarnings("unused")
     public void setCanGild(Boolean canGild) {
         this.canGild = canGild;
     }
@@ -931,6 +1014,7 @@ public class T3ListingData implements Parcelable {
         return spoiler;
     }
 
+    @SuppressWarnings("unused")
     public void setSpoiler(Boolean spoiler) {
         this.spoiler = spoiler;
     }
@@ -939,6 +1023,7 @@ public class T3ListingData implements Parcelable {
         return locked;
     }
 
+    @SuppressWarnings("unused")
     public void setLocked(Boolean locked) {
         this.locked = locked;
     }
@@ -947,14 +1032,17 @@ public class T3ListingData implements Parcelable {
         return authorFlairText;
     }
 
+    @SuppressWarnings("unused")
     public void setAuthorFlairText(Object authorFlairText) {
         this.authorFlairText = authorFlairText;
     }
 
+    @SuppressWarnings("unused")
     public String getRteMode() {
         return rteMode;
     }
 
+    @SuppressWarnings("unused")
     public void setRteMode(String rteMode) {
         this.rteMode = rteMode;
     }
@@ -963,6 +1051,7 @@ public class T3ListingData implements Parcelable {
         return visited;
     }
 
+    @SuppressWarnings("unused")
     public void setVisited(Boolean visited) {
         this.visited = visited;
     }
@@ -971,6 +1060,7 @@ public class T3ListingData implements Parcelable {
         return numReports;
     }
 
+    @SuppressWarnings("unused")
     public void setNumReports(Object numReports) {
         this.numReports = numReports;
     }
@@ -979,6 +1069,7 @@ public class T3ListingData implements Parcelable {
         return distinguished;
     }
 
+    @SuppressWarnings("unused")
     public void setDistinguished(Object distinguished) {
         this.distinguished = distinguished;
     }
@@ -987,6 +1078,7 @@ public class T3ListingData implements Parcelable {
         return subredditId;
     }
 
+    @SuppressWarnings("unused")
     public void setSubredditId(String subredditId) {
         this.subredditId = subredditId;
     }
@@ -995,6 +1087,7 @@ public class T3ListingData implements Parcelable {
         return modReasonBy;
     }
 
+    @SuppressWarnings("unused")
     public void setModReasonBy(Object modReasonBy) {
         this.modReasonBy = modReasonBy;
     }
@@ -1003,6 +1096,7 @@ public class T3ListingData implements Parcelable {
         return removalReason;
     }
 
+    @SuppressWarnings("unused")
     public void setRemovalReason(Object removalReason) {
         this.removalReason = removalReason;
     }
@@ -1011,6 +1105,7 @@ public class T3ListingData implements Parcelable {
         return id;
     }
 
+    @SuppressWarnings("unused")
     public void setId(String id) {
         this.id = id;
     }
@@ -1019,6 +1114,7 @@ public class T3ListingData implements Parcelable {
         return reportReasons;
     }
 
+    @SuppressWarnings("unused")
     public void setReportReasons(Object reportReasons) {
         this.reportReasons = reportReasons;
     }
@@ -1027,6 +1123,7 @@ public class T3ListingData implements Parcelable {
         return author;
     }
 
+    @SuppressWarnings("unused")
     public void setAuthor(String author) {
         this.author = author;
     }
@@ -1035,6 +1132,7 @@ public class T3ListingData implements Parcelable {
         return numCrossposts;
     }
 
+    @SuppressWarnings("unused")
     public void setNumCrossposts(Integer numCrossposts) {
         this.numCrossposts = numCrossposts;
     }
@@ -1043,6 +1141,7 @@ public class T3ListingData implements Parcelable {
         return numComments;
     }
 
+    @SuppressWarnings("unused")
     public void setNumComments(Integer numComments) {
         this.numComments = numComments;
     }
@@ -1051,14 +1150,17 @@ public class T3ListingData implements Parcelable {
         return sendReplies;
     }
 
+    @SuppressWarnings("unused")
     public void setSendReplies(Boolean sendReplies) {
         this.sendReplies = sendReplies;
     }
 
+    @SuppressWarnings("unused")
     public Object getAuthorFlairTextColor() {
         return authorFlairTextColor;
     }
 
+    @SuppressWarnings("unused")
     public void setAuthorFlairTextColor(Object authorFlairTextColor) {
         this.authorFlairTextColor = authorFlairTextColor;
     }
@@ -1067,6 +1169,7 @@ public class T3ListingData implements Parcelable {
         return permalink;
     }
 
+    @SuppressWarnings("unused")
     public void setPermalink(String permalink) {
         this.permalink = permalink;
     }
@@ -1075,6 +1178,7 @@ public class T3ListingData implements Parcelable {
         return whitelistStatus;
     }
 
+    @SuppressWarnings("unused")
     public void setWhitelistStatus(String whitelistStatus) {
         this.whitelistStatus = whitelistStatus;
     }
@@ -1083,6 +1187,7 @@ public class T3ListingData implements Parcelable {
         return stickied;
     }
 
+    @SuppressWarnings("unused")
     public void setStickied(Boolean stickied) {
         this.stickied = stickied;
     }
@@ -1091,14 +1196,17 @@ public class T3ListingData implements Parcelable {
         return url;
     }
 
+    @SuppressWarnings("unused")
     public void setUrl(String url) {
         this.url = url;
     }
 
+    @SuppressWarnings("unused")
     public Integer getSubredditSubscribers() {
         return subredditSubscribers;
     }
 
+    @SuppressWarnings("unused")
     public void setSubredditSubscribers(Integer subredditSubscribers) {
         this.subredditSubscribers = subredditSubscribers;
     }
@@ -1107,14 +1215,17 @@ public class T3ListingData implements Parcelable {
         return createdUtc;
     }
 
+    @SuppressWarnings("unused")
     public void setCreatedUtc(Integer createdUtc) {
         this.createdUtc = createdUtc;
     }
 
+    @SuppressWarnings("unused")
     public List<Object> getModReports() {
         return modReports;
     }
 
+    @SuppressWarnings("unused")
     public void setModReports(List<Object> modReports) {
         this.modReports = modReports;
     }
@@ -1123,6 +1234,7 @@ public class T3ListingData implements Parcelable {
         return isVideo;
     }
 
+    @SuppressWarnings("unused")
     public void setIsVideo(Boolean isVideo) {
         this.isVideo = isVideo;
     }

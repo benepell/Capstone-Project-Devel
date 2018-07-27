@@ -37,7 +37,6 @@ import info.pelleritoudacity.android.rcapstone.data.model.ModelContent;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.Mp4;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.ResolutionMp4;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.SourceMp4;
-import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3Data;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3ListingData;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.Variants;
 

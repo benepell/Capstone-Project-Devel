@@ -81,6 +81,7 @@ public class Image implements Parcelable
         return source;
     }
 
+    @SuppressWarnings("unused")
     public void setSource(Source source) {
         this.source = source;
     }
@@ -89,6 +90,7 @@ public class Image implements Parcelable
         return resolutions;
     }
 
+    @SuppressWarnings("unused")
     public void setResolutions(List<Resolution> resolutions) {
         this.resolutions = resolutions;
     }
@@ -97,14 +99,17 @@ public class Image implements Parcelable
         return variants;
     }
 
+    @SuppressWarnings("unused")
     public void setVariants(Variants variants) {
         this.variants = variants;
     }
 
+    @SuppressWarnings("unused")
     public String getId() {
         return id;
     }
 
+    @SuppressWarnings("unused")
     public void setId(String id) {
         this.id = id;
     }

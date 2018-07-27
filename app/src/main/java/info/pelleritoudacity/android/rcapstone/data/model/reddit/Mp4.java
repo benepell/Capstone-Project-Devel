@@ -72,6 +72,7 @@ public class Mp4 implements Parcelable
         return source;
     }
 
+    @SuppressWarnings("unused")
     public void setSource(SourceMp4 source) {
         this.source = source;
     }
@@ -80,6 +81,7 @@ public class Mp4 implements Parcelable
         return resolutions;
     }
 
+    @SuppressWarnings("unused")
     public void setResolutions(List<ResolutionMp4> resolutions) {
         this.resolutions = resolutions;
     }

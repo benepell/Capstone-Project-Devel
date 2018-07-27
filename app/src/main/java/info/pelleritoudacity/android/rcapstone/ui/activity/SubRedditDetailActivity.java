@@ -65,18 +65,18 @@ public class SubRedditDetailActivity extends BaseActivity
         mDetailHelper = new SubRedditDetailHelper(mContext);
 
         if (savedInstanceState == null) {
-            model = mDetailHelper.initModelTarget(getIntent(), model);
+            model = mDetailHelper.initModelTarget(getIntent());
 
         } else {
             model = savedInstanceState.getParcelable(Costant.EXTRA_PARCEL_ACTIVITY_DETAIL);
 
         }
 
-        if (model.getId() == 0) {
+        /*if (Objects.requireNonNull(model).getId() == 0) {
             mNestedScrollView.setOnScrollChangeListener(this);
 
         }
-
+*/
         mSwipeRefreshLayout.setRefreshing(true);
         onRefresh();
 

@@ -99,11 +99,10 @@ public class SubRedditActivity extends BaseActivity
     public static MediaSessionCompat sMediaSessionCompat = null;
 
     private SubRedditTab mSubRedditTab;
-    private ArrayList<String> mTabArrayList;
 
     private String mCategory;
     private String mTarget;
-    private String mquerySearchText;
+    private String mQuerySearchText;
     private MenuLauncherDetail mLauncherMenu;
 
     @Override
@@ -121,7 +120,7 @@ public class SubRedditActivity extends BaseActivity
 
         mRefreshLayout.setOnRefreshListener(this);
 
-        mTabArrayList = new TabData(mContext).getTabArrayList();
+        ArrayList<String> mTabArrayList = new TabData(mContext).getTabArrayList();
 
         firstInit();
 
@@ -131,8 +130,8 @@ public class SubRedditActivity extends BaseActivity
         mSubRedditTab.initTab();
 
         if (getIntent() != null) {
-            mquerySearchText = getIntent().getStringExtra(Costant.EXTRA_SUBREDDIT_SEARCH);
-            if (TextUtils.isEmpty(mquerySearchText) &&
+            mQuerySearchText = getIntent().getStringExtra(Costant.EXTRA_SUBREDDIT_SEARCH);
+            if (TextUtils.isEmpty(mQuerySearchText) &&
                     (Preference.getLastTarget(mContext)).equals(Costant.SUBREDDIT_TARGET_SEARCH)) {
 
                 Preference.setLastTarget(mContext, Costant.SUBREDDIT_TARGET_DEFAULT_START_VALUE);
@@ -150,11 +149,6 @@ public class SubRedditActivity extends BaseActivity
 
         }
 
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -293,8 +287,8 @@ public class SubRedditActivity extends BaseActivity
     @Override
     public void onRefresh() {
 
-        if (Preference.getLastTarget(mContext).equals(Costant.SUBREDDIT_TARGET_SEARCH) && (!TextUtils.isEmpty(mquerySearchText))) {
-            createUI(Preference.getLastCategory(getApplicationContext()), Preference.getLastTarget(getApplicationContext()), mquerySearchText);
+        if (Preference.getLastTarget(mContext).equals(Costant.SUBREDDIT_TARGET_SEARCH) && (!TextUtils.isEmpty(mQuerySearchText))) {
+            createUI(Preference.getLastCategory(getApplicationContext()), Preference.getLastTarget(getApplicationContext()), mQuerySearchText);
 
         } else if (!NetworkUtil.isOnline(mContext)) {
             createUI(Preference.getLastCategory(getApplicationContext()), Preference.getLastTarget(getApplicationContext()), null);
@@ -477,7 +471,7 @@ public class SubRedditActivity extends BaseActivity
     
     private void closeSearch(String category){
         if (Preference.getLastTarget(mContext).equals(Costant.SUBREDDIT_TARGET_SEARCH) &&
-                (!TextUtils.isEmpty(mquerySearchText))) {
+                (!TextUtils.isEmpty(mQuerySearchText))) {
             startActivity(new Intent(mContext, SubRedditActivity.class)
                     .putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, category)
                     .putExtra(Costant.EXTRA_SUBREDDIT_TARGET, Costant.SUBREDDIT_TARGET_DEFAULT_START_VALUE)

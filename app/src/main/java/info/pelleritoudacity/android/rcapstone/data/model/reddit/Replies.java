@@ -43,6 +43,7 @@ public class Replies implements Parcelable
         return kind;
     }
 
+    @SuppressWarnings("unused")
     public void setKind(String kind) {
         this.kind = kind;
     }
@@ -51,6 +52,7 @@ public class Replies implements Parcelable
         return data;
     }
 
+    @SuppressWarnings("unused")
     public void setData(T1Data data) {
         this.data = data;
     }

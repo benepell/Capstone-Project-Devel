@@ -37,13 +37,16 @@ public class T1 implements Parcelable
         this.data = ((T1Data) in.readValue((T1Data.class.getClassLoader())));
     }
 
+    @SuppressWarnings("unused")
     public T1() {
     }
 
+    @SuppressWarnings("unused")
     public String getKind() {
         return kind;
     }
 
+    @SuppressWarnings("unused")
     public void setKind(String kind) {
         this.kind = kind;
     }
@@ -52,6 +55,7 @@ public class T1 implements Parcelable
         return data;
     }
 
+    @SuppressWarnings("unused")
     public void setData(T1Data data) {
         this.data = data;
     }

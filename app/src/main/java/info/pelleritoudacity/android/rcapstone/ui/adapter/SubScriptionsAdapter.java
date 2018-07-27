@@ -272,8 +272,6 @@ public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdap
             }
         }
 
-        public void bind() {
-        }
 
     }
 

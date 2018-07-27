@@ -100,6 +100,7 @@ public interface RedditAPI {
                                    @QueryMap Map<String, String> options
     );
 
+    @SuppressWarnings("SpellCheckingInspection")
     @GET("/api/morechildren/")
     @Headers("User-Agent: " + Costant.REDDIT_USER_AGENT)
     Call<More> getMoreCommentsAuth(@Header("Authorization") String authorization,
