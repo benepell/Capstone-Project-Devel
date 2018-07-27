@@ -10,6 +10,8 @@ public class DetailModel implements Parcelable{
     private String strId = null;
     private String strArrId;
     private String strLinkId;
+    private String strTarget;
+    private String strQuerySearch;
 
     public DetailModel() {
     }
@@ -20,6 +22,8 @@ public class DetailModel implements Parcelable{
         strId = in.readString();
         strArrId = in.readString();
         strLinkId = in.readString();
+        strTarget = in.readString();
+        strQuerySearch = in.readString();
     }
 
     public static final Creator<DetailModel> CREATOR = new Creator<DetailModel>() {
@@ -74,6 +78,22 @@ public class DetailModel implements Parcelable{
         this.strLinkId = strLinkId;
     }
 
+    public String getStrTarget() {
+        return strTarget;
+    }
+
+    public void setStrTarget(String strTarget) {
+        this.strTarget = strTarget;
+    }
+
+    public String getStrQuerySearch() {
+        return strQuerySearch;
+    }
+
+    public void setStrQuerySearch(String strQuerySearch) {
+        this.strQuerySearch = strQuerySearch;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -86,5 +106,7 @@ public class DetailModel implements Parcelable{
         parcel.writeString(strId);
         parcel.writeString(strArrId);
         parcel.writeString(strLinkId);
+        parcel.writeString(strTarget);
+        parcel.writeString(strQuerySearch);
     }
 }

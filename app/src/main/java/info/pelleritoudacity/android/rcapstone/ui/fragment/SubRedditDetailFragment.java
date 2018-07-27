@@ -14,7 +14,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -226,23 +225,40 @@ public class SubRedditDetailFragment extends Fragment
                         Contract.T1dataEntry.COLUMN_NAME_OVER18 + " <=?";
 
                 Uri uri = Contract.T1dataEntry.CONTENT_URI;
-                String[] selectionArgs;
+                String[] selectionArgs = null;
 
-                if (!TextUtils.isEmpty(m.getStrLinkId())) {
+                // todo condition moredetail
+                switch (m.getStrTarget()) {
 
-                    DataUtils d = new DataUtils(getContext());
+                    case Costant.SUBREDDIT_TARGET_DETAIL:
+                        selectionArgs = new String[]{Costant.STR_PARENT_LINK + m.getStrId(), Costant.NONE_DETAIL_MORE_REPLIES, strOver18};
 
-                    selection = Contract.T1dataEntry._ID + " =?" + " OR " +
-                            Contract.T1dataEntry.COLUMN_NAME_ID + " IN(" + d.stringInQuestionMark(m.getStrArrId()) + ")";
+                        break;
 
-                    selectionArgs = ((m.getId() + ",") + (m.getStrArrId()))
-                            .split(Costant.STRING_SEPARATOR);
+                    case Costant.SUBREDDIT_TARGET_DETAIL_SEARCH:
+                        selection = Contract.T1dataEntry.COLUMN_NAME_BODY + " LIKE ?" + " AND " +
+                                Contract.T1dataEntry.COLUMN_NAME_LINK_ID + " =?" + " AND " +
+                                Contract.T1dataEntry.COLUMN_NAME_MORE_REPLIES + " =?" + " AND " +
+                                Contract.T1dataEntry.COLUMN_NAME_OVER18 + " <=?";
 
-                } else {
+                        selectionArgs = new String[]{"%" + m.getStrQuerySearch() + "%", Costant.STR_PARENT_LINK + m.getStrId(), Costant.NONE_DETAIL_MORE_REPLIES, strOver18};
 
-                    selectionArgs = new String[]{Costant.STR_PARENT_LINK + m.getStrId(), Costant.NONE_DETAIL_MORE_REPLIES, strOver18};
+                        break;
+
+                    case Costant.SUBREDDIT_TARGET_MORE_DETAIL:
+
+                        DataUtils d = new DataUtils(getContext());
+
+                        selection = Contract.T1dataEntry._ID + " =?" + " OR " +
+                                Contract.T1dataEntry.COLUMN_NAME_ID + " IN(" + d.stringInQuestionMark(m.getStrArrId()) + ")";
+
+                        selectionArgs = ((m.getId() + ",") + (m.getStrArrId()))
+                                .split(Costant.STRING_SEPARATOR);
+
+                        break;
 
                 }
+
 
                 return getContext().getContentResolver().query(uri,
                         null,

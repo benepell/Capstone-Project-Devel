@@ -504,6 +504,7 @@ public class MenuBase {
 
     }
 
+
     public void menuItemLogin(Menu menu, boolean isLogged) {
 
         MenuItem menuItemLogin;

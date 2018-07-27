@@ -39,7 +39,12 @@
         <activity
             android:name=".ui.activity.SubRedditDetailActivity"
             android:label="@string/title_activity_subreddit_detail"
-            android:theme="@style/AppThemeLight.NoActionBar" />
+            android:theme="@style/AppThemeLight.NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+        </activity>
 
 
         <activity android:name=".ui.activity.BaseActivity" />

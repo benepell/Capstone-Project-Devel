@@ -171,8 +171,10 @@ public class BaseActivity extends AppCompatActivity
 
         switch (getLayoutResource()) {
             case R.layout.activity_subreddit:
+            case R.layout.activity_sub_reddit_detail:
                 inflater.inflate(R.menu.main, menu);
                 break;
+
             case R.layout.activity_submanage:
                 inflater.inflate(R.menu.manage_menu, menu);
                 MenuItem menuItemRestore;
@@ -183,6 +185,7 @@ public class BaseActivity extends AppCompatActivity
                                 .sizeDp(24)
                                 .respectFontBounds(true));
                 break;
+
             default:
                 inflater.inflate(R.menu.main, menu);
         }

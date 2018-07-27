@@ -9,10 +9,10 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
+import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
 import info.pelleritoudacity.android.rcapstone.data.rest.More;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
-import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -26,19 +26,16 @@ public class RestMoreManager {
     private static RestMoreManager sRestMoreManager;
     private final WeakReference<Context> mWeakContext;
     private final String mAccessToken;
-    private final String mStrArrId;
-    private final String mStrLinkId;
     private HashMap<String, String> mFieldMap;
     private Call<More> mCall;
+    private final DetailModel model;
 
 
-    private RestMoreManager(WeakReference<Context> weakContext, String token, String strArrId, String linkId) {
+    private RestMoreManager(WeakReference<Context> weakContext, String token, DetailModel model) {
 
         mWeakContext = weakContext;
         mAccessToken = token;
-        mStrArrId = strArrId;
-        mStrLinkId = linkId;
-
+        this.model = model;
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         // todo remove interceptor
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
@@ -74,12 +71,12 @@ public class RestMoreManager {
     }
 
 
-    public static RestMoreManager getInstance(WeakReference<Context> weakContext, String accessToken, String strArrId, String linkId) {
+    public static RestMoreManager getInstance(WeakReference<Context> weakContext, String accessToken, DetailModel model) {
        /* if (sRestMoreManager != null) {
             sRestMoreManager.cancelRequest();
         }
 */
-        sRestMoreManager = new RestMoreManager(weakContext, accessToken, strArrId, linkId);
+        sRestMoreManager = new RestMoreManager(weakContext, accessToken, model);
 
 
         return sRestMoreManager;
@@ -90,8 +87,8 @@ public class RestMoreManager {
         mFieldMap = new HashMap<>();
 //        mFieldMap.put("sort", Preference.getSubredditSort(mWeakContext.get()));
         mFieldMap.put("api_type", "json");
-        mFieldMap.put("link_id", mStrLinkId);
-        mFieldMap.put("children", mStrArrId);
+        mFieldMap.put("link_id", model.getStrLinkId());
+        mFieldMap.put("children",model.getStrArrId());
 
 
       /*  if (!TextUtils.isEmpty(Preference.getTimeSort(mWeakContext.get()))) {

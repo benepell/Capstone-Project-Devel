@@ -8,6 +8,7 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T1;
+import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
 import info.pelleritoudacity.android.rcapstone.data.rest.deserialize.RestDetailManager;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
@@ -20,9 +21,9 @@ public class RestDetailExecute {
     private final RestDetailManager restDetailManager;
     private List<T1> mReddit;
 
-    public RestDetailExecute(Context context, String code, String subRedditName, String nameRedditId) {
+    public RestDetailExecute(Context context, String code, DetailModel model) {
         restDetailManager = RestDetailManager.getInstance(new WeakReference<>(context
-                ) ,code,subRedditName,nameRedditId,
+                ) ,code, Preference.getLastCategory(context),model.getStrId(),
                 PermissionUtil.isLogged(context), Preference.getSubredditSort(context));
     }
 

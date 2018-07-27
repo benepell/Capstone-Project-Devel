@@ -93,6 +93,7 @@ public interface Costant {
 
     String EXTRA_SUBREDDIT_CATEGORY = "info.pelleritoudacity.android.rcapstone.extra.subreddit.category";
     String EXTRA_SUBREDDIT_DETAIL_CATEGORY = "info.pelleritoudacity.android.rcapstone.extra.subreddit.detail.category";
+    String EXTRA_PARCEL_DETAIL_MODEL = "info.pelleritoudacity.android.rcapstone.extra.parcel.detail.model";
     String EXTRA_SUBREDDIT_DETAIL_STR_ID = "info.pelleritoudacity.android.rcapstone.extra.subreddit.detail.str.id";
     String EXTRA_SUBREDDIT_DETAIL_POSITION = "info.pelleritoudacity.android.rcapstone.extra.subreddit.detail.position";
     String EXTRA_FRAGMENT_SUBREDDIT = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit";
@@ -115,6 +116,7 @@ public interface Costant {
     String EXTRA_SUBREDDIT_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.subreddit.fullscreen";
     String EXTRA_SUBREDDIT_TARGET = "info.pelleritoudacity.android.rcapstone.extra.subreddit.target";
     String EXTRA_SUBREDDIT_SEARCH = "info.pelleritoudacity.android.rcapstone.extra.subreddit.search";
+    String EXTRA_SUBREDDIT_SEARCH_DETAIL = "info.pelleritoudacity.android.rcapstone.extra.subreddit.detail";
     String EXTRA_MEDIA_IMA = "info.pelleritoudacity.android.rcapstone.extra.media.ima";
     String SUBREDDIT_CATEGORY_ALL = "all";
     String SUBREDDIT_CATEGORY_POPULAR = "popular";
@@ -127,8 +129,14 @@ public interface Costant {
     String SUBREDDIT_TARGET_PREFERITE = "info.pelleritoudacity.android.rcapstone.subreddit.target.preferite";
     String SUBREDDIT_TARGET_TAB = "info.pelleritoudacity.android.rcapstone.subreddit.target.tab";
     String SUBREDDIT_TARGET_SEARCH = "info.pelleritoudacity.android.rcapstone.subreddit.target.search";
+    String SUBREDDIT_TARGET_SEARCH_DETAIL = "info.pelleritoudacity.android.rcapstone.subreddit.target.search.detail";
     String SUBREDDIT_TARGET_NAVIGATION = "info.pelleritoudacity.android.rcapstone.subreddit.target.navigation";
     String SUBREDDIT_TARGET_SORT = "info.pelleritoudacity.android.rcapstone.subreddit.target.sort";
+
+    String SUBREDDIT_TARGET_DETAIL = "info.pelleritoudacity.android.rcapstone.subreddit.target.detail";
+    String SUBREDDIT_TARGET_MORE_DETAIL = "info.pelleritoudacity.android.rcapstone.subreddit.target.more.detail";
+    String SUBREDDIT_TARGET_DETAIL_SEARCH = "info.pelleritoudacity.android.rcapstone.subreddit.target.detail.search";
+    String SUBREDDIT_TARGET_MORE_DETAIL_SEARCH = "info.pelleritoudacity.android.rcapstone.subreddit.target.more.detail.search";
 
 
     String EXTRA_RESTORE_MANAGE = "info.pelleritoudacity.android.rcapstone.extra.restore.manage";
