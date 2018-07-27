@@ -1,6 +1,7 @@
 package info.pelleritoudacity.android.rcapstone.ui.helper;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.View;
@@ -73,6 +74,15 @@ public class SubRedditDetailHelper {
     public int getJob(DetailModel m, boolean updateData, boolean online) {
 
         if (m != null) {
+
+            if (m.getTarget() == Costant.TARGET_DETAIL_SEARCH) {
+                return Costant.TARGET_DETAIL_SEARCH;
+            }
+
+            if ((m.getTarget() == Costant.TARGET_MORE_DETAIL_SEARCH)) {
+                return Costant.TARGET_MORE_DETAIL_SEARCH;
+            }
+
             if (TextUtils.isEmpty(m.getStrArrId())) {
                 if ((updateData || !online)) {
                     return Costant.TARGET_DETAIL_NO_UPDATE;
@@ -85,13 +95,47 @@ public class SubRedditDetailHelper {
 
             } else {
                 // more detail update always
-                    m.setTarget(Costant.TARGET_MORE_DETAIL);
-                    return Costant.TARGET_MORE_DETAIL;
+                m.setTarget(Costant.TARGET_MORE_DETAIL);
+                return Costant.TARGET_MORE_DETAIL;
             }
         }
 
         return 0;
 
+    }
+
+    public DetailModel initModelTarget(Intent intent, DetailModel model) {
+        if (intent != null) {
+
+            if (intent.getParcelableExtra(Costant.EXTRA_PARCEL_DETAIL_MODEL) != null) {
+                model = intent.getParcelableExtra(Costant.EXTRA_PARCEL_DETAIL_MODEL);
+
+                if (model != null) model.setTarget(Costant.TARGET_DETAIL_SEARCH);
+
+            } else if (intent.getParcelableExtra(Costant.EXTRA_PARCEL_MORE_DETAIL_MODEL) != null) {
+                model = intent.getParcelableExtra(Costant.EXTRA_PARCEL_MORE_DETAIL_MODEL);
+                if (model != null) model.setTarget(Costant.TARGET_MORE_DETAIL_SEARCH);
+
+            } else {
+                model = new DetailModel();
+                model.setTarget(Costant.TARGET_DETAIL);
+
+
+            }
+
+            if (intent.getStringExtra(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID) != null) {
+                model.setStrId(intent.getStringExtra(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID));
+
+            }
+
+            if (intent.getBooleanExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_DETAIL_REFRESH, false)) {
+                model.setStrId(Preference.getLastComment(mContext));
+            }
+
+            return model;
+
+        }
+        return null;
     }
 
 }

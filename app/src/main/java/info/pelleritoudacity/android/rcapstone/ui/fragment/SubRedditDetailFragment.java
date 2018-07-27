@@ -227,7 +227,8 @@ public class SubRedditDetailFragment extends Fragment
                 Uri uri = Contract.T1dataEntry.CONTENT_URI;
                 String[] selectionArgs = null;
 
-                // todo condition moredetail
+                DataUtils dataUtils = new DataUtils(getContext());
+
                 switch (m.getTarget()) {
 
                     case Costant.TARGET_DETAIL:
@@ -235,6 +236,16 @@ public class SubRedditDetailFragment extends Fragment
 
                         break;
 
+                    case Costant.TARGET_MORE_DETAIL:
+
+                        selection = Contract.T1dataEntry._ID + " =?" + " OR " +
+                                Contract.T1dataEntry.COLUMN_NAME_ID + " IN(" + dataUtils.stringInQuestionMark(m.getStrArrId()) + ")";
+
+                        selectionArgs = ((m.getId() + ",") + (m.getStrArrId()))
+                                .split(Costant.STRING_SEPARATOR);
+
+
+                        break;
                     case Costant.TARGET_DETAIL_SEARCH:
                         selection = Contract.T1dataEntry.COLUMN_NAME_BODY + " LIKE ?" + " AND " +
                                 Contract.T1dataEntry.COLUMN_NAME_LINK_ID + " =?" + " AND " +
@@ -245,20 +256,19 @@ public class SubRedditDetailFragment extends Fragment
 
                         break;
 
-                    case Costant.TARGET_MORE_DETAIL:
+                    case Costant.TARGET_MORE_DETAIL_SEARCH:
 
-                        DataUtils d = new DataUtils(getContext());
+                        selection = Contract.T1dataEntry.COLUMN_NAME_BODY + " LIKE ?" + " AND (" +
+                                Contract.T1dataEntry._ID + " =?" + " OR " +
+                                Contract.T1dataEntry.COLUMN_NAME_ID + " IN(" + dataUtils.stringInQuestionMark(m.getStrArrId()) + "))";
 
-                        selection = Contract.T1dataEntry._ID + " =?" + " OR " +
-                                Contract.T1dataEntry.COLUMN_NAME_ID + " IN(" + d.stringInQuestionMark(m.getStrArrId()) + ")";
-
-                        selectionArgs = ((m.getId() + ",") + (m.getStrArrId()))
+                        selectionArgs = ("%" + m.getStrQuerySearch() + "%" + "," + m.getId() + "," + (m.getStrArrId()))
                                 .split(Costant.STRING_SEPARATOR);
 
                         break;
 
-                }
 
+                }
 
                 return getContext().getContentResolver().query(uri,
                         null,

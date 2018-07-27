@@ -9,7 +9,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.SearchView;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.View;
 
@@ -54,6 +53,7 @@ public class SubRedditDetailActivity extends BaseActivity
 
     private Context mContext;
     private DetailModel model;
+    private SubRedditDetailHelper mDetailHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,31 +61,11 @@ public class SubRedditDetailActivity extends BaseActivity
         super.onCreate(savedInstanceState);
 
         mContext = getApplicationContext();
-        Intent intent = getIntent();
-
         mSwipeRefreshLayout.setOnRefreshListener(this);
+        mDetailHelper = new SubRedditDetailHelper(mContext);
 
         if (savedInstanceState == null) {
-
-
-            if (intent != null) {
-
-                model = intent.getParcelableExtra(Costant.EXTRA_PARCEL_DETAIL_MODEL);
-
-                if (model == null) {
-                    model = new DetailModel();
-                    model.setTarget(Costant.TARGET_DETAIL);
-                    model.setStrId(intent.getStringExtra(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID));
-
-                    if (intent.getBooleanExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_DETAIL_REFRESH, false)) {
-                        model.setStrId(Preference.getLastComment(mContext));
-                    }
-
-                }
-
-            }
-
-            Preference.setLastComment(mContext, model.getStrId());
+            model = mDetailHelper.initModelTarget(getIntent(), model);
 
         } else {
             model = savedInstanceState.getParcelable(Costant.EXTRA_PARCEL_ACTIVITY_DETAIL);
@@ -94,6 +74,7 @@ public class SubRedditDetailActivity extends BaseActivity
 
         if (model.getId() == 0) {
             mNestedScrollView.setOnScrollChangeListener(this);
+
         }
 
         mSwipeRefreshLayout.setRefreshing(true);
@@ -106,47 +87,11 @@ public class SubRedditDetailActivity extends BaseActivity
         if ((listenerData != null) && (model.getStrId() != null)) {
             T1Operation data = new T1Operation(getApplicationContext());
             if (data.saveData(listenerData, model.getStrId())) {
-                startFragment(model);
+                startFragment(model, false);
             } else {
                 Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
             }
         }
-    }
-
-    private void startFragment(DetailModel m) {
-
-        m.setId(0);
-        m.setStrArrId(null);
-        m.setStrLinkId(null);
-
-        SubRedditSelectedFragment subRedditSelectedFragment = SubRedditSelectedFragment.newInstance(m.getStrId());
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_subreddit_selected_container, subRedditSelectedFragment).commitAllowingStateLoss();
-
-        SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(m);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_subreddit_detail_container, fragment).commitAllowingStateLoss();
-
-        if (mSwipeRefreshLayout != null) {
-            if (mSwipeRefreshLayout.isRefreshing()) mSwipeRefreshLayout.setRefreshing(false);
-        }
-
-    }
-
-    private void startMoreFragment(DetailModel m) {
-        SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(m);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_subreddit_detail_container, fragment).commitAllowingStateLoss();
-
-        if (mSwipeRefreshLayout != null) {
-            if (mSwipeRefreshLayout.isRefreshing()) mSwipeRefreshLayout.setRefreshing(false);
-        }
-
-    }
-
-    private boolean isUpdateData() {
-        return new DataUtils(mContext).isSyncDataDetail(Contract.T1dataEntry.CONTENT_URI,
-                model, Preference.getGeneralSettingsSyncFrequency(mContext));
     }
 
     @Override
@@ -176,18 +121,16 @@ public class SubRedditDetailActivity extends BaseActivity
             }
         }
 
-        SubRedditDetailHelper detailHelper = new SubRedditDetailHelper(mContext);
-
         String tokenLogin = PermissionUtil.getToken(mContext);
 
-        switch (detailHelper.getJob(model, isUpdateData(), NetworkUtil.isOnline(mContext))) {
+        switch (mDetailHelper.getJob(model, isUpdateData(), NetworkUtil.isOnline(mContext))) {
 
             case Costant.TARGET_DETAIL_NO_UPDATE:
 
                 if ((mSwipeRefreshLayout != null) && (mSwipeRefreshLayout.isRefreshing())) {
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
-                startFragment(model);
+                startFragment(model, false);
 
                 break;
 
@@ -200,10 +143,11 @@ public class SubRedditDetailActivity extends BaseActivity
                 break;
 
             case Costant.TARGET_DETAIL_SEARCH:
-                startFragment(model);
+                startFragment(model, false);
                 break;
 
             case Costant.TARGET_MORE_DETAIL_SEARCH:
+                startFragment(model, false);
                 break;
 
         }
@@ -227,7 +171,7 @@ public class SubRedditDetailActivity extends BaseActivity
 
                 if (t1moreOperation.saveMoreData(listenerData.getJson(), strArrId)) {
 
-                    startMoreFragment(model);
+                    startFragment(model, true);
 
                 }
 
@@ -258,9 +202,9 @@ public class SubRedditDetailActivity extends BaseActivity
 
     @Override
     public void onBackPressed() {
-        if (!TextUtils.isEmpty(model.getStrArrId())) {
+        if (model.getTarget() != Costant.TARGET_DETAIL) {
             model.setTarget(Costant.TARGET_DETAIL);
-            startFragment(model);
+            startFragment(model, false);
 
             if (Preference.getMoreNestedPositionHeight(mContext) > 0) {
                 mNestedScrollView.getChildAt(0).setScrollY(Preference.getMoreNestedPositionHeight(mContext));
@@ -280,11 +224,26 @@ public class SubRedditDetailActivity extends BaseActivity
 
     @Override
     public boolean onQueryTextSubmit(String s) {
+
         Intent intent = new Intent(getApplicationContext(), SubRedditDetailActivity.class);
-        model.setTarget(Costant.TARGET_DETAIL_SEARCH);
+
         model.setStrQuerySearch(s);
-        intent.putExtra(Costant.EXTRA_PARCEL_DETAIL_MODEL, model);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+        switch (model.getTarget()) {
+            case Costant.TARGET_DETAIL_NO_UPDATE:
+            case Costant.TARGET_DETAIL:
+                model.setTarget(Costant.TARGET_DETAIL_SEARCH);
+                intent.putExtra(Costant.EXTRA_PARCEL_DETAIL_MODEL, model);
+                break;
+
+            case Costant.TARGET_MORE_DETAIL:
+                model.setTarget(Costant.TARGET_MORE_DETAIL_SEARCH);
+                intent.putExtra(Costant.EXTRA_PARCEL_MORE_DETAIL_MODEL, model);
+                break;
+
+            default:
+                return false;
+        }
         startActivity(intent);
         return true;
     }
@@ -293,4 +252,35 @@ public class SubRedditDetailActivity extends BaseActivity
     public boolean onQueryTextChange(String s) {
         return false;
     }
+
+    private void startFragment(DetailModel m, boolean moreFragment) {
+
+        if (moreFragment) {
+            SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(m);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_subreddit_detail_container, fragment).commitAllowingStateLoss();
+
+        } else {
+            SubRedditSelectedFragment subRedditSelectedFragment = SubRedditSelectedFragment.newInstance(m.getStrId());
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_subreddit_selected_container, subRedditSelectedFragment).commitAllowingStateLoss();
+
+            SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(m);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_subreddit_detail_container, fragment).commitAllowingStateLoss();
+
+        }
+
+        if ((mSwipeRefreshLayout != null) && (mSwipeRefreshLayout.isRefreshing())) {
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
+
+    }
+
+    private boolean isUpdateData() {
+        return new DataUtils(mContext).isSyncDataDetail(Contract.T1dataEntry.CONTENT_URI,
+                model, Preference.getGeneralSettingsSyncFrequency(mContext));
+    }
+
+
 }
