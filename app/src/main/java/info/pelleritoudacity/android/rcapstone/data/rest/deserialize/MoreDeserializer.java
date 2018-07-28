@@ -9,7 +9,7 @@ import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
 
-import info.pelleritoudacity.android.rcapstone.data.rest.More;
+import info.pelleritoudacity.android.rcapstone.data.model.reddit.More;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 
 class MoreDeserializer implements JsonDeserializer<More> {

@@ -22,7 +22,7 @@ import info.pelleritoudacity.android.rcapstone.data.db.Operation.T1Operation;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T1;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
-import info.pelleritoudacity.android.rcapstone.data.rest.More;
+import info.pelleritoudacity.android.rcapstone.data.model.reddit.More;
 import info.pelleritoudacity.android.rcapstone.data.rest.RestDetailExecute;
 import info.pelleritoudacity.android.rcapstone.data.rest.RestMoreExecute;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditDetailFragment;

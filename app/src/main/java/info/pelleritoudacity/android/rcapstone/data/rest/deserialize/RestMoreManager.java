@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
-import info.pelleritoudacity.android.rcapstone.data.rest.More;
+import info.pelleritoudacity.android.rcapstone.data.model.reddit.More;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import okhttp3.OkHttpClient;

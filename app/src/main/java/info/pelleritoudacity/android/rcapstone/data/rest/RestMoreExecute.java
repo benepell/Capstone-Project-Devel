@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 
 import java.lang.ref.WeakReference;
 
+import info.pelleritoudacity.android.rcapstone.data.model.reddit.More;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
 import info.pelleritoudacity.android.rcapstone.data.rest.deserialize.RestMoreManager;
 import retrofit2.Call;
