@@ -102,7 +102,6 @@ public class SubRedditDetailFragment extends Fragment
     @Override
     public void onResume() {
         super.onResume();
-        getLoaderManager().restartLoader(SUBREDDIT_DETAIL_LOADER_ID, null, this);
 
     }
 
@@ -114,6 +113,8 @@ public class SubRedditDetailFragment extends Fragment
             model = savedInstanceState.getParcelable(Costant.EXTRA_FRAGMENT_PARCEL_SUBREDDIT_DETAIL);
 
         }
+
+        getLoaderManager().initLoader(SUBREDDIT_DETAIL_LOADER_ID, null, this);
 
     }
 
