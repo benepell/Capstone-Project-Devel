@@ -44,7 +44,7 @@ public class T1Operation {
         try {
             if ((moreJson != null)) {
 
-                String where = Contract.T1dataEntry.COLUMN_NAME_MORE_REPLIES.concat(" =?");
+                String where = Contract.T1dataEntry.COLUMN_NAME_MORE_REPLIES.concat(" >=?");
                 String[] selectArgs = {Costant.DETAIL_MORE_REPLIES};
                 mContext.getContentResolver().delete(Contract.T1dataEntry.CONTENT_URI, where, selectArgs);
                 return insertMoreData(moreJson);
@@ -468,7 +468,6 @@ public class T1Operation {
         }
 
     }
-
     private void deleteCategory(String id) {
         String where;
         Uri uri;
@@ -485,12 +484,11 @@ public class T1Operation {
 
         }
 
-
     }
 
     private void deleteMore(String id) {
         Uri uri = Contract.T1MoresDataEntry.CONTENT_URI;
-        String where = Contract.T1MoresDataEntry.COLUMN_NAME_MORE_ID + " =?";
+        String where = Contract.T1MoresDataEntry.COLUMN_NAME_MORE_ID + " >=?";
         String[] selectionArgs = {id};
 
         try {

@@ -139,8 +139,11 @@ public class SubRedditActivity extends BaseActivity
         }
 
         mLauncherMenu.showMenu();
-        mRefreshLayout.setRefreshing(true);
-        onRefresh();
+
+        if (savedInstanceState == null) {
+            mRefreshLayout.setRefreshing(true);
+            onRefresh();
+        }
 
         mCategory = Preference.getLastCategory(mContext);
         mTarget = Preference.getLastTarget(mContext);
@@ -165,6 +168,12 @@ public class SubRedditActivity extends BaseActivity
             super.onBackPressed();
 
         }
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 
     @Override

@@ -23,33 +23,36 @@ public class MenuLauncherDetail {
         mIntent = intent;
     }
 
-    public void showMenu() {
+    public boolean showMenu() {
 
         if (menuShortcutLauncher(mIntent)) {
             saveLastPreference();
-            return;
+            return true;
         }
 
         if (menuTargetLink(mIntent)) {
             saveLastPreference();
-            return;
+            return true;
         }
 
-        if (menuHistoryLink()) {
-            // used in search more detail
-            //noinspection UnnecessaryReturnStatement
-            return;
-        } else {
+        if(menuHistoryLink()){
+            return true;
+        }else {
             menuDefaultValue();
             saveLastPreference();
+            return true;
 
         }
 
+
+//        return false;
     }
 
-    private void menuDefaultValue() {
+
+    private boolean menuDefaultValue(){
         setCategory(TextUtil.stringToArray(Costant.DEFAULT_SUBREDDIT_CATEGORY).get(0));
         setTarget(Costant.SUBREDDIT_TARGET_DEFAULT_START_VALUE);
+        return true;
     }
 
     private boolean menuHistoryLink() {
@@ -61,6 +64,7 @@ public class MenuLauncherDetail {
         }
         return false;
     }
+
 
     private boolean menuShortcutLauncher(Intent intent) {
         if ((Util.SDK_INT > 24) && (intent != null) && (intent.getAction() != null)) {

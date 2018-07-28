@@ -102,12 +102,7 @@ public class SubRedditDetailFragment extends Fragment
     @Override
     public void onResume() {
         super.onResume();
-        if (getActivity() != null) {
-
-            getLoaderManager().restartLoader(SUBREDDIT_DETAIL_LOADER_ID, null, this);
-//            getActivity().getSupportLoaderManager().restartLoader(SUBREDDIT_DETAIL_LOADER_ID, null, this);
-
-        }
+        getLoaderManager().restartLoader(SUBREDDIT_DETAIL_LOADER_ID, null, this);
 
     }
 
@@ -121,7 +116,6 @@ public class SubRedditDetailFragment extends Fragment
         }
 
     }
-
 
     @Override
     public void onAttach(Context context) {

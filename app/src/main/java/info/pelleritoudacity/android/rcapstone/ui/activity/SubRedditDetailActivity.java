@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.View;
 
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import info.pelleritoudacity.android.rcapstone.R;
@@ -39,17 +40,17 @@ public class SubRedditDetailActivity extends BaseActivity
         SubRedditDetailFragment.OnFragmentInteractionListener, RestMoreExecute.RestSubRedditMore,
         SwipeRefreshLayout.OnRefreshListener, NestedScrollView.OnScrollChangeListener, SearchView.OnQueryTextListener {
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.subreddit_detail_container)
-    CoordinatorLayout mContainer;
+    public CoordinatorLayout mContainer;
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.nested_scrollview_detail)
-    NestedScrollView mNestedScrollView;
+    public NestedScrollView mNestedScrollView;
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.swipe_refresh_subreddit_detail)
-    SwipeRefreshLayout mSwipeRefreshLayout;
+    public SwipeRefreshLayout mSwipeRefreshLayout;
 
     private Context mContext;
     private DetailModel model;
@@ -67,19 +68,16 @@ public class SubRedditDetailActivity extends BaseActivity
         if (savedInstanceState == null) {
             model = mDetailHelper.initModelTarget(getIntent());
 
+            mSwipeRefreshLayout.setRefreshing(true);
+            onRefresh();
         } else {
             model = savedInstanceState.getParcelable(Costant.EXTRA_PARCEL_ACTIVITY_DETAIL);
 
         }
 
-        /*if (Objects.requireNonNull(model).getId() == 0) {
+        if (Objects.requireNonNull(model).getId() == 0) {
             mNestedScrollView.setOnScrollChangeListener(this);
-
         }
-*/
-        mSwipeRefreshLayout.setRefreshing(true);
-        onRefresh();
-
     }
 
     @Override
@@ -120,7 +118,6 @@ public class SubRedditDetailActivity extends BaseActivity
                 mNestedScrollView.getChildAt(0).setScrollY(mNestedScrollView.getTop());
             }
         }
-
         String tokenLogin = PermissionUtil.getToken(mContext);
 
         switch (mDetailHelper.getJob(model, isUpdateData(), NetworkUtil.isOnline(mContext))) {
@@ -261,6 +258,7 @@ public class SubRedditDetailActivity extends BaseActivity
                     .replace(R.id.fragment_subreddit_detail_container, fragment).commitAllowingStateLoss();
 
         } else {
+
             SubRedditSelectedFragment subRedditSelectedFragment = SubRedditSelectedFragment.newInstance(m.getStrId());
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_subreddit_selected_container, subRedditSelectedFragment).commitAllowingStateLoss();
