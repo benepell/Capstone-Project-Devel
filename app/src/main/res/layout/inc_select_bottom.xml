@@ -10,85 +10,70 @@
     <View
         android:id="@+id/view_select_depth"
         android:layout_width="5dp"
-        android:visibility="gone"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ImageButton
+        android:id="@+id/image_vote_up"
+        style="@style/Base.Widget.AppCompat.ImageButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/background_light"
-        android:orientation="vertical">
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:contentDescription="@string/image_vote_up"
+        android:ellipsize="end"
+        android:paddingBottom="@dimen/list_padding_vertical_author"
+        android:paddingEnd="@dimen/list_padding_horizontal_author"
+        android:paddingStart="@dimen/list_padding_horizontal_author" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/image_vote_up"
-                style="@style/Base.Widget.AppCompat.ImageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:contentDescription="@string/image_vote_up"
-                android:ellipsize="end"
-                android:paddingBottom="@dimen/list_padding_vertical_author"
-                android:paddingEnd="@dimen/list_padding_horizontal_author"
-                android:paddingStart="@dimen/list_padding_horizontal_author" />
-
-            <ImageButton
-                android:id="@+id/image_vote_down"
-                style="@style/Base.Widget.AppCompat.ImageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:contentDescription="@string/image_vote_down"
-                android:paddingBottom="@dimen/list_padding_vertical_author"
-                android:paddingEnd="@dimen/list_padding_horizontal_author"
-                android:paddingStart="@dimen/list_padding_horizontal_author" />
+    <ImageButton
+        android:id="@+id/image_vote_down"
+        style="@style/Base.Widget.AppCompat.ImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:contentDescription="@string/image_vote_down"
+        android:paddingBottom="@dimen/list_padding_vertical_author"
+        android:paddingEnd="@dimen/list_padding_horizontal_author"
+        android:paddingStart="@dimen/list_padding_horizontal_author" />
 
 
-            <ImageButton
-                android:id="@+id/image_prefer_stars"
-                style="@style/Base.Widget.AppCompat.ImageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:contentDescription="@string/favorite_stars"
-                android:paddingBottom="@dimen/list_padding_vertical_author"
-                android:paddingEnd="@dimen/list_padding_horizontal_author"
-                android:paddingStart="@dimen/list_padding_horizontal_author" />
+    <ImageButton
+        android:id="@+id/image_prefer_stars"
+        style="@style/Base.Widget.AppCompat.ImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:contentDescription="@string/favorite_stars"
+        android:paddingBottom="@dimen/list_padding_vertical_author"
+        android:paddingEnd="@dimen/list_padding_horizontal_author"
+        android:paddingStart="@dimen/list_padding_horizontal_author" />
 
-            <ImageButton
-                android:id="@+id/image_show_comments"
-                style="@style/Base.Widget.AppCompat.ImageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:contentDescription="@string/image_show_comments"
-                android:paddingBottom="@dimen/list_padding_vertical_author"
-                android:paddingEnd="@dimen/list_padding_horizontal_author"
-                android:paddingStart="@dimen/list_padding_horizontal_author" />
+    <ImageButton
+        android:id="@+id/image_show_comments"
+        style="@style/Base.Widget.AppCompat.ImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:contentDescription="@string/image_show_comments"
+        android:paddingBottom="@dimen/list_padding_vertical_author"
+        android:paddingEnd="@dimen/list_padding_horizontal_author"
+        android:paddingStart="@dimen/list_padding_horizontal_author" />
 
 
-            <ImageButton
-                android:id="@+id/image_open_browser"
-                style="@style/Base.Widget.AppCompat.ImageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:contentDescription="@string/image_open_browser"
-                android:paddingBottom="@dimen/list_padding_vertical_author"
-                android:paddingEnd="@dimen/list_padding_horizontal_author"
-                android:paddingStart="@dimen/list_padding_horizontal_author" />
-
-        </LinearLayout>
-
-    </LinearLayout>
+    <ImageButton
+        android:id="@+id/image_open_browser"
+        style="@style/Base.Widget.AppCompat.ImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:contentDescription="@string/image_open_browser"
+        android:paddingBottom="@dimen/list_padding_vertical_author"
+        android:paddingEnd="@dimen/list_padding_horizontal_author"
+        android:paddingStart="@dimen/list_padding_horizontal_author" />
 
 </LinearLayout>

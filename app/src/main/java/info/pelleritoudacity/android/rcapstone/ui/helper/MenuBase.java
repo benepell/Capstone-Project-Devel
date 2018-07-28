@@ -40,25 +40,25 @@ public class MenuBase {
         mLayoutResource = layoutResource;
     }
 
-    public boolean menuItemSelected(MenuItem item) {
+    public void menuItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
 
             case R.id.menu_action_restore:
                 mContext.startActivity(new Intent(mContext, SubRedditActivity.class).putExtra(Costant.EXTRA_RESTORE_MANAGE, Costant.RESTORE_MANAGE_RESTORE));
-                return true;
+                return;
             case R.id.menu_action_login:
                 mContext.startActivity(new Intent(mContext, LoginActivity.class));
-                return true;
+                return;
             case R.id.menu_action_logout:
                 mContext.startActivity(new Intent(mContext, LogoutActivity.class));
-                return true;
+                return;
             case R.id.menu_action_refresh:
                 menuClickRefresh(mLayoutResource);
-                return true;
+                return;
             case R.id.menu_action_settings:
                 mContext.startActivity(new Intent(mContext, SettingsActivity.class));
-                return true;
+                return;
 
             case R.id.submenu_filter_hot:
                 Preference.setSubredditSort(mContext, Costant.LABEL_SUBMENU_HOT);
@@ -162,16 +162,10 @@ public class MenuBase {
                 Preference.setGeneralLinks(mContext, !Preference.isGeneralLinks(mContext));
                 mContext.startActivity(new Intent(mContext, SubRedditActivity.class));
                 break;
-            default:
-                return false;
         }
-
-
-        return true;
-
     }
 
-    public boolean navigationItemSelected(MenuItem item) {
+    public void navigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
             case R.id.nav_home:
@@ -214,12 +208,11 @@ public class MenuBase {
                 break;
 
         }
-        return true;
     }
 
-    public boolean menuNavigation(Menu menu) {
+    public void menuNavigation(Menu menu) {
 
-        if (menu == null) return false;
+        if (menu == null) return;
         MenuItem itemHome = menu.findItem(R.id.nav_home);
 
         MenuItem itemModePopularText = menu.findItem(R.id.nav_mode_popular);
@@ -288,13 +281,12 @@ public class MenuBase {
             default:
                 itemHome.setChecked(false);
         }
-        return true;
     }
 
 
-    public boolean navigationSubCategory(Menu menu) {
+    public void navigationSubCategory(Menu menu) {
 
-        if (menu == null) return false;
+        if (menu == null) return;
 
         int groupId = menu.findItem(R.id.nav_mode_subs).getGroupId();
 
@@ -327,15 +319,13 @@ public class MenuBase {
             menuItem.setOnMenuItemClickListener(item -> {
                 Intent intent = new Intent(mContext, SubRedditActivity.class);
                 intent.putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, item.getTitle().toString());
-                intent.putExtra(Costant.EXTRA_SUBREDDIT_TARGET,Costant.SUBREDDIT_TARGET_NAVIGATION );
+                intent.putExtra(Costant.EXTRA_SUBREDDIT_TARGET, Costant.SUBREDDIT_TARGET_NAVIGATION);
 
                 mContext.startActivity(intent);
                 return true;
             });
 
         }
-
-        return true;
     }
 
 
@@ -383,7 +373,7 @@ public class MenuBase {
 
             case R.id.nav_mode_preferite:
                 // todo comment "" for old category function
-                constantCategory =Preference.getLastCategory(mContext);
+                constantCategory = Preference.getLastCategory(mContext);
                 constantsTarget = Costant.SUBREDDIT_TARGET_FAVORITE;
                 break;
 
@@ -489,8 +479,7 @@ public class MenuBase {
 
         SearchManager searchManager = (SearchManager) mContext.getSystemService(Context.SEARCH_SERVICE);
 
-        SearchView searchView = null;
-            searchView = (SearchView) menuItemSearch.getActionView();
+        SearchView searchView = (SearchView) menuItemSearch.getActionView();
         if (searchView != null) {
             searchView.setSearchableInfo(Objects.requireNonNull(searchManager).getSearchableInfo(componentName));
 

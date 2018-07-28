@@ -113,10 +113,8 @@ public class SubRedditFragment extends Fragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (getActivity() != null) {
-            getActivity().getSupportLoaderManager().initLoader(SUBREDDIT_LOADER_ID, null, this).forceLoad();
+            getLoaderManager().initLoader(SUBREDDIT_LOADER_ID, null, this).forceLoad();
 
-        }
         if (savedInstanceState != null) {
             sWindowPlayer = savedInstanceState.getInt(Costant.BUNDLE_EXOPLAYER_WINDOW, C.INDEX_UNSET);
             sPositionPlayer = savedInstanceState.getLong(Costant.BUNDLE_EXOPLAYER_POSITION, C.TIME_UNSET);

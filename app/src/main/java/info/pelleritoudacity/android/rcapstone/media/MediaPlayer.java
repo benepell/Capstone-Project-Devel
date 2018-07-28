@@ -113,12 +113,12 @@ public class MediaPlayer {
 
     public void initPlayerFullScreen(Uri mediaUri) {
 
-        mPlayer = createPlayer(Costant.IS_ADAPTIVE_STREAMING);
+        mPlayer = createPlayer();
 
         mPlayerView.setPlayer(mPlayer);
 
         DefaultDataSourceFactory dataSourceFactory = new MediaSRC(mContext)
-                .createDataSourceFactory(Costant.IS_ADAPTIVE_STREAMING);
+                .createDataSourceFactory(true);
 
         MediaSource mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory)
                 .createMediaSource(mediaUri);
@@ -171,18 +171,18 @@ public class MediaPlayer {
             mHandler = new Handler();
 
 
-            mPlayer = createPlayer(Costant.IS_ADAPTIVE_STREAMING);
+            mPlayer = createPlayer();
 
             mPlayerView.setPlayer(mPlayer);
 
             DefaultDataSourceFactory dataSourceFactory = new MediaSRC(mContext)
-                    .createDataSourceFactory(Costant.IS_ADAPTIVE_STREAMING);
+                    .createDataSourceFactory(true);
 
             MediaSource mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory)
                     .createMediaSource(mediaUri);
 
             boolean isResume = mResumePosition > 0;
-            if ((Costant.IS_IMA_AD_EXTENSION) && (mImaAdsLoader != null) ) {
+            if ((Costant.IS_IMA_AD_EXTENSION) && (mImaAdsLoader != null)) {
                 mediaSource = new AdsMediaSource(mediaSource, dataSourceFactory, mImaAdsLoader,
                         mPlayerView.getOverlayFrameLayout());
 
@@ -345,7 +345,7 @@ public class MediaPlayer {
 
 
     private void hiddenPlayer() {
-        if(mImagePlay!=null){
+        if (mImagePlay != null) {
             mImagePlay.setVisibility(View.VISIBLE);
         }
         mPlayerView.setVisibility(View.GONE);
@@ -354,10 +354,10 @@ public class MediaPlayer {
     public void showPlayer() {
         visibilityProgressBar(false);
         mPlayerView.setVisibility(View.VISIBLE);
-       if(mImagePlay!=null){
-           mImagePlay.setVisibility(View.GONE);
+        if (mImagePlay != null) {
+            mImagePlay.setVisibility(View.GONE);
 
-       }
+        }
     }
 
     void visibilityProgressBar(boolean visibility) {
@@ -374,11 +374,11 @@ public class MediaPlayer {
     private void setMute(boolean toMute) {
         if (toMute) {
             mPlayer.setVolume(0f);
-            Preference.setVolumeMuted(mContext,true);
+            Preference.setVolumeMuted(mContext, true);
 
         } else {
             mPlayer.setVolume(1f);
-            Preference.setVolumeMuted(mContext,false);
+            Preference.setVolumeMuted(mContext, false);
 
         }
 
@@ -456,7 +456,7 @@ public class MediaPlayer {
     }
 
 
-    private SimpleExoPlayer createPlayer(boolean isAdaptiveStreaming) {
+    private SimpleExoPlayer createPlayer() {
 
         int extensionRendererMode;
 
@@ -468,23 +468,14 @@ public class MediaPlayer {
 
         }
 
-        if (isAdaptiveStreaming) {
-            BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-            TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
-            TrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
-            LoadControl loadControl = new DefaultLoadControl();
-
-            return ExoPlayerFactory.newSimpleInstance(
-                    new DefaultRenderersFactory(mContext, extensionRendererMode)
-                    , trackSelector, loadControl);
-
-
-        }
+        BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+        TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
+        TrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
+        LoadControl loadControl = new DefaultLoadControl();
 
         return ExoPlayerFactory.newSimpleInstance(
                 new DefaultRenderersFactory(mContext, extensionRendererMode)
-                , new DefaultTrackSelector());
-
+                , trackSelector, loadControl);
 
     }
 

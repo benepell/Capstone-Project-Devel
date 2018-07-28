@@ -11,7 +11,6 @@ import java.lang.reflect.Type;
 
 import info.pelleritoudacity.android.rcapstone.data.rest.More;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
-import timber.log.Timber;
 
 class MoreDeserializer implements JsonDeserializer<More> {
 

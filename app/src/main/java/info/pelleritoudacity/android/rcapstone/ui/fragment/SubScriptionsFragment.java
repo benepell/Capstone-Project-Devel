@@ -88,24 +88,17 @@ public class SubScriptionsFragment extends Fragment
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (getActivity() != null) {
 
-            getActivity().getSupportLoaderManager().initLoader(REDDIT_LOADER_ID, null, this);
+            getLoaderManager().initLoader(REDDIT_LOADER_ID, null, this);
 
             if (Preference.getRestoreManage(mContext) == Costant.RESTORE_MANAGE_RESTORE) {
                 alerDialog(getActivity());
             }
 
-        }
+
 
     }
 
-
-    private void restartLoader() {
-        if (getActivity() != null) {
-            getActivity().getSupportLoaderManager().restartLoader(REDDIT_LOADER_ID, null, this);
-        }
-    }
 
     @Nullable
     @Override
@@ -178,7 +171,7 @@ public class SubScriptionsFragment extends Fragment
                 MapUtil.addElementPrefSubreddit(getActivity(), name);
             }
 
-            restartLoader();
+            getLoaderManager().restartLoader(REDDIT_LOADER_ID, null, this);
 
         }
 

@@ -103,7 +103,9 @@ public class SubRedditDetailFragment extends Fragment
     public void onResume() {
         super.onResume();
         if (getActivity() != null) {
-            getActivity().getSupportLoaderManager().restartLoader(SUBREDDIT_DETAIL_LOADER_ID, null, this);
+
+            getLoaderManager().restartLoader(SUBREDDIT_DETAIL_LOADER_ID, null, this);
+//            getActivity().getSupportLoaderManager().restartLoader(SUBREDDIT_DETAIL_LOADER_ID, null, this);
 
         }
 

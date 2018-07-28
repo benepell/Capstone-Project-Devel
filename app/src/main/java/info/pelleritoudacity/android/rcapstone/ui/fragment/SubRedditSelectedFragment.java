@@ -92,10 +92,9 @@ public class SubRedditSelectedFragment extends Fragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (getActivity() != null) {
-            getActivity().getSupportLoaderManager().initLoader(SUBREDDIT_SELECTED_LOADER_ID, null, this).forceLoad();
+        getLoaderManager().initLoader(SUBREDDIT_SELECTED_LOADER_ID, null, this).forceLoad();
 
-        }
+
         if (savedInstanceState != null) {
             mStrId = savedInstanceState.getString(Costant.EXTRA_FRAGMENT_STRING_ID);
         }

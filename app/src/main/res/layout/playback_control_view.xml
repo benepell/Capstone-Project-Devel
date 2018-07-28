@@ -2,54 +2,47 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_protection"
     android:layout_marginBottom="4dp"
     android:layout_marginEnd="4dp"
-    android:layout_marginTop="4dp">
+    android:layout_marginTop="4dp"
+    android:background="@drawable/background_protection">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/exo_muted"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="start|bottom"
-        android:orientation="horizontal">
+        android:layout_gravity="top"
+        android:background="@drawable/background_protection_oval"
+        android:contentDescription="@string/background_image_protection_oval" />
 
-        <ImageView
-            android:id="@+id/exo_muted"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/background_protection_oval"
-            android:contentDescription="@string/background_image_protection_oval" />
+    <TextView
+        style="?android:attr/textAppearanceSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/background_protection"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:visibility="invisible" />
 
-        <TextView
-            style="?android:attr/textAppearanceSmall"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/background_protection"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:visibility="invisible" />
+    <TextView
+        android:id="@+id/exo_countdown"
+        style="?android:attr/textAppearanceSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/background_protection"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/exo_countdown"
-            style="?android:attr/textAppearanceSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/background_protection"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+    <ImageView
+        android:id="@+id/exo_full_screen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:background="@drawable/background_protection_oval"
+        android:contentDescription="@string/background_image_protection_oval" />
 
-        <ImageView
-            android:id="@+id/exo_full_screen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/background_protection_oval"
-            android:contentDescription="@string/background_image_protection_oval" />
-
-
-    </LinearLayout>
 </FrameLayout>

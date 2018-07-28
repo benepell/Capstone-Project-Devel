@@ -180,7 +180,6 @@ public interface Costant {
     String BUNDLE_EXOPLAYER_POSITION = "info.pelleritoudacity.android.rcapstone.exo.player.position";
     String BUNDLE_EXOPLAYER_AUTOPLAY = "info.pelleritoudacity.android.rcapstone.exo.player.autoplay";
 
-    boolean IS_ADAPTIVE_STREAMING = true;
     boolean IS_IMA_AD_EXTENSION = true;
     boolean IS_MEDIA_SESSION = true;
     boolean IS_RENDERING_VIDEO = false;

@@ -138,16 +138,15 @@ public class SubRedditActivity extends BaseActivity
             }
         }
 
-        if (mLauncherMenu.showMenu()) {
-            mRefreshLayout.setRefreshing(true);
-            onRefresh();
+        mLauncherMenu.showMenu();
+        mRefreshLayout.setRefreshing(true);
+        onRefresh();
 
-            mCategory = Preference.getLastCategory(mContext);
-            mTarget = Preference.getLastTarget(mContext);
+        mCategory = Preference.getLastCategory(mContext);
+        mTarget = Preference.getLastTarget(mContext);
 
-            mSubRedditTab.positionSelected(mCategory);
+        mSubRedditTab.positionSelected(mCategory);
 
-        }
 
     }
 
@@ -282,8 +281,7 @@ public class SubRedditActivity extends BaseActivity
         }
     }
 
-    
-    
+
     @Override
     public void onRefresh() {
 
@@ -468,8 +466,8 @@ public class SubRedditActivity extends BaseActivity
         }
 
     }
-    
-    private void closeSearch(String category){
+
+    private void closeSearch(String category) {
         if (Preference.getLastTarget(mContext).equals(Costant.SUBREDDIT_TARGET_SEARCH) &&
                 (!TextUtils.isEmpty(mQuerySearchText))) {
             startActivity(new Intent(mContext, SubRedditActivity.class)

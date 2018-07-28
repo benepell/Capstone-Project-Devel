@@ -70,7 +70,6 @@
     <item
         android:id="@+id/submenu_filter_posts"
         android:enabled="true"
-        android:icon="@drawable/ic_sort_24dp"
         android:title="@string/title_submenu_filter"
         android:visible="true"
         app:showAsAction="ifRoom">

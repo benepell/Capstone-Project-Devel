@@ -74,7 +74,7 @@ public class TextUtil {
 
     public static String textFromHtml(String url) {
         if (!TextUtils.isEmpty(url)) {
-            String msgCompose[] = {"\\(/message/compose/\\?", "\\(\\/r/"};
+            String msgCompose[] = {"\\(/message/compose/\\?", "\\(/r/"};
             url = url.replaceAll("&amp;", "&");
             url = url.replaceAll("&lt;", "<");
             url = url.replaceAll("&gt;", ">");

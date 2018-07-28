@@ -22,8 +22,8 @@ allprojects {
 
     ext {
         minSdkVersion = 21
-        sdkVersion = 28
-        androidSupportVersion = "$sdkVersion.0.0-alpha3"
+        sdkVersion = 27
+        androidSupportVersion = "$sdkVersion.1.1"
 
         androidSupportConstraintVersion = "1.1.2"
 
