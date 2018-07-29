@@ -196,12 +196,22 @@ public class BaseActivity extends AppCompatActivity
     @Override
     protected boolean onPrepareOptionsPanel(View view, Menu menu) {
 
-//        menuBase.menuItemSearch(this, getComponentName(), menu);
-        menuBase.menuItemIfRoom(menu);
-        menuBase.menuItemLogin(menu, Preference.isLoginStart(getApplicationContext()));
-        menuBase.menuGeneralSettings(menu);
+        switch (getLayoutResource()) {
+            case R.layout.activity_subreddit:
+            case R.layout.activity_sub_reddit_detail:
+            case R.layout.activity_settings:
+                menuBase.menuItemIfRoom(menu);
+                menuBase.menuGeneralSettings(menu);
+                menuBase.menuItemLogin(menu, Preference.isLoginStart(getApplicationContext()));
 
-        return true;
+            case R.layout.activity_submanage:
+                return true;
+
+            default:
+                return false;
+
+        }
+
     }
 
     @Override
