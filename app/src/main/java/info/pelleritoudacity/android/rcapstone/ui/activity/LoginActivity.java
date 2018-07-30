@@ -123,10 +123,9 @@ public class LoginActivity extends BaseActivity {
                         if (state.equals(Costant.REDDIT_STATE_RANDOM)) {
 
                             String code = uri.getQueryParameter("code");
-                            new AccessTokenExecute(code).loginData(new AccessTokenExecute.RestAccessToken() {
+                            new AccessTokenExecute(new AccessTokenExecute.RestAccessToken() {
                                 @Override
                                 public void onRestAccessToken(RedditToken listenerData) {
-
                                     if (listenerData != null) {
                                         String strAccessToken = listenerData.getAccess_token();
                                         String strRefreshToken = listenerData.getRefresh_token();
@@ -134,20 +133,22 @@ public class LoginActivity extends BaseActivity {
 
                                         if (!TextUtils.isEmpty(strAccessToken) && !TextUtils.isEmpty(strRefreshToken)) {
                                             PermissionUtil.setToken(getApplicationContext(), strAccessToken);
-                                            Preference.setSessionRefreshToken(getApplicationContext(),strRefreshToken);
+                                            Preference.setSessionRefreshToken(getApplicationContext(), strRefreshToken);
                                             Preference.setSessionExpired(getApplicationContext(), (int) expired);
-                                            Preference.setTimeToken(getApplicationContext(),System.currentTimeMillis());
-                                            Preference.setLoginStart(getApplicationContext(),true);
+                                            Preference.setTimeToken(getApplicationContext(), System.currentTimeMillis());
+                                            Preference.setLoginStart(getApplicationContext(), true);
                                             openHomeActivity(true);
                                         }
                                     }
+
                                 }
 
                                 @Override
                                 public void onErrorAccessToken(Throwable t) {
                                     Timber.e("Error Login %s", t.getMessage());
+
                                 }
-                            });
+                            }, code).loginData();
                         }
                     }
                     mWebview.stopLoading();

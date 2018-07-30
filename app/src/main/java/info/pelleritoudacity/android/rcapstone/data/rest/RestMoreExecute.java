@@ -1,59 +1,62 @@
 package info.pelleritoudacity.android.rcapstone.data.rest;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 
-import java.lang.ref.WeakReference;
+import java.util.HashMap;
 
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.More;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
-import info.pelleritoudacity.android.rcapstone.data.rest.deserialize.RestMoreManager;
+import info.pelleritoudacity.android.rcapstone.data.rest.util.RetrofitClient;
+import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RestMoreExecute {
-    private final RestMoreManager restMoreManager;
-    private More mReddit;
+
+    private final String mCode;
     private final DetailModel model;
+    private final Context mContext;
+    private static RedditAPI sApi;
+    private final RestSubRedditMore mCallback;
 
-    public RestMoreExecute(Context context, String code , DetailModel model) {
+    public RestMoreExecute(RestSubRedditMore callback, Context context, String code, DetailModel model) {
 
-        restMoreManager = RestMoreManager.getInstance(new WeakReference<>(context),
-                code,  model);
+        sApi = RetrofitClient.createService(Costant.REDDIT_OAUTH_URL, More.class);
+        mContext = context;
+        mCallback = callback;
+        mCode = code;
         this.model = model;
     }
 
-    public void getMoreData(RestSubRedditMore myCallBack) {
+    public void getMoreData() {
 
-        Callback<More> callback = new Callback<More>() {
+        HashMap<String, String> fieldMap = new HashMap<>();
+        fieldMap.put("api_type", "json");
+        fieldMap.put("link_id", model.getStrLinkId());
+        fieldMap.put("children", model.getStrArrId());
+
+
+        sApi.getMoreCommentsAuth(TextUtil.authCode(mCode) ,
+                fieldMap).enqueue(new Callback<More>() {
             @Override
-            public void onResponse(@NonNull Call<More> call, @NonNull Response<More> response) {
-                mReddit = response.body();
-                myCallBack.onRestSubRedditMore(mReddit, model.getStrArrId());
-
+            public void onResponse(Call<More> call, Response<More> response) {
+                mCallback.onRestSubRedditMore(response.body(), model.getStrArrId());
             }
 
             @Override
-            public void onFailure(@NonNull Call<More> call, @NonNull Throwable t) {
-                myCallBack.onErrorSubRedditMore(t);
-
+            public void onFailure(Call<More> call, Throwable t) {
+                mCallback.onErrorSubRedditMore(t);
             }
-        };
-        restMoreManager.getMoreCommentsAPI(callback);
+        });
+
     }
-
-
-    public void cancelRequest() {
-        if (restMoreManager != null) {
-            restMoreManager.cancelRequest();
-        }
-    }
-
 
     public interface RestSubRedditMore {
-        void onRestSubRedditMore(More listenerData ,String mStrArrid);
+        void onRestSubRedditMore(More listenerData, String mStrArrid);
 
         void onErrorSubRedditMore(Throwable t);
     }

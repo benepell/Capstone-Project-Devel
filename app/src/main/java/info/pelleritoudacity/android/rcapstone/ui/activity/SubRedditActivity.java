@@ -398,16 +398,16 @@ public class SubRedditActivity extends BaseActivity
                     case Costant.LABEL_SUBMENU_NEW:
                     case Costant.LABEL_SUBMENU_HOT:
 
-                        new SubRedditExecute(mContext, link, target).getDataList(this);
+                        new SubRedditExecute(this,this, mContext,link).getDataList();
                         break;
 
                     case Costant.LABEL_SUBMENU_CONTROVERSIAL:
                     case Costant.LABEL_SUBMENU_TOP:
-                        new SubRedditExecute(mContext, link, target).getData(this);
+                        new SubRedditExecute(this,this,mContext, link).getData();
                         break;
 
                     default:
-                        new SubRedditExecute(mContext, link, target).getData(this);
+                        new SubRedditExecute(this,this,mContext, link).getData();
                 }
             }
 

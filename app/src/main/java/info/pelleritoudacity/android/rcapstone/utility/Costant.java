@@ -45,6 +45,8 @@ public interface Costant {
     String REDDIT_STATE_RANDOM = BuildConfig.REDDIT_SECRET_STATE;
     String PERMISSION_STATE_REDDIT = "identity, edit, flair, history, modconfig, modflair, modlog, modposts, modwiki, mysubreddits, privatemessages, read, report, save, submit, subscribe, vote, wikiedit, wikiread";
 
+    String RETROFIT_GSON_DATA = "yyyy-MM-dd'T'HH:mm:ssZ";
+
     String REDDIT_COMMENTS = "comments";
     String BASE_TYPE_YOUTUBE = "youtube.com";
     String BASE_TYPE_VIMEO = "vimeo.com";

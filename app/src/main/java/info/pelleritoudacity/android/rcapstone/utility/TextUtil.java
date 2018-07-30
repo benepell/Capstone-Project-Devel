@@ -152,4 +152,7 @@ public class TextUtil {
         return "";
     }
 
+    public static String authCode(String code) {
+        return TextUtils.isEmpty(code) ? "" : Costant.REDDIT_BEARER.concat(code);
+    }
 }

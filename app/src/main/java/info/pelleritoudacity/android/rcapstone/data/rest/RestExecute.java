@@ -32,6 +32,10 @@ import java.lang.ref.WeakReference;
 
 import info.pelleritoudacity.android.rcapstone.data.db.Operation.T5Operation;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T5;
+import info.pelleritoudacity.android.rcapstone.data.rest.util.RetrofitClient;
+import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -39,44 +43,30 @@ import retrofit2.Response;
 
 public class RestExecute {
 
-    private final RestManager restManager;
-    private T5 mReddit;
+    private static RedditAPI sApi;
+    private Call<T5> mCall;
     private final WeakReference<Context> mWeakContext;
 
     public RestExecute(WeakReference<Context> weakReference) {
-        restManager = RestManager.getInstance();
+
+        if (PermissionUtil.isLogged(weakReference.get())) {
+            sApi = RetrofitClient.createService(Costant.REDDIT_OAUTH_URL, null);
+
+        } else {
+            sApi = RetrofitClient.createService(Costant.REDDIT_BASE_URL, null);
+
+        }
+
         mWeakContext = weakReference;
     }
 
-    public void loadData(final RestData myCallBack) {
-
-        Callback<T5> callback = new Callback<T5>() {
-            @Override
-            public void onResponse(@NonNull Call<T5> call, @NonNull Response<T5> response) {
-                mReddit = response.body();
-                if (response.isSuccessful()) {
-                    myCallBack.onRestData(mReddit);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<T5> call, @NonNull Throwable t) {
-                call.cancel();
-                if (call.isCanceled()) {
-                    myCallBack.onErrorData(t);
-                }
-            }
-        };
-        restManager.getRedditAPI(callback);
-    }
-
     public void syncData() {
-        Callback<T5> callback = new Callback<T5>() {
+        sApi.getReddit().enqueue(new Callback<T5>() {
             @Override
             public void onResponse(@NonNull Call<T5> call, @NonNull Response<T5> response) {
-                mReddit = response.body();
+                mCall = call;
                 if (response.isSuccessful()) {
-                    T5Operation data = new T5Operation(mWeakContext.get(),mReddit);
+                    T5Operation data = new T5Operation(mWeakContext.get(), response.body());
                     data.saveData();
                 }
             }
@@ -85,20 +75,16 @@ public class RestExecute {
             public void onFailure(@NonNull Call<T5> call, @NonNull Throwable t) {
                 call.cancel();
             }
-        };
-        restManager.getRedditAPI(callback);
+        });
+
 
     }
 
     public void cancelRequest() {
-        if (restManager != null) {
-            restManager.cancelRequest();
+        if (mCall != null) {
+            mCall.cancel();
         }
     }
 
-    interface RestData {
-        void onRestData(T5 listenerData);
 
-        void onErrorData(Throwable t);
-    }
 }

@@ -133,7 +133,7 @@ public class BaseActivity extends AppCompatActivity
         }
 
         if (PermissionUtil.isLogged(getApplicationContext())) {
-            new AboutMeExecute(PermissionUtil.getToken(getApplicationContext())).loginData(this);
+            new AboutMeExecute(this, PermissionUtil.getToken(getApplicationContext())).loginData();
         }
 
         if (TextUtils.isEmpty(Preference.getSubredditSort(getApplicationContext()))) {
@@ -199,7 +199,6 @@ public class BaseActivity extends AppCompatActivity
         switch (getLayoutResource()) {
             case R.layout.activity_subreddit:
             case R.layout.activity_sub_reddit_detail:
-            case R.layout.activity_settings:
                 menuBase.menuItemIfRoom(menu);
                 menuBase.menuGeneralSettings(menu);
                 menuBase.menuItemLogin(menu, Preference.isLoginStart(getApplicationContext()));

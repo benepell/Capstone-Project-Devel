@@ -45,7 +45,7 @@ public class LogoutActivity extends BaseActivity
         super.onCreate(savedInstanceState);
 
         if (PermissionUtil.isLogged(getApplicationContext())) {
-            new RevokeTokenExecute(PermissionUtil.getToken(getApplicationContext()), Costant.REDDIT_ACCESS_TOKEN).RevokeTokenData(this);
+            new RevokeTokenExecute(this,PermissionUtil.getToken(getApplicationContext()) ).RevokeTokenData();
         }
     }
 

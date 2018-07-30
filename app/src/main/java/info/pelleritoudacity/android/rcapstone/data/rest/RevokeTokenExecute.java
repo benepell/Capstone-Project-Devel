@@ -28,50 +28,95 @@ package info.pelleritoudacity.android.rcapstone.data.rest;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Base64;
 
+import java.util.HashMap;
+
+import info.pelleritoudacity.android.rcapstone.data.rest.util.RetrofitClient;
+import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
+import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
 
 public class RevokeTokenExecute {
-    private final RevokeTokenManager revokeTokenManager;
 
-    public RevokeTokenExecute(String token, String typeToken) {
-        revokeTokenManager = RevokeTokenManager.getInstance(token, typeToken);
+    private static RedditAPI sApi;
+    private final String mToken;
+    private RestRevokeCode mCallback;
+
+
+    public RevokeTokenExecute(RestRevokeCode callback, String token) {
+
+        mCallback = callback;
+        sApi = RetrofitClient.createService(Costant.REDDIT_TOKEN_URL, null);
+        mToken = token;
+
     }
 
-    public void RevokeTokenData(final RestRevokeCode myCallBack) {
-        Callback<String> callback = new Callback<String>() {
+    public void RevokeTokenData() {
+
+        String authString = Costant.REDDIT_CLIENT_ID + ":";
+        String encodedAuthString = Base64.encodeToString(authString.getBytes(), Base64.NO_WRAP);
+
+        HashMap<String, String> headerMap;
+        HashMap<String, String> fieldMap;
+
+        headerMap = new HashMap<>();
+        headerMap.put("Authorization", "Basic " + encodedAuthString);
+
+        fieldMap = new HashMap<>();
+        fieldMap.put("token",Costant.REDDIT_BEARER+ mToken);
+        fieldMap.put("grant_type", "authorization_code");
+        fieldMap.put("User-Agent", Costant.REDDIT_USER_AGENT);
+        fieldMap.put("redirect_uri", Costant.REDDIT_REDIRECT_URL);
+
+
+        sApi.getRevokeToken(headerMap,fieldMap).enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if (response.isSuccessful()) {
-                    myCallBack.onRestCode(response.code());
+                    mCallback.onRestCode(response.code());
                 }
 
             }
 
             @Override
             public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                Timber.e("Revoke Token Error %s", t.getMessage());
                 call.cancel();
-                if (call.isCanceled()) {
-                    Timber.e("Revoke Token Error %s", t.getMessage());
-                }
             }
-        };
-        revokeTokenManager.getLoginAPI(callback);
+        });
     }
 
 
     public void RevokeTokenSync(final Context context) {
-        Callback<String> callback = new Callback<String>() {
+
+        String authString = Costant.REDDIT_CLIENT_ID + ":";
+        String encodedAuthString = Base64.encodeToString(authString.getBytes(), Base64.NO_WRAP);
+
+        HashMap<String, String> headerMap;
+        HashMap<String, String> fieldMap;
+
+        headerMap = new HashMap<>();
+        headerMap.put("Authorization", "Basic " + encodedAuthString);
+
+        fieldMap = new HashMap<>();
+        fieldMap.put("token", TextUtil.authCode( mToken));
+        fieldMap.put("grant_type", "authorization_code");
+        fieldMap.put("User-Agent", Costant.REDDIT_USER_AGENT);
+        fieldMap.put("redirect_uri", Costant.REDDIT_REDIRECT_URL);
+
+
+        sApi.getRevokeToken(headerMap,fieldMap).enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if (response.isSuccessful()) {
-                    if(response.code()== Costant.REDDIT_REVOKE_SUCCESS){
-                        Preference.setTimeToken(context,0);
+                    if (response.code() == Costant.REDDIT_REVOKE_SUCCESS) {
+                        Preference.setTimeToken(context, 0);
                     }
                 }
 
@@ -84,8 +129,7 @@ public class RevokeTokenExecute {
                     Timber.e("Sync Revoke Token Error %s", t.getMessage());
                 }
             }
-        };
-        revokeTokenManager.getLoginAPI(callback);
+        });
     }
 
 

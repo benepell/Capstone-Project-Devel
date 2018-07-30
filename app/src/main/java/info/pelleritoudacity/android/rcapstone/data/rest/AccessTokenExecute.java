@@ -27,27 +27,54 @@
 package info.pelleritoudacity.android.rcapstone.data.rest;
 
 import android.support.annotation.NonNull;
+import android.util.Base64;
+
+import java.util.HashMap;
 
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.RedditToken;
+import info.pelleritoudacity.android.rcapstone.data.rest.util.RetrofitClient;
+import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AccessTokenExecute {
-    private final AccessTokenManager accessTokenManager;
-    private RedditToken mLogin;
 
-    public AccessTokenExecute(String code) {
-        accessTokenManager = AccessTokenManager.getInstance(code);
+    private final RestAccessToken mCallback;
+    private static RedditAPI sApi;
+    private final String mCode;
+
+    public AccessTokenExecute(RestAccessToken callback, String code) {
+
+        sApi = RetrofitClient.createService(Costant.REDDIT_TOKEN_URL,null);
+        mCallback = callback;
+        mCode = code;
+
     }
 
-    public void loginData(final RestAccessToken myCallBack) {
-        Callback<RedditToken> callback = new Callback<RedditToken>() {
+    public void loginData() {
+
+        String authString = Costant.REDDIT_CLIENT_ID + ":";
+        String encodedAuthString = Base64.encodeToString(authString.getBytes(), Base64.NO_WRAP);
+
+        HashMap<String, String> headerMap;
+        HashMap<String, String> fieldMap;
+
+        headerMap = new HashMap<>();
+        headerMap.put("Authorization", "Basic " + encodedAuthString);
+
+        fieldMap = new HashMap<>();
+        fieldMap.put("grant_type", "authorization_code");
+        fieldMap.put("User-Agent", Costant.REDDIT_USER_AGENT);
+        fieldMap.put("code", mCode);
+        fieldMap.put("redirect_uri", Costant.REDDIT_REDIRECT_URL);
+
+        sApi.getAccessToken(headerMap, fieldMap).enqueue(new Callback<RedditToken>() {
             @Override
             public void onResponse(@NonNull Call<RedditToken> call, @NonNull Response<RedditToken> response) {
                 if (response.isSuccessful()) {
-                    mLogin = response.body();
-                    myCallBack.onRestAccessToken(mLogin);
+                    mCallback.onRestAccessToken(response.body());
                 }
             }
 
@@ -55,11 +82,10 @@ public class AccessTokenExecute {
             public void onFailure(@NonNull Call<RedditToken> call, @NonNull Throwable t) {
                 call.cancel();
                 if (call.isCanceled()) {
-                    myCallBack.onErrorAccessToken(t);
+                    mCallback.onErrorAccessToken(t);
                 }
             }
-        };
-        accessTokenManager.getLoginAPI(callback);
+        });
     }
 
     public interface RestAccessToken {

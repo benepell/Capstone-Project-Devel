@@ -23,8 +23,8 @@ import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T1;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.More;
-import info.pelleritoudacity.android.rcapstone.data.rest.RestDetailExecute;
 import info.pelleritoudacity.android.rcapstone.data.rest.RestMoreExecute;
+import info.pelleritoudacity.android.rcapstone.data.rest.RestDetailExecute;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditDetailFragment;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditSelectedFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.MenuBase;
@@ -132,11 +132,11 @@ public class SubRedditDetailActivity extends BaseActivity
                 break;
 
             case Costant.TARGET_DETAIL:
-                new RestDetailExecute(mContext, tokenLogin, model).getData(this);
+                new RestDetailExecute(this,mContext, tokenLogin, model).getData();
                 break;
 
             case Costant.TARGET_MORE_DETAIL:
-                new RestMoreExecute(mContext, tokenLogin, model).getMoreData(this);
+                new RestMoreExecute(this,mContext, tokenLogin, model).getMoreData();
                 break;
 
             case Costant.TARGET_DETAIL_SEARCH:

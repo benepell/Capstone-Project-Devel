@@ -27,63 +27,72 @@
 package info.pelleritoudacity.android.rcapstone.data.rest;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Base64;
 
+import java.util.HashMap;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.RedditToken;
+import info.pelleritoudacity.android.rcapstone.data.rest.util.RetrofitClient;
+import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import timber.log.Timber;
 
 public class RefreshTokenExecute {
-    private final RefreshTokenManager refreshTokenManager;
     private RedditToken mRedditToken;
+    private static RedditAPI sApi;
+    private final String mRefreshToken;
+    Call<RedditToken> mCall;
 
     public RefreshTokenExecute(String refreshToken) {
-        refreshTokenManager = RefreshTokenManager.getInstance(refreshToken);
-    }
-
-    public void loginData(final RestRefreshToken myCallBack) {
-        Callback<RedditToken> callback = new Callback<RedditToken>() {
-            @Override
-            public void onResponse(@NonNull Call<RedditToken> call, @NonNull Response<RedditToken> response) {
-                if (response.isSuccessful()) {
-                    mRedditToken = response.body();
-                    myCallBack.onRestRefreshToken(mRedditToken);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<RedditToken> call, @NonNull Throwable t) {
-                call.cancel();
-                if (call.isCanceled()) {
-                    myCallBack.onErrorRefreshToken(t);
-                }
-            }
-        };
-        refreshTokenManager.getLoginAPI(callback);
+        sApi = RetrofitClient.createService(Costant.REDDIT_TOKEN_URL,null);
+        mRefreshToken = refreshToken;
     }
 
     public void syncData(final Context context) {
-        Callback<RedditToken> callback = new Callback<RedditToken>() {
+
+        String authString = Costant.REDDIT_CLIENT_ID + ":";
+        String encodedAuthString = Base64.encodeToString(authString.getBytes(), Base64.NO_WRAP);
+
+        HashMap<String, String> headerMap;
+        HashMap<String, String> fieldMap;
+        headerMap = new HashMap<>();
+        headerMap.put("Authorization", "Basic " + encodedAuthString);
+
+        fieldMap = new HashMap<>();
+        fieldMap.put("grant_type", "refresh_token");
+        fieldMap.put("refresh_token", mRefreshToken);
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(Costant.OK_HTTP_CONNECTION_TIMEOUT, TimeUnit.SECONDS)
+                .readTimeout(Costant.OK_HTTP_CONNECTION_READ_TIMEOUT, TimeUnit.SECONDS)
+                .writeTimeout(Costant.OK_HTTP_CONNECTION_WRITE_TIMEOUT, TimeUnit.SECONDS)
+                .build();
+
+        sApi.getAccessToken(headerMap, fieldMap).enqueue(new Callback<RedditToken>() {
             @Override
-            public void onResponse(@NonNull Call<RedditToken> call, @NonNull Response<RedditToken> response) {
+            public void onResponse(Call<RedditToken> call, Response<RedditToken> response) {
                 if (response.isSuccessful()) {
                     mRedditToken = response.body();
                     String strAccessToken = Objects.requireNonNull(mRedditToken).getAccess_token();
                     String strRefreshToken = mRedditToken.getRefresh_token();
                     long expired = mRedditToken.getExpires_in();
+
                     if (!TextUtils.isEmpty(strAccessToken) && expired > 0) {
-                        PermissionUtil.setToken(context,strAccessToken);
+                        PermissionUtil.setToken(context, strAccessToken);
+
                         if (!TextUtils.isEmpty(strRefreshToken)) {
-                            Preference.setSessionRefreshToken(context,strRefreshToken);
+                            Preference.setSessionRefreshToken(context, strRefreshToken);
                         }
-                        Preference.setSessionExpired(context,(int)expired);
+
+                        Preference.setSessionExpired(context, (int) expired);
                         Preference.setTimeToken(context, System.currentTimeMillis());
 
                     }
@@ -91,25 +100,15 @@ public class RefreshTokenExecute {
             }
 
             @Override
-            public void onFailure(@NonNull Call<RedditToken> call, @NonNull Throwable t) {
-                call.cancel();
-                Timber.e("Sync T1Data Token Refresh failure %s", t.getMessage());
+            public void onFailure(Call<RedditToken> call, Throwable t) {
             }
-        };
-        refreshTokenManager.getLoginAPI(callback);
+        });
+
     }
 
     public void cancelRequest() {
-        if (refreshTokenManager != null) {
-            refreshTokenManager.cancelRequest();
+        if (mCall != null) {
+            mCall.cancel();
         }
-    }
-
-
-    interface RestRefreshToken {
-
-        void onRestRefreshToken(RedditToken listenerData);
-
-        void onErrorRefreshToken(Throwable t);
     }
 }

@@ -26,40 +26,39 @@
 
 package info.pelleritoudacity.android.rcapstone.data.rest;
 
-import android.support.annotation.NonNull;
-
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.RedditAboutMe;
+import info.pelleritoudacity.android.rcapstone.data.rest.util.RetrofitClient;
+import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AboutMeExecute {
-    private final AboutMeManager aboutMeManager;
-    private RedditAboutMe mLogin;
+    private final RestAboutMe mCallback;
+    private static RedditAPI sApi;
+    private final String mCode;
 
-    public AboutMeExecute(String code) {
-        aboutMeManager = AboutMeManager.getInstance(code);
+    public AboutMeExecute(RestAboutMe callback, String code) {
+        sApi = RetrofitClient.createService(Costant.REDDIT_OAUTH_URL,null);
+        mCallback = callback;
+        mCode = code;
+
     }
 
-    public void loginData(final RestAboutMe myCallBack) {
-        Callback<RedditAboutMe> callback = new Callback<RedditAboutMe>() {
+    public void loginData() {
+        sApi.getAboutMe(TextUtil.authCode(mCode)).enqueue(new Callback<RedditAboutMe>() {
             @Override
-            public void onResponse(@NonNull Call<RedditAboutMe> call, @NonNull Response<RedditAboutMe> response) {
-                if (response.isSuccessful()) {
-                    mLogin = response.body();
-                    myCallBack.onRestAboutMe(mLogin);
-                }
+            public void onResponse(Call<RedditAboutMe> call, Response<RedditAboutMe> response) {
+                mCallback.onRestAboutMe(response.body());
             }
 
             @Override
-            public void onFailure(@NonNull Call<RedditAboutMe> call, @NonNull Throwable t) {
-                call.cancel();
-                if (call.isCanceled()) {
-                    myCallBack.onErrorAboutMe(t);
-                }
+            public void onFailure(Call<RedditAboutMe> call, Throwable t) {
+                mCallback.onErrorAboutMe(t);
             }
-        };
-        aboutMeManager.getAboutMeAPI(callback);
+        });
     }
 
     public interface RestAboutMe {

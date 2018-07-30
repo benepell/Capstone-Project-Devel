@@ -1,4 +1,4 @@
-package info.pelleritoudacity.android.rcapstone.data.rest.deserialize;
+package info.pelleritoudacity.android.rcapstone.data.rest.util;
 
 
 import com.google.gson.Gson;
