@@ -33,6 +33,8 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 
+import java.util.Objects;
+
 import info.pelleritoudacity.android.rcapstone.data.db.Operation.T3Operation;
 import info.pelleritoudacity.android.rcapstone.data.db.Operation.T5Operation;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
@@ -393,7 +395,7 @@ public class DataUtils {
             String where = Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION + " =?";
             String[] selectionArgs = {String.valueOf(fromPosition)};
 
-            count = mContext.getContentResolver().update(uri, contentValues, where, selectionArgs);
+            count = mContext.getContentResolver().update(Objects.requireNonNull(uri), contentValues, where, selectionArgs);
 
             if (count > 0) {
 

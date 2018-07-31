@@ -59,6 +59,7 @@ import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.Operation.T3Operation;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
+import info.pelleritoudacity.android.rcapstone.data.model.ui.MainModel;
 import info.pelleritoudacity.android.rcapstone.data.other.TabData;
 import info.pelleritoudacity.android.rcapstone.data.rest.MainExecute;
 import info.pelleritoudacity.android.rcapstone.data.rest.RefreshTokenExecute;
@@ -99,10 +100,8 @@ public class MainActivity extends BaseActivity
     public static MediaSessionCompat sMediaSessionCompat = null;
 
     private Tab mTab;
+    private MainModel mModel;
 
-    private String mCategory;
-    private String mTarget;
-    private String mQuerySearchText;
     private MenuLauncherDetail mLauncherMenu;
 
     @Override
@@ -111,6 +110,14 @@ public class MainActivity extends BaseActivity
         super.onCreate(savedInstanceState);
 
         mContext = MainActivity.this;
+
+        if(savedInstanceState != null)  {
+            mModel = savedInstanceState.getParcelable(Costant.EXTRA_PARCEL_MAIN_MODEL);
+
+        } else {
+            mModel = new MainModel();
+
+        }
 
         if (Util.SDK_INT > 23) {
             RequestPermissionExtStorage(MainActivity.this);
@@ -130,8 +137,8 @@ public class MainActivity extends BaseActivity
         mTab.initTab();
 
         if (getIntent() != null) {
-            mQuerySearchText = getIntent().getStringExtra(Costant.EXTRA_SUBREDDIT_SEARCH);
-            if (TextUtils.isEmpty(mQuerySearchText) &&
+           mModel.setQuerySearch( getIntent().getStringExtra(Costant.EXTRA_SUBREDDIT_SEARCH));
+            if (TextUtils.isEmpty(mModel.getQuerySearch()) &&
                     (Preference.getLastTarget(mContext)).equals(Costant.SUBREDDIT_TARGET_SEARCH)) {
 
                 Preference.setLastTarget(mContext, Costant.SUBREDDIT_TARGET_DEFAULT_START_VALUE);
@@ -145,10 +152,10 @@ public class MainActivity extends BaseActivity
             onRefresh();
         }
 
-        mCategory = Preference.getLastCategory(mContext);
-        mTarget = Preference.getLastTarget(mContext);
+        mModel.setCategory(Preference.getLastCategory(mContext));
+        mModel.setTarget(Preference.getLastTarget(mContext));
 
-        mTab.positionSelected(mCategory);
+        mTab.positionSelected(mModel.getCategory());
 
 
     }
@@ -173,6 +180,7 @@ public class MainActivity extends BaseActivity
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable(Costant.EXTRA_PARCEL_MAIN_MODEL, mModel);
         super.onSaveInstanceState(outState);
     }
 
@@ -229,11 +237,13 @@ public class MainActivity extends BaseActivity
                 mLauncherMenu.saveLastPreference();
                 mRefreshLayout.setRefreshing(true);
 
+                mModel.setCategory(category);
+                mModel.setTarget(Costant.SUBREDDIT_TARGET_TAB);
+
                 startActivity(new Intent(this, MainActivity.class)
                         .putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, category)
                         .putExtra(Costant.EXTRA_SUBREDDIT_TARGET, Costant.SUBREDDIT_TARGET_TAB)
                         .putExtra(Costant.EXTRA_TAB_POSITION, position)
-
                 );
 
             }
@@ -244,7 +254,9 @@ public class MainActivity extends BaseActivity
     @Override
     public void tabReselected(int position, String category) {
         if (position > 0) {
-            closeSearch(category);
+            mModel.setCategory(category);
+            mModel.setPositionTab(position);
+            closeSearch(mModel);
         }
     }
 
@@ -252,16 +264,23 @@ public class MainActivity extends BaseActivity
     @Override
     public void onRefresh() {
 
-        if (Preference.getLastTarget(mContext).equals(Costant.SUBREDDIT_TARGET_SEARCH) && (!TextUtils.isEmpty(mQuerySearchText))) {
-            createUI(Preference.getLastCategory(getApplicationContext()), Preference.getLastTarget(getApplicationContext()), mQuerySearchText);
+        if (Preference.getLastTarget(mContext).equals(Costant.SUBREDDIT_TARGET_SEARCH) && (!TextUtils.isEmpty(mModel.getQuerySearch()))) {
+            mModel.setCategory(Preference.getLastCategory(getApplicationContext()));
+            mModel.setTarget(Preference.getLastTarget(getApplicationContext()));
+            createUI(mModel);
 
         } else if (!NetworkUtil.isOnline(mContext)) {
-            createUI(Preference.getLastCategory(getApplicationContext()), Preference.getLastTarget(getApplicationContext()), null);
+            mModel.setCategory(Preference.getLastCategory(getApplicationContext()));
+            mModel.setTarget(Preference.getLastTarget(getApplicationContext()));
+            createUI(mModel);
+
             Snackbar.make(mContainer, R.string.list_snackbar_offline_text, Snackbar.LENGTH_LONG).show();
 
         } else {
+            mModel.setCategory(Preference.getLastCategory(getApplicationContext()));
+            mModel.setTarget(Preference.getLastTarget(getApplicationContext()));
 
-            initRest(Preference.getLastCategory(mContext), Preference.getLastTarget(mContext), NetworkUtil.isOnline(mContext));
+            initRest(mModel, NetworkUtil.isOnline(mContext));
         }
 
     }
@@ -330,24 +349,24 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    private void createUI(String link, String target, String querySearch) {
-        if ((mCategory != null && mTarget != null) && (TextUtils.isEmpty(querySearch))) {
+    private void createUI(MainModel m) {
+        if ((m.getCategory() != null && m.getTarget() != null) && (TextUtils.isEmpty(m.getQuerySearch()))) {
             mTab.updateTabPosition();
 
         }
-        startFragment(link, target, querySearch);
+        startFragment(m);
     }
 
 
-    private void initRest(String link, String target, boolean stateNetworkOnline) {
-        if (!TextUtils.isEmpty(link)) {
+    private void initRest(MainModel m, boolean stateNetworkOnline) {
+        if (!TextUtils.isEmpty(m.getCategory())) {
 
             if ((!stateNetworkOnline) || (
                     new DataUtils(mContext).isSyncData(Contract.T3dataEntry.CONTENT_URI,
-                            link,
+                           m.getCategory(),
                             Preference.getGeneralSettingsSyncFrequency(mContext)))) {
 
-                createUI(link, target, null);
+                createUI(mModel);
 
             } else {
                 switch (Preference.getSubredditSort(mContext)) {
@@ -356,16 +375,16 @@ public class MainActivity extends BaseActivity
                     case Costant.LABEL_SUBMENU_NEW:
                     case Costant.LABEL_SUBMENU_HOT:
 
-                        new MainExecute(this,  mContext, link).getDataList();
+                        new MainExecute(this, mContext,m.getCategory()).getDataList();
                         break;
 
                     case Costant.LABEL_SUBMENU_CONTROVERSIAL:
                     case Costant.LABEL_SUBMENU_TOP:
-                        new MainExecute(this,  mContext, link).getData();
+                        new MainExecute(this, mContext,m.getCategory()).getData();
                         break;
 
                     default:
-                        new MainExecute(this,  mContext, link).getData();
+                        new MainExecute(this, mContext,m.getCategory()).getData();
                 }
             }
 
@@ -373,9 +392,9 @@ public class MainActivity extends BaseActivity
     }
 
 
-    private void startFragment(String link, String target, String querySearch) {
+    private void startFragment(MainModel m) {
         if (!getSupportFragmentManager().isStateSaved()) {
-            MainFragment mainFragment = MainFragment.newInstance(link, target, querySearch);
+            MainFragment mainFragment = MainFragment.newInstance(m);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_subreddit_container, mainFragment).commit();
         }
@@ -407,7 +426,9 @@ public class MainActivity extends BaseActivity
     @Override
     public boolean onQueryTextSubmit(String s) {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, Preference.getLastCategory(mContext));
+        mModel.setQuerySearch(s);
+        mModel.setTarget(Costant.SUBREDDIT_TARGET_SEARCH);
+        intent.putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, mModel.getCategory());
         intent.putExtra(Costant.EXTRA_SUBREDDIT_TARGET, Costant.SUBREDDIT_TARGET_SEARCH);
         intent.putExtra(Costant.EXTRA_SUBREDDIT_SEARCH, s);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -425,8 +446,8 @@ public class MainActivity extends BaseActivity
         if ((getApplicationContext() != null) && (response != null)) {
             T3Operation data = new T3Operation(getApplicationContext(), response);
 
-            if ((mCategory != null && mTarget != null) && (data.saveData(mCategory, mTarget))) {
-                createUI(mCategory, mTarget, null);
+            if ((mModel.getCategory() != null && mModel.getTarget() != null) && (data.saveData(mModel.getCategory(), mModel.getTarget()))) {
+                createUI(mModel);
 
             } else {
                 Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
@@ -443,9 +464,9 @@ public class MainActivity extends BaseActivity
             for (T3 listenerData : response) {
 
                 T3Operation data = new T3Operation(getApplicationContext(), listenerData);
-                if ((mCategory != null && mTarget != null) && (data.saveData(mCategory, mTarget))) {
+                if ((mModel.getCategory() != null && mModel.getTarget() != null) && (data.saveData(mModel.getCategory(), mModel.getTarget()))) {
 
-                    createUI(mCategory, mTarget, null);
+                    createUI(mModel);
 
                 } else {
                     Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
@@ -472,11 +493,12 @@ public class MainActivity extends BaseActivity
 
     }
 
-    private void closeSearch(String category) {
+    private void closeSearch(MainModel m) {
         if (Preference.getLastTarget(mContext).equals(Costant.SUBREDDIT_TARGET_SEARCH) &&
-                (!TextUtils.isEmpty(mQuerySearchText))) {
+                (!TextUtils.isEmpty(m.getQuerySearch()))) {
+           mModel.setTarget(Costant.SUBREDDIT_TARGET_DEFAULT_START_VALUE);
             startActivity(new Intent(mContext, MainActivity.class)
-                    .putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, category)
+                    .putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, m.getCategory())
                     .putExtra(Costant.EXTRA_SUBREDDIT_TARGET, Costant.SUBREDDIT_TARGET_DEFAULT_START_VALUE)
                     .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NO_HISTORY)
             );

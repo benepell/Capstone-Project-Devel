@@ -138,6 +138,7 @@ public class LoginActivity extends BaseActivity {
                                             Preference.setTimeToken(getApplicationContext(), System.currentTimeMillis());
                                             Preference.setLoginStart(getApplicationContext(), true);
                                             openHomeActivity(true);
+
                                         }
 
                                     }

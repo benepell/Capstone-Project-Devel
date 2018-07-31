@@ -6,6 +6,7 @@ import android.text.TextUtils;
 
 import com.google.android.exoplayer2.util.Util;
 
+import info.pelleritoudacity.android.rcapstone.data.model.ui.MainModel;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
@@ -23,29 +24,26 @@ public class MenuLauncherDetail {
         mIntent = intent;
     }
 
-    public boolean showMenu() {
+    public void showMenu() {
 
         if (menuShortcutLauncher(mIntent)) {
             saveLastPreference();
-            return true;
+            return;
         }
 
         if (menuTargetLink(mIntent)) {
             saveLastPreference();
-            return true;
+            return;
         }
 
         if(menuHistoryLink()){
-            return true;
+            return;
         }else {
             menuDefaultValue();
             saveLastPreference();
-            return true;
+            return;
 
         }
-
-
-//        return false;
     }
 
 

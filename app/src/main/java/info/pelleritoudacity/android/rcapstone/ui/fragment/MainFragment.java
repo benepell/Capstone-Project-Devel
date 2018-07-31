@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
 import com.google.android.exoplayer2.util.Util;
 
@@ -27,10 +26,10 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
+import info.pelleritoudacity.android.rcapstone.data.model.ui.MainModel;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
 import info.pelleritoudacity.android.rcapstone.ui.adapter.MainAdapter;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
-import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
 
@@ -46,27 +45,19 @@ public class MainFragment extends Fragment
     private Context mContext;
     private Unbinder unbinder;
 
-    private int sWindowPlayer;
-    private long sPositionPlayer;
-    private boolean isIMA = false;
+    private MainModel mModel;
 
-    private String mSubReddit;
-    private String mTarget;
     private MediaPlayer mMediaPlayer;
-
     private MainAdapter mAdapter;
-    private String mQuerySearch;
 
 
     public MainFragment() {
     }
 
-    public static MainFragment newInstance(String subReddit, String target, String querySearch) {
+    public static MainFragment newInstance(MainModel m) {
         MainFragment fragment = new MainFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT, subReddit);
-        bundle.putString(Costant.EXTRA_FRAGMENT_TARGET, target);
-        bundle.putString(Costant.EXTRA_FRAGMENT_SEARCH, querySearch);
+        bundle.putParcelable(Costant.EXTRA_FRAGMENT_PARCEL_MAIN, m);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -79,9 +70,7 @@ public class MainFragment extends Fragment
         mContext = getActivity();
 
         if (getArguments() != null) {
-            mSubReddit = getArguments().getString(Costant.EXTRA_FRAGMENT_SUBREDDIT);
-            mTarget = getArguments().getString(Costant.EXTRA_FRAGMENT_TARGET);
-            mQuerySearch = getArguments().getString(Costant.EXTRA_FRAGMENT_SEARCH);
+            mModel = getArguments().getParcelable(Costant.EXTRA_FRAGMENT_PARCEL_MAIN);
 
         }
     }
@@ -100,7 +89,7 @@ public class MainFragment extends Fragment
         mRecyclerView.setHasFixedSize(true);
 
         ImaAdsLoader mImaAdsLoader = new ImaAdsLoader(mContext, Uri.parse(getString(R.string.ad_tag_url)));
-        isIMA = true;
+        mModel.setIma(true);
 
         mAdapter = new MainAdapter(this, mContext, mImaAdsLoader);
 
@@ -116,12 +105,7 @@ public class MainFragment extends Fragment
             getLoaderManager().initLoader(SUBREDDIT_LOADER_ID, null, this).forceLoad();
 
         if (savedInstanceState != null) {
-            sWindowPlayer = savedInstanceState.getInt(Costant.BUNDLE_EXOPLAYER_WINDOW, C.INDEX_UNSET);
-            sPositionPlayer = savedInstanceState.getLong(Costant.BUNDLE_EXOPLAYER_POSITION, C.TIME_UNSET);
-
-            mSubReddit = savedInstanceState.getString(Costant.EXTRA_SUBREDDIT_CATEGORY);
-            mTarget = savedInstanceState.getString(Costant.EXTRA_SUBREDDIT_TARGET);
-            isIMA = savedInstanceState.getBoolean(Costant.EXTRA_MEDIA_IMA);
+            savedInstanceState.getParcelable(Costant.EXTRA_FRAGMENT_PARCEL_MAIN);
         }
 
 
@@ -130,16 +114,13 @@ public class MainFragment extends Fragment
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString(Costant.EXTRA_SUBREDDIT_CATEGORY, mSubReddit);
-        outState.putString(Costant.EXTRA_SUBREDDIT_TARGET, mTarget);
-        outState.putString(Costant.EXTRA_SUBREDDIT_SEARCH, mQuerySearch);
-        outState.putBoolean(Costant.EXTRA_MEDIA_IMA, isIMA);
         if (mMediaPlayer != null) {
-            outState.putInt(Costant.BUNDLE_EXOPLAYER_WINDOW, mMediaPlayer.getResumeWindow());
-            outState.putLong(Costant.BUNDLE_EXOPLAYER_POSITION, mMediaPlayer.getResumePosition());
-            outState.putBoolean(Costant.BUNDLE_EXOPLAYER_AUTOPLAY, mMediaPlayer.isAutoPlay());
+            mModel.setWindowPlayer(mMediaPlayer.getResumeWindow());
+            mModel.setPositionPlayer(mMediaPlayer.getResumePosition());
+            mModel.setAutoplay(mMediaPlayer.isAutoPlay());
         }
+        outState.putParcelable(Costant.EXTRA_FRAGMENT_PARCEL_MAIN, mModel);
+        super.onSaveInstanceState(outState);
 
     }
 
@@ -169,8 +150,7 @@ public class MainFragment extends Fragment
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        return new SubRedditFragmentAsyncTask(Objects.requireNonNull(getActivity()),
-                Preference.isLoginOver18(getContext()), mSubReddit, mTarget, mQuerySearch);
+        return new MainFragmentAsyncTask(Objects.requireNonNull(getActivity()), mModel);
     }
 
     @Override
@@ -188,8 +168,8 @@ public class MainFragment extends Fragment
     @Override
     public void exoPlayer(MediaPlayer mediaPlayer) {
         mMediaPlayer = mediaPlayer;
-        if ((mMediaPlayer != null) && !isIMA) {
-            mMediaPlayer.setResume(sWindowPlayer, sPositionPlayer, mMediaPlayer.getVideoUri());
+        if ((mMediaPlayer != null) && !mModel.isIma()) {
+            mMediaPlayer.setResume(mModel.getWindowPlayer(), mModel.getPositionPlayer(), mMediaPlayer.getVideoUri());
 
         }
     }
@@ -204,21 +184,15 @@ public class MainFragment extends Fragment
         unbinder.unbind();
     }
 
-    private static class SubRedditFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
+    private static class MainFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
 
         Cursor cursorData = null;
-        private final boolean isOver18;
-        private final String mCategoryReddit;
-        private final String mTargetReddit;
-        private final String mQuerySearch;
+        private final MainModel model;
 
 
-        SubRedditFragmentAsyncTask(@NonNull Context context, boolean isOver18, String categoryReddit, String targetReddit, String querySearch) {
+        MainFragmentAsyncTask(@NonNull Context context, MainModel model) {
             super(context);
-            this.isOver18 = isOver18;
-            mCategoryReddit = categoryReddit;
-            mTargetReddit = targetReddit;
-            mQuerySearch = querySearch;
+                this.model = model;
         }
 
         @Override
@@ -239,19 +213,19 @@ public class MainFragment extends Fragment
                 String selection;
                 String[] selectionArgs;
 
-                String strOver18 = String.valueOf(Utility.boolToInt(isOver18));
+                String strOver18 = String.valueOf(Utility.boolToInt(model.isOver18()));
 
-                switch (mTargetReddit) {
+                switch (model.getTarget()) {
                     case Costant.SUBREDDIT_TARGET_ALL:
                         selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?" + " AND " +
                                 Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " <=?";
-                        selectionArgs = new String[]{mTargetReddit, strOver18};
+                        selectionArgs = new String[]{model.getTarget(), strOver18};
                         break;
 
                     case Costant.SUBREDDIT_TARGET_POPULAR:
                         selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?" + " AND " +
                                 Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " <=?";
-                        selectionArgs = new String[]{mTargetReddit, strOver18};
+                        selectionArgs = new String[]{model.getTarget(), strOver18};
                         break;
 
                     case Costant.SUBREDDIT_TARGET_FAVORITE:
@@ -264,14 +238,14 @@ public class MainFragment extends Fragment
                         selection = Contract.T3dataEntry.COLUMN_NAME_TITLE + " like ?" + " AND "+
                                 Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " LIKE ?" + " AND " +
                                 Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " <=?";
-                        selectionArgs = new String[]{"%"+mQuerySearch+"%",mCategoryReddit, strOver18,};
+                        selectionArgs = new String[]{"%"+model.getQuerySearch()+"%",model.getCategory(), strOver18,};
                         break;
 
                     case Costant.SUBREDDIT_TARGET_NAVIGATION:
                     default:
                         selection = Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " LIKE ?" + " AND " +
                                 Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " <=?";
-                        selectionArgs = new String[]{mCategoryReddit, strOver18};
+                        selectionArgs = new String[]{model.getCategory(), strOver18};
 
                 }
 

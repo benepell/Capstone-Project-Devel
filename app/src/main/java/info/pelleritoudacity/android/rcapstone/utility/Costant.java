@@ -95,16 +95,14 @@ public interface Costant {
 
     String EXTRA_SUBREDDIT_CATEGORY = "info.pelleritoudacity.android.rcapstone.extra.subreddit.category";
     String EXTRA_SUBREDDIT_DETAIL_CATEGORY = "info.pelleritoudacity.android.rcapstone.extra.subreddit.detail.category";
+    String EXTRA_PARCEL_MAIN_MODEL = "info.pelleritoudacity.android.rcapstone.extra.parcel.main.model";
     String EXTRA_PARCEL_DETAIL_MODEL = "info.pelleritoudacity.android.rcapstone.extra.parcel.detail.model";
     String EXTRA_PARCEL_MORE_DETAIL_MODEL = "info.pelleritoudacity.android.rcapstone.extra.parcel.more.detail.model";
     String EXTRA_SUBREDDIT_DETAIL_STR_ID = "info.pelleritoudacity.android.rcapstone.extra.subreddit.detail.str.id";
     String EXTRA_SUBREDDIT_DETAIL_POSITION = "info.pelleritoudacity.android.rcapstone.extra.subreddit.detail.position";
-    String EXTRA_FRAGMENT_SUBREDDIT = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit";
+    String EXTRA_FRAGMENT_PARCEL_MAIN = "info.pelleritoudacity.android.rcapstone.extra.fragment.parcel.main";
     String EXTRA_FRAGMENT_SUBREDDIT_SELECTED = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.selected";
-    String EXTRA_FRAGMENT_TARGET = "info.pelleritoudacity.android.rcapstone.extra.fragment.target";
-    String EXTRA_FRAGMENT_SEARCH = "info.pelleritoudacity.android.rcapstone.extra.fragment.search";
     String EXTRA_FRAGMENT_STRING_ID = "info.pelleritoudacity.android.rcapstone.extra.fragment.string.id";
-    String EXTRA_TAB_POSITION = "info.pelleritoudacity.android.rcapstone.extra.tab.position";
 
     String EXTRA_FRAGMENT_PARCEL_SUBREDDIT_DETAIL = "info.pelleritoudacity.android.rcapstone.extra.fragment.parcel.subreddit.detail";
 
@@ -118,9 +116,8 @@ public interface Costant {
     String EXTRA_SUBREDDIT_EXIT_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.subreddit.exit.fullscreen";
     String EXTRA_SUBREDDIT_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.subreddit.fullscreen";
     String EXTRA_SUBREDDIT_TARGET = "info.pelleritoudacity.android.rcapstone.extra.subreddit.target";
+    String EXTRA_TAB_POSITION = "info.pelleritoudacity.android.rcapstone.extra.tab.position";
     String EXTRA_SUBREDDIT_SEARCH = "info.pelleritoudacity.android.rcapstone.extra.subreddit.search";
-    String EXTRA_SUBREDDIT_SEARCH_DETAIL = "info.pelleritoudacity.android.rcapstone.extra.subreddit.detail";
-    String EXTRA_MEDIA_IMA = "info.pelleritoudacity.android.rcapstone.extra.media.ima";
     String SUBREDDIT_CATEGORY_ALL = "all";
     String SUBREDDIT_CATEGORY_POPULAR = "popular";
     String SUBREDDIT_CATEGORY_FAVORITE = "favorite";
@@ -132,9 +129,7 @@ public interface Costant {
     String SUBREDDIT_TARGET_FAVORITE = "info.pelleritoudacity.android.rcapstone.subreddit.target.favorite";
     String SUBREDDIT_TARGET_TAB = "info.pelleritoudacity.android.rcapstone.subreddit.target.tab";
     String SUBREDDIT_TARGET_SEARCH = "info.pelleritoudacity.android.rcapstone.subreddit.target.search";
-    String SUBREDDIT_TARGET_SEARCH_DETAIL = "info.pelleritoudacity.android.rcapstone.subreddit.target.search.detail";
     String SUBREDDIT_TARGET_NAVIGATION = "info.pelleritoudacity.android.rcapstone.subreddit.target.navigation";
-    String SUBREDDIT_TARGET_SORT = "info.pelleritoudacity.android.rcapstone.subreddit.target.sort";
 
 
     int TARGET_DETAIL_NO_UPDATE = 200;
@@ -177,10 +172,6 @@ public interface Costant {
 
     String NOTIFICATION_CHANNEL_ID = "info.pelleritoudacity.android.rcapstone.exo.player.tag.one";
     String NOTIFICATION_CHANNEL_NAME = "Channel Media Exoplayer";
-
-    String BUNDLE_EXOPLAYER_WINDOW = "info.pelleritoudacity.android.rcapstone.exo.player.window";
-    String BUNDLE_EXOPLAYER_POSITION = "info.pelleritoudacity.android.rcapstone.exo.player.position";
-    String BUNDLE_EXOPLAYER_AUTOPLAY = "info.pelleritoudacity.android.rcapstone.exo.player.autoplay";
 
     boolean IS_IMA_AD_EXTENSION = true;
     boolean IS_MEDIA_SESSION = true;
