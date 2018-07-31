@@ -28,7 +28,7 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
-import info.pelleritoudacity.android.rcapstone.ui.adapter.SubRedditDetailAdapter;
+import info.pelleritoudacity.android.rcapstone.ui.adapter.DetailAdapter;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
@@ -36,24 +36,24 @@ import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.Costant.SUBREDDIT_DETAIL_LOADER_ID;
 
-public class SubRedditDetailFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<Cursor>, SubRedditDetailAdapter.OnAdapterListener {
+public class DetailFragment extends Fragment
+        implements LoaderManager.LoaderCallbacks<Cursor>, DetailAdapter.OnAdapterListener {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.rv_fragment_reddit_detail)
     RecyclerView mRecyclerView;
 
     private Unbinder unbinder;
-    private SubRedditDetailAdapter mAdapter;
+    private DetailAdapter mAdapter;
     private OnFragmentInteractionListener mListener;
     private DetailModel model;
 
 
-    public SubRedditDetailFragment() {
+    public DetailFragment() {
     }
 
-    public static SubRedditDetailFragment newInstance(DetailModel m) {
-        SubRedditDetailFragment fragment = new SubRedditDetailFragment();
+    public static DetailFragment newInstance(DetailModel m) {
+        DetailFragment fragment = new DetailFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(Costant.EXTRA_FRAGMENT_PARCEL_SUBREDDIT_DETAIL, m);
         fragment.setArguments(bundle);
@@ -73,7 +73,7 @@ public class SubRedditDetailFragment extends Fragment
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_subreddit_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
         unbinder = ButterKnife.bind(this, view);
 
@@ -91,7 +91,7 @@ public class SubRedditDetailFragment extends Fragment
 
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new SubRedditDetailAdapter(this, model);
+        mAdapter = new DetailAdapter(this, model);
 
         mRecyclerView.setAdapter(mAdapter);
 

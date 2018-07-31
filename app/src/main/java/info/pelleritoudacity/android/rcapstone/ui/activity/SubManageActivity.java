@@ -41,7 +41,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
-import info.pelleritoudacity.android.rcapstone.data.rest.RestExecute;
+import info.pelleritoudacity.android.rcapstone.data.rest.CategoryExecute;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SubScriptionsFragment;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
@@ -69,7 +69,7 @@ public class SubManageActivity extends BaseActivity {
             new SubManageAsyncTask(mWeakContext).execute();
 
         } else if ((!Preference.isInsertPrefs(getApplicationContext()) && (NetworkUtil.isOnline(getApplicationContext())))) {
-            new RestExecute(new WeakReference<>(getApplicationContext())).syncData();
+            new CategoryExecute(new WeakReference<>(getApplicationContext())).syncData();
 
         } else {
             Snackbar.make(mContainer, R.string.text_manage_nolinks, Snackbar.LENGTH_LONG).show();

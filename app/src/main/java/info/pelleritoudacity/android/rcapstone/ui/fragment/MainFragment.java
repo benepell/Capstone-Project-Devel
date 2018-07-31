@@ -28,7 +28,7 @@ import butterknife.Unbinder;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
-import info.pelleritoudacity.android.rcapstone.ui.adapter.SubRedditAdapter;
+import info.pelleritoudacity.android.rcapstone.ui.adapter.MainAdapter;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
@@ -36,8 +36,8 @@ import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.Costant.SUBREDDIT_LOADER_ID;
 
-public class SubRedditFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<Cursor>, SubRedditAdapter.OnPlayerListener, SubRedditAdapter.OnAdapterListener {
+public class MainFragment extends Fragment
+        implements LoaderManager.LoaderCallbacks<Cursor>, MainAdapter.OnPlayerListener, MainAdapter.OnAdapterListener {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.rv_fragment_subreddit)
@@ -54,15 +54,15 @@ public class SubRedditFragment extends Fragment
     private String mTarget;
     private MediaPlayer mMediaPlayer;
 
-    private SubRedditAdapter mAdapter;
+    private MainAdapter mAdapter;
     private String mQuerySearch;
 
 
-    public SubRedditFragment() {
+    public MainFragment() {
     }
 
-    public static SubRedditFragment newInstance(String subReddit, String target, String querySearch) {
-        SubRedditFragment fragment = new SubRedditFragment();
+    public static MainFragment newInstance(String subReddit, String target, String querySearch) {
+        MainFragment fragment = new MainFragment();
         Bundle bundle = new Bundle();
         bundle.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT, subReddit);
         bundle.putString(Costant.EXTRA_FRAGMENT_TARGET, target);
@@ -102,7 +102,7 @@ public class SubRedditFragment extends Fragment
         ImaAdsLoader mImaAdsLoader = new ImaAdsLoader(mContext, Uri.parse(getString(R.string.ad_tag_url)));
         isIMA = true;
 
-        mAdapter = new SubRedditAdapter(this, mContext, mImaAdsLoader);
+        mAdapter = new MainAdapter(this, mContext, mImaAdsLoader);
 
         mRecyclerView.setAdapter(mAdapter);
 

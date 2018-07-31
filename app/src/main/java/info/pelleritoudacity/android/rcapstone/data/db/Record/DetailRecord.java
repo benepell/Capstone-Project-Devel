@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapterDetail;
 
-public class RecordSubRedditDetail {
+public class DetailRecord {
 
     private final Cursor mCursor;
     private RecordAdapterDetail mRecord;
     private ArrayList<RecordAdapterDetail> recordList;
 
-    public RecordSubRedditDetail(Cursor cursor) {
+    public DetailRecord(Cursor cursor) {
         mCursor = cursor;
     }
 

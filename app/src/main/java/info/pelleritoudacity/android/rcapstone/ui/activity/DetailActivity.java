@@ -25,18 +25,18 @@ import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.More;
 import info.pelleritoudacity.android.rcapstone.data.rest.RestMoreExecute;
 import info.pelleritoudacity.android.rcapstone.data.rest.RestDetailExecute;
-import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditDetailFragment;
-import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditSelectedFragment;
+import info.pelleritoudacity.android.rcapstone.ui.fragment.DetailFragment;
+import info.pelleritoudacity.android.rcapstone.ui.fragment.TitleDetailFragment;
+import info.pelleritoudacity.android.rcapstone.ui.helper.DetailHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.MenuBase;
-import info.pelleritoudacity.android.rcapstone.ui.helper.SubRedditDetailHelper;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 
-public class SubRedditDetailActivity extends BaseActivity
+public class DetailActivity extends BaseActivity
         implements RestDetailExecute.OnRestCallBack,
-        SubRedditDetailFragment.OnFragmentInteractionListener, RestMoreExecute.OnRestCallBack,
+        DetailFragment.OnFragmentInteractionListener, RestMoreExecute.OnRestCallBack,
         SwipeRefreshLayout.OnRefreshListener, NestedScrollView.OnScrollChangeListener, SearchView.OnQueryTextListener {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
@@ -53,16 +53,16 @@ public class SubRedditDetailActivity extends BaseActivity
 
     private Context mContext;
     private DetailModel model;
-    private SubRedditDetailHelper mDetailHelper;
+    private DetailHelper mDetailHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setLayoutResource(R.layout.activity_sub_reddit_detail);
+        setLayoutResource(R.layout.activity_detail);
         super.onCreate(savedInstanceState);
 
         mContext = getApplicationContext();
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mDetailHelper = new SubRedditDetailHelper(mContext);
+        mDetailHelper = new DetailHelper(mContext);
 
         if (savedInstanceState == null) {
             model = mDetailHelper.initModelTarget(getIntent());
@@ -151,7 +151,7 @@ public class SubRedditDetailActivity extends BaseActivity
 
         if (menu.findItem(R.id.menu_action_search) == null) {
             getMenuInflater().inflate(R.menu.menu_search, menu);
-            MenuBase menuBase = new MenuBase(mContext, R.layout.activity_sub_reddit_detail);
+            MenuBase menuBase = new MenuBase(mContext, R.layout.activity_detail);
             menuBase.menuItemSearch(this, getComponentName(), menu);
         }
 
@@ -184,7 +184,7 @@ public class SubRedditDetailActivity extends BaseActivity
     @Override
     public boolean onQueryTextSubmit(String s) {
 
-        Intent intent = new Intent(getApplicationContext(), SubRedditDetailActivity.class);
+        Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
 
         model.setStrQuerySearch(s);
 
@@ -215,17 +215,17 @@ public class SubRedditDetailActivity extends BaseActivity
     private void startFragment(DetailModel m, boolean moreFragment) {
 
         if (moreFragment) {
-            SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(m);
+            DetailFragment fragment = DetailFragment.newInstance(m);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_subreddit_detail_container, fragment).commitAllowingStateLoss();
 
         } else {
 
-            SubRedditSelectedFragment subRedditSelectedFragment = SubRedditSelectedFragment.newInstance(m.getStrId());
+            TitleDetailFragment titleDetailFragment = TitleDetailFragment.newInstance(m.getStrId());
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_subreddit_selected_container, subRedditSelectedFragment).commitAllowingStateLoss();
+                    .replace(R.id.fragment_subreddit_selected_container, titleDetailFragment).commitAllowingStateLoss();
 
-            SubRedditDetailFragment fragment = SubRedditDetailFragment.newInstance(m);
+            DetailFragment fragment = DetailFragment.newInstance(m);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_subreddit_detail_container, fragment).commitAllowingStateLoss();
 

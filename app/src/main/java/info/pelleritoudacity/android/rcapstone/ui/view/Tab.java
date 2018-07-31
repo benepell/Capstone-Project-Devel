@@ -34,18 +34,18 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity;
+import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 
-public class SubRedditTab implements TabLayout.OnTabSelectedListener {
+public class Tab implements TabLayout.OnTabSelectedListener {
 
-    private final SubRedditActivity mListener;
+    private final MainActivity mListener;
     private final TabLayout mTabLayout;
     private final ArrayList<String> mTabList;
     private final ArrayList<String> mTabHistory;
     private final Context mContext;
 
-    public SubRedditTab(SubRedditActivity listener, TabLayout tabLayout, ArrayList<String> tabList) {
+    public Tab(MainActivity listener, TabLayout tabLayout, ArrayList<String> tabList) {
         mListener = listener;
         mTabLayout = tabLayout;
         mTabList = tabList;

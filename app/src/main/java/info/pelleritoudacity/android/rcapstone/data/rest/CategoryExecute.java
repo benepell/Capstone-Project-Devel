@@ -41,13 +41,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class RestExecute {
+public class CategoryExecute {
 
     private static RedditAPI sApi;
     private Call<T5> mCall;
     private final WeakReference<Context> mWeakContext;
 
-    public RestExecute(WeakReference<Context> weakReference) {
+    public CategoryExecute(WeakReference<Context> weakReference) {
 
         if (PermissionUtil.isLogged(weakReference.get())) {
             sApi = RetrofitClient.createService(Costant.REDDIT_OAUTH_URL, null);

@@ -16,10 +16,10 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.db.Record.RecordSubRedditSelected;
-import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapterSelected;
+import info.pelleritoudacity.android.rcapstone.data.db.Record.TitleDetailRecord;
+import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapterTitle;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
-import info.pelleritoudacity.android.rcapstone.ui.helper.SubRedditSelectedHelper;
+import info.pelleritoudacity.android.rcapstone.ui.helper.TitleDetailHelper;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
@@ -27,20 +27,20 @@ import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
 import static info.pelleritoudacity.android.rcapstone.utility.NumberUtil.numberFormat;
 
-public class SubRedditSelectedAdapter extends RecyclerView.Adapter<SubRedditSelectedAdapter.SubRedditSelectedHolder> {
+public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.SubRedditSelectedHolder> {
 
     private final Context mContext;
     private Cursor mCursor;
 
 
-    public SubRedditSelectedAdapter(Context context) {
+    public TitleDetailAdapter(Context context) {
         mContext = context;
     }
 
     @NonNull
     @Override
     public SubRedditSelectedHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        int layoutId = R.layout.list_subreddit_selected;
+        int layoutId = R.layout.list_detail_title;
         LayoutInflater inflater = LayoutInflater.from(mContext);
 
         View view = inflater.inflate(layoutId, parent, false);
@@ -56,9 +56,9 @@ public class SubRedditSelectedAdapter extends RecyclerView.Adapter<SubRedditSele
                 holder.mImageButtonPreferStars, holder.mImageButtonShowComments, holder.mImageButtonOpenBrowser};
         mCursor.moveToPosition(position);
 
-        RecordSubRedditSelected recordList = new RecordSubRedditSelected(mCursor);
+        TitleDetailRecord recordList = new TitleDetailRecord(mCursor);
 
-        RecordAdapterSelected record = null;
+        RecordAdapterTitle record = null;
         if (recordList.getRecordList() != null) {
             record = recordList.getRecordList().get(0);
         }
@@ -91,7 +91,7 @@ public class SubRedditSelectedAdapter extends RecyclerView.Adapter<SubRedditSele
             selectorHelper.cardBottomLink(mArrayButton, strBackGroundColor,
                     TextUtil.buildCommentDetailLink(record.getPermanentLink()), record.getSubRedditName(),record.isSaved());
 
-            SubRedditSelectedHelper helper = new SubRedditSelectedHelper(mContext);
+            TitleDetailHelper helper = new TitleDetailHelper(mContext);
 
             if ((Preference.isGeneralImages(mContext)) &&
                     (!TextUtils.isEmpty(record.getImagePreviewUrl()))) {

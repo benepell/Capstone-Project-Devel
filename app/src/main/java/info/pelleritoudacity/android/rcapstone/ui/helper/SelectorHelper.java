@@ -14,7 +14,7 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.rest.PrefExecute;
 import info.pelleritoudacity.android.rcapstone.data.rest.VoteExecute;
-import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity;
+import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 
@@ -167,7 +167,7 @@ public class SelectorHelper {
                             public void success(int code) {
                                 if (code == 200) {
                                     new DataUtils(mContext).updateLocalDbStars(1, nameReddit);
-                                    mContext.startActivity(new Intent(mContext, SubRedditActivity.class)
+                                    mContext.startActivity(new Intent(mContext, MainActivity.class)
                                             .setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK |
                                                     Intent.FLAG_ACTIVITY_NO_ANIMATION));
                                 }
@@ -188,7 +188,7 @@ public class SelectorHelper {
                             public void success(int code) {
                                 if (code == 200) {
                                     new DataUtils(mContext).updateLocalDbStars(0, nameReddit);
-                                    mContext.startActivity(new Intent(mContext, SubRedditActivity.class)
+                                    mContext.startActivity(new Intent(mContext, MainActivity.class)
                                             .setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK |
                                                     Intent.FLAG_ACTIVITY_NO_ANIMATION));
 

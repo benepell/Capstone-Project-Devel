@@ -41,11 +41,11 @@ import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity;
+import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
-import static info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity.sMediaSessionCompat;
+import static info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity.sMediaSessionCompat;
 
 public class MediaSession {
 
@@ -104,7 +104,7 @@ public class MediaSession {
                         (mContext, PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS));
 
         PendingIntent contentPendingIntent = PendingIntent.getActivity
-                (mContext, 0, new Intent(mContext, SubRedditActivity.class), 0);
+                (mContext, 0, new Intent(mContext, MainActivity.class), 0);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, Costant.NOTIFICATION_CHANNEL_ID);
 

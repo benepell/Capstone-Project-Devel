@@ -161,7 +161,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void openHomeActivity(boolean success) {
-        Intent intent = new Intent(this, SubRedditActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra(Costant.EXTRA_LOGIN_SUCCESS, success);
         startActivity(intent);

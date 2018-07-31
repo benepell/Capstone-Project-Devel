@@ -60,14 +60,14 @@ import info.pelleritoudacity.android.rcapstone.data.db.Operation.T3Operation;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.data.other.TabData;
+import info.pelleritoudacity.android.rcapstone.data.rest.MainExecute;
 import info.pelleritoudacity.android.rcapstone.data.rest.RefreshTokenExecute;
-import info.pelleritoudacity.android.rcapstone.data.rest.SubRedditExecute;
 import info.pelleritoudacity.android.rcapstone.media.MediaSession;
 import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
-import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditFragment;
+import info.pelleritoudacity.android.rcapstone.ui.fragment.MainFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.MenuBase;
 import info.pelleritoudacity.android.rcapstone.ui.helper.MenuLauncherDetail;
-import info.pelleritoudacity.android.rcapstone.ui.view.SubRedditTab;
+import info.pelleritoudacity.android.rcapstone.ui.view.Tab;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
@@ -75,9 +75,9 @@ import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import static info.pelleritoudacity.android.rcapstone.utility.PermissionUtil.RequestPermissionExtStorage;
 import static info.pelleritoudacity.android.rcapstone.utility.SessionUtil.getRedditSessionExpired;
 
-public class SubRedditActivity extends BaseActivity
-        implements SubRedditExecute.OnRestCallBack,
-        SubRedditTab.OnTabListener, SwipeRefreshLayout.OnRefreshListener, ActivityCompat.OnRequestPermissionsResultCallback, SearchView.OnQueryTextListener {
+public class MainActivity extends BaseActivity
+        implements MainExecute.OnRestCallBack,
+        Tab.OnTabListener, SwipeRefreshLayout.OnRefreshListener, ActivityCompat.OnRequestPermissionsResultCallback, SearchView.OnQueryTextListener {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.subreddit_container)
@@ -98,7 +98,7 @@ public class SubRedditActivity extends BaseActivity
     private Context mContext;
     public static MediaSessionCompat sMediaSessionCompat = null;
 
-    private SubRedditTab mSubRedditTab;
+    private Tab mTab;
 
     private String mCategory;
     private String mTarget;
@@ -107,13 +107,13 @@ public class SubRedditActivity extends BaseActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setLayoutResource(R.layout.activity_subreddit);
+        setLayoutResource(R.layout.activity_main);
         super.onCreate(savedInstanceState);
 
-        mContext = SubRedditActivity.this;
+        mContext = MainActivity.this;
 
         if (Util.SDK_INT > 23) {
-            RequestPermissionExtStorage(SubRedditActivity.this);
+            RequestPermissionExtStorage(MainActivity.this);
             Preference.setRequestPermission(getApplicationContext(), false);
         }
 
@@ -126,8 +126,8 @@ public class SubRedditActivity extends BaseActivity
 
         mLauncherMenu = new MenuLauncherDetail(mContext, getIntent());
 
-        mSubRedditTab = new SubRedditTab(this, mTabLayout, mTabArrayList);
-        mSubRedditTab.initTab();
+        mTab = new Tab(this, mTabLayout, mTabArrayList);
+        mTab.initTab();
 
         if (getIntent() != null) {
             mQuerySearchText = getIntent().getStringExtra(Costant.EXTRA_SUBREDDIT_SEARCH);
@@ -148,18 +148,18 @@ public class SubRedditActivity extends BaseActivity
         mCategory = Preference.getLastCategory(mContext);
         mTarget = Preference.getLastTarget(mContext);
 
-        mSubRedditTab.positionSelected(mCategory);
+        mTab.positionSelected(mCategory);
 
 
     }
 
     @Override
     public void onBackPressed() {
-        if ((mSubRedditTab != null) && (Preference.isTabHistory(mContext
+        if ((mTab != null) && (Preference.isTabHistory(mContext
         ))) {
-            String historyCategory = mSubRedditTab.getHistoryPosition();
+            String historyCategory = mTab.getHistoryPosition();
             if (!TextUtils.isEmpty(historyCategory)) {
-                mSubRedditTab.positionSelected(historyCategory);
+                mTab.positionSelected(historyCategory);
             } else {
                 super.onBackPressed();
             }
@@ -207,7 +207,7 @@ public class SubRedditActivity extends BaseActivity
                         Preference.isRequestPermission(mContext))) {
             return super.shouldShowRequestPermissionRationale(permission);
         }
-        ActivityCompat.requestPermissions(SubRedditActivity.this,
+        ActivityCompat.requestPermissions(MainActivity.this,
                 new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                 Costant.PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
         Preference.setRequestPermission(mContext, true);
@@ -229,7 +229,7 @@ public class SubRedditActivity extends BaseActivity
                 mLauncherMenu.saveLastPreference();
                 mRefreshLayout.setRefreshing(true);
 
-                startActivity(new Intent(this, SubRedditActivity.class)
+                startActivity(new Intent(this, MainActivity.class)
                         .putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, category)
                         .putExtra(Costant.EXTRA_SUBREDDIT_TARGET, Costant.SUBREDDIT_TARGET_TAB)
                         .putExtra(Costant.EXTRA_TAB_POSITION, position)
@@ -272,7 +272,7 @@ public class SubRedditActivity extends BaseActivity
 
         if (menu.findItem(R.id.menu_action_search) == null) {
             getMenuInflater().inflate(R.menu.menu_search, menu);
-            MenuBase menuBase = new MenuBase(mContext, R.layout.activity_subreddit);
+            MenuBase menuBase = new MenuBase(mContext, R.layout.activity_main);
             menuBase.menuItemSearch(this, getComponentName(), menu);
         }
 
@@ -332,7 +332,7 @@ public class SubRedditActivity extends BaseActivity
 
     private void createUI(String link, String target, String querySearch) {
         if ((mCategory != null && mTarget != null) && (TextUtils.isEmpty(querySearch))) {
-            mSubRedditTab.updateTabPosition();
+            mTab.updateTabPosition();
 
         }
         startFragment(link, target, querySearch);
@@ -356,16 +356,16 @@ public class SubRedditActivity extends BaseActivity
                     case Costant.LABEL_SUBMENU_NEW:
                     case Costant.LABEL_SUBMENU_HOT:
 
-                        new SubRedditExecute(this,  mContext, link).getDataList();
+                        new MainExecute(this,  mContext, link).getDataList();
                         break;
 
                     case Costant.LABEL_SUBMENU_CONTROVERSIAL:
                     case Costant.LABEL_SUBMENU_TOP:
-                        new SubRedditExecute(this,  mContext, link).getData();
+                        new MainExecute(this,  mContext, link).getData();
                         break;
 
                     default:
-                        new SubRedditExecute(this,  mContext, link).getData();
+                        new MainExecute(this,  mContext, link).getData();
                 }
             }
 
@@ -375,9 +375,9 @@ public class SubRedditActivity extends BaseActivity
 
     private void startFragment(String link, String target, String querySearch) {
         if (!getSupportFragmentManager().isStateSaved()) {
-            SubRedditFragment subRedditFragment = SubRedditFragment.newInstance(link, target, querySearch);
+            MainFragment mainFragment = MainFragment.newInstance(link, target, querySearch);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_subreddit_container, subRedditFragment).commit();
+                    .replace(R.id.fragment_subreddit_container, mainFragment).commit();
         }
 
         if (mRefreshLayout != null) {
@@ -406,7 +406,7 @@ public class SubRedditActivity extends BaseActivity
 
     @Override
     public boolean onQueryTextSubmit(String s) {
-        Intent intent = new Intent(getApplicationContext(), SubRedditActivity.class);
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         intent.putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, Preference.getLastCategory(mContext));
         intent.putExtra(Costant.EXTRA_SUBREDDIT_TARGET, Costant.SUBREDDIT_TARGET_SEARCH);
         intent.putExtra(Costant.EXTRA_SUBREDDIT_SEARCH, s);
@@ -475,7 +475,7 @@ public class SubRedditActivity extends BaseActivity
     private void closeSearch(String category) {
         if (Preference.getLastTarget(mContext).equals(Costant.SUBREDDIT_TARGET_SEARCH) &&
                 (!TextUtils.isEmpty(mQuerySearchText))) {
-            startActivity(new Intent(mContext, SubRedditActivity.class)
+            startActivity(new Intent(mContext, MainActivity.class)
                     .putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, category)
                     .putExtra(Costant.EXTRA_SUBREDDIT_TARGET, Costant.SUBREDDIT_TARGET_DEFAULT_START_VALUE)
                     .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NO_HISTORY)

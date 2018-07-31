@@ -169,8 +169,8 @@ public class BaseActivity extends AppCompatActivity
         MenuInflater inflater = getMenuInflater();
 
         switch (getLayoutResource()) {
-            case R.layout.activity_subreddit:
-            case R.layout.activity_sub_reddit_detail:
+            case R.layout.activity_main:
+            case R.layout.activity_detail:
                 inflater.inflate(R.menu.main, menu);
                 break;
 
@@ -197,8 +197,8 @@ public class BaseActivity extends AppCompatActivity
     protected boolean onPrepareOptionsPanel(View view, Menu menu) {
 
         switch (getLayoutResource()) {
-            case R.layout.activity_subreddit:
-            case R.layout.activity_sub_reddit_detail:
+            case R.layout.activity_main:
+            case R.layout.activity_detail:
                 menuBase.menuItemIfRoom(menu);
                 menuBase.menuGeneralSettings(menu);
                 menuBase.menuItemLogin(menu, Preference.isLoginStart(getApplicationContext()));
@@ -217,8 +217,8 @@ public class BaseActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (getLayoutResource()) {
 
-            case R.layout.activity_subreddit:
-            case R.layout.activity_sub_reddit_detail:
+            case R.layout.activity_main:
+            case R.layout.activity_detail:
             case R.layout.activity_submanage:
 
                 menuBase.menuItemSelected(item);
@@ -247,8 +247,8 @@ public class BaseActivity extends AppCompatActivity
     private void menuNavigation(NavigationView navigationView) {
 
         switch (getLayoutResource()) {
-            case R.layout.activity_subreddit:
-            case R.layout.activity_sub_reddit_detail:
+            case R.layout.activity_main:
+            case R.layout.activity_detail:
             default:
                 navigationView.inflateMenu(R.menu.activity_base_drawer_main);
                 menuBase.menuNavigation(navigationView.getMenu());

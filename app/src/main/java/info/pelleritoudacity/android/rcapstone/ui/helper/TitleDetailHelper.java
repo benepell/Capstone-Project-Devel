@@ -16,11 +16,11 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtil;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
-public class SubRedditSelectedHelper {
+public class TitleDetailHelper {
 
     private final Context mContext;
 
-    public SubRedditSelectedHelper(Context mContext) {
+    public TitleDetailHelper(Context mContext) {
         this.mContext = mContext;
     }
 

@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
-import info.pelleritoudacity.android.rcapstone.ui.adapter.SubRedditSelectedAdapter;
+import info.pelleritoudacity.android.rcapstone.ui.adapter.TitleDetailAdapter;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
@@ -31,7 +31,7 @@ import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.Costant.SUBREDDIT_SELECTED_LOADER_ID;
 
-public class SubRedditSelectedFragment extends Fragment
+public class TitleDetailFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
@@ -43,13 +43,13 @@ public class SubRedditSelectedFragment extends Fragment
 
     private String mStrId;
 
-    private SubRedditSelectedAdapter mAdapter;
+    private TitleDetailAdapter mAdapter;
 
-    public SubRedditSelectedFragment() {
+    public TitleDetailFragment() {
     }
 
-    public static SubRedditSelectedFragment newInstance(String strId) {
-        SubRedditSelectedFragment fragment = new SubRedditSelectedFragment();
+    public static TitleDetailFragment newInstance(String strId) {
+        TitleDetailFragment fragment = new TitleDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putString(Costant.EXTRA_FRAGMENT_SUBREDDIT_SELECTED, strId);
         fragment.setArguments(bundle);
@@ -81,7 +81,7 @@ public class SubRedditSelectedFragment extends Fragment
 
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new SubRedditSelectedAdapter(mContext);
+        mAdapter = new TitleDetailAdapter(mContext);
 
         mRecyclerView.setAdapter(mAdapter);
 

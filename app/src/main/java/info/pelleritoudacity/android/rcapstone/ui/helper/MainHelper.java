@@ -28,17 +28,17 @@ import java.nio.charset.StandardCharsets;
 
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
-import info.pelleritoudacity.android.rcapstone.ui.activity.MediaYoutubeActivity;
+import info.pelleritoudacity.android.rcapstone.ui.activity.YoutubeActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtil;
 
 import static info.pelleritoudacity.android.rcapstone.utility.ImageUtil.isSmallImage;
 
-public class SubRedditHelper {
+public class MainHelper {
 
     private final Context mContext;
 
-    public SubRedditHelper(Context context) {
+    public MainHelper(Context context) {
         mContext = context;
     }
 
@@ -192,7 +192,7 @@ public class SubRedditHelper {
                         imageView.setOnClickListener(v -> {
                             progressBar.setVisibility(View.VISIBLE);
                             mContext.startActivity(new Intent(mContext,
-                                    MediaYoutubeActivity.class)
+                                    YoutubeActivity.class)
                                     .putExtra(Costant.EXTRA_YOUTUBE_PARAM, videoUrl)
                                     .putExtra(Costant.EXTRA_YOUTUBE_TITLE,title)
 

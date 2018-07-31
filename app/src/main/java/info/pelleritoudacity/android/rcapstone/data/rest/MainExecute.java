@@ -44,14 +44,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SubRedditExecute {
+public class MainExecute {
     private static RedditAPI sApi;
     private final OnRestCallBack mCallBack;
     private final boolean isAuthenticated;
     private final Context mContext;
     private final String mCategory;
 
-    public SubRedditExecute(OnRestCallBack callBack, Context context, String category) {
+    public MainExecute(OnRestCallBack callBack, Context context, String category) {
 
         if (PermissionUtil.isLogged(context)) {
             sApi = RetrofitClient.createService(Costant.REDDIT_OAUTH_URL, null);

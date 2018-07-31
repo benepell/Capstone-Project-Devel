@@ -5,7 +5,7 @@
     android:id="@+id/submanage_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.SubRedditActivity">
+    tools:context=".ui.activity.MainActivity">
 
     <include layout="@layout/app_bar_layout" />
 

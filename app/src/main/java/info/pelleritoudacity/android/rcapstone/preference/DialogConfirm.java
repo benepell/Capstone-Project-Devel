@@ -41,7 +41,7 @@ import java.lang.ref.WeakReference;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.rest.RevokeTokenExecute;
-import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity;
+import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 
 public class DialogConfirm extends DialogPreference {
@@ -114,7 +114,7 @@ public class DialogConfirm extends DialogPreference {
             Context context = mWeakContext.get();
             if (context != null) {
                 Preference.setClearData(context,true);
-                context.startActivity(new Intent(context, SubRedditActivity.class));
+                context.startActivity(new Intent(context, MainActivity.class));
             }
         }
     }

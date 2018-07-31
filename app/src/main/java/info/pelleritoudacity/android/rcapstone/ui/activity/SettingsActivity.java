@@ -78,7 +78,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(this, SubRedditActivity.class)
+        startActivity(new Intent(this, MainActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
 
     }

@@ -21,7 +21,7 @@ import info.pelleritoudacity.android.rcapstone.utility.ActivityUI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import timber.log.Timber;
 
-public class SubRedditFullScreenActivity extends AppCompatActivity {
+public class FullScreenActivity extends AppCompatActivity {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.id_player_full_layout)
@@ -47,9 +47,9 @@ public class SubRedditFullScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityUI.windowFullScreen(this);
-        setContentView(R.layout.activity_sub_reddit_full_screen);
+        setContentView(R.layout.activity_full_screen);
 
-        Context mContext = SubRedditFullScreenActivity.this;
+        Context mContext = FullScreenActivity.this;
         Timber.plant(new Timber.DebugTree());
         ButterKnife.bind(this);
 
@@ -59,7 +59,7 @@ public class SubRedditFullScreenActivity extends AppCompatActivity {
         if (intent != null) {
             if (intent.getBooleanExtra(Costant.EXTRA_SUBREDDIT_EXIT_FULLSCREEN, false)) {
                 finish();
-                startActivity(new Intent(mContext, SubRedditActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                startActivity(new Intent(mContext, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }
             mVideoUri = intent.getStringExtra(Costant.EXTRA_SUBREDDIT_FULLSCREEN);
 

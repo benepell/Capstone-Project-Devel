@@ -17,26 +17,26 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.db.Record.RecordSubRedditDetail;
+import info.pelleritoudacity.android.rcapstone.data.db.Record.DetailRecord;
 import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapterDetail;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
-import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditDetailFragment;
+import info.pelleritoudacity.android.rcapstone.ui.fragment.DetailFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
-import info.pelleritoudacity.android.rcapstone.ui.helper.SubRedditDetailHelper;
+import info.pelleritoudacity.android.rcapstone.ui.helper.DetailHelper;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
-public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetailAdapter.SubRedditDetailHolder> {
+public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditDetailHolder> {
 
     private final Context mContext;
-    private final SubRedditDetailFragment mListener;
+    private final DetailFragment mListener;
     private Cursor mCursor;
     private int mSelectorPosition = RecyclerView.NO_POSITION;
     private final DetailModel model;
 
-    public SubRedditDetailAdapter(SubRedditDetailFragment listener, DetailModel detailModel) {
+    public DetailAdapter(DetailFragment listener, DetailModel detailModel) {
         mListener = listener;
         mContext = listener.getActivity();
         model = detailModel;
@@ -46,7 +46,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
     @NonNull
     @Override
     public SubRedditDetailHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        int layoutId = R.layout.list_subreddit_detail;
+        int layoutId = R.layout.list_detail;
         LayoutInflater inflater = LayoutInflater.from(mContext);
 
         View view = inflater.inflate(layoutId, parent, false);
@@ -63,7 +63,7 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
         mCursor.moveToPosition(position);
 
         // todo control code list
-        RecordSubRedditDetail recordList = new RecordSubRedditDetail(mCursor);
+        DetailRecord recordList = new DetailRecord(mCursor);
         RecordAdapterDetail record = null;
         if (recordList.getRecordList() != null) {
             record = recordList.getRecordList().get(0);
@@ -96,9 +96,9 @@ public class SubRedditDetailAdapter extends RecyclerView.Adapter<SubRedditDetail
                 holder.mTextViewBodyDetail.setClickable(false);
             }
 
-            SubRedditDetailHelper subRedditDetailHelper = new SubRedditDetailHelper(mContext);
-            subRedditDetailHelper.initDepthIndicator(holder.mDepthIndicator, holder.mCardLinear, record.getDepth(), true, false);
-            String strBackGroundColor = subRedditDetailHelper.initDepthIndicator(holder.mDepthSelect, holder.mSelectorContainer, record.getDepth(), true, true);
+            DetailHelper detailHelper = new DetailHelper(mContext);
+            detailHelper.initDepthIndicator(holder.mDepthIndicator, holder.mCardLinear, record.getDepth(), true, false);
+            String strBackGroundColor = detailHelper.initDepthIndicator(holder.mDepthSelect, holder.mSelectorContainer, record.getDepth(), true, true);
 
             SelectorHelper selectorHelper = new SelectorHelper(mContext);
             selectorHelper.cardBottomLink(mArrayButton, strBackGroundColor,

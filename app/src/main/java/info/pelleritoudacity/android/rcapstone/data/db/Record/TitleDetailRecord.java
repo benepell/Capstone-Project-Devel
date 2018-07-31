@@ -5,20 +5,20 @@ import android.database.Cursor;
 import java.util.ArrayList;
 
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
-import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapterSelected;
+import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapterTitle;
 
-public class RecordSubRedditSelected {
+public class TitleDetailRecord {
 
 
     private final Cursor mCursor;
-    private RecordAdapterSelected mRecord;
-    private ArrayList<RecordAdapterSelected> recordList;
+    private RecordAdapterTitle mRecord;
+    private ArrayList<RecordAdapterTitle> recordList;
 
-    public RecordSubRedditSelected(Cursor cursor) {
+    public TitleDetailRecord(Cursor cursor) {
         mCursor = cursor;
     }
 
-    public ArrayList<RecordAdapterSelected> getRecordList() {
+    public ArrayList<RecordAdapterTitle> getRecordList() {
         if (mCursor != null) {
             initRecord();
 
@@ -34,7 +34,7 @@ public class RecordSubRedditSelected {
 
     private void initRecord() {
 
-        mRecord = new RecordAdapterSelected();
+        mRecord = new RecordAdapterTitle();
 
         mRecord.setSubReddit(mCursor.getString(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT)));

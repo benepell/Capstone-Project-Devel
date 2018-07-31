@@ -61,7 +61,7 @@ import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic
 import java.util.concurrent.TimeUnit;
 
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditFullScreenActivity;
+import info.pelleritoudacity.android.rcapstone.ui.activity.FullScreenActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtil;
@@ -301,7 +301,7 @@ public class MediaPlayer {
                     .color(ImageUtil.getColor(mContext, R.color.white))
                     .respectFontBounds(true));
 
-            mImageExitFullScreen.setOnClickListener(v -> mContext.startActivity(new Intent(mContext, SubRedditFullScreenActivity.class)
+            mImageExitFullScreen.setOnClickListener(v -> mContext.startActivity(new Intent(mContext, FullScreenActivity.class)
                     .putExtra(Costant.EXTRA_SUBREDDIT_EXIT_FULLSCREEN, true)));
         }
     }
@@ -324,7 +324,7 @@ public class MediaPlayer {
 
     private void startClickFullScreen(String videoUrl) {
         MediaSession.removeNotification(mContext);
-        mContext.startActivity(new Intent(mContext, SubRedditFullScreenActivity.class)
+        mContext.startActivity(new Intent(mContext, FullScreenActivity.class)
                 .putExtra(Costant.EXTRA_SUBREDDIT_FULLSCREEN,
                         TextUtil.textFromHtml(videoUrl)));
 

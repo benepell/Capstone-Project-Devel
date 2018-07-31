@@ -14,10 +14,10 @@ import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
-public class SubRedditDetailHelper {
+public class DetailHelper {
     private final Context mContext;
 
-    public SubRedditDetailHelper(Context context) {
+    public DetailHelper(Context context) {
         mContext = context;
     }
 

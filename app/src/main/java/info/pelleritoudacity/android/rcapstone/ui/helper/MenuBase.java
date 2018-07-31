@@ -22,10 +22,10 @@ import java.util.Objects;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.ui.activity.LoginActivity;
 import info.pelleritoudacity.android.rcapstone.ui.activity.LogoutActivity;
+import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
 import info.pelleritoudacity.android.rcapstone.ui.activity.SettingsActivity;
 import info.pelleritoudacity.android.rcapstone.ui.activity.SubManageActivity;
-import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditActivity;
-import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditDetailActivity;
+import info.pelleritoudacity.android.rcapstone.ui.activity.DetailActivity;
 import info.pelleritoudacity.android.rcapstone.data.other.TabData;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
@@ -45,7 +45,7 @@ public class MenuBase {
         switch (item.getItemId()) {
 
             case R.id.menu_action_restore:
-                mContext.startActivity(new Intent(mContext, SubRedditActivity.class).putExtra(Costant.EXTRA_RESTORE_MANAGE, Costant.RESTORE_MANAGE_RESTORE));
+                mContext.startActivity(new Intent(mContext, MainActivity.class).putExtra(Costant.EXTRA_RESTORE_MANAGE, Costant.RESTORE_MANAGE_RESTORE));
                 return;
             case R.id.menu_action_login:
                 mContext.startActivity(new Intent(mContext, LoginActivity.class));
@@ -76,38 +76,38 @@ public class MenuBase {
             case R.id.submenu_top_hour:
                 Preference.setSubredditSort(mContext, Costant.LABEL_SUBMENU_TOP);
                 Preference.setTimeSort(mContext, Costant.LABEL_TIME_HOUR);
-                mContext.startActivity(new Intent(mContext, SubRedditActivity.class));
+                mContext.startActivity(new Intent(mContext, MainActivity.class));
                 break;
             case R.id.submenu_top_day:
                 Preference.setSubredditSort(mContext, Costant.LABEL_SUBMENU_TOP);
                 Preference.setTimeSort(mContext, Costant.LABEL_TIME_DAY);
-                mContext.startActivity(new Intent(mContext, SubRedditActivity.class));
+                mContext.startActivity(new Intent(mContext, MainActivity.class));
                 break;
             case R.id.submenu_top_week:
                 Preference.setSubredditSort(mContext, Costant.LABEL_SUBMENU_TOP);
                 Preference.setTimeSort(mContext, Costant.LABEL_TIME_WEEK);
-                mContext.startActivity(new Intent(mContext, SubRedditActivity.class));
+                mContext.startActivity(new Intent(mContext, MainActivity.class));
                 break;
             case R.id.submenu_top_month:
                 Preference.setSubredditSort(mContext, Costant.LABEL_SUBMENU_TOP);
                 Preference.setTimeSort(mContext, Costant.LABEL_TIME_MONTH);
-                mContext.startActivity(new Intent(mContext, SubRedditActivity.class));
+                mContext.startActivity(new Intent(mContext, MainActivity.class));
                 break;
             case R.id.submenu_top_year:
                 Preference.setSubredditSort(mContext, Costant.LABEL_SUBMENU_TOP);
                 Preference.setTimeSort(mContext, Costant.LABEL_TIME_YEAR);
-                mContext.startActivity(new Intent(mContext, SubRedditActivity.class));
+                mContext.startActivity(new Intent(mContext, MainActivity.class));
                 break;
             case R.id.submenu_top_all:
                 Preference.setSubredditSort(mContext, Costant.LABEL_SUBMENU_TOP);
                 Preference.setTimeSort(mContext, Costant.LABEL_TIME_ALL);
-                mContext.startActivity(new Intent(mContext, SubRedditActivity.class));
+                mContext.startActivity(new Intent(mContext, MainActivity.class));
                 break;
 
             case R.id.submenu_controver_hour:
                 Preference.setSubredditSort(mContext, Costant.LABEL_SUBMENU_CONTROVERSIAL);
                 Preference.setTimeSort(mContext, Costant.LABEL_TIME_HOUR);
-                mContext.startActivity(new Intent(mContext, SubRedditActivity.class));
+                mContext.startActivity(new Intent(mContext, MainActivity.class));
                 break;
             case R.id.submenu_controver_day:
                 Preference.setSubredditSort(mContext, Costant.LABEL_SUBMENU_CONTROVERSIAL);
@@ -116,51 +116,51 @@ public class MenuBase {
             case R.id.submenu_controver_week:
                 Preference.setSubredditSort(mContext, Costant.LABEL_SUBMENU_CONTROVERSIAL);
                 Preference.setTimeSort(mContext, Costant.LABEL_TIME_WEEK);
-                mContext.startActivity(new Intent(mContext, SubRedditActivity.class));
+                mContext.startActivity(new Intent(mContext, MainActivity.class));
                 break;
             case R.id.submenu_controver_month:
                 Preference.setSubredditSort(mContext, Costant.LABEL_SUBMENU_CONTROVERSIAL);
                 Preference.setTimeSort(mContext, Costant.LABEL_TIME_MONTH);
-                mContext.startActivity(new Intent(mContext, SubRedditActivity.class));
+                mContext.startActivity(new Intent(mContext, MainActivity.class));
                 break;
             case R.id.submenu_controver_year:
                 Preference.setSubredditSort(mContext, Costant.LABEL_SUBMENU_CONTROVERSIAL);
                 Preference.setTimeSort(mContext, Costant.LABEL_TIME_YEAR);
-                mContext.startActivity(new Intent(mContext, SubRedditActivity.class));
+                mContext.startActivity(new Intent(mContext, MainActivity.class));
                 break;
             case R.id.submenu_controver_all:
                 Preference.setSubredditSort(mContext, Costant.LABEL_SUBMENU_CONTROVERSIAL);
                 Preference.setTimeSort(mContext, Costant.LABEL_TIME_ALL);
-                mContext.startActivity(new Intent(mContext, SubRedditActivity.class));
+                mContext.startActivity(new Intent(mContext, MainActivity.class));
                 break;
             case R.id.action_general_images:
                 Preference.setGeneralImages(mContext, !Preference.isGeneralImages(mContext));
-                mContext.startActivity(new Intent(mContext, SubRedditActivity.class));
+                mContext.startActivity(new Intent(mContext, MainActivity.class));
                 break;
 
             case R.id.action_general_gifs:
                 Preference.setGeneralGifs(mContext, !Preference.isGeneralGifs(mContext));
-                mContext.startActivity(new Intent(mContext, SubRedditActivity.class));
+                mContext.startActivity(new Intent(mContext, MainActivity.class));
                 break;
 
             case R.id.action_general_albums:
                 Preference.setGeneralAlbums(mContext, !Preference.isGeneralAlbums(mContext));
-                mContext.startActivity(new Intent(mContext, SubRedditActivity.class));
+                mContext.startActivity(new Intent(mContext, MainActivity.class));
                 break;
 
             case R.id.action_general_videos:
                 Preference.setGeneralVideos(mContext, !Preference.isGeneralVideos(mContext));
-                mContext.startActivity(new Intent(mContext, SubRedditActivity.class));
+                mContext.startActivity(new Intent(mContext, MainActivity.class));
                 break;
 
             case R.id.action_general_self:
                 Preference.setGeneralSelf(mContext, !Preference.isGeneralSelf(mContext));
-                mContext.startActivity(new Intent(mContext, SubRedditActivity.class));
+                mContext.startActivity(new Intent(mContext, MainActivity.class));
                 break;
 
             case R.id.action_general_links:
                 Preference.setGeneralLinks(mContext, !Preference.isGeneralLinks(mContext));
-                mContext.startActivity(new Intent(mContext, SubRedditActivity.class));
+                mContext.startActivity(new Intent(mContext, MainActivity.class));
                 break;
         }
     }
@@ -170,7 +170,7 @@ public class MenuBase {
 
             case R.id.nav_home:
                 Preference.setTypeMode(mContext, Costant.NAV_MODE_HOME);
-                mContext.startActivity(new Intent(mContext, SubRedditActivity.class)
+                mContext.startActivity(new Intent(mContext, MainActivity.class)
                         .setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION));
                 break;
 
@@ -317,7 +317,7 @@ public class MenuBase {
             }
 
             menuItem.setOnMenuItemClickListener(item -> {
-                Intent intent = new Intent(mContext, SubRedditActivity.class);
+                Intent intent = new Intent(mContext, MainActivity.class);
                 intent.putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, item.getTitle().toString());
                 intent.putExtra(Costant.EXTRA_SUBREDDIT_TARGET, Costant.SUBREDDIT_TARGET_NAVIGATION);
 
@@ -331,14 +331,14 @@ public class MenuBase {
 
     private void menuClickRefresh(int layoutResource) {
         switch (layoutResource) {
-            case R.layout.activity_subreddit:
-                Intent intentSubreddit = new Intent(mContext, SubRedditActivity.class);
+            case R.layout.activity_main:
+                Intent intentSubreddit = new Intent(mContext, MainActivity.class);
                 intentSubreddit.putExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_REFRESH, true);
                 mContext.startActivity(intentSubreddit);
                 break;
 
-            case R.layout.activity_sub_reddit_detail:
-                Intent intentSubredditDetail = new Intent(mContext, SubRedditDetailActivity.class);
+            case R.layout.activity_detail:
+                Intent intentSubredditDetail = new Intent(mContext, DetailActivity.class);
                 intentSubredditDetail.putExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_DETAIL_REFRESH, true);
                 mContext.startActivity(intentSubredditDetail);
                 break;
@@ -378,7 +378,7 @@ public class MenuBase {
 
         }
 
-        Intent intent = new Intent(mContext, SubRedditActivity.class);
+        Intent intent = new Intent(mContext, MainActivity.class);
         intent.putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, constantCategory);
         intent.putExtra(Costant.EXTRA_SUBREDDIT_TARGET, constantsTarget);
 

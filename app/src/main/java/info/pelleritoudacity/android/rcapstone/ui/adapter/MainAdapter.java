@@ -50,14 +50,14 @@ import com.google.android.exoplayer2.ui.PlayerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.db.Record.RecordSubReddit;
+import info.pelleritoudacity.android.rcapstone.data.db.Record.MainRecord;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
 import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapter;
-import info.pelleritoudacity.android.rcapstone.ui.activity.SubRedditDetailActivity;
-import info.pelleritoudacity.android.rcapstone.ui.fragment.SubRedditFragment;
+import info.pelleritoudacity.android.rcapstone.ui.activity.DetailActivity;
+import info.pelleritoudacity.android.rcapstone.ui.fragment.MainFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
+import info.pelleritoudacity.android.rcapstone.ui.helper.MainHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
-import info.pelleritoudacity.android.rcapstone.ui.helper.SubRedditHelper;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtil;
@@ -67,16 +67,16 @@ import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import static info.pelleritoudacity.android.rcapstone.utility.ImageUtil.isSmallImage;
 import static info.pelleritoudacity.android.rcapstone.utility.NumberUtil.numberFormat;
 
-public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubRedditHolder> {
+public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolder> {
 
     private Cursor mCursor;
     private Context mContext;
 
     private MediaPlayer mMediaPlayer;
     private final ImaAdsLoader mImaAdsLoader;
-    private final SubRedditFragment mListener;
+    private final MainFragment mListener;
 
-    public SubRedditAdapter(SubRedditFragment listener, Context context, ImaAdsLoader imaAdsLoader) {
+    public MainAdapter(MainFragment listener, Context context, ImaAdsLoader imaAdsLoader) {
         mContext = context;
         mImaAdsLoader = imaAdsLoader;
         mListener = listener;
@@ -87,7 +87,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
     @Override
     public SubRedditHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         mContext = parent.getContext();
-        int layoutId = R.layout.list_subreddit;
+        int layoutId = R.layout.list_main;
         LayoutInflater inflater = LayoutInflater.from(mContext);
 
         View view = inflater.inflate(layoutId, parent, false);
@@ -103,7 +103,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
         mCursor.moveToPosition(position);
 
-        RecordSubReddit recordList = new RecordSubReddit(mCursor);
+        MainRecord recordList = new MainRecord(mCursor);
         RecordAdapter record = null;
         if (recordList.getRecordList() != null) {
             record = recordList.getRecordList().get(0);
@@ -113,7 +113,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         if (record != null) {
             holder.mTextViewCreatedUtc.setText(DateUtil.getDiffTimeMinute(mContext,record.getCreatedUtc()));
 
-            SubRedditHelper subRedditHelper = new SubRedditHelper(mContext);
+            MainHelper mainHelper = new MainHelper(mContext);
 
             int mediaType = 0;
 
@@ -137,7 +137,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
                     holder.mPlayerLayout.setVisibility(View.GONE);
 
-                    subRedditHelper.imageReddit(holder.mImageViewSubReddit, holder.mImageViewSubRedditSmall,
+                    mainHelper.imageReddit(holder.mImageViewSubReddit, holder.mImageViewSubRedditSmall,
                             TextUtil.textFromHtml(record.getImagePreviewUrl()), record.getImagePreviewWidth(), record.getImagePreviewHeight(),
                             TextUtil.textFromHtml(record.getTitle()));
 
@@ -156,7 +156,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
                             holder.mExoProgressBar,
                             TextUtil.textFromHtml(record.getTitle()), holder.mTVErrorPlayer, holder.mImagePlay);
 
-                    subRedditHelper.loadVideoFirstFrame(mMediaPlayer, holder.mPlayerLayout, holder.mImagePlay, holder.mExoProgressBar,
+                    mainHelper.loadVideoFirstFrame(mMediaPlayer, holder.mPlayerLayout, holder.mImagePlay, holder.mExoProgressBar,
                             TextUtil.textFromHtml(record.getVideoPreviewUrl()), record.getVideoPreviewWidth(), record.getVideoPreviewHeight());
 
                     holder.mImageViewSubReddit.setVisibility(View.GONE);
@@ -164,7 +164,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
                 case Costant.MEDIA_VIDEO_TYPE_VIMEO:
 
-                    subRedditHelper.loadWebviewVimeo(holder.mWebViewVimeo,
+                    mainHelper.loadWebviewVimeo(holder.mWebViewVimeo,
                             TextUtil.textFromHtml(record.getVideoFrameOembed()));
 
                     holder.mImageViewSubReddit.setVisibility(View.GONE);
@@ -173,7 +173,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
 
                 case Costant.MEDIA_VIDEO_TYPE_YOUTUBE:
 
-                    subRedditHelper.youtubeVideoFirstFrame(holder.mPlayerLayout, holder.mImagePlay, holder.mExoProgressBar,
+                    mainHelper.youtubeVideoFirstFrame(holder.mPlayerLayout, holder.mImagePlay, holder.mExoProgressBar,
                             TextUtil.textFromHtml(record.getThumbnailUrlOembed()),
                             record.getThumbnailOembedWidth(), record.getThumbnailOembedHeight(),
                             TextUtil.textFromHtml(record.getVideoUrl()), record.getVideoOembedWidth(),
@@ -189,7 +189,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
             if ((!TextUtils.isEmpty(record.getImagePreviewUrl())) &&
                     (isSmallImage(mContext, record.getImagePreviewWidth(), record.getImagePreviewHeight()))) {
 
-                subRedditHelper.imageReddit(holder.mImageViewSubReddit, holder.mImageViewSubRedditSmall,
+                mainHelper.imageReddit(holder.mImageViewSubReddit, holder.mImageViewSubRedditSmall,
                         TextUtil.textFromHtml(record.getImagePreviewUrl()), record.getImagePreviewWidth(), record.getImagePreviewHeight(),
                         TextUtil.textFromHtml(record.getTitle()));
 
@@ -355,7 +355,7 @@ public class SubRedditAdapter extends RecyclerView.Adapter<SubRedditAdapter.SubR
         public void onClick(View view) {
 
             if(mNumComments >0){
-                mContext.startActivity(new Intent(mContext, SubRedditDetailActivity.class)
+                mContext.startActivity(new Intent(mContext, DetailActivity.class)
                         .putExtra(Costant.EXTRA_SUBREDDIT_DETAIL_POSITION, mPosition)
                         .putExtra(Costant.EXTRA_SUBREDDIT_DETAIL_CATEGORY, mSubRedditName)
                         .putExtra(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID, mNameRedditId));

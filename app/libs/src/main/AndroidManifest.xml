@@ -20,7 +20,7 @@
         android:theme="@style/AppThemeLight.NoActionBar">
 
         <activity
-            android:name=".ui.activity.SubRedditActivity"
+            android:name=".ui.activity.MainActivity"
             android:label="@string/title_activity_subreddit"
             android:theme="@style/AppThemeLight.NoActionBar">
 
@@ -36,7 +36,7 @@
         </activity>
 
         <activity
-            android:name=".ui.activity.SubRedditDetailActivity"
+            android:name=".ui.activity.DetailActivity"
             android:label="@string/title_activity_subreddit_detail"
             android:theme="@style/AppThemeLight.NoActionBar"/>
 
@@ -47,11 +47,11 @@
             android:name=".ui.activity.SettingsActivity"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".ui.activity.SubRedditActivity"
+            android:parentActivityName=".ui.activity.MainActivity"
             android:theme="@style/AppThemeLight">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.SubRedditActivity" />
+                android:value=".ui.activity.MainActivity" />
         </activity>
 
         <activity
@@ -59,11 +59,11 @@
             android:excludeFromRecents="true"
             android:label="@string/title_activity_subreddit"
             android:noHistory="true"
-            android:parentActivityName=".ui.activity.SubRedditActivity"
+            android:parentActivityName=".ui.activity.MainActivity"
             android:theme="@style/AppThemeLight.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.SubRedditActivity" />
+                android:value=".ui.activity.MainActivity" />
         </activity>
 
         <activity
@@ -72,7 +72,7 @@
             android:label="@string/title_activity_login"
             android:launchMode="singleTop"
             android:noHistory="true"
-            android:parentActivityName=".ui.activity.SubRedditActivity"
+            android:parentActivityName=".ui.activity.MainActivity"
             android:theme="@style/AppThemeLight.NoActionBar" />
 
         <activity
@@ -81,22 +81,22 @@
             android:label="@string/title_activity_logout"
             android:launchMode="singleTop"
             android:noHistory="true"
-            android:parentActivityName=".ui.activity.SubRedditActivity"
+            android:parentActivityName=".ui.activity.MainActivity"
             android:theme="@style/AppThemeLight.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.SubRedditActivity" />
+                android:value=".ui.activity.MainActivity" />
         </activity>
 
 
         <activity
-            android:name=".ui.activity.MediaYoutubeActivity"
+            android:name=".ui.activity.YoutubeActivity"
             android:label="@string/title_activity_subreddit"
-            android:parentActivityName=".ui.activity.SubRedditActivity"
+            android:parentActivityName=".ui.activity.MainActivity"
             android:theme="@style/AppThemeLight">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.SubRedditActivity" />
+                android:value=".ui.activity.MainActivity" />
         </activity>
 
         <provider
@@ -113,14 +113,14 @@
             </intent-filter>
         </service>
 
-        <receiver android:name=".ui.activity.SubRedditActivity$MediaReceiver">
+        <receiver android:name=".ui.activity.MainActivity$MediaReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
 
 
-        <activity android:name=".ui.activity.SubRedditFullScreenActivity" />
+        <activity android:name=".ui.activity.FullScreenActivity" />
 
     </application>
 

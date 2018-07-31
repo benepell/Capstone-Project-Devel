@@ -34,7 +34,7 @@ import android.view.WindowManager;
 
 import java.util.Objects;
 
-import info.pelleritoudacity.android.rcapstone.ui.activity.MediaYoutubeActivity;
+import info.pelleritoudacity.android.rcapstone.ui.activity.YoutubeActivity;
 
 public class ActivityUI {
 
@@ -72,7 +72,7 @@ public class ActivityUI {
         }
     }
 
-    public static void youtubeFullScreen(MediaYoutubeActivity appCompatActivity) {
+    public static void youtubeFullScreen(YoutubeActivity appCompatActivity) {
         if (appCompatActivity != null) {
             appCompatActivity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 

@@ -1,6 +1,6 @@
 package info.pelleritoudacity.android.rcapstone.data.model.record;
 
-public class RecordAdapterSelected {
+public class RecordAdapterTitle {
 
     private int score;
     private int numComments;
