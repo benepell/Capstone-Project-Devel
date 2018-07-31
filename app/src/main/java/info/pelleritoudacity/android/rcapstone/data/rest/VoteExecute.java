@@ -1,9 +1,8 @@
 package info.pelleritoudacity.android.rcapstone.data.rest;
 
 
-import java.util.List;
+import android.support.annotation.NonNull;
 
-import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.data.rest.util.RetrofitClient;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
@@ -15,7 +14,7 @@ import retrofit2.Response;
 
 public class VoteExecute {
 
-    private OnRestCallBack mCallback;
+    private final OnRestCallBack mCallback;
     private static RedditAPI sApi;
     private final String mCode;
     private final String mDir;
@@ -35,12 +34,12 @@ public class VoteExecute {
 
         sApi.postVote(TextUtil.authCode(mCode), mDir, mId).enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 mCallback.success(response.code());
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 mCallback.unexpectedError(t);
             }
         });

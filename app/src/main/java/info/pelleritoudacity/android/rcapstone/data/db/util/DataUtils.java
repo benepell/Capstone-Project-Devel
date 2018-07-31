@@ -39,9 +39,7 @@ import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
-import info.pelleritoudacity.android.rcapstone.utility.NumberUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
-import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import timber.log.Timber;
 
 public class DataUtils {
@@ -75,10 +73,10 @@ public class DataUtils {
             cursor = mContext.getContentResolver().query(uri, null, selection, selectionArgs, null);
 
             if ((cursor != null) && (cursor.getCount() >= 0)) {
-                if(cursor.moveToFirst()){
+                if (cursor.moveToFirst()) {
                     lastTime = DateUtil.getSecondsTimeStamp(cursor.getString(cursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_TIME_LAST_MODIFIED)));
 
-                }else {
+                } else {
                     return false;
                 }
 
@@ -110,7 +108,7 @@ public class DataUtils {
 
             long lastTime = 0;
             String selection = null;
-            String[] selectionArgs = {Costant.STR_PARENT_LINK+model.getStrId(),Costant.NONE_DETAIL_MORE_REPLIES};
+            String[] selectionArgs = {Costant.STR_PARENT_LINK + model.getStrId(), Costant.NONE_DETAIL_MORE_REPLIES};
 
             if (uri.equals(Contract.T1dataEntry.CONTENT_URI)) {
                 selection = Contract.T1dataEntry.COLUMN_NAME_LINK_ID + " =?" + " AND " +
@@ -122,10 +120,10 @@ public class DataUtils {
             cursor = mContext.getContentResolver().query(uri, null, selection, selectionArgs, null);
 
             if ((cursor != null) && (cursor.getCount() >= 0)) {
-                if (cursor.moveToFirst()){
+                if (cursor.moveToFirst()) {
                     lastTime = DateUtil.getSecondsTimeStamp(cursor.getString(cursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_TIME_LAST_MODIFIED)));
 
-                }else {
+                } else {
                     return false;
                 }
             }
@@ -383,21 +381,8 @@ public class DataUtils {
 
         Cursor cursor = null;
         int count = 0;
-        Uri uri;
+        Uri uri = null;
 
-        Timber.d("BEGIN fromposition %s", fromPosition);
-        Timber.d("BEGIN toposition %s", toPosition);
-
-
-        if ((fromPosition == 0) && (toPosition == 0) && (fromPosition == toPosition)) {
-            return false;
-
-        } else {
-
-            fromPosition += 1;
-            toPosition += 1;
-            uri = Contract.PrefSubRedditEntry.CONTENT_URI;
-        }
 
         try {
 
@@ -505,6 +490,7 @@ public class DataUtils {
         if (!TextUtils.isEmpty(s)) {
             String[] arrS = s.split(Costant.STRING_SEPARATOR);
             for (String s1 : arrS) {
+                //noinspection StringConcatenationInLoop
                 r += "?,";
             }
             r = r.substring(0, r.length() - 1);

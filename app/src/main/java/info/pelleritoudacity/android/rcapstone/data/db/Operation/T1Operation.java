@@ -226,13 +226,13 @@ public class T1Operation {
             int count = repliesListingData.getCount();
             String name = repliesListingData.getName();
             String strId = repliesListingData.getId();
-            String strparentId = repliesListingData.getParentId();
+            String strParentId = repliesListingData.getParentId();
             int depth = repliesListingData.getDepth();
 
             cv.put(Contract.T1MoresDataEntry.COLUMN_NAME_MORE_COUNT, count);
             cv.put(Contract.T1MoresDataEntry.COLUMN_NAME_MORE_NAME, name);
             cv.put(Contract.T1MoresDataEntry.COLUMN_NAME_MORE_ID, strId);
-            cv.put(Contract.T1MoresDataEntry.COLUMN_NAME_MORES_PARENT_ID, strparentId);
+            cv.put(Contract.T1MoresDataEntry.COLUMN_NAME_MORES_PARENT_ID, strParentId);
             cv.put(Contract.T1MoresDataEntry.COLUMN_NAME_MORE_DEPTH, depth);
 
             String strMoreChildren = "";
@@ -250,7 +250,7 @@ public class T1Operation {
                 Uri uri = mContext.getContentResolver().insert(Contract.T1MoresDataEntry.CONTENT_URI, cv);
 
                 if (uri != null) {
-                    updateNumCommentsT1(mContext, strparentId, sizeCV, strMoreChildren);
+                    updateNumCommentsT1(mContext, strParentId, sizeCV, strMoreChildren);
 
                 }
 

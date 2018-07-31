@@ -2,13 +2,13 @@ package info.pelleritoudacity.android.rcapstone.data.rest;
 
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import java.util.HashMap;
 import java.util.List;
 
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T1;
-import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
 import info.pelleritoudacity.android.rcapstone.data.rest.util.RetrofitClient;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
@@ -26,7 +26,7 @@ public class RestDetailExecute {
     private final OnRestCallBack mCallback;
     private final String mCode;
     private final DetailModel mModel;
-    private boolean isAutheticate;
+    private final boolean isAutheticate;
     private final Context mContext;
 
     public RestDetailExecute(OnRestCallBack callback, Context context, String code, DetailModel model) {
@@ -72,12 +72,12 @@ public class RestDetailExecute {
                     strTimeSort,
                     mFieldMap).enqueue(new Callback<List<T1>>() {
                 @Override
-                public void onResponse(Call<List<T1>> call, Response<List<T1>> response) {
+                public void onResponse(@NonNull Call<List<T1>> call, @NonNull Response<List<T1>> response) {
                     mCallback.success(response.body());
                 }
 
                 @Override
-                public void onFailure(Call<List<T1>> call, Throwable t) {
+                public void onFailure(@NonNull Call<List<T1>> call, @NonNull Throwable t) {
                     mCallback.unexpectedError(t);
                 }
             });
@@ -88,12 +88,12 @@ public class RestDetailExecute {
             sApi.getComments(Preference.getLastCategory(mContext), mModel.getStrId(), strTimeSort, mFieldMap)
                     .enqueue(new Callback<List<T1>>() {
                         @Override
-                        public void onResponse(Call<List<T1>> call, Response<List<T1>> response) {
+                        public void onResponse(@NonNull Call<List<T1>> call, @NonNull Response<List<T1>> response) {
                             mCallback.success(response.body());
                         }
 
                         @Override
-                        public void onFailure(Call<List<T1>> call, Throwable t) {
+                        public void onFailure(@NonNull Call<List<T1>> call, @NonNull Throwable t) {
                             mCallback.unexpectedError(t);
                         }
                     });

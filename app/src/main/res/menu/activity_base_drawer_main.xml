@@ -29,7 +29,7 @@
             android:title="@string/title_menu_managesubs" />
 
         <item
-            android:id="@+id/nav_mode_preferite"
+            android:id="@+id/nav_mode_favorite"
             android:title="@string/title_menu_favorite" />
 
 

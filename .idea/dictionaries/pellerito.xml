@@ -1,17 +1,79 @@
 <component name="ProjectDictionaryState">
   <dictionary name="pellerito">
     <words>
+      <w>approvedatutc</w>
+      <w>approvedby</w>
+      <w>autheticate</w>
+      <w>authorflaircssclass</w>
+      <w>authorflairtext</w>
+      <w>autostart</w>
+      <w>bannedatutc</w>
+      <w>bannedby</w>
+      <w>cangild</w>
+      <w>canmodpost</w>
+      <w>contestmode</w>
+      <w>controversiality</w>
+      <w>costant</w>
+      <w>createdutc</w>
+      <w>gson</w>
+      <w>hidescore</w>
+      <w>iscrosspostable</w>
+      <w>isredditmediadomain</w>
+      <w>isself</w>
+      <w>isvideo</w>
       <w>leakless</w>
+      <w>linkflaircssclass</w>
+      <w>linkflairtext</w>
       <w>mdata</w>
       <w>mdatas</w>
+      <w>mediaembed</w>
+      <w>modconfig</w>
+      <w>modflair</w>
+      <w>modlog</w>
+      <w>modnote</w>
+      <w>modposts</w>
+      <w>modreasonby</w>
+      <w>modreasontitle</w>
+      <w>modreports</w>
+      <w>modwiki</w>
+      <w>morecomments</w>
       <w>moresdata</w>
       <w>moresdatas</w>
+      <w>mysubreddits</w>
+      <w>nofollow</w>
+      <w>numcomments</w>
+      <w>numcrossposts</w>
+      <w>numreports</w>
+      <w>oembed</w>
+      <w>parentwhiteliststatus</w>
+      <w>popolar</w>
       <w>preferenx</w>
+      <w>privatemessages</w>
+      <w>removalreason</w>
+      <w>reportreasons</w>
+      <w>richtext</w>
+      <w>securemedia</w>
+      <w>securemediaembed</w>
+      <w>selftexthtml</w>
+      <w>sendreplies</w>
       <w>showedits</w>
       <w>showmore</w>
+      <w>subredditid</w>
+      <w>subredditnameprefixed</w>
+      <w>subredditsubscribers</w>
+      <w>subreddittype</w>
+      <w>suggestedsort</w>
+      <w>thumbnailheight</w>
+      <w>thumbnailwidth</w>
       <w>timemillis</w>
       <w>timeoutseconds</w>
+      <w>unsave</w>
+      <w>userreports</w>
+      <w>viewcount</w>
       <w>vimeo</w>
+      <w>whiteliststatus</w>
+      <w>wikiedit</w>
+      <w>wikiread</w>
       <w>youtu</w>
     </words>
   </dictionary>

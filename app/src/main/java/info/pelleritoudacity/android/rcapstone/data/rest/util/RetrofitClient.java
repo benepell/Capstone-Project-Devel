@@ -22,7 +22,7 @@ public class RetrofitClient {
     private static Retrofit sRetrofit = null;
     private static String sBaseUrl;
 
-    public static Retrofit getClient(String baseUrl, Class clazz) {
+    private static Retrofit getClient(String baseUrl, Class clazz) {
         if (sRetrofit == null) {
 
             GsonBuilder gsonBuilder = new GsonBuilder();

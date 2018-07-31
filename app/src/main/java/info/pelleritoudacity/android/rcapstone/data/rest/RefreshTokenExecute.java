@@ -27,6 +27,7 @@
 package info.pelleritoudacity.android.rcapstone.data.rest;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Base64;
 
@@ -49,7 +50,7 @@ public class RefreshTokenExecute {
     private RedditToken mRedditToken;
     private static RedditAPI sApi;
     private final String mRefreshToken;
-    Call<RedditToken> mCall;
+    private Call<RedditToken> mCall;
 
     public RefreshTokenExecute(String refreshToken) {
         sApi = RetrofitClient.createService(Costant.REDDIT_TOKEN_URL,null);
@@ -78,7 +79,7 @@ public class RefreshTokenExecute {
 
         sApi.getAccessToken(headerMap, fieldMap).enqueue(new Callback<RedditToken>() {
             @Override
-            public void onResponse(Call<RedditToken> call, Response<RedditToken> response) {
+            public void onResponse(@NonNull Call<RedditToken> call, @NonNull Response<RedditToken> response) {
                 if (response.isSuccessful()) {
                     mRedditToken = response.body();
                     String strAccessToken = Objects.requireNonNull(mRedditToken).getAccess_token();
@@ -100,7 +101,7 @@ public class RefreshTokenExecute {
             }
 
             @Override
-            public void onFailure(Call<RedditToken> call, Throwable t) {
+            public void onFailure(@NonNull Call<RedditToken> call, @NonNull Throwable t) {
             }
         });
 

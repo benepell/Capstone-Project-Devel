@@ -30,10 +30,8 @@ import android.support.annotation.NonNull;
 import android.util.Base64;
 
 import java.util.HashMap;
-import java.util.List;
 
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.RedditToken;
-import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.data.rest.util.RetrofitClient;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;

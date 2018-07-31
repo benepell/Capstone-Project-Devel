@@ -1,13 +1,12 @@
 package info.pelleritoudacity.android.rcapstone.data.rest;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 
 import java.util.HashMap;
-import java.util.List;
 
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.More;
-import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
 import info.pelleritoudacity.android.rcapstone.data.rest.util.RetrofitClient;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
@@ -45,12 +44,12 @@ public class RestMoreExecute {
         sApi.getMoreCommentsAuth(TextUtil.authCode(mCode) ,
                 fieldMap).enqueue(new Callback<More>() {
             @Override
-            public void onResponse(Call<More> call, Response<More> response) {
+            public void onResponse(@NonNull Call<More> call, @NonNull Response<More> response) {
                 mCallback.success(response.body());
             }
 
             @Override
-            public void onFailure(Call<More> call, Throwable t) {
+            public void onFailure(@NonNull Call<More> call, @NonNull Throwable t) {
                 mCallback.unexpectedError(t);
             }
         });

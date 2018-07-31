@@ -190,9 +190,9 @@ public class MenuBase {
                 mContext.startActivity(new Intent(mContext, SubManageActivity.class));
                 break;
 
-            case R.id.nav_mode_preferite:
+            case R.id.nav_mode_favorite:
                 Preference.setTypeMode(mContext, Costant.NAV_MODE_FAVORITE);
-                targetMenuMain(R.id.nav_mode_preferite);
+                targetMenuMain(R.id.nav_mode_favorite);
                 break;
 
             case R.id.nav_mode_refresh:
@@ -219,7 +219,7 @@ public class MenuBase {
         MenuItem itemModeAllText = menu.findItem(R.id.nav_mode_all);
         MenuItem itemModeSearchText = menu.findItem(R.id.nav_mode_search);
         MenuItem itemModeSubscriptions = menu.findItem(R.id.nav_mode_subscriptions);
-        MenuItem itemModeFavorite = menu.findItem(R.id.nav_mode_preferite);
+        MenuItem itemModeFavorite = menu.findItem(R.id.nav_mode_favorite);
         MenuItem itemModeRefresh = menu.findItem(R.id.nav_mode_refresh);
         MenuItem itemModeSettings = menu.findItem(R.id.nav_mode_settings);
 
@@ -371,8 +371,7 @@ public class MenuBase {
                 constantsTarget = Costant.SUBREDDIT_TARGET_ALL;
                 break;
 
-            case R.id.nav_mode_preferite:
-                // todo comment "" for old category function
+            case R.id.nav_mode_favorite:
                 constantCategory = Preference.getLastCategory(mContext);
                 constantsTarget = Costant.SUBREDDIT_TARGET_FAVORITE;
                 break;

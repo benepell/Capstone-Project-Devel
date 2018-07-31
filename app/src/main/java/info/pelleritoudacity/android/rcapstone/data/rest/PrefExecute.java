@@ -3,9 +3,6 @@ package info.pelleritoudacity.android.rcapstone.data.rest;
 
 import android.support.annotation.NonNull;
 
-import java.util.List;
-
-import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.data.rest.util.RetrofitClient;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
@@ -38,12 +35,12 @@ public class PrefExecute {
         sApi.postPrefSave(TextUtil.authCode(mCode) , mId)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                         mCallBack.success(response.code());
                     }
 
                     @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                         mCallBack.unexpectedError(t);
                     }
                 });

@@ -27,9 +27,9 @@
 package info.pelleritoudacity.android.rcapstone.data.rest;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -47,8 +47,8 @@ import retrofit2.Response;
 public class SubRedditExecute {
     private static RedditAPI sApi;
     private final OnRestCallBack mCallBack;
-    private boolean isAuthenticated;
-    private Context mContext;
+    private final boolean isAuthenticated;
+    private final Context mContext;
     private final String mCategory;
 
     public SubRedditExecute(OnRestCallBack callBack, Context context, String category) {
@@ -88,12 +88,12 @@ public class SubRedditExecute {
             sApi.getSubRedditAuth(TextUtil.authCode(PermissionUtil.getToken(mContext)), mCategory, fieldMap)
                     .enqueue(new Callback<T3>() {
                         @Override
-                        public void onResponse(Call<T3> call, Response<T3> response) {
+                        public void onResponse(@NonNull Call<T3> call, @NonNull Response<T3> response) {
                             mCallBack.success(response.body());
                         }
 
                         @Override
-                        public void onFailure(Call<T3> call, Throwable t) {
+                        public void onFailure(@NonNull Call<T3> call, @NonNull Throwable t) {
                             mCallBack.unexpectedError(t);
                         }
                     });
@@ -102,12 +102,12 @@ public class SubRedditExecute {
             sApi.getSubReddit(mCategory, fieldMap)
                     .enqueue(new Callback<T3>() {
                         @Override
-                        public void onResponse(Call<T3> call, Response<T3> response) {
+                        public void onResponse(@NonNull Call<T3> call, @NonNull Response<T3> response) {
                             mCallBack.success(response.body());
                         }
 
                         @Override
-                        public void onFailure(Call<T3> call, Throwable t) {
+                        public void onFailure(@NonNull Call<T3> call, @NonNull Throwable t) {
                             mCallBack.unexpectedError(t);
                         }
                     });
@@ -136,12 +136,12 @@ public class SubRedditExecute {
                 Preference.getSubredditSort(mContext),
                 fieldMap).enqueue(new Callback<List<T3>>() {
             @Override
-            public void onResponse(Call<List<T3>> call, Response<List<T3>> response) {
+            public void onResponse(@NonNull Call<List<T3>> call, @NonNull Response<List<T3>> response) {
                 mCallBack.success(response.body());
             }
 
             @Override
-            public void onFailure(Call<List<T3>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<T3>> call, @NonNull Throwable t) {
                 mCallBack.unexpectedError(t);
             }
         });

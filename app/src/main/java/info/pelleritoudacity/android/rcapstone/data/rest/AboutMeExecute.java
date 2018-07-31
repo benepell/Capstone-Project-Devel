@@ -26,10 +26,9 @@
 
 package info.pelleritoudacity.android.rcapstone.data.rest;
 
-import java.util.List;
+import android.support.annotation.NonNull;
 
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.RedditAboutMe;
-import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.data.rest.util.RetrofitClient;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
@@ -53,12 +52,12 @@ public class AboutMeExecute {
     public void loginData() {
         sApi.getAboutMe(TextUtil.authCode(mCode)).enqueue(new Callback<RedditAboutMe>() {
             @Override
-            public void onResponse(Call<RedditAboutMe> call, Response<RedditAboutMe> response) {
+            public void onResponse(@NonNull Call<RedditAboutMe> call, @NonNull Response<RedditAboutMe> response) {
                 mCallback.success(response.body());
             }
 
             @Override
-            public void onFailure(Call<RedditAboutMe> call, Throwable t) {
+            public void onFailure(@NonNull Call<RedditAboutMe> call, @NonNull Throwable t) {
                 mCallback.unexpectedError(t);
             }
         });
