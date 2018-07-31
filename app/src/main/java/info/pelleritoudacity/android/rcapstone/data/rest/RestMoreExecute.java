@@ -4,8 +4,10 @@ import android.content.Context;
 
 
 import java.util.HashMap;
+import java.util.List;
 
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.More;
+import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
 import info.pelleritoudacity.android.rcapstone.data.rest.util.RetrofitClient;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
@@ -21,9 +23,9 @@ public class RestMoreExecute {
     private final DetailModel model;
     private final Context mContext;
     private static RedditAPI sApi;
-    private final RestSubRedditMore mCallback;
+    private final OnRestCallBack mCallback;
 
-    public RestMoreExecute(RestSubRedditMore callback, Context context, String code, DetailModel model) {
+    public RestMoreExecute(OnRestCallBack callback, Context context, String code, DetailModel model) {
 
         sApi = RetrofitClient.createService(Costant.REDDIT_OAUTH_URL, More.class);
         mContext = context;
@@ -44,20 +46,22 @@ public class RestMoreExecute {
                 fieldMap).enqueue(new Callback<More>() {
             @Override
             public void onResponse(Call<More> call, Response<More> response) {
-                mCallback.onRestSubRedditMore(response.body(), model.getStrArrId());
+                mCallback.success(response.body());
             }
 
             @Override
             public void onFailure(Call<More> call, Throwable t) {
-                mCallback.onErrorSubRedditMore(t);
+                mCallback.unexpectedError(t);
             }
         });
 
     }
 
-    public interface RestSubRedditMore {
-        void onRestSubRedditMore(More listenerData, String mStrArrid);
+    public interface OnRestCallBack {
 
-        void onErrorSubRedditMore(Throwable t);
+        void success(More response);
+
+        void unexpectedError(Throwable tList);
     }
+
 }

@@ -26,7 +26,10 @@
 
 package info.pelleritoudacity.android.rcapstone.data.rest;
 
+import java.util.List;
+
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.RedditAboutMe;
+import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.data.rest.util.RetrofitClient;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
@@ -36,11 +39,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AboutMeExecute {
-    private final RestAboutMe mCallback;
+    private final OnRestCallBack mCallback;
     private static RedditAPI sApi;
     private final String mCode;
 
-    public AboutMeExecute(RestAboutMe callback, String code) {
+    public AboutMeExecute(OnRestCallBack callback, String code) {
         sApi = RetrofitClient.createService(Costant.REDDIT_OAUTH_URL,null);
         mCallback = callback;
         mCode = code;
@@ -51,20 +54,21 @@ public class AboutMeExecute {
         sApi.getAboutMe(TextUtil.authCode(mCode)).enqueue(new Callback<RedditAboutMe>() {
             @Override
             public void onResponse(Call<RedditAboutMe> call, Response<RedditAboutMe> response) {
-                mCallback.onRestAboutMe(response.body());
+                mCallback.success(response.body());
             }
 
             @Override
             public void onFailure(Call<RedditAboutMe> call, Throwable t) {
-                mCallback.onErrorAboutMe(t);
+                mCallback.unexpectedError(t);
             }
         });
     }
 
-    public interface RestAboutMe {
+    public interface OnRestCallBack {
 
-        void onRestAboutMe(RedditAboutMe listenerData);
+        void success(RedditAboutMe response);
 
-        void onErrorAboutMe(Throwable t);
+        void unexpectedError(Throwable tList);
     }
+
 }

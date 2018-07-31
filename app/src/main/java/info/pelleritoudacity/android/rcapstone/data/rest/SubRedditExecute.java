@@ -29,6 +29,7 @@ package info.pelleritoudacity.android.rcapstone.data.rest;
 import android.content.Context;
 import android.text.TextUtils;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -45,13 +46,12 @@ import retrofit2.Response;
 
 public class SubRedditExecute {
     private static RedditAPI sApi;
-    private final OnRestSubReddit mCallBack;
-    private final OnRestSubRedditList mCallBackList;
+    private final OnRestCallBack mCallBack;
     private boolean isAuthenticated;
     private Context mContext;
     private final String mCategory;
 
-    public SubRedditExecute(OnRestSubReddit listener, OnRestSubRedditList listenerList, Context context, String category) {
+    public SubRedditExecute(OnRestCallBack callBack, Context context, String category) {
 
         if (PermissionUtil.isLogged(context)) {
             sApi = RetrofitClient.createService(Costant.REDDIT_OAUTH_URL, null);
@@ -61,8 +61,7 @@ public class SubRedditExecute {
             isAuthenticated = false;
         }
 
-        mCallBack = (OnRestSubReddit) listener;
-        mCallBackList = (OnRestSubRedditList) listenerList;
+        mCallBack = callBack;
         mContext = context;
         mCategory = category;
 
@@ -90,12 +89,12 @@ public class SubRedditExecute {
                     .enqueue(new Callback<T3>() {
                         @Override
                         public void onResponse(Call<T3> call, Response<T3> response) {
-                            mCallBack.onRestSubReddit(response.body());
+                            mCallBack.success(response.body());
                         }
 
                         @Override
                         public void onFailure(Call<T3> call, Throwable t) {
-                            mCallBack.onErrorSubReddit(t);
+                            mCallBack.unexpectedError(t);
                         }
                     });
         } else {
@@ -104,12 +103,12 @@ public class SubRedditExecute {
                     .enqueue(new Callback<T3>() {
                         @Override
                         public void onResponse(Call<T3> call, Response<T3> response) {
-                            mCallBack.onRestSubReddit(response.body());
+                            mCallBack.success(response.body());
                         }
 
                         @Override
                         public void onFailure(Call<T3> call, Throwable t) {
-                            mCallBack.onErrorSubReddit(t);
+                            mCallBack.unexpectedError(t);
                         }
                     });
 
@@ -138,28 +137,24 @@ public class SubRedditExecute {
                 fieldMap).enqueue(new Callback<List<T3>>() {
             @Override
             public void onResponse(Call<List<T3>> call, Response<List<T3>> response) {
-                mCallBackList.onRestSubReddit(response.body());
+                mCallBack.success(response.body());
             }
 
             @Override
             public void onFailure(Call<List<T3>> call, Throwable t) {
-                mCallBackList.onErrorSubReddit(t);
+                mCallBack.unexpectedError(t);
             }
         });
     }
 
-    public interface OnRestSubRedditList {
+    public interface OnRestCallBack {
 
-        void onRestSubReddit(List<T3> listenerDataList);
+        void success(T3 response);
 
-        void onErrorSubReddit(Throwable tList);
+        void success(List<T3> response);
+
+        void unexpectedError(Throwable tList);
     }
 
-    public interface OnRestSubReddit {
-
-        void onRestSubReddit(T3 listenerData);
-
-        void onErrorSubReddit(Throwable t);
-    }
 
 }

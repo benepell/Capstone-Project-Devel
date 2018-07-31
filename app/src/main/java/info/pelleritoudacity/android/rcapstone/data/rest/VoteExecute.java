@@ -1,6 +1,9 @@
 package info.pelleritoudacity.android.rcapstone.data.rest;
 
 
+import java.util.List;
+
+import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.data.rest.util.RetrofitClient;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
@@ -12,13 +15,13 @@ import retrofit2.Response;
 
 public class VoteExecute {
 
-    private RestAccessToken mCallback;
+    private OnRestCallBack mCallback;
     private static RedditAPI sApi;
     private final String mCode;
     private final String mDir;
     private final String mId;
 
-    public VoteExecute(RestAccessToken callback, String code, String dir, String id) {
+    public VoteExecute(OnRestCallBack callback, String code, String dir, String id) {
 
         sApi = RetrofitClient.createService(Costant.REDDIT_OAUTH_URL, null);
         mCallback = callback;
@@ -33,20 +36,22 @@ public class VoteExecute {
         sApi.postVote(TextUtil.authCode(mCode), mDir, mId).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                mCallback.onRestVote(response.code());
+                mCallback.success(response.code());
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                mCallback.onErrorVote(t);
+                mCallback.unexpectedError(t);
             }
         });
 
     }
 
-    public interface RestAccessToken {
-        void onRestVote(int responseCode);
+    public interface OnRestCallBack {
 
-        void onErrorVote(Throwable t);
+        void success(int code);
+
+        void unexpectedError(Throwable tList);
     }
+
 }

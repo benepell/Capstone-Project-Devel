@@ -76,7 +76,7 @@ import static info.pelleritoudacity.android.rcapstone.utility.PermissionUtil.Req
 import static info.pelleritoudacity.android.rcapstone.utility.SessionUtil.getRedditSessionExpired;
 
 public class SubRedditActivity extends BaseActivity
-        implements SubRedditExecute.OnRestSubReddit, SubRedditExecute.OnRestSubRedditList,
+        implements SubRedditExecute.OnRestCallBack,
         SubRedditTab.OnTabListener, SwipeRefreshLayout.OnRefreshListener, ActivityCompat.OnRequestPermissionsResultCallback, SearchView.OnQueryTextListener {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
@@ -184,44 +184,6 @@ public class SubRedditActivity extends BaseActivity
         }
     }
 
-    @Override
-    public void onRestSubReddit(T3 listenerData) {
-        if ((getApplicationContext() != null) && (listenerData != null)) {
-            T3Operation data = new T3Operation(getApplicationContext(), listenerData);
-
-            if ((mCategory != null && mTarget != null) && (data.saveData(mCategory, mTarget))) {
-                createUI(mCategory, mTarget, null);
-
-            } else {
-                Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
-            }
-        }
-
-    }
-
-    @Override
-    public void onRestSubReddit(List<T3> listenerDataList) {
-        if ((getApplicationContext() != null) && (listenerDataList != null)) {
-
-            int i = listenerDataList.size();
-            for (T3 listenerData : listenerDataList) {
-
-                T3Operation data = new T3Operation(getApplicationContext(), listenerData);
-                if ((mCategory != null && mTarget != null) && (data.saveData(mCategory, mTarget))) {
-
-                    createUI(mCategory, mTarget, null);
-
-                } else {
-                    Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
-                }
-
-                i--;
-
-            }
-
-        }
-
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
@@ -252,10 +214,6 @@ public class SubRedditActivity extends BaseActivity
         return super.shouldShowRequestPermissionRationale(permission);
     }
 
-
-    @Override
-    public void onErrorSubReddit(Throwable t) {
-    }
 
     @Override
     public void tabSelected(int position, String category) {
@@ -398,16 +356,16 @@ public class SubRedditActivity extends BaseActivity
                     case Costant.LABEL_SUBMENU_NEW:
                     case Costant.LABEL_SUBMENU_HOT:
 
-                        new SubRedditExecute(this,this, mContext,link).getDataList();
+                        new SubRedditExecute(this,  mContext, link).getDataList();
                         break;
 
                     case Costant.LABEL_SUBMENU_CONTROVERSIAL:
                     case Costant.LABEL_SUBMENU_TOP:
-                        new SubRedditExecute(this,this,mContext, link).getData();
+                        new SubRedditExecute(this,  mContext, link).getData();
                         break;
 
                     default:
-                        new SubRedditExecute(this,this,mContext, link).getData();
+                        new SubRedditExecute(this,  mContext, link).getData();
                 }
             }
 
@@ -460,6 +418,44 @@ public class SubRedditActivity extends BaseActivity
     @Override
     public boolean onQueryTextChange(String s) {
         return false;
+    }
+
+    @Override
+    public void success(T3 response) {
+        if ((getApplicationContext() != null) && (response != null)) {
+            T3Operation data = new T3Operation(getApplicationContext(), response);
+
+            if ((mCategory != null && mTarget != null) && (data.saveData(mCategory, mTarget))) {
+                createUI(mCategory, mTarget, null);
+
+            } else {
+                Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
+            }
+        }
+
+    }
+
+    @Override
+    public void success(List<T3> response) {
+        if ((getApplicationContext() != null) && (response != null)) {
+
+            int i = response.size();
+            for (T3 listenerData : response) {
+
+                T3Operation data = new T3Operation(getApplicationContext(), listenerData);
+                if ((mCategory != null && mTarget != null) && (data.saveData(mCategory, mTarget))) {
+
+                    createUI(mCategory, mTarget, null);
+
+                } else {
+                    Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
+                }
+
+                i--;
+
+            }
+
+        }
     }
 
     public static class MediaReceiver extends BroadcastReceiver {

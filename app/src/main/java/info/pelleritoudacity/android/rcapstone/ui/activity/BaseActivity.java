@@ -60,7 +60,7 @@ import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import timber.log.Timber;
 
 public class BaseActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, AboutMeExecute.RestAboutMe {
+        implements NavigationView.OnNavigationItemSelectedListener, AboutMeExecute.OnRestCallBack {
 
     private int mLayoutResource;
     private View mNavHeaderView;
@@ -269,10 +269,10 @@ public class BaseActivity extends AppCompatActivity
     }
 
     @Override
-    public void onRestAboutMe(RedditAboutMe listenerData) {
-        if (listenerData != null) {
-            String name = listenerData.getName();
-            boolean isOver18 = listenerData.isOver18();
+    public void success(RedditAboutMe response) {
+        if (response != null) {
+            String name = response.getName();
+            boolean isOver18 = response.isOver18();
             if (!TextUtils.isEmpty(name)) {
                 Preference.setLoginName(getApplicationContext(), name);
                 Preference.setLoginOver18(getApplicationContext(), isOver18);
@@ -284,8 +284,7 @@ public class BaseActivity extends AppCompatActivity
     }
 
     @Override
-    public void onErrorAboutMe(Throwable t) {
+    public void unexpectedError(Throwable tList) {
 
     }
-
 }

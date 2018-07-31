@@ -94,10 +94,15 @@ public class SelectorHelper {
                     }
 
                     String finalVote = vote;
-                    new VoteExecute(new VoteExecute.RestAccessToken() {
+                    new VoteExecute(new VoteExecute.OnRestCallBack() {
                         @Override
-                        public void onRestVote(int responseCode) {
-                            if (responseCode == 200) {
+                        public void unexpectedError(Throwable tList) {
+
+                        }
+
+                        @Override
+                        public void success(int code) {
+                            if (code == 200) {
                                 buttonVoteDown.setColorFilter(Color.GRAY);
                                 buttonVoteUp.setActivated(true);
                                 if (finalVote.equals("1")) {
@@ -109,14 +114,11 @@ public class SelectorHelper {
                                     buttonVoteUp.setColorFilter(Color.GRAY);
 
                                 }
+
                             }
 
                         }
 
-                        @Override
-                        public void onErrorVote(Throwable t) {
-
-                        }
                     }, PermissionUtil.getToken(mContext), vote, nameReddit)
                             .postData();
                 });
@@ -129,10 +131,10 @@ public class SelectorHelper {
                     }
 
                     String finalVote = vote;
-                    new VoteExecute(new VoteExecute.RestAccessToken() {
+                    new VoteExecute(new VoteExecute.OnRestCallBack() {
                         @Override
-                        public void onRestVote(int responseCode) {
-                            if (responseCode == 200) {
+                        public void success(int code) {
+                            if (code == 200) {
                                 buttonVoteUp.setColorFilter(Color.GRAY);
                                 buttonVoteDown.setActivated(true);
                                 if (finalVote.equals("-1")) {
@@ -143,14 +145,16 @@ public class SelectorHelper {
                                     buttonVoteDown.setColorFilter(Color.GRAY);
 
                                 }
-                            }
 
+                            }
                         }
 
                         @Override
-                        public void onErrorVote(Throwable t) {
+                        public void unexpectedError(Throwable tList) {
 
                         }
+
+
                     }, PermissionUtil.getToken(mContext), vote, nameReddit)
                             .postData();
                 });
@@ -158,10 +162,10 @@ public class SelectorHelper {
                 buttonStars.setOnClickListener(view -> {
                     if (!isSaved) {
 
-                        new PrefExecute(new PrefExecute.RestAccessToken() {
+                        new PrefExecute(new PrefExecute.OnRestCallBack() {
                             @Override
-                            public void onRestPref(int responseCode) {
-                                if (responseCode == 200) {
+                            public void success(int code) {
+                                if (code == 200) {
                                     new DataUtils(mContext).updateLocalDbStars(1, nameReddit);
                                     mContext.startActivity(new Intent(mContext, SubRedditActivity.class)
                                             .setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK |
@@ -170,18 +174,19 @@ public class SelectorHelper {
                             }
 
                             @Override
-                            public void onErrorPref(Throwable t) {
+                            public void unexpectedError(Throwable tList) {
 
                             }
-                        },  PermissionUtil.getToken(mContext), nameReddit).postSaveData();
+
+                        }, PermissionUtil.getToken(mContext), nameReddit).postSaveData();
 
 
                     } else {
 
-                        new PrefExecute(new PrefExecute.RestAccessToken() {
+                        new PrefExecute(new PrefExecute.OnRestCallBack() {
                             @Override
-                            public void onRestPref(int responseCode) {
-                                if (responseCode == 200) {
+                            public void success(int code) {
+                                if (code == 200) {
                                     new DataUtils(mContext).updateLocalDbStars(0, nameReddit);
                                     mContext.startActivity(new Intent(mContext, SubRedditActivity.class)
                                             .setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK |
@@ -191,10 +196,12 @@ public class SelectorHelper {
                             }
 
                             @Override
-                            public void onErrorPref(Throwable t) {
+                            public void unexpectedError(Throwable tList) {
 
                             }
-                        },  PermissionUtil.getToken(mContext), nameReddit).postUnSaveData();
+
+
+                        }, PermissionUtil.getToken(mContext), nameReddit).postUnSaveData();
 
                     }
                 });

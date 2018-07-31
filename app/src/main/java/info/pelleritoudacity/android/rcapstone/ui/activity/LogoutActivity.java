@@ -36,7 +36,7 @@ import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 
 public class LogoutActivity extends BaseActivity
-        implements RevokeTokenExecute.RestRevokeCode {
+        implements RevokeTokenExecute.OnRestCallBack {
 
 
     @Override
@@ -49,15 +49,6 @@ public class LogoutActivity extends BaseActivity
         }
     }
 
-
-    @Override
-    public void onRestCode(Integer listenerData) {
-        if (listenerData == Costant.REDDIT_REVOKE_SUCCESS) {
-            clearPreference();
-            openHomeActivity();
-            stopRefreshTokenService();
-        }
-    }
 
     private void clearPreference() {
         int[] prefStrArrays = {
@@ -84,6 +75,15 @@ public class LogoutActivity extends BaseActivity
 
     private  void stopRefreshTokenService(){
         FirebaseRefreshTokenSync.stopJobRefreshToken(getApplicationContext(), Costant.TOKEN_SYNC_TAG);
+    }
+
+    @Override
+    public void success(int code) {
+        if (code == Costant.REDDIT_REVOKE_SUCCESS) {
+            clearPreference();
+            openHomeActivity();
+            stopRefreshTokenService();
+        }
     }
 }
 

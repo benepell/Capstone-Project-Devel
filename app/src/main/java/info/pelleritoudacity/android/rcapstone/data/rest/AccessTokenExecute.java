@@ -30,8 +30,10 @@ import android.support.annotation.NonNull;
 import android.util.Base64;
 
 import java.util.HashMap;
+import java.util.List;
 
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.RedditToken;
+import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.data.rest.util.RetrofitClient;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
@@ -41,11 +43,11 @@ import retrofit2.Response;
 
 public class AccessTokenExecute {
 
-    private final RestAccessToken mCallback;
+    private final OnRestCallBack mCallback;
     private static RedditAPI sApi;
     private final String mCode;
 
-    public AccessTokenExecute(RestAccessToken callback, String code) {
+    public AccessTokenExecute(OnRestCallBack callback, String code) {
 
         sApi = RetrofitClient.createService(Costant.REDDIT_TOKEN_URL,null);
         mCallback = callback;
@@ -74,7 +76,7 @@ public class AccessTokenExecute {
             @Override
             public void onResponse(@NonNull Call<RedditToken> call, @NonNull Response<RedditToken> response) {
                 if (response.isSuccessful()) {
-                    mCallback.onRestAccessToken(response.body());
+                    mCallback.success(response.body());
                 }
             }
 
@@ -82,15 +84,17 @@ public class AccessTokenExecute {
             public void onFailure(@NonNull Call<RedditToken> call, @NonNull Throwable t) {
                 call.cancel();
                 if (call.isCanceled()) {
-                    mCallback.onErrorAccessToken(t);
+                    mCallback.unexpectedError(t);
                 }
             }
         });
     }
 
-    public interface RestAccessToken {
-        void onRestAccessToken(RedditToken listenerData);
+    public interface OnRestCallBack {
 
-        void onErrorAccessToken(Throwable t);
+        void success(RedditToken response);
+
+        void unexpectedError(Throwable tList);
     }
+
 }

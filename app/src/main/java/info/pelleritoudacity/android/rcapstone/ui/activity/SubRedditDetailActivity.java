@@ -33,11 +33,10 @@ import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
-import timber.log.Timber;
 
 public class SubRedditDetailActivity extends BaseActivity
-        implements RestDetailExecute.RestSubReddit,
-        SubRedditDetailFragment.OnFragmentInteractionListener, RestMoreExecute.RestSubRedditMore,
+        implements RestDetailExecute.OnRestCallBack,
+        SubRedditDetailFragment.OnFragmentInteractionListener, RestMoreExecute.OnRestCallBack,
         SwipeRefreshLayout.OnRefreshListener, NestedScrollView.OnScrollChangeListener, SearchView.OnQueryTextListener {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
@@ -80,21 +79,6 @@ public class SubRedditDetailActivity extends BaseActivity
         }
     }
 
-    @Override
-    public void onRestSubReddit(List<T1> listenerData) {
-        if ((listenerData != null) && (model.getStrId() != null)) {
-            T1Operation data = new T1Operation(getApplicationContext());
-            if (data.saveData(listenerData, model.getStrId())) {
-                startFragment(model, false);
-            } else {
-                Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    @Override
-    public void onErrorSubReddit(Throwable t) {
-    }
 
     @Override
     public void clickSelector(int position, int itemCount) {
@@ -159,29 +143,7 @@ public class SubRedditDetailActivity extends BaseActivity
 
     }
 
-    @Override
-    public void onRestSubRedditMore(More listenerData, String strArrId) {
-        if (listenerData != null) {
-            if (listenerData.getJson().getData() != null) {
 
-                T1Operation t1moreOperation = new T1Operation(getApplicationContext());
-
-                if (t1moreOperation.saveMoreData(listenerData.getJson(), strArrId)) {
-
-                    startFragment(model, true);
-
-                }
-
-            }
-
-        }
-
-    }
-
-    @Override
-    public void onErrorSubRedditMore(Throwable t) {
-        Timber.e("sub reddit more error %s", t.getMessage());
-    }
 
 
     @Override
@@ -281,4 +243,34 @@ public class SubRedditDetailActivity extends BaseActivity
     }
 
 
+    @Override
+    public void success(List<T1> response) {
+        if ((response != null) && (model.getStrId() != null)) {
+            T1Operation data = new T1Operation(getApplicationContext());
+            if (data.saveData(response, model.getStrId())) {
+                startFragment(model, false);
+            } else {
+                Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    @Override
+    public void success(More response) {
+        if (response != null) {
+            if (response.getJson().getData() != null) {
+
+                T1Operation t1moreOperation = new T1Operation(getApplicationContext());
+
+                if (t1moreOperation.saveMoreData(response.getJson(),model.getStrId() )) {
+
+                    startFragment(model, true);
+
+                }
+
+            }
+
+        }
+
+    }
 }

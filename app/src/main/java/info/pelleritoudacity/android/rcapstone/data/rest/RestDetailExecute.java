@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T1;
+import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
 import info.pelleritoudacity.android.rcapstone.data.rest.util.RetrofitClient;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
@@ -22,13 +23,13 @@ import retrofit2.Response;
 public class RestDetailExecute {
 
     private static RedditAPI sApi;
-    private final RestSubReddit mCallback;
+    private final OnRestCallBack mCallback;
     private final String mCode;
     private final DetailModel mModel;
     private boolean isAutheticate;
     private final Context mContext;
 
-    public RestDetailExecute(RestSubReddit callback, Context context, String code, DetailModel model) {
+    public RestDetailExecute(OnRestCallBack callback, Context context, String code, DetailModel model) {
 
         if (PermissionUtil.isLogged(context)) {
             sApi = RetrofitClient.createService(Costant.REDDIT_OAUTH_URL, T1.class);
@@ -72,12 +73,12 @@ public class RestDetailExecute {
                     mFieldMap).enqueue(new Callback<List<T1>>() {
                 @Override
                 public void onResponse(Call<List<T1>> call, Response<List<T1>> response) {
-                    mCallback.onRestSubReddit(response.body());
+                    mCallback.success(response.body());
                 }
 
                 @Override
                 public void onFailure(Call<List<T1>> call, Throwable t) {
-                    mCallback.onErrorSubReddit(t);
+                    mCallback.unexpectedError(t);
                 }
             });
 
@@ -88,24 +89,24 @@ public class RestDetailExecute {
                     .enqueue(new Callback<List<T1>>() {
                         @Override
                         public void onResponse(Call<List<T1>> call, Response<List<T1>> response) {
-                            mCallback.onRestSubReddit(response.body());
+                            mCallback.success(response.body());
                         }
 
                         @Override
                         public void onFailure(Call<List<T1>> call, Throwable t) {
-                            mCallback.onErrorSubReddit(t);
+                            mCallback.unexpectedError(t);
                         }
                     });
 
         }
     }
 
+    public interface OnRestCallBack {
 
-    public interface RestSubReddit {
+        void success(List<T1> response);
 
-        void onRestSubReddit(List<T1> listenerData);
-
-        void onErrorSubReddit(Throwable t);
+        void unexpectedError(Throwable tList);
     }
+
 }
 

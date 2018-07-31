@@ -31,7 +31,9 @@ import android.support.annotation.NonNull;
 import android.util.Base64;
 
 import java.util.HashMap;
+import java.util.List;
 
+import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.data.rest.util.RetrofitClient;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
@@ -46,10 +48,10 @@ public class RevokeTokenExecute {
 
     private static RedditAPI sApi;
     private final String mToken;
-    private RestRevokeCode mCallback;
+    private OnRestCallBack mCallback;
 
 
-    public RevokeTokenExecute(RestRevokeCode callback, String token) {
+    public RevokeTokenExecute(OnRestCallBack callback, String token) {
 
         mCallback = callback;
         sApi = RetrofitClient.createService(Costant.REDDIT_TOKEN_URL, null);
@@ -79,13 +81,14 @@ public class RevokeTokenExecute {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if (response.isSuccessful()) {
-                    mCallback.onRestCode(response.code());
+                    mCallback.success(response.code());
                 }
 
             }
 
             @Override
             public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                mCallback.unexpectedError(t);
                 Timber.e("Revoke Token Error %s", t.getMessage());
                 call.cancel();
             }
@@ -132,9 +135,12 @@ public class RevokeTokenExecute {
         });
     }
 
+    public interface OnRestCallBack {
 
-    public interface RestRevokeCode {
-        void onRestCode(Integer listenerData);
+        void success(int code);
+
+        void unexpectedError(Throwable tList);
     }
+
 
 }

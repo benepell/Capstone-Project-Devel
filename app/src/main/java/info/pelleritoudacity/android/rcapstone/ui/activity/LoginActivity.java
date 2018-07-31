@@ -123,13 +123,13 @@ public class LoginActivity extends BaseActivity {
                         if (state.equals(Costant.REDDIT_STATE_RANDOM)) {
 
                             String code = uri.getQueryParameter("code");
-                            new AccessTokenExecute(new AccessTokenExecute.RestAccessToken() {
+                            new AccessTokenExecute(new AccessTokenExecute.OnRestCallBack() {
                                 @Override
-                                public void onRestAccessToken(RedditToken listenerData) {
-                                    if (listenerData != null) {
-                                        String strAccessToken = listenerData.getAccess_token();
-                                        String strRefreshToken = listenerData.getRefresh_token();
-                                        long expired = listenerData.getExpires_in();
+                                public void success(RedditToken response) {
+                                    if (response != null) {
+                                        String strAccessToken = response.getAccess_token();
+                                        String strRefreshToken = response.getRefresh_token();
+                                        long expired = response.getExpires_in();
 
                                         if (!TextUtils.isEmpty(strAccessToken) && !TextUtils.isEmpty(strRefreshToken)) {
                                             PermissionUtil.setToken(getApplicationContext(), strAccessToken);
@@ -139,13 +139,13 @@ public class LoginActivity extends BaseActivity {
                                             Preference.setLoginStart(getApplicationContext(), true);
                                             openHomeActivity(true);
                                         }
+
                                     }
 
                                 }
 
                                 @Override
-                                public void onErrorAccessToken(Throwable t) {
-                                    Timber.e("Error Login %s", t.getMessage());
+                                public void unexpectedError(Throwable tList) {
 
                                 }
                             }, code).loginData();

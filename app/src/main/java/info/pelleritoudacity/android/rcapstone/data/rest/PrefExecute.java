@@ -3,6 +3,9 @@ package info.pelleritoudacity.android.rcapstone.data.rest;
 
 import android.support.annotation.NonNull;
 
+import java.util.List;
+
+import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.data.rest.util.RetrofitClient;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
@@ -14,13 +17,13 @@ import retrofit2.Response;
 
 public class PrefExecute {
 
-    private final RestAccessToken mCallBack;
+    private final OnRestCallBack mCallBack;
     private final String mCode;
     private final String mId;
     private static RedditAPI sApi;
 
 
-    public PrefExecute(RestAccessToken callback, String code, String id) {
+    public PrefExecute(OnRestCallBack callback, String code, String id) {
 
         sApi = RetrofitClient.createService(Costant.REDDIT_OAUTH_URL, null);
 
@@ -36,12 +39,12 @@ public class PrefExecute {
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        mCallBack.onRestPref(response.code());
+                        mCallBack.success(response.code());
                     }
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        mCallBack.onErrorPref(t);
+                        mCallBack.unexpectedError(t);
                     }
                 });
     }
@@ -51,22 +54,24 @@ public class PrefExecute {
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                        mCallBack.onRestPref(response.code());
+                        mCallBack.success(response.code());
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                         call.cancel();
                         if (call.isCanceled()) {
-                            mCallBack.onErrorPref(t);
+                            mCallBack.unexpectedError(t);
                         }
                     }
                 });
     }
 
-    public interface RestAccessToken {
-        void onRestPref(int responseCode);
+    public interface OnRestCallBack {
 
-        void onErrorPref(Throwable t);
+        void success(int code);
+
+        void unexpectedError(Throwable tList);
     }
+
 }
