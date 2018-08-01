@@ -258,7 +258,6 @@ public class ManageFragment extends Fragment
                         Contract.PrefSubRedditEntry.COLUMN_NAME_TIME_LAST_MODIFIED
                 };
 
-
                 return getContext().getContentResolver().query(Contract.PrefSubRedditEntry.CONTENT_URI,
                         projection,
                         Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED + " =?",
