@@ -115,6 +115,7 @@ public class MainActivity extends BaseActivity
 
         mContext = MainActivity.this;
 
+
         if (savedInstanceState != null) {
             mModel = savedInstanceState.getParcelable(Costant.EXTRA_PARCEL_MAIN_MODEL);
 
@@ -128,21 +129,13 @@ public class MainActivity extends BaseActivity
             Preference.setRequestPermission(getApplicationContext(), false);
         }
 
-
         mRefreshLayout.setOnRefreshListener(this);
 
         ArrayList<String> mTabArrayList = new TabData(mContext).getTabArrayList();
 
-        Authenticator auth = new Authenticator(mContext);
-        auth.initLogin(mContainer, getIntent());
-
         Preference.setVolumeMuted(mContext, Costant.IS_MUTED_AUDIO);
 
-        if (Preference.isClearData(mContext)) {
-            Snackbar.make(mContainer, R.string.text_dialog_confirm_reset, Snackbar.LENGTH_LONG).show();
-            Preference.setClearData(mContext, false);
-        }
-
+        new Authenticator(mContext).initLogin(mContainer, getIntent());
 
         mLauncherMenu = new MenuLauncherDetail(mContext, getIntent());
 
@@ -165,12 +158,14 @@ public class MainActivity extends BaseActivity
             onRefresh();
         }
 
+        if(getIntent().getBooleanExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_RESET, false)){
+            Snackbar.make(mContainer, R.string.text_dialog_confirm_reset, Snackbar.LENGTH_LONG).show();
+        }
 
         mModel.setCategory(Preference.getLastCategory(mContext));
         mModel.setTarget(Preference.getLastTarget(mContext));
 
         mTab.positionSelected(mModel.getCategory());
-
 
     }
 

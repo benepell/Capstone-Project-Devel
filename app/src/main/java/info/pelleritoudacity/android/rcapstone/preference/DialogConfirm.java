@@ -42,6 +42,7 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.rest.RevokeTokenExecute;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 
 public class DialogConfirm extends DialogPreference {
@@ -113,8 +114,10 @@ public class DialogConfirm extends DialogPreference {
             super.onPostExecute(aVoid);
             Context context = mWeakContext.get();
             if (context != null) {
-                Preference.setClearData(context,true);
-                context.startActivity(new Intent(context, MainActivity.class));
+                context.startActivity(new Intent(context, MainActivity.class)
+                        .putExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_RESET,true)
+                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                );
             }
         }
     }

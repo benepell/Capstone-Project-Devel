@@ -25,7 +25,6 @@ public class Preference {
             R.string.pref_sync_frequency,
             R.string.pref_item_page,
             R.string.pref_volume_muted,
-            R.string.pref_clear_data,
             R.string.pref_type_mode,
             R.string.pref_login_name,
             R.string.pref_login_over18,
@@ -76,14 +75,6 @@ public class Preference {
 
     public static void setGeneralInit(Context context, Boolean b) {
         PrefManager.putBoolPref(context, Costant.PREFERENCE_GENERAL_INIT, b);
-    }
-
-    public static Boolean isClearData(Context context) {
-        return PrefManager.getBoolPref(context, Costant.PREFERENCE_CLEAR_DATA);
-    }
-
-    public static void setClearData(Context context, Boolean b) {
-        PrefManager.putBoolPref(context, Costant.PREFERENCE_CLEAR_DATA, b);
     }
 
     public static Boolean isVolumeMuted(Context context) {
