@@ -10,6 +10,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -27,12 +29,18 @@ import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic
 import java.nio.charset.StandardCharsets;
 
 import info.pelleritoudacity.android.rcapstone.R;
+import info.pelleritoudacity.android.rcapstone.data.rest.RefreshTokenExecute;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
+import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
+import info.pelleritoudacity.android.rcapstone.ui.activity.LoginActivity;
 import info.pelleritoudacity.android.rcapstone.ui.activity.YoutubeActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtil;
+import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
 
 import static info.pelleritoudacity.android.rcapstone.utility.ImageUtil.isSmallImage;
+import static info.pelleritoudacity.android.rcapstone.utility.SessionUtil.getRedditSessionExpired;
 
 public class MainHelper {
 
@@ -161,7 +169,7 @@ public class MainHelper {
 
     public void youtubeVideoFirstFrame(FrameLayout layout, ImageView imageView, ProgressBar progressBar,
                                        String thumbnailUrl, int thumbnailWidth, int thumbnailHeight,
-                                       String videoUrl, int videoWidth, int videoHeight,String title) {
+                                       String videoUrl, int videoWidth, int videoHeight, String title) {
         Glide.with(mContext)
                 .asBitmap()
                 .load(thumbnailUrl)
@@ -194,7 +202,7 @@ public class MainHelper {
                             mContext.startActivity(new Intent(mContext,
                                     YoutubeActivity.class)
                                     .putExtra(Costant.EXTRA_YOUTUBE_PARAM, videoUrl)
-                                    .putExtra(Costant.EXTRA_YOUTUBE_TITLE,title)
+                                    .putExtra(Costant.EXTRA_YOUTUBE_TITLE, title)
 
                             );
                             layout.setVisibility(View.VISIBLE);
@@ -243,7 +251,9 @@ public class MainHelper {
 
                     }
                 });
-
     }
+
+
+
 
 }

@@ -66,6 +66,8 @@ import info.pelleritoudacity.android.rcapstone.data.rest.RefreshTokenExecute;
 import info.pelleritoudacity.android.rcapstone.media.MediaSession;
 import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.MainFragment;
+import info.pelleritoudacity.android.rcapstone.ui.helper.Authenticator;
+import info.pelleritoudacity.android.rcapstone.ui.helper.MainHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.MenuBase;
 import info.pelleritoudacity.android.rcapstone.ui.helper.MenuLauncherDetail;
 import info.pelleritoudacity.android.rcapstone.ui.view.Tab;
@@ -131,7 +133,16 @@ public class MainActivity extends BaseActivity
 
         ArrayList<String> mTabArrayList = new TabData(mContext).getTabArrayList();
 
-        firstInit();
+        Authenticator auth = new Authenticator(mContext);
+        auth.initLogin(mContainer, getIntent());
+
+        Preference.setVolumeMuted(mContext, Costant.IS_MUTED_AUDIO);
+
+        if (Preference.isClearData(mContext)) {
+            Snackbar.make(mContainer, R.string.text_dialog_confirm_reset, Snackbar.LENGTH_LONG).show();
+            Preference.setClearData(mContext, false);
+        }
+
 
         mLauncherMenu = new MenuLauncherDetail(mContext, getIntent());
 
@@ -263,6 +274,18 @@ public class MainActivity extends BaseActivity
         }
     }
 
+    private void closeSearch(MainModel m) {
+        if (Preference.getLastTarget(mContext).equals(Costant.SUBREDDIT_TARGET_SEARCH) &&
+                (!TextUtils.isEmpty(m.getQuerySearch()))) {
+            mModel.setTarget(Costant.SUBREDDIT_TARGET_DEFAULT_START_VALUE);
+            startActivity(new Intent(mContext, MainActivity.class)
+                    .putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, m.getCategory())
+                    .putExtra(Costant.EXTRA_SUBREDDIT_TARGET, Costant.SUBREDDIT_TARGET_DEFAULT_START_VALUE)
+                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NO_HISTORY)
+            );
+        }
+    }
+
 
     @Override
     public void onRefresh() {
@@ -306,46 +329,6 @@ public class MainActivity extends BaseActivity
         return super.onPrepareOptionsPanel(view, menu);
     }
 
-    private void firstInit() {
-
-        initializeFirebaseDispatcherService();
-
-        Preference.setVolumeMuted(mContext, Costant.IS_MUTED_AUDIO);
-
-        if (Preference.isClearData(mContext)) {
-            Snackbar.make(mContainer, R.string.text_dialog_confirm_reset, Snackbar.LENGTH_LONG).show();
-            Preference.setClearData(mContext, false);
-        }
-
-        Intent intent = getIntent();
-
-        if (intent != null) {
-            int stateLogin = intent.getIntExtra(Costant.EXTRA_LOGIN_SUCCESS, 0);
-            switch (stateLogin) {
-                case Costant.PROCESS_LOGIN_OK:
-                    Snackbar.make(mContainer,
-                            R.string.text_login_success, Snackbar.LENGTH_LONG).show();
-
-                    break;
-                case Costant.PROCESS_LOGOUT_OK:
-                    Snackbar.make(mContainer,
-                            R.string.text_logout_success, Snackbar.LENGTH_LONG).show();
-
-                    break;
-                case Costant.PROCESS_LOGIN_ERROR:
-                case Costant.PROCESS_LOGOUT_ERROR:
-                    PrefManager.clearPreferenceLogin(mContext);
-                    FirebaseRefreshTokenSync.stopLogin(mContext);
-
-                    Snackbar snackbar = Snackbar
-                            .make(mContainer, R.string.text_logout_error, Snackbar.LENGTH_LONG)
-                            .setAction(R.string.text_log_in, view -> mContext.startActivity(new Intent(mContext, LoginActivity.class)));
-                    snackbar.show();
-
-                    break;
-            }
-        }
-    }
 
     private void createUI(MainModel m) {
         if ((m.getCategory() != null && m.getTarget() != null) && (TextUtils.isEmpty(m.getQuerySearch()))) {
@@ -405,23 +388,6 @@ public class MainActivity extends BaseActivity
     }
 
 
-    private void initializeFirebaseDispatcherService() {
-
-        if (Preference.isLoginStart(mContext)) {
-
-            int redditSessionExpired = getRedditSessionExpired(getApplicationContext());
-            if (redditSessionExpired <= Costant.SESSION_TIMEOUT_DEFAULT) {
-
-                String strRefreshToken = Preference.getSessionRefreshToken(mContext);
-                new RefreshTokenExecute(strRefreshToken).syncData(getApplicationContext());
-
-            } else {
-
-                FirebaseRefreshTokenSync.initialize(this, redditSessionExpired);
-            }
-        }
-    }
-
     @Override
     public boolean onQueryTextSubmit(String s) {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -472,14 +438,11 @@ public class MainActivity extends BaseActivity
                 }
 
                 i--;
-
             }
-
         }
     }
 
     public static class MediaReceiver extends BroadcastReceiver {
-
         public MediaReceiver() {
         }
 
@@ -489,18 +452,6 @@ public class MainActivity extends BaseActivity
                 MediaButtonReceiver.handleIntent(sMediaSessionCompat, intent);
             }
         }
-
     }
 
-    private void closeSearch(MainModel m) {
-        if (Preference.getLastTarget(mContext).equals(Costant.SUBREDDIT_TARGET_SEARCH) &&
-                (!TextUtils.isEmpty(m.getQuerySearch()))) {
-            mModel.setTarget(Costant.SUBREDDIT_TARGET_DEFAULT_START_VALUE);
-            startActivity(new Intent(mContext, MainActivity.class)
-                    .putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, m.getCategory())
-                    .putExtra(Costant.EXTRA_SUBREDDIT_TARGET, Costant.SUBREDDIT_TARGET_DEFAULT_START_VALUE)
-                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NO_HISTORY)
-            );
-        }
-    }
 }

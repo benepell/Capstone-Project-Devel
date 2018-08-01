@@ -79,7 +79,6 @@ public class ManageFragment extends Fragment
     public ManageFragment() {
     }
 
-
     public static ManageFragment newInstance(boolean restore) {
         ManageFragment fragment = new ManageFragment();
         Bundle bundle = new Bundle();
