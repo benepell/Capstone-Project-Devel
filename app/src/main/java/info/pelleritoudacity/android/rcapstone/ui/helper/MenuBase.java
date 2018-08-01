@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import info.pelleritoudacity.android.rcapstone.R;
+import info.pelleritoudacity.android.rcapstone.data.model.ui.MainModel;
 import info.pelleritoudacity.android.rcapstone.ui.activity.LoginActivity;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
 import info.pelleritoudacity.android.rcapstone.ui.activity.ManageActivity;
@@ -42,9 +43,11 @@ public class MenuBase {
     public void menuItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-
             case R.id.menu_action_restore:
-                mContext.startActivity(new Intent(mContext, MainActivity.class).putExtra(Costant.EXTRA_RESTORE_MANAGE, Costant.RESTORE_MANAGE_RESTORE));
+                mContext.startActivity(new Intent(mContext, ManageActivity.class)
+                        .putExtra(Costant.EXTRA_RESTORE_MANAGE, Costant.RESTORE_MANAGE_RESTORE)
+                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                );
                 return;
             case R.id.menu_action_login:
             case R.id.menu_action_logout:
@@ -257,15 +260,15 @@ public class MenuBase {
                 break;
             case Costant.NAV_MODE_SEARCH:
                 itemModeSearchText.setEnabled(true);
-                itemModeSearchText.setChecked(true);
+                itemModeSearchText.setChecked(false);
                 break;
             case Costant.NAV_MODE_SUBSCRIPTIONS:
                 itemModeSubscriptions.setEnabled(true);
-                itemModeSubscriptions.setChecked(true);
+                itemModeSubscriptions.setChecked(false);
                 break;
             case Costant.NAV_MODE_FAVORITE:
                 itemModeFavorite.setEnabled(true);
-                itemModeFavorite.setChecked(true);
+                itemModeFavorite.setChecked(false);
                 break;
             case Costant.NAV_MODE_REFRESH:
                 itemModeRefresh.setEnabled(true);
@@ -306,13 +309,6 @@ public class MenuBase {
             menuItem.setIcon(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_account_circle)
                     .respectFontBounds(true));
 
-            if (Preference.getLastCategory(mContext).equals(String.valueOf(title))) {
-                menuItem.setChecked(true);
-            } else {
-                menuItem.setChecked(false);
-
-            }
-
             menuItem.setOnMenuItemClickListener(item -> {
                 Intent intent = new Intent(mContext, MainActivity.class);
                 intent.putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, item.getTitle().toString());
@@ -325,25 +321,27 @@ public class MenuBase {
         }
     }
 
-
     private void menuClickRefresh(int layoutResource) {
         switch (layoutResource) {
             case R.layout.activity_main:
-                Intent intentSubreddit = new Intent(mContext, MainActivity.class);
-                intentSubreddit.putExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_REFRESH, true);
-                mContext.startActivity(intentSubreddit);
+                Intent intentMain = new Intent(mContext, MainActivity.class);
+                intentMain.putExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_REFRESH, true);
+                intentMain.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                mContext.startActivity(intentMain);
                 break;
 
             case R.layout.activity_detail:
-                Intent intentSubredditDetail = new Intent(mContext, DetailActivity.class);
-                intentSubredditDetail.putExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_DETAIL_REFRESH, true);
-                mContext.startActivity(intentSubredditDetail);
+                Intent intentDetail = new Intent(mContext, DetailActivity.class);
+                intentDetail.putExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_DETAIL_REFRESH, true);
+                intentDetail.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                mContext.startActivity(intentDetail);
                 break;
 
             case R.layout.activity_manage:
-                Intent intentSubmanage = new Intent(mContext, ManageActivity.class);
-                intentSubmanage.putExtra(Costant.EXTRA_ACTIVITY_SUBMANAGE_REFRESH, true);
-                mContext.startActivity(intentSubmanage);
+                Intent intentManage = new Intent(mContext, ManageActivity.class);
+                intentManage.putExtra(Costant.EXTRA_ACTIVITY_SUBMANAGE_REFRESH, true);
+                intentManage.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                mContext.startActivity(intentManage);
                 break;
 
             default:

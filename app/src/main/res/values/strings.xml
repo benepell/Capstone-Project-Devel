@@ -148,8 +148,6 @@
     <string name="text_dialog_confirm_no_reset">Cancel</string>
     <string name="text_positive_dialog_confirm">Delete</string>
 
-    <string name="pref_restore_manage" translatable="false">info.pelleritoudacity.android.rcapstone.pref.restore.manage</string>
-
     <string name="text_restore_data">This action will restore all your SubScription. Are you sure you want to continue?</string>
     <string name="title_restore_confirm">Restore SubScription Reset</string>
     <string name="text_restore_confirm_no_reset">Cancel</string>

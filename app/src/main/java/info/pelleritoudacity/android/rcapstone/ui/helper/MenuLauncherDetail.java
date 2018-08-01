@@ -46,10 +46,9 @@ public class MenuLauncherDetail {
     }
 
 
-    private boolean menuDefaultValue(){
+    private void menuDefaultValue(){
         setCategory(TextUtil.stringToArray(Costant.DEFAULT_SUBREDDIT_CATEGORY).get(0));
         setTarget(Costant.SUBREDDIT_TARGET_DEFAULT_START_VALUE);
-        return true;
     }
 
     private boolean menuHistoryLink() {

@@ -73,29 +73,41 @@ public class ManageFragment extends Fragment
 
     private ManageAdapter mAdapter;
     private ItemTouchHelper mItemTouchHelper;
-    private Context mContext;
     private Unbinder unbinder;
+    private boolean isRestore;
 
     public ManageFragment() {
     }
 
+
+    public static ManageFragment newInstance(boolean restore) {
+        ManageFragment fragment = new ManageFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(Costant.EXTRA_FRAGMENT_MANAGE_RESTORE, restore);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContext = getActivity();
+        if (getArguments() != null) {
+            isRestore = getArguments().getBoolean(Costant.EXTRA_FRAGMENT_MANAGE_RESTORE);
+
+        }
+
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-            getLoaderManager().initLoader(REDDIT_LOADER_ID, null, this);
+        getLoaderManager().initLoader(REDDIT_LOADER_ID, null, this);
 
-            if (Preference.getRestoreManage(mContext) == Costant.RESTORE_MANAGE_RESTORE) {
-                alerDialog(getActivity());
-            }
-
-
+        if(isRestore){
+            alerDialog(getActivity());
+        }
 
     }
 
@@ -179,9 +191,9 @@ public class ManageFragment extends Fragment
 
     @Override
     public void onItemRemove(int position, String description) {
-        DataUtils dataUtils = new DataUtils(mContext);
+        DataUtils dataUtils = new DataUtils(getActivity());
         if (dataUtils.updateManageRemoved(description)) {
-            startActivity(new Intent(mContext, ManageActivity.class)
+            startActivity(new Intent(getActivity(), ManageActivity.class)
                     .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_NO_ANIMATION));
         }
 
@@ -190,8 +202,7 @@ public class ManageFragment extends Fragment
     private void alerDialog(Context context) {
 
         if (context != null) {
-            Preference.setRestoreManage(context, 0);
-            int theme = R.style.confirmDialogDark;
+            int theme = R.style.confirmDialogLight;
             if (Preference.isNightMode(context)) {
                 theme = R.style.confirmDialogDark;
             }
@@ -203,7 +214,7 @@ public class ManageFragment extends Fragment
             dialog.setPositiveButton(R.string.text_positive_restore_confirm, (dialog1, which) -> {
                 if (new DataUtils(context).updateManageRestore()) {
                     startActivity(new Intent(context, ManageActivity.class)
-                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_NO_ANIMATION));
+                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 }
             });
 
@@ -256,10 +267,10 @@ public class ManageFragment extends Fragment
 
 
             } catch (Exception e) {
-                Timber.e("Failed to asynchronously load data. ");
+                Timber.e(" Manage Failed to asynchronously load data.   ");
                 e.printStackTrace();
 
-               return null;
+                return null;
             }
         }
 

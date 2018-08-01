@@ -90,7 +90,6 @@ public interface Costant {
     String NONE_DETAIL_MORE_REPLIES = "0";
 
     int RESTORE_MANAGE_RESTORE = 1;
-    int RESTORE_MANAGE_REDIRECT = 2;
 
     String EXTRA_LOGIN_SUCCESS = "info.pelleritoudacity.android.rcapstone.extra.login.success";
     String EXTRA_LOGOUT_SUCCESS = "info.pelleritoudacity.android.rcapstone.extra.logout.success";
@@ -105,6 +104,8 @@ public interface Costant {
     String EXTRA_FRAGMENT_PARCEL_MAIN = "info.pelleritoudacity.android.rcapstone.extra.fragment.parcel.main";
     String EXTRA_FRAGMENT_SUBREDDIT_SELECTED = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.selected";
     String EXTRA_FRAGMENT_STRING_ID = "info.pelleritoudacity.android.rcapstone.extra.fragment.string.id";
+
+    String EXTRA_FRAGMENT_MANAGE_RESTORE = "info.pelleritoudacity.android.rcapstone.extra.fragment.manage.restore";
 
     String EXTRA_FRAGMENT_PARCEL_SUBREDDIT_DETAIL = "info.pelleritoudacity.android.rcapstone.extra.fragment.parcel.subreddit.detail";
 
@@ -255,7 +256,6 @@ public interface Costant {
     int PREFERENCE_LAST_CATEGORY = R.string.pref_last_category;
     int PREFERENCE_LAST_TARGET = R.string.pref_last_target;
     int PREFERENCE_LAST_COMMENT = R.string.pref_last_comment;
-    int PREFERENCE_RESTORE_MANAGE = R.string.pref_restore_manage;
     int PREFERENCE_REQUEST_PERMISSION = R.string.pref_request_permission;
     int PREFERENCE_GENERAL_INIT = R.string.pref_general_init;
     int PREFERENCE_ORIGINAL_SIZE_CONTENT = R.string.pref_original_size_content;

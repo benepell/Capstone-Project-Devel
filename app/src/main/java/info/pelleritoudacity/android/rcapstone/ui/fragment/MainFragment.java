@@ -111,7 +111,6 @@ public class MainFragment extends Fragment
 
     }
 
-
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         if (mMediaPlayer != null) {

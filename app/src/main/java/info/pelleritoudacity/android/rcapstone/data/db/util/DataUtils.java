@@ -362,9 +362,7 @@ public class DataUtils {
     }
 
 
-    public boolean updateLocalDbStars(int visible, String category) {
-
-        int count;
+    public void updateLocalDbStars(int visible, String category) {
 
         Uri uri = Contract.T3dataEntry.CONTENT_URI;
         String where = Contract.T3dataEntry.COLUMN_NAME_NAME + " =?";
@@ -373,9 +371,8 @@ public class DataUtils {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Contract.T3dataEntry.COLUMN_NAME_SAVED, visible);
 
-        count = mContext.getContentResolver().update(uri, contentValues, where, selectionArgs);
+        mContext.getContentResolver().update(uri, contentValues, where, selectionArgs);
 
-        return count > 0;
     }
 
 

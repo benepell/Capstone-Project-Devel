@@ -29,7 +29,6 @@ public class Preference {
             R.string.pref_type_mode,
             R.string.pref_login_name,
             R.string.pref_login_over18,
-            R.string.pref_restore_manage,
             R.string.pref_request_permission,
             R.string.pref_general_images,
             R.string.pref_general_gifs,
@@ -182,14 +181,6 @@ public class Preference {
 
     public static void setTypeMode(Context context, int i) {
         PrefManager.putIntPref(context, Costant.PREFERENCE_TYPE_MODE, i);
-    }
-
-    public static void setRestoreManage(Context context, int i) {
-        PrefManager.putIntPref(context, Costant.PREFERENCE_RESTORE_MANAGE, i);
-    }
-
-    public static int getRestoreManage(Context context) {
-        return PrefManager.getIntPref(context, Costant.PREFERENCE_RESTORE_MANAGE);
     }
 
     public static long getTimeToken(Context context) {

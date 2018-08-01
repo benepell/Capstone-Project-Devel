@@ -43,6 +43,7 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.rest.CategoryExecute;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.ManageFragment;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
@@ -76,24 +77,31 @@ public class ManageActivity extends BaseActivity {
 
         }
 
+        if (getIntent() != null) {
+            startFragment(getIntent().getIntExtra(Costant.EXTRA_RESTORE_MANAGE, 0) != 0);
+        }
+
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        startFragment();
-    }
 
-    private void startFragment() {
+    private void startFragment(boolean restoreManage) {
         if (!getSupportFragmentManager().isStateSaved()) {
-            ManageFragment manageFragment = new ManageFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .setCustomAnimations(
-                            android.R.anim.slide_in_left,
-                            android.R.anim.slide_out_right,
-                            R.anim.layout_animation_from_right,
-                            R.anim.layout_animation_from_right)
-                    .replace(R.id.fragment_list_container, manageFragment).commit();
+
+            ManageFragment manageFragment = ManageFragment.newInstance(restoreManage);
+            if (restoreManage) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_list_container, manageFragment).commit();
+
+            } else {
+                getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(
+                                android.R.anim.slide_in_left,
+                                android.R.anim.slide_out_right,
+                                R.anim.layout_animation_from_right,
+                                R.anim.layout_animation_from_right)
+                        .replace(R.id.fragment_list_container, manageFragment).commit();
+            }
+
         }
     }
 
@@ -136,9 +144,7 @@ public class ManageActivity extends BaseActivity {
             Context context = mWeakContext.get();
 
             try {
-
-                int size = cursor.getCount();
-                ArrayList<String> arrayList = new ArrayList<>(size);
+                ArrayList<String> arrayList = new ArrayList<>(cursor.getCount());
 
                 String name;
                 if (!cursor.isClosed()) {

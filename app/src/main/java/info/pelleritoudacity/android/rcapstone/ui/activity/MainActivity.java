@@ -318,24 +318,8 @@ public class MainActivity extends BaseActivity
         }
 
         Intent intent = getIntent();
+
         if (intent != null) {
-            int restore = intent.getIntExtra(Costant.EXTRA_RESTORE_MANAGE, 0);
-
-            switch (restore) {
-                case Costant.RESTORE_MANAGE_RESTORE:
-                    Preference.setRestoreManage(mContext,
-                            Costant.RESTORE_MANAGE_RESTORE);
-                    startActivity(new Intent(this, ManageActivity.class)
-                            .putExtra(Costant.EXTRA_RESTORE_MANAGE, Costant.RESTORE_MANAGE_RESTORE));
-
-                    break;
-                case Costant.RESTORE_MANAGE_REDIRECT:
-                    startActivity(new Intent(this, ManageActivity.class)
-                            .putExtra(Costant.EXTRA_RESTORE_MANAGE, Costant.RESTORE_MANAGE_REDIRECT));
-                    break;
-
-            }
-
             int stateLogin = intent.getIntExtra(Costant.EXTRA_LOGIN_SUCCESS, 0);
             switch (stateLogin) {
                 case Costant.PROCESS_LOGIN_OK:
