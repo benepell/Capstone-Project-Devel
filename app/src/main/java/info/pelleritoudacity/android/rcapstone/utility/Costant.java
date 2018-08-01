@@ -47,6 +47,8 @@ public interface Costant {
 
     String RETROFIT_GSON_DATA = "yyyy-MM-dd'T'HH:mm:ssZ";
 
+    long DEFAULT_OPERATION_REFRESH = 2000;
+
     String REDDIT_COMMENTS = "comments";
     String BASE_TYPE_YOUTUBE = "youtube.com";
     String BASE_TYPE_VIMEO = "vimeo.com";
@@ -138,6 +140,10 @@ public interface Costant {
     int TARGET_DETAIL_SEARCH = 203;
     int TARGET_MORE_DETAIL_SEARCH = 204;
 
+    int PROCESS_LOGIN_OK = 1;
+    int PROCESS_LOGOUT_OK =2 ;
+    int PROCESS_LOGIN_ERROR =3 ;
+    int PROCESS_LOGOUT_ERROR =4 ;
 
     String EXTRA_RESTORE_MANAGE = "info.pelleritoudacity.android.rcapstone.extra.restore.manage";
 

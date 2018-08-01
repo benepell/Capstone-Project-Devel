@@ -44,13 +44,19 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.AppThemeSettingsDark);
+
         }
         setContentView(R.layout.activity_settings);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+
             FrameLayout frameLayout = findViewById(R.id.fragment_settings_container);
-            LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(SettingsActivity.this, R.anim.layout_animation_from_right);
+
+            LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(SettingsActivity.this,
+                    R.anim.layout_animation_from_right);
+
             frameLayout.setLayoutAnimation(layoutAnimationController);
         }
 

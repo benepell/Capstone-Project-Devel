@@ -3,6 +3,7 @@ package info.pelleritoudacity.android.rcapstone.ui.adapter;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.text.util.Linkify;
@@ -12,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,7 +62,6 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
 
         mCursor.moveToPosition(position);
 
-        // todo control code list
         DetailRecord recordList = new DetailRecord(mCursor);
         RecordAdapterDetail record = null;
         if (recordList.getRecordList() != null) {
@@ -133,7 +132,8 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
 
                         mListener.onClickMore(model);
                     } else {
-                        Toast.makeText(mContext, mContext.getString(R.string.text_start_login), Toast.LENGTH_SHORT).show();
+                        Snackbar.make(holder.itemView, R.string.text_start_login, Snackbar.LENGTH_LONG).show();
+
                     }
                 });
 
@@ -255,8 +255,6 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
     }
 
     public interface OnAdapterListener {
-
-//        void adapterPosition(int position, String category);
 
         void clickSelector(int position, int itemCount);
 

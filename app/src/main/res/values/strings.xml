@@ -194,7 +194,6 @@
     <string name="text_login_success">You have successfully logged in</string>
     <string name="text_nav_anonymous">Anonymous</string>
     <string name="title_menu_logout">Logout</string>
-    <string name="title_activity_logout">Logout</string>
     <string name="text_logout_success">Logout successfly. Anonymous mode is actived</string>
     <string name="reddit_adultcontent_text">Item not available - Enable NSFW content on Reddit</string>
     <string name="reddit_nologinadultcontent_text">Click on the log in to retrieve your personal login information</string>
@@ -245,6 +244,7 @@
     <string name="pref_general_self" translatable="false">info.pelleritoudacity.android.rcapstone.pref.general.self</string>
     <string name="pref_general_links" translatable="false">info.pelleritoudacity.android.rcapstone.pref.general.links</string>
     <string name="pref_general_init" translatable="false">info.pelleritoudacity.android.rcapstone.pref.general.init</string>
+    <string name="pref_detail_target" translatable="false">info.pelleritoudacity.android.rcapstone.pref.detail.target</string>
     <string name="pref_more_fragment_more_nested_position_height" translatable="false">info.pelleritoudacity.android.rcapstone.pref.more.nested.position.height</string>
     <string name="background_image_protection_oval">background image protection oval</string>
     <string name="background_image_protection">background image protection</string>
@@ -258,4 +258,6 @@
 
     <string name="default_items_page_titles" translatable="false">25</string>
     <string name="default_depth_page_titles" translatable="false">6</string>
+    <string name="text_logout_error">Logout error: permission declined</string>
+    <string name="text_log_in">Log in</string>
 </resources>

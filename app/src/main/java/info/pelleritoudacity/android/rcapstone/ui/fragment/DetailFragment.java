@@ -40,7 +40,7 @@ public class DetailFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor>, DetailAdapter.OnAdapterListener {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
-    @BindView(R.id.rv_fragment_reddit_detail)
+    @BindView(R.id.rv_fragment_detail)
     RecyclerView mRecyclerView;
 
     private Unbinder unbinder;

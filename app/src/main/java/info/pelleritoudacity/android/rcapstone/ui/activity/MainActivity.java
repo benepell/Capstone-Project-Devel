@@ -71,6 +71,7 @@ import info.pelleritoudacity.android.rcapstone.ui.helper.MenuLauncherDetail;
 import info.pelleritoudacity.android.rcapstone.ui.view.Tab;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
+import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 
 import static info.pelleritoudacity.android.rcapstone.utility.PermissionUtil.RequestPermissionExtStorage;
@@ -81,11 +82,11 @@ public class MainActivity extends BaseActivity
         Tab.OnTabListener, SwipeRefreshLayout.OnRefreshListener, ActivityCompat.OnRequestPermissionsResultCallback, SearchView.OnQueryTextListener {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
-    @BindView(R.id.subreddit_container)
+    @BindView(R.id.main_container)
     public CoordinatorLayout mContainer;
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
-    @BindView(R.id.nested_scrollview_subreddit)
+    @BindView(R.id.nested_scrollview_main)
     public NestedScrollView mNestedScrollView;
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
@@ -93,13 +94,14 @@ public class MainActivity extends BaseActivity
     public TabLayout mTabLayout;
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
-    @BindView(R.id.swipe_refresh_subreddit)
+    @BindView(R.id.swipe_refresh_main)
     public SwipeRefreshLayout mRefreshLayout;
 
     private Context mContext;
     public static MediaSessionCompat sMediaSessionCompat = null;
 
     private Tab mTab;
+    private long startTimeoutRefresh;
     private MainModel mModel;
 
     private MenuLauncherDetail mLauncherMenu;
@@ -111,7 +113,7 @@ public class MainActivity extends BaseActivity
 
         mContext = MainActivity.this;
 
-        if(savedInstanceState != null)  {
+        if (savedInstanceState != null) {
             mModel = savedInstanceState.getParcelable(Costant.EXTRA_PARCEL_MAIN_MODEL);
 
         } else {
@@ -137,7 +139,7 @@ public class MainActivity extends BaseActivity
         mTab.initTab();
 
         if (getIntent() != null) {
-           mModel.setQuerySearch( getIntent().getStringExtra(Costant.EXTRA_SUBREDDIT_SEARCH));
+            mModel.setQuerySearch(getIntent().getStringExtra(Costant.EXTRA_SUBREDDIT_SEARCH));
             if (TextUtils.isEmpty(mModel.getQuerySearch()) &&
                     (Preference.getLastTarget(mContext)).equals(Costant.SUBREDDIT_TARGET_SEARCH)) {
 
@@ -147,10 +149,11 @@ public class MainActivity extends BaseActivity
 
         mLauncherMenu.showMenu();
 
-        if (savedInstanceState == null) {
+        if ((savedInstanceState == null) || (getIntent().getBooleanExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_REFRESH, false))) {
             mRefreshLayout.setRefreshing(true);
             onRefresh();
         }
+
 
         mModel.setCategory(Preference.getLastCategory(mContext));
         mModel.setTarget(Preference.getLastTarget(mContext));
@@ -264,25 +267,30 @@ public class MainActivity extends BaseActivity
     @Override
     public void onRefresh() {
 
-        if (Preference.getLastTarget(mContext).equals(Costant.SUBREDDIT_TARGET_SEARCH) && (!TextUtils.isEmpty(mModel.getQuerySearch()))) {
-            mModel.setCategory(Preference.getLastCategory(getApplicationContext()));
-            mModel.setTarget(Preference.getLastTarget(getApplicationContext()));
-            createUI(mModel);
+        if (System.currentTimeMillis() - startTimeoutRefresh > Costant.DEFAULT_OPERATION_REFRESH) {
+            startTimeoutRefresh = System.currentTimeMillis();
+            if (Preference.getLastTarget(mContext).equals(Costant.SUBREDDIT_TARGET_SEARCH) && (!TextUtils.isEmpty(mModel.getQuerySearch()))) {
+                mModel.setCategory(Preference.getLastCategory(getApplicationContext()));
+                mModel.setTarget(Preference.getLastTarget(getApplicationContext()));
+                createUI(mModel);
 
-        } else if (!NetworkUtil.isOnline(mContext)) {
-            mModel.setCategory(Preference.getLastCategory(getApplicationContext()));
-            mModel.setTarget(Preference.getLastTarget(getApplicationContext()));
-            createUI(mModel);
+            } else if (!NetworkUtil.isOnline(mContext)) {
+                mModel.setCategory(Preference.getLastCategory(getApplicationContext()));
+                mModel.setTarget(Preference.getLastTarget(getApplicationContext()));
+                createUI(mModel);
 
-            Snackbar.make(mContainer, R.string.list_snackbar_offline_text, Snackbar.LENGTH_LONG).show();
+                Snackbar.make(mContainer, R.string.list_snackbar_offline_text, Snackbar.LENGTH_LONG).show();
 
+            } else {
+                mModel.setCategory(Preference.getLastCategory(getApplicationContext()));
+                mModel.setTarget(Preference.getLastTarget(getApplicationContext()));
+
+                initRest(mModel, NetworkUtil.isOnline(mContext));
+            }
         } else {
-            mModel.setCategory(Preference.getLastCategory(getApplicationContext()));
-            mModel.setTarget(Preference.getLastTarget(getApplicationContext()));
-
-            initRest(mModel, NetworkUtil.isOnline(mContext));
+            createUI(mModel);
+            mRefreshLayout.setRefreshing(false);
         }
-
     }
 
 
@@ -317,42 +325,49 @@ public class MainActivity extends BaseActivity
                 case Costant.RESTORE_MANAGE_RESTORE:
                     Preference.setRestoreManage(mContext,
                             Costant.RESTORE_MANAGE_RESTORE);
-                    startActivity(new Intent(this, SubManageActivity.class)
+                    startActivity(new Intent(this, ManageActivity.class)
                             .putExtra(Costant.EXTRA_RESTORE_MANAGE, Costant.RESTORE_MANAGE_RESTORE));
 
                     break;
                 case Costant.RESTORE_MANAGE_REDIRECT:
-                    startActivity(new Intent(this, SubManageActivity.class)
+                    startActivity(new Intent(this, ManageActivity.class)
                             .putExtra(Costant.EXTRA_RESTORE_MANAGE, Costant.RESTORE_MANAGE_REDIRECT));
                     break;
 
             }
 
-            boolean isLogged = intent.getBooleanExtra(Costant.EXTRA_LOGIN_SUCCESS, false);
-            boolean isLogout = intent.getBooleanExtra(Costant.EXTRA_LOGOUT_SUCCESS, false);
+            int stateLogin = intent.getIntExtra(Costant.EXTRA_LOGIN_SUCCESS, 0);
+            switch (stateLogin) {
+                case Costant.PROCESS_LOGIN_OK:
+                    Snackbar.make(mContainer,
+                            R.string.text_login_success, Snackbar.LENGTH_LONG).show();
 
-            if (isLogged) {
-                Snackbar.make(mContainer,
-                        R.string.text_login_success, Snackbar.LENGTH_LONG).show();
+                    break;
+                case Costant.PROCESS_LOGOUT_OK:
+                    Snackbar.make(mContainer,
+                            R.string.text_logout_success, Snackbar.LENGTH_LONG).show();
 
-            } else if (isLogout) {
-                Snackbar.make(mContainer,
-                        R.string.text_logout_success, Snackbar.LENGTH_LONG).show();
+                    break;
+                case Costant.PROCESS_LOGIN_ERROR:
+                case Costant.PROCESS_LOGOUT_ERROR:
+                    PrefManager.clearPreferenceLogin(mContext);
+                    FirebaseRefreshTokenSync.stopLogin(mContext);
 
+                    Snackbar snackbar = Snackbar
+                            .make(mContainer, R.string.text_logout_error, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.text_log_in, view -> mContext.startActivity(new Intent(mContext, LoginActivity.class)));
+                    snackbar.show();
+
+                    break;
             }
-
-            if (intent.getBooleanExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_REFRESH, false)) {
-                mRefreshLayout.setRefreshing(true);
-                onRefresh();
-            }
-
         }
     }
 
     private void createUI(MainModel m) {
         if ((m.getCategory() != null && m.getTarget() != null) && (TextUtils.isEmpty(m.getQuerySearch()))) {
-            mTab.updateTabPosition();
-
+            if (mTab != null) {
+                mTab.updateTabPosition();
+            }
         }
         startFragment(m);
     }
@@ -363,7 +378,7 @@ public class MainActivity extends BaseActivity
 
             if ((!stateNetworkOnline) || (
                     new DataUtils(mContext).isSyncData(Contract.T3dataEntry.CONTENT_URI,
-                           m.getCategory(),
+                            m.getCategory(),
                             Preference.getGeneralSettingsSyncFrequency(mContext)))) {
 
                 createUI(mModel);
@@ -375,16 +390,16 @@ public class MainActivity extends BaseActivity
                     case Costant.LABEL_SUBMENU_NEW:
                     case Costant.LABEL_SUBMENU_HOT:
 
-                        new MainExecute(this, mContext,m.getCategory()).getDataList();
+                        new MainExecute(this, mContext, m.getCategory()).getDataList();
                         break;
 
                     case Costant.LABEL_SUBMENU_CONTROVERSIAL:
                     case Costant.LABEL_SUBMENU_TOP:
-                        new MainExecute(this, mContext,m.getCategory()).getData();
+                        new MainExecute(this, mContext, m.getCategory()).getData();
                         break;
 
                     default:
-                        new MainExecute(this, mContext,m.getCategory()).getData();
+                        new MainExecute(this, mContext, m.getCategory()).getData();
                 }
             }
 
@@ -496,7 +511,7 @@ public class MainActivity extends BaseActivity
     private void closeSearch(MainModel m) {
         if (Preference.getLastTarget(mContext).equals(Costant.SUBREDDIT_TARGET_SEARCH) &&
                 (!TextUtils.isEmpty(m.getQuerySearch()))) {
-           mModel.setTarget(Costant.SUBREDDIT_TARGET_DEFAULT_START_VALUE);
+            mModel.setTarget(Costant.SUBREDDIT_TARGET_DEFAULT_START_VALUE);
             startActivity(new Intent(mContext, MainActivity.class)
                     .putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, m.getCategory())
                     .putExtra(Costant.EXTRA_SUBREDDIT_TARGET, Costant.SUBREDDIT_TARGET_DEFAULT_START_VALUE)

@@ -52,10 +52,10 @@ import butterknife.Unbinder;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
-import info.pelleritoudacity.android.rcapstone.ui.activity.SubManageActivity;
+import info.pelleritoudacity.android.rcapstone.ui.activity.ManageActivity;
+import info.pelleritoudacity.android.rcapstone.ui.adapter.ManageAdapter;
 import info.pelleritoudacity.android.rcapstone.ui.helper.OnStartDragListener;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SimpleItemTouchHelperCallback;
-import info.pelleritoudacity.android.rcapstone.ui.adapter.SubScriptionsAdapter;
 
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.MapUtil;
@@ -64,19 +64,19 @@ import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.Costant.REDDIT_LOADER_ID;
 
-public class SubScriptionsFragment extends Fragment
-        implements SubScriptionsAdapter.OnSubScriptionClick, OnStartDragListener, LoaderManager.LoaderCallbacks<Cursor> {
+public class ManageFragment extends Fragment
+        implements ManageAdapter.OnSubScriptionClick, OnStartDragListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
-    @BindView(R.id.rv_fragment_reddit)
+    @BindView(R.id.rv_fragment_manage)
     RecyclerView mRecyclerView;
 
-    private SubScriptionsAdapter mAdapter;
+    private ManageAdapter mAdapter;
     private ItemTouchHelper mItemTouchHelper;
     private Context mContext;
     private Unbinder unbinder;
 
-    public SubScriptionsFragment() {
+    public ManageFragment() {
     }
 
     @Override
@@ -104,7 +104,7 @@ public class SubScriptionsFragment extends Fragment
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_reddit, container, false);
+        View view = inflater.inflate(R.layout.fragment_manage, container, false);
 
         unbinder = ButterKnife.bind(this, view);
 
@@ -115,7 +115,7 @@ public class SubScriptionsFragment extends Fragment
 
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new SubScriptionsAdapter(getContext(), this, this, this);
+        mAdapter = new ManageAdapter(getContext(), this, this, this);
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -181,7 +181,7 @@ public class SubScriptionsFragment extends Fragment
     public void onItemRemove(int position, String description) {
         DataUtils dataUtils = new DataUtils(mContext);
         if (dataUtils.updateManageRemoved(description)) {
-            startActivity(new Intent(mContext, SubManageActivity.class)
+            startActivity(new Intent(mContext, ManageActivity.class)
                     .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_NO_ANIMATION));
         }
 
@@ -202,7 +202,7 @@ public class SubScriptionsFragment extends Fragment
 
             dialog.setPositiveButton(R.string.text_positive_restore_confirm, (dialog1, which) -> {
                 if (new DataUtils(context).updateManageRestore()) {
-                    startActivity(new Intent(context, SubManageActivity.class)
+                    startActivity(new Intent(context, ManageActivity.class)
                             .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_NO_ANIMATION));
                 }
             });

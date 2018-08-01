@@ -35,7 +35,7 @@ public class TitleDetailFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
-    @BindView(R.id.rv_fragment_reddit_selected)
+    @BindView(R.id.rv_fragment_detail_title)
     RecyclerView mRecyclerView;
 
     private Context mContext;
@@ -72,7 +72,7 @@ public class TitleDetailFragment extends Fragment
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_subreddit_selected, container, false);
+        View view = inflater.inflate(R.layout.fragment_detail_title, container, false);
 
         unbinder = ButterKnife.bind(this, view);
 

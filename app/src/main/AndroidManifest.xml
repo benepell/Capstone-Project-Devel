@@ -61,7 +61,7 @@
         </activity>
 
         <activity
-            android:name=".ui.activity.SubManageActivity"
+            android:name=".ui.activity.ManageActivity"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_subreddit"
             android:noHistory="true"

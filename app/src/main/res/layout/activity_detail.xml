@@ -2,7 +2,7 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/subreddit_detail_container"
+    android:id="@+id/detail_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.activity.DetailActivity">
@@ -10,7 +10,7 @@
     <include layout="@layout/app_bar_layout" />
 
     <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/swipe_refresh_subreddit_detail"
+        android:id="@+id/swipe_refresh_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:isScrollContainer="true"
@@ -29,12 +29,12 @@
                 android:orientation="vertical">
 
                 <FrameLayout
-                    android:id="@+id/fragment_subreddit_selected_container"
+                    android:id="@+id/fragment_title_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
                 <FrameLayout
-                    android:id="@+id/fragment_subreddit_detail_container"
+                    android:id="@+id/fragment_detail_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 

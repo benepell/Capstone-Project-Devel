@@ -37,10 +37,10 @@ import info.pelleritoudacity.android.rcapstone.utility.Preference;
 public class DetailActivity extends BaseActivity
         implements RestDetailExecute.OnRestCallBack,
         DetailFragment.OnFragmentInteractionListener, RestMoreExecute.OnRestCallBack,
-        SwipeRefreshLayout.OnRefreshListener, NestedScrollView.OnScrollChangeListener, SearchView.OnQueryTextListener {
+        SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
-    @BindView(R.id.subreddit_detail_container)
+    @BindView(R.id.detail_container)
     public CoordinatorLayout mContainer;
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
@@ -48,12 +48,13 @@ public class DetailActivity extends BaseActivity
     public NestedScrollView mNestedScrollView;
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
-    @BindView(R.id.swipe_refresh_subreddit_detail)
+    @BindView(R.id.swipe_refresh_detail)
     public SwipeRefreshLayout mSwipeRefreshLayout;
 
     private Context mContext;
     private DetailModel model;
     private DetailHelper mDetailHelper;
+    private long startTimeoutRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +75,8 @@ public class DetailActivity extends BaseActivity
 
         }
 
-        if (Objects.requireNonNull(model).getId() == 0) {
-            mNestedScrollView.setOnScrollChangeListener(this);
-        }
+        Preference.setLastComment(mContext, Objects.requireNonNull(model).getStrId());
+
     }
 
 
@@ -116,11 +116,27 @@ public class DetailActivity extends BaseActivity
                 break;
 
             case Costant.TARGET_DETAIL:
-                new RestDetailExecute(this,mContext, tokenLogin, model).getData();
+                if (System.currentTimeMillis() - startTimeoutRefresh > Costant.DEFAULT_OPERATION_REFRESH) {
+                    startTimeoutRefresh = System.currentTimeMillis();
+                    new RestDetailExecute(this, mContext, tokenLogin, model).getData();
+
+                } else {
+                    startFragment(model, false);
+                    mSwipeRefreshLayout.setRefreshing(false);
+
+                }
                 break;
 
             case Costant.TARGET_MORE_DETAIL:
-                new RestMoreExecute(this,mContext, tokenLogin, model).getMoreData();
+                if (System.currentTimeMillis() - startTimeoutRefresh > Costant.DEFAULT_OPERATION_REFRESH) {
+                    startTimeoutRefresh = System.currentTimeMillis();
+                    new RestMoreExecute(this, mContext, tokenLogin, model).getMoreData();
+
+                } else {
+                    startFragment(model, true);
+                    mSwipeRefreshLayout.setRefreshing(false);
+
+                }
                 break;
 
             case Costant.TARGET_DETAIL_SEARCH:
@@ -133,7 +149,6 @@ public class DetailActivity extends BaseActivity
 
         }
 
-
     }
 
     @Override
@@ -142,9 +157,6 @@ public class DetailActivity extends BaseActivity
         super.onSaveInstanceState(outState);
 
     }
-
-
-
 
     @Override
     protected boolean onPrepareOptionsPanel(View view, Menu menu) {
@@ -156,29 +168,6 @@ public class DetailActivity extends BaseActivity
         }
 
         return super.onPrepareOptionsPanel(view, menu);
-    }
-
-
-    @Override
-    public void onBackPressed() {
-        if (model.getTarget() != Costant.TARGET_DETAIL) {
-            model.setTarget(Costant.TARGET_DETAIL);
-            startFragment(model, false);
-
-            if (Preference.getMoreNestedPositionHeight(mContext) > 0) {
-                mNestedScrollView.getChildAt(0).setScrollY(Preference.getMoreNestedPositionHeight(mContext));
-            }
-
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
-    public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-        if (scrollY > 0) {
-            Preference.setMoreNestedPositionHeight(mContext, scrollY);
-        }
     }
 
     @Override
@@ -214,27 +203,29 @@ public class DetailActivity extends BaseActivity
 
     private void startFragment(DetailModel m, boolean moreFragment) {
 
-        if (moreFragment) {
-            DetailFragment fragment = DetailFragment.newInstance(m);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_subreddit_detail_container, fragment).commitAllowingStateLoss();
+        if (!getSupportFragmentManager().isStateSaved()) {
 
-        } else {
+            if (moreFragment) {
+                DetailFragment fragment = DetailFragment.newInstance(m);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_detail_container, fragment).commit();
 
-            TitleDetailFragment titleDetailFragment = TitleDetailFragment.newInstance(m.getStrId());
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_subreddit_selected_container, titleDetailFragment).commitAllowingStateLoss();
+            } else {
 
-            DetailFragment fragment = DetailFragment.newInstance(m);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_subreddit_detail_container, fragment).commitAllowingStateLoss();
+                TitleDetailFragment titleDetailFragment = TitleDetailFragment.newInstance(m.getStrId());
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_title_container, titleDetailFragment).commit();
 
+                DetailFragment fragment = DetailFragment.newInstance(m);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_detail_container, fragment).commit();
+
+            }
         }
 
         if ((mSwipeRefreshLayout != null) && (mSwipeRefreshLayout.isRefreshing())) {
             mSwipeRefreshLayout.setRefreshing(false);
         }
-
     }
 
     private boolean isUpdateData() {
@@ -262,7 +253,7 @@ public class DetailActivity extends BaseActivity
 
                 T1Operation t1moreOperation = new T1Operation(getApplicationContext());
 
-                if (t1moreOperation.saveMoreData(response.getJson(),model.getStrId() )) {
+                if (t1moreOperation.saveMoreData(response.getJson(), model.getStrId())) {
 
                     startFragment(model, true);
 

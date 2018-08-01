@@ -55,7 +55,7 @@
         </activity>
 
         <activity
-            android:name=".ui.activity.SubManageActivity"
+            android:name=".ui.activity.ManageActivity"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_subreddit"
             android:noHistory="true"
@@ -74,20 +74,6 @@
             android:noHistory="true"
             android:parentActivityName=".ui.activity.MainActivity"
             android:theme="@style/AppThemeLight.NoActionBar" />
-
-        <activity
-            android:name=".ui.activity.LogoutActivity"
-            android:excludeFromRecents="true"
-            android:label="@string/title_activity_logout"
-            android:launchMode="singleTop"
-            android:noHistory="true"
-            android:parentActivityName=".ui.activity.MainActivity"
-            android:theme="@style/AppThemeLight.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.MainActivity" />
-        </activity>
-
 
         <activity
             android:name=".ui.activity.YoutubeActivity"

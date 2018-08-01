@@ -42,9 +42,12 @@ import butterknife.BindView;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.RedditToken;
 import info.pelleritoudacity.android.rcapstone.data.rest.AccessTokenExecute;
+import info.pelleritoudacity.android.rcapstone.data.rest.RevokeTokenExecute;
+import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
+import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import timber.log.Timber;
 
@@ -60,18 +63,43 @@ public class LoginActivity extends BaseActivity {
         setLayoutResource(R.layout.activity_login);
         super.onCreate(savedInstanceState);
 
-        if ((NetworkUtil.isOnline(getApplicationContext())) &&
-                (!Preference.isLoginStart(getApplicationContext()))) {
+        int state = 0;
+        if (NetworkUtil.isOnline(getApplicationContext())) {
 
-            createWebview(loadUrl());
+            if (!Preference.isLoginStart(getApplicationContext())) {
+                createLogin(loginUrl());
 
-        } else {
-            openHomeActivity(false);
+            } else {
+                String token = PermissionUtil.getToken(getApplicationContext());
+                createLogout(token);
+
+            }
+
         }
+
 
     }
 
-    private String loadUrl() {
+
+    private void createLogout(String token) {
+
+        new RevokeTokenExecute(new RevokeTokenExecute.OnRestCallBack() {
+            @Override
+            public void success(int code) {
+                FirebaseRefreshTokenSync.stopLogin(getApplicationContext());
+                PrefManager.clearPreferenceLogin(getApplicationContext());
+                responseActivity(Costant.PROCESS_LOGOUT_OK);
+            }
+
+            @Override
+            public void unexpectedError(Throwable tList) {
+                responseActivity(Costant.PROCESS_LOGOUT_ERROR);
+            }
+        }, token).RevokeTokenData();
+
+    }
+
+    private String loginUrl() {
 
         Uri.Builder builder = new Uri.Builder();
 
@@ -99,11 +127,10 @@ public class LoginActivity extends BaseActivity {
         return builder.build().toString();
     }
 
-    private void createWebview(String url) {
+    private void createLogin(String url) {
 
         mWebview.clearCache(true);
         mWebview.clearHistory();
-
         CookieManager.getInstance().removeAllCookies(null);
         CookieManager.getInstance().flush();
 
@@ -137,7 +164,7 @@ public class LoginActivity extends BaseActivity {
                                             Preference.setSessionExpired(getApplicationContext(), (int) expired);
                                             Preference.setTimeToken(getApplicationContext(), System.currentTimeMillis());
                                             Preference.setLoginStart(getApplicationContext(), true);
-                                            openHomeActivity(true);
+                                            responseActivity(Costant.PROCESS_LOGIN_OK);
 
                                         }
 
@@ -147,7 +174,7 @@ public class LoginActivity extends BaseActivity {
 
                                 @Override
                                 public void unexpectedError(Throwable tList) {
-
+                                    responseActivity(Costant.PROCESS_LOGIN_ERROR);
                                 }
                             }, code).loginData();
                         }
@@ -161,11 +188,14 @@ public class LoginActivity extends BaseActivity {
         mWebview.loadUrl(url);
     }
 
-    private void openHomeActivity(boolean success) {
+
+
+    private void responseActivity(int state) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra(Costant.EXTRA_LOGIN_SUCCESS, success);
+        intent.putExtra(Costant.EXTRA_LOGIN_SUCCESS, state);
         startActivity(intent);
     }
+
 }
 

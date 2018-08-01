@@ -57,7 +57,7 @@ import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
-import info.pelleritoudacity.android.rcapstone.ui.fragment.SubScriptionsFragment;
+import info.pelleritoudacity.android.rcapstone.ui.fragment.ManageFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperAdapter;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
 import info.pelleritoudacity.android.rcapstone.ui.helper.OnStartDragListener;
@@ -67,17 +67,17 @@ import info.pelleritoudacity.android.rcapstone.utility.MapUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
-public class SubScriptionsAdapter extends RecyclerView.Adapter<SubScriptionsAdapter.RedditHolder> implements ItemTouchHelperAdapter {
+public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHolder> implements ItemTouchHelperAdapter {
 
     private final OnStartDragListener mDragStartListener;
     private final OnSubScriptionClick onSubScriptionClick;
-    private final SubScriptionsFragment mListener;
+    private final ManageFragment mListener;
     private ArrayList<String> mArrayList;
     private Context mContext;
     private Cursor mCursor;
 
-    public SubScriptionsAdapter(Context context, SubScriptionsFragment listener, OnSubScriptionClick subScriptionClick,
-                                OnStartDragListener dragStartListener) {
+    public ManageAdapter(Context context, ManageFragment listener, OnSubScriptionClick subScriptionClick,
+                         OnStartDragListener dragStartListener) {
         mContext = context;
         mListener = listener;
         onSubScriptionClick = subScriptionClick;

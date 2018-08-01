@@ -21,10 +21,9 @@ import java.util.Objects;
 
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.ui.activity.LoginActivity;
-import info.pelleritoudacity.android.rcapstone.ui.activity.LogoutActivity;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
+import info.pelleritoudacity.android.rcapstone.ui.activity.ManageActivity;
 import info.pelleritoudacity.android.rcapstone.ui.activity.SettingsActivity;
-import info.pelleritoudacity.android.rcapstone.ui.activity.SubManageActivity;
 import info.pelleritoudacity.android.rcapstone.ui.activity.DetailActivity;
 import info.pelleritoudacity.android.rcapstone.data.other.TabData;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
@@ -48,10 +47,8 @@ public class MenuBase {
                 mContext.startActivity(new Intent(mContext, MainActivity.class).putExtra(Costant.EXTRA_RESTORE_MANAGE, Costant.RESTORE_MANAGE_RESTORE));
                 return;
             case R.id.menu_action_login:
-                mContext.startActivity(new Intent(mContext, LoginActivity.class));
-                return;
             case R.id.menu_action_logout:
-                mContext.startActivity(new Intent(mContext, LogoutActivity.class));
+                mContext.startActivity(new Intent(mContext, LoginActivity.class));
                 return;
             case R.id.menu_action_refresh:
                 menuClickRefresh(mLayoutResource);
@@ -187,7 +184,7 @@ public class MenuBase {
             case R.id.nav_mode_subscriptions:
                 Preference.setTypeMode(mContext, Costant.NAV_MODE_SUBSCRIPTIONS);
                 item.setEnabled(true);
-                mContext.startActivity(new Intent(mContext, SubManageActivity.class));
+                mContext.startActivity(new Intent(mContext, ManageActivity.class));
                 break;
 
             case R.id.nav_mode_favorite:
@@ -343,8 +340,8 @@ public class MenuBase {
                 mContext.startActivity(intentSubredditDetail);
                 break;
 
-            case R.layout.activity_submanage:
-                Intent intentSubmanage = new Intent(mContext, SubManageActivity.class);
+            case R.layout.activity_manage:
+                Intent intentSubmanage = new Intent(mContext, ManageActivity.class);
                 intentSubmanage.putExtra(Costant.EXTRA_ACTIVITY_SUBMANAGE_REFRESH, true);
                 mContext.startActivity(intentSubmanage);
                 break;

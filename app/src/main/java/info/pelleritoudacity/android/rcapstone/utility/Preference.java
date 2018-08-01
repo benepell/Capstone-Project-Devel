@@ -41,7 +41,6 @@ public class Preference {
             R.string.pref_more_fragment_more_nested_position_height
 
 
-
     };
 
 
@@ -306,5 +305,6 @@ public class Preference {
     public static int getGeneralSettingsDepthPage(Context context) {
         return PrefManager.getIntGeneralSettings(context, Costant.PREFERENCE_DEPTH_PAGE);
     }
+
 
 }

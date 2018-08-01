@@ -52,7 +52,6 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.RedditAboutMe;
-import info.pelleritoudacity.android.rcapstone.data.model.ui.MainModel;
 import info.pelleritoudacity.android.rcapstone.data.rest.AboutMeExecute;
 import info.pelleritoudacity.android.rcapstone.ui.helper.MenuBase;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
@@ -175,7 +174,7 @@ public class BaseActivity extends AppCompatActivity
                 inflater.inflate(R.menu.main, menu);
                 break;
 
-            case R.layout.activity_submanage:
+            case R.layout.activity_manage:
                 inflater.inflate(R.menu.manage_menu, menu);
                 MenuItem menuItemRestore;
                 menuItemRestore = menu.findItem(R.id.menu_action_restore);
@@ -204,7 +203,7 @@ public class BaseActivity extends AppCompatActivity
                 menuBase.menuGeneralSettings(menu);
                 menuBase.menuItemLogin(menu, Preference.isLoginStart(getApplicationContext()));
 
-            case R.layout.activity_submanage:
+            case R.layout.activity_manage:
                 return true;
 
             default:
@@ -220,7 +219,7 @@ public class BaseActivity extends AppCompatActivity
 
             case R.layout.activity_main:
             case R.layout.activity_detail:
-            case R.layout.activity_submanage:
+            case R.layout.activity_manage:
 
                 menuBase.menuItemSelected(item);
                 break;

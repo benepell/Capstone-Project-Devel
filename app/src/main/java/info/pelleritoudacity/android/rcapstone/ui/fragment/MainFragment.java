@@ -39,7 +39,7 @@ public class MainFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor>, MainAdapter.OnPlayerListener, MainAdapter.OnAdapterListener {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
-    @BindView(R.id.rv_fragment_subreddit)
+    @BindView(R.id.rv_fragment_main)
     RecyclerView mRecyclerView;
 
     private Context mContext;
@@ -79,7 +79,7 @@ public class MainFragment extends Fragment
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_subreddit, container, false);
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         unbinder = ButterKnife.bind(this, view);
 

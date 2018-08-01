@@ -76,4 +76,10 @@ public class FirebaseRefreshTokenSync {
         FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(driver);
         dispatcher.cancel(tag);
     }
+
+    public static void stopLogin(Context context) {
+        stopJobRefreshToken(context, Costant.TOKEN_SYNC_TAG);
+
+    }
+
 }

@@ -20,14 +20,13 @@ public class RestMoreExecute {
 
     private final String mCode;
     private final DetailModel model;
-    private final Context mContext;
     private static RedditAPI sApi;
     private final OnRestCallBack mCallback;
 
     public RestMoreExecute(OnRestCallBack callback, Context context, String code, DetailModel model) {
 
         sApi = RetrofitClient.createService(Costant.REDDIT_OAUTH_URL, More.class);
-        mContext = context;
+        Context mContext = context;
         mCallback = callback;
         mCode = code;
         this.model = model;

@@ -32,8 +32,7 @@ import android.support.v7.preference.PreferenceManager;
 import info.pelleritoudacity.android.rcapstone.R;
 
 
-@SuppressWarnings("unused")
-class PrefManager {
+public class PrefManager {
 
     @SuppressWarnings("unused")
     static boolean isGeneralSettings(Context context, String key) {
@@ -135,6 +134,22 @@ class PrefManager {
             }
 
         }
+    }
+
+    public static void clearPreferenceLogin(Context context) {
+        int[] prefStrArrays = {
+                R.string.pref_login_start,
+                R.string.pref_session_expired,
+                R.string.pref_time_token,
+                R.string.pref_session_access_token,
+                R.string.pref_login_name,
+                R.string.pref_login_over18
+        };
+
+        for (int pref : prefStrArrays) {
+            context.getSharedPreferences(context.getString(pref), 0).edit().clear().apply();
+        }
+
     }
 
 

@@ -42,13 +42,13 @@ import butterknife.BindView;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.rest.CategoryExecute;
-import info.pelleritoudacity.android.rcapstone.ui.fragment.SubScriptionsFragment;
+import info.pelleritoudacity.android.rcapstone.ui.fragment.ManageFragment;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import timber.log.Timber;
 
-public class SubManageActivity extends BaseActivity {
+public class ManageActivity extends BaseActivity {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.nested_scrollview_submanage)
@@ -60,13 +60,13 @@ public class SubManageActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setLayoutResource(R.layout.activity_submanage);
+        setLayoutResource(R.layout.activity_manage);
         super.onCreate(savedInstanceState);
 
         WeakReference<Context> mWeakContext = new WeakReference<>(getApplicationContext());
 
         if (Preference.isInsertPrefs(getApplicationContext())) {
-            new SubManageAsyncTask(mWeakContext).execute();
+            new ManageAsyncTask(mWeakContext).execute();
 
         } else if ((!Preference.isInsertPrefs(getApplicationContext()) && (NetworkUtil.isOnline(getApplicationContext())))) {
             new CategoryExecute(new WeakReference<>(getApplicationContext())).syncData();
@@ -85,32 +85,38 @@ public class SubManageActivity extends BaseActivity {
     }
 
     private void startFragment() {
-        SubScriptionsFragment subScriptionsFragment = new SubScriptionsFragment();
-        getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(
-                        android.R.anim.slide_in_left,
-                        android.R.anim.slide_out_right,
-                        R.anim.layout_animation_from_right,
-                        R.anim.layout_animation_from_right)
-                .replace(R.id.fragment_list_container, subScriptionsFragment).commit();
+        if (!getSupportFragmentManager().isStateSaved()) {
+            ManageFragment manageFragment = new ManageFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(
+                            android.R.anim.slide_in_left,
+                            android.R.anim.slide_out_right,
+                            R.anim.layout_animation_from_right,
+                            R.anim.layout_animation_from_right)
+                    .replace(R.id.fragment_list_container, manageFragment).commit();
+        }
     }
 
-    private static class SubManageAsyncTask extends AsyncTask<Void, Void, Cursor> {
+    private static class ManageAsyncTask extends AsyncTask<Void, Void, Cursor> {
 
         private final WeakReference<Context> mWeakContext;
 
-        SubManageAsyncTask(WeakReference<Context> weakContext) {
+        ManageAsyncTask(WeakReference<Context> weakContext) {
             mWeakContext = weakContext;
         }
 
         @Override
         protected Cursor doInBackground(Void... voids) {
+
             try {
+
                 Context context = mWeakContext.get();
 
                 Uri uri = Contract.PrefSubRedditEntry.CONTENT_URI;
-                String selection = Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED + " =? AND " + Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE + " =?";
+                String selection = Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED + " =?" + " AND " +
+                        Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE + " =?";
                 String[] selectionArgs = {String.valueOf(0), String.valueOf(1)};
+
                 return context.getContentResolver().query(uri,
                         null,
                         selection,
@@ -119,7 +125,6 @@ public class SubManageActivity extends BaseActivity {
 
             } catch (Exception e) {
                 Timber.e("Failed to asynchronously load data. ");
-                e.printStackTrace();
                 return null;
             }
         }
@@ -127,6 +132,7 @@ public class SubManageActivity extends BaseActivity {
         @Override
         protected void onPostExecute(Cursor cursor) {
             super.onPostExecute(cursor);
+
             Context context = mWeakContext.get();
 
             try {
@@ -137,11 +143,11 @@ public class SubManageActivity extends BaseActivity {
                 String name;
                 if (!cursor.isClosed()) {
                     while (cursor.moveToNext()) {
-                        name = cursor.getString(cursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME));
-                        name = TextUtil.normalizeSubRedditLink(name);
+                        name = TextUtil.normalizeSubRedditLink(
+                                cursor.getString(cursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME)));
+
                         arrayList.add(name);
-                        String strPref = TextUtil.arrayToString(arrayList);
-                        Preference.setSubredditKey(context, strPref);
+                        Preference.setSubredditKey(context, TextUtil.arrayToString(arrayList));
                     }
                 }
 

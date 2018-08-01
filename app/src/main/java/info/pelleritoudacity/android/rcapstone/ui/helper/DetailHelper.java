@@ -120,7 +120,6 @@ public class DetailHelper {
                 model = new DetailModel();
                 model.setTarget(Costant.TARGET_DETAIL);
 
-
             }
 
             if (intent.getStringExtra(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID) != null) {
@@ -130,8 +129,8 @@ public class DetailHelper {
 
             if (intent.getBooleanExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_DETAIL_REFRESH, false)) {
                 Objects.requireNonNull(model).setStrId(Preference.getLastComment(mContext));
-            }
 
+            }
             return model;
 
         }

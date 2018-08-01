@@ -383,7 +383,17 @@ public class DataUtils {
 
         Cursor cursor = null;
         int count = 0;
-        Uri uri = null;
+        Uri uri;
+
+        if (fromPosition == 0 && toPosition == 0) {
+            return false;
+
+        } else {
+
+            fromPosition += 1;
+            toPosition += 1;
+            uri = Contract.PrefSubRedditEntry.CONTENT_URI;
+        }
 
 
         try {

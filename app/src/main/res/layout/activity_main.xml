@@ -1,7 +1,7 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/subreddit_container"
+    android:id="@+id/main_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.activity.MainActivity">
@@ -9,7 +9,7 @@
     <include layout="@layout/app_tab_layout" />
 
     <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/swipe_refresh_subreddit"
+        android:id="@+id/swipe_refresh_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:isScrollContainer="true"
@@ -17,7 +17,7 @@
         tools:ignore="PrivateResource">
 
         <android.support.v4.widget.NestedScrollView
-           android:id="@+id/nested_scrollview_subreddit"
+           android:id="@+id/nested_scrollview_main"
             style="@style/ScrollBarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
