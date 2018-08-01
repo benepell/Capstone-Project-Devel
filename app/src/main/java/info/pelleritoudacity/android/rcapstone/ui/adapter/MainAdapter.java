@@ -51,6 +51,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Record.MainRecord;
+import info.pelleritoudacity.android.rcapstone.data.model.ui.CardBottomModel;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
 import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapter;
 import info.pelleritoudacity.android.rcapstone.ui.activity.DetailActivity;
@@ -61,6 +62,8 @@ import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtil;
+import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
+import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
@@ -97,9 +100,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
 
     @Override
     public void onBindViewHolder(@NonNull SubRedditHolder holder, int position) {
-
-        ImageButton[] mArrayButton = new ImageButton[]{holder.mImageButtonVoteUp, holder.mImageButtonVoteDown,
-                holder.mImageButtonPreferStars, holder.mImageButtonShowComments, holder.mImageButtonOpenBrowser};
 
         mCursor.moveToPosition(position);
 
@@ -214,12 +214,24 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
 
             SelectorHelper selectorHelper = new SelectorHelper(mContext);
 
-            selectorHelper.cardBottomLink(mArrayButton, null,
-                    TextUtil.buildCommentLink(record.getSubRedditNamePrefix(), record.getNameIdReddit()), record.getNameReddit(),record.isSaved() );
+            CardBottomModel cardBottomModel = new CardBottomModel();
 
+            ImageButton[] arrayButton = new ImageButton[]{holder.mImageButtonVoteUp, holder.mImageButtonVoteDown,
+                    holder.mImageButtonPreferStars, holder.mImageButtonShowComments, holder.mImageButtonOpenBrowser};
+
+            cardBottomModel.setArrayButton(arrayButton);
+            cardBottomModel.setLinkComment(
+                    TextUtil.buildCommentLink(record.getSubRedditNamePrefix(), record.getNameIdReddit()));
+
+            cardBottomModel.setSaved(record.isSaved());
+            cardBottomModel.setCategory(record.getNameReddit());
+            cardBottomModel.setBackgroundColor(null);
+            cardBottomModel.setOnline(NetworkUtil.isOnline(mContext));
+            cardBottomModel.setLogged(PermissionUtil.isLogged(mContext));
+
+            selectorHelper.cardBottomLink(cardBottomModel);
 
             holder.bind(holder.getAdapterPosition(), record.getSubReddit(), record.getNameIdReddit(), record.getNumComments());
-
 
             mListener.adapterPosition(holder.getAdapterPosition(), record.getSubReddit());
         }

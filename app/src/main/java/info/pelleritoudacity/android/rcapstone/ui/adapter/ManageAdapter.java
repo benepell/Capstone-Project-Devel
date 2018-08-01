@@ -128,7 +128,6 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
             if (motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN) {
                 mDragStartListener.onStartDrag(holder);
             }
-//            v.getParent().requestDisallowInterceptTouchEvent(true);
             return false;
         });
 
@@ -241,7 +240,6 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
         @BindView(R.id.img_manage_stars)
         ImageView mImageViewRedditStars;
 
-
         RedditHolder(View itemView) {
             super(itemView);
 
@@ -274,7 +272,6 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
 
 
     }
-
 
     @SuppressWarnings("UnusedReturnValue")
     public Cursor swapCursor(Cursor c) {

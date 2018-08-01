@@ -26,7 +26,6 @@ public class RestMoreExecute {
     public RestMoreExecute(OnRestCallBack callback, Context context, String code, DetailModel model) {
 
         sApi = RetrofitClient.createService(Costant.REDDIT_OAUTH_URL, More.class);
-        Context mContext = context;
         mCallback = callback;
         mCode = code;
         this.model = model;

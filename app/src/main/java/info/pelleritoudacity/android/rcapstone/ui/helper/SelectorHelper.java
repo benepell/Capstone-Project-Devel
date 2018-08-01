@@ -12,6 +12,7 @@ import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic
 
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
+import info.pelleritoudacity.android.rcapstone.data.model.ui.CardBottomModel;
 import info.pelleritoudacity.android.rcapstone.data.rest.PrefExecute;
 import info.pelleritoudacity.android.rcapstone.data.rest.VoteExecute;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
@@ -25,37 +26,36 @@ public class SelectorHelper {
         mContext = context;
     }
 
-    public void cardBottomLink(ImageButton[] arrayButton, String strBackgroundColor, String linkComments, String nameReddit, boolean isSaved) {
+    public void cardBottomLink(CardBottomModel model){
 
-        boolean isOnline = NetworkUtil.isOnline(mContext);
-        boolean isLogin = PermissionUtil.isLogged(mContext);
+        model.setOnline(NetworkUtil.isOnline(mContext));
+        model.setLogged(PermissionUtil.isLogged(mContext));
 
-        if ((arrayButton != null) && (arrayButton.length == 5)) {
+        if ((model.getArrayButton() != null) && (model.getArrayButton().length == 5)) {
 
-            ImageButton buttonVoteUp = arrayButton[0];
-            ImageButton buttonVoteDown = arrayButton[1];
-            ImageButton buttonStars = arrayButton[2];
-            ImageButton buttonComments = arrayButton[3];
-            ImageButton buttonOpenBrowser = arrayButton[4];
+            ImageButton buttonVoteUp = model.getArrayButton()[0];
+            ImageButton buttonVoteDown = model.getArrayButton()[1];
+            ImageButton buttonStars = model.getArrayButton()[2];
+            ImageButton buttonComments = model.getArrayButton()[3];
+            ImageButton buttonOpenBrowser = model.getArrayButton()[4];
 
-            if (strBackgroundColor == null) {
-                strBackgroundColor = "#FFFFFF";
-            }
+            if (model.getBackgroundColor() == null) {
+              model.setBackgroundColor("#FFFFFF");              }
 
-            buttonVoteUp.setBackgroundColor(Color.parseColor(strBackgroundColor));
+            buttonVoteUp.setBackgroundColor(Color.parseColor(model.getBackgroundColor()));
             buttonVoteUp.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_thumb_up)
                     .color(Color.GRAY)
                     .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
                     .respectFontBounds(true));
 
 
-            buttonVoteDown.setBackgroundColor(Color.parseColor(strBackgroundColor));
+            buttonVoteDown.setBackgroundColor(Color.parseColor(model.getBackgroundColor()));
             buttonVoteDown.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_thumb_down)
                     .color(Color.GRAY)
                     .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
                     .respectFontBounds(true));
 
-            if (!isSaved) {
+            if (!model.isSaved()) {
                 buttonStars.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_star_border)
                         .color(Color.GRAY)
                         .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
@@ -69,23 +69,23 @@ public class SelectorHelper {
 
             }
 
-            buttonStars.setBackgroundColor(Color.parseColor(strBackgroundColor));
+            buttonStars.setBackgroundColor(Color.parseColor(model.getBackgroundColor()));
 
             buttonComments.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_comment_outline)
                     .color(Color.GRAY)
                     .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
                     .respectFontBounds(true));
 
-            buttonComments.setBackgroundColor(Color.parseColor(strBackgroundColor));
+            buttonComments.setBackgroundColor(Color.parseColor(model.getBackgroundColor()));
 
             buttonOpenBrowser.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_open_in_browser)
                     .color(Color.GRAY)
                     .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
                     .respectFontBounds(true));
 
-            buttonOpenBrowser.setBackgroundColor(Color.parseColor(strBackgroundColor));
+            buttonOpenBrowser.setBackgroundColor(Color.parseColor(model.getBackgroundColor()));
 
-            if ((isOnline) && (isLogin)) {
+            if ((model.isOnline()) && (model.isLogged())) {
                 buttonVoteUp.setOnClickListener(view -> {
                     String vote = "1";
 
@@ -119,7 +119,7 @@ public class SelectorHelper {
 
                         }
 
-                    }, PermissionUtil.getToken(mContext), vote, nameReddit)
+                    }, PermissionUtil.getToken(mContext), vote, model.getCategory())
                             .postData();
                 });
 
@@ -155,18 +155,18 @@ public class SelectorHelper {
                         }
 
 
-                    }, PermissionUtil.getToken(mContext), vote, nameReddit)
+                    }, PermissionUtil.getToken(mContext), vote,model.getCategory())
                             .postData();
                 });
 
                 buttonStars.setOnClickListener(view -> {
-                    if (!isSaved) {
+                    if (!model.isSaved()) {
 
                         new PrefExecute(new PrefExecute.OnRestCallBack() {
                             @Override
                             public void success(int code) {
                                 if (code == 200) {
-                                    new DataUtils(mContext).updateLocalDbStars(1, nameReddit);
+                                    new DataUtils(mContext).updateLocalDbStars(1, model.getCategory());
                                     mContext.startActivity(new Intent(mContext, MainActivity.class)
                                             .setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK |
                                                     Intent.FLAG_ACTIVITY_NO_ANIMATION));
@@ -178,7 +178,7 @@ public class SelectorHelper {
 
                             }
 
-                        }, PermissionUtil.getToken(mContext), nameReddit).postSaveData();
+                        }, PermissionUtil.getToken(mContext), model.getCategory()).postSaveData();
 
 
                     } else {
@@ -187,7 +187,7 @@ public class SelectorHelper {
                             @Override
                             public void success(int code) {
                                 if (code == 200) {
-                                    new DataUtils(mContext).updateLocalDbStars(0, nameReddit);
+                                    new DataUtils(mContext).updateLocalDbStars(0, model.getCategory());
                                     mContext.startActivity(new Intent(mContext, MainActivity.class)
                                             .setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK |
                                                     Intent.FLAG_ACTIVITY_NO_ANIMATION));
@@ -201,14 +201,14 @@ public class SelectorHelper {
                             }
 
 
-                        }, PermissionUtil.getToken(mContext), nameReddit).postUnSaveData();
+                        }, PermissionUtil.getToken(mContext),model.getCategory()).postUnSaveData();
 
                     }
                 });
 
-                if (!TextUtils.isEmpty(linkComments)) {
+                if (!TextUtils.isEmpty(model.getLinkComment())) {
                     buttonOpenBrowser.setOnClickListener(view -> mContext.startActivity(new Intent(
-                            Intent.ACTION_VIEW, Uri.parse(linkComments))
+                            Intent.ACTION_VIEW, Uri.parse(model.getLinkComment()))
                             .setFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT)));
                 }
 

@@ -18,10 +18,13 @@ import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Record.TitleDetailRecord;
 import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapterTitle;
+import info.pelleritoudacity.android.rcapstone.data.model.ui.CardBottomModel;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.TitleDetailHelper;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtil;
+import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
+import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
@@ -52,8 +55,6 @@ public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.
     @Override
     public void onBindViewHolder(@NonNull SubRedditSelectedHolder holder, int position) {
 
-        ImageButton[] mArrayButton = new ImageButton[]{holder.mImageButtonVoteUp, holder.mImageButtonVoteDown,
-                holder.mImageButtonPreferStars, holder.mImageButtonShowComments, holder.mImageButtonOpenBrowser};
         mCursor.moveToPosition(position);
 
         TitleDetailRecord recordList = new TitleDetailRecord(mCursor);
@@ -88,8 +89,20 @@ public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.
             }
 
             SelectorHelper selectorHelper = new SelectorHelper(mContext);
-            selectorHelper.cardBottomLink(mArrayButton, strBackGroundColor,
-                    TextUtil.buildCommentDetailLink(record.getPermanentLink()), record.getSubRedditName(),record.isSaved());
+
+            ImageButton[] arrayButton = new ImageButton[]{holder.mImageButtonVoteUp, holder.mImageButtonVoteDown,
+                    holder.mImageButtonPreferStars, holder.mImageButtonShowComments, holder.mImageButtonOpenBrowser};
+
+            CardBottomModel cardBottomModel = new CardBottomModel();
+            cardBottomModel.setArrayButton(arrayButton);
+            cardBottomModel.setBackgroundColor(strBackGroundColor);
+            cardBottomModel.setLinkComment(TextUtil.buildCommentDetailLink(record.getPermanentLink()));
+            cardBottomModel.setCategory(record.getSubRedditName());
+            cardBottomModel.setSaved(record.isSaved());
+            cardBottomModel.setLogged(PermissionUtil.isLogged(mContext));
+            cardBottomModel.setOnline(NetworkUtil.isOnline(mContext));
+
+            selectorHelper.cardBottomLink(cardBottomModel);
 
             TitleDetailHelper helper = new TitleDetailHelper(mContext);
 
