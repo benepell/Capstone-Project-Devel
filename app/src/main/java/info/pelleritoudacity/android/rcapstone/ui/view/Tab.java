@@ -34,23 +34,22 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 
 public class Tab implements TabLayout.OnTabSelectedListener {
 
-    private final MainActivity mListener;
+    private final OnTabListener mListener;
     private final TabLayout mTabLayout;
     private final ArrayList<String> mTabList;
     private final ArrayList<String> mTabHistory;
     private final Context mContext;
 
-    public Tab(MainActivity listener, TabLayout tabLayout, ArrayList<String> tabList) {
+    public Tab(OnTabListener listener,Context context ,TabLayout tabLayout, ArrayList<String> tabList) {
         mListener = listener;
         mTabLayout = tabLayout;
         mTabList = tabList;
         mTabHistory = new ArrayList<>();
-        mContext = listener.getApplicationContext();
+        mContext = context;
     }
 
     private void createTab() {
@@ -100,10 +99,6 @@ public class Tab implements TabLayout.OnTabSelectedListener {
         mListener.tabReselected(tab.getPosition(), mTabList.get(tab.getPosition()));
     }
 
-    public void clearHistory() {
-        mTabHistory.clear();
-    }
-
     private void addHistory(String category) {
         if (mTabHistory.size() == 0) {
             mTabHistory.add(mTabList.get(0));
@@ -113,15 +108,11 @@ public class Tab implements TabLayout.OnTabSelectedListener {
 
     }
 
-    public int getHistorySize() {
-        return mTabHistory.size();
-    }
-
     public String getHistoryPosition() {
         int size;
         String category = null;
 
-        size = (mTabHistory != null) ? mTabHistory.size() : 0;
+        size = mTabHistory.size();
 
         if (size > 1) {
             category = mTabHistory.get(size - 2);

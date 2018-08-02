@@ -75,7 +75,6 @@ public class MediaPlayer {
 
     private final String mShortDescription;
 
-    private boolean mIsAutoPlay;
     private int mResumeWindow;
     private long mResumePosition;
 
@@ -91,7 +90,6 @@ public class MediaPlayer {
     private final ImaAdsLoader mImaAdsLoader;
     private TextView mTvExoCountDown;
     private ImageView mImageMutedPlay;
-    private int mAdapterPosition;
     private final ImageView mImagePlay;
 
     private Handler mHandler;
@@ -154,7 +152,7 @@ public class MediaPlayer {
 
         mPlayer.addListener(new MediaEvent(this, mMediaSession,
                 null, null,
-                mTvExoCountDown, mTvErrorPlayer));
+                 mTvErrorPlayer));
 
         mVideoUri = mediaUri;
 
@@ -205,7 +203,7 @@ public class MediaPlayer {
 
             mPlayer.addListener(new MediaEvent(this, mMediaSession,
                     mHandler, mRunnableRemainingPlay,
-                    mTvExoCountDown, mTvErrorPlayer));
+                     mTvErrorPlayer));
 
             mVideoUri = mediaUri;
 
@@ -392,24 +390,8 @@ public class MediaPlayer {
         }
     }
 
-    public void restartPlayer() {
-        if (mPlayer != null) {
-            mPlayer.setPlayWhenReady(true);
-            mPlayer.getPlaybackState();
-        }
-    }
-
-
     private boolean isMute() {
         return mPlayer != null && mPlayer.getVolume() == 0;
-    }
-
-    public void setAutoPlay(boolean autoPlay) {
-        mIsAutoPlay = autoPlay;
-    }
-
-    public boolean isAutoPlay() {
-        return mIsAutoPlay;
     }
 
     public void setResume(int resumeWindow, long resumePosition, Uri videoUri) {

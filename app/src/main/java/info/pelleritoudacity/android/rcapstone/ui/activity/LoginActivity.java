@@ -49,7 +49,6 @@ import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
-import okhttp3.ResponseBody;
 import timber.log.Timber;
 
 public class LoginActivity extends BaseActivity {
@@ -64,7 +63,6 @@ public class LoginActivity extends BaseActivity {
         setLayoutResource(R.layout.activity_login);
         super.onCreate(savedInstanceState);
 
-        int state = 0;
         if (NetworkUtil.isOnline(getApplicationContext())) {
 
             if (!Preference.isLoginStart(getApplicationContext())) {

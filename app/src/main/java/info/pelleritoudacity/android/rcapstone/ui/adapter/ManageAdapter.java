@@ -57,7 +57,6 @@ import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
-import info.pelleritoudacity.android.rcapstone.ui.fragment.ManageFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperAdapter;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
 import info.pelleritoudacity.android.rcapstone.ui.helper.OnStartDragListener;
@@ -70,17 +69,15 @@ import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHolder> implements ItemTouchHelperAdapter {
 
     private final OnStartDragListener mDragStartListener;
-    private final OnSubScriptionClick onSubScriptionClick;
-    private final ManageFragment mListener;
+    private final OnSubScriptionClick mListener;
     private ArrayList<String> mArrayList;
     private Context mContext;
     private Cursor mCursor;
 
-    public ManageAdapter(Context context, ManageFragment listener, OnSubScriptionClick subScriptionClick,
+    public ManageAdapter(Context context, OnSubScriptionClick listener,
                          OnStartDragListener dragStartListener) {
         mContext = context;
         mListener = listener;
-        onSubScriptionClick = subScriptionClick;
         mDragStartListener = dragStartListener;
         mArrayList = new ArrayList<>();
 
@@ -115,7 +112,7 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
 
         int colorImageHandle = Color.BLACK;
 
-        if(Preference.isNightMode(mContext)){
+        if (Preference.isNightMode(mContext)) {
             colorImageHandle = Color.WHITE;
         }
 
@@ -167,7 +164,7 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
 
         }
 
-        holder.mImageViewRedditStars.setOnClickListener(v -> onSubScriptionClick.onClickStar(visible, name));
+        holder.mImageViewRedditStars.setOnClickListener(v -> mListener.onClickStar(visible, name));
 
         holder.mImageViewRedditIcon.setContentDescription(name);
 
@@ -250,10 +247,10 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
         @Override
         public void onItemSelected() {
 
-            if(Preference.isNightMode(mContext)){
+            if (Preference.isNightMode(mContext)) {
                 itemView.setBackgroundColor(ImageUtil.getColor(mContext, R.color.colorDarkBackgroundItemSelected));
 
-            }else {
+            } else {
                 itemView.setBackgroundColor(ImageUtil.getColor(mContext, R.color.colorBackgroundItemSelected));
 
             }
@@ -261,10 +258,10 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
 
         @Override
         public void onItemClear() {
-            if(Preference.isNightMode(mContext)){
+            if (Preference.isNightMode(mContext)) {
                 itemView.setBackgroundColor(ImageUtil.getColor(mContext, R.color.colorDarkBackgroundItemNoSelected));
 
-            }else {
+            } else {
                 itemView.setBackgroundColor(ImageUtil.getColor(mContext, R.color.colorBackgroundItemNoSelected));
 
             }

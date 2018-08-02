@@ -91,19 +91,13 @@ public class DetailFragment extends Fragment
 
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new DetailAdapter(this, model);
+        mAdapter = new DetailAdapter(this,getActivity(), model);
 
         mRecyclerView.setAdapter(mAdapter);
 
         return view;
     }
 
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

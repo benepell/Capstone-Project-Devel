@@ -50,6 +50,7 @@ public class VoteExecute {
 
         void success(ResponseBody response,int code);
 
+        @SuppressWarnings("EmptyMethod")
         void unexpectedError(Throwable tList);
     }
 

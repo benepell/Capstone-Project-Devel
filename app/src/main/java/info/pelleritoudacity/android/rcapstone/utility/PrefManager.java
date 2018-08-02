@@ -127,7 +127,7 @@ public class PrefManager {
     }
 
 
-    static void clearPref(Context context, int[] prefArray) {
+    static void clearPref(Context context, @SuppressWarnings("SameParameterValue") int[] prefArray) {
         if ((context != null) && (prefArray != null)) {
             for (int pref : prefArray) {
                 context.getSharedPreferences(context.getString(pref), 0).edit().clear().apply();

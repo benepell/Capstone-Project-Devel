@@ -67,6 +67,7 @@ public class AboutMeExecute {
 
         void success(RedditAboutMe response , int code);
 
+        @SuppressWarnings("EmptyMethod")
         void unexpectedError(Throwable tList);
     }
 

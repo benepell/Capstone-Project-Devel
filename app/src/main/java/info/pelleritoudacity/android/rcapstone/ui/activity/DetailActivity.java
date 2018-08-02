@@ -11,7 +11,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Toast;
 
 import java.util.List;
 import java.util.Objects;
@@ -258,7 +257,7 @@ public class DetailActivity extends BaseActivity
 
                 T1Operation t1moreOperation = new T1Operation(getApplicationContext());
 
-                if (t1moreOperation.saveMoreData(response.getJson(), model.getStrId())) {
+                if (t1moreOperation.saveMoreData(response.getJson())) {
 
                     startFragment(model, true);
 

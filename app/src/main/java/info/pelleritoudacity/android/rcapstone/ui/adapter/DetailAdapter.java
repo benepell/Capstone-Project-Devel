@@ -22,29 +22,26 @@ import info.pelleritoudacity.android.rcapstone.data.db.Record.DetailRecord;
 import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapterDetail;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.CardBottomModel;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
-import info.pelleritoudacity.android.rcapstone.ui.fragment.DetailFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.DetailHelper;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
-import info.pelleritoudacity.android.rcapstone.utility.ImageUtil;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
-import info.pelleritoudacity.android.rcapstone.utility.Utility;
 
 public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditDetailHolder> {
 
     private final Context mContext;
-    private final DetailFragment mListener;
+    private final OnAdapterListener mListener;
     private Cursor mCursor;
     private int mSelectorPosition = RecyclerView.NO_POSITION;
     private final DetailModel model;
 
-    public DetailAdapter(DetailFragment listener, DetailModel detailModel) {
+    public DetailAdapter(OnAdapterListener listener, Context context,DetailModel detailModel) {
         mListener = listener;
-        mContext = listener.getActivity();
+        mContext = context;
         model = detailModel;
     }
 

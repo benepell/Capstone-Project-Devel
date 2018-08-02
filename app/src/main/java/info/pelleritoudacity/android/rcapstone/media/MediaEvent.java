@@ -18,13 +18,13 @@ class MediaEvent implements Player.EventListener {
 
     private final TextView mTvErrorPlayer;
     private final Handler mHandler;
-    private final MediaPlayer mListener;
+    private final MediaPlayer mMediaPlayer;
     private final MediaSession mMediaSession;
     private final Runnable mRunnableRemainingPlay;
 
-    public MediaEvent(MediaPlayer listener, MediaSession mediaSession, Handler handler,
-                      Runnable runnable, TextView tvCountDown, TextView tvErrorPlayer) {
-        mListener = listener;
+    public MediaEvent(MediaPlayer mediaPlayer, MediaSession mediaSession, Handler handler,
+                      Runnable runnable,  TextView tvErrorPlayer) {
+        mMediaPlayer = mediaPlayer;
         mTvErrorPlayer = tvErrorPlayer;
         mMediaSession = mediaSession;
         mHandler = handler;
@@ -54,12 +54,12 @@ class MediaEvent implements Player.EventListener {
         switch (playbackState) {
 
             case Player.STATE_BUFFERING:
-                mListener.visibilityProgressBar(true);
+                mMediaPlayer.visibilityProgressBar(true);
 
                 break;
 
             case Player.STATE_READY:
-                mListener.showPlayer();
+                mMediaPlayer.showPlayer();
                 if (mHandler != null) {
                     mHandler.post(mRunnableRemainingPlay);
                 }

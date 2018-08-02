@@ -33,7 +33,6 @@ import android.util.Base64;
 
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.RedditToken;
 import info.pelleritoudacity.android.rcapstone.data.rest.util.RetrofitClient;
@@ -41,7 +40,6 @@ import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -70,12 +68,6 @@ public class RefreshTokenExecute {
         fieldMap = new HashMap<>();
         fieldMap.put("grant_type", "refresh_token");
         fieldMap.put("refresh_token", mRefreshToken);
-
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(Costant.OK_HTTP_CONNECTION_TIMEOUT, TimeUnit.SECONDS)
-                .readTimeout(Costant.OK_HTTP_CONNECTION_READ_TIMEOUT, TimeUnit.SECONDS)
-                .writeTimeout(Costant.OK_HTTP_CONNECTION_WRITE_TIMEOUT, TimeUnit.SECONDS)
-                .build();
 
         sApi.getAccessToken(headerMap, fieldMap).enqueue(new Callback<RedditToken>() {
             @Override

@@ -126,7 +126,7 @@ public class ManageFragment extends Fragment
 
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new ManageAdapter(getContext(), this, this, this);
+        mAdapter = new ManageAdapter(getContext(), this,  this);
 
         mRecyclerView.setAdapter(mAdapter);
 

@@ -13,7 +13,7 @@ public class CardBottomModel implements Parcelable {
     private boolean saved;
     private boolean online;
 
-    protected CardBottomModel(Parcel in) {
+    private CardBottomModel(Parcel in) {
         backgroundColor = in.readString();
         linkComment = in.readString();
         category = in.readString();

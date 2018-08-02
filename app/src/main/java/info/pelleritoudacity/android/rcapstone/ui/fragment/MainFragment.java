@@ -36,7 +36,7 @@ import timber.log.Timber;
 import static info.pelleritoudacity.android.rcapstone.utility.Costant.SUBREDDIT_LOADER_ID;
 
 public class MainFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<Cursor>, MainAdapter.OnPlayerListener, MainAdapter.OnAdapterListener {
+        implements LoaderManager.LoaderCallbacks<Cursor>,MainAdapter.OnPlayerListener {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.rv_fragment_main)
@@ -49,7 +49,6 @@ public class MainFragment extends Fragment
 
     private MediaPlayer mMediaPlayer;
     private MainAdapter mAdapter;
-
 
     public MainFragment() {
     }
@@ -91,12 +90,13 @@ public class MainFragment extends Fragment
         ImaAdsLoader mImaAdsLoader = new ImaAdsLoader(mContext, Uri.parse(getString(R.string.ad_tag_url)));
         mModel.setIma(true);
 
-        mAdapter = new MainAdapter(this, mContext, mImaAdsLoader);
+        mAdapter = new MainAdapter( this,mContext, mImaAdsLoader);
 
         mRecyclerView.setAdapter(mAdapter);
 
         return view;
     }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -116,7 +116,7 @@ public class MainFragment extends Fragment
         if (mMediaPlayer != null) {
             mModel.setWindowPlayer(mMediaPlayer.getResumeWindow());
             mModel.setPositionPlayer(mMediaPlayer.getResumePosition());
-            mModel.setAutoplay(mMediaPlayer.isAutoPlay());
+            mModel.setAutoplay(false);
         }
         outState.putParcelable(Costant.EXTRA_FRAGMENT_PARCEL_MAIN, mModel);
         super.onSaveInstanceState(outState);
@@ -173,9 +173,6 @@ public class MainFragment extends Fragment
         }
     }
 
-    @Override
-    public void adapterPosition(int position, String category) {
-    }
 
     @Override
     public void onDestroyView() {

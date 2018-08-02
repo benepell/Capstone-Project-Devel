@@ -55,7 +55,6 @@ import info.pelleritoudacity.android.rcapstone.data.model.ui.CardBottomModel;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
 import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapter;
 import info.pelleritoudacity.android.rcapstone.ui.activity.DetailActivity;
-import info.pelleritoudacity.android.rcapstone.ui.fragment.MainFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
 import info.pelleritoudacity.android.rcapstone.ui.helper.MainHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
@@ -74,15 +73,14 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
 
     private Cursor mCursor;
     private Context mContext;
-
+    private  OnPlayerListener mListener;
     private MediaPlayer mMediaPlayer;
     private final ImaAdsLoader mImaAdsLoader;
-    private final MainFragment mListener;
 
-    public MainAdapter(MainFragment listener, Context context, ImaAdsLoader imaAdsLoader) {
+    public MainAdapter(OnPlayerListener listener,Context context, ImaAdsLoader imaAdsLoader) {
+        mListener = listener;
         mContext = context;
         mImaAdsLoader = imaAdsLoader;
-        mListener = listener;
 
     }
 
@@ -176,8 +174,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
                     mainHelper.youtubeVideoFirstFrame(holder.mPlayerLayout, holder.mImagePlay, holder.mExoProgressBar,
                             TextUtil.textFromHtml(record.getThumbnailUrlOembed()),
                             record.getThumbnailOembedWidth(), record.getThumbnailOembedHeight(),
-                            TextUtil.textFromHtml(record.getVideoUrl()), record.getVideoOembedWidth(),
-                            record.getVideoOembedHeight(),record.getTitle());
+                            TextUtil.textFromHtml(record.getVideoUrl()), record.getTitle());
 
                     holder.mImageViewSubReddit.setVisibility(View.GONE);
                     break;
@@ -233,7 +230,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
 
             holder.bind(holder.getAdapterPosition(), record.getSubReddit(), record.getNameIdReddit(), record.getNumComments());
 
-            mListener.adapterPosition(holder.getAdapterPosition(), record.getSubReddit());
         }
     }
 
@@ -397,7 +393,4 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
         void exoPlayer(MediaPlayer mediaPlayer);
     }
 
-    public interface OnAdapterListener {
-        void adapterPosition(int position, String category);
-    }
 }

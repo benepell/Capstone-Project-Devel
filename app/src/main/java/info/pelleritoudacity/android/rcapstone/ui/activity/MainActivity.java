@@ -134,7 +134,7 @@ public class MainActivity extends BaseActivity
 
         mLauncherMenu = new MenuLauncherDetail(mContext, getIntent());
 
-        mTab = new Tab(this, mTabLayout, mTabArrayList);
+        mTab = new Tab(this,mContext, mTabLayout, mTabArrayList);
         mTab.initTab();
 
         if (getIntent() != null) {
