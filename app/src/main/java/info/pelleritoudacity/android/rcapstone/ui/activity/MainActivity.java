@@ -402,7 +402,7 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
-    public void success(T3 response) {
+    public void success(T3 response, int code) {
         if ((getApplicationContext() != null) && (response != null)) {
             T3Operation data = new T3Operation(getApplicationContext(), response);
 
@@ -417,7 +417,7 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
-    public void success(List<T3> response) {
+    public void success(List<T3> response, int code) {
         if ((getApplicationContext() != null) && (response != null)) {
 
             int i = response.size();

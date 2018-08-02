@@ -53,6 +53,7 @@ import butterknife.Unbinder;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.RedditAboutMe;
 import info.pelleritoudacity.android.rcapstone.data.rest.AboutMeExecute;
+import info.pelleritoudacity.android.rcapstone.data.rest.RefreshTokenExecute;
 import info.pelleritoudacity.android.rcapstone.ui.helper.MenuBase;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
@@ -269,18 +270,30 @@ public class BaseActivity extends AppCompatActivity
     }
 
     @Override
-    public void success(RedditAboutMe response) {
-        if (response != null) {
-            String name = response.getName();
-            boolean isOver18 = response.isOver18();
-            if (!TextUtils.isEmpty(name)) {
-                Preference.setLoginName(getApplicationContext(), name);
-                Preference.setLoginOver18(getApplicationContext(), isOver18);
+    public void success(RedditAboutMe response, int code) {
 
-                TextView loginNameNavHeader = mNavHeaderView.findViewById(R.id.tv_nav_name);
-                loginNameNavHeader.setText(name);
-            }
+        switch (code) {
+            case 200:
+
+                if (response != null) {
+                    String name = response.getName();
+                    boolean isOver18 = response.isOver18();
+                    if (!TextUtils.isEmpty(name)) {
+                        Preference.setLoginName(getApplicationContext(), name);
+                        Preference.setLoginOver18(getApplicationContext(), isOver18);
+
+                        TextView loginNameNavHeader = mNavHeaderView.findViewById(R.id.tv_nav_name);
+                        loginNameNavHeader.setText(name);
+                    }
+                }
+                break;
+
+            case 401:
+                new RefreshTokenExecute(Preference.getSessionRefreshToken(getApplicationContext())).syncData(getApplicationContext());
+
         }
+
+
     }
 
     @Override

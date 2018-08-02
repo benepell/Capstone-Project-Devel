@@ -74,7 +74,7 @@ public class AccessTokenExecute {
             @Override
             public void onResponse(@NonNull Call<RedditToken> call, @NonNull Response<RedditToken> response) {
                 if (response.isSuccessful()) {
-                    mCallback.success(response.body());
+                    mCallback.success(response.body(),response.code());
                 }
             }
 
@@ -90,7 +90,7 @@ public class AccessTokenExecute {
 
     public interface OnRestCallBack {
 
-        void success(RedditToken response);
+        void success(RedditToken response, int code);
 
         void unexpectedError(Throwable tList);
     }

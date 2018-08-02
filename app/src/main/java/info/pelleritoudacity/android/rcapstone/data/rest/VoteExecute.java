@@ -35,7 +35,7 @@ public class VoteExecute {
         sApi.postVote(TextUtil.authCode(mCode), mDir, mId).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                mCallback.success(response.code());
+                mCallback.success(response.body(),response.code());
             }
 
             @Override
@@ -48,7 +48,7 @@ public class VoteExecute {
 
     public interface OnRestCallBack {
 
-        void success(int code);
+        void success(ResponseBody response,int code);
 
         void unexpectedError(Throwable tList);
     }

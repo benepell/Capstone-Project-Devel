@@ -89,7 +89,7 @@ public class MainExecute {
                     .enqueue(new Callback<T3>() {
                         @Override
                         public void onResponse(@NonNull Call<T3> call, @NonNull Response<T3> response) {
-                            mCallBack.success(response.body());
+                            mCallBack.success(response.body(),response.code());
                         }
 
                         @Override
@@ -103,7 +103,7 @@ public class MainExecute {
                     .enqueue(new Callback<T3>() {
                         @Override
                         public void onResponse(@NonNull Call<T3> call, @NonNull Response<T3> response) {
-                            mCallBack.success(response.body());
+                            mCallBack.success(response.body(),response.code());
                         }
 
                         @Override
@@ -137,7 +137,7 @@ public class MainExecute {
                 fieldMap).enqueue(new Callback<List<T3>>() {
             @Override
             public void onResponse(@NonNull Call<List<T3>> call, @NonNull Response<List<T3>> response) {
-                mCallBack.success(response.body());
+                mCallBack.success(response.body(),response.code());
             }
 
             @Override
@@ -149,9 +149,9 @@ public class MainExecute {
 
     public interface OnRestCallBack {
 
-        void success(T3 response);
+        void success(T3 response, int code);
 
-        void success(List<T3> response);
+        void success(List<T3> response, int code);
 
         void unexpectedError(Throwable tList);
     }

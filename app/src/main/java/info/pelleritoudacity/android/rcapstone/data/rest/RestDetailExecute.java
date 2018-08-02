@@ -73,7 +73,7 @@ public class RestDetailExecute {
                     mFieldMap).enqueue(new Callback<List<T1>>() {
                 @Override
                 public void onResponse(@NonNull Call<List<T1>> call, @NonNull Response<List<T1>> response) {
-                    mCallback.success(response.body());
+                    mCallback.success(response.body(),response.code());
                 }
 
                 @Override
@@ -89,7 +89,7 @@ public class RestDetailExecute {
                     .enqueue(new Callback<List<T1>>() {
                         @Override
                         public void onResponse(@NonNull Call<List<T1>> call, @NonNull Response<List<T1>> response) {
-                            mCallback.success(response.body());
+                            mCallback.success(response.body(),response.code());
                         }
 
                         @Override
@@ -103,7 +103,7 @@ public class RestDetailExecute {
 
     public interface OnRestCallBack {
 
-        void success(List<T1> response);
+        void success(List<T1> response, int code);
 
         void unexpectedError(Throwable tList);
     }

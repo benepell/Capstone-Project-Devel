@@ -81,6 +81,7 @@ public class RefreshTokenExecute {
             @Override
             public void onResponse(@NonNull Call<RedditToken> call, @NonNull Response<RedditToken> response) {
                 if (response.isSuccessful()) {
+                    mCall = call;
                     mRedditToken = response.body();
                     String strAccessToken = Objects.requireNonNull(mRedditToken).getAccess_token();
                     String strRefreshToken = mRedditToken.getRefresh_token();

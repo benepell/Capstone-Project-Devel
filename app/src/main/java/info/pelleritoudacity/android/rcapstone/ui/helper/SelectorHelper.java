@@ -18,6 +18,7 @@ import info.pelleritoudacity.android.rcapstone.data.rest.VoteExecute;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
+import okhttp3.ResponseBody;
 
 public class SelectorHelper {
     private final Context mContext;
@@ -101,7 +102,7 @@ public class SelectorHelper {
                         }
 
                         @Override
-                        public void success(int code) {
+                        public void success(ResponseBody response, int code) {
                             if (code == 200) {
                                 buttonVoteDown.setColorFilter(Color.GRAY);
                                 buttonVoteUp.setActivated(true);
@@ -133,7 +134,7 @@ public class SelectorHelper {
                     String finalVote = vote;
                     new VoteExecute(new VoteExecute.OnRestCallBack() {
                         @Override
-                        public void success(int code) {
+                        public void success(ResponseBody response,int code) {
                             if (code == 200) {
                                 buttonVoteUp.setColorFilter(Color.GRAY);
                                 buttonVoteDown.setActivated(true);
@@ -164,7 +165,7 @@ public class SelectorHelper {
 
                         new PrefExecute(new PrefExecute.OnRestCallBack() {
                             @Override
-                            public void success(int code) {
+                            public void success(ResponseBody response,int code) {
                                 if (code == 200) {
                                     new DataUtils(mContext).updateLocalDbStars(1, model.getCategory());
                                     mContext.startActivity(new Intent(mContext, MainActivity.class)
@@ -185,7 +186,7 @@ public class SelectorHelper {
 
                         new PrefExecute(new PrefExecute.OnRestCallBack() {
                             @Override
-                            public void success(int code) {
+                            public void success(ResponseBody response,int code) {
                                 if (code == 200) {
                                     new DataUtils(mContext).updateLocalDbStars(0, model.getCategory());
                                     mContext.startActivity(new Intent(mContext, MainActivity.class)

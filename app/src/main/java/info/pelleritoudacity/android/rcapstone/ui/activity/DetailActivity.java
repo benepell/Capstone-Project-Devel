@@ -235,7 +235,7 @@ public class DetailActivity extends BaseActivity
 
 
     @Override
-    public void success(List<T1> response) {
+    public void success(List<T1> response, int code) {
         if ((response != null) && (model.getStrId() != null)) {
             T1Operation data = new T1Operation(getApplicationContext());
             if (data.saveData(response, model.getStrId())) {
@@ -247,7 +247,7 @@ public class DetailActivity extends BaseActivity
     }
 
     @Override
-    public void success(More response) {
+    public void success(More response, int code) {
         if (response != null) {
             if (response.getJson().getData() != null) {
 

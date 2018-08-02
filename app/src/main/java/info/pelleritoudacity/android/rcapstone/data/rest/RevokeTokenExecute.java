@@ -79,7 +79,7 @@ public class RevokeTokenExecute {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if (response.isSuccessful()) {
-                    mCallback.success(response.code());
+                    mCallback.success(response.body(),response.code());
                 }
 
             }
@@ -135,7 +135,7 @@ public class RevokeTokenExecute {
 
     public interface OnRestCallBack {
 
-        void success(int code);
+        void success(String response, int code);
 
         void unexpectedError(Throwable tList);
     }

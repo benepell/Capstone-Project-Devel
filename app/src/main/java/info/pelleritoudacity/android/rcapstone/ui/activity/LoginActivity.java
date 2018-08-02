@@ -49,6 +49,7 @@ import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
+import okhttp3.ResponseBody;
 import timber.log.Timber;
 
 public class LoginActivity extends BaseActivity {
@@ -85,7 +86,7 @@ public class LoginActivity extends BaseActivity {
 
         new RevokeTokenExecute(new RevokeTokenExecute.OnRestCallBack() {
             @Override
-            public void success(int code) {
+            public void success(String response, int code) {
                 FirebaseRefreshTokenSync.stopLogin(getApplicationContext());
                 PrefManager.clearPreferenceLogin(getApplicationContext());
                 responseActivity(Costant.PROCESS_LOGOUT_OK);
@@ -152,7 +153,7 @@ public class LoginActivity extends BaseActivity {
                             String code = uri.getQueryParameter("code");
                             new AccessTokenExecute(new AccessTokenExecute.OnRestCallBack() {
                                 @Override
-                                public void success(RedditToken response) {
+                                public void success(RedditToken response, int code) {
                                     if (response != null) {
                                         String strAccessToken = response.getAccess_token();
                                         String strRefreshToken = response.getRefresh_token();

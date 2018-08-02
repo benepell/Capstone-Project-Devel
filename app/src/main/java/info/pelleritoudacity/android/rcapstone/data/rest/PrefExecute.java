@@ -36,7 +36,7 @@ public class PrefExecute {
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                        mCallBack.success(response.code());
+                        mCallBack.success(response.body(),response.code());
                     }
 
                     @Override
@@ -51,7 +51,7 @@ public class PrefExecute {
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                        mCallBack.success(response.code());
+                        mCallBack.success(response.body(),response.code());
                     }
 
                     @Override
@@ -66,7 +66,7 @@ public class PrefExecute {
 
     public interface OnRestCallBack {
 
-        void success(int code);
+        void success(ResponseBody response,int code);
 
         void unexpectedError(Throwable tList);
     }

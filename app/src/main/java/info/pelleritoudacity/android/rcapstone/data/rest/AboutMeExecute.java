@@ -53,7 +53,7 @@ public class AboutMeExecute {
         sApi.getAboutMe(TextUtil.authCode(mCode)).enqueue(new Callback<RedditAboutMe>() {
             @Override
             public void onResponse(@NonNull Call<RedditAboutMe> call, @NonNull Response<RedditAboutMe> response) {
-                mCallback.success(response.body());
+                mCallback.success(response.body(),response.code());
             }
 
             @Override
@@ -65,7 +65,7 @@ public class AboutMeExecute {
 
     public interface OnRestCallBack {
 
-        void success(RedditAboutMe response);
+        void success(RedditAboutMe response , int code);
 
         void unexpectedError(Throwable tList);
     }
