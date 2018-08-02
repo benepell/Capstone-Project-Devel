@@ -394,14 +394,14 @@ public class T1Operation {
 
     @SuppressWarnings("ConstantConditions")
     private Replies getReplies(Replies replies, int childrenId) {
-
+        boolean added;
         if ((replies != null) && (replies.getData() != null)) {
 
             List<T1Listing> listings = replies.getData().getChildren();
 
             for (T1Listing t1Listings : listings) {
-
                 if (t1Listings.getData().getReplies() != null) {
+                    added = true;
                     insertReplies(t1Listings.getData(), t1Listings.getData().getDepth(), childrenId);
 
                     if (t1Listings.getData().getReplies().getData() != null) {
@@ -417,8 +417,8 @@ public class T1Operation {
                             }
 
                         }
-                    } else if (t1Listings.getData() != null) {
-                        if ((t1Listings.getData().getReplies() != null) &&
+                    } else if (!added) {
+                        if ((t1Listings.getData() != null) && (t1Listings.getData().getReplies() != null) &&
                                 (t1Listings.getKind().contains(Costant.DEFAULT_COMMENT_KIND))) {
                             insertReplies(t1Listings.getData(), t1Listings.getData().getDepth(), childrenId);
 
@@ -432,11 +432,11 @@ public class T1Operation {
 
                 } else //noinspection ConstantConditions
                     if ((t1Listings != null) &&
-                        (t1Listings.getKind().contains(Costant.DEFAULT_MORE_KIND))) {
-                    insertMore(t1Listings.getData());
+                            (t1Listings.getKind().contains(Costant.DEFAULT_MORE_KIND))) {
+                        insertMore(t1Listings.getData());
 
-                    return t1Listings.getData().getReplies();
-                }
+                        return t1Listings.getData().getReplies();
+                    }
             }
 
         }
@@ -468,6 +468,7 @@ public class T1Operation {
         }
 
     }
+
     private void deleteCategory(String id) {
         String where;
         Uri uri;
