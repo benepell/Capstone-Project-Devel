@@ -102,6 +102,7 @@ public class RecordAdapter {
         this.videoPreviewHeight = videoPreviewHeight;
     }
 
+    @SuppressWarnings("unused")
     public int getVideoOembedHeight() {
         return videoOembedHeight;
     }
@@ -126,6 +127,7 @@ public class RecordAdapter {
         this.thumbnailOembedHeight = thumbnailOembedHeight;
     }
 
+    @SuppressWarnings("unused")
     public int getVideoOembedWidth() {
         return videoOembedWidth;
     }

@@ -141,7 +141,6 @@
 
     <string name="title_clear_data">Factory data reset</string>
     <string name="summary_clear_data">Delete all data stored on device.</string>
-    <string name="pref_clear_data">info.pelleritoudacity.android.rcapstone.pref.clear.data</string>
     <string name="text_clear_data">This action will delete all your data. Are you sure you want to continue?</string>
     <string name="text_dialog_confirm_reset">Factory Data Reset: Delete All Data.</string>
     <string name="title_dialog_confirm">Factory Data Reset</string>

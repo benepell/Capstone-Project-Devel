@@ -73,7 +73,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
 
     private Cursor mCursor;
     private Context mContext;
-    private  OnPlayerListener mListener;
+    private final OnPlayerListener mListener;
     private MediaPlayer mMediaPlayer;
     private final ImaAdsLoader mImaAdsLoader;
 
