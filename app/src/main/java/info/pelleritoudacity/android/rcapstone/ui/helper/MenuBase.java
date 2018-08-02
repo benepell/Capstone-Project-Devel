@@ -168,6 +168,7 @@ public class MenuBase {
         switch (item.getItemId()) {
 
             case R.id.nav_home:
+                Preference.setLastTarget(mContext, Costant.EXTRA_MAIN_TARGET);
                 Preference.setTypeMode(mContext, Costant.NAV_MODE_HOME);
                 mContext.startActivity(new Intent(mContext, MainActivity.class)
                         .setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION));
