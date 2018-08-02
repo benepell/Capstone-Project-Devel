@@ -106,7 +106,7 @@ public class DetailActivity extends BaseActivity
 
         switch (mDetailHelper.getJob(model, isUpdateData(), NetworkUtil.isOnline(mContext))) {
 
-            case Costant.TARGET_DETAIL_NO_UPDATE:
+            case Costant.DETAIL_TARGET_NO_UPDATE:
 
                 if ((mSwipeRefreshLayout != null) && (mSwipeRefreshLayout.isRefreshing())) {
                     mSwipeRefreshLayout.setRefreshing(false);
@@ -115,7 +115,7 @@ public class DetailActivity extends BaseActivity
 
                 break;
 
-            case Costant.TARGET_DETAIL:
+            case Costant.DETAIL_TARGET:
                 if (System.currentTimeMillis() - startTimeoutRefresh > Costant.DEFAULT_OPERATION_REFRESH) {
                     startTimeoutRefresh = System.currentTimeMillis();
                     new RestDetailExecute(this, mContext, tokenLogin, model).getData();
@@ -127,7 +127,7 @@ public class DetailActivity extends BaseActivity
                 }
                 break;
 
-            case Costant.TARGET_MORE_DETAIL:
+            case Costant.MORE_DETAIL_TARGET:
                 if (System.currentTimeMillis() - startTimeoutRefresh > Costant.DEFAULT_OPERATION_REFRESH) {
                     startTimeoutRefresh = System.currentTimeMillis();
                     new RestMoreExecute(this, mContext, tokenLogin, model).getMoreData();
@@ -139,11 +139,11 @@ public class DetailActivity extends BaseActivity
                 }
                 break;
 
-            case Costant.TARGET_DETAIL_SEARCH:
+            case Costant.SEARCH_DETAIL_TARGET:
                 startFragment(model, false);
                 break;
 
-            case Costant.TARGET_MORE_DETAIL_SEARCH:
+            case Costant.MORE_SEARCH_DETAIL_TARGET:
                 startFragment(model, false);
                 break;
 
@@ -178,14 +178,14 @@ public class DetailActivity extends BaseActivity
         model.setStrQuerySearch(s);
 
         switch (model.getTarget()) {
-            case Costant.TARGET_DETAIL_NO_UPDATE:
-            case Costant.TARGET_DETAIL:
-                model.setTarget(Costant.TARGET_DETAIL_SEARCH);
+            case Costant.DETAIL_TARGET_NO_UPDATE:
+            case Costant.DETAIL_TARGET:
+                model.setTarget(Costant.SEARCH_DETAIL_TARGET);
                 intent.putExtra(Costant.EXTRA_PARCEL_DETAIL_MODEL, model);
                 break;
 
-            case Costant.TARGET_MORE_DETAIL:
-                model.setTarget(Costant.TARGET_MORE_DETAIL_SEARCH);
+            case Costant.MORE_DETAIL_TARGET:
+                model.setTarget(Costant.MORE_SEARCH_DETAIL_TARGET);
                 intent.putExtra(Costant.EXTRA_PARCEL_MORE_DETAIL_MODEL, model);
                 break;
 

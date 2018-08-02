@@ -215,32 +215,32 @@ public class MainFragment extends Fragment
                 String strOver18 = String.valueOf(Utility.boolToInt(model.isOver18()));
 
                 switch (model.getTarget()) {
-                    case Costant.SUBREDDIT_TARGET_ALL:
+                    case Costant.ALL_MAIN_TARGET:
                         selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?" + " AND " +
                                 Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " <=?";
                         selectionArgs = new String[]{model.getTarget(), strOver18};
                         break;
 
-                    case Costant.SUBREDDIT_TARGET_POPULAR:
+                    case Costant.POPULAR_MAIN_TARGET:
                         selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?" + " AND " +
                                 Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " <=?";
                         selectionArgs = new String[]{model.getTarget(), strOver18};
                         break;
 
-                    case Costant.SUBREDDIT_TARGET_FAVORITE:
+                    case Costant.FAVORITE_MAIN_TARGET:
 
                         selection = Contract.T3dataEntry.COLUMN_NAME_SAVED + " =?";
                         selectionArgs = new String[]{Costant.SUBREDDIT_FAVORITE_SAVED};
                         break;
 
-                    case Costant.SUBREDDIT_TARGET_SEARCH:
+                    case Costant.SEARCH_MAIN_TARGET:
                         selection = Contract.T3dataEntry.COLUMN_NAME_TITLE + " like ?" + " AND "+
                                 Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " LIKE ?" + " AND " +
                                 Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " <=?";
                         selectionArgs = new String[]{"%"+model.getQuerySearch()+"%",model.getCategory(), strOver18,};
                         break;
 
-                    case Costant.SUBREDDIT_TARGET_NAVIGATION:
+                    case Costant.NAVIGATION_MAIN_TARGET:
                     default:
                         selection = Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " LIKE ?" + " AND " +
                                 Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " <=?";

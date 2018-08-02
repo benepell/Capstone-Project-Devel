@@ -48,7 +48,7 @@ public class MenuLauncherDetail {
 
     private void menuDefaultValue(){
         setCategory(TextUtil.stringToArray(Costant.DEFAULT_SUBREDDIT_CATEGORY).get(0));
-        setTarget(Costant.SUBREDDIT_TARGET_DEFAULT_START_VALUE);
+        setTarget(Costant.DEFAULT_START_VALUE_MAIN_TARGET);
     }
 
     private boolean menuHistoryLink() {
@@ -68,18 +68,18 @@ public class MenuLauncherDetail {
             switch (intent.getAction()) {
 
                 case Costant.ACTION_SHORTCUT_ALL:
-                    setCategory(Costant.SUBREDDIT_CATEGORY_ALL);
-                    setTarget(Costant.SUBREDDIT_TARGET_ALL);
+                    setCategory(Costant.CATEGORY_ALL);
+                    setTarget(Costant.ALL_MAIN_TARGET);
                     return true;
 
                 case Costant.ACTION_SHORTCUT_POPULAR:
-                    setCategory(Costant.SUBREDDIT_CATEGORY_ALL);
-                    setTarget(Costant.SUBREDDIT_TARGET_ALL);
+                    setCategory(Costant.CATEGORY_ALL);
+                    setTarget(Costant.CATEGORY_POPULAR);
                     return true;
 
                 case Costant.ACTION_SHORTCUT_FAVORITE:
-                    setCategory(Costant.SUBREDDIT_CATEGORY_FAVORITE);
-                    setTarget(Costant.SUBREDDIT_TARGET_FAVORITE);
+                    setCategory(Costant.CATEGORY_FAVORITE);
+                    setTarget(Costant.FAVORITE_MAIN_TARGET);
                     return true;
             }
 
@@ -90,11 +90,11 @@ public class MenuLauncherDetail {
 
     private boolean menuTargetLink(Intent intent) {
 
-        if ((!TextUtils.isEmpty(intent.getStringExtra(Costant.EXTRA_SUBREDDIT_TARGET)) &&
+        if ((!TextUtils.isEmpty(intent.getStringExtra(Costant.EXTRA_MAIN_TARGET)) &&
                 (!TextUtils.isEmpty(intent.getStringExtra(Costant.EXTRA_SUBREDDIT_CATEGORY))))) {
 
             setCategory(intent.getStringExtra(Costant.EXTRA_SUBREDDIT_CATEGORY));
-            setTarget(intent.getStringExtra(Costant.EXTRA_SUBREDDIT_TARGET));
+            setTarget(intent.getStringExtra(Costant.EXTRA_MAIN_TARGET));
 
             return true;
         }

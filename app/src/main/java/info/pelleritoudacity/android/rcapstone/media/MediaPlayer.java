@@ -302,7 +302,7 @@ public class MediaPlayer {
                     .respectFontBounds(true));
 
             mImageExitFullScreen.setOnClickListener(v -> mContext.startActivity(new Intent(mContext, FullScreenActivity.class)
-                    .putExtra(Costant.EXTRA_SUBREDDIT_EXIT_FULLSCREEN, true)));
+                    .putExtra(Costant.EXTRA_MAIN_EXIT_FULLSCREEN, true)));
         }
     }
 
@@ -325,7 +325,7 @@ public class MediaPlayer {
     private void startClickFullScreen(String videoUrl) {
         MediaSession.removeNotification(mContext);
         mContext.startActivity(new Intent(mContext, FullScreenActivity.class)
-                .putExtra(Costant.EXTRA_SUBREDDIT_FULLSCREEN,
+                .putExtra(Costant.EXTRA_MAIN_FULLSCREEN,
                         TextUtil.textFromHtml(videoUrl)));
 
     }

@@ -57,11 +57,11 @@ public class FullScreenActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         if (intent != null) {
-            if (intent.getBooleanExtra(Costant.EXTRA_SUBREDDIT_EXIT_FULLSCREEN, false)) {
+            if (intent.getBooleanExtra(Costant.EXTRA_MAIN_EXIT_FULLSCREEN, false)) {
                 finish();
                 startActivity(new Intent(mContext, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }
-            mVideoUri = intent.getStringExtra(Costant.EXTRA_SUBREDDIT_FULLSCREEN);
+            mVideoUri = intent.getStringExtra(Costant.EXTRA_MAIN_FULLSCREEN);
 
 
         }

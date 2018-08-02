@@ -117,30 +117,30 @@ public interface Costant {
     String EXTRA_PARCEL_ACTIVITY_DETAIL = "info.pelleritoudacity.android.rcapstone.extra.parcel.activity.detail";
 
 
-    String EXTRA_SUBREDDIT_EXIT_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.subreddit.exit.fullscreen";
-    String EXTRA_SUBREDDIT_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.subreddit.fullscreen";
-    String EXTRA_SUBREDDIT_TARGET = "info.pelleritoudacity.android.rcapstone.extra.subreddit.target";
+    String EXTRA_MAIN_EXIT_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.main.exit.fullscreen";
+    String EXTRA_MAIN_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.main.fullscreen";
+    String EXTRA_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.extra.main.target";
     String EXTRA_TAB_POSITION = "info.pelleritoudacity.android.rcapstone.extra.tab.position";
-    String EXTRA_SUBREDDIT_SEARCH = "info.pelleritoudacity.android.rcapstone.extra.subreddit.search";
-    String SUBREDDIT_CATEGORY_ALL = "all";
-    String SUBREDDIT_CATEGORY_POPULAR = "popular";
-    String SUBREDDIT_CATEGORY_FAVORITE = "favorite";
+    String EXTRA_MAIN_SEARCH = "info.pelleritoudacity.android.rcapstone.extra.main.search";
+    String CATEGORY_ALL = "all";
+    String CATEGORY_POPULAR = "popular";
+    String CATEGORY_FAVORITE = "favorite";
 
 
-    String SUBREDDIT_TARGET_DEFAULT_START_VALUE = "info.pelleritoudacity.android.rcapstone.subreddit.target.default.start.value";
-    String SUBREDDIT_TARGET_ALL = "info.pelleritoudacity.android.rcapstone.subreddit.target.all";
-    String SUBREDDIT_TARGET_POPULAR = "info.pelleritoudacity.android.rcapstone.subreddit.target.popular";
-    String SUBREDDIT_TARGET_FAVORITE = "info.pelleritoudacity.android.rcapstone.subreddit.target.favorite";
-    String SUBREDDIT_TARGET_TAB = "info.pelleritoudacity.android.rcapstone.subreddit.target.tab";
-    String SUBREDDIT_TARGET_SEARCH = "info.pelleritoudacity.android.rcapstone.subreddit.target.search";
-    String SUBREDDIT_TARGET_NAVIGATION = "info.pelleritoudacity.android.rcapstone.subreddit.target.navigation";
+    String DEFAULT_START_VALUE_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.default.start.value.main.target";
+    String ALL_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.all.main.target";
+    String POPULAR_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.popular.main.target";
+    String FAVORITE_MAIN_TARGET= "info.pelleritoudacity.android.rcapstone.favorite.main.target";
+    String TAB_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.tab.main.target";
+    String SEARCH_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.search.main.target";
+    String NAVIGATION_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.navigation.main.target";
 
 
-    int TARGET_DETAIL_NO_UPDATE = 200;
-    int TARGET_DETAIL = 201;
-    int TARGET_MORE_DETAIL = 202;
-    int TARGET_DETAIL_SEARCH = 203;
-    int TARGET_MORE_DETAIL_SEARCH = 204;
+    int DETAIL_TARGET_NO_UPDATE = 200;
+    int DETAIL_TARGET= 201;
+    int MORE_DETAIL_TARGET = 202;
+    int SEARCH_DETAIL_TARGET = 203;
+    int MORE_SEARCH_DETAIL_TARGET= 204;
 
     int PROCESS_LOGIN_OK = 1;
     int PROCESS_LOGOUT_OK =2 ;

@@ -62,22 +62,17 @@ import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.MainModel;
 import info.pelleritoudacity.android.rcapstone.data.other.TabData;
 import info.pelleritoudacity.android.rcapstone.data.rest.MainExecute;
-import info.pelleritoudacity.android.rcapstone.data.rest.RefreshTokenExecute;
 import info.pelleritoudacity.android.rcapstone.media.MediaSession;
-import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.MainFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.Authenticator;
-import info.pelleritoudacity.android.rcapstone.ui.helper.MainHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.MenuBase;
 import info.pelleritoudacity.android.rcapstone.ui.helper.MenuLauncherDetail;
 import info.pelleritoudacity.android.rcapstone.ui.view.Tab;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
-import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 
 import static info.pelleritoudacity.android.rcapstone.utility.PermissionUtil.RequestPermissionExtStorage;
-import static info.pelleritoudacity.android.rcapstone.utility.SessionUtil.getRedditSessionExpired;
 
 public class MainActivity extends BaseActivity
         implements MainExecute.OnRestCallBack,
@@ -143,11 +138,11 @@ public class MainActivity extends BaseActivity
         mTab.initTab();
 
         if (getIntent() != null) {
-            mModel.setQuerySearch(getIntent().getStringExtra(Costant.EXTRA_SUBREDDIT_SEARCH));
+            mModel.setQuerySearch(getIntent().getStringExtra(Costant.EXTRA_MAIN_SEARCH));
             if (TextUtils.isEmpty(mModel.getQuerySearch()) &&
-                    (Preference.getLastTarget(mContext)).equals(Costant.SUBREDDIT_TARGET_SEARCH)) {
+                    (Preference.getLastTarget(mContext)).equals(Costant.SEARCH_MAIN_TARGET)) {
 
-                Preference.setLastTarget(mContext, Costant.SUBREDDIT_TARGET_DEFAULT_START_VALUE);
+                Preference.setLastTarget(mContext, Costant.DEFAULT_START_VALUE_MAIN_TARGET);
             }
         }
 
@@ -242,16 +237,16 @@ public class MainActivity extends BaseActivity
             if (category.compareTo(Preference.getLastCategory(mContext)) != 0) {
 
                 mLauncherMenu.setCategory(category);
-                mLauncherMenu.setTarget(Costant.SUBREDDIT_TARGET_TAB);
+                mLauncherMenu.setTarget(Costant.TAB_MAIN_TARGET);
                 mLauncherMenu.saveLastPreference();
                 mRefreshLayout.setRefreshing(true);
 
                 mModel.setCategory(category);
-                mModel.setTarget(Costant.SUBREDDIT_TARGET_TAB);
+                mModel.setTarget(Costant.TAB_MAIN_TARGET);
 
                 startActivity(new Intent(this, MainActivity.class)
                         .putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, category)
-                        .putExtra(Costant.EXTRA_SUBREDDIT_TARGET, Costant.SUBREDDIT_TARGET_TAB)
+                        .putExtra(Costant.EXTRA_MAIN_TARGET, Costant.TAB_MAIN_TARGET)
                         .putExtra(Costant.EXTRA_TAB_POSITION, position)
                 );
 
@@ -270,12 +265,12 @@ public class MainActivity extends BaseActivity
     }
 
     private void closeSearch(MainModel m) {
-        if (Preference.getLastTarget(mContext).equals(Costant.SUBREDDIT_TARGET_SEARCH) &&
+        if (Preference.getLastTarget(mContext).equals(Costant.SEARCH_MAIN_TARGET) &&
                 (!TextUtils.isEmpty(m.getQuerySearch()))) {
-            mModel.setTarget(Costant.SUBREDDIT_TARGET_DEFAULT_START_VALUE);
+            mModel.setTarget(Costant.DEFAULT_START_VALUE_MAIN_TARGET);
             startActivity(new Intent(mContext, MainActivity.class)
                     .putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, m.getCategory())
-                    .putExtra(Costant.EXTRA_SUBREDDIT_TARGET, Costant.SUBREDDIT_TARGET_DEFAULT_START_VALUE)
+                    .putExtra(Costant.EXTRA_MAIN_TARGET, Costant.DEFAULT_START_VALUE_MAIN_TARGET)
                     .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NO_HISTORY)
             );
         }
@@ -287,7 +282,7 @@ public class MainActivity extends BaseActivity
 
         if (System.currentTimeMillis() - startTimeoutRefresh > Costant.DEFAULT_OPERATION_REFRESH) {
             startTimeoutRefresh = System.currentTimeMillis();
-            if (Preference.getLastTarget(mContext).equals(Costant.SUBREDDIT_TARGET_SEARCH) && (!TextUtils.isEmpty(mModel.getQuerySearch()))) {
+            if (Preference.getLastTarget(mContext).equals(Costant.SEARCH_MAIN_TARGET) && (!TextUtils.isEmpty(mModel.getQuerySearch()))) {
                 mModel.setCategory(Preference.getLastCategory(getApplicationContext()));
                 mModel.setTarget(Preference.getLastTarget(getApplicationContext()));
                 createUI(mModel);
@@ -387,10 +382,10 @@ public class MainActivity extends BaseActivity
     public boolean onQueryTextSubmit(String s) {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         mModel.setQuerySearch(s);
-        mModel.setTarget(Costant.SUBREDDIT_TARGET_SEARCH);
+        mModel.setTarget(Costant.SEARCH_MAIN_TARGET);
         intent.putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, mModel.getCategory());
-        intent.putExtra(Costant.EXTRA_SUBREDDIT_TARGET, Costant.SUBREDDIT_TARGET_SEARCH);
-        intent.putExtra(Costant.EXTRA_SUBREDDIT_SEARCH, s);
+        intent.putExtra(Costant.EXTRA_MAIN_TARGET, Costant.SEARCH_MAIN_TARGET);
+        intent.putExtra(Costant.SEARCH_MAIN_TARGET, s);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(intent);
         return false;

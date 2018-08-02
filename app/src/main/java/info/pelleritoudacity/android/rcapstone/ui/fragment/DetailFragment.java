@@ -224,12 +224,12 @@ public class DetailFragment extends Fragment
 
                 switch (m.getTarget()) {
 
-                    case Costant.TARGET_DETAIL:
+                    case Costant.DETAIL_TARGET:
                         selectionArgs = new String[]{Costant.STR_PARENT_LINK + m.getStrId(), Costant.NONE_DETAIL_MORE_REPLIES, strOver18};
 
                         break;
 
-                    case Costant.TARGET_MORE_DETAIL:
+                    case Costant.MORE_DETAIL_TARGET:
 
                         selection = Contract.T1dataEntry._ID + " =?" + " OR " +
                                 Contract.T1dataEntry.COLUMN_NAME_ID + " IN(" + dataUtils.stringInQuestionMark(m.getStrArrId()) + ")";
@@ -239,7 +239,7 @@ public class DetailFragment extends Fragment
 
 
                         break;
-                    case Costant.TARGET_DETAIL_SEARCH:
+                    case Costant.SEARCH_DETAIL_TARGET:
                         selection = Contract.T1dataEntry.COLUMN_NAME_BODY + " LIKE ?" + " AND " +
                                 Contract.T1dataEntry.COLUMN_NAME_LINK_ID + " =?" + " AND " +
                                 Contract.T1dataEntry.COLUMN_NAME_MORE_REPLIES + " =?" + " AND " +
@@ -249,7 +249,7 @@ public class DetailFragment extends Fragment
 
                         break;
 
-                    case Costant.TARGET_MORE_DETAIL_SEARCH:
+                    case Costant.MORE_SEARCH_DETAIL_TARGET:
 
                         selection = Contract.T1dataEntry.COLUMN_NAME_BODY + " LIKE ?" + " AND (" +
                                 Contract.T1dataEntry._ID + " =?" + " OR " +

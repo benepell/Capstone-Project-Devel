@@ -74,28 +74,28 @@ public class DetailHelper {
 
         if (m != null) {
 
-            if (m.getTarget() == Costant.TARGET_DETAIL_SEARCH) {
-                return Costant.TARGET_DETAIL_SEARCH;
+            if (m.getTarget() == Costant.SEARCH_DETAIL_TARGET) {
+                return Costant.SEARCH_DETAIL_TARGET;
             }
 
-            if ((m.getTarget() == Costant.TARGET_MORE_DETAIL_SEARCH)) {
-                return Costant.TARGET_MORE_DETAIL_SEARCH;
+            if ((m.getTarget() == Costant.MORE_SEARCH_DETAIL_TARGET)) {
+                return Costant.MORE_SEARCH_DETAIL_TARGET;
             }
 
             if (TextUtils.isEmpty(m.getStrArrId())) {
                 if ((updateData || !online)) {
-                    return Costant.TARGET_DETAIL_NO_UPDATE;
+                    return Costant.DETAIL_TARGET_NO_UPDATE;
                 }
 
                 if (!TextUtils.isEmpty(m.getStrId())) {
-                    m.setTarget(Costant.TARGET_DETAIL);
-                    return Costant.TARGET_DETAIL;
+                    m.setTarget(Costant.DETAIL_TARGET);
+                    return Costant.DETAIL_TARGET;
                 }
 
             } else {
                 // more detail update always
-                m.setTarget(Costant.TARGET_MORE_DETAIL);
-                return Costant.TARGET_MORE_DETAIL;
+                m.setTarget(Costant.MORE_DETAIL_TARGET);
+                return Costant.MORE_DETAIL_TARGET;
             }
         }
 
@@ -110,15 +110,15 @@ public class DetailHelper {
             if (intent.getParcelableExtra(Costant.EXTRA_PARCEL_DETAIL_MODEL) != null) {
                 model = intent.getParcelableExtra(Costant.EXTRA_PARCEL_DETAIL_MODEL);
 
-                if (model != null) model.setTarget(Costant.TARGET_DETAIL_SEARCH);
+                if (model != null) model.setTarget(Costant.SEARCH_DETAIL_TARGET);
 
             } else if (intent.getParcelableExtra(Costant.EXTRA_PARCEL_MORE_DETAIL_MODEL) != null) {
                 model = intent.getParcelableExtra(Costant.EXTRA_PARCEL_MORE_DETAIL_MODEL);
-                if (model != null) model.setTarget(Costant.TARGET_MORE_DETAIL_SEARCH);
+                if (model != null) model.setTarget(Costant.MORE_SEARCH_DETAIL_TARGET);
 
             } else {
                 model = new DetailModel();
-                model.setTarget(Costant.TARGET_DETAIL);
+                model.setTarget(Costant.DETAIL_TARGET);
 
             }
 

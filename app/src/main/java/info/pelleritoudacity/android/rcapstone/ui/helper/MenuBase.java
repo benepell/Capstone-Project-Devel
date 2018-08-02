@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.model.ui.MainModel;
 import info.pelleritoudacity.android.rcapstone.ui.activity.LoginActivity;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
 import info.pelleritoudacity.android.rcapstone.ui.activity.ManageActivity;
@@ -312,7 +311,7 @@ public class MenuBase {
             menuItem.setOnMenuItemClickListener(item -> {
                 Intent intent = new Intent(mContext, MainActivity.class);
                 intent.putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, item.getTitle().toString());
-                intent.putExtra(Costant.EXTRA_SUBREDDIT_TARGET, Costant.SUBREDDIT_TARGET_NAVIGATION);
+                intent.putExtra(Costant.EXTRA_MAIN_TARGET, Costant.NAVIGATION_MAIN_TARGET);
 
                 mContext.startActivity(intent);
                 return true;
@@ -357,25 +356,25 @@ public class MenuBase {
         switch (resource) {
 
             case R.id.nav_mode_popular:
-                constantCategory = Costant.SUBREDDIT_CATEGORY_POPULAR;
-                constantsTarget = Costant.SUBREDDIT_TARGET_POPULAR;
+                constantCategory = Costant.CATEGORY_POPULAR;
+                constantsTarget = Costant.POPULAR_MAIN_TARGET;
                 break;
 
             case R.id.nav_mode_all:
-                constantCategory = Costant.SUBREDDIT_CATEGORY_ALL;
-                constantsTarget = Costant.SUBREDDIT_TARGET_ALL;
+                constantCategory = Costant.CATEGORY_ALL;
+                constantsTarget = Costant.ALL_MAIN_TARGET;
                 break;
 
             case R.id.nav_mode_favorite:
                 constantCategory = Preference.getLastCategory(mContext);
-                constantsTarget = Costant.SUBREDDIT_TARGET_FAVORITE;
+                constantsTarget = Costant.FAVORITE_MAIN_TARGET;
                 break;
 
         }
 
         Intent intent = new Intent(mContext, MainActivity.class);
         intent.putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, constantCategory);
-        intent.putExtra(Costant.EXTRA_SUBREDDIT_TARGET, constantsTarget);
+        intent.putExtra(Costant.EXTRA_MAIN_TARGET, constantsTarget);
 
         mContext.startActivity(intent);
     }
