@@ -11,6 +11,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.Objects;
@@ -144,6 +145,10 @@ public class DetailActivity extends BaseActivity
                 break;
 
             case Costant.MORE_SEARCH_DETAIL_TARGET:
+                startFragment(model, false);
+                break;
+
+            case Costant.FAVORITE_DETAIL_TARGET:
                 startFragment(model, false);
                 break;
 

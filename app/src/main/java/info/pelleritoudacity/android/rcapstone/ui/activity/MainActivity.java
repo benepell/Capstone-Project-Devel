@@ -148,12 +148,12 @@ public class MainActivity extends BaseActivity
 
         mLauncherMenu.showMenu();
 
-        if ((savedInstanceState == null) || (getIntent().getBooleanExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_REFRESH, false))) {
+        if ((savedInstanceState == null) || (getIntent().getBooleanExtra(Costant.EXTRA_ACTIVITY_REDDIT_REFRESH, false))) {
             mRefreshLayout.setRefreshing(true);
             onRefresh();
         }
 
-        if(getIntent().getBooleanExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_RESET, false)){
+        if(getIntent().getBooleanExtra(Costant.EXTRA_ACTIVITY_REDDIT_RESET, false)){
             Snackbar.make(mContainer, R.string.text_dialog_confirm_reset, Snackbar.LENGTH_LONG).show();
         }
 

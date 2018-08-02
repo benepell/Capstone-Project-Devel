@@ -2,6 +2,7 @@ package info.pelleritoudacity.android.rcapstone.ui.adapter;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
@@ -26,10 +27,12 @@ import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.DetailHelper;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
+import info.pelleritoudacity.android.rcapstone.utility.ImageUtil;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+import info.pelleritoudacity.android.rcapstone.utility.Utility;
 
 public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditDetailHolder> {
 
@@ -73,6 +76,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
 
             if (!TextUtils.isEmpty(record.getAuthor())) {
                 holder.mTextViewAuthorDetail.setText(record.getAuthor().concat(":"));
+
             }
 
             holder.mTextViewPostedOnDetail.setText(DateUtil.getDiffTimeMinute(mContext, record.getCreated()));
@@ -122,6 +126,10 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
                 holder.mSelectorContainer.setVisibility(View.VISIBLE);
             }
 
+            if(record.isSaved()){
+                holder.mCardLinear.setBackgroundColor(Color.YELLOW);
+            }
+
             int id = record.getId();
             String strId = record.getLinkId().replaceAll(Costant.STR_PARENT_LINK, "");
             String strLinkId = record.getLinkId();
@@ -161,7 +169,6 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
     public int getItemCount() {
         return (mCursor == null) ? 0 : mCursor.getCount();
     }
-
 
     public class SubRedditDetailHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {

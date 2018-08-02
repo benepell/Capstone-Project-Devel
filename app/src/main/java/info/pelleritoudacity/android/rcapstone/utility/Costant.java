@@ -45,8 +45,6 @@ public interface Costant {
     String REDDIT_STATE_RANDOM = BuildConfig.REDDIT_SECRET_STATE;
     String PERMISSION_STATE_REDDIT = "identity, edit, flair, history, modconfig, modflair, modlog, modposts, modwiki, mysubreddits, privatemessages, read, report, save, submit, subscribe, vote, wikiedit, wikiread";
 
-    String RETROFIT_GSON_DATA = "yyyy-MM-dd'T'HH:mm:ssZ";
-
     long DEFAULT_OPERATION_REFRESH = 2000;
 
     String REDDIT_COMMENTS = "comments";
@@ -109,10 +107,11 @@ public interface Costant {
 
     String EXTRA_FRAGMENT_PARCEL_SUBREDDIT_DETAIL = "info.pelleritoudacity.android.rcapstone.extra.fragment.parcel.subreddit.detail";
 
-    String EXTRA_ACTIVITY_SUBREDDIT_RESET = "info.pelleritoudacity.android.rcapstone.extra.activity.subreddit.reset";
-    String EXTRA_ACTIVITY_SUBREDDIT_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.subreddit.refresh";
-    String EXTRA_ACTIVITY_SUBREDDIT_DETAIL_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.subreddit.detail.refresh";
-    String EXTRA_ACTIVITY_SUBMANAGE_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.submanage.refresh";
+    String EXTRA_ACTIVITY_REDDIT_RESET = "info.pelleritoudacity.android.rcapstone.extra.activity.subreddit.reset";
+    String EXTRA_ACTIVITY_REDDIT_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.subreddit.refresh";
+    String EXTRA_ACTIVITY_DETAIL_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.detail.refresh";
+    String EXTRA_ACTIVITY_DETAIL_FAVORITE = "info.pelleritoudacity.android.rcapstone.extra.activity.detail.favorite";
+    String EXTRA_ACTIVITY_MANAGE_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.manage.refresh";
 
     String EXTRA_PARCEL_ACTIVITY_DETAIL = "info.pelleritoudacity.android.rcapstone.extra.parcel.activity.detail";
 
@@ -130,22 +129,23 @@ public interface Costant {
     String DEFAULT_START_VALUE_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.default.start.value.main.target";
     String ALL_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.all.main.target";
     String POPULAR_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.popular.main.target";
-    String FAVORITE_MAIN_TARGET= "info.pelleritoudacity.android.rcapstone.favorite.main.target";
+    String FAVORITE_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.favorite.main.target";
     String TAB_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.tab.main.target";
     String SEARCH_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.search.main.target";
     String NAVIGATION_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.navigation.main.target";
 
 
     int DETAIL_TARGET_NO_UPDATE = 200;
-    int DETAIL_TARGET= 201;
+    int DETAIL_TARGET = 201;
     int MORE_DETAIL_TARGET = 202;
     int SEARCH_DETAIL_TARGET = 203;
-    int MORE_SEARCH_DETAIL_TARGET= 204;
+    int MORE_SEARCH_DETAIL_TARGET = 204;
+    int FAVORITE_DETAIL_TARGET = 205;
 
     int PROCESS_LOGIN_OK = 1;
-    int PROCESS_LOGOUT_OK =2 ;
-    int PROCESS_LOGIN_ERROR =3 ;
-    int PROCESS_LOGOUT_ERROR =4 ;
+    int PROCESS_LOGOUT_OK = 2;
+    int PROCESS_LOGIN_ERROR = 3;
+    int PROCESS_LOGOUT_ERROR = 4;
 
     String EXTRA_RESTORE_MANAGE = "info.pelleritoudacity.android.rcapstone.extra.restore.manage";
 

@@ -10,14 +10,20 @@ import android.widget.ImageButton;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 
+import org.jetbrains.annotations.Contract;
+
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.CardBottomModel;
+import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
 import info.pelleritoudacity.android.rcapstone.data.rest.PrefExecute;
 import info.pelleritoudacity.android.rcapstone.data.rest.VoteExecute;
+import info.pelleritoudacity.android.rcapstone.ui.activity.DetailActivity;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import okhttp3.ResponseBody;
 
 public class SelectorHelper {
@@ -27,7 +33,7 @@ public class SelectorHelper {
         mContext = context;
     }
 
-    public void cardBottomLink(CardBottomModel model){
+    public void cardBottomLink(CardBottomModel model) {
 
         model.setOnline(NetworkUtil.isOnline(mContext));
         model.setLogged(PermissionUtil.isLogged(mContext));
@@ -41,7 +47,8 @@ public class SelectorHelper {
             ImageButton buttonOpenBrowser = model.getArrayButton()[4];
 
             if (model.getBackgroundColor() == null) {
-              model.setBackgroundColor("#FFFFFF");              }
+                model.setBackgroundColor("#FFFFFF");
+            }
 
             buttonVoteUp.setBackgroundColor(Color.parseColor(model.getBackgroundColor()));
             buttonVoteUp.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_thumb_up)
@@ -134,7 +141,7 @@ public class SelectorHelper {
                     String finalVote = vote;
                     new VoteExecute(new VoteExecute.OnRestCallBack() {
                         @Override
-                        public void success(ResponseBody response,int code) {
+                        public void success(ResponseBody response, int code) {
                             if (code == 200) {
                                 buttonVoteUp.setColorFilter(Color.GRAY);
                                 buttonVoteDown.setActivated(true);
@@ -156,55 +163,49 @@ public class SelectorHelper {
                         }
 
 
-                    }, PermissionUtil.getToken(mContext), vote,model.getCategory())
+                    }, PermissionUtil.getToken(mContext), vote, model.getCategory())
                             .postData();
                 });
 
+
                 buttonStars.setOnClickListener(view -> {
-                    if (!model.isSaved()) {
 
-                        new PrefExecute(new PrefExecute.OnRestCallBack() {
-                            @Override
-                            public void success(ResponseBody response,int code) {
-                                if (code == 200) {
-                                    new DataUtils(mContext).updateLocalDbStars(1, model.getCategory());
-                                    mContext.startActivity(new Intent(mContext, MainActivity.class)
-                                            .setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK |
-                                                    Intent.FLAG_ACTIVITY_NO_ANIMATION));
+                    new PrefExecute(new PrefExecute.OnRestCallBack() {
+                        @Override
+                        public void success(ResponseBody response, int code) {
+                            if (code == 200) {
+                                Uri uri;
+                                String groupCategory = model.getCategory().substring(0, 2);
+                                int visibleStar = model.isSaved() ? 0 : 1;
+
+                                switch (groupCategory) {
+                                    case "t3":
+                                        uri = info.pelleritoudacity.android.rcapstone.data.db.Contract.T3dataEntry.CONTENT_URI;
+                                        new DataUtils(mContext).updateLocalDbStars(uri, visibleStar, model.getCategory());
+                                        mContext.startActivity(new Intent(mContext, MainActivity.class)
+                                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                                        break;
+
+                                    case "t1":
+                                        uri = info.pelleritoudacity.android.rcapstone.data.db.Contract.T1dataEntry.CONTENT_URI;
+                                        new DataUtils(mContext).updateLocalDbStars(uri, visibleStar, model.getCategory());
+                                        mContext.startActivity(new Intent(mContext, DetailActivity.class)
+                                                .putExtra(Costant.EXTRA_ACTIVITY_DETAIL_REFRESH, true)
+                                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+
+                                        break;
                                 }
-                            }
 
-                            @Override
-                            public void unexpectedError(Throwable tList) {
 
                             }
+                        }
 
-                        }, PermissionUtil.getToken(mContext), model.getCategory()).postSaveData();
+                        @Override
+                        public void unexpectedError(Throwable tList) {
+                        }
 
+                    }, PermissionUtil.getToken(mContext), model.getCategory()).postSaveData();
 
-                    } else {
-
-                        new PrefExecute(new PrefExecute.OnRestCallBack() {
-                            @Override
-                            public void success(ResponseBody response,int code) {
-                                if (code == 200) {
-                                    new DataUtils(mContext).updateLocalDbStars(0, model.getCategory());
-                                    mContext.startActivity(new Intent(mContext, MainActivity.class)
-                                            .setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK |
-                                                    Intent.FLAG_ACTIVITY_NO_ANIMATION));
-
-                                }
-                            }
-
-                            @Override
-                            public void unexpectedError(Throwable tList) {
-
-                            }
-
-
-                        }, PermissionUtil.getToken(mContext),model.getCategory()).postUnSaveData();
-
-                    }
                 });
 
                 if (!TextUtils.isEmpty(model.getLinkComment())) {

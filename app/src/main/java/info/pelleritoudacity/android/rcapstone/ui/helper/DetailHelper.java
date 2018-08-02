@@ -74,6 +74,10 @@ public class DetailHelper {
 
         if (m != null) {
 
+            if (m.getTarget() == Costant.FAVORITE_DETAIL_TARGET) {
+                return Costant.FAVORITE_DETAIL_TARGET;
+            }
+
             if (m.getTarget() == Costant.SEARCH_DETAIL_TARGET) {
                 return Costant.SEARCH_DETAIL_TARGET;
             }
@@ -110,7 +114,9 @@ public class DetailHelper {
             if (intent.getParcelableExtra(Costant.EXTRA_PARCEL_DETAIL_MODEL) != null) {
                 model = intent.getParcelableExtra(Costant.EXTRA_PARCEL_DETAIL_MODEL);
 
-                if (model != null) model.setTarget(Costant.SEARCH_DETAIL_TARGET);
+                if (model != null) {
+                    model.setTarget(Costant.SEARCH_DETAIL_TARGET);
+                }
 
             } else if (intent.getParcelableExtra(Costant.EXTRA_PARCEL_MORE_DETAIL_MODEL) != null) {
                 model = intent.getParcelableExtra(Costant.EXTRA_PARCEL_MORE_DETAIL_MODEL);
@@ -127,7 +133,7 @@ public class DetailHelper {
 
             }
 
-            if (intent.getBooleanExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_DETAIL_REFRESH, false)) {
+            if (intent.getBooleanExtra(Costant.EXTRA_ACTIVITY_DETAIL_REFRESH, false)) {
                 Objects.requireNonNull(model).setStrId(Preference.getLastComment(mContext));
 
             }

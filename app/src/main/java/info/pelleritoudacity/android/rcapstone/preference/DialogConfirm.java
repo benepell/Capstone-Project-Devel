@@ -115,7 +115,7 @@ public class DialogConfirm extends DialogPreference {
             Context context = mWeakContext.get();
             if (context != null) {
                 context.startActivity(new Intent(context, MainActivity.class)
-                        .putExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_RESET,true)
+                        .putExtra(Costant.EXTRA_ACTIVITY_REDDIT_RESET,true)
                         .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 );
             }

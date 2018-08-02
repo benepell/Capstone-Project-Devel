@@ -324,21 +324,21 @@ public class MenuBase {
         switch (layoutResource) {
             case R.layout.activity_main:
                 Intent intentMain = new Intent(mContext, MainActivity.class);
-                intentMain.putExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_REFRESH, true);
+                intentMain.putExtra(Costant.EXTRA_ACTIVITY_REDDIT_REFRESH, true);
                 intentMain.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 mContext.startActivity(intentMain);
                 break;
 
             case R.layout.activity_detail:
                 Intent intentDetail = new Intent(mContext, DetailActivity.class);
-                intentDetail.putExtra(Costant.EXTRA_ACTIVITY_SUBREDDIT_DETAIL_REFRESH, true);
+                intentDetail.putExtra(Costant.EXTRA_ACTIVITY_DETAIL_REFRESH, true);
                 intentDetail.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 mContext.startActivity(intentDetail);
                 break;
 
             case R.layout.activity_manage:
                 Intent intentManage = new Intent(mContext, ManageActivity.class);
-                intentManage.putExtra(Costant.EXTRA_ACTIVITY_SUBMANAGE_REFRESH, true);
+                intentManage.putExtra(Costant.EXTRA_ACTIVITY_MANAGE_REFRESH, true);
                 intentManage.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 mContext.startActivity(intentManage);
                 break;

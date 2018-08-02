@@ -362,9 +362,9 @@ public class DataUtils {
     }
 
 
-    public void updateLocalDbStars(int visible, String category) {
+    public void updateLocalDbStars(Uri uri,int visible, String category) {
 
-        Uri uri = Contract.T3dataEntry.CONTENT_URI;
+        if(uri==null) return;
         String where = Contract.T3dataEntry.COLUMN_NAME_NAME + " =?";
         String[] selectionArgs = {category};
 
