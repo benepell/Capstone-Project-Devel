@@ -49,13 +49,7 @@ public class CategoryExecute {
 
     public CategoryExecute(WeakReference<Context> weakReference) {
 
-        if (PermissionUtil.isLogged(weakReference.get())) {
-            sApi = RetrofitClient.createService(Costant.REDDIT_OAUTH_URL, null);
-
-        } else {
-            sApi = RetrofitClient.createService(Costant.REDDIT_BASE_URL, null);
-
-        }
+        sApi = RetrofitClient.createService(Costant.REDDIT_BASE_URL, null);
 
         mWeakContext = weakReference;
     }
