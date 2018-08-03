@@ -63,6 +63,7 @@ import info.pelleritoudacity.android.rcapstone.data.model.ui.MainModel;
 import info.pelleritoudacity.android.rcapstone.data.other.TabData;
 import info.pelleritoudacity.android.rcapstone.data.rest.MainExecute;
 import info.pelleritoudacity.android.rcapstone.media.MediaSession;
+import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.MainFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.Authenticator;
 import info.pelleritoudacity.android.rcapstone.ui.helper.MenuBase;
@@ -70,6 +71,7 @@ import info.pelleritoudacity.android.rcapstone.ui.helper.MenuLauncherDetail;
 import info.pelleritoudacity.android.rcapstone.ui.view.Tab;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
+import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 
 import static info.pelleritoudacity.android.rcapstone.utility.PermissionUtil.RequestPermissionExtStorage;
@@ -110,6 +112,9 @@ public class MainActivity extends BaseActivity
 
         mContext = MainActivity.this;
 
+        if(PermissionUtil.isLogged(getApplicationContext())){
+            FirebaseRefreshTokenSync.init(mContext,Costant.SESSION_TIMEOUT_DEFAULT);
+        }
 
         if (savedInstanceState != null) {
             mModel = savedInstanceState.getParcelable(Costant.EXTRA_PARCEL_MAIN_MODEL);

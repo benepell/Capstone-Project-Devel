@@ -63,7 +63,8 @@ public interface Costant {
     String REDDIT_AUTH_URL = "www.reddit.com";
     String REDDIT_USER_AGENT = "android:info.pelleritoudacity.android.rcapstone:v1.0.0 (by /u/benedettopellerito)";
 
-    int SESSION_TIMEOUT_DEFAULT = 60;
+    int SESSION_TIMEOUT_DEFAULT = 3500; // approx timeout refresh token 1 hour
+
 
     String TOKEN_SYNC_TAG = "rcapstone-token-sync";
 

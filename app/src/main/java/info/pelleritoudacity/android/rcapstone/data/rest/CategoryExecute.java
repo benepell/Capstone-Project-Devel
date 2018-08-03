@@ -35,7 +35,6 @@ import info.pelleritoudacity.android.rcapstone.data.model.reddit.T5;
 import info.pelleritoudacity.android.rcapstone.data.rest.util.RetrofitClient;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
-import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

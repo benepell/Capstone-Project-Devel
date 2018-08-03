@@ -135,9 +135,9 @@ public class RevokeTokenExecute {
 
     public interface OnRestCallBack {
 
-        void success(String response, int code);
+        void success(String response, @SuppressWarnings("unused") int code);
 
-        void unexpectedError(Throwable tList);
+        void unexpectedError(@SuppressWarnings("unused") Throwable tList);
     }
 
 

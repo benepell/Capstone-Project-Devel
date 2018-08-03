@@ -90,6 +90,7 @@ public class AccessTokenExecute {
 
     public interface OnRestCallBack {
 
+        @SuppressWarnings("unused")
         void success(RedditToken response, int code);
 
         void unexpectedError(Throwable tList);

@@ -65,13 +65,13 @@ public class FirebaseRefreshTokenSync {
         }
     }
 
-    public static void initialize(Context context, int interval) {
+    public static void init(Context context, int interval) {
         if (sInit) return;
         sInit = true;
         scheduleFirebaseJobDispatcherSync(context, interval);
     }
 
-    private static void stopJobRefreshToken(Context context, @SuppressWarnings("SameParameterValue") String tag) {
+    private static void stopJobRefreshToken(Context context,  String tag) {
         Driver driver = new GooglePlayDriver(context);
         FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(driver);
         dispatcher.cancel(tag);

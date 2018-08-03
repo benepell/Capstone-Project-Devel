@@ -153,12 +153,12 @@ public class MainExecute {
                     Preference.getSubredditSort(mContext),
                     fieldMap).enqueue(new Callback<List<T3>>() {
                 @Override
-                public void onResponse(Call<List<T3>> call, Response<List<T3>> response) {
+                public void onResponse(@NonNull Call<List<T3>> call, @NonNull Response<List<T3>> response) {
                     mCallBack.success(response.body(), response.code());
                 }
 
                 @Override
-                public void onFailure(Call<List<T3>> call, Throwable t) {
+                public void onFailure(@NonNull Call<List<T3>> call, @NonNull Throwable t) {
                     mCallBack.unexpectedError(t);
                 }
             });
@@ -167,9 +167,9 @@ public class MainExecute {
 
     public interface OnRestCallBack {
 
-        @SuppressWarnings("unused")
         void success(T3 response, int code);
 
+        @SuppressWarnings("unused")
         void success(List<T3> response, int code);
 
         void unexpectedError(Throwable tList);

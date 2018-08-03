@@ -48,9 +48,10 @@ public class VoteExecute {
 
     public interface OnRestCallBack {
 
+        @SuppressWarnings("unused")
         void success(ResponseBody response,int code);
 
-        @SuppressWarnings("EmptyMethod")
+        @SuppressWarnings("unused")
         void unexpectedError(Throwable tList);
     }
 
