@@ -178,6 +178,11 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onBackPressed() {
+
+        if(mRefreshLayout!=null){
+            mRefreshLayout.setRefreshing(false);
+        }
+
         if ((mTab != null) && (Preference.isTabHistory(mContext
         ))) {
             String historyCategory = mTab.getHistoryPosition();
@@ -191,6 +196,7 @@ public class MainActivity extends BaseActivity
             super.onBackPressed();
 
         }
+
     }
 
 

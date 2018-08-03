@@ -103,6 +103,7 @@ public class DetailActivity extends BaseActivity
         onRefresh();
     }
 
+
     @Override
     public void onRefresh() {
 
