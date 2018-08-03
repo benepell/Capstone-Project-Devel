@@ -86,9 +86,6 @@ public class RefreshTokenExecute {
                             Preference.setSessionRefreshToken(context, strRefreshToken);
                         }
 
-                        Preference.setSessionExpired(context, (int) expired);
-                        Preference.setTimeToken(context, System.currentTimeMillis());
-
                     }
                 }
             }

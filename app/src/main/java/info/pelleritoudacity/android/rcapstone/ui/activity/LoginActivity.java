@@ -160,8 +160,6 @@ public class LoginActivity extends BaseActivity {
                                         if (!TextUtils.isEmpty(strAccessToken) && !TextUtils.isEmpty(strRefreshToken)) {
                                             PermissionUtil.setToken(getApplicationContext(), strAccessToken);
                                             Preference.setSessionRefreshToken(getApplicationContext(), strRefreshToken);
-                                            Preference.setSessionExpired(getApplicationContext(), (int) expired);
-                                            Preference.setTimeToken(getApplicationContext(), System.currentTimeMillis());
                                             Preference.setLoginStart(getApplicationContext(), true);
                                             responseActivity(Costant.PROCESS_LOGIN_OK);
 

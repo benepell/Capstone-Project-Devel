@@ -279,7 +279,6 @@ public class BaseActivity extends AppCompatActivity
                     String name = response.getName();
                     boolean isOver18 = response.isOver18();
                     if (!TextUtils.isEmpty(name)) {
-                        Preference.setLoginName(getApplicationContext(), name);
                         Preference.setLoginOver18(getApplicationContext(), isOver18);
 
                         TextView loginNameNavHeader = mNavHeaderView.findViewById(R.id.tv_nav_name);

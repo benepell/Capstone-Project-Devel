@@ -38,12 +38,6 @@ import info.pelleritoudacity.android.rcapstone.R;
 
 public class DateUtil {
 
-    public static int getHourCurrentCreatedUtc(long createdUtc) {
-        Long now = System.currentTimeMillis();
-        Long diffTime = now / 1000 - createdUtc;
-        return Math.round(diffTime / 3600);
-    }
-
     public static int getSecondsTimeStamp(String timestamp) {
 
         Date date;

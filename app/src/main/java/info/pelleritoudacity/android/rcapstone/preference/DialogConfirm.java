@@ -41,9 +41,11 @@ import java.lang.ref.WeakReference;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.rest.RevokeTokenExecute;
+import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
+import timber.log.Timber;
 
 public class DialogConfirm extends DialogPreference {
 
@@ -84,10 +86,21 @@ public class DialogConfirm extends DialogPreference {
             super.onPreExecute();
             Context context = mWeakContext.get();
             if (context != null) {
-
                 if (Preference.isLoginStart(context)) {
+                    FirebaseRefreshTokenSync.stopLogin(context);
+
                     String token = Preference.getSessionAccessToken(context);
-                    new RevokeTokenExecute(null,token).RevokeTokenSync(context);
+                    new RevokeTokenExecute(new RevokeTokenExecute.OnRestCallBack() {
+                        @Override
+                        public void success(String response, int code) {
+                            Timber.d("Reset  code:%s",code);
+                        }
+
+                        @Override
+                        public void unexpectedError(Throwable tList) {
+                            Timber.e("Reset Error %s",tList.getMessage());
+                        }
+                    }, token).RevokeTokenData();
                 }
 
                 Preference.clearGeneralSettings(context);

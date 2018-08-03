@@ -134,21 +134,7 @@ public class Preference {
         PrefManager.putStringPref(context, Costant.PREFERENCE_LAST_COMMENT, s);
     }
 
-    public static String getLoginName(Context context) {
-        return PrefManager.getStringPref(context, Costant.PREFERENCE_LOGIN_NAME);
-    }
 
-    public static void setLoginName(Context context, String s) {
-        PrefManager.putStringPref(context, Costant.PREFERENCE_LOGIN_NAME, s);
-    }
-
-    public static int getMoreNestedPositionHeight(Context context) {
-        return PrefManager.getIntPref(context, Costant.PREFERENCE_FRAGMENT_MORE_NESTED_POSITION_HEIGHT);
-    }
-
-    public static void setMoreNestedPositionHeight(Context context, int i) {
-        PrefManager.putIntPref(context, Costant.PREFERENCE_FRAGMENT_MORE_NESTED_POSITION_HEIGHT, i);
-    }
 
     public static String getSessionRefreshToken(Context context) {
         return PrefManager.getStringPref(context, Costant.PREFERENCE_SESSION_REFRESH_TOKEN);
@@ -158,13 +144,6 @@ public class Preference {
         PrefManager.putStringPref(context, Costant.PREFERENCE_SESSION_REFRESH_TOKEN, s);
     }
 
-    public static int getSessionExpired(Context context) {
-        return PrefManager.getIntPref(context, Costant.PREFERENCE_SESSION_EXPIRED);
-    }
-
-    public static void setSessionExpired(Context context, int i) {
-        PrefManager.putIntPref(context, Costant.PREFERENCE_SESSION_EXPIRED, i);
-    }
 
     public static int getTypeMode(Context context) {
         return PrefManager.getIntPref(context, Costant.PREFERENCE_TYPE_MODE);
@@ -174,13 +153,6 @@ public class Preference {
         PrefManager.putIntPref(context, Costant.PREFERENCE_TYPE_MODE, i);
     }
 
-    public static long getTimeToken(Context context) {
-        return PrefManager.getLongPref(context, Costant.PREFERENCE_TIME_TOKEN);
-    }
-
-    public static void setTimeToken(Context context, long l) {
-        PrefManager.putLongPref(context, Costant.PREFERENCE_TIME_TOKEN, l);
-    }
 
     public static String getTimeSort(Context context) {
         return PrefManager.getStringPref(context, Costant.PREFERENCE_TIME_SORT);

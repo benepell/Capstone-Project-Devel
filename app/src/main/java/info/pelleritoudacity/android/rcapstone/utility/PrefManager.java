@@ -69,15 +69,6 @@ public class PrefManager {
 
     }
 
-    static void putLongPref(Context context, @SuppressWarnings("SameParameterValue") int key, long value) {
-        SharedPreferences prefId = context
-                .getSharedPreferences(context.getString(key), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefId.edit();
-        editor.putLong(context.getString(key), value);
-        editor.apply();
-
-    }
-
     static void putStringPref(Context context, int key, String value) {
         SharedPreferences prefId = context
                 .getSharedPreferences(context.getString(key), Context.MODE_PRIVATE);
@@ -120,11 +111,6 @@ public class PrefManager {
         return sharedPreferences.getString(context.getString(key), "");
     }
 
-    static boolean isPref(Context context, int key) {
-        SharedPreferences sharedPreferences;
-        sharedPreferences = context.getSharedPreferences(context.getString(key), Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean(context.getString(key), false);
-    }
 
 
     static void clearPref(Context context, @SuppressWarnings("SameParameterValue") int[] prefArray) {

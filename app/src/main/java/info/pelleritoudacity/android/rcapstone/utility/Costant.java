@@ -58,7 +58,6 @@ public interface Costant {
 
     String REDDIT_AUTHORIZATION = "Authorization";
     String REDDIT_BEARER = "Bearer ";
-    String REDDIT_ACCESS_TOKEN = "access_token";
     int REDDIT_REVOKE_SUCCESS = 204;
     String REDDIT_AUTH_URL = "www.reddit.com";
     String REDDIT_USER_AGENT = "android:info.pelleritoudacity.android.rcapstone:v1.0.0 (by /u/benedettopellerito)";
@@ -91,7 +90,6 @@ public interface Costant {
     int RESTORE_MANAGE_RESTORE = 1;
 
     String EXTRA_LOGIN_SUCCESS = "info.pelleritoudacity.android.rcapstone.extra.login.success";
-    String EXTRA_LOGOUT_SUCCESS = "info.pelleritoudacity.android.rcapstone.extra.logout.success";
 
     String EXTRA_SUBREDDIT_CATEGORY = "info.pelleritoudacity.android.rcapstone.extra.subreddit.category";
     String EXTRA_SUBREDDIT_DETAIL_CATEGORY = "info.pelleritoudacity.android.rcapstone.extra.subreddit.detail.category";
@@ -111,7 +109,6 @@ public interface Costant {
     String EXTRA_ACTIVITY_REDDIT_RESET = "info.pelleritoudacity.android.rcapstone.extra.activity.subreddit.reset";
     String EXTRA_ACTIVITY_REDDIT_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.subreddit.refresh";
     String EXTRA_ACTIVITY_DETAIL_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.detail.refresh";
-    String EXTRA_ACTIVITY_DETAIL_FAVORITE = "info.pelleritoudacity.android.rcapstone.extra.activity.detail.favorite";
     String EXTRA_ACTIVITY_MANAGE_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.manage.refresh";
 
     String EXTRA_PARCEL_ACTIVITY_DETAIL = "info.pelleritoudacity.android.rcapstone.extra.parcel.activity.detail";
@@ -240,8 +237,6 @@ public interface Costant {
     int PREFERENCE_LOGIN_START = R.string.pref_login_start;
     int PREFERENCE_SESSION_ACCESS_TOKEN = R.string.pref_session_access_token;
     int PREFERENCE_SESSION_REFRESH_TOKEN = R.string.pref_session_refresh_token;
-    int PREFERENCE_SESSION_EXPIRED = R.string.pref_session_expired;
-    int PREFERENCE_TIME_TOKEN = R.string.pref_time_token;
     int PREFERENCE_SUBREDDIT_KEY = R.string.pref_subreddit_key;
     int PREFERENCE_SUBREDDIT_SORT = R.string.pref_subreddit_sort;
     int PREFERENCE_TIME_SORT = R.string.pref_time_sort;
@@ -250,8 +245,6 @@ public interface Costant {
     int PREFERENCE_DEPTH_PAGE = R.string.pref_depth_page;
     int PREFERENCE_VOLUME_MUTED = R.string.pref_volume_muted;
     int PREFERENCE_TYPE_MODE = R.string.pref_type_mode;
-    int PREFERENCE_LOGIN_NAME = R.string.pref_login_name;
-    int PREFERENCE_FRAGMENT_MORE_NESTED_POSITION_HEIGHT = R.string.pref_more_fragment_more_nested_position_height;
     int PREFERENCE_LOGIN_OVER18 = R.string.pref_login_over18;
     int PREFERENCE_TAB_HISTORY = R.string.pref_tab_history;
     int PREFERENCE_LAST_CATEGORY = R.string.pref_last_category;
