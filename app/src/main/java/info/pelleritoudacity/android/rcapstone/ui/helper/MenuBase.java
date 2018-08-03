@@ -26,6 +26,7 @@ import info.pelleritoudacity.android.rcapstone.ui.activity.ManageActivity;
 import info.pelleritoudacity.android.rcapstone.ui.activity.SettingsActivity;
 import info.pelleritoudacity.android.rcapstone.ui.activity.DetailActivity;
 import info.pelleritoudacity.android.rcapstone.data.other.TabData;
+import info.pelleritoudacity.android.rcapstone.utility.ActivityUI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 
@@ -324,24 +325,15 @@ public class MenuBase {
     private void menuClickRefresh(int layoutResource) {
         switch (layoutResource) {
             case R.layout.activity_main:
-                Intent intentMain = new Intent(mContext, MainActivity.class);
-                intentMain.putExtra(Costant.EXTRA_ACTIVITY_REDDIT_REFRESH, true);
-                intentMain.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                mContext.startActivity(intentMain);
+                ActivityUI.startRefresh(mContext,MainActivity.class);
                 break;
 
             case R.layout.activity_detail:
-                Intent intentDetail = new Intent(mContext, DetailActivity.class);
-                intentDetail.putExtra(Costant.EXTRA_ACTIVITY_DETAIL_REFRESH, true);
-                intentDetail.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                mContext.startActivity(intentDetail);
+                ActivityUI.startRefresh(mContext,DetailActivity.class);
                 break;
 
             case R.layout.activity_manage:
-                Intent intentManage = new Intent(mContext, ManageActivity.class);
-                intentManage.putExtra(Costant.EXTRA_ACTIVITY_MANAGE_REFRESH, true);
-                intentManage.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                mContext.startActivity(intentManage);
+                ActivityUI.startRefresh(mContext,ManageActivity.class);
                 break;
 
             default:

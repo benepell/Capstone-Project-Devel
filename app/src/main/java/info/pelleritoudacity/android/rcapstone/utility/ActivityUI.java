@@ -27,6 +27,7 @@
 package info.pelleritoudacity.android.rcapstone.utility;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -34,6 +35,9 @@ import android.view.WindowManager;
 
 import java.util.Objects;
 
+import info.pelleritoudacity.android.rcapstone.ui.activity.DetailActivity;
+import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
+import info.pelleritoudacity.android.rcapstone.ui.activity.ManageActivity;
 import info.pelleritoudacity.android.rcapstone.ui.activity.YoutubeActivity;
 
 public class ActivityUI {
@@ -42,7 +46,7 @@ public class ActivityUI {
         if (appCompatActivity != null) {
             if (isPortraitOrientation(appCompatActivity)) {
                 appCompatActivity.getWindow().getDecorView().setSystemUiVisibility(
-                                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
             } else {
                 appCompatActivity.getWindow().getDecorView().setSystemUiVisibility(
@@ -89,6 +93,28 @@ public class ActivityUI {
 
     public static boolean isTablet(Context context) {
         return context != null && (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+    }
+
+    public static void startRefresh(Context context, Class clazz) {
+
+        if ((clazz == null) || context == null) return;
+
+        Intent intentMain = new Intent(context, clazz);
+
+        if (clazz.equals(MainActivity.class)) {
+            intentMain.putExtra(Costant.EXTRA_ACTIVITY_REDDIT_REFRESH, true);
+
+        } else if (clazz.equals(DetailActivity.class)) {
+            intentMain.putExtra(Costant.EXTRA_ACTIVITY_DETAIL_REFRESH, true);
+
+        }else if(clazz.equals(ManageActivity.class)){
+            intentMain.putExtra(Costant.EXTRA_ACTIVITY_MANAGE_REFRESH, true);
+
+        }
+
+        intentMain.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NO_HISTORY);
+        context.startActivity(intentMain);
+
     }
 
 

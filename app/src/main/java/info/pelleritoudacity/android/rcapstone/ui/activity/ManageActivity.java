@@ -43,6 +43,7 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.rest.CategoryExecute;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.ManageFragment;
+import info.pelleritoudacity.android.rcapstone.utility.ActivityUI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
@@ -100,6 +101,9 @@ public class ManageActivity extends BaseActivity {
                                 R.anim.layout_animation_from_right)
                         .replace(R.id.fragment_list_container, manageFragment).commit();
             }
+
+        } else {
+            ActivityUI.startRefresh(getApplicationContext(), ManageActivity.class);
 
         }
     }

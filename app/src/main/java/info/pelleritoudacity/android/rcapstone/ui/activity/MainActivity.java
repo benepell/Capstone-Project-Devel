@@ -47,6 +47,7 @@ import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.exoplayer2.util.Util;
 
@@ -70,10 +71,12 @@ import info.pelleritoudacity.android.rcapstone.ui.helper.Authenticator;
 import info.pelleritoudacity.android.rcapstone.ui.helper.MenuBase;
 import info.pelleritoudacity.android.rcapstone.ui.helper.MenuLauncherDetail;
 import info.pelleritoudacity.android.rcapstone.ui.view.Tab;
+import info.pelleritoudacity.android.rcapstone.utility.ActivityUI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
+import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.PermissionUtil.RequestPermissionExtStorage;
 
@@ -103,7 +106,6 @@ public class MainActivity extends BaseActivity
     private Tab mTab;
     private long startTimeoutRefresh;
     private MainModel mModel;
-    private boolean isStartOnRefresh;
     private MenuLauncherDetail mLauncherMenu;
 
     @Override
@@ -112,6 +114,12 @@ public class MainActivity extends BaseActivity
         super.onCreate(savedInstanceState);
 
         mContext = MainActivity.this;
+
+        if (Util.SDK_INT > 23) {
+            RequestPermissionExtStorage(MainActivity.this);
+            Preference.setRequestPermission(getApplicationContext(), false);
+        }
+
         mRefreshLayout.setOnRefreshListener(this);
 
         if (Preference.isNightMode(mContext)) {
@@ -130,12 +138,6 @@ public class MainActivity extends BaseActivity
             mModel = new MainModel();
 
         }
-
-        if (Util.SDK_INT > 23) {
-            RequestPermissionExtStorage(MainActivity.this);
-            Preference.setRequestPermission(getApplicationContext(), false);
-        }
-
 
         ArrayList<String> mTabArrayList = new TabData(mContext).getTabArrayList();
 
@@ -170,10 +172,8 @@ public class MainActivity extends BaseActivity
 
         if ((savedInstanceState == null) || (getIntent().getBooleanExtra(Costant.EXTRA_ACTIVITY_REDDIT_REFRESH, false))) {
             mRefreshLayout.setRefreshing(true);
-            isStartOnRefresh = true;
             onRefresh();
         }
-
     }
 
     @Override
@@ -381,12 +381,13 @@ public class MainActivity extends BaseActivity
             MainFragment mainFragment = MainFragment.newInstance(m);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_subreddit_container, mainFragment).commit();
+        }else{
+            ActivityUI.startRefresh(getApplicationContext(),MainActivity.class);
         }
 
         if (mRefreshLayout != null) {
             if (mRefreshLayout.isRefreshing()) mRefreshLayout.setRefreshing(false);
         }
-
     }
 
 

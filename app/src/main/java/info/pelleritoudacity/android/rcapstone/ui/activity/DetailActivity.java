@@ -30,6 +30,7 @@ import info.pelleritoudacity.android.rcapstone.ui.fragment.DetailFragment;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.TitleDetailFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.DetailHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.MenuBase;
+import info.pelleritoudacity.android.rcapstone.utility.ActivityUI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
@@ -233,6 +234,9 @@ public class DetailActivity extends BaseActivity
                         .replace(R.id.fragment_detail_container, fragment).commit();
 
             }
+        }else {
+            ActivityUI.startRefresh(getApplicationContext(),DetailActivity.class);
+
         }
 
         if ((mSwipeRefreshLayout != null) && (mSwipeRefreshLayout.isRefreshing())) {
