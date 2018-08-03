@@ -3,6 +3,7 @@ package info.pelleritoudacity.android.rcapstone.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -63,6 +64,13 @@ public class DetailActivity extends BaseActivity
 
         mContext = getApplicationContext();
         mSwipeRefreshLayout.setOnRefreshListener(this);
+
+        if (Preference.isNightMode(mContext)) {
+            mSwipeRefreshLayout.setProgressBackgroundColorSchemeColor(Color.GRAY);
+            mSwipeRefreshLayout.setColorSchemeColors(Color.GREEN);
+        }
+
+
         mDetailHelper = new DetailHelper(mContext);
 
         if (savedInstanceState == null) {

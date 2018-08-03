@@ -83,7 +83,6 @@ public class ManageActivity extends BaseActivity {
 
     }
 
-
     private void startFragment(boolean restoreManage) {
         if (!getSupportFragmentManager().isStateSaved()) {
 

@@ -32,6 +32,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
@@ -111,9 +112,15 @@ public class MainActivity extends BaseActivity
         super.onCreate(savedInstanceState);
 
         mContext = MainActivity.this;
+        mRefreshLayout.setOnRefreshListener(this);
 
-        if(PermissionUtil.isLogged(getApplicationContext())){
-            FirebaseRefreshTokenSync.init(mContext,Costant.SESSION_TIMEOUT_DEFAULT);
+        if (Preference.isNightMode(mContext)) {
+            mRefreshLayout.setProgressBackgroundColorSchemeColor(Color.GRAY);
+            mRefreshLayout.setColorSchemeColors(Color.GREEN);
+        }
+
+        if (PermissionUtil.isLogged(getApplicationContext())) {
+            FirebaseRefreshTokenSync.init(mContext, Costant.SESSION_TIMEOUT_DEFAULT);
         }
 
         if (savedInstanceState != null) {
@@ -129,7 +136,6 @@ public class MainActivity extends BaseActivity
             Preference.setRequestPermission(getApplicationContext(), false);
         }
 
-        mRefreshLayout.setOnRefreshListener(this);
 
         ArrayList<String> mTabArrayList = new TabData(mContext).getTabArrayList();
 
@@ -139,7 +145,7 @@ public class MainActivity extends BaseActivity
 
         mLauncherMenu = new MenuLauncherDetail(mContext, getIntent());
 
-        mTab = new Tab(this,mContext, mTabLayout, mTabArrayList);
+        mTab = new Tab(this, mContext, mTabLayout, mTabArrayList);
         mTab.initTab();
 
         if (getIntent() != null) {
@@ -158,7 +164,7 @@ public class MainActivity extends BaseActivity
             onRefresh();
         }
 
-        if(getIntent().getBooleanExtra(Costant.EXTRA_ACTIVITY_REDDIT_RESET, false)){
+        if (getIntent().getBooleanExtra(Costant.EXTRA_ACTIVITY_REDDIT_RESET, false)) {
             Snackbar.make(mContainer, R.string.text_dialog_confirm_reset, Snackbar.LENGTH_LONG).show();
         }
 
