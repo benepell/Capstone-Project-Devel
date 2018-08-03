@@ -168,7 +168,6 @@ public class MenuBase {
         switch (item.getItemId()) {
 
             case R.id.nav_home:
-                Preference.setLastTarget(mContext, Costant.NAVIGATION_MAIN_TARGET);
                 Preference.setTypeMode(mContext, Costant.NAV_MODE_HOME);
                 mContext.startActivity(new Intent(mContext, MainActivity.class)
                         .setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION));
@@ -462,7 +461,7 @@ public class MenuBase {
 
     }
 
-    public void menuItemSearch(Activity listener, ComponentName componentName, Menu menu) {
+    public void menuItemSearch(Activity activity, ComponentName componentName, Menu menu) {
 
         MenuItem menuItemSearch = menu.findItem(R.id.menu_action_search);
 
@@ -477,8 +476,8 @@ public class MenuBase {
         if (searchView != null) {
             searchView.setSearchableInfo(Objects.requireNonNull(searchManager).getSearchableInfo(componentName));
 
-            searchView.setQueryHint("Search People");
-            searchView.setOnQueryTextListener((SearchView.OnQueryTextListener) listener);
+            searchView.setQueryHint(mContext.getString(R.string.text_search_local));
+            searchView.setOnQueryTextListener((SearchView.OnQueryTextListener) activity);
             searchView.setIconified(false);
 
         }

@@ -144,7 +144,7 @@ public class MainActivity extends BaseActivity
 
         if (getIntent() != null) {
             mModel.setQuerySearch(getIntent().getStringExtra(Costant.EXTRA_MAIN_SEARCH));
-            if (TextUtils.isEmpty(mModel.getQuerySearch()) &&
+            if (!TextUtils.isEmpty(mModel.getQuerySearch()) &&
                     (Preference.getLastTarget(mContext)).equals(Costant.SEARCH_MAIN_TARGET)) {
 
                 Preference.setLastTarget(mContext, Costant.DEFAULT_START_VALUE_MAIN_TARGET);
@@ -390,7 +390,7 @@ public class MainActivity extends BaseActivity
         mModel.setTarget(Costant.SEARCH_MAIN_TARGET);
         intent.putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, mModel.getCategory());
         intent.putExtra(Costant.EXTRA_MAIN_TARGET, Costant.SEARCH_MAIN_TARGET);
-        intent.putExtra(Costant.SEARCH_MAIN_TARGET, s);
+        intent.putExtra(Costant.EXTRA_MAIN_SEARCH, s);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(intent);
         return false;
