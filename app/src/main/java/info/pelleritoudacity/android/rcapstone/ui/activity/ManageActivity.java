@@ -103,8 +103,10 @@ public class ManageActivity extends BaseActivity {
             }
 
         } else {
-            ActivityUI.startRefresh(getApplicationContext(), ManageActivity.class);
+            if (mNestedScrollView == null) {
+                ActivityUI.startRefresh(getApplicationContext(), ManageActivity.class);
 
+            }
         }
     }
 

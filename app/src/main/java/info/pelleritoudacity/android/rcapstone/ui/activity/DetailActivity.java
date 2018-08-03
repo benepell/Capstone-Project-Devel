@@ -234,9 +234,10 @@ public class DetailActivity extends BaseActivity
                         .replace(R.id.fragment_detail_container, fragment).commit();
 
             }
-        }else {
-            ActivityUI.startRefresh(getApplicationContext(),DetailActivity.class);
-
+        } else {
+            if (mNestedScrollView == null) {
+                ActivityUI.startRefresh(getApplicationContext(), DetailActivity.class);
+            }
         }
 
         if ((mSwipeRefreshLayout != null) && (mSwipeRefreshLayout.isRefreshing())) {

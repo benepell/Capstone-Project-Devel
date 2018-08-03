@@ -382,7 +382,11 @@ public class MainActivity extends BaseActivity
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_subreddit_container, mainFragment).commit();
         }else{
-            ActivityUI.startRefresh(getApplicationContext(),MainActivity.class);
+            if(mNestedScrollView==null){
+                ActivityUI.startRefresh(getApplicationContext(),MainActivity.class);
+
+            }
+
         }
 
         if (mRefreshLayout != null) {
