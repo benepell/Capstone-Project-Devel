@@ -47,11 +47,11 @@ import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import timber.log.Timber;
 
-public class DialogConfirm extends DialogPreference {
+public class FactoryDataReset extends DialogPreference {
 
     private final WeakReference<Context> mWeakReference;
 
-    public DialogConfirm(Context context, AttributeSet attrs) {
+    public FactoryDataReset(Context context, AttributeSet attrs) {
         super(context, attrs);
         mWeakReference = new WeakReference<>(context);
     }
@@ -59,10 +59,10 @@ public class DialogConfirm extends DialogPreference {
     @Override
     protected void onClick() {
         int theme = R.style.confirmDialogLight;
-        if(Preference.isNightMode(mWeakReference.get().getApplicationContext())){
+        if (Preference.isNightMode(mWeakReference.get().getApplicationContext())) {
             theme = R.style.confirmDialogDark;
         }
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext(),theme );
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext(), theme);
         dialog.setTitle(R.string.title_dialog_confirm);
         dialog.setMessage(R.string.text_clear_data);
         dialog.setCancelable(true);
@@ -93,12 +93,12 @@ public class DialogConfirm extends DialogPreference {
                     new RevokeTokenExecute(new RevokeTokenExecute.OnRestCallBack() {
                         @Override
                         public void success(String response, int code) {
-                            Timber.d("Reset  code:%s",code);
+                            Timber.d("Reset  code:%s", code);
                         }
 
                         @Override
                         public void unexpectedError(Throwable tList) {
-                            Timber.e("Reset Error %s",tList.getMessage());
+                            Timber.e("Reset Error %s", tList.getMessage());
                         }
                     }, token).RevokeTokenData();
                 }
@@ -109,7 +109,6 @@ public class DialogConfirm extends DialogPreference {
 
             }
         }
-
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -128,7 +127,7 @@ public class DialogConfirm extends DialogPreference {
             Context context = mWeakContext.get();
             if (context != null) {
                 context.startActivity(new Intent(context, MainActivity.class)
-                        .putExtra(Costant.EXTRA_ACTIVITY_REDDIT_RESET,true)
+                        .putExtra(Costant.EXTRA_ACTIVITY_REDDIT_RESET, true)
                         .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 );
             }

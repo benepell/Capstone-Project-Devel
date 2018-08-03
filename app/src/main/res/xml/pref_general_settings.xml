@@ -51,7 +51,7 @@
         android:positiveButtonText="@null"
         android:title="@string/pref_title_depth_page" />
 
-    <info.pelleritoudacity.android.rcapstone.preference.DialogConfirm
+    <info.pelleritoudacity.android.rcapstone.preference.FactoryDataReset
         android:summary="@string/summary_clear_data"
         android:title="@string/title_clear_data" />
 
