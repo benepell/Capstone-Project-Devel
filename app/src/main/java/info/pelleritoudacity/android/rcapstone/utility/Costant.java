@@ -58,7 +58,6 @@ public interface Costant {
 
     String REDDIT_AUTHORIZATION = "Authorization";
     String REDDIT_BEARER = "Bearer ";
-    int REDDIT_REVOKE_SUCCESS = 204;
     String REDDIT_AUTH_URL = "www.reddit.com";
     String REDDIT_USER_AGENT = "android:info.pelleritoudacity.android.rcapstone:v1.0.0 (by /u/benedettopellerito)";
 

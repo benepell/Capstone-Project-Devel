@@ -103,7 +103,7 @@ public class MainActivity extends BaseActivity
     private Tab mTab;
     private long startTimeoutRefresh;
     private MainModel mModel;
-
+    private boolean isStartOnRefresh;
     private MenuLauncherDetail mLauncherMenu;
 
     @Override
@@ -159,11 +159,6 @@ public class MainActivity extends BaseActivity
 
         mLauncherMenu.showMenu();
 
-        if ((savedInstanceState == null) || (getIntent().getBooleanExtra(Costant.EXTRA_ACTIVITY_REDDIT_REFRESH, false))) {
-            mRefreshLayout.setRefreshing(true);
-            onRefresh();
-        }
-
         if (getIntent().getBooleanExtra(Costant.EXTRA_ACTIVITY_REDDIT_RESET, false)) {
             Snackbar.make(mContainer, R.string.text_dialog_confirm_reset, Snackbar.LENGTH_LONG).show();
         }
@@ -172,6 +167,12 @@ public class MainActivity extends BaseActivity
         mModel.setTarget(Preference.getLastTarget(mContext));
 
         mTab.positionSelected(mModel.getCategory());
+
+        if ((savedInstanceState == null) || (getIntent().getBooleanExtra(Costant.EXTRA_ACTIVITY_REDDIT_REFRESH, false))) {
+            mRefreshLayout.setRefreshing(true);
+            isStartOnRefresh = true;
+            onRefresh();
+        }
 
     }
 
