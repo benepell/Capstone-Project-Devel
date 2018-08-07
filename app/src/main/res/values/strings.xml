@@ -259,4 +259,5 @@
     <string name="text_log_in">Log in</string>
     <string name="text_search_local">Local Search</string>
     <string name="widget_home">widget home</string>
+    <string name="widget_refresh">widget refresh</string>
 </resources>

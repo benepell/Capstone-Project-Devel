@@ -40,6 +40,7 @@ import java.util.Objects;
 
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.service.RemoteWidgetService;
+import info.pelleritoudacity.android.rcapstone.service.WidgetService;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
@@ -55,6 +56,13 @@ public class WidgetProvider extends AppWidgetProvider {
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget_main);
 
         rv.setTextViewText(R.id.widget_title, title);
+        rv.setImageViewResource(R.id.widget_refresh, R.drawable.ic_widget_refresh);
+
+        Intent refreshIntent = new Intent(context, WidgetService.class);
+        refreshIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        PendingIntent refreshPendingIntent = PendingIntent.getService(context, 0, refreshIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        rv.setOnClickPendingIntent(R.id.widget_refresh, refreshPendingIntent);
+
 
         if (id > 0) {
 
