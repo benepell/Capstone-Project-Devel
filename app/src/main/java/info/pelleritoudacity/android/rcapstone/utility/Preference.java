@@ -36,7 +36,8 @@ public class Preference {
             R.string.pref_general_self,
             R.string.pref_general_links,
             R.string.pref_general_init,
-            R.string.pref_more_fragment_more_nested_position_height
+            R.string.pref_more_fragment_more_nested_position_height,
+            R.string.pref_widget_id
 
 
     };
@@ -176,6 +177,14 @@ public class Preference {
 
     public static String getSubredditSort(Context context) {
         return PrefManager.getStringPref(context, Costant.PREFERENCE_SUBREDDIT_SORT);
+    }
+
+    public static void setWidgetId(Context context, int i) {
+        PrefManager.putIntPref(context, Costant.PREFERENCE_WIDGET_ID, i);
+    }
+
+    public static int getWidgetId(Context context) {
+        return PrefManager.getIntPref(context, Costant.PREFERENCE_WIDGET_ID);
     }
 
 

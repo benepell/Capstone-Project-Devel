@@ -25,6 +25,11 @@ public class MenuLauncherDetail {
 
     public void showMenu() {
 
+        if(menuWidgetLauncher(mIntent)){
+            saveLastPreference();
+            return;
+        }
+
         if (menuShortcutLauncher(mIntent)) {
             saveLastPreference();
             return;
@@ -43,6 +48,18 @@ public class MenuLauncherDetail {
             saveLastPreference();
 
         }
+    }
+
+    private boolean menuWidgetLauncher(Intent intent) {
+        if ((intent.getIntExtra(Costant.EXTRA_WIDGET_ID,0)>0) &&
+                (!TextUtils.isEmpty(intent.getStringExtra(Costant.EXTRA_WIDGET_CATEGORY)))) {
+
+            setCategory(intent.getStringExtra(Costant.EXTRA_WIDGET_CATEGORY));
+            setTarget(Costant.WIDGET_MAIN_TARGET);
+            return true;
+        }
+        return false;
+
     }
 
 
@@ -73,8 +90,8 @@ public class MenuLauncherDetail {
                     return true;
 
                 case Costant.ACTION_SHORTCUT_POPULAR:
-                    setCategory(Costant.CATEGORY_ALL);
-                    setTarget(Costant.CATEGORY_POPULAR);
+                    setCategory(Costant.CATEGORY_POPULAR);
+                    setTarget(Costant.POPULAR_MAIN_TARGET);
                     return true;
 
                 case Costant.ACTION_SHORTCUT_FAVORITE:

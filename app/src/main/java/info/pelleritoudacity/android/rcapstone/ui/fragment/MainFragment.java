@@ -237,6 +237,7 @@ public class MainFragment extends Fragment
                         selectionArgs = new String[]{"%"+model.getQuerySearch()+"%",model.getCategory(), strOver18,};
                         break;
 
+                    case Costant.WIDGET_MAIN_TARGET:
                     case Costant.NAVIGATION_MAIN_TARGET:
                     default:
                         selection = Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " LIKE ?" + " AND " +

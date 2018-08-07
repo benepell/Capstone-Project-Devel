@@ -50,6 +50,12 @@ package info.pelleritoudacity.android.rcapstone.utility;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
@@ -105,7 +111,6 @@ public class ImageUtil {
 
         return ((context != null) && (idColor != 0)) ? "#" + Integer.toHexString(ContextCompat.getColor(context, idColor)) : null;
     }
-
 
 }
 

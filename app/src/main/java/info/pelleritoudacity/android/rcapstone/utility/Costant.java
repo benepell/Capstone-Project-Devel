@@ -110,6 +110,9 @@ public interface Costant {
     String EXTRA_ACTIVITY_DETAIL_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.detail.refresh";
     String EXTRA_ACTIVITY_MANAGE_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.manage.refresh";
 
+    String EXTRA_WIDGET_ID = "info.pelleritoudacity.android.rcapstone.extra.widget.id";
+    String EXTRA_WIDGET_CATEGORY = "info.pelleritoudacity.android.rcapstone.extra.widget.category";
+
     String EXTRA_PARCEL_ACTIVITY_DETAIL = "info.pelleritoudacity.android.rcapstone.extra.parcel.activity.detail";
 
 
@@ -130,6 +133,7 @@ public interface Costant {
     String TAB_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.tab.main.target";
     String SEARCH_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.search.main.target";
     String NAVIGATION_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.navigation.main.target";
+    String WIDGET_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.widget.main.target";
 
 
     int DETAIL_TARGET_NO_UPDATE = 200;
@@ -232,6 +236,8 @@ public interface Costant {
 
     int TIME_APPROX_NOW = 60 * 60 * 2;
 
+    String ACTION_WIDGET_UPDATE = "info.pelleritoudacity.android.rcapstone.action.widget.update";
+
     int PREFERENCE_INSERT_PREFS = R.string.pref_insert_prefs;
     int PREFERENCE_LOGIN_START = R.string.pref_login_start;
     int PREFERENCE_SESSION_ACCESS_TOKEN = R.string.pref_session_access_token;
@@ -260,5 +266,6 @@ public interface Costant {
     int PREFERENCE_GENERAL_VIDEOS = R.string.pref_general_videos;
     int PREFERENCE_GENERAL_SELF = R.string.pref_general_self;
     int PREFERENCE_GENERAL_LINKS = R.string.pref_general_links;
+    int PREFERENCE_WIDGET_ID = R.string.pref_widget_id;
 
 }

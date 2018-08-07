@@ -76,6 +76,7 @@ import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
+import info.pelleritoudacity.android.rcapstone.widget.WidgetUtil;
 import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.PermissionUtil.RequestPermissionExtStorage;
@@ -177,9 +178,17 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        new WidgetUtil(mContext).init();
+    }
+
+
+
+    @Override
     public void onBackPressed() {
 
-        if(mRefreshLayout!=null){
+        if (mRefreshLayout != null) {
             mRefreshLayout.setRefreshing(false);
         }
 
@@ -294,13 +303,16 @@ public class MainActivity extends BaseActivity
         }
     }
 
-
     @Override
     public void onRefresh() {
 
         if (System.currentTimeMillis() - startTimeoutRefresh > Costant.DEFAULT_OPERATION_REFRESH) {
             startTimeoutRefresh = System.currentTimeMillis();
-            if (Preference.getLastTarget(mContext).equals(Costant.SEARCH_MAIN_TARGET) && (!TextUtils.isEmpty(mModel.getQuerySearch()))) {
+
+            if (Preference.getLastTarget(mContext).equals(Costant.WIDGET_MAIN_TARGET)) {
+                createUI(mModel);
+
+            } else if (Preference.getLastTarget(mContext).equals(Costant.SEARCH_MAIN_TARGET) && (!TextUtils.isEmpty(mModel.getQuerySearch()))) {
                 mModel.setCategory(Preference.getLastCategory(getApplicationContext()));
                 mModel.setTarget(Preference.getLastTarget(getApplicationContext()));
                 createUI(mModel);
@@ -387,9 +399,9 @@ public class MainActivity extends BaseActivity
             MainFragment mainFragment = MainFragment.newInstance(m);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_subreddit_container, mainFragment).commit();
-        }else{
-            if(mNestedScrollView==null){
-                ActivityUI.startRefresh(getApplicationContext(),MainActivity.class);
+        } else {
+            if (mNestedScrollView == null) {
+                ActivityUI.startRefresh(getApplicationContext(), MainActivity.class);
 
             }
 

@@ -2,5 +2,8 @@
     <!-- detail -->
 
     <dimen name="settings_margin">16dp</dimen>
+    <dimen name="widget_min_width">158dp</dimen>
+    <dimen name="widget_min_height">180dp</dimen>
+
 
 </resources>
