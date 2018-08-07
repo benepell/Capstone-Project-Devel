@@ -258,5 +258,5 @@
     <string name="text_logout_error">Logout error: permission declined</string>
     <string name="text_log_in">Log in</string>
     <string name="text_search_local">Local Search</string>
-    <string name="refresh_widget">refresh widget</string>
+    <string name="widget_home">widget home</string>
 </resources>

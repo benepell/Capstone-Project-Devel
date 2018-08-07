@@ -32,26 +32,14 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.Icon;
-import android.os.Build;
 import android.support.v4.app.TaskStackBuilder;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.RemoteViews;
-
-import com.mikepenz.iconics.IconicsDrawable;
-import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
-import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.service.RemoteWidgetService;
-import info.pelleritoudacity.android.rcapstone.ui.activity.DetailActivity;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;

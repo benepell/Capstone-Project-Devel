@@ -14,12 +14,11 @@ import info.pelleritoudacity.android.rcapstone.utility.Preference;
 
 public class WidgetUtil {
 
-    Context mContext;
+    private final Context mContext;
 
     public WidgetUtil(Context context) {
         mContext = context;
     }
-
 
     public void init() {
         if (Preference.getWidgetId(mContext) == 0) {

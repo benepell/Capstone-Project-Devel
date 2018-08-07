@@ -6,15 +6,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
     <TextView
         android:id="@+id/widget_title"
         style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:contentDescription="TODO"
+        android:background="@color/colorPrimary"
+       android:layout_gravity="center"
+        android:contentDescription="@string/widget_home"
         android:minHeight="40dp"
         android:padding="8dp"
         android:textColor="@color/white" />
+
 
     <ListView
         android:id="@+id/widget_listView"

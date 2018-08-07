@@ -47,7 +47,6 @@ import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.exoplayer2.util.Util;
 
@@ -77,7 +76,6 @@ import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.widget.WidgetUtil;
-import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.PermissionUtil.RequestPermissionExtStorage;
 
