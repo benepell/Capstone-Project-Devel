@@ -52,9 +52,9 @@ public class MenuLauncherDetail {
 
     private boolean menuWidgetLauncher(Intent intent) {
         if ((intent.getIntExtra(Costant.EXTRA_WIDGET_ID,0)>0) &&
-                (!TextUtils.isEmpty(intent.getStringExtra(Costant.EXTRA_WIDGET_CATEGORY)))) {
+                (!TextUtils.isEmpty(intent.getStringExtra(Costant.EXTRA_WIDGET_SERVICE_CATEGORY)))) {
 
-            setCategory(intent.getStringExtra(Costant.EXTRA_WIDGET_CATEGORY));
+            setCategory(intent.getStringExtra(Costant.EXTRA_WIDGET_SERVICE_CATEGORY));
             setTarget(Costant.WIDGET_MAIN_TARGET);
             return true;
         }

@@ -42,6 +42,7 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.service.RemoteWidgetService;
 import info.pelleritoudacity.android.rcapstone.service.WidgetService;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
+import info.pelleritoudacity.android.rcapstone.ui.activity.SettingsActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 
@@ -56,20 +57,28 @@ public class WidgetProvider extends AppWidgetProvider {
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget_main);
 
         rv.setTextViewText(R.id.widget_title, title);
-        rv.setImageViewResource(R.id.widget_refresh, R.drawable.ic_widget_refresh);
 
+        rv.setImageViewResource(R.id.widget_settings, R.drawable.ic_widget_settings);
+        Intent settingsIntent = new Intent(context, SettingsActivity.class);
+        PendingIntent settingsPendingIntent = PendingIntent.getActivity(context, 0,
+                settingsIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        rv.setOnClickPendingIntent(R.id.widget_settings, settingsPendingIntent);
+
+        rv.setImageViewResource(R.id.widget_refresh, R.drawable.ic_widget_refresh);
         Intent refreshIntent = new Intent(context, WidgetService.class);
         refreshIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         PendingIntent refreshPendingIntent = PendingIntent.getService(context, 0, refreshIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         rv.setOnClickPendingIntent(R.id.widget_refresh, refreshPendingIntent);
-
 
         if (id > 0) {
 
             rv.setViewVisibility(R.id.widget_text_error, View.GONE);
             rv.setViewVisibility(R.id.widget_listView, View.VISIBLE);
 
+            String category = Preference.getGeneralSettingsWidgetCategory(context.getApplicationContext());
+
             Intent serviceIntent = new Intent(context, RemoteWidgetService.class);
+            serviceIntent.putExtra(Costant.EXTRA_WIDGET_SERVICE_CATEGORY, category);
             rv.setRemoteAdapter(R.id.widget_listView, serviceIntent);
 
             Intent clickIntent = new Intent(context, MainActivity.class);
@@ -92,31 +101,29 @@ public class WidgetProvider extends AppWidgetProvider {
         }
 
         return rv;
-
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, WidgetProvider.class));
 
         String action = intent.getAction();
         if (Objects.equals(action, AppWidgetManager.ACTION_APPWIDGET_UPDATE)) {
-            new WidgetUtil(context).updateData();
-            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_listView);
 
             for (int appWidgetId : appWidgetIds) {
                 appWidgetManager.partiallyUpdateAppWidget(appWidgetId, viewsUpdateRecipeWidget(context));
             }
+            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_listView);
         }
         super.onReceive(context, intent);
     }
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_listView);
-
-        appWidgetManager.updateAppWidget(appWidgetIds, viewsUpdateRecipeWidget(context));
+//        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_listView);
+//        appWidgetManager.updateAppWidget(appWidgetIds, viewsUpdateRecipeWidget(context));
     }
 
     @Override

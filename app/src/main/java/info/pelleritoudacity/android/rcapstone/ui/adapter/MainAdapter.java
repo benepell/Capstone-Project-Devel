@@ -50,6 +50,7 @@ import com.google.android.exoplayer2.ui.PlayerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
+import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.Record.MainRecord;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.CardBottomModel;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
@@ -196,7 +197,11 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
                 }
             }
 
-            holder.mTextViewTitle.setText(TextUtil.textFromHtml(record.getTitle()));
+            String targ = mCursor.getString(
+                    mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_TARGET));
+// todo benny
+            holder.mTextViewTitle.setText(targ);
+//            holder.mTextViewTitle.setText(TextUtil.textFromHtml(record.getTitle()));
 
             holder.mTextViewSubRedditNamePrefix.setText(record.getSubRedditNamePrefix());
 

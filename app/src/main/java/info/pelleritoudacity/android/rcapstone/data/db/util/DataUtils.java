@@ -53,12 +53,12 @@ public class DataUtils {
     }
 
 
-    public boolean isSyncData(Uri uri, String category, long timeoutseconds) {
+    public boolean isSyncData(Uri uri, String category, long timeoutseconds, int item) {
 
         Cursor cursor = null;
         boolean isSync = false;
 
-        if ((uri == null) || (timeoutseconds <= 0)) return false;
+        if ((uri == null) || (timeoutseconds <= 0) || item == 0) return false;
 
         try {
 
@@ -74,9 +74,10 @@ public class DataUtils {
 
             cursor = mContext.getContentResolver().query(uri, null, selection, selectionArgs, null);
 
-            if ((cursor != null) && (cursor.getCount() >= 0)) {
+            if ((cursor != null) && (cursor.getCount() >= item)) {
                 if (cursor.moveToFirst()) {
-                    lastTime = DateUtil.getSecondsTimeStamp(cursor.getString(cursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_TIME_LAST_MODIFIED)));
+                    String timestamp = cursor.getString(cursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_TIME_LAST_MODIFIED));
+                    lastTime = DateUtil.getSecondsTimeStamp(timestamp);
 
                 } else {
                     return false;
@@ -84,7 +85,10 @@ public class DataUtils {
 
             }
 
-            isSync = timeoutseconds - lastTime > 0;
+            if (lastTime > 0) {
+                isSync = timeoutseconds - lastTime > 0;
+
+            }
 
 
         } catch (Exception e) {
@@ -99,12 +103,12 @@ public class DataUtils {
         return isSync;
     }
 
-    public boolean isSyncDataDetail(Uri uri, DetailModel model, long timeoutseconds) {
+    public boolean isSyncDataDetail(Uri uri, DetailModel model, long timeoutseconds, int item) {
 
         Cursor cursor = null;
         boolean isSync = false;
 
-        if ((uri == null) || (timeoutseconds <= 0) || model == null) return false;
+        if ((uri == null) || (timeoutseconds <= 0) || model == null || item == 0) return false;
 
         try {
 
@@ -121,7 +125,7 @@ public class DataUtils {
 
             cursor = mContext.getContentResolver().query(uri, null, selection, selectionArgs, null);
 
-            if ((cursor != null) && (cursor.getCount() >= 0)) {
+            if ((cursor != null) && (cursor.getCount() >= item)) {
                 if (cursor.moveToFirst()) {
                     lastTime = DateUtil.getSecondsTimeStamp(cursor.getString(cursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_TIME_LAST_MODIFIED)));
 
@@ -130,7 +134,12 @@ public class DataUtils {
                 }
             }
 
-            isSync = timeoutseconds - lastTime > 0;
+            if(lastTime>0){
+                isSync = timeoutseconds - lastTime > 0;
+
+            }else {
+                isSync = false;
+            }
 
 
         } catch (Exception e) {
@@ -362,9 +371,9 @@ public class DataUtils {
     }
 
 
-    public void updateLocalDbStars(Uri uri,int visible, String category) {
+    public void updateLocalDbStars(Uri uri, int visible, String category) {
 
-        if(uri==null) return;
+        if (uri == null) return;
         String where = Contract.T3dataEntry.COLUMN_NAME_NAME + " =?";
         String[] selectionArgs = {category};
 

@@ -110,6 +110,22 @@
         <item>100</item>
     </string-array>
 
+    <string name="default_widget_category" translatable="false">popular</string>
+
+    <string name="pref_widget_category" translatable="false">info.pelleritoudacity.android.rcapstone.pref.widget.category</string>
+    <string name="pref_title_widget_category" translatable="false">Widget Category</string>
+    <string-array name="pref_widget_category_titles">
+        <item>Hot</item>
+        <item>Popular</item>
+        <item>All</item>
+
+    </string-array>
+    <string-array name="pref_widget_category_values" translatable="false">
+        <item>hot</item>
+        <item>popular</item>
+        <item>all</item>
+    </string-array>
+
     <string name="pref_depth_page" translatable="false">info.pelleritoudacity.android.rcapstone.pref.depth.page</string>
     <string name="pref_title_depth_page" translatable="false">Comments Level Depth</string>
     <string-array name="pref_depth_page_titles">

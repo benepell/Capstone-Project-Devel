@@ -77,9 +77,9 @@ public interface RedditAPI {
     @GET("/r/{subreddit_name}/{sort}/.json")
     @Headers("User-Agent: " + Costant.REDDIT_USER_AGENT)
     Call<List<T3>> getSortSubRedditAuth(@Header("Authorization") String authorization,
-                              @Path(value = "subreddit_name", encoded = true) String subreddit_name,
-                              @Path(value = "sort", encoded = true) String sortBy,
-                              @QueryMap Map<String, String> options
+                                        @Path(value = "subreddit_name", encoded = true) String subreddit_name,
+                                        @Path(value = "sort", encoded = true) String sortBy,
+                                        @QueryMap Map<String, String> options
     );
 
     @GET("/r/{subreddit_name}/comments/{id}/{sort}/.json")
@@ -130,17 +130,47 @@ public interface RedditAPI {
     Call<ResponseBody> postVote(@Header("Authorization") String authorization,
                                 @Field("dir") String dir,
                                 @Field("id") String nameReddit);
+
     @FormUrlEncoded
     @POST("/api/save")
     @Headers("User-Agent: " + Costant.REDDIT_USER_AGENT)
     Call<ResponseBody> postPrefSave(@Header("Authorization") String authorization,
-                                @Field("id") String nameReddit);
-	
-	@FormUrlEncoded
+                                    @Field("id") String nameReddit);
+
+    @FormUrlEncoded
     @POST("/api/unsave")
     @Headers("User-Agent: " + Costant.REDDIT_USER_AGENT)
     Call<ResponseBody> postPrefUnSave(@Header("Authorization") String authorization,
-                                @Field("id") String nameReddit);
+                                      @Field("id") String nameReddit);
+
+
+    @GET("{subreddit_name}/.json")
+    Call<T3> getWidget(
+            @Path(value = "subreddit_name", encoded = true) String subreddit_name,
+            @QueryMap Map<String, String> options
+    );
+
+    @GET("{subreddit_name}/.json")
+    @Headers("User-Agent: " + Costant.REDDIT_USER_AGENT)
+    Call<T3> getWidgetAuth(@Header("Authorization") String authorization,
+                           @Path(value = "subreddit_name", encoded = true) String subreddit_name,
+                           @QueryMap Map<String, String> options
+    );
+
+    @GET("{subreddit_name}/{sort}/.json")
+    Call<List<T3>> getSortWidget(
+            @Path(value = "subreddit_name", encoded = true) String subreddit_name,
+            @Path(value = "sort", encoded = true) String sortBy,
+            @QueryMap Map<String, String> options
+    );
+
+    @GET("{subreddit_name}/{sort}/.json")
+    @Headers("User-Agent: " + Costant.REDDIT_USER_AGENT)
+    Call<List<T3>> getSortWidgetAuth(@Header("Authorization") String authorization,
+                                     @Path(value = "subreddit_name", encoded = true) String subreddit_name,
+                                     @Path(value = "sort", encoded = true) String sortBy,
+                                     @QueryMap Map<String, String> options
+    );
 
 
 

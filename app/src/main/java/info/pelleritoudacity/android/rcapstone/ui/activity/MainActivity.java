@@ -76,6 +76,7 @@ import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.widget.WidgetUtil;
+import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.PermissionUtil.RequestPermissionExtStorage;
 
@@ -361,12 +362,13 @@ public class MainActivity extends BaseActivity
     private void initRest(MainModel m, boolean stateNetworkOnline) {
         if (!TextUtils.isEmpty(m.getCategory())) {
 
-            if ((!stateNetworkOnline) || (
+            if ((!stateNetworkOnline)|| (
                     new DataUtils(mContext).isSyncData(Contract.T3dataEntry.CONTENT_URI,
                             m.getCategory(),
-                            Preference.getGeneralSettingsSyncFrequency(mContext)))) {
+                            Preference.getGeneralSettingsSyncFrequency(mContext),
+                            Preference.getGeneralSettingsItemPage(mContext)))) {
 
-                createUI(mModel);
+            createUI(mModel);
 
             } else {
                 switch (Preference.getSubredditSort(mContext)) {

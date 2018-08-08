@@ -111,7 +111,9 @@ public interface Costant {
     String EXTRA_ACTIVITY_MANAGE_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.manage.refresh";
 
     String EXTRA_WIDGET_ID = "info.pelleritoudacity.android.rcapstone.extra.widget.id";
-    String EXTRA_WIDGET_CATEGORY = "info.pelleritoudacity.android.rcapstone.extra.widget.category";
+//    String EXTRA_WIDGET_CATEGORY = "info.pelleritoudacity.android.rcapstone.extra.widget.category";
+
+    String EXTRA_WIDGET_SERVICE_CATEGORY = "info.pelleritoudacity.android.rcapstone.extra.widget.service.category";
 
     String EXTRA_PARCEL_ACTIVITY_DETAIL = "info.pelleritoudacity.android.rcapstone.extra.parcel.activity.detail";
 
@@ -124,11 +126,13 @@ public interface Costant {
     String CATEGORY_ALL = "all";
     String CATEGORY_POPULAR = "popular";
     String CATEGORY_FAVORITE = "favorite";
+    String CATEGORY_HOT = "hot";
 
 
     String DEFAULT_START_VALUE_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.default.start.value.main.target";
     String ALL_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.all.main.target";
     String POPULAR_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.popular.main.target";
+    String HOT_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.hot.main.target";
     String FAVORITE_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.favorite.main.target";
     String TAB_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.tab.main.target";
     String SEARCH_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.search.main.target";
@@ -267,5 +271,6 @@ public interface Costant {
     int PREFERENCE_GENERAL_SELF = R.string.pref_general_self;
     int PREFERENCE_GENERAL_LINKS = R.string.pref_general_links;
     int PREFERENCE_WIDGET_ID = R.string.pref_widget_id;
+    int PREFERENCE_WIDGET_CATEGORY = R.string.pref_widget_category;
 
 }

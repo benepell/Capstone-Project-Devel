@@ -45,21 +45,29 @@ import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+import info.pelleritoudacity.android.rcapstone.widget.WidgetUtil;
 import timber.log.Timber;
 
 public class RemoteWidgetService extends RemoteViewsService {
 
+    private String mCategory;
+
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        return new WidgetRemoteViewsFactory(getApplicationContext());
+        if (intent != null) {
+            mCategory = intent.getStringExtra(Costant.EXTRA_WIDGET_SERVICE_CATEGORY);
+        }
+        return new WidgetRemoteViewsFactory(this.getApplicationContext(), mCategory);
     }
 
     class WidgetRemoteViewsFactory implements RemoteViewsFactory {
         final Context mContext;
+        final String mCategory;
         Cursor mCursor;
 
-        WidgetRemoteViewsFactory(Context context) {
+        WidgetRemoteViewsFactory(Context context, String category) {
             mContext = context;
+            mCategory = category;
         }
 
         @Override
@@ -73,9 +81,20 @@ public class RemoteWidgetService extends RemoteViewsService {
 
             try {
 
-                String selection =Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?" + " AND " +
-                        Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " =?";
-                String[]  selectionArgs = {Costant.POPULAR_MAIN_TARGET,"0"};
+                String selection = null;
+                String[] selectionArgs = null;
+
+                WidgetUtil widgetUtil = new WidgetUtil(mContext);
+
+
+                switch (mCategory) {
+                    case Costant.CATEGORY_POPULAR:
+                    case Costant.CATEGORY_ALL:
+                    case Costant.CATEGORY_HOT:
+                        selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?" + " AND " +
+                                Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " =?";
+                        selectionArgs = new String[]{widgetUtil.getMainTarget(mCategory), "0"};
+                }
 
                 mCursor = mContext.getContentResolver().query(Contract.T3dataEntry.CONTENT_URI,
                         null,
@@ -108,7 +127,10 @@ public class RemoteWidgetService extends RemoteViewsService {
         @Override
         public RemoteViews getViewAt(int position) {
 
-            if (mCursor == null || mCursor.getCount() == 0) return null;
+            if (mCursor == null || mCursor.getCount() == 0) {
+                Preference.setWidgetId(mContext, 0);
+                return null;
+            }
 
             mCursor.moveToPosition(position);
 
@@ -121,7 +143,7 @@ public class RemoteWidgetService extends RemoteViewsService {
             String strImageUrl = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_URL));
             long createdUtc = mCursor.getLong(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_CREATED_UTC));
 
-            Preference.setWidgetId(mContext,id);
+            Preference.setWidgetId(mContext, id);
 
             RemoteViews views = new RemoteViews(mContext.getPackageName(),
                     R.layout.list_widget);
@@ -138,6 +160,9 @@ public class RemoteWidgetService extends RemoteViewsService {
 
                 }
 
+            } else {
+                views.setImageViewResource(R.id.img_widget_name, R.drawable.no_image);
+
             }
 
             views.setTextViewText(R.id.text_widget_author, author);
@@ -153,7 +178,7 @@ public class RemoteWidgetService extends RemoteViewsService {
 
             Intent fillInIntent = new Intent();
             fillInIntent.putExtra(Costant.EXTRA_WIDGET_ID, id);
-            fillInIntent.putExtra(Costant.EXTRA_WIDGET_CATEGORY, category);
+            fillInIntent.putExtra(Costant.EXTRA_WIDGET_SERVICE_CATEGORY, category);
             views.setOnClickFillInIntent(R.id.linear_layout_widget, fillInIntent);
 
 

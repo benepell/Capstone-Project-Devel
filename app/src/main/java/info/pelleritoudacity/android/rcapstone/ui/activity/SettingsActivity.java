@@ -27,18 +27,24 @@
 package info.pelleritoudacity.android.rcapstone.ui.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.preference.PreferenceManager;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.FrameLayout;
 
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SettingsFragment;
+import info.pelleritoudacity.android.rcapstone.widget.WidgetUtil;
 
 public class SettingsActivity extends AppCompatActivity implements SettingsFragment.OnSettingsFragmentInteraction {
+
+    private String mWidgetCategory;
+    private WidgetUtil mWidgetUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +69,17 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_settings_container, new SettingsFragment())
                 .commit();
+
+        mWidgetUtil = new WidgetUtil(getApplicationContext());
+
+    }
+
+    @Override
+    public void sharedPreferenceChange(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(getString(R.string.pref_widget_category))) {
+            mWidgetCategory = sharedPreferences.getString(key, "");
+            mWidgetUtil.updateData(mWidgetCategory);
+        }
 
     }
 

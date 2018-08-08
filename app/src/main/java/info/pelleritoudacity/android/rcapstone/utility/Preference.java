@@ -37,7 +37,8 @@ public class Preference {
             R.string.pref_general_links,
             R.string.pref_general_init,
             R.string.pref_more_fragment_more_nested_position_height,
-            R.string.pref_widget_id
+            R.string.pref_widget_id,
+            R.string.pref_widget_category,
 
 
     };
@@ -134,8 +135,6 @@ public class Preference {
     public static void setLastComment(Context context, String s) {
         PrefManager.putStringPref(context, Costant.PREFERENCE_LAST_COMMENT, s);
     }
-
-
 
     public static String getSessionRefreshToken(Context context) {
         return PrefManager.getStringPref(context, Costant.PREFERENCE_SESSION_REFRESH_TOKEN);
@@ -267,6 +266,10 @@ public class Preference {
 
     public static int getGeneralSettingsDepthPage(Context context) {
         return PrefManager.getIntGeneralSettings(context, Costant.PREFERENCE_DEPTH_PAGE);
+    }
+
+    public static String getGeneralSettingsWidgetCategory(Context context) {
+        return PrefManager.getStringGeneralSettings(context, Costant.PREFERENCE_WIDGET_CATEGORY);
     }
 
 

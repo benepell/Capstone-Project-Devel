@@ -248,7 +248,8 @@ public class DetailActivity extends BaseActivity
 
     private boolean isUpdateData() {
         return new DataUtils(mContext).isSyncDataDetail(Contract.T1dataEntry.CONTENT_URI,
-                model, Preference.getGeneralSettingsSyncFrequency(mContext));
+                model, Preference.getGeneralSettingsSyncFrequency(mContext),
+                Preference.getGeneralSettingsItemPage(mContext));
     }
 
 
