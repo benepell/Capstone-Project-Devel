@@ -254,8 +254,6 @@ public interface Costant {
 
     int TIME_APPROX_NOW = 60 * 60 * 2;
 
-    String ACTION_WIDGET_UPDATE = "info.pelleritoudacity.android.rcapstone.action.widget.update";
-
     int PREFERENCE_INSERT_PREFS = R.string.pref_insert_prefs;
     int PREFERENCE_LOGIN_START = R.string.pref_login_start;
     int PREFERENCE_SESSION_ACCESS_TOKEN = R.string.pref_session_access_token;

@@ -1,6 +1,9 @@
 package info.pelleritoudacity.android.rcapstone.widget;
 
+import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
+import android.content.Intent;
 
 import java.util.List;
 
@@ -30,7 +33,23 @@ public class WidgetUtil {
                 @Override
                 public void success(T3 response, int code) {
                     T3Operation widgetData = new T3Operation(mContext, response);
-                    widgetData.saveData(category, getMainTarget(category));
+                    if (code == 200) {
+
+                        try {
+                            widgetData.saveData(category, getMainTarget(category));
+
+                            Intent updateIntent = new Intent(mContext, WidgetProvider.class);
+                            updateIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+                            PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext.getApplicationContext(), 0,
+                                    updateIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                            pendingIntent.send();
+
+                        } catch (PendingIntent.CanceledException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
                 }
 
                 @Override

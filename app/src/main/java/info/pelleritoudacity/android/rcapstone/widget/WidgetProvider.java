@@ -119,7 +119,6 @@ public class WidgetProvider extends AppWidgetProvider {
             }
             appWidgetManager.updateAppWidget(R.id.widget_listView, null);
             appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_listView);
-//            updateWidth(context, appWidgetManager, appWidgetIds);
         }
         super.onReceive(context, intent);
     }

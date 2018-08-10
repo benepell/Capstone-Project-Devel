@@ -29,8 +29,10 @@ package info.pelleritoudacity.android.rcapstone.service;
 import android.app.IntentService;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
@@ -45,9 +47,11 @@ import timber.log.Timber;
 
 
 public class WidgetService extends IntentService {
+
     public WidgetService() {
         super("WidgetService");
     }
+
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
@@ -73,36 +77,22 @@ public class WidgetService extends IntentService {
         Intent intent = new Intent(context, WidgetService.class);
         intent.putExtra(Costant.EXTRA_WIDGET_SERVICE, false);
         context.stopService(intent);
-
     }
 
 
-
     private static void update(Context context) {
-        try {
 
-            if (TextUtils.isEmpty(Preference.getWidgetCategory(context))) {
-                context.startActivity(new Intent(context, OptionWidgetActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                );
+        if (TextUtils.isEmpty(Preference.getWidgetCategory(context))) {
+            context.startActivity(new Intent(context, OptionWidgetActivity.class)
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            );
 
-            } else {
-                new WidgetUtil(context).updateData(Preference.getWidgetCategory(context));
-                Intent intent = new Intent(context, WidgetProvider.class);
-                intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(context.getApplicationContext(), 0,
-                        intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                pendingIntent.send();
-
-
-            }
-
-
-
-        } catch (PendingIntent.CanceledException e) {
-            Timber.e("widget pending%s", e.getMessage());
+        } else {
+            new WidgetUtil(context).updateData(Preference.getWidgetCategory(context));
         }
+
+
     }
 
 }

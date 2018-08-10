@@ -9,6 +9,7 @@
         style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/text_option_widget_title"
         android:background="@color/colorPrimary"
         android:gravity="center"
         android:contentDescription="@string/widget_home"
