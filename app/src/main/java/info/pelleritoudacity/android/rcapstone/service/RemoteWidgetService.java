@@ -146,6 +146,8 @@ public class RemoteWidgetService extends RemoteViewsService {
 
             if (Preference.getWidgetWidth(mContext) > Costant.WIDTH_ENABLE_IMAGE) {
 
+                views.setViewVisibility(R.id.img_widget_name, View.VISIBLE);
+
                 if (!TextUtils.isEmpty(strImageUrl)) {
                     Uri imageUri = Uri.parse(TextUtil.textFromHtml(strImageUrl));
 
@@ -153,7 +155,6 @@ public class RemoteWidgetService extends RemoteViewsService {
                         Bitmap b = Picasso.get().load(imageUri).get();
                         views.setImageViewBitmap(R.id.img_widget_name, b);
 
-                        views.setViewVisibility(R.id.img_widget_name, View.VISIBLE);
 
                     } catch (Exception e) {
                         Timber.e("WIDGET image error %s", e.getMessage());

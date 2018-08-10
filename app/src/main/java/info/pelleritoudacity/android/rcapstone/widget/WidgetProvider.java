@@ -93,11 +93,11 @@ public class WidgetProvider extends AppWidgetProvider {
 
             rv.setViewVisibility(R.id.widget_listView, View.GONE);
             rv.setViewVisibility(R.id.widget_text_error, View.VISIBLE);
-            rv.setTextViewText(R.id.widget_text_error, context.getString(R.string.text_error_widget));
+            rv.setTextViewText(R.id.widget_text_error, context.getString(R.string.text_not_category_widget));
 
-            Intent clickIntent = new Intent(context, MainActivity.class);
+            Intent clickIntent = new Intent(context, OptionWidgetActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
-                    clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    clickIntent, PendingIntent.FLAG_NO_CREATE);
             rv.setOnClickPendingIntent(R.id.widget_container, pendingIntent);
 
         }
