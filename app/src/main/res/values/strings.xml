@@ -110,21 +110,9 @@
         <item>100</item>
     </string-array>
 
-    <string name="default_widget_category" translatable="false">popular</string>
-
     <string name="pref_widget_category" translatable="false">info.pelleritoudacity.android.rcapstone.pref.widget.category</string>
-    <string name="pref_title_widget_category" translatable="false">Widget Category</string>
-    <string-array name="pref_widget_category_titles">
-        <item>Hot</item>
-        <item>Popular</item>
-        <item>All</item>
+    <string name="pref_widget_width" translatable="false">info.pelleritoudacity.android.rcapstone.pref.widget.width</string>
 
-    </string-array>
-    <string-array name="pref_widget_category_values" translatable="false">
-        <item>hot</item>
-        <item>popular</item>
-        <item>all</item>
-    </string-array>
 
     <string name="pref_depth_page" translatable="false">info.pelleritoudacity.android.rcapstone.pref.depth.page</string>
     <string name="pref_title_depth_page" translatable="false">Comments Level Depth</string>
@@ -257,7 +245,6 @@
     <string name="pref_general_self" translatable="false">info.pelleritoudacity.android.rcapstone.pref.general.self</string>
     <string name="pref_general_links" translatable="false">info.pelleritoudacity.android.rcapstone.pref.general.links</string>
     <string name="pref_general_init" translatable="false">info.pelleritoudacity.android.rcapstone.pref.general.init</string>
-    <string name="pref_widget_id" translatable="false">info.pelleritoudacity.android.rcapstone.pref.widget.id</string>
     <string name="pref_more_fragment_more_nested_position_height" translatable="false">info.pelleritoudacity.android.rcapstone.pref.more.nested.position.height</string>
     <string name="background_image_protection_oval">background image protection oval</string>
     <string name="background_image_protection">background image protection</string>
@@ -276,4 +263,7 @@
     <string name="text_search_local">Local Search</string>
     <string name="widget_home">widget home</string>
     <string name="widget_refresh">widget refresh</string>
+    <string name="text_error_widget">Init error, Please open app first</string>
+    <string name="title_image_widget">image widget</string>
+    <string name="text_widget_category">Category</string>
 </resources>

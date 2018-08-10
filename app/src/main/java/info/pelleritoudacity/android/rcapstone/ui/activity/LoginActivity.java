@@ -155,7 +155,6 @@ public class LoginActivity extends BaseActivity {
                                     if (response != null) {
                                         String strAccessToken = response.getAccess_token();
                                         String strRefreshToken = response.getRefresh_token();
-                                        long expired = response.getExpires_in();
 
                                         if (!TextUtils.isEmpty(strAccessToken) && !TextUtils.isEmpty(strRefreshToken)) {
                                             PermissionUtil.setToken(getApplicationContext(), strAccessToken);

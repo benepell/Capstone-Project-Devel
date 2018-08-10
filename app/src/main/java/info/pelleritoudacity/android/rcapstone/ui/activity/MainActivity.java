@@ -75,8 +75,6 @@ import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
-import info.pelleritoudacity.android.rcapstone.widget.WidgetUtil;
-import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.PermissionUtil.RequestPermissionExtStorage;
 
@@ -175,14 +173,6 @@ public class MainActivity extends BaseActivity
             onRefresh();
         }
     }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        new WidgetUtil(mContext).init();
-    }
-
-
 
     @Override
     public void onBackPressed() {

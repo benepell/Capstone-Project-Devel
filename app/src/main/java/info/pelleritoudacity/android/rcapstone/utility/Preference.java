@@ -37,8 +37,8 @@ public class Preference {
             R.string.pref_general_links,
             R.string.pref_general_init,
             R.string.pref_more_fragment_more_nested_position_height,
-            R.string.pref_widget_id,
             R.string.pref_widget_category,
+            R.string.pref_widget_width
 
 
     };
@@ -178,12 +178,20 @@ public class Preference {
         return PrefManager.getStringPref(context, Costant.PREFERENCE_SUBREDDIT_SORT);
     }
 
-    public static void setWidgetId(Context context, int i) {
-        PrefManager.putIntPref(context, Costant.PREFERENCE_WIDGET_ID, i);
+    public static void setWidgetCategory(Context context, String s) {
+        PrefManager.putStringPref(context, Costant.PREFERENCE_WIDGET_CATEGORY, s);
     }
 
-    public static int getWidgetId(Context context) {
-        return PrefManager.getIntPref(context, Costant.PREFERENCE_WIDGET_ID);
+    public static String getWidgetCategory(Context context) {
+        return PrefManager.getStringPref(context, Costant.PREFERENCE_WIDGET_CATEGORY);
+    }
+
+    public static void setWidgetWidth(Context context, int i) {
+        PrefManager.putIntPref(context, Costant.PREFERENCE_WIDGET_WIDTH, i);
+    }
+
+    public static int getWidgetWidth(Context context) {
+        return PrefManager.getIntPref(context, Costant.PREFERENCE_WIDGET_WIDTH);
     }
 
 
@@ -267,10 +275,5 @@ public class Preference {
     public static int getGeneralSettingsDepthPage(Context context) {
         return PrefManager.getIntGeneralSettings(context, Costant.PREFERENCE_DEPTH_PAGE);
     }
-
-    public static String getGeneralSettingsWidgetCategory(Context context) {
-        return PrefManager.getStringGeneralSettings(context, Costant.PREFERENCE_WIDGET_CATEGORY);
-    }
-
 
 }

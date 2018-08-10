@@ -197,11 +197,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
                 }
             }
 
-            String targ = mCursor.getString(
-                    mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_TARGET));
-// todo benny
-            holder.mTextViewTitle.setText(targ);
-//            holder.mTextViewTitle.setText(TextUtil.textFromHtml(record.getTitle()));
+
+            holder.mTextViewTitle.setText(TextUtil.textFromHtml(record.getTitle()));
 
             holder.mTextViewSubRedditNamePrefix.setText(record.getSubRedditNamePrefix());
 

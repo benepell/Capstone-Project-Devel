@@ -34,6 +34,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Binder;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -50,24 +51,17 @@ import timber.log.Timber;
 
 public class RemoteWidgetService extends RemoteViewsService {
 
-    private String mCategory;
-
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        if (intent != null) {
-            mCategory = intent.getStringExtra(Costant.EXTRA_WIDGET_SERVICE_CATEGORY);
-        }
-        return new WidgetRemoteViewsFactory(this.getApplicationContext(), mCategory);
+        return new WidgetRemoteViewsFactory(this.getApplicationContext());
     }
 
     class WidgetRemoteViewsFactory implements RemoteViewsFactory {
         final Context mContext;
-        final String mCategory;
         Cursor mCursor;
 
-        WidgetRemoteViewsFactory(Context context, String category) {
+        WidgetRemoteViewsFactory(Context context) {
             mContext = context;
-            mCategory = category;
         }
 
         @Override
@@ -87,13 +81,17 @@ public class RemoteWidgetService extends RemoteViewsService {
                 WidgetUtil widgetUtil = new WidgetUtil(mContext);
 
 
-                switch (mCategory) {
+                switch (Preference.getWidgetCategory(mContext)) {
                     case Costant.CATEGORY_POPULAR:
                     case Costant.CATEGORY_ALL:
                     case Costant.CATEGORY_HOT:
+                    case Costant.CATEGORY_NEW:
+                    case Costant.CATEGORY_TOP:
+                    case Costant.CATEGORY_RISING:
+                    case Costant.CATEGORY_BEST:
                         selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?" + " AND " +
                                 Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " =?";
-                        selectionArgs = new String[]{widgetUtil.getMainTarget(mCategory), "0"};
+                        selectionArgs = new String[]{widgetUtil.getMainTarget(Preference.getWidgetCategory(mContext)), "0"};
                 }
 
                 mCursor = mContext.getContentResolver().query(Contract.T3dataEntry.CONTENT_URI,
@@ -102,7 +100,7 @@ public class RemoteWidgetService extends RemoteViewsService {
 
 
             } catch (Exception e) {
-                Timber.e("widget datasetchange error %s", e.getMessage());
+                Timber.e("widget data set change error %s", e.getMessage());
 
             } finally {
                 if (mCursor != null) {
@@ -127,10 +125,8 @@ public class RemoteWidgetService extends RemoteViewsService {
         @Override
         public RemoteViews getViewAt(int position) {
 
-            if (mCursor == null || mCursor.getCount() == 0) {
-                Preference.setWidgetId(mContext, 0);
-                return null;
-            }
+            if (mCursor == null || mCursor.getCount() == 0) return null;
+
 
             mCursor.moveToPosition(position);
 
@@ -143,44 +139,49 @@ public class RemoteWidgetService extends RemoteViewsService {
             String strImageUrl = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_URL));
             long createdUtc = mCursor.getLong(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_CREATED_UTC));
 
-            Preference.setWidgetId(mContext, id);
 
             RemoteViews views = new RemoteViews(mContext.getPackageName(),
-                    R.layout.list_widget);
+                    R.layout.list_widget_main);
 
-            if (!TextUtils.isEmpty(strImageUrl)) {
-                Uri imageUri = Uri.parse(TextUtil.textFromHtml(strImageUrl));
 
-                try {
-                    Bitmap b = Picasso.get().load(imageUri).get();
-                    views.setImageViewBitmap(R.id.img_widget_name, b);
+            if (Preference.getWidgetWidth(mContext) > Costant.WIDTH_ENABLE_IMAGE) {
 
-                } catch (Exception e) {
-                    Timber.e("WIDGET image error %s", e.getMessage());
+                if (!TextUtils.isEmpty(strImageUrl)) {
+                    Uri imageUri = Uri.parse(TextUtil.textFromHtml(strImageUrl));
+
+                    try {
+                        Bitmap b = Picasso.get().load(imageUri).get();
+                        views.setImageViewBitmap(R.id.img_widget_name, b);
+
+                        views.setViewVisibility(R.id.img_widget_name, View.VISIBLE);
+
+                    } catch (Exception e) {
+                        Timber.e("WIDGET image error %s", e.getMessage());
+
+                    }
+
+                } else {
+                    views.setImageViewResource(R.id.img_widget_name, R.drawable.no_image);
 
                 }
 
             } else {
-                views.setImageViewResource(R.id.img_widget_name, R.drawable.no_image);
+                views.setViewVisibility(R.id.img_widget_name, View.GONE);
 
             }
 
-            views.setTextViewText(R.id.text_widget_author, author);
             views.setTextViewText(R.id.text_widget_title, title);
 
             views.setTextViewText(R.id.text_widget_num_comments,
-                    String.format(" %s %s ", numComments, mContext.getString(R.string.text_comments_subreddit)));
+                    String.format(" %s %s - %s ", numComments, mContext.getString(R.string.text_comments_subreddit), DateUtil.getDiffTimeMinute(mContext, createdUtc)));
 
-            views.setTextViewText(R.id.text_widget_utc, DateUtil.getDiffTimeMinute(mContext, createdUtc));
-
-            views.setTextViewText(R.id.text_widget_category,
-                    String.format(" - %s", categoryPrefix));
+            views.setTextViewText(R.id.text_widget_author,
+                    String.format("%s - %s", author, categoryPrefix));
 
             Intent fillInIntent = new Intent();
             fillInIntent.putExtra(Costant.EXTRA_WIDGET_ID, id);
             fillInIntent.putExtra(Costant.EXTRA_WIDGET_SERVICE_CATEGORY, category);
             views.setOnClickFillInIntent(R.id.linear_layout_widget, fillInIntent);
-
 
             return views;
         }
@@ -206,5 +207,6 @@ public class RemoteWidgetService extends RemoteViewsService {
         }
 
     }
+
 
 }

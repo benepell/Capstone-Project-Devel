@@ -67,7 +67,7 @@ public class AboutMeExecute {
 
         void success(RedditAboutMe response , int code);
 
-        @SuppressWarnings("unused")
+        @SuppressWarnings({"unused", "EmptyMethod"})
         void unexpectedError(Throwable tList);
     }
 

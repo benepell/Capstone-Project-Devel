@@ -17,12 +17,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppThemeLight.NoActionBar">
-
         <activity
             android:name=".ui.activity.MainActivity"
             android:label="@string/title_activity_subreddit"
             android:theme="@style/AppThemeLight.NoActionBar">
-
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
                 <action android:name="android.intent.action.MAIN" />
@@ -33,22 +31,16 @@
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
-
         </activity>
-
         <activity
             android:name=".ui.activity.DetailActivity"
             android:label="@string/title_activity_subreddit_detail"
-            android:theme="@style/AppThemeLight.NoActionBar" >
+            android:theme="@style/AppThemeLight.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-
         </activity>
-
-
         <activity android:name=".ui.activity.BaseActivity" />
-
         <activity
             android:name=".ui.activity.SettingsActivity"
             android:excludeFromRecents="true"
@@ -59,7 +51,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />
         </activity>
-
         <activity
             android:name=".ui.activity.ManageActivity"
             android:excludeFromRecents="true"
@@ -71,7 +62,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />
         </activity>
-
         <activity
             android:name=".ui.activity.LoginActivity"
             android:excludeFromRecents="true"
@@ -80,7 +70,6 @@
             android:noHistory="true"
             android:parentActivityName=".ui.activity.MainActivity"
             android:theme="@style/AppThemeLight.NoActionBar" />
-
         <activity
             android:name=".ui.activity.YoutubeActivity"
             android:label="@string/title_activity_subreddit"
@@ -90,6 +79,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />
         </activity>
+
+        <activity android:name=".ui.activity.OptionWidgetActivity"
+            android:noHistory="true"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+
 
         <provider
             android:name=".data.db.ContentProvider"
@@ -116,7 +110,6 @@
         <service
             android:name=".service.RemoteWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
-
         <service android:name=".service.WidgetService" />
 
         <receiver android:name=".widget.WidgetProvider">
@@ -128,6 +121,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info" />
         </receiver>
+
 
     </application>
 

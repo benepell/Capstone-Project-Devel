@@ -32,9 +32,15 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
+import java.util.Objects;
+
+import info.pelleritoudacity.android.rcapstone.ui.activity.OptionWidgetActivity;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.widget.WidgetProvider;
+import info.pelleritoudacity.android.rcapstone.widget.WidgetUtil;
 import timber.log.Timber;
 
 
@@ -45,21 +51,54 @@ public class WidgetService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        update(getApplicationContext());
+
+        if (Objects.requireNonNull(intent).getBooleanExtra(Costant.EXTRA_WIDGET_SERVICE, false)) {
+            update(getApplicationContext());
+
+        } else {
+            stop(getApplicationContext());
+            update(getApplicationContext());
+
+        }
     }
 
     public static void start(Context context) {
         Intent intent = new Intent(context, WidgetService.class);
+        intent.putExtra(Costant.EXTRA_WIDGET_SERVICE, true);
         context.startService(intent);
+
     }
+
+    private static void stop(Context context) {
+        Intent intent = new Intent(context, WidgetService.class);
+        intent.putExtra(Costant.EXTRA_WIDGET_SERVICE, false);
+        context.stopService(intent);
+
+    }
+
+
 
     private static void update(Context context) {
         try {
-            Intent intent = new Intent(context, WidgetProvider.class);
-            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(context.getApplicationContext(), 0,
-                    intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            pendingIntent.send();
+
+            if (TextUtils.isEmpty(Preference.getWidgetCategory(context))) {
+                context.startActivity(new Intent(context, OptionWidgetActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                );
+
+            } else {
+                new WidgetUtil(context).updateData(Preference.getWidgetCategory(context));
+                Intent intent = new Intent(context, WidgetProvider.class);
+                intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(context.getApplicationContext(), 0,
+                        intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                pendingIntent.send();
+
+
+            }
+
+
 
         } catch (PendingIntent.CanceledException e) {
             Timber.e("widget pending%s", e.getMessage());

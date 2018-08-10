@@ -21,7 +21,7 @@ import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import timber.log.Timber;
 
-public class YoutubeActivity extends YouTubeFailureRecoveryActivity {
+public class   YoutubeActivity extends YouTubeFailureRecoveryActivity {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.youtube_toolbar)

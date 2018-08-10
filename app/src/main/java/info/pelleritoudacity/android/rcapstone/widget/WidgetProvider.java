@@ -32,7 +32,9 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.TaskStackBuilder;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -42,43 +44,42 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.service.RemoteWidgetService;
 import info.pelleritoudacity.android.rcapstone.service.WidgetService;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
-import info.pelleritoudacity.android.rcapstone.ui.activity.SettingsActivity;
-import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.ui.activity.OptionWidgetActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 
 public class WidgetProvider extends AppWidgetProvider {
 
-    private RemoteViews viewsUpdateRecipeWidget(Context context) {
-
-        int id = Preference.getWidgetId(context);
-
-        String title = context.getString(R.string.app_name) + ": " + Costant.CATEGORY_POPULAR;
+    private RemoteViews viewsUpdateMainWidget(Context context) {
 
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget_main);
+
+        String title = String.format("%s : %s", context.getString(R.string.app_name), Preference.getWidgetCategory(context));
 
         rv.setTextViewText(R.id.widget_title, title);
 
         rv.setImageViewResource(R.id.widget_settings, R.drawable.ic_widget_settings);
-        Intent settingsIntent = new Intent(context, SettingsActivity.class);
+
+        Intent settingsIntent = new Intent(context, OptionWidgetActivity.class);
+        settingsIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+
         PendingIntent settingsPendingIntent = PendingIntent.getActivity(context, 0,
-                settingsIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                settingsIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
         rv.setOnClickPendingIntent(R.id.widget_settings, settingsPendingIntent);
 
         rv.setImageViewResource(R.id.widget_refresh, R.drawable.ic_widget_refresh);
         Intent refreshIntent = new Intent(context, WidgetService.class);
         refreshIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        PendingIntent refreshPendingIntent = PendingIntent.getService(context, 0, refreshIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent refreshPendingIntent = PendingIntent.getService(context, 0, refreshIntent,
+                PendingIntent.FLAG_CANCEL_CURRENT);
         rv.setOnClickPendingIntent(R.id.widget_refresh, refreshPendingIntent);
 
-        if (id > 0) {
+        if (!TextUtils.isEmpty(Preference.getWidgetCategory(context))) {
 
             rv.setViewVisibility(R.id.widget_text_error, View.GONE);
             rv.setViewVisibility(R.id.widget_listView, View.VISIBLE);
 
-            String category = Preference.getGeneralSettingsWidgetCategory(context.getApplicationContext());
-
             Intent serviceIntent = new Intent(context, RemoteWidgetService.class);
-            serviceIntent.putExtra(Costant.EXTRA_WIDGET_SERVICE_CATEGORY, category);
             rv.setRemoteAdapter(R.id.widget_listView, serviceIntent);
 
             Intent clickIntent = new Intent(context, MainActivity.class);
@@ -89,9 +90,10 @@ public class WidgetProvider extends AppWidgetProvider {
 
 
         } else {
+
             rv.setViewVisibility(R.id.widget_listView, View.GONE);
             rv.setViewVisibility(R.id.widget_text_error, View.VISIBLE);
-            rv.setTextViewText(R.id.widget_text_error, "Widget initialize error, please start first " + context.getString(R.string.app_name));
+            rv.setTextViewText(R.id.widget_text_error, context.getString(R.string.text_error_widget));
 
             Intent clickIntent = new Intent(context, MainActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
@@ -113,17 +115,23 @@ public class WidgetProvider extends AppWidgetProvider {
         if (Objects.equals(action, AppWidgetManager.ACTION_APPWIDGET_UPDATE)) {
 
             for (int appWidgetId : appWidgetIds) {
-                appWidgetManager.partiallyUpdateAppWidget(appWidgetId, viewsUpdateRecipeWidget(context));
+                appWidgetManager.partiallyUpdateAppWidget(appWidgetId, viewsUpdateMainWidget(context));
             }
+            appWidgetManager.updateAppWidget(R.id.widget_listView, null);
             appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_listView);
+//            updateWidth(context, appWidgetManager, appWidgetIds);
         }
         super.onReceive(context, intent);
     }
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-//        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_listView);
-//        appWidgetManager.updateAppWidget(appWidgetIds, viewsUpdateRecipeWidget(context));
+
+        appWidgetManager.updateAppWidget(appWidgetIds, viewsUpdateMainWidget(context));
+        appWidgetManager.updateAppWidget(R.id.widget_listView, null);
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_listView);
+
+        super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
     @Override
@@ -134,6 +142,11 @@ public class WidgetProvider extends AppWidgetProvider {
     public void onDisabled(Context context) {
     }
 
+    @Override
+    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
+        super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
+        Preference.setWidgetWidth(context, newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH));
+    }
 
 }
 

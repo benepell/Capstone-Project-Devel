@@ -134,12 +134,7 @@ public class DataUtils {
                 }
             }
 
-            if(lastTime>0){
-                isSync = timeoutseconds - lastTime > 0;
-
-            }else {
-                isSync = false;
-            }
+            isSync = lastTime > 0 && timeoutseconds - lastTime > 0;
 
 
         } catch (Exception e) {

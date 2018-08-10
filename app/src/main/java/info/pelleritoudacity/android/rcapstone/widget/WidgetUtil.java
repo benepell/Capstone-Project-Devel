@@ -6,12 +6,9 @@ import java.util.List;
 
 import info.pelleritoudacity.android.rcapstone.data.db.Operation.T3Operation;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
-import info.pelleritoudacity.android.rcapstone.data.rest.MainExecute;
 import info.pelleritoudacity.android.rcapstone.data.rest.WidgetExecute;
-import info.pelleritoudacity.android.rcapstone.service.WidgetService;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
-import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import timber.log.Timber;
 
 public class WidgetUtil {
@@ -20,16 +17,6 @@ public class WidgetUtil {
 
     public WidgetUtil(Context context) {
         mContext = context;
-    }
-
-    public void init() {
-        if (Preference.getWidgetId(mContext) == 0) {
-            if (NetworkUtil.isOnline(mContext)) {
-                Preference.setWidgetId(mContext, 1);
-                updateData(Preference.getGeneralSettingsWidgetCategory(mContext));
-            }
-        }
-        WidgetService.start(mContext);
     }
 
     public void updateData(String category) {
@@ -64,12 +51,20 @@ public class WidgetUtil {
 
     public String getMainTarget(String category) {
         switch (category) {
-            case "all":
-                return Costant.ALL_MAIN_TARGET;
+            case "best":
+                return Costant.BEST_MAIN_TARGET;
+            case "new":
+                return Costant.NEW_MAIN_TARGET;
+            case "top":
+                return Costant.TOP_MAIN_TARGET;
+            case "rising":
+                return Costant.RISING_MAIN_TARGET;
             case "popular":
                 return Costant.POPULAR_MAIN_TARGET;
             case "hot":
                 return Costant.HOT_MAIN_TARGET;
+            case "controversial":
+                return Costant.CONTROVERSIAL_MAIN_TARGET;
             default:
                 return "";
         }

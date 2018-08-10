@@ -11,8 +11,8 @@
 
     <dimen name="list_padding_vertical_author">8dp</dimen>
     <dimen name="list_padding_horizontal_author">8dp</dimen>
-    <dimen name="widget_min_width">110dp</dimen>
-    <dimen name="widget_min_height">110dp</dimen>
+    <dimen name="widget_min_width">180dp</dimen>
+    <dimen name="widget_min_height">180dp</dimen>
 
 
 </resources>

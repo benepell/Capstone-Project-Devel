@@ -43,15 +43,6 @@
         android:title="@string/pref_title_item_page" />
 
     <ListPreference
-        android:defaultValue="@string/default_widget_category"
-        android:entries="@array/pref_widget_category_titles"
-        android:entryValues="@array/pref_widget_category_values"
-        android:key="@string/pref_widget_category"
-        android:negativeButtonText="@null"
-        android:positiveButtonText="@null"
-        android:title="@string/pref_title_widget_category" />
-
-    <ListPreference
         android:defaultValue="@string/default_depth_page_titles"
         android:entries="@array/pref_depth_page_titles"
         android:entryValues="@array/pref_depth_page_values"
