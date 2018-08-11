@@ -80,7 +80,8 @@ import static info.pelleritoudacity.android.rcapstone.utility.PermissionUtil.Req
 
 public class MainActivity extends BaseActivity
         implements MainExecute.OnRestCallBack,
-        Tab.OnTabListener, SwipeRefreshLayout.OnRefreshListener, ActivityCompat.OnRequestPermissionsResultCallback, SearchView.OnQueryTextListener {
+        Tab.OnTabListener, SwipeRefreshLayout.OnRefreshListener,
+        ActivityCompat.OnRequestPermissionsResultCallback, SearchView.OnQueryTextListener{
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.main_container)
@@ -133,8 +134,9 @@ public class MainActivity extends BaseActivity
             mModel = savedInstanceState.getParcelable(Costant.EXTRA_PARCEL_MAIN_MODEL);
 
         } else {
-            mModel = new MainModel();
-
+            if (mModel == null) {
+                mModel = new MainModel();
+            }
         }
 
         ArrayList<String> mTabArrayList = new TabData(mContext).getTabArrayList();
@@ -331,7 +333,7 @@ public class MainActivity extends BaseActivity
 
         if (menu.findItem(R.id.menu_action_search) == null) {
             getMenuInflater().inflate(R.menu.menu_search, menu);
-            MenuBase menuBase = new MenuBase(mContext, R.layout.activity_main);
+            MenuBase menuBase = new MenuBase(this, R.layout.activity_main);
             menuBase.menuItemSearch(this, getComponentName(), menu);
         }
 
@@ -352,13 +354,13 @@ public class MainActivity extends BaseActivity
     private void initRest(MainModel m, boolean stateNetworkOnline) {
         if (!TextUtils.isEmpty(m.getCategory())) {
 
-            if ((!stateNetworkOnline)|| (
+            if ((!stateNetworkOnline) || (
                     new DataUtils(mContext).isSyncData(Contract.T3dataEntry.CONTENT_URI,
                             m.getCategory(),
                             Preference.getGeneralSettingsSyncFrequency(mContext),
                             Preference.getGeneralSettingsItemPage(mContext)))) {
 
-            createUI(mModel);
+                createUI(mModel);
 
             } else {
                 switch (Preference.getSubredditSort(mContext)) {

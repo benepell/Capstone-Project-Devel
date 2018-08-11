@@ -5,5 +5,15 @@
     <dimen name="widget_min_width">158dp</dimen>
     <dimen name="widget_min_height">180dp</dimen>
 
+    <dimen name="base_navigation_bar_height">240dp</dimen>
+
+
+    <!-- list -->
+    <dimen name="list_app_bar_elevation">4dp</dimen>
+    <dimen name="list_side_margin">8dp</dimen>
+    <dimen name="list_card_elevation">2dp</dimen>
+
+    <dimen name="list_card_horizontal_margin">16dp</dimen>
+    <dimen name="list_card_vertical_margin">16dp</dimen>
 
 </resources>

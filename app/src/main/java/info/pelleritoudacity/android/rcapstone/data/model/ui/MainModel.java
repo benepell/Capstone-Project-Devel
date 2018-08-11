@@ -9,6 +9,7 @@ public class MainModel implements Parcelable {
     private int mediaType;
 
 
+    private int position;
     private int positionTab;
     private long positionPlayer;
     private String category;
@@ -24,6 +25,7 @@ public class MainModel implements Parcelable {
     private MainModel(Parcel in) {
         windowPlayer = in.readInt();
         mediaType = in.readInt();
+        position = in.readInt();
         positionTab = in.readInt();
         positionPlayer = in.readLong();
         category = in.readString();
@@ -60,6 +62,14 @@ public class MainModel implements Parcelable {
 
     public void setMediaType(int mediaType) {
         this.mediaType = mediaType;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     public int getPositionTab() {
@@ -135,6 +145,7 @@ public class MainModel implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(windowPlayer);
         dest.writeInt(mediaType);
+        dest.writeInt(position);
         dest.writeInt(positionTab);
         dest.writeLong(positionPlayer);
         dest.writeString(category);

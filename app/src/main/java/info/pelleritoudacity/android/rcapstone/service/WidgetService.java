@@ -27,12 +27,8 @@
 package info.pelleritoudacity.android.rcapstone.service;
 
 import android.app.IntentService;
-import android.app.PendingIntent;
-import android.appwidget.AppWidgetManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
@@ -41,9 +37,7 @@ import java.util.Objects;
 import info.pelleritoudacity.android.rcapstone.ui.activity.OptionWidgetActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
-import info.pelleritoudacity.android.rcapstone.widget.WidgetProvider;
 import info.pelleritoudacity.android.rcapstone.widget.WidgetUtil;
-import timber.log.Timber;
 
 
 public class WidgetService extends IntentService {

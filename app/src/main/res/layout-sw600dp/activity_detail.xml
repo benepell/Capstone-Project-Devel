@@ -17,16 +17,24 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:ignore="PrivateResource">
 
-        <android.support.v4.widget.NestedScrollView
-            android:id="@+id/nested_scrollview_detail"
-            style="@style/ScrollBarStyle"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:ignore="InconsistentLayout">  <!--no used in Tablet Version-->
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <FrameLayout
+                android:id="@+id/fragment_subreddit_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" /> <!--only used in tablet version-->
+
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <FrameLayout
@@ -36,13 +44,18 @@
 
                 <FrameLayout
                     android:id="@+id/fragment_detail_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
 
             </LinearLayout>
 
-        </android.support.v4.widget.NestedScrollView>
 
+        </LinearLayout>
+        <!--
+                </android.support.v4.widget.NestedScrollView>
+
+           -->
     </android.support.v4.widget.SwipeRefreshLayout>
 
 </android.support.design.widget.CoordinatorLayout>

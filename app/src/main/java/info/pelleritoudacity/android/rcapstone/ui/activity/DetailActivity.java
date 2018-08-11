@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
@@ -12,6 +13,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.View;
+
 
 import java.util.List;
 import java.util.Objects;
@@ -24,9 +26,11 @@ import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T1;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.More;
+import info.pelleritoudacity.android.rcapstone.data.model.ui.MainModel;
 import info.pelleritoudacity.android.rcapstone.data.rest.RestMoreExecute;
 import info.pelleritoudacity.android.rcapstone.data.rest.RestDetailExecute;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.DetailFragment;
+import info.pelleritoudacity.android.rcapstone.ui.fragment.MainFragment;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.TitleDetailFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.DetailHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.MenuBase;
@@ -35,17 +39,19 @@ import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
+import info.pelleritoudacity.android.rcapstone.utility.Utility;
 
 public class DetailActivity extends BaseActivity
         implements RestDetailExecute.OnRestCallBack,
         DetailFragment.OnFragmentInteractionListener, RestMoreExecute.OnRestCallBack,
-        SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener {
+        SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener, MainFragment.OnTabletClick {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.detail_container)
     public CoordinatorLayout mContainer;
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
+    @Nullable // no used in tablet version
     @BindView(R.id.nested_scrollview_detail)
     public NestedScrollView mNestedScrollView;
 
@@ -65,6 +71,11 @@ public class DetailActivity extends BaseActivity
 
         mContext = getApplicationContext();
         mSwipeRefreshLayout.setOnRefreshListener(this);
+
+        if (Utility.isTablet(mContext)) {
+            mSwipeRefreshLayout.setEnabled(false);
+
+        }
 
         if (Preference.isNightMode(mContext)) {
             mSwipeRefreshLayout.setProgressBackgroundColorSchemeColor(Color.GRAY);
@@ -91,8 +102,12 @@ public class DetailActivity extends BaseActivity
 
     @Override
     public void clickSelector(int position, int itemCount) {
-        if (position == itemCount - 1) {
-            mNestedScrollView.smoothScrollBy(0, mNestedScrollView.getBottom());
+        if (!Utility.isTablet(mContext)) {
+            if (position == itemCount - 1) {
+                if (mNestedScrollView != null) {
+                    mNestedScrollView.smoothScrollBy(0, mNestedScrollView.getBottom());
+                }
+            }
         }
     }
 
@@ -107,9 +122,11 @@ public class DetailActivity extends BaseActivity
     @Override
     public void onRefresh() {
 
-        if (mNestedScrollView != null) {
-            if (mNestedScrollView.getChildAt(0).getScrollY() > 0) {
-                mNestedScrollView.getChildAt(0).setScrollY(mNestedScrollView.getTop());
+        if (!Utility.isTablet(mContext)) {
+            if (mNestedScrollView != null) {
+                if (mNestedScrollView.getChildAt(0).getScrollY() > 0) {
+                    mNestedScrollView.getChildAt(0).setScrollY(mNestedScrollView.getTop());
+                }
             }
         }
         String tokenLogin = PermissionUtil.getToken(mContext);
@@ -177,7 +194,7 @@ public class DetailActivity extends BaseActivity
 
         if (menu.findItem(R.id.menu_action_search) == null) {
             getMenuInflater().inflate(R.menu.menu_search, menu);
-            MenuBase menuBase = new MenuBase(mContext, R.layout.activity_detail);
+            MenuBase menuBase = new MenuBase(this, R.layout.activity_detail);
             menuBase.menuItemSearch(this, getComponentName(), menu);
         }
 
@@ -220,11 +237,16 @@ public class DetailActivity extends BaseActivity
         if (!getSupportFragmentManager().isStateSaved()) {
 
             if (moreFragment) {
+
+                createFragmentTablet(mContext, m.getCategory(), m.getPosition());
+
                 DetailFragment fragment = DetailFragment.newInstance(m);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_detail_container, fragment).commit();
 
             } else {
+
+                createFragmentTablet(mContext, m.getCategory(), m.getPosition());
 
                 TitleDetailFragment titleDetailFragment = TitleDetailFragment.newInstance(m.getStrId());
                 getSupportFragmentManager().beginTransaction()
@@ -234,9 +256,10 @@ public class DetailActivity extends BaseActivity
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_detail_container, fragment).commit();
 
+
             }
         } else {
-            if (mNestedScrollView == null) {
+            if ((!Utility.isTablet(mContext)) && (mNestedScrollView == null)) {
                 ActivityUI.startRefresh(getApplicationContext(), DetailActivity.class);
             }
         }
@@ -252,6 +275,24 @@ public class DetailActivity extends BaseActivity
                 Preference.getGeneralSettingsItemPage(mContext));
     }
 
+
+    private void createFragmentTablet(Context context, String category, int position) {
+        MainModel mainModel;
+
+        if (Utility.isTablet(context)) {
+            mainModel = new MainModel();
+            mainModel.setPosition(position);
+            mainModel.setCategory(category);
+            mainModel.setTarget(Costant.DEFAULT_START_VALUE_MAIN_TARGET);
+            mainModel.setOver18(Preference.isLoginOver18(mContext));
+
+            MainFragment mainFragment = MainFragment.newInstance(mainModel);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_subreddit_container, mainFragment).commit();
+
+        }
+
+    }
 
     @Override
     public void success(List<T1> response, int code) {
@@ -279,6 +320,36 @@ public class DetailActivity extends BaseActivity
                 }
 
             }
+
+        }
+
+    }
+
+    @Override
+    public void tabletClick(int position, String category, String strId) {
+        if (model == null) {
+            model = new DetailModel();
+        }
+        model.setCategory(category);
+        model.setStrId(strId);
+        model.setPosition(position);
+        model.setTarget(Costant.DETAIL_TARGET);
+
+        mSwipeRefreshLayout.setRefreshing(true);
+        onRefresh();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (Utility.isTablet(getApplicationContext()) && (model != null) && (model.getTarget() == Costant.MORE_DETAIL_TARGET)) {
+            model.setTarget(Costant.DETAIL_TARGET);
+            model.setStrArrId(null);
+            model.setStrLinkId(null);
+
+            onRefresh();
+
+        } else {
+            super.onBackPressed();
 
         }
 

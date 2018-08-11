@@ -27,6 +27,7 @@ import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+import info.pelleritoudacity.android.rcapstone.utility.Utility;
 
 import static info.pelleritoudacity.android.rcapstone.utility.NumberUtil.numberFormat;
 
@@ -34,7 +35,6 @@ public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.
 
     private final Context mContext;
     private Cursor mCursor;
-
 
     public TitleDetailAdapter(Context context) {
         mContext = context;
@@ -50,7 +50,6 @@ public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.
 
         return new SubRedditSelectedHolder(view);
     }
-
 
     @Override
     public void onBindViewHolder(@NonNull SubRedditSelectedHolder holder, int position) {
@@ -88,21 +87,28 @@ public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.
                 strBackGroundColor = ImageUtil.getStringFromColor(mContext, R.color.colorBackgroundDark);
             }
 
-            SelectorHelper selectorHelper = new SelectorHelper(mContext);
-
             ImageButton[] arrayButton = new ImageButton[]{holder.mImageButtonVoteUp, holder.mImageButtonVoteDown,
                     holder.mImageButtonPreferStars, holder.mImageButtonShowComments, holder.mImageButtonOpenBrowser};
 
-            CardBottomModel cardBottomModel = new CardBottomModel();
-            cardBottomModel.setArrayButton(arrayButton);
-            cardBottomModel.setBackgroundColor(strBackGroundColor);
-            cardBottomModel.setLinkComment(TextUtil.buildCommentDetailLink(record.getPermanentLink()));
-            cardBottomModel.setCategory(record.getSubRedditName());
-            cardBottomModel.setSaved(record.isSaved());
-            cardBottomModel.setLogged(PermissionUtil.isLogged(mContext));
-            cardBottomModel.setOnline(NetworkUtil.isOnline(mContext));
+            if(!Utility.isTablet(mContext)) {
+                SelectorHelper selectorHelper = new SelectorHelper(mContext);
 
-            selectorHelper.cardBottomLink(cardBottomModel);
+                CardBottomModel cardBottomModel = new CardBottomModel();
+                cardBottomModel.setArrayButton(arrayButton);
+                cardBottomModel.setBackgroundColor(strBackGroundColor);
+                cardBottomModel.setLinkComment(TextUtil.buildCommentDetailLink(record.getPermanentLink()));
+                cardBottomModel.setCategory(record.getSubRedditName());
+                cardBottomModel.setSaved(record.isSaved());
+                cardBottomModel.setLogged(PermissionUtil.isLogged(mContext));
+                cardBottomModel.setOnline(NetworkUtil.isOnline(mContext));
+
+                selectorHelper.cardBottomLink(cardBottomModel);
+
+            }else {
+                for ( ImageButton view : arrayButton){
+                    view.setVisibility(View.GONE);
+                }
+            }
 
             TitleDetailHelper helper = new TitleDetailHelper(mContext);
 

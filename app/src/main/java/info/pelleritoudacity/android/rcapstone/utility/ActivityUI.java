@@ -91,9 +91,6 @@ public class ActivityUI {
         return context != null && context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
     }
 
-    public static boolean isTablet(Context context) {
-        return context != null && (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
-    }
 
     public static void startRefresh(Context context, Class clazz) {
 

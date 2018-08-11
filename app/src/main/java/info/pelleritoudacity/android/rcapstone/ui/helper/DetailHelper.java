@@ -3,6 +3,7 @@ package info.pelleritoudacity.android.rcapstone.ui.helper;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -111,6 +112,7 @@ public class DetailHelper {
         if (intent != null) {
 
             DetailModel model;
+
             if (intent.getParcelableExtra(Costant.EXTRA_PARCEL_DETAIL_MODEL) != null) {
                 model = intent.getParcelableExtra(Costant.EXTRA_PARCEL_DETAIL_MODEL);
 
@@ -128,8 +130,19 @@ public class DetailHelper {
 
             }
 
+
+            if (intent.getIntExtra(Costant.EXTRA_SUBREDDIT_DETAIL_POSITION, RecyclerView.NO_POSITION) != RecyclerView.NO_POSITION) {
+                Objects.requireNonNull(model).setPosition(intent.getIntExtra(Costant.EXTRA_SUBREDDIT_DETAIL_POSITION, RecyclerView.NO_POSITION));
+
+            }
+
             if (intent.getStringExtra(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID) != null) {
                 Objects.requireNonNull(model).setStrId(intent.getStringExtra(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID));
+
+            }
+
+            if (intent.getStringExtra(Costant.EXTRA_SUBREDDIT_DETAIL_CATEGORY) != null) {
+                Objects.requireNonNull(model).setCategory(intent.getStringExtra(Costant.EXTRA_SUBREDDIT_DETAIL_CATEGORY));
 
             }
 

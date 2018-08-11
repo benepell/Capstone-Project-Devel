@@ -169,7 +169,7 @@ public class WidgetExecute {
 
         void success(T3 response, int code);
 
-        @SuppressWarnings("unused")
+        @SuppressWarnings({"unused", "EmptyMethod"})
         void success(List<T3> response, int code);
 
         void unexpectedError(Throwable tList);

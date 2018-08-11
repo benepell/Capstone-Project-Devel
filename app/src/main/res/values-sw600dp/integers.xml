@@ -14,6 +14,9 @@
     <integer name="icon_size_volume">25</integer>
     <integer name="text_radio_widget">20</integer>
 
+    <integer name="grid_span_count_main">2</integer>
+
+
 
 
 </resources>

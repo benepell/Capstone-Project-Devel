@@ -93,7 +93,7 @@ public class BaseActivity extends AppCompatActivity
 
         }
 
-        menuBase = new MenuBase(getApplicationContext(), getLayoutResource());
+        menuBase = new MenuBase( this, getLayoutResource());
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

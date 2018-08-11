@@ -27,6 +27,7 @@ package info.pelleritoudacity.android.rcapstone.utility;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 
 
 public class Utility {
@@ -48,5 +49,10 @@ public class Utility {
         }
         return 0;
     }
+
+    public static boolean isTablet(Context context) {
+        return context != null && (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+    }
+
 
 }

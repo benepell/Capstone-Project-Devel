@@ -263,7 +263,6 @@
     <string name="text_search_local">Local Search</string>
     <string name="widget_home">widget home</string>
     <string name="widget_refresh">widget refresh</string>
-    <string name="text_error_widget">Init error, Please open app first</string>
     <string name="text_not_category_widget">empty category click here to select it</string>
     <string name="title_image_widget">image widget</string>
     <string name="text_widget_category">Category</string>

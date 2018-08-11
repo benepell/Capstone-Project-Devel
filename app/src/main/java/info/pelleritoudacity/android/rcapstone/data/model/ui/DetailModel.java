@@ -8,6 +8,7 @@ public class DetailModel implements Parcelable{
     private int id;
     private int position;
     private int target;
+    private String category;
     private String strId = null;
     private String strArrId;
     private String strLinkId;
@@ -19,6 +20,7 @@ public class DetailModel implements Parcelable{
     private DetailModel(Parcel in) {
         id = in.readInt();
         position = in.readInt();
+        category = in.readString();
         strId = in.readString();
         strArrId = in.readString();
         strLinkId = in.readString();
@@ -54,6 +56,14 @@ public class DetailModel implements Parcelable{
     @SuppressWarnings("unused")
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getStrId() {
@@ -105,6 +115,7 @@ public class DetailModel implements Parcelable{
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(id);
         parcel.writeInt(position);
+        parcel.writeString(category);
         parcel.writeString(strId);
         parcel.writeString(strArrId);
         parcel.writeString(strLinkId);

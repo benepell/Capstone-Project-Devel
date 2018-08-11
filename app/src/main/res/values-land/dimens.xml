@@ -11,5 +11,12 @@
     <dimen name="list_padding_vertical_author">4dp</dimen>
     <dimen name="list_padding_horizontal_author">8dp</dimen>
 
+    <dimen name="base_navigation_bar_height">180dp</dimen>
+
+    <dimen name="list_app_bar_elevation">4dp</dimen>
+    <dimen name="list_side_margin">4dp</dimen>
+    <dimen name="list_card_elevation">2dp</dimen>
+
+
 
 </resources>

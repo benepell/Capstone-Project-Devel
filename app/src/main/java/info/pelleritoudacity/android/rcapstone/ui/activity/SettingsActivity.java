@@ -37,7 +37,6 @@ import android.widget.FrameLayout;
 
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.SettingsFragment;
-import info.pelleritoudacity.android.rcapstone.widget.WidgetUtil;
 
 public class SettingsActivity extends AppCompatActivity implements SettingsFragment.OnSettingsFragmentInteraction {
 
