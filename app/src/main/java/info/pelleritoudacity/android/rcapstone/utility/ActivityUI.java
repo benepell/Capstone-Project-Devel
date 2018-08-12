@@ -33,8 +33,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 
-import java.util.Objects;
-
 import info.pelleritoudacity.android.rcapstone.ui.activity.DetailActivity;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
 import info.pelleritoudacity.android.rcapstone.ui.activity.ManageActivity;
@@ -61,12 +59,6 @@ public class ActivityUI {
 
         }
 
-    }
-
-    public static void hideActionBar(AppCompatActivity appCompatActivity) {
-        if (appCompatActivity != null) {
-            Objects.requireNonNull(appCompatActivity.getSupportActionBar()).hide();
-        }
     }
 
     public static void windowFullScreen(AppCompatActivity appCompatActivity) {

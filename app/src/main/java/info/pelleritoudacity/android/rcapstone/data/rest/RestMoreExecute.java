@@ -23,7 +23,7 @@ public class RestMoreExecute {
     private static RedditAPI sApi;
     private final OnRestCallBack mCallback;
 
-    public RestMoreExecute(OnRestCallBack callback, Context context, String code, DetailModel model) {
+    public RestMoreExecute(OnRestCallBack callback, @SuppressWarnings("unused") Context context, String code, DetailModel model) {
 
         sApi = RetrofitClient.createService(Costant.REDDIT_OAUTH_URL, More.class);
         mCallback = callback;
@@ -56,7 +56,7 @@ public class RestMoreExecute {
 
     public interface OnRestCallBack {
 
-        void success(More response, int code);
+        void success(More response, @SuppressWarnings("unused") int code);
 
         void unexpectedError(Throwable tList);
     }

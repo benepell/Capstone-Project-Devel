@@ -103,7 +103,7 @@ public class RestDetailExecute {
 
     public interface OnRestCallBack {
 
-        void success(List<T1> response, int code);
+        void success(List<T1> response, @SuppressWarnings("unused") int code);
 
         void unexpectedError(Throwable tList);
     }

@@ -57,7 +57,7 @@ public class WidgetProvider extends AppWidgetProvider {
 
         rv.setTextViewText(R.id.widget_title, title);
 
-        rv.setImageViewResource(R.id.widget_settings, R.drawable.ic_widget_settings);
+        rv.setImageViewResource(R.id.widget_settings, R.drawable.ic_widget_bookmark_border);
 
         Intent settingsIntent = new Intent(context, OptionWidgetActivity.class);
         settingsIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

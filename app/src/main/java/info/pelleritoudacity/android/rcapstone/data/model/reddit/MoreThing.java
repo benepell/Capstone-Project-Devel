@@ -7,6 +7,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+@SuppressWarnings("unused")
 public class MoreThing implements Parcelable
 {
 
@@ -41,19 +42,12 @@ public class MoreThing implements Parcelable
     public MoreThing() {
     }
 
-    public String getKind() {
-        return kind;
-    }
-
-    public void setKind(String kind) {
-        this.kind = kind;
-    }
 
     public T1ListingData getData() {
         return data;
     }
 
-    public void setData(T1ListingData data) {
+    protected void setData(T1ListingData data) {
         this.data = data;
     }
 

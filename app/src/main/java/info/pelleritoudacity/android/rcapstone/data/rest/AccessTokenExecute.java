@@ -93,7 +93,7 @@ public class AccessTokenExecute {
         @SuppressWarnings("unused")
         void success(RedditToken response, int code);
 
-        void unexpectedError(Throwable tList);
+        void unexpectedError(@SuppressWarnings("unused") Throwable tList);
     }
 
 }

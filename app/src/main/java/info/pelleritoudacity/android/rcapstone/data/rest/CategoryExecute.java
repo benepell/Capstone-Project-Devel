@@ -43,7 +43,6 @@ import retrofit2.Response;
 public class CategoryExecute {
 
     private static RedditAPI sApi;
-    private Call<T5> mCall;
     private final WeakReference<Context> mWeakContext;
 
     public CategoryExecute(WeakReference<Context> weakReference) {
@@ -57,7 +56,6 @@ public class CategoryExecute {
         sApi.getReddit().enqueue(new Callback<T5>() {
             @Override
             public void onResponse(@NonNull Call<T5> call, @NonNull Response<T5> response) {
-                mCall = call;
                 if (response.isSuccessful()) {
                     T5Operation data = new T5Operation(mWeakContext.get(), response.body());
                     data.saveData();
@@ -71,12 +69,6 @@ public class CategoryExecute {
         });
 
 
-    }
-
-    public void cancelRequest() {
-        if (mCall != null) {
-            mCall.cancel();
-        }
     }
 
 

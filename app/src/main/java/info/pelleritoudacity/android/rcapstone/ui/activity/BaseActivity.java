@@ -58,6 +58,7 @@ import info.pelleritoudacity.android.rcapstone.ui.helper.MenuBase;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
+import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
 
 public class BaseActivity extends AppCompatActivity
@@ -88,8 +89,14 @@ public class BaseActivity extends AppCompatActivity
 
         if (getLayoutResource() > 0) {
             mStub = findViewById(R.id.stub_base_layout);
-            mStub.setLayoutResource(getLayoutResource());
-            mStub.inflate();
+
+//            remove inconsistent layout use other layout in setContentView
+           if((Utility.isTablet(getApplicationContext())) &&(getLayoutResource()==R.layout.activity_detail)){
+               setLayoutResource(R.layout.activity_detail_tablet);
+           }
+
+           mStub.setLayoutResource(getLayoutResource());
+           mStub.inflate();
 
         }
 

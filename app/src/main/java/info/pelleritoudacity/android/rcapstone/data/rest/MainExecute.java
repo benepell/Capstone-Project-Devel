@@ -167,7 +167,7 @@ public class MainExecute {
 
     public interface OnRestCallBack {
 
-        void success(T3 response, int code);
+        void success(T3 response, @SuppressWarnings("unused") int code);
 
         @SuppressWarnings("unused")
         void success(List<T3> response, int code);

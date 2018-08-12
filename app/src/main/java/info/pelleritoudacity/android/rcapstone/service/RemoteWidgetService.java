@@ -88,6 +88,7 @@ public class RemoteWidgetService extends RemoteViewsService {
                     case Costant.CATEGORY_NEW:
                     case Costant.CATEGORY_TOP:
                     case Costant.CATEGORY_RISING:
+                    case Costant.CATEGORY_CONTROVERSIAL:
                     case Costant.CATEGORY_BEST:
                         selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?" + " AND " +
                                 Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " =?";

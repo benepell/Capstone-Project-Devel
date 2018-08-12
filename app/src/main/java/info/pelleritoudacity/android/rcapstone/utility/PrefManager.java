@@ -53,15 +53,6 @@ public class PrefManager {
                 sharedPref.getString(context.getString(key), "0"));
     }
 
-    static String getStringGeneralSettings(Context context, @SuppressWarnings("SameParameterValue") int key) {
-        PreferenceManager.setDefaultValues(context, R.xml.pref_general_settings, true);
-
-        SharedPreferences sharedPref =
-                PreferenceManager.getDefaultSharedPreferences(context);
-        return  String.valueOf(sharedPref.getString(context.getString(key), ""));
-    }
-
-
     static void clearGeneralSettings(Context context) {
         PreferenceManager.setDefaultValues(context, R.xml.pref_general_settings, true);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);

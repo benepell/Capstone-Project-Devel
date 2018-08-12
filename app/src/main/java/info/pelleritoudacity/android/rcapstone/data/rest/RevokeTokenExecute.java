@@ -92,7 +92,7 @@ public class RevokeTokenExecute {
 
     public interface OnRestCallBack {
 
-        void success(String response, int code);
+        void success(@SuppressWarnings("unused") String response, int code);
 
         void unexpectedError(Throwable tList);
     }

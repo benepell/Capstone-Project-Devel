@@ -131,7 +131,7 @@ public interface Costant {
     String CATEGORY_NEW = "new";
     String CATEGORY_TOP = "top";
     String CATEGORY_RISING = "rising";
-    String CATEGORY_CONTROVERSIAL = "rising";
+    String CATEGORY_CONTROVERSIAL = "controversial";
 
 
     String DEFAULT_START_VALUE_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.default.start.value.main.target";

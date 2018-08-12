@@ -287,6 +287,6 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
     public interface OnSubScriptionClick {
         void onClickStar(int visible, String name);
 
-        void onItemRemove(int position, String description);
+        void onItemRemove(@SuppressWarnings("unused") int position, String description);
     }
 }

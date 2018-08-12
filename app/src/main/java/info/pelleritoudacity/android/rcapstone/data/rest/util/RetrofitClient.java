@@ -13,7 +13,6 @@ import info.pelleritoudacity.android.rcapstone.data.model.reddit.T1;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -63,20 +62,6 @@ public class RetrofitClient {
                 .connectTimeout(Costant.OK_HTTP_CONNECTION_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(Costant.OK_HTTP_CONNECTION_READ_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(Costant.OK_HTTP_CONNECTION_WRITE_TIMEOUT, TimeUnit.SECONDS)
-                .build();
-
-    }
-
-    private OkHttpClient getOkHttpClientDebug() {
-
-        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS);
-
-        return new OkHttpClient.Builder()
-                .connectTimeout(Costant.OK_HTTP_CONNECTION_TIMEOUT, TimeUnit.SECONDS)
-                .readTimeout(Costant.OK_HTTP_CONNECTION_READ_TIMEOUT, TimeUnit.SECONDS)
-                .writeTimeout(Costant.OK_HTTP_CONNECTION_WRITE_TIMEOUT, TimeUnit.SECONDS)
-                .addInterceptor(httpLoggingInterceptor)
                 .build();
 
     }

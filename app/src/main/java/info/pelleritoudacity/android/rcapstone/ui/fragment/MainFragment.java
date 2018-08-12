@@ -29,7 +29,6 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.MainModel;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
-import info.pelleritoudacity.android.rcapstone.ui.activity.DetailActivity;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
 import info.pelleritoudacity.android.rcapstone.ui.adapter.MainAdapter;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;

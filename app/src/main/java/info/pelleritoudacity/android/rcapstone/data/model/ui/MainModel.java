@@ -48,6 +48,7 @@ public class MainModel implements Parcelable {
         }
     };
 
+    @SuppressWarnings("unused")
     public int getWindowPlayer() {
         return windowPlayer;
     }
@@ -56,10 +57,12 @@ public class MainModel implements Parcelable {
         this.windowPlayer = windowPlayer;
     }
 
+    @SuppressWarnings("unused")
     public int getMediaType() {
         return mediaType;
     }
 
+    @SuppressWarnings("unused")
     public void setMediaType(int mediaType) {
         this.mediaType = mediaType;
     }
@@ -72,6 +75,7 @@ public class MainModel implements Parcelable {
         this.position = position;
     }
 
+    @SuppressWarnings("unused")
     public int getPositionTab() {
         return positionTab;
     }
@@ -80,6 +84,7 @@ public class MainModel implements Parcelable {
         this.positionTab = positionTab;
     }
 
+    @SuppressWarnings("unused")
     public long getPositionPlayer() {
         return positionPlayer;
     }
@@ -112,6 +117,7 @@ public class MainModel implements Parcelable {
         this.querySearch = querySearch;
     }
 
+    @SuppressWarnings("unused")
     public boolean isIma() {
         return ima;
     }
@@ -120,6 +126,7 @@ public class MainModel implements Parcelable {
         this.ima = ima;
     }
 
+    @SuppressWarnings("unused")
     public boolean isAutoplay() {
         return autoplay;
     }
