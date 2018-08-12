@@ -39,7 +39,7 @@ import timber.log.Timber;
 import static info.pelleritoudacity.android.rcapstone.utility.Costant.SUBREDDIT_LOADER_ID;
 
 public class MainFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<Cursor>,  MainAdapter.OnMainClick {
+        implements LoaderManager.LoaderCallbacks<Cursor>, MainAdapter.OnMainClick {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.rv_fragment_main)
@@ -89,7 +89,7 @@ public class MainFragment extends Fragment
         if (Utility.isTablet(mContext) &&
                 (Objects.requireNonNull(getActivity()).getClass().getSimpleName().equals(MainActivity.class.getSimpleName()))) {
 
-           GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),
                     getResources().getInteger(R.integer.grid_span_count_main));
             mRecyclerView.setLayoutManager(gridLayoutManager);
 
@@ -104,7 +104,7 @@ public class MainFragment extends Fragment
         ImaAdsLoader mImaAdsLoader = new ImaAdsLoader(mContext, Uri.parse(getString(R.string.ad_tag_url)));
         mModel.setIma(true);
 
-        mAdapter = new MainAdapter( this, mContext, mImaAdsLoader);
+        mAdapter = new MainAdapter(this, mContext, mImaAdsLoader);
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -129,11 +129,11 @@ public class MainFragment extends Fragment
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-            try {
-                mMainListener = (OnMainClick) context;
-            } catch (ClassCastException e) {
-                throw new ClassCastException(getActivity().getLocalClassName() + "must implement OnFragmentInteractionListener");
-            }
+        try {
+            mMainListener = (OnMainClick) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().getLocalClassName() + "must implement OnFragmentInteractionListener");
+        }
     }
 
     @Override
@@ -190,13 +190,11 @@ public class MainFragment extends Fragment
         if ((data != null) && (mAdapter != null)) {
             mAdapter.swapCursor(data);
 
-            if (Objects.requireNonNull(getActivity()).getClass().getSimpleName().equals(DetailActivity.class.getSimpleName())) {
-                if ((mRecyclerView != null) &&
-                        (mModel.getPosition() != RecyclerView.NO_POSITION)) {
+            if ((mRecyclerView != null) &&
+                    (mModel.getPosition() > 0)) {
 
-                    mRecyclerView.scrollToPosition(mModel.getPosition());
+                mRecyclerView.scrollToPosition(mModel.getPosition());
 
-                }
             }
         }
 
@@ -207,7 +205,6 @@ public class MainFragment extends Fragment
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
         mAdapter.swapCursor(null);
     }
-
 
 
     @Override
