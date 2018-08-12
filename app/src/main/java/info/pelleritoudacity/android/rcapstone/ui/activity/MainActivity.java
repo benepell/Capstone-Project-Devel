@@ -81,7 +81,7 @@ import static info.pelleritoudacity.android.rcapstone.utility.PermissionUtil.Req
 public class MainActivity extends BaseActivity
         implements MainExecute.OnRestCallBack,
         Tab.OnTabListener, SwipeRefreshLayout.OnRefreshListener,
-        ActivityCompat.OnRequestPermissionsResultCallback, SearchView.OnQueryTextListener{
+        ActivityCompat.OnRequestPermissionsResultCallback, SearchView.OnQueryTextListener, MainFragment.OnMainClick{
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.main_container)
@@ -457,6 +457,15 @@ public class MainActivity extends BaseActivity
                 i--;
             }
         }
+    }
+
+    @Override
+    public void mainClick(int position, String category, String strId) {
+        mContext.startActivity(new Intent(mContext, DetailActivity.class)
+                .putExtra(Costant.EXTRA_SUBREDDIT_DETAIL_POSITION, position)
+                .putExtra(Costant.EXTRA_SUBREDDIT_DETAIL_CATEGORY, category)
+                .putExtra(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID, strId));
+
     }
 
     public static class MediaReceiver extends BroadcastReceiver {

@@ -39,7 +39,7 @@ import timber.log.Timber;
 import static info.pelleritoudacity.android.rcapstone.utility.Costant.SUBREDDIT_LOADER_ID;
 
 public class MainFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<Cursor>,  MainAdapter.OnTabletClick {
+        implements LoaderManager.LoaderCallbacks<Cursor>,  MainAdapter.OnMainClick {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.rv_fragment_main)
@@ -52,7 +52,7 @@ public class MainFragment extends Fragment
 
     private MediaPlayer mMediaPlayer;
     private MainAdapter mAdapter;
-    private OnTabletClick mTabletListener;
+    private OnMainClick mMainListener;
 
     public MainFragment() {
     }
@@ -129,19 +129,17 @@ public class MainFragment extends Fragment
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (Objects.requireNonNull(getActivity()).getClass().getSimpleName().equals(DetailActivity.class.getSimpleName())) {
             try {
-                mTabletListener = (OnTabletClick) context;
+                mMainListener = (OnMainClick) context;
             } catch (ClassCastException e) {
                 throw new ClassCastException(getActivity().getLocalClassName() + "must implement OnFragmentInteractionListener");
             }
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mTabletListener = null;
+        mMainListener = null;
     }
 
 
@@ -219,8 +217,8 @@ public class MainFragment extends Fragment
     }
 
     @Override
-    public void tabletClick(int position, String category, String strId) {
-        mTabletListener.tabletClick(position, category, strId);
+    public void mainClick(int position, String category, String strId) {
+        mMainListener.mainClick(position, category, strId);
     }
 
     private static class MainFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
@@ -312,7 +310,7 @@ public class MainFragment extends Fragment
         }
     }
 
-    public interface OnTabletClick {
-        void tabletClick(int position, String category, String strId);
+    public interface OnMainClick {
+        void mainClick(int position, String category, String strId);
     }
 }

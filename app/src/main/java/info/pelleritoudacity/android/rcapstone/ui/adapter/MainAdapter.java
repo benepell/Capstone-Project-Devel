@@ -47,7 +47,6 @@ import android.widget.Toast;
 import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
 import com.google.android.exoplayer2.ui.PlayerView;
 
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,7 +55,6 @@ import info.pelleritoudacity.android.rcapstone.data.db.Record.MainRecord;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.CardBottomModel;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
 import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapter;
-import info.pelleritoudacity.android.rcapstone.ui.activity.DetailActivity;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
 import info.pelleritoudacity.android.rcapstone.ui.helper.MainHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
@@ -75,12 +73,12 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
 
     private Cursor mCursor;
     private Context mContext;
-    private final OnTabletClick mTabletListener;
+    private final OnMainClick mMainListener;
     private MediaPlayer mMediaPlayer;
     private final ImaAdsLoader mImaAdsLoader;
 
-    public MainAdapter( OnTabletClick tabletListener,Context context, ImaAdsLoader imaAdsLoader) {
-        mTabletListener = tabletListener;
+    public MainAdapter(OnMainClick mainListener, Context context, ImaAdsLoader imaAdsLoader) {
+        mMainListener = mainListener;
         mContext = context;
         mImaAdsLoader = imaAdsLoader;
 
@@ -111,7 +109,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
         }
 
         if (record != null) {
-            holder.mTextViewCreatedUtc.setText(DateUtil.getDiffTimeMinute(mContext,record.getCreatedUtc()));
+            holder.mTextViewCreatedUtc.setText(DateUtil.getDiffTimeMinute(mContext, record.getCreatedUtc()));
 
             MainHelper mainHelper = new MainHelper(mContext);
 
@@ -363,25 +361,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
         @Override
         public void onClick(View view) {
 
-            if(mNumComments >0){
-                Class clazz = DetailActivity.class;
+            if (mNumComments > 0) {
+                mMainListener.mainClick(getAdapterPosition(), mSubRedditName, mNameRedditId);
 
-                if(Objects.requireNonNull(mContext).getClass().getSimpleName().equals(clazz.getSimpleName())){
-                    mTabletListener.tabletClick(getAdapterPosition(),mSubRedditName,mNameRedditId);
+            } else {
+                Toast.makeText(mContext, mContext.getString(R.string.text_no_comments), Toast.LENGTH_LONG).show();
 
-                }else {
-                    mContext.startActivity(new Intent(mContext, clazz)
-                            .putExtra(Costant.EXTRA_SUBREDDIT_DETAIL_POSITION, getAdapterPosition())
-                            .putExtra(Costant.EXTRA_SUBREDDIT_DETAIL_CATEGORY, mSubRedditName)
-                            .putExtra(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID, mNameRedditId));
-
-                }
-
-
-            }else {
-                Toast.makeText(mContext,mContext.getString(R.string.text_no_comments),Toast.LENGTH_LONG).show();
             }
-
         }
     }
 
@@ -400,8 +386,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
     }
 
 
-    public interface OnTabletClick{
-        void tabletClick(int position, String category, String strId);
+    public interface OnMainClick{
+        void mainClick(int position, String category, String strId);
+
     }
 
 }

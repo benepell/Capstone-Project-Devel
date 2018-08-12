@@ -44,7 +44,7 @@ import info.pelleritoudacity.android.rcapstone.utility.Utility;
 public class DetailActivity extends BaseActivity
         implements RestDetailExecute.OnRestCallBack,
         DetailFragment.OnFragmentInteractionListener, RestMoreExecute.OnRestCallBack,
-        SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener, MainFragment.OnTabletClick {
+        SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener, MainFragment.OnMainClick {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.detail_container)
@@ -326,7 +326,7 @@ public class DetailActivity extends BaseActivity
     }
 
     @Override
-    public void tabletClick(int position, String category, String strId) {
+    public void mainClick(int position, String category, String strId) {
         if (model == null) {
             model = new DetailModel();
         }
