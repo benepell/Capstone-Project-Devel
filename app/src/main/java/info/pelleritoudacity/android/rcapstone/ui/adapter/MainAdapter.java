@@ -64,6 +64,7 @@ import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.ImageUtil.isSmallImage;
 import static info.pelleritoudacity.android.rcapstone.utility.NumberUtil.numberFormat;
@@ -114,18 +115,20 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
 
             int mediaType = 0;
 
-            mediaType = (Preference.isGeneralImages(mContext)) && (!TextUtils.isEmpty(record.getImagePreviewUrl())) && (!isSmallImage(mContext, record.getImagePreviewWidth(), record.getImagePreviewHeight()))
+            mediaType = Preference.isGeneralImages(mContext) && (!TextUtils.isEmpty(record.getImagePreviewUrl())) && (!isSmallImage(mContext, record.getImagePreviewWidth(), record.getImagePreviewHeight()))
                     ? Costant.MEDIA_IMAGE_FULL_TYPE : mediaType;
 
-            mediaType = (Preference.isGeneralVideos(mContext)) && (!TextUtils.isEmpty(record.getVideoPreviewUrl()))
+            mediaType = Preference.isGeneralVideos(mContext) && (!TextUtils.isEmpty(record.getVideoPreviewUrl()))
                     ? Costant.MEDIA_VIDEO_PREVIEW_TYPE_MP4 : mediaType;
 
-            mediaType = (Preference.isGeneralVideos(mContext)) && (!TextUtils.isEmpty(record.getVideoUrl()) && (!TextUtils.isEmpty(record.getVideoTypeOembed())) &&
-                    (record.getVideoTypeOembed().equals(Costant.BASE_TYPE_VIMEO)))
+            mediaType = Preference.isGeneralVideos(mContext) && (!TextUtils.isEmpty(record.getVideoUrl()) && (!TextUtils.isEmpty(record.getVideoTypeOembed())) &&
+                    record.getVideoTypeOembed().equals(Costant.BASE_TYPE_VIMEO))
                     ? Costant.MEDIA_VIDEO_TYPE_VIMEO : mediaType;
 
-            mediaType = (Preference.isGeneralVideos(mContext)) && (!TextUtils.isEmpty(record.getVideoFrameOembed()) &&
-                    (!TextUtils.isEmpty(record.getVideoTypeOembed())) && (record.getVideoTypeOembed().equals(Costant.BASE_TYPE_YOUTUBE)))
+            mediaType = Preference.isGeneralVideos(mContext) && (!TextUtils.isEmpty(record.getVideoFrameOembed()) &&
+                    !TextUtils.isEmpty(record.getVideoTypeOembed()) &&
+                    (record.getVideoTypeOembed().equals(Costant.BASE_TYPE_YOUTUBE) ||
+                            record.getVideoTypeOembed().equals("m.".concat(Costant.BASE_TYPE_YOUTUBE))))
                     ? Costant.MEDIA_VIDEO_TYPE_YOUTUBE : mediaType;
 
             switch (mediaType) {
@@ -385,7 +388,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
     }
 
 
-    public interface OnMainClick{
+    public interface OnMainClick {
         void mainClick(int position, String category, String strId);
 
     }

@@ -121,10 +121,11 @@ public class TextUtil {
             uri = Uri.parse(URLDecoder.decode(youtubeUrl, StandardCharsets.UTF_8.name()));
 
         } catch (UnsupportedEncodingException e) {
-            Timber.e("youtubeValue error %s", e.getMessage());
+            Timber.e("youtube value error %s", e.getMessage());
         }
 
-        if (Objects.requireNonNull(uri).getAuthority().equals("www.youtube.com")) {
+        if (Objects.requireNonNull(uri).getAuthority().equals("www.youtube.com") ||
+                Objects.requireNonNull(uri).getAuthority().equals("m.youtube.com")) {
 
             String v = uri.getQueryParameter("v");
 
