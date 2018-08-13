@@ -101,8 +101,11 @@ public class DetailRecord {
         mRecord.setCreated(mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_CREATED)));
 
-        mRecord.setScore(mCursor.getString(
+        mRecord.setScore(mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_SCORE)));
+
+        mRecord.setDirScore(mCursor.getInt(
+                mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_DIR_SCORE)));
 
         mRecord.setPermanentLink(mCursor.getString(
                 mCursor.getColumnIndex(Contract.T1dataEntry.COLUMN_NAME_PERMALINK)));

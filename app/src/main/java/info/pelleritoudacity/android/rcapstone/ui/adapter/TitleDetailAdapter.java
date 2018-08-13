@@ -16,7 +16,9 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
+import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.Record.TitleDetailRecord;
+import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapterTitle;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.CardBottomModel;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
@@ -31,12 +33,14 @@ import info.pelleritoudacity.android.rcapstone.utility.Utility;
 
 import static info.pelleritoudacity.android.rcapstone.utility.NumberUtil.numberFormat;
 
-public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.SubRedditSelectedHolder> {
+public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.SubRedditSelectedHolder> implements SelectorHelper.OnSelector {
 
     private final Context mContext;
     private Cursor mCursor;
+    private final OnVoteChange mListener;
 
-    public TitleDetailAdapter(Context context) {
+    public TitleDetailAdapter(OnVoteChange listener, Context context) {
+        mListener = listener;
         mContext = context;
     }
 
@@ -90,10 +94,12 @@ public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.
             ImageButton[] arrayButton = new ImageButton[]{holder.mImageButtonVoteUp, holder.mImageButtonVoteDown,
                     holder.mImageButtonPreferStars, holder.mImageButtonShowComments, holder.mImageButtonOpenBrowser};
 
-            if(!Utility.isTablet(mContext)) {
-                SelectorHelper selectorHelper = new SelectorHelper(mContext);
+            if (!Utility.isTablet(mContext)) {
+                SelectorHelper selectorHelper = new SelectorHelper(this, mContext);
 
                 CardBottomModel cardBottomModel = new CardBottomModel();
+                cardBottomModel.setPosition(holder.getAdapterPosition());
+                cardBottomModel.setScore(record.getScore());
                 cardBottomModel.setArrayButton(arrayButton);
                 cardBottomModel.setBackgroundColor(strBackGroundColor);
                 cardBottomModel.setLinkComment(TextUtil.buildCommentDetailLink(record.getPermanentLink()));
@@ -104,8 +110,8 @@ public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.
 
                 selectorHelper.cardBottomLink(cardBottomModel);
 
-            }else {
-                for ( ImageButton view : arrayButton){
+            } else {
+                for (ImageButton view : arrayButton) {
                     view.setVisibility(View.GONE);
                 }
             }
@@ -126,6 +132,17 @@ public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.
     @Override
     public int getItemCount() {
         return (mCursor == null) ? 0 : mCursor.getCount();
+    }
+
+    @Override
+    public void vote(int position, int score, boolean voteUp, int dir, String linkId) {
+        new DataUtils(mContext).updateVote(Contract.T3dataEntry.CONTENT_URI, score, voteUp, dir, linkId);
+        mListener.selectorChange(position);
+    }
+
+    @Override
+    public void stars(int position) {
+        mListener.selectorChange(position);
     }
 
 
@@ -201,5 +218,7 @@ public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.
         return temp;
     }
 
-
+    public interface OnVoteChange {
+        void selectorChange(int position);
+    }
 }

@@ -91,7 +91,7 @@ public class DetailFragment extends Fragment
 
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new DetailAdapter(this,getActivity(), model);
+        mAdapter = new DetailAdapter(this, getActivity(), model);
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -170,6 +170,13 @@ public class DetailFragment extends Fragment
     @Override
     public void onClickMore(DetailModel detailModel) {
         mListener.onClickMore(detailModel);
+    }
+
+    @Override
+    public void selectorChange(int position) {
+        if (position != RecyclerView.NO_POSITION) {
+            getLoaderManager().initLoader(SUBREDDIT_DETAIL_LOADER_ID, null, this);
+        }
     }
 
     private static class SubRedditDetailFragmentAsyncTask extends AsyncTaskLoader<Cursor> {

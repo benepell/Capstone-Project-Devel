@@ -459,37 +459,52 @@ public class DataUtils {
         return count > 0;
     }
 
-    public boolean updateVote(int numVotes, String actionVote, String nameId) {
+    public void updateVote(Uri uri, int numVotes, boolean voteUp, int actionVote, String nameId) {
 
-        int count;
-
-        if ((TextUtils.isEmpty(actionVote)) && (TextUtils.isEmpty(nameId))) {
-            return false;
+        int dir = 0;
+        if ((TextUtils.isEmpty(nameId))) {
+            return;
         }
 
         switch (actionVote) {
-            case "-1":
+            case -1:
+                dir = -1;
                 numVotes -= 1;
                 break;
-            case "1":
+            case 1:
+                dir = 1;
                 numVotes += 1;
                 break;
-            default:
-                return false;
+            case 0:
+                if (voteUp) {
+                    numVotes -= 1;
+                } else {
+                    numVotes += 1;
+                }
+
         }
 
-        Uri uri = Contract.T3dataEntry.CONTENT_URI;
-        String where = Contract.T3dataEntry.COLUMN_NAME_NAME + " =?";
-        String[] selectionArgs = {nameId};
+        String where = null;
+        String[] selectionArgs = new String[0];
+        if (uri.equals(Contract.T3dataEntry.CONTENT_URI)) {
+            where = Contract.T3dataEntry.COLUMN_NAME_NAME + " =?";
+            selectionArgs = new String[]{nameId};
+
+        } else if (uri.equals(Contract.T1dataEntry.CONTENT_URI)) {
+            where = Contract.T1dataEntry.COLUMN_NAME_NAME + " =?";
+            selectionArgs = new String[]{nameId};
+
+        }
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(Contract.T3dataEntry.COLUMN_NAME_SCORE, numVotes);
+        contentValues.put(Contract.T3dataEntry.COLUMN_NAME_DIR_SCORE, dir);
 
-        count = mContext.getContentResolver().update(uri, contentValues, where, selectionArgs);
+        if (where != null) {
+            mContext.getContentResolver().update(uri, contentValues, where, selectionArgs);
 
-        return count > 0;
+        }
     }
-
 
     public void clearDataPrivacy() {
         clearDataAll();

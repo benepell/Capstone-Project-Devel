@@ -17,10 +17,10 @@ public class VoteExecute {
     private final OnRestCallBack mCallback;
     private static RedditAPI sApi;
     private final String mCode;
-    private final String mDir;
+    private final int mDir;
     private final String mId;
 
-    public VoteExecute(OnRestCallBack callback, String code, String dir, String id) {
+    public VoteExecute(OnRestCallBack callback, String code, int dir, String id) {
 
         sApi = RetrofitClient.createService(Costant.REDDIT_OAUTH_URL, null);
         mCallback = callback;

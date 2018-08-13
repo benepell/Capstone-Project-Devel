@@ -210,6 +210,7 @@ class DbHelper extends SQLiteOpenHelper {
                         Contract.T3dataEntry.COLUMN_NAME_REPORT_REASONS + " INTEGER DEFAULT 0, " +
                         Contract.T3dataEntry.COLUMN_NAME_SAVED + " INTEGER DEFAULT 0, " +
                         Contract.T3dataEntry.COLUMN_NAME_SCORE + " INTEGER DEFAULT 0, " +
+                        Contract.T3dataEntry.COLUMN_NAME_DIR_SCORE + " INTEGER DEFAULT 0, " +
                         Contract.T3dataEntry.COLUMN_NAME_SECURE_MEDIA + " TEXT, " +
                         Contract.T3dataEntry.COLUMN_NAME_SECURE_MEDIA_EMBED + " TEXT, " +
                         Contract.T3dataEntry.COLUMN_NAME_SELFTEXT + " TEXT, " +
@@ -317,7 +318,8 @@ class DbHelper extends SQLiteOpenHelper {
                         Contract.T1dataEntry.COLUMN_NAME_CANMODPOST + " INTEGER DEFAULT 0, " +
                         Contract.T1dataEntry.COLUMN_NAME_SENDREPLIES + " INTEGER DEFAULT 0, " +
                         Contract.T1dataEntry.COLUMN_NAME_PINNED + " INTEGER DEFAULT 0, " +
-                        Contract.T1dataEntry.COLUMN_NAME_SCORE + " TEXT, " +
+                        Contract.T1dataEntry.COLUMN_NAME_DIR_SCORE + " INTEGER DEFAULT 0, " +
+                        Contract.T1dataEntry.COLUMN_NAME_SCORE + " INTEGER DEFAULT 0, " +
                         Contract.T1dataEntry.COLUMN_NAME_APPROVEDBY + " TEXT, " +
                         Contract.T1dataEntry.COLUMN_NAME_OVER18 + " INTEGER DEFAULT 0, " +
                         Contract.T1dataEntry.COLUMN_NAME_REPORTREASONS + " TEXT, " +

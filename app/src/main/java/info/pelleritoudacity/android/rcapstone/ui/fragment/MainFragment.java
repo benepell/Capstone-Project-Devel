@@ -217,6 +217,13 @@ public class MainFragment extends Fragment
         mMainListener.mainClick(position, category, strId);
     }
 
+    @Override
+    public void selectorChange(int position) {
+        if (position != RecyclerView.NO_POSITION) {
+            getLoaderManager().restartLoader(SUBREDDIT_LOADER_ID, null, this).forceLoad();
+        }
+    }
+
     private static class MainFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
 
         Cursor cursorData = null;

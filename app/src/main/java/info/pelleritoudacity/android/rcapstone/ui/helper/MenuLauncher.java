@@ -10,7 +10,7 @@ import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
-public class MenuLauncherDetail {
+public class MenuLauncher {
 
     private final Context mContext;
     private final Intent mIntent;
@@ -18,7 +18,7 @@ public class MenuLauncherDetail {
     private String category;
     private String target;
 
-    public MenuLauncherDetail(Context context, Intent intent) {
+    public MenuLauncher(Context context, Intent intent) {
         mContext = context;
         mIntent = intent;
     }

@@ -90,7 +90,6 @@ public class BaseActivity extends AppCompatActivity
         if (getLayoutResource() > 0) {
             mStub = findViewById(R.id.stub_base_layout);
 
-//            remove inconsistent layout use other layout in setContentView
            if((Utility.isTablet(getApplicationContext())) &&(getLayoutResource()==R.layout.activity_detail)){
                setLayoutResource(R.layout.activity_detail_tablet);
            }

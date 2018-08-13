@@ -70,6 +70,9 @@ public class MainRecord {
         mRecord.setScore(mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SCORE)));
 
+        mRecord.setDirScore(mCursor.getInt(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_DIR_SCORE)));
+
         mRecord.setNumComments(mCursor.getInt(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_NUM_COMMENTS)));
 

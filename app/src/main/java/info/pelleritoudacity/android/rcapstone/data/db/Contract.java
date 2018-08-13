@@ -234,6 +234,7 @@ public class Contract {
         public static final String COLUMN_NAME_CAN_MOD_POST = "_can_mod_post";
         public static final String COLUMN_NAME_SEND_REPLIES = "_send_replies";
         public static final String COLUMN_NAME_PINNED = "_pinned";
+        public static final String COLUMN_NAME_DIR_SCORE = "_dir_score";
         public static final String COLUMN_NAME_SCORE = "_score";
         public static final String COLUMN_NAME_APPROVED_BY = "_approved_by";
         public static final String COLUMN_NAME_OVER_18 = "_over_18";
@@ -371,6 +372,7 @@ public class Contract {
         public static final String COLUMN_NAME_CANMODPOST = "_canModPost";
         public static final String COLUMN_NAME_SENDREPLIES = "_sendReplies";
         public static final String COLUMN_NAME_PINNED = "_pinned";
+        public static final String COLUMN_NAME_DIR_SCORE = "_dir_score";
         public static final String COLUMN_NAME_SCORE = "_score";
         public static final String COLUMN_NAME_APPROVEDBY = "_approvedBy";
         public static final String COLUMN_NAME_OVER18 = "_over18";

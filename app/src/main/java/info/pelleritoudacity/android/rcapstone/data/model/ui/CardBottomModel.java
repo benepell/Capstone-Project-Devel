@@ -10,6 +10,9 @@ public class CardBottomModel implements Parcelable {
     private String backgroundColor;
     private String linkComment;
     private String category;
+    private int position;
+    private int score;
+    private int dirScore;
     private boolean saved;
     private boolean online;
 
@@ -17,6 +20,9 @@ public class CardBottomModel implements Parcelable {
         backgroundColor = in.readString();
         linkComment = in.readString();
         category = in.readString();
+        position = in.readInt();
+        score = in.readInt();
+        dirScore = in.readInt();
         saved = in.readByte() != 0;
         online = in.readByte() != 0;
         logged = in.readByte() != 0;
@@ -71,6 +77,30 @@ public class CardBottomModel implements Parcelable {
         return saved;
     }
 
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getDirScore() {
+        return dirScore;
+    }
+
+    public void setDirScore(int dirScore) {
+        this.dirScore = dirScore;
+    }
+
     public void setSaved(boolean saved) {
         this.saved = saved;
     }
@@ -107,6 +137,9 @@ public class CardBottomModel implements Parcelable {
         dest.writeString(backgroundColor);
         dest.writeString(linkComment);
         dest.writeString(category);
+        dest.writeInt(position);
+        dest.writeInt(score);
+        dest.writeInt(dirScore);
         dest.writeByte((byte) (saved ? 1 : 0));
         dest.writeByte((byte) (online ? 1 : 0));
         dest.writeByte((byte) (logged ? 1 : 0));

@@ -18,7 +18,9 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
+import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.Record.DetailRecord;
+import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapterDetail;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.CardBottomModel;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
@@ -31,7 +33,7 @@ import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
-public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditDetailHolder> {
+public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditDetailHolder> implements SelectorHelper.OnSelector {
 
     private final Context mContext;
     private final OnAdapterListener mListener;
@@ -39,7 +41,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
     private int mSelectorPosition = RecyclerView.NO_POSITION;
     private final DetailModel model;
 
-    public DetailAdapter(OnAdapterListener listener, Context context,DetailModel detailModel) {
+    public DetailAdapter(OnAdapterListener listener, Context context, DetailModel detailModel) {
         mListener = listener;
         mContext = context;
         model = detailModel;
@@ -78,7 +80,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
 
             holder.mTextViewPostedOnDetail.setText(DateUtil.getDiffTimeMinute(mContext, record.getCreated()));
 
-            holder.mTextViewPointsDetail.setText(record.getScore());
+            holder.mTextViewPointsDetail.setText(String.valueOf(record.getScore()));
             if (!TextUtils.isEmpty(record.getTitle()))
                 holder.mTextViewBodyDetail.setText(TextUtil.textFromHtml(record.getTitle()));
 
@@ -86,7 +88,6 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
                 holder.mTextViewBodyDetail.setText(TextUtil.textFromHtml(record.getBody()));
 
             }
-
             holder.mTextViewBodyDetail.setClickable(Preference.isGeneralLinks(mContext));
 
             if (Preference.isGeneralLinks(mContext)) {
@@ -100,12 +101,15 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
             detailHelper.initDepthIndicator(holder.mDepthIndicator, holder.mCardLinear, record.getDepth(), true, false);
             String strBackGroundColor = detailHelper.initDepthIndicator(holder.mDepthSelect, holder.mSelectorContainer, record.getDepth(), true, true);
 
-            SelectorHelper selectorHelper = new SelectorHelper(mContext);
+            SelectorHelper selectorHelper = new SelectorHelper(this, mContext);
 
             ImageButton[] arrayButton = new ImageButton[]{holder.mImageButtonVoteUp, holder.mImageButtonVoteDown,
                     holder.mImageButtonPreferStars, holder.mImageButtonShowComments, holder.mImageButtonOpenBrowser};
 
             CardBottomModel cardBottomModel = new CardBottomModel();
+            cardBottomModel.setPosition(holder.getAdapterPosition());
+            cardBottomModel.setScore(record.getScore());
+            cardBottomModel.setDirScore(record.getDirScore());
             cardBottomModel.setArrayButton(arrayButton);
             cardBottomModel.setBackgroundColor(strBackGroundColor);
             cardBottomModel.setLinkComment(TextUtil.buildCommentDetailLink(record.getPermanentLink()));
@@ -123,7 +127,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
                 holder.mSelectorContainer.setVisibility(View.VISIBLE);
             }
 
-            if(record.isSaved()){
+            if (record.isSaved()) {
                 holder.mCardLinear.setBackgroundColor(Color.YELLOW);
             }
 
@@ -165,6 +169,17 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
     @Override
     public int getItemCount() {
         return (mCursor == null) ? 0 : mCursor.getCount();
+    }
+
+    @Override
+    public void vote(int position, int score, boolean voteUp, int dir, String linkId) {
+        new DataUtils(mContext).updateVote(Contract.T1dataEntry.CONTENT_URI, score, voteUp, dir, linkId);
+        mListener.selectorChange(position);
+    }
+
+    @Override
+    public void stars(int position) {
+        mListener.selectorChange(position);
     }
 
     public class SubRedditDetailHolder extends RecyclerView.ViewHolder
@@ -276,6 +291,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
 
         void onClickMore(DetailModel detailModel);
 
+        void selectorChange(int position);
     }
 
 }

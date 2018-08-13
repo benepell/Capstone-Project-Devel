@@ -50,7 +50,9 @@ import com.google.android.exoplayer2.ui.PlayerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
+import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.Record.MainRecord;
+import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.CardBottomModel;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
 import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapter;
@@ -64,12 +66,11 @@ import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
-import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.ImageUtil.isSmallImage;
 import static info.pelleritoudacity.android.rcapstone.utility.NumberUtil.numberFormat;
 
-public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolder> {
+public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolder> implements SelectorHelper.OnSelector {
 
     private Cursor mCursor;
     private Context mContext;
@@ -212,7 +213,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
                             mContext.getString(R.string.text_comments_subreddit))
             );
 
-            SelectorHelper selectorHelper = new SelectorHelper(mContext);
+            SelectorHelper selectorHelper = new SelectorHelper(this,mContext);
 
             CardBottomModel cardBottomModel = new CardBottomModel();
 
@@ -223,6 +224,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
             cardBottomModel.setLinkComment(
                     TextUtil.buildCommentLink(record.getSubRedditNamePrefix(), record.getNameIdReddit()));
 
+            cardBottomModel.setPosition(holder.getAdapterPosition());
+            cardBottomModel.setScore(record.getScore());
+            cardBottomModel.setDirScore(record.getDirScore());
             cardBottomModel.setSaved(record.isSaved());
             cardBottomModel.setCategory(record.getNameReddit());
             cardBottomModel.setBackgroundColor(null);
@@ -248,6 +252,18 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
             mMediaPlayer.releasePlayer();
         }
 
+    }
+
+    @Override
+    public void vote(int position,int score, boolean voteUp,int dir, String linkId) {
+        new DataUtils(mContext).updateVote(Contract.T3dataEntry.CONTENT_URI,score,voteUp,dir,linkId);
+        mMainListener.selectorChange(position);
+
+    }
+
+    @Override
+    public void stars(int position) {
+        mMainListener.selectorChange(position);
     }
 
     public class SubRedditHolder extends RecyclerView.ViewHolder
@@ -390,7 +406,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
 
     public interface OnMainClick {
         void mainClick(int position, String category, String strId);
-
+        void selectorChange(int position);
     }
 
 }

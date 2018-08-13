@@ -68,7 +68,7 @@ import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.MainFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.Authenticator;
 import info.pelleritoudacity.android.rcapstone.ui.helper.MenuBase;
-import info.pelleritoudacity.android.rcapstone.ui.helper.MenuLauncherDetail;
+import info.pelleritoudacity.android.rcapstone.ui.helper.MenuLauncher;
 import info.pelleritoudacity.android.rcapstone.ui.view.Tab;
 import info.pelleritoudacity.android.rcapstone.utility.ActivityUI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
@@ -105,7 +105,7 @@ public class MainActivity extends BaseActivity
     private Tab mTab;
     private long startTimeoutRefresh;
     private MainModel mModel;
-    private MenuLauncherDetail mLauncherMenu;
+    private MenuLauncher mLauncherMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,7 +145,7 @@ public class MainActivity extends BaseActivity
 
         new Authenticator(mContext).initLogin(mContainer, getIntent());
 
-        mLauncherMenu = new MenuLauncherDetail(mContext, getIntent());
+        mLauncherMenu = new MenuLauncher(mContext, getIntent());
 
         mTab = new Tab(this, mContext, mTabLayout, mTabArrayList);
         mTab.initTab();

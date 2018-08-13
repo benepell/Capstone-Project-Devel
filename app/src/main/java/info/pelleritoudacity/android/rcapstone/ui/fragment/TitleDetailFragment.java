@@ -32,7 +32,7 @@ import timber.log.Timber;
 import static info.pelleritoudacity.android.rcapstone.utility.Costant.SUBREDDIT_SELECTED_LOADER_ID;
 
 public class TitleDetailFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<Cursor> {
+        implements LoaderManager.LoaderCallbacks<Cursor>, TitleDetailAdapter.OnVoteChange {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.rv_fragment_detail_title)
@@ -81,7 +81,7 @@ public class TitleDetailFragment extends Fragment
 
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new TitleDetailAdapter(mContext);
+        mAdapter = new TitleDetailAdapter(this, mContext);
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -128,6 +128,13 @@ public class TitleDetailFragment extends Fragment
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
         mAdapter.swapCursor(null);
+    }
+
+    @Override
+    public void selectorChange(int position) {
+        if (position != RecyclerView.NO_POSITION) {
+            getLoaderManager().restartLoader(SUBREDDIT_SELECTED_LOADER_ID, null, this).forceLoad();
+        }
     }
 
     private static class SubRedditDetailFragmentAsyncTask extends AsyncTaskLoader<Cursor> {

@@ -8,6 +8,9 @@ public class RecordAdapterDetail {
     private int voteDowns;
     private int created;
     private int numComments;
+    private int score;
+    private int dirScore;
+
 
     private boolean isSaved;
     private boolean isArchived;
@@ -29,7 +32,6 @@ public class RecordAdapterDetail {
     private String approvedAtUtc;
     private String author;
     private String stickied;
-    private String score;
     private String permanentLink;
     private String subRedditType;
     private String bodyHtml;
@@ -222,13 +224,22 @@ public class RecordAdapterDetail {
         this.created = created;
     }
 
-    public String getScore() {
+    public int getScore() {
         return score;
     }
 
-    public void setScore(String score) {
+    public void setScore(int score) {
         this.score = score;
     }
+
+    public int getDirScore() {
+        return dirScore;
+    }
+
+    public void setDirScore(int dirScore) {
+        this.dirScore = dirScore;
+    }
+
 
     public String getPermanentLink() {
         return permanentLink;

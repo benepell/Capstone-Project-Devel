@@ -5,6 +5,7 @@ public class RecordAdapter {
 
     private int idReddit;
     private int score;
+    private int dirScore;
     private int numComments;
     private int imagePreviewWidth;
     private int imagePreviewHeight;
@@ -60,6 +61,14 @@ public class RecordAdapter {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public int getDirScore() {
+        return dirScore;
+    }
+
+    public void setDirScore(int dirScore) {
+        this.dirScore = dirScore;
     }
 
     public int getNumComments() {
