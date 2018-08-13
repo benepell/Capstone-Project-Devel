@@ -36,33 +36,43 @@ import android.text.TextUtils;
 public class PermissionUtil {
 
     public static void RequestPermissionExtStorage(Activity thisActivity) {
+
         if (ContextCompat.checkSelfPermission(thisActivity,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
+
             if (!ActivityCompat.shouldShowRequestPermissionRationale(thisActivity,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
                 ActivityCompat.requestPermissions(thisActivity,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         Costant.PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+
             }
+
         }
     }
 
-
     public static boolean isLogged(Context context) {
+
         String token = Preference.getSessionAccessToken(context);
 
         return !TextUtils.isEmpty(token);
+
     }
 
     public static String getToken(Context context) {
+
         return context != null ? Preference.getSessionAccessToken(context) : null;
+
     }
 
     public static void setToken(Context context, String token) {
+
         if (context != null) {
-            Preference.setSessionAccessToken(context,token);
+            Preference.setSessionAccessToken(context, token);
         }
+
     }
 
 }

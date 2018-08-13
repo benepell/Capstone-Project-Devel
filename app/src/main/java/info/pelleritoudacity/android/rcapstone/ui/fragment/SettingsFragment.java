@@ -43,19 +43,6 @@ public class SettingsFragment extends PreferenceFragmentCompat  {
     private String mAppVersionName;
     private OnSettingsFragmentInteraction mListener;
 
-
-    @Override
-    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        setPreferencesFromResource(R.xml.pref_general_settings, rootKey);
-
-        applyTheme();
-        prefMail();
-        prefVersion();
-        prefOver18();
-    }
-
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -67,11 +54,20 @@ public class SettingsFragment extends PreferenceFragmentCompat  {
     }
 
     @Override
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        setPreferencesFromResource(R.xml.pref_general_settings, rootKey);
+
+        applyTheme();
+        prefMail();
+        prefVersion();
+        prefOver18();
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
-
 
     private void prefMail() {
         final Preference mailTo = findPreference("pref_contact");
@@ -140,7 +136,6 @@ public class SettingsFragment extends PreferenceFragmentCompat  {
         }
     }
 
-
     private void applyTheme() {
         final Preference preference = findPreference(getString(R.string.pref_night_mode));
         preference.setOnPreferenceChangeListener((preference1, newValue) -> {
@@ -149,7 +144,6 @@ public class SettingsFragment extends PreferenceFragmentCompat  {
         });
 
     }
-
 
     public interface OnSettingsFragmentInteraction {
         void applyTheme(boolean b);

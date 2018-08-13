@@ -23,8 +23,10 @@ public class WidgetUtil {
     }
 
     public void updateData(String category) {
+
         String paramCategory = category;
-        if ((category.equals(Costant.CATEGORY_POPULAR)) || (category.equals(Costant.CATEGORY_ALL))) {
+
+        if (category.equals(Costant.CATEGORY_POPULAR) || (category.equals(Costant.CATEGORY_ALL))) {
             paramCategory = "/r/" + category;
         }
 
@@ -32,7 +34,9 @@ public class WidgetUtil {
             new WidgetExecute(new WidgetExecute.OnRestCallBack() {
                 @Override
                 public void success(T3 response, int code) {
+
                     T3Operation widgetData = new T3Operation(mContext, response);
+
                     if (code == 200) {
 
                         try {
@@ -69,23 +73,33 @@ public class WidgetUtil {
     }
 
     public String getMainTarget(String category) {
+
         switch (category) {
+
             case "best":
                 return Costant.BEST_MAIN_TARGET;
+
             case "new":
                 return Costant.NEW_MAIN_TARGET;
+
             case "top":
                 return Costant.TOP_MAIN_TARGET;
+
             case "rising":
                 return Costant.RISING_MAIN_TARGET;
+
             case "popular":
                 return Costant.POPULAR_MAIN_TARGET;
+
             case "hot":
                 return Costant.HOT_MAIN_TARGET;
+
             case "controversial":
                 return Costant.CONTROVERSIAL_MAIN_TARGET;
+
             default:
                 return "";
+
         }
 
     }

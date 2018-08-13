@@ -103,7 +103,9 @@ public class ImageUtil {
 
     public static String getStringFromColor(Context context, int idColor) {
 
-        return ((context != null) && (idColor != 0)) ? "#" + Integer.toHexString(ContextCompat.getColor(context, idColor)) : null;
+        return (context != null && (idColor != 0)) ? "#" +
+                Integer.toHexString(ContextCompat.getColor(context, idColor)) : null;
+
     }
 
 }

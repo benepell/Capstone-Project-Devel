@@ -109,16 +109,20 @@ public class WidgetProvider extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
 
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, WidgetProvider.class));
 
         String action = intent.getAction();
+
         if (Objects.equals(action, AppWidgetManager.ACTION_APPWIDGET_UPDATE)) {
 
             for (int appWidgetId : appWidgetIds) {
                 appWidgetManager.partiallyUpdateAppWidget(appWidgetId, viewsUpdateMainWidget(context));
             }
+
             appWidgetManager.updateAppWidget(R.id.widget_listView, null);
             appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_listView);
+
         }
         super.onReceive(context, intent);
     }
@@ -143,8 +147,11 @@ public class WidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
+
         super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
+
         Preference.setWidgetWidth(context, newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH));
+
     }
 
 }

@@ -48,7 +48,6 @@ public class DetailFragment extends Fragment
     private OnFragmentInteractionListener mListener;
     private DetailModel model;
 
-
     public DetailFragment() {
     }
 
@@ -58,6 +57,16 @@ public class DetailFragment extends Fragment
         bundle.putParcelable(Costant.EXTRA_FRAGMENT_PARCEL_SUBREDDIT_DETAIL, m);
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mListener = (OnFragmentInteractionListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().getLocalClassName() + "must implement OnFragmentInteractionListener");
+        }
     }
 
     @Override
@@ -113,27 +122,9 @@ public class DetailFragment extends Fragment
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            mListener = (OnFragmentInteractionListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(getActivity().getLocalClassName() + "must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putParcelable(Costant.EXTRA_FRAGMENT_PARCEL_SUBREDDIT_DETAIL, model);
-        super.onSaveInstanceState(outState);
-
     }
 
     @Override
@@ -145,9 +136,10 @@ public class DetailFragment extends Fragment
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putParcelable(Costant.EXTRA_FRAGMENT_PARCEL_SUBREDDIT_DETAIL, model);
+        super.onSaveInstanceState(outState);
+
     }
 
     @NonNull
@@ -188,7 +180,14 @@ public class DetailFragment extends Fragment
         }
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
     private static class SubRedditDetailFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
+
 
         Cursor cursorData = null;
         private final boolean isOver18;
@@ -219,6 +218,7 @@ public class DetailFragment extends Fragment
         @Nullable
         @Override
         public Cursor loadInBackground() {
+
             try {
 
                 String strOver18 = String.valueOf(Utility.boolToInt(isOver18));

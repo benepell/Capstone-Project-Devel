@@ -44,12 +44,38 @@ public class Tab implements TabLayout.OnTabSelectedListener {
     private final ArrayList<String> mTabHistory;
     private final Context mContext;
 
-    public Tab(OnTabListener listener,Context context ,TabLayout tabLayout, ArrayList<String> tabList) {
+    public Tab(OnTabListener listener, Context context, TabLayout tabLayout, ArrayList<String> tabList) {
         mListener = listener;
         mTabLayout = tabLayout;
         mTabList = tabList;
         mTabHistory = new ArrayList<>();
         mContext = context;
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        int position = tab.getPosition();
+
+        addHistory(mTabList.get(position));
+
+        mListener.tabSelected(mTabList.get(position));
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+        mListener.tabReselected(tab.getPosition(), mTabList.get(tab.getPosition()));
+    }
+
+    public void initTab() {
+        createTab();
+        mTabLayout.setTabGravity(android.support.design.widget.TabLayout.GRAVITY_FILL);
+        mTabLayout.addOnTabSelectedListener(this);
+
+
     }
 
     private void createTab() {
@@ -71,32 +97,6 @@ public class Tab implements TabLayout.OnTabSelectedListener {
             }
 
         }
-    }
-
-    public void initTab() {
-        createTab();
-        mTabLayout.setTabGravity(android.support.design.widget.TabLayout.GRAVITY_FILL);
-        mTabLayout.addOnTabSelectedListener(this);
-
-
-    }
-
-    @Override
-    public void onTabSelected(TabLayout.Tab tab) {
-        int position = tab.getPosition();
-
-        addHistory(mTabList.get(position));
-
-        mListener.tabSelected(mTabList.get(position));
-    }
-
-    @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
-    }
-
-    @Override
-    public void onTabReselected(TabLayout.Tab tab) {
-        mListener.tabReselected(tab.getPosition(), mTabList.get(tab.getPosition()));
     }
 
     private void addHistory(String category) {
@@ -122,13 +122,6 @@ public class Tab implements TabLayout.OnTabSelectedListener {
         return category;
     }
 
-
-    public interface OnTabListener {
-        void tabSelected(String category);
-
-        void tabReselected(int position, String category);
-    }
-
     public void updateTabPosition() {
         if (Preference.getLastCategory(mContext) != null) {
 
@@ -141,6 +134,12 @@ public class Tab implements TabLayout.OnTabSelectedListener {
 
             }
         }
+    }
+
+    public interface OnTabListener {
+        void tabSelected(String category);
+
+        void tabReselected(int position, String category);
     }
 
 }

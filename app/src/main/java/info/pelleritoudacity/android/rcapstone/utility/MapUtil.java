@@ -36,6 +36,7 @@ import timber.log.Timber;
 public class MapUtil {
 
     public static void addElementPrefSubreddit(Context context, String e) {
+
         String string = Preference.getSubredditKey(context);
         ArrayList<String> arrayList;
         arrayList = TextUtil.stringToArray(string);
@@ -43,31 +44,34 @@ public class MapUtil {
         ArrayList<String> arrayListNoDup;
         arrayListNoDup = new ArrayList<>((new LinkedHashSet<>(arrayList)));
         string = TextUtil.arrayToString(arrayListNoDup);
+
         context.getSharedPreferences(context.getString(R.string.pref_subreddit_key), 0).edit().clear().apply();
-        Preference.setSubredditKey(context,string);
+        Preference.setSubredditKey(context, string);
+
     }
 
     public static void removeElementPrefSubreddit(Context context, String e) {
+
         String string = Preference.getSubredditKey(context);
         ArrayList<String> arrayList;
         arrayList = TextUtil.stringToArray(string);
         arrayList.remove(e);
-        for (String str : arrayList) {
-            Timber.d("element: %s", str);
-        }
+
         ArrayList<String> arrayListNoDup;
         arrayListNoDup = new ArrayList<>((new LinkedHashSet<>(arrayList)));
         string = TextUtil.arrayToString(arrayListNoDup);
         context.getSharedPreferences(context.getString(R.string.pref_subreddit_key), 0).edit().clear().apply();
-        Preference.setSubredditKey(context,string);
+        Preference.setSubredditKey(context, string);
 
     }
 
-
     public static ArrayList<String> removeArrayListDuplicate(ArrayList<String> arrayList) {
+
         ArrayList<String> arrayListNoDup;
         arrayListNoDup = new ArrayList<>((new LinkedHashSet<>(arrayList)));
+
         return arrayListNoDup;
+
     }
 
 }

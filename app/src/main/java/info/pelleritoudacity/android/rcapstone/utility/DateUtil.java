@@ -53,10 +53,11 @@ public class DateUtil {
             e.printStackTrace();
             return 0;
         }
+
     }
 
-
     public static String getNowTimeStamp() {
+
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
@@ -91,4 +92,5 @@ public class DateUtil {
         return simpleDateFormat.format(timemillis);
 
     }
+
 }

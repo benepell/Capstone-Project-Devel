@@ -61,6 +61,7 @@ import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic
 import java.util.concurrent.TimeUnit;
 
 import info.pelleritoudacity.android.rcapstone.R;
+import info.pelleritoudacity.android.rcapstone.data.model.MediaModel;
 import info.pelleritoudacity.android.rcapstone.ui.activity.FullScreenActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
@@ -80,11 +81,10 @@ public class MediaPlayer {
 
     private final PlayerView mPlayerView;
     private SimpleExoPlayer mPlayer;
-    private final ProgressBar mProgressBar;
-
-    private final TextView mTvErrorPlayer;
-
     private final ImaAdsLoader mImaAdsLoader;
+
+    private final ProgressBar mProgressBar;
+    private final TextView mTvErrorPlayer;
     private TextView mTvExoCountDown;
     private ImageView mImageMutedPlay;
     private final ImageView mImagePlay;
@@ -93,15 +93,14 @@ public class MediaPlayer {
     private final Runnable mRunnableRemainingPlay = this::countDown;
 
 
-    public MediaPlayer(Context context, ImaAdsLoader imaAdsLoader, PlayerView playerView,
-                       ProgressBar progressBar, TextView tvErrorPlayer, ImageView imagePlay) {
+    public MediaPlayer(Context context, MediaModel mediaModel) {
 
         mContext = context;
-        mImaAdsLoader = imaAdsLoader;
-        mPlayerView = playerView;
-        mProgressBar = progressBar;
-        mTvErrorPlayer = tvErrorPlayer;
-        mImagePlay = imagePlay;
+        mPlayerView = mediaModel.getPlayerView();
+        mProgressBar = mediaModel.getProgressBar();
+        mTvErrorPlayer = mediaModel.getTvErrorPlayer();
+        mImaAdsLoader = mediaModel.getImaAdsLoader();
+        mImagePlay = mediaModel.getImagePlay();
 
     }
 
@@ -148,7 +147,7 @@ public class MediaPlayer {
 
         mPlayer.addListener(new MediaEvent(this,
                 null, null,
-                 mTvErrorPlayer));
+                mTvErrorPlayer));
 
         mVideoUri = mediaUri;
 
@@ -198,7 +197,7 @@ public class MediaPlayer {
             getFullScreen(mediaUri.toString());
 
             mPlayer.addListener(new MediaEvent(this,
-                    mHandler,mRunnableRemainingPlay,
+                    mHandler, mRunnableRemainingPlay,
                     mTvErrorPlayer));
 
             mVideoUri = mediaUri;
@@ -390,7 +389,7 @@ public class MediaPlayer {
         mVideoUri = videoUri;
     }
 
-    public Uri getVideoUri(){
+    public Uri getVideoUri() {
         return mVideoUri;
     }
 
@@ -427,7 +426,6 @@ public class MediaPlayer {
 
         }
     }
-
 
     private SimpleExoPlayer createPlayer() {
 

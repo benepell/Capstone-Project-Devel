@@ -49,6 +49,7 @@ public class TextUtil {
     }
 
     public static String arrayToString(ArrayList<String> arrayList) {
+
         if (arrayList != null) {
             StringBuilder builder = new StringBuilder();
 
@@ -60,16 +61,22 @@ public class TextUtil {
             if (str.length() > 0) {
                 str = str.substring(0, str.length() - 1);
             }
+
             return str;
+
         }
+
         return "";
+
     }
 
     public static String normalizeSubRedditLink(String link) {
+
         return (!android.text.TextUtils.isEmpty(link)) ?
                 link.replace("/r/", "")
                         .replaceAll("[^a-zA-Z0-9]", "")
                         .trim() : "";
+
     }
 
     public static String textFromHtml(String url) {
@@ -87,12 +94,15 @@ public class TextUtil {
                 Html.fromHtml(url);
 
             }
+
             return url;
         }
+
         return url;
     }
 
     public static String buildCommentLink(String redditNamePrefix, String redditNameId) {
+
         Uri.Builder builderRedditComments = new Uri.Builder();
 
         return builderRedditComments.scheme("https")
@@ -104,6 +114,7 @@ public class TextUtil {
     }
 
     public static String buildCommentDetailLink(String permalink) {
+
         Uri.Builder builderRedditComments = new Uri.Builder();
 
         return builderRedditComments.scheme("https")
@@ -113,10 +124,12 @@ public class TextUtil {
     }
 
     public static String youtubeValue(String youtubeUrl) {
+
         int nSearchLeft;
         int nSearchRight;
 
         Uri uri = null;
+
         try {
             uri = Uri.parse(URLDecoder.decode(youtubeUrl, StandardCharsets.UTF_8.name()));
 
@@ -130,30 +143,41 @@ public class TextUtil {
             String v = uri.getQueryParameter("v");
 
             if ((v == null) && (uri.getEncodedPath().equals("/attribution_link"))) {
+
                 return Uri.parse(uri.getQueryParameter("u")).getQueryParameter("v");
+
             }
+
             return v;
 
         } else if (uri.getAuthority().equals("youtu.be")) {
+
             youtubeUrl = uri.getEncodedPath();
 
             nSearchLeft = youtubeUrl.indexOf("/");
             nSearchRight = youtubeUrl.indexOf("&");
 
             if (nSearchLeft >= 0) {
+
                 if (nSearchRight > 0) {
+
                     return youtubeUrl.substring(nSearchLeft + 1, nSearchRight);
 
                 } else {
+
                     return youtubeUrl.substring(nSearchLeft + 1);
 
                 }
             }
         }
+
         return "";
+
     }
 
     public static String authCode(String code) {
+
         return TextUtils.isEmpty(code) ? "" : Costant.REDDIT_BEARER.concat(code);
+
     }
 }

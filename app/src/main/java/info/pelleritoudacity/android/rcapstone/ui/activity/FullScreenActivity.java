@@ -16,6 +16,7 @@ import com.google.android.exoplayer2.util.Util;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
+import info.pelleritoudacity.android.rcapstone.data.model.MediaModel;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
 import info.pelleritoudacity.android.rcapstone.utility.ActivityUI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
@@ -38,7 +39,6 @@ public class FullScreenActivity extends AppCompatActivity {
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.tv_error_player_full)
     TextView mTVErrorPlayer;
-
 
     private String mVideoUri;
     private MediaPlayer mMediaPlayer;
@@ -69,8 +69,14 @@ public class FullScreenActivity extends AppCompatActivity {
 
         ImaAdsLoader imaAdsLoader = new ImaAdsLoader(mContext, Uri.parse(getString(R.string.ad_tag_url)));
 
-        mMediaPlayer = new MediaPlayer(mContext, imaAdsLoader,
-                mPlayerView, mExoProgressBar,  mTVErrorPlayer,null);
+        MediaModel mediaModel = new MediaModel();
+
+        mediaModel.setImaAdsLoader(imaAdsLoader);
+        mediaModel.setProgressBar(mExoProgressBar);
+        mediaModel.setPlayerView(mPlayerView);
+        mediaModel.setTvErrorPlayer(mTVErrorPlayer);
+
+        mMediaPlayer = new MediaPlayer(mContext, mediaModel);
 
     }
 
@@ -109,6 +115,5 @@ public class FullScreenActivity extends AppCompatActivity {
             mMediaPlayer.releasePlayer();
         }
     }
-
 
 }

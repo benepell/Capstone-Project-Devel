@@ -7,7 +7,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.3'
+        classpath 'com.android.tools.build:gradle:3.1.4'
         classpath 'com.google.gms:google-services:4.0.1'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -37,6 +37,8 @@ allprojects {
         glideVersion = "4.7.1"
         glideOkHttpIntegretionVersion = glideVersion + "@aar"
 
+        picassoVersion = "2.71828"
+
         retrofitVersion = "2.4.0"
         okHttpVersion = "3.11.0"
 
@@ -51,6 +53,7 @@ allprojects {
         testJunitVersion = "4.12"
         espressoVersion = "3.0.2"
         testRulesVersion = "1.0.1"
+
     }
 
 }

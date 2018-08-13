@@ -83,7 +83,6 @@ public class ActivityUI {
         return context != null && context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
     }
 
-
     public static void startRefresh(Context context, Class clazz) {
 
         if ((clazz == null) || context == null) return;
@@ -96,7 +95,7 @@ public class ActivityUI {
         } else if (clazz.equals(DetailActivity.class)) {
             intentMain.putExtra(Costant.EXTRA_ACTIVITY_DETAIL_REFRESH, true);
 
-        }else if(clazz.equals(ManageActivity.class)){
+        } else if (clazz.equals(ManageActivity.class)) {
             intentMain.putExtra(Costant.EXTRA_ACTIVITY_MANAGE_REFRESH, true);
 
         }
@@ -105,6 +104,5 @@ public class ActivityUI {
         context.startActivity(intentMain);
 
     }
-
 
 }

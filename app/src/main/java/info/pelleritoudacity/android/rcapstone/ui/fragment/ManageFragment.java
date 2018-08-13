@@ -88,14 +88,6 @@ public class ManageFragment extends Fragment
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-        getLoaderManager().restartLoader(REDDIT_LOADER_ID, null, this);
-
-    }
-
-    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
@@ -104,19 +96,6 @@ public class ManageFragment extends Fragment
         }
 
     }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        getLoaderManager().initLoader(REDDIT_LOADER_ID, null, this);
-
-        if(isRestore){
-            alerDialog(getActivity());
-        }
-
-    }
-
 
     @Nullable
     @Override
@@ -133,7 +112,7 @@ public class ManageFragment extends Fragment
 
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new ManageAdapter(getContext(), this,  this);
+        mAdapter = new ManageAdapter(getContext(), this, this);
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -145,33 +124,25 @@ public class ManageFragment extends Fragment
         return view;
     }
 
-    @NonNull
     @Override
-    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        return new RedditFragmentAsyncTask(Objects.requireNonNull(getActivity()));
-    }
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-    @Override
-    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-        if ((data != null) && (mAdapter != null)) {
-            mAdapter.swapCursor(data);
+        getLoaderManager().initLoader(REDDIT_LOADER_ID, null, this);
+
+        if (isRestore) {
+            alerDialog(getActivity());
         }
 
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
+    public void onResume() {
+        super.onResume();
 
-    @Override
-    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-        if(mAdapter!=null){
-            mAdapter.swapCursor(null);
-        }
-    }
+        getLoaderManager().restartLoader(REDDIT_LOADER_ID, null, this);
 
+    }
 
     @Override
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
@@ -207,6 +178,33 @@ public class ManageFragment extends Fragment
 
     }
 
+    @NonNull
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+        return new RedditFragmentAsyncTask(Objects.requireNonNull(getActivity()));
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
+        if ((data != null) && (mAdapter != null)) {
+            mAdapter.swapCursor(data);
+        }
+
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+        if (mAdapter != null) {
+            mAdapter.swapCursor(null);
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
     private void alerDialog(Context context) {
 
         if (context != null) {
@@ -234,7 +232,6 @@ public class ManageFragment extends Fragment
         }
 
     }
-
 
     private static class RedditFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
 
@@ -283,8 +280,8 @@ public class ManageFragment extends Fragment
 
         @Override
         public void deliverResult(Cursor data) {
-                mCursor = data;
-                super.deliverResult(data);
+            mCursor = data;
+            super.deliverResult(data);
         }
     }
 

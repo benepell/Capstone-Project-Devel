@@ -32,13 +32,20 @@ import android.net.NetworkInfo;
 public class NetworkUtil {
 
     public static boolean isOnline(Context context) {
+
         ConnectivityManager connMgr = (ConnectivityManager)
                 context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
         if (connMgr != null) {
+
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
             return (networkInfo != null) && (networkInfo.getState() == NetworkInfo.State.CONNECTED);
+
         }
+
         return false;
+
     }
 
 }

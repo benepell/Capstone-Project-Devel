@@ -6,7 +6,11 @@ import info.pelleritoudacity.android.rcapstone.R;
 
 public class Preference {
 
+    private Preference() {
+    }
+
     private static final int[] prefArrays = {
+
             R.string.pref_title_sync_frequency,
             R.string.pref_insert_prefs,
             R.string.pref_login_start,
@@ -40,240 +44,349 @@ public class Preference {
             R.string.pref_widget_category,
             R.string.pref_widget_width
 
-
     };
 
 
-    private Preference() {
-    }
-
     public static Boolean isInsertPrefs(Context context) {
+
         return PrefManager.getBoolPref(context, Costant.PREFERENCE_INSERT_PREFS);
+
     }
 
     public static void setInsertPrefs(Context context, Boolean b) {
+
         PrefManager.putBoolPref(context, Costant.PREFERENCE_INSERT_PREFS, b);
+
     }
 
     public static Boolean isRequestPermission(Context context) {
+
         return PrefManager.getBoolPref(context, Costant.PREFERENCE_REQUEST_PERMISSION);
+
     }
 
     public static void setRequestPermission(Context context, Boolean b) {
+
         PrefManager.putBoolPref(context, Costant.PREFERENCE_REQUEST_PERMISSION, b);
+
     }
 
     public static Boolean isLoginStart(Context context) {
+
         return PrefManager.getBoolPref(context, Costant.PREFERENCE_LOGIN_START);
+
     }
 
     public static void setLoginStart(Context context, Boolean b) {
+
         PrefManager.putBoolPref(context, Costant.PREFERENCE_LOGIN_START, b);
+
     }
 
     public static Boolean isGeneralInit(Context context) {
+
         return PrefManager.getBoolPref(context, Costant.PREFERENCE_GENERAL_INIT);
+
     }
 
     public static void setGeneralInit(Context context, Boolean b) {
+
         PrefManager.putBoolPref(context, Costant.PREFERENCE_GENERAL_INIT, b);
+
     }
 
     public static Boolean isVolumeMuted(Context context) {
+
         return PrefManager.getBoolPref(context, Costant.PREFERENCE_VOLUME_MUTED);
+
     }
 
     public static void setVolumeMuted(Context context, Boolean b) {
+
         PrefManager.putBoolPref(context, Costant.PREFERENCE_VOLUME_MUTED, b);
+
     }
 
     public static void setLoginOver18(Context context, Boolean b) {
+
         PrefManager.putBoolPref(context, Costant.PREFERENCE_LOGIN_OVER18, b);
+
     }
 
     public static Boolean isLoginOver18(Context context) {
+
         return PrefManager.getBoolPref(context, Costant.PREFERENCE_LOGIN_OVER18);
+
     }
 
     public static void setWriteExternalStorage(Context context, Boolean b) {
+
         PrefManager.putBoolPref(context, Costant.PREFERENCE_WRITE_EXTERNAL_STORAGE, b);
+
     }
 
     public static Boolean isWriteExternalStorage(Context context) {
+
         return PrefManager.getBoolPref(context, Costant.PREFERENCE_WRITE_EXTERNAL_STORAGE);
+
     }
 
-
     public static String getSessionAccessToken(Context context) {
+
         return PrefManager.getStringPref(context, Costant.PREFERENCE_SESSION_ACCESS_TOKEN);
+
     }
 
     public static void setSessionAccessToken(Context context, String s) {
+
         PrefManager.putStringPref(context, Costant.PREFERENCE_SESSION_ACCESS_TOKEN, s);
+
     }
 
     public static String getLastCategory(Context context) {
+
         return PrefManager.getStringPref(context, Costant.PREFERENCE_LAST_CATEGORY);
+
     }
 
     public static void setLastCategory(Context context, String s) {
+
         PrefManager.putStringPref(context, Costant.PREFERENCE_LAST_CATEGORY, s);
+
     }
 
     public static void setLastTarget(Context context, String s) {
+
         PrefManager.putStringPref(context, Costant.PREFERENCE_LAST_TARGET, s);
+
     }
 
     public static String getLastTarget(Context context) {
+
         return PrefManager.getStringPref(context, Costant.PREFERENCE_LAST_TARGET);
+
     }
 
     public static String getLastComment(Context context) {
+
         return PrefManager.getStringPref(context, Costant.PREFERENCE_LAST_COMMENT);
+
     }
 
     public static void setLastComment(Context context, String s) {
+
         PrefManager.putStringPref(context, Costant.PREFERENCE_LAST_COMMENT, s);
+
     }
 
     public static String getSessionRefreshToken(Context context) {
+
         return PrefManager.getStringPref(context, Costant.PREFERENCE_SESSION_REFRESH_TOKEN);
+
     }
 
     public static void setSessionRefreshToken(Context context, String s) {
+
         PrefManager.putStringPref(context, Costant.PREFERENCE_SESSION_REFRESH_TOKEN, s);
+
     }
 
-
     public static int getTypeMode(Context context) {
+
         return PrefManager.getIntPref(context, Costant.PREFERENCE_TYPE_MODE);
+
     }
 
     public static void setTypeMode(Context context, int i) {
+
         PrefManager.putIntPref(context, Costant.PREFERENCE_TYPE_MODE, i);
+
     }
 
 
     public static String getTimeSort(Context context) {
+
         return PrefManager.getStringPref(context, Costant.PREFERENCE_TIME_SORT);
+
     }
 
     public static void setTimeSort(Context context, String s) {
+
         PrefManager.putStringPref(context, Costant.PREFERENCE_TIME_SORT, s);
+
     }
 
     public static String getSubredditKey(Context context) {
+
         return PrefManager.getStringPref(context, Costant.PREFERENCE_SUBREDDIT_KEY);
+
     }
 
     public static void setSubredditKey(Context context, String s) {
+
         PrefManager.putStringPref(context, Costant.PREFERENCE_SUBREDDIT_KEY, s);
+
     }
 
     public static void setSubredditSort(Context context, String s) {
+
         PrefManager.putStringPref(context, Costant.PREFERENCE_SUBREDDIT_SORT, s);
+
     }
 
     public static String getSubredditSort(Context context) {
+
         return PrefManager.getStringPref(context, Costant.PREFERENCE_SUBREDDIT_SORT);
+
     }
 
     public static void setWidgetCategory(Context context, String s) {
+
         PrefManager.putStringPref(context, Costant.PREFERENCE_WIDGET_CATEGORY, s);
+
     }
 
     public static String getWidgetCategory(Context context) {
+
         return PrefManager.getStringPref(context, Costant.PREFERENCE_WIDGET_CATEGORY);
+
     }
 
     public static void setWidgetWidth(Context context, int i) {
+
         PrefManager.putIntPref(context, Costant.PREFERENCE_WIDGET_WIDTH, i);
+
     }
 
     public static int getWidgetWidth(Context context) {
+
         return PrefManager.getIntPref(context, Costant.PREFERENCE_WIDGET_WIDTH);
+
     }
 
-
     public static Boolean isGeneralGifs(Context context) {
+
         return PrefManager.getBoolPref(context, Costant.PREFERENCE_GENERAL_GIFS);
+
     }
 
     public static void setGeneralGifs(Context context, Boolean b) {
+
         PrefManager.putBoolPref(context, Costant.PREFERENCE_GENERAL_GIFS, b);
+
     }
 
     public static Boolean isGeneralAlbums(Context context) {
+
         return PrefManager.getBoolPref(context, Costant.PREFERENCE_GENERAL_ALBUMS);
+
     }
 
     public static void setGeneralAlbums(Context context, Boolean b) {
+
         PrefManager.putBoolPref(context, Costant.PREFERENCE_GENERAL_ALBUMS, b);
+
     }
 
     public static Boolean isGeneralLinks(Context context) {
+
         return PrefManager.getBoolPref(context, Costant.PREFERENCE_GENERAL_LINKS);
+
     }
 
     public static void setGeneralLinks(Context context, Boolean b) {
+
         PrefManager.putBoolPref(context, Costant.PREFERENCE_GENERAL_LINKS, b);
+
     }
 
     public static Boolean isGeneralVideos(Context context) {
+
         return PrefManager.getBoolPref(context, Costant.PREFERENCE_GENERAL_VIDEOS);
+
     }
 
     public static void setGeneralVideos(Context context, Boolean b) {
+
         PrefManager.putBoolPref(context, Costant.PREFERENCE_GENERAL_VIDEOS, b);
+
     }
 
     public static Boolean isGeneralSelf(Context context) {
+
         return PrefManager.getBoolPref(context, Costant.PREFERENCE_GENERAL_SELF);
+
     }
 
     public static void setGeneralSelf(Context context, Boolean b) {
+
         PrefManager.putBoolPref(context, Costant.PREFERENCE_GENERAL_SELF, b);
+
     }
 
     public static Boolean isGeneralImages(Context context) {
+
         return PrefManager.getBoolPref(context, Costant.PREFERENCE_GENERAL_IMAGES);
+
     }
 
     public static void setGeneralImages(Context context, Boolean b) {
+
         PrefManager.putBoolPref(context, Costant.PREFERENCE_GENERAL_IMAGES, b);
+
     }
 
-
     public static Boolean isTabHistory(Context context) {
-        return PrefManager.isGeneralSettings(context, context.getString(Costant.PREFERENCE_TAB_HISTORY));
+
+        return PrefManager.isGeneralSettings(context,
+                context.getString(Costant.PREFERENCE_TAB_HISTORY));
+
     }
 
     public static Boolean isOriginalSizeContent(Context context) {
-        return PrefManager.isGeneralSettings(context, context.getString(Costant.PREFERENCE_ORIGINAL_SIZE_CONTENT));
+
+        return PrefManager.isGeneralSettings(context,
+                context.getString(Costant.PREFERENCE_ORIGINAL_SIZE_CONTENT));
+
     }
 
     public static Boolean isNightMode(Context context) {
-        return PrefManager.isGeneralSettings(context, context.getString(Costant.PREFERENCE_NIGHT_MODE));
+
+        return PrefManager.isGeneralSettings(context,
+                context.getString(Costant.PREFERENCE_NIGHT_MODE));
+
     }
 
     public static void clearAll(Context context) {
+
         PrefManager.clearPref(context, prefArrays);
+
     }
 
     public static void clearGeneralSettings(Context context) {
+
         PrefManager.clearGeneralSettings(context);
+
     }
 
     public static int getGeneralSettingsSyncFrequency(Context context) {
-        return PrefManager.getIntGeneralSettings(context, Costant.PREFERENCE_SYNC_FREQUENCY);
+
+        return PrefManager.getIntGeneralSettings(context,
+                Costant.PREFERENCE_SYNC_FREQUENCY);
+
     }
 
     public static int getGeneralSettingsItemPage(Context context) {
-        return PrefManager.getIntGeneralSettings(context, Costant.PREFERENCE_ITEM_PAGE);
+
+        return PrefManager.getIntGeneralSettings(context,
+                Costant.PREFERENCE_ITEM_PAGE);
     }
 
     public static int getGeneralSettingsDepthPage(Context context) {
-        return PrefManager.getIntGeneralSettings(context, Costant.PREFERENCE_DEPTH_PAGE);
+
+        return PrefManager.getIntGeneralSettings(context,
+                Costant.PREFERENCE_DEPTH_PAGE);
+
     }
 
 }

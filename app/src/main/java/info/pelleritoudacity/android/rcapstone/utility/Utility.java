@@ -36,7 +36,9 @@ public class Utility {
     }
 
     public static String appVersionName(Context context) throws PackageManager.NameNotFoundException {
+
         return context != null ? context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName : "";
+
     }
 
     public static int boolToInt(Boolean b) {
@@ -44,14 +46,22 @@ public class Utility {
     }
 
     public static int toInt(Object object) {
+
         if (object instanceof Integer) {
+
             return (Integer) object;
+
         }
+
         return 0;
     }
 
     public static boolean isTablet(Context context) {
-        return context != null && (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+
+        return context != null && (
+                context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK)
+                >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+
     }
 
 

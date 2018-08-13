@@ -64,6 +64,15 @@ public class MainFragment extends Fragment
         return fragment;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mMainListener = (OnMainClick) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().getLocalClassName() + "must implement OnFragmentInteractionListener");
+        }
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -111,18 +120,6 @@ public class MainFragment extends Fragment
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-        getLoaderManager().restartLoader(SUBREDDIT_LOADER_ID, null, this).forceLoad();
-
-        if (mMediaPlayer != null) {
-            mMediaPlayer.setResume(mMediaPlayer.getResumeWindow(), mMediaPlayer.getResumePosition(), mMediaPlayer.getVideoUri());
-        }
-
-    }
-
-    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -136,31 +133,14 @@ public class MainFragment extends Fragment
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            mMainListener = (OnMainClick) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(getActivity().getLocalClassName() + "must implement OnFragmentInteractionListener");
-        }
-    }
+    public void onResume() {
+        super.onResume();
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mMainListener = null;
-    }
+        getLoaderManager().restartLoader(SUBREDDIT_LOADER_ID, null, this).forceLoad();
 
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
         if (mMediaPlayer != null) {
-            mModel.setWindowPlayer(mMediaPlayer.getResumeWindow());
-            mModel.setPositionPlayer(mMediaPlayer.getResumePosition());
-            mModel.setAutoplay(false);
+            mMediaPlayer.setResume(mMediaPlayer.getResumeWindow(), mMediaPlayer.getResumePosition(), mMediaPlayer.getVideoUri());
         }
-        outState.putParcelable(Costant.EXTRA_FRAGMENT_PARCEL_MAIN, mModel);
-        super.onSaveInstanceState(outState);
 
     }
 
@@ -187,6 +167,34 @@ public class MainFragment extends Fragment
         }
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        if (mMediaPlayer != null) {
+            mModel.setWindowPlayer(mMediaPlayer.getResumeWindow());
+            mModel.setPositionPlayer(mMediaPlayer.getResumePosition());
+            mModel.setAutoplay(false);
+        }
+        outState.putParcelable(Costant.EXTRA_FRAGMENT_PARCEL_MAIN, mModel);
+        super.onSaveInstanceState(outState);
+
+    }
+
+    @Override
+    public void selectorChange(int position) {
+        if (position != RecyclerView.NO_POSITION) {
+            getLoaderManager().restartLoader(SUBREDDIT_LOADER_ID, null, this).forceLoad();
+        }
+    }
+
+    @Override
+    public void mainClick(int position, String category, String strId) {
+        mMainListener.mainClick(position, category, strId);
+    }
+
+    @Override
+    public void mediaPlayer(MediaPlayer mediaPlayer) {
+        mMediaPlayer = mediaPlayer;
+    }
 
     @NonNull
     @Override
@@ -217,28 +225,16 @@ public class MainFragment extends Fragment
 
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mMainListener = null;
+    }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-    }
-
-    @Override
-    public void mainClick(int position, String category, String strId) {
-        mMainListener.mainClick(position, category, strId);
-    }
-
-    @Override
-    public void selectorChange(int position) {
-        if (position != RecyclerView.NO_POSITION) {
-            getLoaderManager().restartLoader(SUBREDDIT_LOADER_ID, null, this).forceLoad();
-        }
-    }
-
-    @Override
-    public void mediaPlayer(MediaPlayer mediaPlayer) {
-        mMediaPlayer = mediaPlayer;
     }
 
     private static class MainFragmentAsyncTask extends AsyncTaskLoader<Cursor> {

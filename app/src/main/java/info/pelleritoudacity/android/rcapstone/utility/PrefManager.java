@@ -36,30 +36,38 @@ public class PrefManager {
 
     @SuppressWarnings("unused")
     static boolean isGeneralSettings(Context context, String key) {
+
         PreferenceManager.setDefaultValues(context, R.xml.pref_general_settings, true);
 
         SharedPreferences sharedPref =
                 PreferenceManager.getDefaultSharedPreferences(context);
+
         return sharedPref.getBoolean
                 (key, false);
+
     }
 
     static int getIntGeneralSettings(Context context, @SuppressWarnings("SameParameterValue") int key) {
+
         PreferenceManager.setDefaultValues(context, R.xml.pref_general_settings, true);
 
         SharedPreferences sharedPref =
                 PreferenceManager.getDefaultSharedPreferences(context);
+
         return Integer.valueOf(
                 sharedPref.getString(context.getString(key), "0"));
     }
 
     static void clearGeneralSettings(Context context) {
+
         PreferenceManager.setDefaultValues(context, R.xml.pref_general_settings, true);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         sharedPreferences.edit().clear().apply();
+
     }
 
     static void putIntPref(Context context, @SuppressWarnings("SameParameterValue") int key, int value) {
+
         SharedPreferences prefId = context
                 .getSharedPreferences(context.getString(key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefId.edit();
@@ -69,6 +77,7 @@ public class PrefManager {
     }
 
     static void putStringPref(Context context, int key, String value) {
+
         SharedPreferences prefId = context
                 .getSharedPreferences(context.getString(key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefId.edit();
@@ -78,6 +87,7 @@ public class PrefManager {
     }
 
     static void putBoolPref(Context context, int key, @SuppressWarnings("SameParameterValue") boolean value) {
+
         SharedPreferences prefId = context
                 .getSharedPreferences(context.getString(key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefId.edit();
@@ -87,41 +97,53 @@ public class PrefManager {
     }
 
     static int getIntPref(Context context, @SuppressWarnings("SameParameterValue") int key) {
+
         SharedPreferences sharedPreferences;
         sharedPreferences = context.getSharedPreferences(context.getString(key), Context.MODE_PRIVATE);
+
         return sharedPreferences.getInt(context.getString(key), 0);
+
     }
 
     static long getLongPref(Context context, @SuppressWarnings("SameParameterValue") int key) {
+
         SharedPreferences sharedPreferences;
         sharedPreferences = context.getSharedPreferences(context.getString(key), Context.MODE_PRIVATE);
+
         return sharedPreferences.getLong(context.getString(key), 0);
+
     }
 
     static boolean getBoolPref(Context context, @SuppressWarnings("SameParameterValue") int key) {
+
         SharedPreferences sharedPreferences;
         sharedPreferences = context.getSharedPreferences(context.getString(key), Context.MODE_PRIVATE);
+
         return sharedPreferences.getBoolean(context.getString(key), false);
+
     }
 
     static String getStringPref(Context context, int key) {
+
         SharedPreferences sharedPreferences;
         sharedPreferences = context.getSharedPreferences(context.getString(key), Context.MODE_PRIVATE);
+
         return sharedPreferences.getString(context.getString(key), "");
+
     }
 
-
-
     static void clearPref(Context context, @SuppressWarnings("SameParameterValue") int[] prefArray) {
+
         if ((context != null) && (prefArray != null)) {
+
             for (int pref : prefArray) {
                 context.getSharedPreferences(context.getString(pref), 0).edit().clear().apply();
             }
-
         }
     }
 
     public static void clearPreferenceLogin(Context context) {
+
         int[] prefStrArrays = {
                 R.string.pref_login_start,
                 R.string.pref_session_expired,
@@ -136,7 +158,6 @@ public class PrefManager {
         }
 
     }
-
 
 }
 

@@ -53,6 +53,7 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.Record.MainRecord;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
+import info.pelleritoudacity.android.rcapstone.data.model.MediaModel;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.CardBottomModel;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
 import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapter;
@@ -151,11 +152,14 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
                         mMediaPlayer.releasePlayer();
                     }
 
-                    mMediaPlayer = new MediaPlayer(mContext,
-                            mImaAdsLoader,
-                            holder.mPlayerView,
-                            holder.mExoProgressBar,
-                            holder.mTVErrorPlayer, holder.mImagePlay);
+                    MediaModel mediaModel = new MediaModel();
+                    mediaModel.setImaAdsLoader(mImaAdsLoader);
+                    mediaModel.setPlayerView(holder.mPlayerView);
+                    mediaModel.setProgressBar(holder.mExoProgressBar);
+                    mediaModel.setTvErrorPlayer(holder.mTVErrorPlayer);
+                    mediaModel.setImagePlay(holder.mImagePlay);
+
+                    mMediaPlayer = new MediaPlayer(mContext, mediaModel);
                     mMainListener.mediaPlayer(mMediaPlayer);
 
                     mainHelper.loadVideoFirstFrame(mMediaPlayer, holder.mPlayerLayout, holder.mImagePlay, holder.mExoProgressBar,
