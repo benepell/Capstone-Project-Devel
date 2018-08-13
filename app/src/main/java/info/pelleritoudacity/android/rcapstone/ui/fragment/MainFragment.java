@@ -110,6 +110,13 @@ public class MainFragment extends Fragment
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        getLoaderManager().restartLoader(SUBREDDIT_LOADER_ID, null, this).forceLoad();
+
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -309,12 +316,8 @@ public class MainFragment extends Fragment
 
         @Override
         public void deliverResult(Cursor data) {
-            if ((data != null) && (data.getCount() > 0)) {
                 cursorData = data;
                 super.deliverResult(data);
-            } else {
-                forceLoad();
-            }
         }
     }
 

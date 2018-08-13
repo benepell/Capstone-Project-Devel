@@ -137,6 +137,14 @@ public class DetailFragment extends Fragment
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        getLoaderManager().restartLoader(SUBREDDIT_DETAIL_LOADER_ID, null, this);
+
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
@@ -279,12 +287,8 @@ public class DetailFragment extends Fragment
 
         @Override
         public void deliverResult(Cursor data) {
-            if ((data != null) && (data.getCount() > 0)) {
                 cursorData = data;
                 super.deliverResult(data);
-            } else {
-                forceLoad();
-            }
         }
 
     }

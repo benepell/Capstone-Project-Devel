@@ -101,6 +101,14 @@ public class TitleDetailFragment extends Fragment
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        getLoaderManager().restartLoader(SUBREDDIT_SELECTED_LOADER_ID, null, this).forceLoad();
+
+    }
+
+    @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(Costant.EXTRA_FRAGMENT_STRING_ID, mStrId);
@@ -188,12 +196,8 @@ public class TitleDetailFragment extends Fragment
 
         @Override
         public void deliverResult(Cursor data) {
-            if ((data != null) && (data.getCount() > 0)) {
                 cursorData = data;
                 super.deliverResult(data);
-            } else {
-                forceLoad();
-            }
         }
 
     }

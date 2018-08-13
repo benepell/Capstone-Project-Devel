@@ -87,6 +87,13 @@ public class ManageFragment extends Fragment
         return fragment;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        getLoaderManager().restartLoader(REDDIT_LOADER_ID, null, this);
+
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -276,12 +283,8 @@ public class ManageFragment extends Fragment
 
         @Override
         public void deliverResult(Cursor data) {
-            if ((data != null) && (data.getCount() > 0)) {
                 mCursor = data;
                 super.deliverResult(data);
-            } else {
-                forceLoad();
-            }
         }
     }
 
