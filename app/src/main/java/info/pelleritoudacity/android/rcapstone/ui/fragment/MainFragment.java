@@ -227,6 +227,11 @@ public class MainFragment extends Fragment
         }
     }
 
+    @Override
+    public void mediaPlayer(MediaPlayer mediaPlayer) {
+        mMediaPlayer = mediaPlayer;
+    }
+
     private static class MainFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
 
         Cursor cursorData = null;
@@ -299,7 +304,7 @@ public class MainFragment extends Fragment
                         null);
 
             } catch (Exception e) {
-                Timber.e("Failed to asynchronously load data. main fragment %s ",e.getMessage());
+                Timber.e("Failed to asynchronously load data. main fragment %s ", e.getMessage());
                 return null;
             }
         }

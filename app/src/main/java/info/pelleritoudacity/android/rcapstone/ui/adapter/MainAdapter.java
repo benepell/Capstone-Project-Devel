@@ -156,6 +156,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
                             holder.mPlayerView,
                             holder.mExoProgressBar,
                             TextUtil.textFromHtml(record.getTitle()), holder.mTVErrorPlayer, holder.mImagePlay);
+                    mMainListener.mediaPlayer(mMediaPlayer);
 
                     mainHelper.loadVideoFirstFrame(mMediaPlayer, holder.mPlayerLayout, holder.mImagePlay, holder.mExoProgressBar,
                             TextUtil.textFromHtml(record.getVideoPreviewUrl()), record.getVideoPreviewWidth(), record.getVideoPreviewHeight());
@@ -407,6 +408,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
     public interface OnMainClick {
         void mainClick(int position, String category, String strId);
         void selectorChange(int position);
+        void mediaPlayer(MediaPlayer mediaPlayer);
     }
 
 }
