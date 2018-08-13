@@ -81,7 +81,7 @@ import static info.pelleritoudacity.android.rcapstone.utility.PermissionUtil.Req
 public class MainActivity extends BaseActivity
         implements MainExecute.OnRestCallBack,
         Tab.OnTabListener, SwipeRefreshLayout.OnRefreshListener,
-        ActivityCompat.OnRequestPermissionsResultCallback, SearchView.OnQueryTextListener, MainFragment.OnMainClick{
+        ActivityCompat.OnRequestPermissionsResultCallback, SearchView.OnQueryTextListener, MainFragment.OnMainClick {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.main_container)
@@ -261,12 +261,9 @@ public class MainActivity extends BaseActivity
 
                 mModel.setCategory(category);
                 mModel.setTarget(Costant.TAB_MAIN_TARGET);
-
-                startActivity(new Intent(this, MainActivity.class)
-                        .putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, category)
-                        .putExtra(Costant.EXTRA_MAIN_TARGET, Costant.TAB_MAIN_TARGET)
-                        .putExtra(Costant.EXTRA_TAB_POSITION, position)
-                );
+                Preference.setLastTarget(mContext, Costant.TAB_MAIN_TARGET);
+                mRefreshLayout.setRefreshing(true);
+                onRefresh();
 
             }
         }
@@ -286,11 +283,10 @@ public class MainActivity extends BaseActivity
         if (Preference.getLastTarget(mContext).equals(Costant.SEARCH_MAIN_TARGET) &&
                 (!TextUtils.isEmpty(m.getQuerySearch()))) {
             mModel.setTarget(Costant.DEFAULT_START_VALUE_MAIN_TARGET);
-            startActivity(new Intent(mContext, MainActivity.class)
-                    .putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, m.getCategory())
-                    .putExtra(Costant.EXTRA_MAIN_TARGET, Costant.DEFAULT_START_VALUE_MAIN_TARGET)
-                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NO_HISTORY)
-            );
+            mModel.setCategory(m.getCategory());
+            Preference.setLastTarget(mContext,Costant.DEFAULT_START_VALUE_MAIN_TARGET);
+            mRefreshLayout.setRefreshing(true);
+            onRefresh();
         }
     }
 
@@ -306,6 +302,7 @@ public class MainActivity extends BaseActivity
             } else if (Preference.getLastTarget(mContext).equals(Costant.SEARCH_MAIN_TARGET) && (!TextUtils.isEmpty(mModel.getQuerySearch()))) {
                 mModel.setCategory(Preference.getLastCategory(getApplicationContext()));
                 mModel.setTarget(Preference.getLastTarget(getApplicationContext()));
+                Preference.setLastTarget(mContext, Costant.DEFAULT_START_VALUE_MAIN_TARGET);
                 createUI(mModel);
 
             } else if (!NetworkUtil.isOnline(mContext)) {
@@ -407,14 +404,11 @@ public class MainActivity extends BaseActivity
 
     @Override
     public boolean onQueryTextSubmit(String s) {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         mModel.setQuerySearch(s);
-        mModel.setTarget(Costant.SEARCH_MAIN_TARGET);
-        intent.putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, mModel.getCategory());
-        intent.putExtra(Costant.EXTRA_MAIN_TARGET, Costant.SEARCH_MAIN_TARGET);
-        intent.putExtra(Costant.EXTRA_MAIN_SEARCH, s);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
-        startActivity(intent);
+        mModel.setCategory(Preference.getLastCategory(mContext));
+        mModel.setQuerySearch(s);
+        Preference.setLastTarget(mContext, Costant.SEARCH_MAIN_TARGET);
+        onRefresh();
         return false;
     }
 

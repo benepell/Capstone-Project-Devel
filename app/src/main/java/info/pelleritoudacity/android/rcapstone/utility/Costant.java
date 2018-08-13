@@ -121,7 +121,6 @@ public interface Costant {
     String EXTRA_MAIN_EXIT_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.main.exit.fullscreen";
     String EXTRA_MAIN_FULLSCREEN = "info.pelleritoudacity.android.rcapstone.extra.main.fullscreen";
     String EXTRA_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.extra.main.target";
-    String EXTRA_TAB_POSITION = "info.pelleritoudacity.android.rcapstone.extra.tab.position";
     String EXTRA_MAIN_SEARCH = "info.pelleritoudacity.android.rcapstone.extra.main.search";
     String CATEGORY_ALL = "all";
     String CATEGORY_POPULAR = "popular";

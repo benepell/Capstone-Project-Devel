@@ -195,7 +195,6 @@ public class MainFragment extends Fragment
 
             }
 
-            getLoaderManager().destroyLoader(SUBREDDIT_LOADER_ID);
         }
 
     }
@@ -204,7 +203,6 @@ public class MainFragment extends Fragment
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
         mAdapter.swapCursor(null);
-        getLoaderManager().destroyLoader(SUBREDDIT_LOADER_ID);
 
     }
 

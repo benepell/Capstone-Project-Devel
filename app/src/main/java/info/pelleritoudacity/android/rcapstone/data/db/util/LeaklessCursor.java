@@ -5,8 +5,6 @@ import android.database.sqlite.SQLiteCursorDriver;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQuery;
 
-import timber.log.Timber;
-
 class LeaklessCursor extends SQLiteCursor {
 
     public LeaklessCursor( SQLiteCursorDriver driver,
@@ -18,9 +16,9 @@ class LeaklessCursor extends SQLiteCursor {
     public void close() {
         final SQLiteDatabase db = getDatabase();
         if (db != null) {
-            Timber.d("Closing LeaklessCursor: %s", db.getPath());
             db.close();
 
         }
     }
+
 } 

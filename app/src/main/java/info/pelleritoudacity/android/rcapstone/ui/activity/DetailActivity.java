@@ -2,7 +2,6 @@ package info.pelleritoudacity.android.rcapstone.ui.activity;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -204,26 +203,23 @@ public class DetailActivity extends BaseActivity
     @Override
     public boolean onQueryTextSubmit(String s) {
 
-        Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
-
         model.setStrQuerySearch(s);
 
         switch (model.getTarget()) {
             case Costant.DETAIL_TARGET_NO_UPDATE:
             case Costant.DETAIL_TARGET:
                 model.setTarget(Costant.SEARCH_DETAIL_TARGET);
-                intent.putExtra(Costant.EXTRA_PARCEL_DETAIL_MODEL, model);
+                onRefresh();
                 break;
 
             case Costant.MORE_DETAIL_TARGET:
                 model.setTarget(Costant.MORE_SEARCH_DETAIL_TARGET);
-                intent.putExtra(Costant.EXTRA_PARCEL_MORE_DETAIL_MODEL, model);
+                onRefresh();
                 break;
 
             default:
                 return false;
         }
-        startActivity(intent);
         return true;
     }
 

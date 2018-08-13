@@ -148,7 +148,6 @@ public class ManageFragment extends Fragment
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
         if ((data != null) && (mAdapter != null)) {
             mAdapter.swapCursor(data);
-            getLoaderManager().destroyLoader(REDDIT_LOADER_ID);
         }
 
     }
@@ -163,7 +162,6 @@ public class ManageFragment extends Fragment
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
         if(mAdapter!=null){
             mAdapter.swapCursor(null);
-            getLoaderManager().destroyLoader(REDDIT_LOADER_ID);
         }
     }
 

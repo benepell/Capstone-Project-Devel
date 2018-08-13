@@ -29,6 +29,7 @@ package info.pelleritoudacity.android.rcapstone.ui.adapter;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -41,7 +42,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
 import com.google.android.exoplayer2.ui.PlayerView;
@@ -214,7 +214,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
                             mContext.getString(R.string.text_comments_subreddit))
             );
 
-            SelectorHelper selectorHelper = new SelectorHelper(this,mContext,holder.itemView);
+            SelectorHelper selectorHelper = new SelectorHelper(this, mContext, holder.itemView);
 
             CardBottomModel cardBottomModel = new CardBottomModel();
 
@@ -256,8 +256,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
     }
 
     @Override
-    public void vote(int position,int score, boolean voteUp,int dir, String linkId) {
-        new DataUtils(mContext).updateVote(Contract.T3dataEntry.CONTENT_URI,score,voteUp,dir,linkId);
+    public void vote(int position, int score, boolean voteUp, int dir, String linkId) {
+        new DataUtils(mContext).updateVote(Contract.T3dataEntry.CONTENT_URI, score, voteUp, dir, linkId);
         mMainListener.selectorChange(position);
 
     }
@@ -384,7 +384,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
                 mMainListener.mainClick(getAdapterPosition(), mSubRedditName, mNameRedditId);
 
             } else {
-                Toast.makeText(mContext, mContext.getString(R.string.text_no_comments), Toast.LENGTH_LONG).show();
+                Snackbar.make(itemView, mContext.getString(R.string.text_no_comments), Snackbar.LENGTH_LONG).show();
 
             }
         }
@@ -407,7 +407,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
 
     public interface OnMainClick {
         void mainClick(int position, String category, String strId);
+
         void selectorChange(int position);
+
         void mediaPlayer(MediaPlayer mediaPlayer);
     }
 
