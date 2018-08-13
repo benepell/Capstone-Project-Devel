@@ -69,13 +69,6 @@ public class BaseActivity extends AppCompatActivity
     private MenuBase menuBase;
     private Unbinder unbinder;
 
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -160,18 +153,6 @@ public class BaseActivity extends AppCompatActivity
     }
 
     @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if ((drawer != null) && (drawer.isDrawerOpen(GravityCompat.START))) {
-            drawer.closeDrawer(GravityCompat.START);
-
-        } else {
-            super.onBackPressed();
-        }
-
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
 
@@ -238,7 +219,6 @@ public class BaseActivity extends AppCompatActivity
 
     }
 
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -248,31 +228,6 @@ public class BaseActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
 
-    }
-
-
-    private void menuNavigation(NavigationView navigationView) {
-
-        switch (getLayoutResource()) {
-            case R.layout.activity_main:
-            case R.layout.activity_detail:
-            default:
-                navigationView.inflateMenu(R.menu.activity_base_drawer_main);
-                menuBase.menuNavigation(navigationView.getMenu());
-                menuBase.navigationSubCategory(navigationView.getMenu());
-        }
-
-        navigationView.setNavigationItemSelectedListener(this);
-
-    }
-
-
-    void setLayoutResource(int layoutResource) {
-        mLayoutResource = layoutResource;
-    }
-
-    private int getLayoutResource() {
-        return mLayoutResource;
     }
 
     @Override
@@ -302,7 +257,46 @@ public class BaseActivity extends AppCompatActivity
     }
 
     @Override
-    public void unexpectedError(Throwable tList) {
+    public void unexpectedError(Throwable tList) { }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        if ((drawer != null) && (drawer.isDrawerOpen(GravityCompat.START))) {
+            drawer.closeDrawer(GravityCompat.START);
+
+        } else {
+            super.onBackPressed();
+        }
+
+    }
+
+    private void menuNavigation(NavigationView navigationView) {
+
+        switch (getLayoutResource()) {
+            case R.layout.activity_main:
+            case R.layout.activity_detail:
+            default:
+                navigationView.inflateMenu(R.menu.activity_base_drawer_main);
+                menuBase.menuNavigation(navigationView.getMenu());
+                menuBase.navigationSubCategory(navigationView.getMenu());
+        }
+
+        navigationView.setNavigationItemSelectedListener(this);
+
+    }
+
+    void setLayoutResource(int layoutResource) {
+        mLayoutResource = layoutResource;
+    }
+
+    private int getLayoutResource() {
+        return mLayoutResource;
     }
 }

@@ -120,8 +120,8 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
                 .color(colorImageHandle)
                 .respectFontBounds(true));
 
-
         holder.mImageViewRedditHandle.setOnTouchListener((v, motionEvent) -> {
+
             if (motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN) {
                 mDragStartListener.onStartDrag(holder);
             }
@@ -216,7 +216,6 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
 
         }
     }
-
 
     public class RedditHolder extends RecyclerView.ViewHolder
             implements ItemTouchHelperViewHolder {

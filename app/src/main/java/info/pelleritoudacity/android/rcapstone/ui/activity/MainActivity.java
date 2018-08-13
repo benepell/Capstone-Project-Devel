@@ -28,7 +28,6 @@ package info.pelleritoudacity.android.rcapstone.ui.activity;
 
 
 import android.Manifest;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -39,8 +38,6 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.media.session.MediaButtonReceiver;
-import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.SearchView;
@@ -63,7 +60,6 @@ import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.MainModel;
 import info.pelleritoudacity.android.rcapstone.data.other.TabData;
 import info.pelleritoudacity.android.rcapstone.data.rest.MainExecute;
-import info.pelleritoudacity.android.rcapstone.media.MediaSession;
 import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.MainFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.Authenticator;
@@ -100,8 +96,6 @@ public class MainActivity extends BaseActivity
     public SwipeRefreshLayout mRefreshLayout;
 
     private Context mContext;
-    public static MediaSessionCompat sMediaSessionCompat = null;
-
     private Tab mTab;
     private long startTimeoutRefresh;
     private MainModel mModel;
@@ -177,43 +171,28 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
-    public void onBackPressed() {
+    protected boolean onPrepareOptionsPanel(View view, Menu menu) {
 
-        if (mRefreshLayout != null) {
-            mRefreshLayout.setRefreshing(false);
+        if (menu.findItem(R.id.menu_action_search) == null) {
+            getMenuInflater().inflate(R.menu.menu_search, menu);
+            MenuBase menuBase = new MenuBase(this, R.layout.activity_main);
+            menuBase.menuItemSearch(this, getComponentName(), menu);
         }
 
-        if ((mTab != null) && (Preference.isTabHistory(mContext
-        ))) {
-            String historyCategory = mTab.getHistoryPosition();
-            if (!TextUtils.isEmpty(historyCategory)) {
-                mTab.positionSelected(historyCategory);
-            } else {
-                super.onBackPressed();
-            }
-
-        } else {
-            super.onBackPressed();
-
-        }
-
+        return super.onPrepareOptionsPanel(view, menu);
     }
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mModel = savedInstanceState.getParcelable(Costant.EXTRA_PARCEL_MAIN_MODEL);
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putParcelable(Costant.EXTRA_PARCEL_MAIN_MODEL, mModel);
         super.onSaveInstanceState(outState);
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (Costant.IS_MEDIA_SESSION) {
-            MediaSession.removeNotification(mContext);
-        }
-    }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
@@ -242,52 +221,6 @@ public class MainActivity extends BaseActivity
                 Costant.PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
         Preference.setRequestPermission(mContext, true);
         return super.shouldShowRequestPermissionRationale(permission);
-    }
-
-
-    @Override
-    public void tabSelected(int position, String category) {
-        if ((mContext != null) &&
-                (!TextUtils.isEmpty(category) &&
-                        (!TextUtils.isEmpty(Preference.getLastTarget(mContext))))) {
-
-
-            if (category.compareTo(Preference.getLastCategory(mContext)) != 0) {
-
-                mLauncherMenu.setCategory(category);
-                mLauncherMenu.setTarget(Costant.TAB_MAIN_TARGET);
-                mLauncherMenu.saveLastPreference();
-                mRefreshLayout.setRefreshing(true);
-
-                mModel.setCategory(category);
-                mModel.setTarget(Costant.TAB_MAIN_TARGET);
-                Preference.setLastTarget(mContext, Costant.TAB_MAIN_TARGET);
-                mRefreshLayout.setRefreshing(true);
-                onRefresh();
-
-            }
-        }
-
-    }
-
-    @Override
-    public void tabReselected(int position, String category) {
-        if (position > 0) {
-            mModel.setCategory(category);
-            mModel.setPositionTab(position);
-            closeSearch(mModel);
-        }
-    }
-
-    private void closeSearch(MainModel m) {
-        if (Preference.getLastTarget(mContext).equals(Costant.SEARCH_MAIN_TARGET) &&
-                (!TextUtils.isEmpty(m.getQuerySearch()))) {
-            mModel.setTarget(Costant.DEFAULT_START_VALUE_MAIN_TARGET);
-            mModel.setCategory(m.getCategory());
-            Preference.setLastTarget(mContext,Costant.DEFAULT_START_VALUE_MAIN_TARGET);
-            mRefreshLayout.setRefreshing(true);
-            onRefresh();
-        }
     }
 
     @Override
@@ -324,83 +257,39 @@ public class MainActivity extends BaseActivity
         }
     }
 
+    @Override
+    public void tabSelected(String category) {
+        if ((mContext != null) &&
+                (!TextUtils.isEmpty(category) &&
+                        (!TextUtils.isEmpty(Preference.getLastTarget(mContext))))) {
+
+
+            if (category.compareTo(Preference.getLastCategory(mContext)) != 0) {
+
+                mLauncherMenu.setCategory(category);
+                mLauncherMenu.setTarget(Costant.TAB_MAIN_TARGET);
+                mLauncherMenu.saveLastPreference();
+                mRefreshLayout.setRefreshing(true);
+
+                mModel.setCategory(category);
+                mModel.setTarget(Costant.TAB_MAIN_TARGET);
+                Preference.setLastTarget(mContext, Costant.TAB_MAIN_TARGET);
+                mRefreshLayout.setRefreshing(true);
+                onRefresh();
+
+            }
+        }
+
+    }
 
     @Override
-    protected boolean onPrepareOptionsPanel(View view, Menu menu) {
-
-        if (menu.findItem(R.id.menu_action_search) == null) {
-            getMenuInflater().inflate(R.menu.menu_search, menu);
-            MenuBase menuBase = new MenuBase(this, R.layout.activity_main);
-            menuBase.menuItemSearch(this, getComponentName(), menu);
-        }
-
-        return super.onPrepareOptionsPanel(view, menu);
-    }
-
-
-    private void createUI(MainModel m) {
-        if ((m.getCategory() != null && m.getTarget() != null) && (TextUtils.isEmpty(m.getQuerySearch()))) {
-            if (mTab != null) {
-                mTab.updateTabPosition();
-            }
-        }
-        startFragment(m);
-    }
-
-
-    private void initRest(MainModel m, boolean stateNetworkOnline) {
-        if (!TextUtils.isEmpty(m.getCategory())) {
-
-            if ((!stateNetworkOnline) || (
-                    new DataUtils(mContext).isSyncData(Contract.T3dataEntry.CONTENT_URI,
-                            m.getCategory(),
-                            Preference.getGeneralSettingsSyncFrequency(mContext),
-                            Preference.getGeneralSettingsItemPage(mContext)))) {
-
-                createUI(mModel);
-
-            } else {
-                switch (Preference.getSubredditSort(mContext)) {
-
-                    case Costant.LABEL_SUBMENU_RISING:
-                    case Costant.LABEL_SUBMENU_NEW:
-                    case Costant.LABEL_SUBMENU_HOT:
-
-                        new MainExecute(this, mContext, m.getCategory()).getDataList();
-                        break;
-
-                    case Costant.LABEL_SUBMENU_CONTROVERSIAL:
-                    case Costant.LABEL_SUBMENU_TOP:
-                        new MainExecute(this, mContext, m.getCategory()).getData();
-                        break;
-
-                    default:
-                        new MainExecute(this, mContext, m.getCategory()).getData();
-                }
-            }
-
+    public void tabReselected(int position, String category) {
+        if (position > 0) {
+            mModel.setCategory(category);
+            mModel.setPositionTab(position);
+            closeSearch(mModel);
         }
     }
-
-
-    private void startFragment(MainModel m) {
-        if (!getSupportFragmentManager().isStateSaved()) {
-            MainFragment mainFragment = MainFragment.newInstance(m);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_subreddit_container, mainFragment).commit();
-        } else {
-            if (mNestedScrollView == null) {
-                ActivityUI.startRefresh(getApplicationContext(), MainActivity.class);
-
-            }
-
-        }
-
-        if (mRefreshLayout != null) {
-            if (mRefreshLayout.isRefreshing()) mRefreshLayout.setRefreshing(false);
-        }
-    }
-
 
     @Override
     public boolean onQueryTextSubmit(String s) {
@@ -462,16 +351,98 @@ public class MainActivity extends BaseActivity
 
     }
 
-    public static class MediaReceiver extends BroadcastReceiver {
-        public MediaReceiver() {
+    @Override
+    public void onBackPressed() {
+
+        if (mRefreshLayout != null) {
+            mRefreshLayout.setRefreshing(false);
         }
 
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (sMediaSessionCompat != null) {
-                MediaButtonReceiver.handleIntent(sMediaSessionCompat, intent);
+        if ((mTab != null) && (Preference.isTabHistory(mContext
+        ))) {
+            String historyCategory = mTab.getHistoryPosition();
+            if (!TextUtils.isEmpty(historyCategory)) {
+                mTab.positionSelected(historyCategory);
+            } else {
+                super.onBackPressed();
             }
+
+        } else {
+            super.onBackPressed();
+
+        }
+
+    }
+
+    private void createUI(MainModel m) {
+        if ((m.getCategory() != null && m.getTarget() != null) && (TextUtils.isEmpty(m.getQuerySearch()))) {
+            if (mTab != null) {
+                mTab.updateTabPosition();
+            }
+        }
+        startFragment(m);
+    }
+
+    private void initRest(MainModel m, boolean stateNetworkOnline) {
+        if (!TextUtils.isEmpty(m.getCategory())) {
+
+            if ((!stateNetworkOnline) || (
+                    new DataUtils(mContext).isSyncData(Contract.T3dataEntry.CONTENT_URI,
+                            m.getCategory(),
+                            Preference.getGeneralSettingsSyncFrequency(mContext),
+                            Preference.getGeneralSettingsItemPage(mContext)))) {
+
+                createUI(mModel);
+
+            } else {
+                switch (Preference.getSubredditSort(mContext)) {
+
+                    case Costant.LABEL_SUBMENU_RISING:
+                    case Costant.LABEL_SUBMENU_NEW:
+                    case Costant.LABEL_SUBMENU_HOT:
+
+                        new MainExecute(this, mContext, m.getCategory()).getDataList();
+                        break;
+
+                    case Costant.LABEL_SUBMENU_CONTROVERSIAL:
+                    case Costant.LABEL_SUBMENU_TOP:
+                        new MainExecute(this, mContext, m.getCategory()).getData();
+                        break;
+
+                    default:
+                        new MainExecute(this, mContext, m.getCategory()).getData();
+                }
+            }
+
         }
     }
 
+    private void startFragment(MainModel m) {
+        if (!getSupportFragmentManager().isStateSaved()) {
+            MainFragment mainFragment = MainFragment.newInstance(m);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_subreddit_container, mainFragment).commit();
+        } else {
+            if (mNestedScrollView == null) {
+                ActivityUI.startRefresh(getApplicationContext(), MainActivity.class);
+
+            }
+
+        }
+
+        if (mRefreshLayout != null) {
+            if (mRefreshLayout.isRefreshing()) mRefreshLayout.setRefreshing(false);
+        }
+    }
+
+    private void closeSearch(MainModel m) {
+        if (Preference.getLastTarget(mContext).equals(Costant.SEARCH_MAIN_TARGET) &&
+                (!TextUtils.isEmpty(m.getQuerySearch()))) {
+            mModel.setTarget(Costant.DEFAULT_START_VALUE_MAIN_TARGET);
+            mModel.setCategory(m.getCategory());
+            Preference.setLastTarget(mContext, Costant.DEFAULT_START_VALUE_MAIN_TARGET);
+            mRefreshLayout.setRefreshing(true);
+            onRefresh();
+        }
+    }
 }

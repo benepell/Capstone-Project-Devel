@@ -12,21 +12,18 @@ import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.utility.Costant;
 
 class MediaEvent implements Player.EventListener {
 
     private final TextView mTvErrorPlayer;
     private final Handler mHandler;
     private final MediaPlayer mMediaPlayer;
-    private final MediaSession mMediaSession;
     private final Runnable mRunnableRemainingPlay;
 
-    public MediaEvent(MediaPlayer mediaPlayer, MediaSession mediaSession, Handler handler,
+    public MediaEvent(MediaPlayer mediaPlayer,  Handler handler,
                       Runnable runnable,  TextView tvErrorPlayer) {
         mMediaPlayer = mediaPlayer;
         mTvErrorPlayer = tvErrorPlayer;
-        mMediaSession = mediaSession;
         mHandler = handler;
         mRunnableRemainingPlay =  runnable;
     }
@@ -67,12 +64,6 @@ class MediaEvent implements Player.EventListener {
             default:
         }
 
-        if (Costant.IS_MEDIA_SESSION) {
-            if (mMediaSession != null) {
-                mMediaSession.mediaSessionState(playWhenReady, playbackState);
-
-            }
-        }
 
     }
 

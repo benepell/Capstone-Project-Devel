@@ -66,7 +66,6 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
 
     }
 
-
     @Override
     public void applyTheme(boolean b) {
         if (b) {

@@ -189,15 +189,8 @@ public interface Costant {
 
     int DEFAULT_SUBREDDIT_VISIBLE = 1;
     boolean DEFAULT_GENERAL_SETTINGS = true;
-    String EXO_PLAYER_MANAGER_TAG = "info.pelleritoudacity.android.rcapstone.exo.player.tag.subreddit";
-
-    int NOTIFICATION_ID = 1;
-
-    String NOTIFICATION_CHANNEL_ID = "info.pelleritoudacity.android.rcapstone.exo.player.tag.one";
-    String NOTIFICATION_CHANNEL_NAME = "Channel Media Exoplayer";
 
     boolean IS_IMA_AD_EXTENSION = true;
-    boolean IS_MEDIA_SESSION = true;
     boolean IS_RENDERING_VIDEO = false;
     boolean IS_AUTOPLAY_VIDEO = true;
     boolean IS_REPEAT_VIDEO = true;

@@ -98,25 +98,17 @@ public class DetailActivity extends BaseActivity
 
     }
 
-
     @Override
-    public void clickSelector(int position, int itemCount) {
-        if (!Utility.isTablet(mContext)) {
-            if (position == itemCount - 1) {
-                if (mNestedScrollView != null) {
-                    mNestedScrollView.smoothScrollBy(0, mNestedScrollView.getBottom());
-                }
-            }
+    protected boolean onPrepareOptionsPanel(View view, Menu menu) {
+
+        if (menu.findItem(R.id.menu_action_search) == null) {
+            getMenuInflater().inflate(R.menu.menu_search, menu);
+            MenuBase menuBase = new MenuBase(this, R.layout.activity_detail);
+            menuBase.menuItemSearch(this, getComponentName(), menu);
         }
-    }
 
-    @Override
-    public void onClickMore(DetailModel detailModel) {
-        model = detailModel;
-        mSwipeRefreshLayout.setRefreshing(true);
-        onRefresh();
+        return super.onPrepareOptionsPanel(view, menu);
     }
-
 
     @Override
     public void onRefresh() {
@@ -182,22 +174,16 @@ public class DetailActivity extends BaseActivity
     }
 
     @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        model = savedInstanceState.getParcelable(Costant.EXTRA_PARCEL_ACTIVITY_DETAIL);
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putParcelable(Costant.EXTRA_PARCEL_ACTIVITY_DETAIL, model);
         super.onSaveInstanceState(outState);
 
-    }
-
-    @Override
-    protected boolean onPrepareOptionsPanel(View view, Menu menu) {
-
-        if (menu.findItem(R.id.menu_action_search) == null) {
-            getMenuInflater().inflate(R.menu.menu_search, menu);
-            MenuBase menuBase = new MenuBase(this, R.layout.activity_detail);
-            menuBase.menuItemSearch(this, getComponentName(), menu);
-        }
-
-        return super.onPrepareOptionsPanel(view, menu);
     }
 
     @Override
@@ -226,6 +212,103 @@ public class DetailActivity extends BaseActivity
     @Override
     public boolean onQueryTextChange(String s) {
         return false;
+    }
+
+    @Override
+    public void clickSelector(int position, int itemCount) {
+        if (!Utility.isTablet(mContext)) {
+            if (position == itemCount - 1) {
+                if (mNestedScrollView != null) {
+                    mNestedScrollView.smoothScrollBy(0, mNestedScrollView.getBottom());
+                }
+            }
+        }
+    }
+
+    @Override
+    public void mainClick(int position, String category, String strId) {
+        if (model == null) {
+            model = new DetailModel();
+        }
+        model.setCategory(category);
+        model.setStrId(strId);
+        model.setPosition(position);
+        model.setTarget(Costant.DETAIL_TARGET);
+
+        mSwipeRefreshLayout.setRefreshing(true);
+        onRefresh();
+    }
+
+    @Override
+    public void onClickMore(DetailModel detailModel) {
+        model = detailModel;
+        mSwipeRefreshLayout.setRefreshing(true);
+        onRefresh();
+    }
+
+    @Override
+    public void success(List<T1> response, int code) {
+        if ((response != null) && (model.getStrId() != null)) {
+            T1Operation data = new T1Operation(getApplicationContext());
+            if (data.saveData(response, model.getStrId())) {
+                startFragment(model, false);
+            } else {
+                Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    @Override
+    public void success(More response, int code) {
+        if (response != null) {
+            if (response.getJson().getData() != null) {
+
+                T1Operation t1moreOperation = new T1Operation(getApplicationContext());
+
+                if (t1moreOperation.saveMoreData(response.getJson())) {
+
+                    startFragment(model, true);
+
+                }
+
+            }
+
+        }
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if ((model != null) && (model.getTarget() == Costant.MORE_DETAIL_TARGET)) {
+            model.setTarget(Costant.DETAIL_TARGET);
+            model.setStrArrId(null);
+            model.setStrLinkId(null);
+
+            onRefresh();
+
+        } else {
+            super.onBackPressed();
+
+        }
+
+    }
+
+    private void createFragmentTablet(Context context, String category, int position) {
+        MainModel mainModel;
+
+        if (Utility.isTablet(context)) {
+            mainModel = new MainModel();
+            mainModel.setPosition(position);
+            mainModel.setCategory(category);
+            mainModel.setTarget(Costant.DEFAULT_START_VALUE_MAIN_TARGET);
+            mainModel.setOver18(Preference.isLoginOver18(mContext));
+
+            MainFragment mainFragment = MainFragment.newInstance(mainModel);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_subreddit_container, mainFragment).commit();
+
+        }
+
     }
 
     private void startFragment(DetailModel m, boolean moreFragment) {
@@ -269,85 +352,5 @@ public class DetailActivity extends BaseActivity
         return new DataUtils(mContext).isSyncDataDetail(Contract.T1dataEntry.CONTENT_URI,
                 model, Preference.getGeneralSettingsSyncFrequency(mContext),
                 Preference.getGeneralSettingsItemPage(mContext));
-    }
-
-
-    private void createFragmentTablet(Context context, String category, int position) {
-        MainModel mainModel;
-
-        if (Utility.isTablet(context)) {
-            mainModel = new MainModel();
-            mainModel.setPosition(position);
-            mainModel.setCategory(category);
-            mainModel.setTarget(Costant.DEFAULT_START_VALUE_MAIN_TARGET);
-            mainModel.setOver18(Preference.isLoginOver18(mContext));
-
-            MainFragment mainFragment = MainFragment.newInstance(mainModel);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_subreddit_container, mainFragment).commit();
-
-        }
-
-    }
-
-    @Override
-    public void success(List<T1> response, int code) {
-        if ((response != null) && (model.getStrId() != null)) {
-            T1Operation data = new T1Operation(getApplicationContext());
-            if (data.saveData(response, model.getStrId())) {
-                startFragment(model, false);
-            } else {
-                Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    @Override
-    public void success(More response, int code) {
-        if (response != null) {
-            if (response.getJson().getData() != null) {
-
-                T1Operation t1moreOperation = new T1Operation(getApplicationContext());
-
-                if (t1moreOperation.saveMoreData(response.getJson())) {
-
-                    startFragment(model, true);
-
-                }
-
-            }
-
-        }
-
-    }
-
-    @Override
-    public void mainClick(int position, String category, String strId) {
-        if (model == null) {
-            model = new DetailModel();
-        }
-        model.setCategory(category);
-        model.setStrId(strId);
-        model.setPosition(position);
-        model.setTarget(Costant.DETAIL_TARGET);
-
-        mSwipeRefreshLayout.setRefreshing(true);
-        onRefresh();
-    }
-
-    @Override
-    public void onBackPressed() {
-        if ((model != null) && (model.getTarget() == Costant.MORE_DETAIL_TARGET)) {
-            model.setTarget(Costant.DETAIL_TARGET);
-            model.setStrArrId(null);
-            model.setStrLinkId(null);
-
-            onRefresh();
-
-        }else {
-            super.onBackPressed();
-
-        }
-
     }
 }

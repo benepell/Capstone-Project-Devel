@@ -70,7 +70,7 @@ public class FullScreenActivity extends AppCompatActivity {
         ImaAdsLoader imaAdsLoader = new ImaAdsLoader(mContext, Uri.parse(getString(R.string.ad_tag_url)));
 
         mMediaPlayer = new MediaPlayer(mContext, imaAdsLoader,
-                mPlayerView, mExoProgressBar, null, mTVErrorPlayer,null);
+                mPlayerView, mExoProgressBar,  mTVErrorPlayer,null);
 
     }
 

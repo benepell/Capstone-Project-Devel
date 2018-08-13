@@ -116,6 +116,10 @@ public class MainFragment extends Fragment
 
         getLoaderManager().restartLoader(SUBREDDIT_LOADER_ID, null, this).forceLoad();
 
+        if (mMediaPlayer != null) {
+            mMediaPlayer.setResume(mMediaPlayer.getResumeWindow(), mMediaPlayer.getResumePosition(), mMediaPlayer.getVideoUri());
+        }
+
     }
 
     @Override
@@ -242,7 +246,6 @@ public class MainFragment extends Fragment
         Cursor cursorData = null;
         private final MainModel model;
 
-
         MainFragmentAsyncTask(@NonNull Context context, MainModel model) {
             super(context);
             this.model = model;
@@ -316,8 +319,8 @@ public class MainFragment extends Fragment
 
         @Override
         public void deliverResult(Cursor data) {
-                cursorData = data;
-                super.deliverResult(data);
+            cursorData = data;
+            super.deliverResult(data);
         }
     }
 

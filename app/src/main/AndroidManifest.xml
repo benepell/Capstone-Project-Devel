@@ -99,12 +99,6 @@
             </intent-filter>
         </service>
 
-        <receiver android:name=".ui.activity.MainActivity$MediaReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.MEDIA_BUTTON" />
-            </intent-filter>
-        </receiver>
-
         <activity android:name=".ui.activity.FullScreenActivity" />
 
         <service

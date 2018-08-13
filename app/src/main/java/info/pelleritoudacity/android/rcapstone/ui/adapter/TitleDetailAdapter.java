@@ -145,7 +145,6 @@ public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.
         mListener.selectorChange(position);
     }
 
-
     public class SubRedditSelectedHolder extends RecyclerView.ViewHolder {
 
         @SuppressWarnings("unused")

@@ -57,7 +57,6 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.login_webview)
     protected WebView mWebview;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setLayoutResource(R.layout.activity_login);
@@ -78,7 +77,6 @@ public class LoginActivity extends BaseActivity {
 
 
     }
-
 
     private void createLogout(String token) {
 
@@ -183,8 +181,6 @@ public class LoginActivity extends BaseActivity {
         });
         mWebview.loadUrl(url);
     }
-
-
 
     private void responseActivity(int state) {
         Intent intent = new Intent(this, MainActivity.class);

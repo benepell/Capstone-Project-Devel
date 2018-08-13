@@ -47,7 +47,6 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
         model = detailModel;
     }
 
-
     @NonNull
     @Override
     public SubRedditDetailHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

@@ -87,7 +87,7 @@ public class Tab implements TabLayout.OnTabSelectedListener {
 
         addHistory(mTabList.get(position));
 
-        mListener.tabSelected(position, mTabList.get(position));
+        mListener.tabSelected(mTabList.get(position));
     }
 
     @Override
@@ -124,7 +124,7 @@ public class Tab implements TabLayout.OnTabSelectedListener {
 
 
     public interface OnTabListener {
-        void tabSelected(int position, String category);
+        void tabSelected(String category);
 
         void tabReselected(int position, String category);
     }

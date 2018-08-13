@@ -73,8 +73,6 @@ public class MediaPlayer {
 
     private final Context mContext;
 
-    private final String mShortDescription;
-
     private int mResumeWindow;
     private long mResumePosition;
 
@@ -86,7 +84,6 @@ public class MediaPlayer {
 
     private final TextView mTvErrorPlayer;
 
-    private MediaSession mMediaSession;
     private final ImaAdsLoader mImaAdsLoader;
     private TextView mTvExoCountDown;
     private ImageView mImageMutedPlay;
@@ -97,13 +94,12 @@ public class MediaPlayer {
 
 
     public MediaPlayer(Context context, ImaAdsLoader imaAdsLoader, PlayerView playerView,
-                       ProgressBar progressBar, String shortDescription, TextView tvErrorPlayer, ImageView imagePlay) {
+                       ProgressBar progressBar, TextView tvErrorPlayer, ImageView imagePlay) {
 
         mContext = context;
         mImaAdsLoader = imaAdsLoader;
         mPlayerView = playerView;
         mProgressBar = progressBar;
-        mShortDescription = shortDescription;
         mTvErrorPlayer = tvErrorPlayer;
         mImagePlay = imagePlay;
 
@@ -150,7 +146,7 @@ public class MediaPlayer {
         getExitFullScreen();
         getShareFullScreen(mediaUri.toString());
 
-        mPlayer.addListener(new MediaEvent(this, mMediaSession,
+        mPlayer.addListener(new MediaEvent(this,
                 null, null,
                  mTvErrorPlayer));
 
@@ -201,9 +197,9 @@ public class MediaPlayer {
             getFeatures();
             getFullScreen(mediaUri.toString());
 
-            mPlayer.addListener(new MediaEvent(this, mMediaSession,
-                    mHandler, mRunnableRemainingPlay,
-                     mTvErrorPlayer));
+            mPlayer.addListener(new MediaEvent(this,
+                    mHandler,mRunnableRemainingPlay,
+                    mTvErrorPlayer));
 
             mVideoUri = mediaUri;
 
@@ -212,11 +208,6 @@ public class MediaPlayer {
     }
 
     private void getFeatures() {
-        if (Costant.IS_MEDIA_SESSION) {
-            mMediaSession = new MediaSession(mContext, mPlayer);
-            mMediaSession.setDescription(mShortDescription);
-            mMediaSession.initMediaSession();
-        }
 
         if (Costant.IS_CONTROLLER_ALWAYS) {
             mPlayerView.setControllerShowTimeoutMs(Costant.PLAYER_SHOW_CONTROLLER_ALWAYS);
@@ -321,7 +312,6 @@ public class MediaPlayer {
     }
 
     private void startClickFullScreen(String videoUrl) {
-        MediaSession.removeNotification(mContext);
         mContext.startActivity(new Intent(mContext, FullScreenActivity.class)
                 .putExtra(Costant.EXTRA_MAIN_FULLSCREEN,
                         TextUtil.textFromHtml(videoUrl)));
@@ -400,6 +390,10 @@ public class MediaPlayer {
         mVideoUri = videoUri;
     }
 
+    public Uri getVideoUri(){
+        return mVideoUri;
+    }
+
     public int getResumeWindow() {
         return mResumeWindow;
     }
@@ -408,9 +402,6 @@ public class MediaPlayer {
         return mResumePosition;
     }
 
-    public Uri getVideoUri() {
-        return mVideoUri;
-    }
 
     public void updateResumePosition() {
         if (mPlayer != null) {
