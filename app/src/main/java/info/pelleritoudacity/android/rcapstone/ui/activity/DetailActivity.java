@@ -337,14 +337,14 @@ public class DetailActivity extends BaseActivity
 
     @Override
     public void onBackPressed() {
-        if (Utility.isTablet(getApplicationContext()) && (model != null) && (model.getTarget() == Costant.MORE_DETAIL_TARGET)) {
+        if ((model != null) && (model.getTarget() == Costant.MORE_DETAIL_TARGET)) {
             model.setTarget(Costant.DETAIL_TARGET);
             model.setStrArrId(null);
             model.setStrLinkId(null);
 
             onRefresh();
 
-        } else {
+        }else {
             super.onBackPressed();
 
         }
