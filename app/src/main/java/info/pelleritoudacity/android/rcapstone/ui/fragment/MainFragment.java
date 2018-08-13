@@ -124,7 +124,6 @@ public class MainFragment extends Fragment
 
     }
 
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -195,6 +194,8 @@ public class MainFragment extends Fragment
                 mRecyclerView.scrollToPosition(mModel.getPosition());
 
             }
+
+            getLoaderManager().destroyLoader(SUBREDDIT_LOADER_ID);
         }
 
     }
@@ -203,6 +204,8 @@ public class MainFragment extends Fragment
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
         mAdapter.swapCursor(null);
+        getLoaderManager().destroyLoader(SUBREDDIT_LOADER_ID);
+
     }
 
 
@@ -296,8 +299,7 @@ public class MainFragment extends Fragment
                         null);
 
             } catch (Exception e) {
-                Timber.e("Failed to asynchronously load data. ");
-                e.printStackTrace();
+                Timber.e("Failed to asynchronously load data. main fragment %s ",e.getMessage());
                 return null;
             }
         }

@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageButton;
 
 import com.mikepenz.iconics.IconicsDrawable;
@@ -23,11 +25,13 @@ import timber.log.Timber;
 public class SelectorHelper {
     private final Context mContext;
     private final OnSelector mListener;
+    private final View mItemView;
 
-    public SelectorHelper(OnSelector listener, Context context) {
+    public SelectorHelper(OnSelector listener, Context context, View itemView) {
 
         mContext = context;
         mListener = listener;
+        mItemView = itemView;
     }
 
     public void cardBottomLink(CardBottomModel model) {
@@ -113,93 +117,113 @@ public class SelectorHelper {
 
             buttonOpenBrowser.setBackgroundColor(Color.parseColor(model.getBackgroundColor()));
 
-            if ((model.isOnline()) && (model.isLogged())) {
+            if ((model.isOnline())) {
                 buttonVoteUp.setOnClickListener(view -> {
 
-                    int dir = 1;
+                    if (model.isLogged()) {
+                        int dir = 1;
 
-                    if (view.isActivated()) {
-                        dir = 0;
-                    }
-
-                    int finalDir = dir;
-                    new VoteExecute(new VoteExecute.OnRestCallBack() {
-                        @Override
-                        public void unexpectedError(Throwable tList) {
-
+                        if (view.isActivated()) {
+                            dir = 0;
                         }
 
-                        @Override
-                        public void success(ResponseBody response, int code) {
-                            if (code == 200) {
-                                mListener.vote(model.getPosition(), model.getScore(), true, finalDir, model.getCategory());
+                        int finalDir = dir;
+                        new VoteExecute(new VoteExecute.OnRestCallBack() {
+                            @Override
+                            public void unexpectedError(Throwable tList) {
 
                             }
 
-                        }
+                            @Override
+                            public void success(ResponseBody response, int code) {
+                                if (code == 200) {
+                                    mListener.vote(model.getPosition(), model.getScore(), true, finalDir, model.getCategory());
 
-                    }, PermissionUtil.getToken(mContext), dir, model.getCategory())
-                            .postData();
+                                }
+
+                            }
+
+                        }, PermissionUtil.getToken(mContext), dir, model.getCategory())
+                                .postData();
+                    } else {
+                        Snackbar.make(mItemView, R.string.text_start_login, Snackbar.LENGTH_LONG).show();
+
+                    }
                 });
 
-                buttonVoteDown.setOnClickListener(view -> {
 
-                    int dir = -1;
-                    if (view.isActivated()) {
-                        dir = 0;
-                    }
-                    int finalDir = dir;
-                    new VoteExecute(new VoteExecute.OnRestCallBack() {
-                        @Override
-                        public void success(ResponseBody response, int code) {
-                            if (code == 200) {
-                                mListener.vote(model.getPosition(), model.getScore(), false, finalDir, model.getCategory());
+                buttonVoteDown.setOnClickListener(view -> {
+                    if (model.isLogged()) {
+                        int dir = -1;
+                        if (view.isActivated()) {
+                            dir = 0;
+                        }
+                        int finalDir = dir;
+                        new VoteExecute(new VoteExecute.OnRestCallBack() {
+                            @Override
+                            public void success(ResponseBody response, int code) {
+                                if (code == 200) {
+                                    mListener.vote(model.getPosition(), model.getScore(), false, finalDir, model.getCategory());
+
+                                }
+                            }
+
+                            @Override
+                            public void unexpectedError(Throwable tList) {
 
                             }
-                        }
 
-                        @Override
-                        public void unexpectedError(Throwable tList) {
+                        }, PermissionUtil.getToken(mContext), dir, model.getCategory())
+                                .postData();
+                    } else {
+                        Snackbar.make(mItemView, R.string.text_start_login, Snackbar.LENGTH_LONG).show();
 
-                        }
+                    }
 
-                    }, PermissionUtil.getToken(mContext), dir, model.getCategory())
-                            .postData();
                 });
 
 
                 if (!model.isSaved()) {
-                    buttonStars.setOnClickListener(view -> new PrefExecute(new PrefExecute.OnRestCallBack() {
-                        @Override
-                        public void success(ResponseBody response, int code) {
-                            if (code == 200) {
-                                Uri uri;
-                                String groupCategory = model.getCategory().substring(0, 2);
-                                int visibleStar = model.isSaved() ? 0 : 1;
+                    buttonStars.setOnClickListener(view -> {
+                        if (model.isLogged()) {
+                            new PrefExecute(new PrefExecute.OnRestCallBack() {
+                                @Override
+                                public void success(ResponseBody response, int code) {
+                                    if (code == 200) {
+                                        Uri uri;
+                                        String groupCategory = model.getCategory().substring(0, 2);
+                                        int visibleStar = model.isSaved() ? 0 : 1;
 
-                                switch (groupCategory) {
-                                    case "t3":
-                                        uri = info.pelleritoudacity.android.rcapstone.data.db.Contract.T3dataEntry.CONTENT_URI;
-                                        new DataUtils(mContext).updateLocalDbStars(uri, visibleStar, model.getCategory());
-                                        mListener.stars(model.getPosition());
-                                        break;
+                                        switch (groupCategory) {
+                                            case "t3":
+                                                uri = info.pelleritoudacity.android.rcapstone.data.db.Contract.T3dataEntry.CONTENT_URI;
+                                                new DataUtils(mContext).updateLocalDbStars(uri, visibleStar, model.getCategory());
+                                                mListener.stars(model.getPosition());
+                                                break;
 
-                                    case "t1":
-                                        uri = info.pelleritoudacity.android.rcapstone.data.db.Contract.T1dataEntry.CONTENT_URI;
-                                        new DataUtils(mContext).updateLocalDbStars(uri, visibleStar, model.getCategory());
-                                        mListener.stars(model.getPosition());
-                                        break;
+                                            case "t1":
+                                                uri = info.pelleritoudacity.android.rcapstone.data.db.Contract.T1dataEntry.CONTENT_URI;
+                                                new DataUtils(mContext).updateLocalDbStars(uri, visibleStar, model.getCategory());
+                                                mListener.stars(model.getPosition());
+                                                break;
+                                        }
+
+
+                                    }
                                 }
 
+                                @Override
+                                public void unexpectedError(Throwable tList) {
+                                }
 
-                            }
+                            }, PermissionUtil.getToken(mContext), model.getCategory()).postSaveData();
+
+                        } else {
+                            Snackbar.make(mItemView, R.string.text_start_login, Snackbar.LENGTH_LONG).show();
+
                         }
 
-                        @Override
-                        public void unexpectedError(Throwable tList) {
-                        }
-
-                    }, PermissionUtil.getToken(mContext), model.getCategory()).postSaveData());
+                    });
 
                 } else {
 
@@ -252,6 +276,7 @@ public class SelectorHelper {
 
     public interface OnSelector {
         void vote(int position, int score, boolean voteUp, int dir, String category);
+
         void stars(int position);
     }
 }

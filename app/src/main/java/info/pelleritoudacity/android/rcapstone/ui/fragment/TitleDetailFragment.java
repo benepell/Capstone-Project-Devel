@@ -122,12 +122,16 @@ public class TitleDetailFragment extends Fragment
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
         if ((data != null) && (mAdapter != null)) {
             mAdapter.swapCursor(data);
+            getLoaderManager().destroyLoader(SUBREDDIT_SELECTED_LOADER_ID);
         }
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-        mAdapter.swapCursor(null);
+        if (mAdapter != null) {
+            mAdapter.swapCursor(null);
+            getLoaderManager().destroyLoader(SUBREDDIT_SELECTED_LOADER_ID);
+        }
     }
 
     @Override

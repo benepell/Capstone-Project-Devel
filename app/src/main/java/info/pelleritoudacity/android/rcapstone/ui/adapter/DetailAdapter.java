@@ -101,7 +101,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
             detailHelper.initDepthIndicator(holder.mDepthIndicator, holder.mCardLinear, record.getDepth(), true, false);
             String strBackGroundColor = detailHelper.initDepthIndicator(holder.mDepthSelect, holder.mSelectorContainer, record.getDepth(), true, true);
 
-            SelectorHelper selectorHelper = new SelectorHelper(this, mContext);
+            SelectorHelper selectorHelper = new SelectorHelper(this, mContext, holder.itemView);
 
             ImageButton[] arrayButton = new ImageButton[]{holder.mImageButtonVoteUp, holder.mImageButtonVoteDown,
                     holder.mImageButtonPreferStars, holder.mImageButtonShowComments, holder.mImageButtonOpenBrowser};
@@ -138,7 +138,8 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
 
             if ((record.getNumComments() > 0) && (TextUtils.isEmpty(model.getStrLinkId()))) {
 
-                holder.mTextViewReplies.setText(String.format("%s %s", String.valueOf(record.getNumComments()), mContext.getString(R.string.text_more_replies)));
+                holder.mTextViewReplies.setText(String.format("%s %s",
+                        String.valueOf(record.getNumComments()), mContext.getString(R.string.text_more_replies)));
                 holder.mTextViewReplies.setVisibility(View.VISIBLE);
 
                 holder.mTextViewReplies.setOnClickListener(view -> {
@@ -250,7 +251,6 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
                 clickSelector(getAdapterPosition());
                 mListener.clickSelector(getAdapterPosition(), getItemCount());
                 notifyDataSetChanged();
-
             });
         }
 
@@ -259,6 +259,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
             clickSelector(getAdapterPosition());
             mListener.clickSelector(getAdapterPosition(), getItemCount());
             notifyDataSetChanged();
+
         }
 
     }

@@ -213,7 +213,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
                             mContext.getString(R.string.text_comments_subreddit))
             );
 
-            SelectorHelper selectorHelper = new SelectorHelper(this,mContext);
+            SelectorHelper selectorHelper = new SelectorHelper(this,mContext,holder.itemView);
 
             CardBottomModel cardBottomModel = new CardBottomModel();
 
