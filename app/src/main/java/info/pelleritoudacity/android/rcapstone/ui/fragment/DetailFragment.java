@@ -287,8 +287,8 @@ public class DetailFragment extends Fragment
 
         @Override
         public void deliverResult(Cursor data) {
-                cursorData = data;
-                super.deliverResult(data);
+            cursorData = data;
+            super.deliverResult(data);
         }
 
     }
