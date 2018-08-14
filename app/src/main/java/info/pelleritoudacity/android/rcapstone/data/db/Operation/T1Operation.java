@@ -133,6 +133,7 @@ public class T1Operation {
 
             cv.put(Contract.T1dataEntry.COLUMN_NAME_TIME_LAST_MODIFIED, DateUtil.getNowTimeStamp());
 
+
             dataUtils.putNullCV(cv, Contract.T1dataEntry.COLUMN_NAME_NAME,
                     repliesListingData.getName());
 
@@ -239,8 +240,11 @@ public class T1Operation {
                 //noinspection StringConcatenationInLoop
                 strMoreChildren += repliesListingData.getChildren().get(i).concat(Costant.STRING_SEPARATOR);
             }
-            strMoreChildren += repliesListingData.getChildren().get(sizeCV - 1);
-            cv.put(Contract.T1MoresDataEntry.COLUMN_NAME_MORE_CHILDREN, strMoreChildren);
+            if (sizeCV > 0) {
+                strMoreChildren += repliesListingData.getChildren().get(sizeCV - 1);
+                cv.put(Contract.T1MoresDataEntry.COLUMN_NAME_MORE_CHILDREN, strMoreChildren);
+
+            }
 
             try {
                 Uri uri = mContext.getContentResolver().insert(Contract.T1MoresDataEntry.CONTENT_URI, cv);
@@ -414,7 +418,7 @@ public class T1Operation {
 
                         }
                     } else if (!added) {
-                        if (t1Listings.getData() != null && (t1Listings.getData().getReplies() != null) &&
+                        if ((t1Listings.getData() != null) && (t1Listings.getData().getReplies() != null) &&
                                 (t1Listings.getKind().contains(Costant.DEFAULT_COMMENT_KIND))) {
                             insertReplies(t1Listings.getData(), t1Listings.getData().getDepth(), childrenId);
 
@@ -427,7 +431,7 @@ public class T1Operation {
                     return t1Listings.getData().getReplies();
 
                 } else //noinspection ConstantConditions
-                    if (t1Listings != null &&
+                    if ((t1Listings != null) &&
                             (t1Listings.getKind().contains(Costant.DEFAULT_MORE_KIND))) {
                         insertMore(t1Listings.getData());
 
@@ -439,6 +443,7 @@ public class T1Operation {
 
         return null;
     }
+
 
     private void updateNumCommentsT1(Context context, String parentId, int count, String
             strMoreChildren) {
@@ -497,5 +502,15 @@ public class T1Operation {
 
     }
 
+   /* public void clearData() {
+        try {
+            mContext.getContentResolver().delete(Contract.T1dataEntry.CONTENT_URI, null, null);
+            mContext.getContentResolver().delete(Contract.T1MoresDataEntry.CONTENT_URI, null, null);
+            mContext.getContentResolver().delete(Contract.PrefSubRedditEntry.CONTENT_URI, null, null);
 
+        } catch (IllegalStateException e) {
+            Timber.e("clear data error %s", e.getMessage());
+        }
+    }
+*/
 }
