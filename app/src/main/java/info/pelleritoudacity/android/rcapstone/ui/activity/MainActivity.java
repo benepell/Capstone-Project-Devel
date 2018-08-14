@@ -166,7 +166,7 @@ public class MainActivity extends BaseActivity
 
         if ((savedInstanceState == null) || (getIntent().getBooleanExtra(Costant.EXTRA_ACTIVITY_REDDIT_REFRESH, false))) {
             mRefreshLayout.setRefreshing(true);
-            onRefresh();
+            updateOperation();
         }
     }
 
@@ -226,36 +226,7 @@ public class MainActivity extends BaseActivity
     @Override
     public void onRefresh() {
 
-        if (System.currentTimeMillis() - startTimeoutRefresh > Costant.DEFAULT_OPERATION_REFRESH) {
-            startTimeoutRefresh = System.currentTimeMillis();
-
-            if (Preference.getLastTarget(mContext).equals(Costant.WIDGET_MAIN_TARGET)) {
-                createUI(mModel);
-
-            } else if (Preference.getLastTarget(mContext).equals(Costant.SEARCH_MAIN_TARGET) && (!TextUtils.isEmpty(mModel.getQuerySearch()))) {
-                mModel.setCategory(Preference.getLastCategory(getApplicationContext()));
-                mModel.setTarget(Preference.getLastTarget(getApplicationContext()));
-                Preference.setLastTarget(mContext, Costant.DEFAULT_START_VALUE_MAIN_TARGET);
-                createUI(mModel);
-
-            } else if (!NetworkUtil.isOnline(mContext)) {
-                mModel.setCategory(Preference.getLastCategory(getApplicationContext()));
-                mModel.setTarget(Preference.getLastTarget(getApplicationContext()));
-                createUI(mModel);
-
-                Snackbar.make(mContainer, R.string.list_snackbar_offline_text, Snackbar.LENGTH_LONG).show();
-
-            } else {
-                mModel.setCategory(Preference.getLastCategory(getApplicationContext()));
-                mModel.setTarget(Preference.getLastTarget(getApplicationContext()));
-
-                       initRest(mModel, NetworkUtil.isOnline(mContext));
-            }
-        } else {
-            createUI(mModel);
-        }
-
-        mRefreshLayout.setRefreshing(false);
+        updateOperation();
 
     }
 
@@ -277,7 +248,7 @@ public class MainActivity extends BaseActivity
                 mModel.setTarget(Costant.TAB_MAIN_TARGET);
                 Preference.setLastTarget(mContext, Costant.TAB_MAIN_TARGET);
                 mRefreshLayout.setRefreshing(true);
-                onRefresh();
+                updateOperation();
 
             }
         }
@@ -299,7 +270,7 @@ public class MainActivity extends BaseActivity
         mModel.setCategory(Preference.getLastCategory(mContext));
         mModel.setQuerySearch(s);
         Preference.setLastTarget(mContext, Costant.SEARCH_MAIN_TARGET);
-        onRefresh();
+        updateOperation();
         return false;
     }
 
@@ -354,6 +325,11 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
+    public void mainFragmentCreated(boolean created) {
+        if (created) mRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
     public void onBackPressed() {
 
         if (mRefreshLayout != null) {
@@ -372,6 +348,38 @@ public class MainActivity extends BaseActivity
         } else {
             super.onBackPressed();
 
+        }
+
+    }
+
+    private void updateOperation() {
+        if (System.currentTimeMillis() - startTimeoutRefresh > Costant.DEFAULT_OPERATION_REFRESH) {
+            startTimeoutRefresh = System.currentTimeMillis();
+
+            if (Preference.getLastTarget(mContext).equals(Costant.WIDGET_MAIN_TARGET)) {
+                createUI(mModel);
+
+            } else if (Preference.getLastTarget(mContext).equals(Costant.SEARCH_MAIN_TARGET) && (!TextUtils.isEmpty(mModel.getQuerySearch()))) {
+                mModel.setCategory(Preference.getLastCategory(getApplicationContext()));
+                mModel.setTarget(Preference.getLastTarget(getApplicationContext()));
+                Preference.setLastTarget(mContext, Costant.DEFAULT_START_VALUE_MAIN_TARGET);
+                createUI(mModel);
+
+            } else if (!NetworkUtil.isOnline(mContext)) {
+                mModel.setCategory(Preference.getLastCategory(getApplicationContext()));
+                mModel.setTarget(Preference.getLastTarget(getApplicationContext()));
+                createUI(mModel);
+
+                Snackbar.make(mContainer, R.string.list_snackbar_offline_text, Snackbar.LENGTH_LONG).show();
+
+            } else {
+                mModel.setCategory(Preference.getLastCategory(getApplicationContext()));
+                mModel.setTarget(Preference.getLastTarget(getApplicationContext()));
+
+                initRest(mModel, NetworkUtil.isOnline(mContext));
+            }
+        } else {
+            createUI(mModel);
         }
 
     }
@@ -441,7 +449,7 @@ public class MainActivity extends BaseActivity
             mModel.setCategory(m.getCategory());
             Preference.setLastTarget(mContext, Costant.DEFAULT_START_VALUE_MAIN_TARGET);
             mRefreshLayout.setRefreshing(true);
-            onRefresh();
+            updateOperation();
         }
     }
 }

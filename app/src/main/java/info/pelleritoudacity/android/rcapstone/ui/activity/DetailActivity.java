@@ -88,7 +88,7 @@ public class DetailActivity extends BaseActivity
             model = mDetailHelper.initModelTarget(getIntent());
 
             mSwipeRefreshLayout.setRefreshing(true);
-            onRefresh();
+            updateOperation();
         } else {
             model = savedInstanceState.getParcelable(Costant.EXTRA_PARCEL_ACTIVITY_DETAIL);
 
@@ -112,64 +112,7 @@ public class DetailActivity extends BaseActivity
 
     @Override
     public void onRefresh() {
-
-        if (!Utility.isTablet(mContext)) {
-            if (mNestedScrollView != null) {
-                if (mNestedScrollView.getChildAt(0).getScrollY() > 0) {
-                    mNestedScrollView.getChildAt(0).setScrollY(mNestedScrollView.getTop());
-                }
-            }
-        }
-        String tokenLogin = PermissionUtil.getToken(mContext);
-
-        switch (mDetailHelper.getJob(model, isUpdateData(), NetworkUtil.isOnline(mContext))) {
-
-            case Costant.DETAIL_TARGET_NO_UPDATE:
-
-                if ((mSwipeRefreshLayout != null) && (mSwipeRefreshLayout.isRefreshing())) {
-                    mSwipeRefreshLayout.setRefreshing(false);
-                }
-                startFragment(model, false);
-
-                break;
-
-            case Costant.DETAIL_TARGET:
-                if (System.currentTimeMillis() - startTimeoutRefresh > Costant.DEFAULT_OPERATION_REFRESH) {
-                    startTimeoutRefresh = System.currentTimeMillis();
-                    new RestDetailExecute(this, mContext, tokenLogin, model).getData();
-
-                } else {
-                    startFragment(model, false);
-                    mSwipeRefreshLayout.setRefreshing(false);
-
-                }
-                break;
-
-            case Costant.MORE_DETAIL_TARGET:
-                if (System.currentTimeMillis() - startTimeoutRefresh > Costant.DEFAULT_OPERATION_REFRESH) {
-                    startTimeoutRefresh = System.currentTimeMillis();
-                    new RestMoreExecute(this, mContext, tokenLogin, model).getMoreData();
-
-                } else {
-                    startFragment(model, true);
-                    mSwipeRefreshLayout.setRefreshing(false);
-
-                }
-                break;
-
-            case Costant.SEARCH_DETAIL_TARGET:
-                startFragment(model, false);
-                break;
-
-            case Costant.MORE_SEARCH_DETAIL_TARGET:
-                startFragment(model, false);
-                break;
-
-            case Costant.FAVORITE_DETAIL_TARGET:
-                startFragment(model, false);
-                break;
-
-        }
+        updateOperation();
 
     }
 
@@ -195,12 +138,12 @@ public class DetailActivity extends BaseActivity
             case Costant.DETAIL_TARGET_NO_UPDATE:
             case Costant.DETAIL_TARGET:
                 model.setTarget(Costant.SEARCH_DETAIL_TARGET);
-                onRefresh();
+                updateOperation();
                 break;
 
             case Costant.MORE_DETAIL_TARGET:
                 model.setTarget(Costant.MORE_SEARCH_DETAIL_TARGET);
-                onRefresh();
+                updateOperation();
                 break;
 
             default:
@@ -236,14 +179,26 @@ public class DetailActivity extends BaseActivity
         model.setTarget(Costant.DETAIL_TARGET);
 
         mSwipeRefreshLayout.setRefreshing(true);
-        onRefresh();
+        updateOperation();
+    }
+
+    @Override
+    public void mainFragmentCreated(boolean created) {
+        if ((created) && Utility.isTablet(mContext)) mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void onClickMore(DetailModel detailModel) {
         model = detailModel;
         mSwipeRefreshLayout.setRefreshing(true);
-        onRefresh();
+        updateOperation();
+    }
+
+    @Override
+    public void detailFragmentCreated(boolean created) {
+        if (created && (mSwipeRefreshLayout != null) && (mSwipeRefreshLayout.isRefreshing())) {
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override
@@ -284,10 +239,66 @@ public class DetailActivity extends BaseActivity
             model.setStrArrId(null);
             model.setStrLinkId(null);
 
-            onRefresh();
+            updateOperation();
 
         } else {
             super.onBackPressed();
+
+        }
+
+    }
+
+    private void updateOperation() {
+        if (!Utility.isTablet(mContext)) {
+            if (mNestedScrollView != null) {
+                if (mNestedScrollView.getChildAt(0).getScrollY() > 0) {
+                    mNestedScrollView.getChildAt(0).setScrollY(mNestedScrollView.getTop());
+                }
+            }
+        }
+        String tokenLogin = PermissionUtil.getToken(mContext);
+
+        switch (mDetailHelper.getJob(model, isUpdateData(), NetworkUtil.isOnline(mContext))) {
+
+            case Costant.DETAIL_TARGET_NO_UPDATE:
+
+                startFragment(model, false);
+
+                break;
+
+            case Costant.DETAIL_TARGET:
+                if (System.currentTimeMillis() - startTimeoutRefresh > Costant.DEFAULT_OPERATION_REFRESH) {
+                    startTimeoutRefresh = System.currentTimeMillis();
+                    new RestDetailExecute(this, mContext, tokenLogin, model).getData();
+
+                } else {
+                    startFragment(model, false);
+
+                }
+                break;
+
+            case Costant.MORE_DETAIL_TARGET:
+                if (System.currentTimeMillis() - startTimeoutRefresh > Costant.DEFAULT_OPERATION_REFRESH) {
+                    startTimeoutRefresh = System.currentTimeMillis();
+                    new RestMoreExecute(this, mContext, tokenLogin, model).getMoreData();
+
+                } else {
+                    startFragment(model, true);
+
+                }
+                break;
+
+            case Costant.SEARCH_DETAIL_TARGET:
+                startFragment(model, false);
+                break;
+
+            case Costant.MORE_SEARCH_DETAIL_TARGET:
+                startFragment(model, false);
+                break;
+
+            case Costant.FAVORITE_DETAIL_TARGET:
+                startFragment(model, false);
+                break;
 
         }
 
@@ -343,9 +354,7 @@ public class DetailActivity extends BaseActivity
             }
         }
 
-        if ((mSwipeRefreshLayout != null) && (mSwipeRefreshLayout.isRefreshing())) {
-            mSwipeRefreshLayout.setRefreshing(false);
-        }
+
     }
 
     private boolean isUpdateData() {

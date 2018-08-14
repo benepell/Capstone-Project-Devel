@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
 import info.pelleritoudacity.android.rcapstone.R;
-import timber.log.Timber;
 
 public class MapUtil {
 

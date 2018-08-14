@@ -118,7 +118,7 @@ public class DetailFragment extends Fragment
         }
 
         getLoaderManager().initLoader(SUBREDDIT_DETAIL_LOADER_ID, null, this);
-
+        mListener.detailFragmentCreated(true);
     }
 
     @Override
@@ -297,6 +297,7 @@ public class DetailFragment extends Fragment
 
         void onClickMore(DetailModel detailModel);
 
+        void detailFragmentCreated(boolean created);
     }
 
 }
