@@ -86,14 +86,14 @@ public class T1Operation {
 
         try {
             for (int x = 1; x < modelT1.size(); x++) {
-                ContentValues[] arrT1CV = new ContentValues[modelT1.get(x).getData().getChildren().size()];
+                ContentValues cvT1 = new ContentValues();
                 int i = 0;
                 for (T1Listing t1Listings : modelT1.get(x).getData().getChildren()) {
-                    arrT1CV[i] = getInsertCV(t1Listings.getData(), arrT1CV[i], i + 1, false);
+                    cvT1 = getInsertCV(t1Listings.getData(), cvT1, i + 1, false);
+                    mContext.getContentResolver().insert(Contract.T1dataEntry.CONTENT_URI, cvT1);
                     recursiveReplies(t1Listings.getData().getReplies(), i + 1);
                     i++;
                 }
-                mContext.getContentResolver().bulkInsert(Contract.T1dataEntry.CONTENT_URI, arrT1CV);
             }
 
             return true;
