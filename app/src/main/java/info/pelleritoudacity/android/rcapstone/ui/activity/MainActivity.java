@@ -249,12 +249,14 @@ public class MainActivity extends BaseActivity
                 mModel.setCategory(Preference.getLastCategory(getApplicationContext()));
                 mModel.setTarget(Preference.getLastTarget(getApplicationContext()));
 
-                initRest(mModel, NetworkUtil.isOnline(mContext));
+                       initRest(mModel, NetworkUtil.isOnline(mContext));
             }
         } else {
             createUI(mModel);
-            mRefreshLayout.setRefreshing(false);
         }
+
+        mRefreshLayout.setRefreshing(false);
+
     }
 
     @Override
@@ -430,9 +432,6 @@ public class MainActivity extends BaseActivity
 
         }
 
-        if (mRefreshLayout != null) {
-            if (mRefreshLayout.isRefreshing()) mRefreshLayout.setRefreshing(false);
-        }
     }
 
     private void closeSearch(MainModel m) {

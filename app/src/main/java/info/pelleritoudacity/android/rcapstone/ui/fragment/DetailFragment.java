@@ -127,6 +127,7 @@ public class DetailFragment extends Fragment
         mListener = null;
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
@@ -140,6 +141,12 @@ public class DetailFragment extends Fragment
         outState.putParcelable(Costant.EXTRA_FRAGMENT_PARCEL_SUBREDDIT_DETAIL, model);
         super.onSaveInstanceState(outState);
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     @NonNull
@@ -180,14 +187,7 @@ public class DetailFragment extends Fragment
         }
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
     private static class SubRedditDetailFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
-
 
         Cursor cursorData = null;
         private final boolean isOver18;
@@ -229,7 +229,6 @@ public class DetailFragment extends Fragment
 
                 Uri uri = Contract.T1dataEntry.CONTENT_URI;
                 String[] selectionArgs = null;
-
                 DataUtils dataUtils = new DataUtils(getContext());
 
                 switch (m.getTarget()) {
