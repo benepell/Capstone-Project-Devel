@@ -94,9 +94,9 @@ dependencies {
     implementation "com.mikepenz:material-design-iconic-typeface:${rootProject.ext.mikepenzMaterialDesignIconicsVersion}"
 
     implementation "com.firebase:firebase-jobdispatcher:${rootProject.ext.firebaseJobDispVersion}"
-/*
     implementation "com.google.firebase:firebase-core:${rootProject.ext.firebaseCoreVersion}"
     implementation "com.google.firebase:firebase-crash:${rootProject.ext.firebaseCrashVersion}"
+/*
 
     freeImplementation "com.google.firebase:firebase-ads:${rootProject.ext.firebaseAdsVersion}"
 */
@@ -115,3 +115,5 @@ dependencies {
     androidTestImplementation "com.android.support.test:runner:${rootProject.ext.testRulesVersion}"
 
 }
+
+apply plugin: 'com.google.gms.google-services'

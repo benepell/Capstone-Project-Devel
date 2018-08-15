@@ -43,9 +43,9 @@ allprojects {
         okHttpVersion = "3.11.0"
 
         firebaseJobDispVersion = "0.8.5"
-        firebaseCoreVersion = "15.0.0"
-        firebaseAdsVersion = "15.0.0"
-        firebaseCrashVersion = "15.0.0"
+        firebaseCoreVersion = "16.0.1"
+        firebaseAdsVersion = "15.0.1"
+        firebaseCrashVersion = "16.0.1"
 
         mikepenzIconicsVersion = "3.0.4@aar"
         mikepenzMaterialDesignIconicsVersion = "2.2.0.4@aar"

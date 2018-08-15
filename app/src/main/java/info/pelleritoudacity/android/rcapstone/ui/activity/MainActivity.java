@@ -48,6 +48,7 @@ import android.view.Menu;
 import android.view.View;
 
 import com.google.android.exoplayer2.util.Util;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,12 +104,17 @@ public class MainActivity extends BaseActivity
     private MainModel mModel;
     private MenuLauncher mLauncherMenu;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setLayoutResource(R.layout.activity_main);
         super.onCreate(savedInstanceState);
 
         mContext = MainActivity.this;
+
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         if (Util.SDK_INT > 23) {
             RequestPermissionExtStorage(MainActivity.this);
@@ -172,8 +178,14 @@ public class MainActivity extends BaseActivity
         }
         // ATTENTION: This was auto-generated to handle app links.
         Intent appLinkIntent = getIntent();
-        @SuppressWarnings("unused") String appLinkAction = appLinkIntent.getAction();
+        String appLinkAction = appLinkIntent.getAction();
         @SuppressWarnings("unused") Uri appLinkData = appLinkIntent.getData();
+
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, mModel.getCategory());
+        bundle.putString(FirebaseAnalytics.Param.ITEM_LIST, appLinkAction);
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 
     @Override
