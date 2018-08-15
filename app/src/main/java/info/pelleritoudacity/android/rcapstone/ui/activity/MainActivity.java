@@ -45,6 +45,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.exoplayer2.util.Util;
 
@@ -327,7 +328,34 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void mainFragmentResult(int count) {
-        if (count>0) mRefreshLayout.setRefreshing(false);
+        if (mModel != null) {
+            if (count == 0) {
+                switch (mModel.getTarget()) {
+
+                    case Costant.SEARCH_MAIN_TARGET:
+                        Snackbar.make(mContainer, R.string.text_no_search, Costant.DEFAULT_SNACKBAR_DURATION).show();
+                        mModel.setTarget(Costant.DEFAULT_START_VALUE_MAIN_TARGET);
+                        updateOperation();
+                        break;
+
+                    case Costant.FAVORITE_MAIN_TARGET:
+                        Snackbar.make(mContainer, R.string.text_no_favorite, Costant.DEFAULT_SNACKBAR_DURATION).show();
+                        mModel.setTarget(Costant.DEFAULT_START_VALUE_MAIN_TARGET);
+                        updateOperation();
+                        break;
+
+                }
+            }
+
+
+            if (mModel.getTarget().equals(Costant.SEARCH_MAIN_TARGET) && count == 0) {
+
+            }
+
+
+        }
+
+        if (count > 0) mRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -461,10 +489,6 @@ public class MainActivity extends BaseActivity
 
         }
 
-    }
-
-    private boolean isFragmentCreated() {
-        return getSupportFragmentManager().findFragmentById(R.id.fragment_subreddit_container).isAdded();
     }
 
     private void closeSearch(MainModel m) {

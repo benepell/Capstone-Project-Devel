@@ -261,4 +261,6 @@
     <string name="text_not_category_widget">empty category click here to select it</string>
     <string name="title_image_widget">image widget</string>
     <string name="text_widget_category">Category</string>
+    <string name="text_no_search">No item found</string>
+    <string name="text_no_favorite">No Favorite found</string>
 </resources>

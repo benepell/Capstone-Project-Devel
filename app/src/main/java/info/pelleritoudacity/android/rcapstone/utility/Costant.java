@@ -46,6 +46,7 @@ public interface Costant {
     String PERMISSION_STATE_REDDIT = "identity, edit, flair, history, modconfig, modflair, modlog, modposts, modwiki, mysubreddits, privatemessages, read, report, save, submit, subscribe, vote, wikiedit, wikiread";
 
     long DEFAULT_OPERATION_REFRESH = 2000;
+    int DEFAULT_SNACKBAR_DURATION = 5000;
 
     String REDDIT_COMMENTS = "comments";
     String BASE_TYPE_YOUTUBE = "youtube.com";
