@@ -31,6 +31,18 @@
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
+            <intent-filter android:autoVerify="true"
+                tools:targetApi="m">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="http"
+                    android:host="rcapstone.pelleritoudacity.info"
+                    android:path="/searchable" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.activity.DetailActivity"
@@ -80,7 +92,8 @@
                 android:value=".ui.activity.MainActivity" />
         </activity>
 
-        <activity android:name=".ui.activity.OptionWidgetActivity"
+        <activity
+            android:name=".ui.activity.OptionWidgetActivity"
             android:noHistory="true"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
 
