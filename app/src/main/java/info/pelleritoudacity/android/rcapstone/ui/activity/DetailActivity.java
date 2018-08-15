@@ -39,6 +39,7 @@ import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
+import timber.log.Timber;
 
 public class DetailActivity extends BaseActivity
         implements RestDetailExecute.OnRestCallBack,
@@ -183,8 +184,8 @@ public class DetailActivity extends BaseActivity
     }
 
     @Override
-    public void mainFragmentCreated(boolean created) {
-        if ((created) && Utility.isTablet(mContext)) mSwipeRefreshLayout.setRefreshing(false);
+    public void mainFragmentResult(int count) {
+        if ((count > 0) && Utility.isTablet(mContext)) mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -195,8 +196,8 @@ public class DetailActivity extends BaseActivity
     }
 
     @Override
-    public void detailFragmentCreated(boolean created) {
-        if (created && (mSwipeRefreshLayout != null) && (mSwipeRefreshLayout.isRefreshing())) {
+    public void detailFragmentResult(int count) {
+        if (count > 0 && (mSwipeRefreshLayout != null) && (mSwipeRefreshLayout.isRefreshing())) {
             mSwipeRefreshLayout.setRefreshing(false);
         }
     }

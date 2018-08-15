@@ -118,7 +118,6 @@ public class DetailFragment extends Fragment
         }
 
         getLoaderManager().initLoader(SUBREDDIT_DETAIL_LOADER_ID, null, this);
-        mListener.detailFragmentCreated(true);
     }
 
     @Override
@@ -160,6 +159,8 @@ public class DetailFragment extends Fragment
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
         if ((data != null) && (mAdapter != null)) {
             mAdapter.swapCursor(data);
+
+            mListener.detailFragmentResult(data.getCount());
         }
     }
 
@@ -297,7 +298,7 @@ public class DetailFragment extends Fragment
 
         void onClickMore(DetailModel detailModel);
 
-        void detailFragmentCreated(boolean created);
+        void detailFragmentResult(int count);
     }
 
 }

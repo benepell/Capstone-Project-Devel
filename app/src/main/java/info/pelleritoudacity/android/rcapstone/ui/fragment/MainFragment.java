@@ -128,7 +128,6 @@ public class MainFragment extends Fragment
         if (savedInstanceState != null) {
             savedInstanceState.getParcelable(Costant.EXTRA_FRAGMENT_PARCEL_MAIN);
         }
-        mMainListener.mainFragmentCreated(true);
 
     }
 
@@ -213,7 +212,7 @@ public class MainFragment extends Fragment
                 mRecyclerView.scrollToPosition(mModel.getPosition());
 
             }
-
+            mMainListener.mainFragmentResult(data.getCount());
         }
 
     }
@@ -322,6 +321,7 @@ public class MainFragment extends Fragment
 
     public interface OnMainClick {
         void mainClick(int position, String category, String strId);
-        void mainFragmentCreated(boolean created);
+
+        void mainFragmentResult(int count);
     }
 }

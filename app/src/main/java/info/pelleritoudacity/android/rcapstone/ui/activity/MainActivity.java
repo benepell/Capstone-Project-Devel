@@ -45,7 +45,6 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
-import android.webkit.WebView;
 
 import com.google.android.exoplayer2.util.Util;
 
@@ -327,8 +326,8 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
-    public void mainFragmentCreated(boolean created) {
-        if (created) mRefreshLayout.setRefreshing(false);
+    public void mainFragmentResult(int count) {
+        if (count>0) mRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -462,6 +461,10 @@ public class MainActivity extends BaseActivity
 
         }
 
+    }
+
+    private boolean isFragmentCreated() {
+        return getSupportFragmentManager().findFragmentById(R.id.fragment_subreddit_container).isAdded();
     }
 
     private void closeSearch(MainModel m) {

@@ -1,18 +1,20 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_container"
-    tools:context=".ui.activity.MainActivity"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.MainActivity">
 
     <include layout="@layout/app_tab_layout" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_main"
-        tools:ignore="PrivateResource"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:isScrollContainer="true">
+        android:isScrollContainer="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:ignore="PrivateResource">
 
         <android.support.v4.widget.NestedScrollView
             android:id="@+id/nested_scrollview_main"
