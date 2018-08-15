@@ -39,7 +39,6 @@ import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
-import timber.log.Timber;
 
 public class DetailActivity extends BaseActivity
         implements RestDetailExecute.OnRestCallBack,

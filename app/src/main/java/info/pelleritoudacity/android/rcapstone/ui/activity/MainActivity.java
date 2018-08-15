@@ -45,7 +45,6 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.exoplayer2.util.Util;
 
@@ -346,12 +345,6 @@ public class MainActivity extends BaseActivity
 
                 }
             }
-
-
-            if (mModel.getTarget().equals(Costant.SEARCH_MAIN_TARGET) && count == 0) {
-
-            }
-
 
         }
 

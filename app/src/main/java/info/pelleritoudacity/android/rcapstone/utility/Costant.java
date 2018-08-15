@@ -75,7 +75,6 @@ public interface Costant {
     int NAV_MODE_HOME = 1;
     int NAV_MODE_POPOLAR = 2;
     int NAV_MODE_ALL = 3;
-    int NAV_MODE_SEARCH = 4;
     int NAV_MODE_SUBSCRIPTIONS = 5;
     int NAV_MODE_REFRESH = 6;
     int NAV_MODE_SETTINGS = 7;

@@ -170,7 +170,7 @@ public class MenuBase {
         switch (item.getItemId()) {
 
             case R.id.nav_home:
-                Preference.setLastTarget(compatActivity,Costant.NAVIGATION_MAIN_TARGET);
+                Preference.setLastTarget(compatActivity, Costant.NAVIGATION_MAIN_TARGET);
                 Preference.setTypeMode(compatActivity, Costant.NAV_MODE_HOME);
                 compatActivity.startActivity(new Intent(compatActivity, MainActivity.class)
                         .setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION));
@@ -198,7 +198,7 @@ public class MenuBase {
                 break;
 
             case R.id.nav_mode_refresh:
-                Preference.setTypeMode(compatActivity, Costant.NAV_MODE_SEARCH);
+                Preference.setTypeMode(compatActivity, Costant.NAV_MODE_REFRESH);
                 menuClickRefresh(mLayoutResource);
                 item.setEnabled(true);
                 break;
@@ -219,7 +219,6 @@ public class MenuBase {
 
         MenuItem itemModePopularText = menu.findItem(R.id.nav_mode_popular);
         MenuItem itemModeAllText = menu.findItem(R.id.nav_mode_all);
-        MenuItem itemModeSearchText = menu.findItem(R.id.nav_mode_search);
         MenuItem itemModeSubscriptions = menu.findItem(R.id.nav_mode_subscriptions);
         MenuItem itemModeFavorite = menu.findItem(R.id.nav_mode_favorite);
         MenuItem itemModeRefresh = menu.findItem(R.id.nav_mode_refresh);
@@ -234,10 +233,10 @@ public class MenuBase {
         itemModeAllText.setIcon(new IconicsDrawable(compatActivity, MaterialDesignIconic.Icon.gmi_view_comfy)
                 .respectFontBounds(true));
 
-        itemModeSearchText.setIcon(new IconicsDrawable(compatActivity, MaterialDesignIconic.Icon.gmi_search)
+        itemModeSubscriptions.setIcon(new IconicsDrawable(compatActivity, MaterialDesignIconic.Icon.gmi_view_headline)
                 .respectFontBounds(true));
 
-        itemModeSubscriptions.setIcon(new IconicsDrawable(compatActivity, MaterialDesignIconic.Icon.gmi_view_headline)
+        itemModeFavorite.setIcon(new IconicsDrawable(compatActivity, MaterialDesignIconic.Icon.gmi_star)
                 .respectFontBounds(true));
 
         itemModeRefresh.setIcon(new IconicsDrawable(compatActivity, MaterialDesignIconic.Icon.gmi_refresh)
@@ -259,10 +258,6 @@ public class MenuBase {
             case Costant.NAV_MODE_ALL:
                 itemModeAllText.setEnabled(true);
                 itemModeAllText.setChecked(true);
-                break;
-            case Costant.NAV_MODE_SEARCH:
-                itemModeSearchText.setEnabled(true);
-                itemModeSearchText.setChecked(false);
                 break;
             case Costant.NAV_MODE_SUBSCRIPTIONS:
                 itemModeSubscriptions.setEnabled(true);
@@ -326,15 +321,15 @@ public class MenuBase {
     private void menuClickRefresh(int layoutResource) {
         switch (layoutResource) {
             case R.layout.activity_main:
-                ActivityUI.startRefresh(compatActivity,MainActivity.class);
+                ActivityUI.startRefresh(compatActivity, MainActivity.class);
                 break;
 
             case R.layout.activity_detail:
-                ActivityUI.startRefresh(compatActivity,DetailActivity.class);
+                ActivityUI.startRefresh(compatActivity, DetailActivity.class);
                 break;
 
             case R.layout.activity_manage:
-                ActivityUI.startRefresh(compatActivity,ManageActivity.class);
+                ActivityUI.startRefresh(compatActivity, ManageActivity.class);
                 break;
 
             default:
