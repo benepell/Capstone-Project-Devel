@@ -27,8 +27,8 @@
     <color name="grey_400">#BDBDBD</color>
     <color name="light_green_A700">#64DD17</color>
 
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
     <color name="primary_dark_material_dark" tools:ignore="PrivateResource">#fc6565</color>
     <color name="primary_material_dark" tools:ignore="PrivateResource">#ffffff</color>
     <color name="foreground_material_dark" tools:ignore="PrivateResource">#ffffff</color>
