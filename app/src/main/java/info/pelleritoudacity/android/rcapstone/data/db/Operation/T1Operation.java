@@ -502,7 +502,7 @@ public class T1Operation {
 
     }
 
-   /* public void clearData() {
+    public void clearData() {
         try {
             mContext.getContentResolver().delete(Contract.T1dataEntry.CONTENT_URI, null, null);
             mContext.getContentResolver().delete(Contract.T1MoresDataEntry.CONTENT_URI, null, null);
@@ -512,5 +512,4 @@ public class T1Operation {
             Timber.e("clear data error %s", e.getMessage());
         }
     }
-*/
 }

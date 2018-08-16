@@ -87,7 +87,7 @@ public class DetailActivity extends BaseActivity
         if (savedInstanceState == null) {
             model = mDetailHelper.initModelTarget(getIntent());
 
-            mSwipeRefreshLayout.setRefreshing(true);
+            isRefreshing();
             updateOperation();
         } else {
             model = savedInstanceState.getParcelable(Costant.EXTRA_PARCEL_ACTIVITY_DETAIL);
@@ -178,7 +178,7 @@ public class DetailActivity extends BaseActivity
         model.setPosition(position);
         model.setTarget(Costant.DETAIL_TARGET);
 
-        mSwipeRefreshLayout.setRefreshing(true);
+        isRefreshing();
         updateOperation();
     }
 
@@ -190,7 +190,7 @@ public class DetailActivity extends BaseActivity
     @Override
     public void onClickMore(DetailModel detailModel) {
         model = detailModel;
-        mSwipeRefreshLayout.setRefreshing(true);
+        isRefreshing();
         updateOperation();
     }
 
@@ -361,5 +361,13 @@ public class DetailActivity extends BaseActivity
         return new DataUtils(mContext).isSyncDataDetail(Contract.T1dataEntry.CONTENT_URI,
                 model, Preference.getGeneralSettingsSyncFrequency(mContext),
                 Preference.getGeneralSettingsItemPage(mContext));
+    }
+
+    private void isRefreshing(){
+        if ((mContext != null) && mSwipeRefreshLayout != null) {
+            if (NetworkUtil.isOnline(mContext)) {
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+        }
     }
 }

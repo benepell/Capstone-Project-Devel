@@ -13,6 +13,7 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.TypefaceSpan;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
@@ -29,6 +30,7 @@ import info.pelleritoudacity.android.rcapstone.ui.activity.DetailActivity;
 import info.pelleritoudacity.android.rcapstone.data.other.TabData;
 import info.pelleritoudacity.android.rcapstone.utility.ActivityUI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 
 public class MenuBase {
@@ -51,12 +53,25 @@ public class MenuBase {
                 );
                 return;
             case R.id.menu_action_login:
+                if (NetworkUtil.isOnline(compatActivity)) {
+                    compatActivity.startActivity(new Intent(compatActivity, LoginActivity.class));
+                }else {
+                    Toast.makeText(compatActivity,compatActivity.getText(R.string.text_no_network),Toast.LENGTH_LONG).show();
+                }
+                return;
+
             case R.id.menu_action_logout:
                 compatActivity.startActivity(new Intent(compatActivity, LoginActivity.class));
                 return;
+
             case R.id.menu_action_refresh:
-                menuClickRefresh(mLayoutResource);
+                if (NetworkUtil.isOnline(compatActivity)) {
+                    menuClickRefresh(mLayoutResource);
+                }else {
+                    Toast.makeText(compatActivity,compatActivity.getText(R.string.text_no_network),Toast.LENGTH_LONG).show();
+                }
                 return;
+
             case R.id.menu_action_settings:
                 compatActivity.startActivity(new Intent(compatActivity, SettingsActivity.class));
                 return;
@@ -198,9 +213,15 @@ public class MenuBase {
                 break;
 
             case R.id.nav_mode_refresh:
-                Preference.setTypeMode(compatActivity, Costant.NAV_MODE_REFRESH);
-                menuClickRefresh(mLayoutResource);
-                item.setEnabled(true);
+
+                if (NetworkUtil.isOnline(compatActivity)) {
+                    Preference.setTypeMode(compatActivity, Costant.NAV_MODE_REFRESH);
+                    menuClickRefresh(mLayoutResource);
+                    item.setEnabled(true);
+
+                }else {
+                    Toast.makeText(compatActivity,compatActivity.getText(R.string.text_no_network),Toast.LENGTH_LONG).show();
+                }
                 break;
 
             case R.id.nav_mode_settings:

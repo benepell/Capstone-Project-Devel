@@ -35,6 +35,7 @@ import android.text.TextUtils;
 
 import java.util.Objects;
 
+import info.pelleritoudacity.android.rcapstone.data.db.Operation.T1Operation;
 import info.pelleritoudacity.android.rcapstone.data.db.Operation.T3Operation;
 import info.pelleritoudacity.android.rcapstone.data.db.Operation.T5Operation;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
@@ -174,6 +175,7 @@ public class DataUtils {
     private void clearDataAll() {
         new T5Operation(mContext, null).clearData();
         new T3Operation(mContext, null).clearData();
+        new T1Operation(mContext).clearData();
     }
 
     public void putNullCV(ContentValues contentValues, String contractEntry, Object strObject) {
@@ -526,5 +528,6 @@ public class DataUtils {
         }
         return r;
     }
+
 
 }

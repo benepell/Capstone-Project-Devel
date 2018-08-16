@@ -26,20 +26,27 @@
 
 package info.pelleritoudacity.android.rcapstone.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
+import java.lang.ref.WeakReference;
 import java.util.Objects;
 
 import butterknife.BindView;
 import info.pelleritoudacity.android.rcapstone.R;
+import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.RedditToken;
 import info.pelleritoudacity.android.rcapstone.data.rest.AccessTokenExecute;
 import info.pelleritoudacity.android.rcapstone.data.rest.RevokeTokenExecute;
@@ -47,7 +54,6 @@ import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
-import info.pelleritoudacity.android.rcapstone.utility.PrefManager;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import timber.log.Timber;
 
@@ -62,37 +68,15 @@ public class LoginActivity extends BaseActivity {
         setLayoutResource(R.layout.activity_login);
         super.onCreate(savedInstanceState);
 
-        if (NetworkUtil.isOnline(getApplicationContext())) {
-
-            if (!Preference.isLoginStart(getApplicationContext())) {
+        if (!Preference.isLoginStart(getApplicationContext())) {
+            if (NetworkUtil.isOnline(getApplicationContext())) {
                 createLogin(loginUrl());
-
-            } else {
-                String token = PermissionUtil.getToken(getApplicationContext());
-                createLogout(token);
-
             }
+
+        } else {
+            new LogoutAsyncTask(new WeakReference<>(getApplicationContext())).execute();
 
         }
-
-
-    }
-
-    private void createLogout(String token) {
-
-        new RevokeTokenExecute(new RevokeTokenExecute.OnRestCallBack() {
-            @Override
-            public void success(String response, int code) {
-                FirebaseRefreshTokenSync.stopLogin(getApplicationContext());
-                PrefManager.clearPreferenceLogin(getApplicationContext());
-                responseActivity(Costant.PROCESS_LOGOUT_OK);
-            }
-
-            @Override
-            public void unexpectedError(Throwable tList) {
-                responseActivity(Costant.PROCESS_LOGOUT_ERROR);
-            }
-        }, token).RevokeTokenData();
 
     }
 
@@ -188,6 +172,77 @@ public class LoginActivity extends BaseActivity {
         intent.putExtra(Costant.EXTRA_LOGIN_SUCCESS, state);
         startActivity(intent);
     }
+
+    private static class LogoutAsyncTask extends AsyncTask<Void, Void, Void> {
+
+        private final WeakReference<Context> mWeakContext;
+
+        LogoutAsyncTask(WeakReference<Context> weakContext) {
+            mWeakContext = weakContext;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Context context = mWeakContext.get();
+
+            if (context != null) {
+                FirebaseRefreshTokenSync.stopLogin(context);
+
+                String token = Preference.getSessionAccessToken(context);
+                if (NetworkUtil.isOnline(context)) {
+
+                    new RevokeTokenExecute(new RevokeTokenExecute.OnRestCallBack() {
+                        @Override
+                        public void success(String response, int code) {
+                            Preference.clearGeneralSettings(context);
+                            Preference.clearAll(context);
+                            new DataUtils(context).clearDataPrivacy();
+                            Timber.d("Reset  code:%s", code);
+                        }
+
+                        @Override
+                        public void unexpectedError(Throwable tList) {
+                            Preference.clearGeneralSettings(context);
+                            Preference.clearAll(context);
+                            new DataUtils(context).clearDataPrivacy();
+                            Timber.e("Reset Error %s", tList.getMessage());
+                        }
+                    }, token).RevokeTokenData();
+
+                } else {
+                    Preference.clearGeneralSettings(context);
+                    Preference.clearAll(context);
+                    new DataUtils(context).clearDataPrivacy();
+
+                }
+
+            }
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            Context context = mWeakContext.get();
+            if (context != null) {
+                Glide.get(context).clearDiskCache();
+
+            }
+
+            return null;
+        }
+
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Context context = mWeakContext.get();
+            Intent intent = new Intent(context, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.putExtra(Costant.EXTRA_LOGIN_SUCCESS, Costant.PROCESS_LOGOUT_OK);
+            context.startActivity(intent);
+        }
+    }
+
 
 }
 

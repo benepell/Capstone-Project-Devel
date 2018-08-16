@@ -104,8 +104,6 @@ public class MainActivity extends BaseActivity
     private MainModel mModel;
     private MenuLauncher mLauncherMenu;
 
-    private FirebaseAnalytics mFirebaseAnalytics;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setLayoutResource(R.layout.activity_main);
@@ -113,8 +111,7 @@ public class MainActivity extends BaseActivity
 
         mContext = MainActivity.this;
 
-        // Obtain the FirebaseAnalytics instance.
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         if (Util.SDK_INT > 23) {
             RequestPermissionExtStorage(MainActivity.this);
@@ -159,6 +156,7 @@ public class MainActivity extends BaseActivity
 
                 Preference.setLastTarget(mContext, Costant.DEFAULT_START_VALUE_MAIN_TARGET);
             }
+
         }
 
         mLauncherMenu.showMenu();
@@ -173,7 +171,7 @@ public class MainActivity extends BaseActivity
         mTab.positionSelected(mModel.getCategory());
 
         if ((savedInstanceState == null) || (getIntent().getBooleanExtra(Costant.EXTRA_ACTIVITY_REDDIT_REFRESH, false))) {
-            mRefreshLayout.setRefreshing(true);
+            isRefreshing();
             updateOperation();
         }
         // ATTENTION: This was auto-generated to handle app links.
@@ -185,7 +183,7 @@ public class MainActivity extends BaseActivity
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, mModel.getCategory());
         bundle.putString(FirebaseAnalytics.Param.ITEM_LIST, appLinkAction);
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 
     @Override
@@ -260,12 +258,12 @@ public class MainActivity extends BaseActivity
                 mLauncherMenu.setCategory(category);
                 mLauncherMenu.setTarget(Costant.TAB_MAIN_TARGET);
                 mLauncherMenu.saveLastPreference();
-                mRefreshLayout.setRefreshing(true);
+                isRefreshing();
 
                 mModel.setCategory(category);
                 mModel.setTarget(Costant.TAB_MAIN_TARGET);
                 Preference.setLastTarget(mContext, Costant.TAB_MAIN_TARGET);
-                mRefreshLayout.setRefreshing(true);
+                isRefreshing();
                 updateOperation();
 
             }
@@ -499,6 +497,14 @@ public class MainActivity extends BaseActivity
 
         }
 
+    }
+
+    private void isRefreshing() {
+        if ((mContext != null) && mRefreshLayout != null) {
+            if (NetworkUtil.isOnline(mContext)) {
+                mRefreshLayout.setRefreshing(true);
+            }
+        }
     }
 
     private void closeSearch(MainModel m) {
