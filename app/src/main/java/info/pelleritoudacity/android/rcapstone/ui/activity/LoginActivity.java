@@ -194,27 +194,21 @@ public class LoginActivity extends BaseActivity {
                     new RevokeTokenExecute(new RevokeTokenExecute.OnRestCallBack() {
                         @Override
                         public void success(String response, int code) {
-                            Preference.clearGeneralSettings(context);
-                            Preference.clearAll(context);
-                            new DataUtils(context).clearDataPrivacy();
                             Timber.d("Reset  code:%s", code);
                         }
 
                         @Override
                         public void unexpectedError(Throwable tList) {
-                            Preference.clearGeneralSettings(context);
-                            Preference.clearAll(context);
-                            new DataUtils(context).clearDataPrivacy();
                             Timber.e("Reset Error %s", tList.getMessage());
                         }
                     }, token).RevokeTokenData();
 
-                } else {
-                    Preference.clearGeneralSettings(context);
-                    Preference.clearAll(context);
-                    new DataUtils(context).clearDataPrivacy();
-
                 }
+
+                Preference.clearGeneralSettings(context);
+                Preference.clearAll(context);
+                new DataUtils(context).clearDataPrivacy();
+
 
             }
         }

@@ -4,10 +4,8 @@
     android:id="@+id/card_subreddit"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/list_card_vertical_margin"
-    android:layout_marginEnd="@dimen/list_card_horizontal_margin"
-    android:layout_marginStart="@dimen/list_card_horizontal_margin"
-    android:layout_marginTop="@dimen/list_card_vertical_margin"
+    android:layout_marginBottom="@dimen/list_side_margin"
+    android:layout_marginTop="@dimen/list_side_margin"
     android:clickable="true"
     android:focusable="true"
     app:cardBackgroundColor="?android:attr/colorBackground"
@@ -26,8 +24,8 @@
 
             <ImageView
                 android:id="@+id/img_subreddit_small"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_gravity="center_vertical"
                 android:contentDescription="@string/image_description_not_available"
                 android:paddingBottom="@dimen/list_padding_vertical_title"

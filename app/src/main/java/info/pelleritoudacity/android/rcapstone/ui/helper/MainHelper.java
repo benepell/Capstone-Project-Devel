@@ -31,6 +31,7 @@ import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
 import info.pelleritoudacity.android.rcapstone.ui.activity.YoutubeActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtil;
+import info.pelleritoudacity.android.rcapstone.utility.Utility;
 
 import static info.pelleritoudacity.android.rcapstone.utility.ImageUtil.isSmallImage;
 
@@ -190,7 +191,15 @@ public class MainHelper {
 
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
-                        if (isSmallImage(mContext, imagePreviewWidth, imagePreviewHeight)) {
+                        int imageForRow;
+
+                        if(Utility.isTablet(mContext)){
+                            imageForRow = mContext.getResources().getInteger(R.integer.grid_span_count_main);
+                        }else {
+                            imageForRow = 1;
+                        }
+
+                        if (isSmallImage(mContext, imagePreviewWidth, imagePreviewHeight,imageForRow)) {
                             ImageUtil.createRoundImage(mContext, imageViewSmall, resource);
                             imageViewSmall.setContentDescription(contentDescription);
 

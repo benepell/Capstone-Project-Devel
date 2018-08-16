@@ -117,54 +117,6 @@ public class MainExecute {
 
     }
 
-    public void getDataList() {
-
-        HashMap<String, String> fieldMap;
-        fieldMap = new HashMap<>();
-        fieldMap.put("limit", String.valueOf(Preference.getGeneralSettingsItemPage(mContext)));
-        fieldMap.put("showedits", "false");
-        fieldMap.put("showmore", "true");
-
-        String strTimeSort = Preference.getTimeSort(mContext);
-        if (!TextUtils.isEmpty(strTimeSort)) {
-            fieldMap.put("t", strTimeSort);
-
-        }
-
-        if (isAuthenticated) {
-            sApi.getSortSubRedditAuth(TextUtil.authCode(PermissionUtil.getToken(mContext)),
-                    mCategory,
-                    Preference.getSubredditSort(mContext),
-                    fieldMap).enqueue(new Callback<List<T3>>() {
-                @Override
-                public void onResponse(@NonNull Call<List<T3>> call, @NonNull Response<List<T3>> response) {
-                    mCallBack.success(response.body(), response.code());
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<List<T3>> call, @NonNull Throwable t) {
-                    mCallBack.unexpectedError(t);
-                }
-            });
-
-        } else {
-
-            sApi.getSortSubReddit(mCategory,
-                    Preference.getSubredditSort(mContext),
-                    fieldMap).enqueue(new Callback<List<T3>>() {
-                @Override
-                public void onResponse(@NonNull Call<List<T3>> call, @NonNull Response<List<T3>> response) {
-                    mCallBack.success(response.body(), response.code());
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<List<T3>> call, @NonNull Throwable t) {
-                    mCallBack.unexpectedError(t);
-                }
-            });
-        }
-    }
-
     public interface OnRestCallBack {
 
         void success(T3 response, @SuppressWarnings("unused") int code);

@@ -67,21 +67,6 @@ public interface RedditAPI {
                               @QueryMap Map<String, String> options
     );
 
-    @GET("/r/{subreddit_name}/{sort}/.json")
-    Call<List<T3>> getSortSubReddit(
-            @Path(value = "subreddit_name", encoded = true) String subreddit_name,
-            @Path(value = "sort", encoded = true) String sortBy,
-            @QueryMap Map<String, String> options
-    );
-
-    @GET("/r/{subreddit_name}/{sort}/.json")
-    @Headers("User-Agent: " + Costant.REDDIT_USER_AGENT)
-    Call<List<T3>> getSortSubRedditAuth(@Header("Authorization") String authorization,
-                                        @Path(value = "subreddit_name", encoded = true) String subreddit_name,
-                                        @Path(value = "sort", encoded = true) String sortBy,
-                                        @QueryMap Map<String, String> options
-    );
-
     @GET("/r/{subreddit_name}/comments/{id}/{sort}/.json")
     Call<List<T1>> getComments(
             @Path(value = "subreddit_name", encoded = true) String subreddit_name,

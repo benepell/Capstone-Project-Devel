@@ -67,6 +67,8 @@ import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+import info.pelleritoudacity.android.rcapstone.utility.Utility;
+import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.ImageUtil.isSmallImage;
 import static info.pelleritoudacity.android.rcapstone.utility.NumberUtil.numberFormat;
@@ -116,10 +118,18 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
             MainHelper mainHelper = new MainHelper(mContext);
 
             int mediaType = 0;
+            int imageForRow;
 
-            mediaType = Preference.isGeneralImages(mContext) && (!TextUtils.isEmpty(record.getImagePreviewUrl())) && (!isSmallImage(mContext, record.getImagePreviewWidth(), record.getImagePreviewHeight()))
-                    ? Costant.MEDIA_IMAGE_FULL_TYPE : mediaType;
+            if(Utility.isTablet(mContext)){
+                imageForRow = mContext.getResources().getInteger(R.integer.grid_span_count_main);
+            }else {
+                imageForRow = 1;
+            }
 
+            mediaType = Preference.isGeneralImages(mContext) && (!TextUtils.isEmpty(record.getImagePreviewUrl()))
+                            && (!isSmallImage(mContext, record.getImagePreviewWidth(), record.getImagePreviewHeight(),imageForRow))
+                            ? Costant.MEDIA_IMAGE_FULL_TYPE : mediaType;
+            Timber.d("TESTXX %s",record.getImagePreviewWidth());
             mediaType = Preference.isGeneralVideos(mContext) && (!TextUtils.isEmpty(record.getVideoPreviewUrl()))
                     ? Costant.MEDIA_VIDEO_PREVIEW_TYPE_MP4 : mediaType;
 
@@ -192,7 +202,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
             }
 
             if ((!TextUtils.isEmpty(record.getImagePreviewUrl())) &&
-                    (isSmallImage(mContext, record.getImagePreviewWidth(), record.getImagePreviewHeight()))) {
+                    (isSmallImage(mContext, record.getImagePreviewWidth(), record.getImagePreviewHeight(),imageForRow))) {
 
                 mainHelper.imageReddit(holder.mImageViewSubReddit, holder.mImageViewSubRedditSmall,
                         TextUtil.textFromHtml(record.getImagePreviewUrl()), record.getImagePreviewWidth(), record.getImagePreviewHeight(),

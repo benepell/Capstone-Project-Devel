@@ -62,8 +62,8 @@ import java.util.Objects;
 
 public class ImageUtil {
 
-    public static boolean isSmallImage(Context context, int widthPixel, int heightPixel) {
-        if ((context != null) || (widthPixel != 0) || (heightPixel != 0)) {
+    public static boolean isSmallImage(Context context, int widthPixel, int heightPixel, int imageForRow) {
+        if ((context != null) || (widthPixel != 0) || (heightPixel != 0) || (imageForRow != 0)) {
             int dpW = widthPixel / (int) Objects.requireNonNull(context).getResources().getDisplayMetrics().density;
             int dpH = heightPixel / (int) context.getResources().getDisplayMetrics().density;
 
@@ -73,10 +73,10 @@ public class ImageUtil {
             float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
 
             if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                return (dpWidth * 0.3) > dpW;
+                return (dpWidth * (0.3 / imageForRow)) > dpW;
 
             } else {
-                return (dpHeight * 0.3) > dpH;
+                return (dpHeight * (0.3 / imageForRow)) > dpH;
 
             }
         }

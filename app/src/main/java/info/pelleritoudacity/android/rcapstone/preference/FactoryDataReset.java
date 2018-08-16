@@ -103,9 +103,6 @@ public class FactoryDataReset extends DialogPreference {
                     }, token).RevokeTokenData();
                 }
 
-                Preference.clearGeneralSettings(context);
-                Preference.clearAll(context);
-                new DataUtils(context).clearDataPrivacy();
 
             }
         }
@@ -126,6 +123,10 @@ public class FactoryDataReset extends DialogPreference {
             super.onPostExecute(aVoid);
             Context context = mWeakContext.get();
             if (context != null) {
+                Preference.clearGeneralSettings(context);
+                Preference.clearAll(context);
+                new DataUtils(context).clearDataPrivacy();
+
                 context.startActivity(new Intent(context, MainActivity.class)
                         .putExtra(Costant.EXTRA_ACTIVITY_REDDIT_RESET, true)
                         .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

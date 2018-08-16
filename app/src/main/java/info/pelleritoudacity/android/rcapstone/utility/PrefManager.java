@@ -30,6 +30,7 @@ import android.content.SharedPreferences;
 import android.support.v7.preference.PreferenceManager;
 
 import info.pelleritoudacity.android.rcapstone.R;
+import timber.log.Timber;
 
 
 public class PrefManager {
@@ -60,10 +61,14 @@ public class PrefManager {
 
     static void clearGeneralSettings(Context context) {
 
-        PreferenceManager.setDefaultValues(context, R.xml.pref_general_settings, true);
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        sharedPreferences.edit().clear().apply();
+        try {
+            PreferenceManager.setDefaultValues(context, R.xml.pref_general_settings, true);
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            sharedPreferences.edit().clear().apply();
 
+        } catch (Exception e) {
+            Timber.e("preference manager error %s", e.getMessage());
+        }
     }
 
     static void putIntPref(Context context, @SuppressWarnings("SameParameterValue") int key, int value) {
