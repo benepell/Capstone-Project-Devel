@@ -348,12 +348,14 @@ public class MainActivity extends BaseActivity
 
                     case Costant.SEARCH_MAIN_TARGET:
                         Snackbar.make(mContainer, R.string.text_no_search, Costant.DEFAULT_SNACKBAR_DURATION).show();
+                        Preference.setLastTarget(mContext,Costant.DEFAULT_START_VALUE_MAIN_TARGET);
                         mModel.setTarget(Costant.DEFAULT_START_VALUE_MAIN_TARGET);
                         updateOperation();
                         break;
 
                     case Costant.FAVORITE_MAIN_TARGET:
                         Snackbar.make(mContainer, R.string.text_no_favorite, Costant.DEFAULT_SNACKBAR_DURATION).show();
+                        Preference.setLastTarget(mContext,Costant.DEFAULT_START_VALUE_MAIN_TARGET);
                         mModel.setTarget(Costant.DEFAULT_START_VALUE_MAIN_TARGET);
                         updateOperation();
                         break;
