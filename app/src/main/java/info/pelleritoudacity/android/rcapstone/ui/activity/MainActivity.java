@@ -468,7 +468,7 @@ public class MainActivity extends BaseActivity
                     case Costant.LABEL_SUBMENU_NEW:
                     case Costant.LABEL_SUBMENU_HOT:
 
-                        new MainExecute(this, mContext, m.getCategory()).getDataList();
+                        new MainExecute(this, mContext, m.getCategory()).getData();
                         break;
 
                     case Costant.LABEL_SUBMENU_CONTROVERSIAL:
