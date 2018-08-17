@@ -106,7 +106,6 @@ public class MainFragment extends Fragment
 
             mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount,
                     getResources().getDimensionPixelSize(R.dimen.recycler_view_item_width)));
-
         } else {
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
             mRecyclerView.setLayoutManager(layoutManager);

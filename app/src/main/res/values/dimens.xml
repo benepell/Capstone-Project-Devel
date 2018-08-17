@@ -23,6 +23,7 @@
     <dimen name="list_side_margin">4dp</dimen>
     <dimen name="list_card_elevation">2dp</dimen>
 
+    <dimen name="recycler_view_item_width">600dp</dimen>
 
 
 </resources>
