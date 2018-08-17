@@ -30,10 +30,7 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
 import info.pelleritoudacity.android.rcapstone.ui.activity.YoutubeActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
-import info.pelleritoudacity.android.rcapstone.utility.ImageUtil;
-import info.pelleritoudacity.android.rcapstone.utility.Utility;
 
-import static info.pelleritoudacity.android.rcapstone.utility.ImageUtil.isSmallImage;
 
 public class MainHelper {
 
@@ -167,7 +164,7 @@ public class MainHelper {
 
     }
 
-    public void imageReddit(ImageView imageView, ImageView imageViewSmall, String imagePreviewUrl,
+    public void imageReddit(ImageView imageView,  String imagePreviewUrl,
                             int imagePreviewWidth, int imagePreviewHeight, String contentDescription) {
         Glide.with(mContext)
                 .asBitmap()
@@ -177,7 +174,7 @@ public class MainHelper {
                     @Override
                     public void onLoadFailed(@Nullable Drawable errorDrawable) {
                         super.onLoadFailed(errorDrawable);
-                        imageViewSmall.setImageResource(R.drawable.logo);
+                        imageView.setImageResource(R.drawable.logo);
 
 
                     }
@@ -185,29 +182,15 @@ public class MainHelper {
                     @Override
                     public void onLoadStarted(@Nullable Drawable placeholder) {
                         super.onLoadStarted(placeholder);
-                        imageViewSmall.setImageResource(R.drawable.logo);
+                        imageView.setImageResource(R.drawable.logo);
 
                     }
 
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
-                        int imageForRow;
-
-                        if(Utility.isTablet(mContext)){
-                            imageForRow = mContext.getResources().getInteger(R.integer.grid_span_count_main);
-                        }else {
-                            imageForRow = 1;
-                        }
-
-                        if (isSmallImage(mContext, imagePreviewWidth, imagePreviewHeight,imageForRow)) {
-                            ImageUtil.createRoundImage(mContext, imageViewSmall, resource);
-                            imageViewSmall.setContentDescription(contentDescription);
-
-                        } else {
                             imageView.setImageBitmap(resource);
                             imageView.setContentDescription(contentDescription);
 
-                        }
 
                     }
                 });

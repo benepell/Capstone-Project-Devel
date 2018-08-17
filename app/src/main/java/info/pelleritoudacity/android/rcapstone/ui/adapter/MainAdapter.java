@@ -40,6 +40,7 @@ import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -67,10 +68,7 @@ import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
-import info.pelleritoudacity.android.rcapstone.utility.Utility;
-import timber.log.Timber;
 
-import static info.pelleritoudacity.android.rcapstone.utility.ImageUtil.isSmallImage;
 import static info.pelleritoudacity.android.rcapstone.utility.NumberUtil.numberFormat;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolder> implements SelectorHelper.OnSelector {
@@ -118,29 +116,21 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
             MainHelper mainHelper = new MainHelper(mContext);
 
             int mediaType = 0;
-            int imageForRow;
 
-            if(Utility.isTablet(mContext)){
-                imageForRow = mContext.getResources().getInteger(R.integer.grid_span_count_main);
-            }else {
-                imageForRow = 1;
-            }
-
-            mediaType = Preference.isGeneralImages(mContext) && (!TextUtils.isEmpty(record.getImagePreviewUrl()))
-                            && (!isSmallImage(mContext, record.getImagePreviewWidth(), record.getImagePreviewHeight(),imageForRow))
+            mediaType = Preference.isGeneralImages(mContext) && !TextUtils.isEmpty(record.getImagePreviewUrl())
                             ? Costant.MEDIA_IMAGE_FULL_TYPE : mediaType;
-            Timber.d("TESTXX %s",record.getImagePreviewWidth());
-            mediaType = Preference.isGeneralVideos(mContext) && (!TextUtils.isEmpty(record.getVideoPreviewUrl()))
+
+            mediaType = Preference.isGeneralVideos(mContext) && !TextUtils.isEmpty(record.getVideoPreviewUrl())
                     ? Costant.MEDIA_VIDEO_PREVIEW_TYPE_MP4 : mediaType;
 
-            mediaType = Preference.isGeneralVideos(mContext) && (!TextUtils.isEmpty(record.getVideoUrl()) && (!TextUtils.isEmpty(record.getVideoTypeOembed())) &&
+            mediaType = Preference.isGeneralVideos(mContext) && (!TextUtils.isEmpty(record.getVideoUrl()) && !TextUtils.isEmpty(record.getVideoTypeOembed()) &&
                     record.getVideoTypeOembed().equals(Costant.BASE_TYPE_VIMEO))
                     ? Costant.MEDIA_VIDEO_TYPE_VIMEO : mediaType;
 
-            mediaType = Preference.isGeneralVideos(mContext) && (!TextUtils.isEmpty(record.getVideoFrameOembed()) &&
+            mediaType = Preference.isGeneralVideos(mContext) && !TextUtils.isEmpty(record.getVideoFrameOembed()) &&
                     !TextUtils.isEmpty(record.getVideoTypeOembed()) &&
                     (record.getVideoTypeOembed().equals(Costant.BASE_TYPE_YOUTUBE) ||
-                            record.getVideoTypeOembed().equals("m.".concat(Costant.BASE_TYPE_YOUTUBE))))
+                            record.getVideoTypeOembed().equals("m.".concat(Costant.BASE_TYPE_YOUTUBE)))
                     ? Costant.MEDIA_VIDEO_TYPE_YOUTUBE : mediaType;
 
             switch (mediaType) {
@@ -149,7 +139,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
 
                     holder.mPlayerLayout.setVisibility(View.GONE);
 
-                    mainHelper.imageReddit(holder.mImageViewSubReddit, holder.mImageViewSubRedditSmall,
+                    mainHelper.imageReddit(holder.mImageViewSubReddit,
                             TextUtil.textFromHtml(record.getImagePreviewUrl()), record.getImagePreviewWidth(), record.getImagePreviewHeight(),
                             TextUtil.textFromHtml(record.getTitle()));
 
@@ -200,20 +190,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
                 default: {
                 }
             }
-
-            if ((!TextUtils.isEmpty(record.getImagePreviewUrl())) &&
-                    (isSmallImage(mContext, record.getImagePreviewWidth(), record.getImagePreviewHeight(),imageForRow))) {
-
-                mainHelper.imageReddit(holder.mImageViewSubReddit, holder.mImageViewSubRedditSmall,
-                        TextUtil.textFromHtml(record.getImagePreviewUrl()), record.getImagePreviewWidth(), record.getImagePreviewHeight(),
-                        TextUtil.textFromHtml(record.getTitle()));
-
-                if (Preference.isGeneralImages(mContext)) {
-                    holder.mImageViewSubRedditSmall.setVisibility(View.VISIBLE);
-
-                }
-            }
-
 
             holder.mTextViewTitle.setText(TextUtil.textFromHtml(record.getTitle()));
 
@@ -295,10 +271,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
         @SuppressWarnings("unused")
         @BindView(R.id.img_subreddit)
         ImageView mImageViewSubReddit;
-
-        @SuppressWarnings("unused")
-        @BindView(R.id.img_subreddit_small)
-        ImageView mImageViewSubRedditSmall;
 
         @SuppressWarnings("unused")
         @BindView(R.id.tv_subreddit_name_prefix)

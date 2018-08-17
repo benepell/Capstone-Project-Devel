@@ -17,40 +17,20 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/img_subreddit_small"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/image_description_not_available"
-                android:paddingBottom="@dimen/list_padding_vertical_title"
-                android:paddingEnd="@dimen/list_padding_horizontal_title"
-                android:paddingStart="@dimen/list_padding_horizontal_title"
-                android:paddingTop="@dimen/list_padding_vertical_title"
-                android:scaleType="centerCrop"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/tv_title"
-                style="@style/TextAppearance.AppCompat.Title"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:ellipsize="end"
-                android:fontFamily="@font/roboto_regular"
-                android:gravity="center_vertical"
-                android:maxLines="@integer/list_body_text_title"
-                android:paddingBottom="@dimen/list_padding_vertical_title"
-                android:paddingEnd="@dimen/list_padding_horizontal_title"
-                android:paddingStart="@dimen/list_padding_horizontal_title"
-                android:paddingTop="@dimen/list_padding_vertical_title"
-                android:textSize="16sp" />
-
-        </LinearLayout>
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center_vertical"
+            android:maxLines="@integer/list_body_text_title"
+            android:paddingBottom="@dimen/list_padding_vertical_title"
+            android:paddingEnd="@dimen/list_padding_horizontal_title"
+            android:paddingStart="@dimen/list_padding_horizontal_title"
+            android:paddingTop="@dimen/list_padding_vertical_title"
+            android:textSize="16sp" />
 
 
         <LinearLayout

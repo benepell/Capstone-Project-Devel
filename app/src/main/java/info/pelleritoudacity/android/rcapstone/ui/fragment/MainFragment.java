@@ -31,6 +31,7 @@ import info.pelleritoudacity.android.rcapstone.data.model.ui.MainModel;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
 import info.pelleritoudacity.android.rcapstone.ui.adapter.MainAdapter;
+import info.pelleritoudacity.android.rcapstone.ui.view.GridSpacingItemDecoration;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
@@ -97,9 +98,14 @@ public class MainFragment extends Fragment
         if (Utility.isTablet(mContext) &&
                 (Objects.requireNonNull(getActivity()).getClass().getSimpleName().equals(MainActivity.class.getSimpleName()))) {
 
+            int spanCount =Utility.calculateNoOfColumns(getActivity());
+
             GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),
-                    getResources().getInteger(R.integer.grid_span_count_main));
+                    spanCount);
             mRecyclerView.setLayoutManager(gridLayoutManager);
+
+            mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount,
+                    getResources().getDimensionPixelSize(R.dimen.recycler_view_item_width)));
 
         } else {
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);

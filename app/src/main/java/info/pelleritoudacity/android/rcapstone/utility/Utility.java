@@ -28,6 +28,9 @@ package info.pelleritoudacity.android.rcapstone.utility;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.util.DisplayMetrics;
+
+import info.pelleritoudacity.android.rcapstone.R;
 
 
 public class Utility {
@@ -64,5 +67,10 @@ public class Utility {
 
     }
 
+    public static int calculateNoOfColumns(Context context) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        return (int) (dpWidth / context.getResources().getDimension(R.dimen.recycler_view_item_width));
+    }
 
 }

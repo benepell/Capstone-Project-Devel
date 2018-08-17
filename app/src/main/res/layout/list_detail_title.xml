@@ -39,6 +39,21 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/tv_self_text"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:ellipsize="end"
+        android:fontFamily="@font/roboto_regular"
+        android:gravity="center_vertical"
+        android:maxLines="@integer/list_body_text_self_text"
+        android:paddingBottom="@dimen/list_padding_vertical_title"
+        android:paddingEnd="@dimen/list_padding_horizontal_title"
+        android:paddingStart="@dimen/list_padding_horizontal_title"
+        android:paddingTop="@dimen/list_padding_vertical_title"
+        android:textSize="12sp" />
+
 
     <LinearLayout
 
