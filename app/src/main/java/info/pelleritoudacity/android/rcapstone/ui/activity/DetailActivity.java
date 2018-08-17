@@ -101,9 +101,10 @@ public class DetailActivity extends BaseActivity
     @Override
     protected boolean onPrepareOptionsPanel(View view, Menu menu) {
 
-        if (menu.findItem(R.id.menu_action_search) == null) {
+        if ((!Utility.isTablet(mContext)) && (menu.findItem(R.id.menu_action_search) == null)) {
             getMenuInflater().inflate(R.menu.menu_search, menu);
-            MenuBase menuBase = new MenuBase(this, R.layout.activity_detail);
+            MenuBase menuBase;
+            menuBase = new MenuBase(this, R.layout.activity_detail);
             menuBase.menuItemSearch(this, getComponentName(), menu);
         }
 
@@ -363,7 +364,7 @@ public class DetailActivity extends BaseActivity
                 Preference.getGeneralSettingsItemPage(mContext));
     }
 
-    private void isRefreshing(){
+    private void isRefreshing() {
         if ((mContext != null) && mSwipeRefreshLayout != null) {
             if (NetworkUtil.isOnline(mContext)) {
                 mSwipeRefreshLayout.setRefreshing(true);

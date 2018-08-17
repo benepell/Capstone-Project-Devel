@@ -85,7 +85,7 @@ public class MainHelper {
                     @Override
                     public void onLoadFailed(@Nullable Drawable errorDrawable) {
                         super.onLoadFailed(errorDrawable);
-                        layout.setBackgroundResource(R.drawable.logo);
+                        layout.setBackgroundResource(R.drawable.no_image);
                     }
 
                     @Override
@@ -127,7 +127,7 @@ public class MainHelper {
                     @Override
                     public void onLoadFailed(@Nullable Drawable errorDrawable) {
                         super.onLoadFailed(errorDrawable);
-                        layout.setBackgroundResource(R.drawable.logo);
+                        layout.setBackgroundResource(R.drawable.no_image);
                     }
 
                     @Override
@@ -174,7 +174,7 @@ public class MainHelper {
                     @Override
                     public void onLoadFailed(@Nullable Drawable errorDrawable) {
                         super.onLoadFailed(errorDrawable);
-                        imageView.setImageResource(R.drawable.logo);
+                        imageView.setImageResource(R.drawable.no_image);
 
 
                     }

@@ -83,16 +83,16 @@ public class BaseActivity extends AppCompatActivity
         if (getLayoutResource() > 0) {
             mStub = findViewById(R.id.stub_base_layout);
 
-           if((Utility.isTablet(getApplicationContext())) &&(getLayoutResource()==R.layout.activity_detail)){
-               setLayoutResource(R.layout.activity_detail_tablet);
-           }
+            if ((Utility.isTablet(getApplicationContext())) && (getLayoutResource() == R.layout.activity_detail)) {
+                setLayoutResource(R.layout.activity_detail_tablet);
+            }
 
-           mStub.setLayoutResource(getLayoutResource());
-           mStub.inflate();
+            mStub.setLayoutResource(getLayoutResource());
+            mStub.inflate();
 
         }
 
-        menuBase = new MenuBase( this, getLayoutResource());
+        menuBase = new MenuBase(this, getLayoutResource());
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -157,10 +157,16 @@ public class BaseActivity extends AppCompatActivity
         MenuInflater inflater = getMenuInflater();
 
         switch (getLayoutResource()) {
+
+            case R.layout.activity_detail_tablet:
+                inflater.inflate(R.menu.tablet, menu);
+                break;
+
             case R.layout.activity_main:
             case R.layout.activity_detail:
                 inflater.inflate(R.menu.main, menu);
                 break;
+
 
             case R.layout.activity_manage:
                 inflater.inflate(R.menu.manage_menu, menu);
@@ -185,6 +191,10 @@ public class BaseActivity extends AppCompatActivity
     protected boolean onPrepareOptionsPanel(View view, Menu menu) {
 
         switch (getLayoutResource()) {
+            case R.layout.activity_detail_tablet:
+                menuBase.menuItemLogin(menu, Preference.isLoginStart(getApplicationContext()));
+                return true;
+
             case R.layout.activity_main:
             case R.layout.activity_detail:
                 menuBase.menuItemIfRoom(menu);
@@ -207,6 +217,7 @@ public class BaseActivity extends AppCompatActivity
 
             case R.layout.activity_main:
             case R.layout.activity_detail:
+            case R.layout.activity_detail_tablet:
             case R.layout.activity_manage:
 
                 menuBase.menuItemSelected(item);
@@ -235,7 +246,6 @@ public class BaseActivity extends AppCompatActivity
 
         switch (code) {
             case 200:
-
                 if (response != null) {
                     String name = response.getName();
                     boolean isOver18 = response.isOver18();
@@ -257,7 +267,8 @@ public class BaseActivity extends AppCompatActivity
     }
 
     @Override
-    public void unexpectedError(Throwable tList) { }
+    public void unexpectedError(Throwable tList) {
+    }
 
     @Override
     protected void onDestroy() {
@@ -282,6 +293,7 @@ public class BaseActivity extends AppCompatActivity
         switch (getLayoutResource()) {
             case R.layout.activity_main:
             case R.layout.activity_detail:
+            case R.layout.activity_detail_tablet:
             default:
                 navigationView.inflateMenu(R.menu.activity_base_drawer_main);
                 menuBase.menuNavigation(navigationView.getMenu());

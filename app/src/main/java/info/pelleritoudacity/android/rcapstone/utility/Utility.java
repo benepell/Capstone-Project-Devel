@@ -72,7 +72,6 @@ public class Utility {
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         float itemWidth =  context.getResources().getDimension(R.dimen.recycler_view_item_width) / displayMetrics.density;
 
-
         return (int) (dpWidth / itemWidth);
     }
 

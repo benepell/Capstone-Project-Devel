@@ -18,7 +18,7 @@
             android:id="@+id/tv_title"
             style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:ellipsize="end"
             android:fontFamily="@font/roboto_regular"
@@ -29,7 +29,6 @@
             android:paddingStart="@dimen/list_padding_horizontal_title"
             android:paddingTop="@dimen/list_padding_vertical_title"
             android:textSize="16sp" />
-
 
         <LinearLayout
 
@@ -146,7 +145,6 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:contentDescription="@string/image_description_not_available"
-                android:scaleType="centerCrop"
                 android:visibility="gone" />
 
             <include layout="@layout/inc_player_container" />

@@ -17,7 +17,6 @@
     <integer name="icon_size_volume">25</integer>
 
     <integer name="text_radio_widget">20</integer>
-    <integer name="list_body_text_self_text">15</integer>
 
 
 </resources>

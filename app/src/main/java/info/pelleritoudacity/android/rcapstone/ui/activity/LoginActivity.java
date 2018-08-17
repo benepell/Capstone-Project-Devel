@@ -230,7 +230,7 @@ public class LoginActivity extends BaseActivity {
             super.onPostExecute(aVoid);
             Context context = mWeakContext.get();
             Intent intent = new Intent(context, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.putExtra(Costant.EXTRA_LOGIN_SUCCESS, Costant.PROCESS_LOGOUT_OK);
             context.startActivity(intent);
         }

@@ -137,7 +137,7 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
                     @Override
                     public void onLoadFailed(@Nullable Drawable errorDrawable) {
                         super.onLoadFailed(errorDrawable);
-                        holder.mImageViewRedditIcon.setBackgroundResource(R.drawable.logo);
+                        holder.mImageViewRedditIcon.setBackgroundResource(R.drawable.no_image);
                     }
 
                     @Override

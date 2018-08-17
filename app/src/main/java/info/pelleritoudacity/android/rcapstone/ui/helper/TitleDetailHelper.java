@@ -24,7 +24,7 @@ public class TitleDetailHelper {
         this.mContext = mContext;
     }
 
-    public void imageReddit(ImageView imageView, String image, String imageDescription, int imgWidth, int imgHeight){
+    public void imageReddit(ImageView imageView, String image, String imageDescription, int imgWidth, int imgHeight) {
         Glide.with(mContext)
                 .asBitmap()
                 .load(TextUtil.textFromHtml(image))
@@ -33,7 +33,7 @@ public class TitleDetailHelper {
                     @Override
                     public void onLoadFailed(@Nullable Drawable errorDrawable) {
                         super.onLoadFailed(errorDrawable);
-                        imageView.setImageResource(R.drawable.logo);
+                        imageView.setImageResource(R.drawable.no_image);
 
                     }
 
@@ -47,7 +47,7 @@ public class TitleDetailHelper {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
                         ImageUtil.createRoundImage(mContext, imageView, resource);
-                      imageView.setContentDescription(imageDescription);
+                        imageView.setContentDescription(imageDescription);
                         imageView.setVisibility(View.VISIBLE);
 
                     }

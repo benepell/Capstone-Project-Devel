@@ -40,7 +40,6 @@ import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -142,7 +141,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
                     mainHelper.imageReddit(holder.mImageViewSubReddit,
                             TextUtil.textFromHtml(record.getImagePreviewUrl()), record.getImagePreviewWidth(), record.getImagePreviewHeight(),
                             TextUtil.textFromHtml(record.getTitle()));
-
+                    holder.mImageViewSubReddit.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     holder.mImageViewSubReddit.setVisibility(View.VISIBLE);
                     break;
 
@@ -188,6 +187,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
                     break;
 
                 default: {
+                    /*holder.mImageViewSubReddit.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_broken_image)
+                            .sizeDp(300)
+                            .color(Color.GRAY)
+                            .respectFontBounds(true));
+                    */
+                    holder.mImageViewSubReddit.setImageResource(R.drawable.no_image);
+                    holder.mImageViewSubReddit.setVisibility(View.VISIBLE);
                 }
             }
 
