@@ -95,17 +95,19 @@ public class MainFragment extends Fragment
 
         unbinder = ButterKnife.bind(this, view);
 
-        if (Utility.isTablet(mContext) &&
+        int spanCount = Utility.calculateNoOfColumns(Objects.requireNonNull(getActivity()));
+
+        if (Utility.isTablet(mContext)  && spanCount > 1 &&
                 (Objects.requireNonNull(getActivity()).getClass().getSimpleName().equals(MainActivity.class.getSimpleName()))) {
-
-            int spanCount =Utility.calculateNoOfColumns(getActivity());
-
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),
-                    spanCount);
-            mRecyclerView.setLayoutManager(gridLayoutManager);
 
             mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount,
                     getResources().getDimensionPixelSize(R.dimen.recycler_view_item_width)));
+
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),
+                    spanCount);
+
+            mRecyclerView.setLayoutManager(gridLayoutManager);
+
         } else {
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
             mRecyclerView.setLayoutManager(layoutManager);
@@ -131,7 +133,7 @@ public class MainFragment extends Fragment
         getLoaderManager().initLoader(SUBREDDIT_LOADER_ID, null, this).forceLoad();
 
         if (savedInstanceState != null) {
-            savedInstanceState.getParcelable(Costant.EXTRA_FRAGMENT_PARCEL_MAIN);
+            mModel = savedInstanceState.getParcelable(Costant.EXTRA_FRAGMENT_PARCEL_MAIN);
         }
 
     }
@@ -139,9 +141,9 @@ public class MainFragment extends Fragment
     @Override
     public void onResume() {
         super.onResume();
-
-        getLoaderManager().restartLoader(SUBREDDIT_LOADER_ID, null, this).forceLoad();
-
+        if (isStateSaved()) {
+            getLoaderManager().restartLoader(SUBREDDIT_LOADER_ID, null, this).forceLoad();
+        }
         if (mMediaPlayer != null) {
             mMediaPlayer.setResume(mMediaPlayer.getResumeWindow(), mMediaPlayer.getResumePosition(), mMediaPlayer.getVideoUri());
         }
@@ -151,12 +153,14 @@ public class MainFragment extends Fragment
     @Override
     public void onPause() {
         super.onPause();
-        if (mMediaPlayer != null) {
-            if (Util.SDK_INT <= 23) {
+        if (Util.SDK_INT <= 23) {
+            if (mMediaPlayer != null) {
                 mMediaPlayer.releasePlayer();
+                mMediaPlayer.updateResumePosition();
+                mMediaPlayer.pausePlayer();
+
             }
-            mMediaPlayer.updateResumePosition();
-            mMediaPlayer.pausePlayer();
+
         }
 
     }
@@ -168,7 +172,9 @@ public class MainFragment extends Fragment
             if (mMediaPlayer != null) {
                 mMediaPlayer.releasePlayer();
             }
+
         }
+
     }
 
     @Override
@@ -178,6 +184,7 @@ public class MainFragment extends Fragment
             mModel.setPositionPlayer(mMediaPlayer.getResumePosition());
             mModel.setAutoplay(false);
         }
+
         outState.putParcelable(Costant.EXTRA_FRAGMENT_PARCEL_MAIN, mModel);
         super.onSaveInstanceState(outState);
 
@@ -211,17 +218,14 @@ public class MainFragment extends Fragment
         if ((data != null) && (mAdapter != null)) {
             mAdapter.swapCursor(data);
 
-            if ((mRecyclerView != null) &&
-                    (mModel.getPosition() > 0)) {
+            if ((mRecyclerView != null) && (mModel.getPosition() > 0)) {
 
                 mRecyclerView.scrollToPosition(mModel.getPosition());
-
             }
             mMainListener.mainFragmentResult(data.getCount());
         }
 
     }
-
 
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {

@@ -89,12 +89,6 @@ public class MainHelper {
                     }
 
                     @Override
-                    public void onLoadStarted(@Nullable Drawable placeholder) {
-                        super.onLoadStarted(placeholder);
-                        layout.setBackgroundResource(R.drawable.logo);
-                    }
-
-                    @Override
                     public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
                         layout.setBackground(new BitmapDrawable(mContext.getResources(), resource));
                         layout.setVisibility(View.VISIBLE);
@@ -128,12 +122,6 @@ public class MainHelper {
                     public void onLoadFailed(@Nullable Drawable errorDrawable) {
                         super.onLoadFailed(errorDrawable);
                         layout.setBackgroundResource(R.drawable.no_image);
-                    }
-
-                    @Override
-                    public void onLoadStarted(@Nullable Drawable placeholder) {
-                        super.onLoadStarted(placeholder);
-                        layout.setBackgroundResource(R.drawable.logo);
                     }
 
                     @Override
@@ -174,15 +162,9 @@ public class MainHelper {
                     @Override
                     public void onLoadFailed(@Nullable Drawable errorDrawable) {
                         super.onLoadFailed(errorDrawable);
+                        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
                         imageView.setImageResource(R.drawable.no_image);
 
-
-                    }
-
-                    @Override
-                    public void onLoadStarted(@Nullable Drawable placeholder) {
-                        super.onLoadStarted(placeholder);
-                        imageView.setImageResource(R.drawable.logo);
 
                     }
 
@@ -195,8 +177,5 @@ public class MainHelper {
                     }
                 });
     }
-
-
-
 
 }

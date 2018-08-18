@@ -74,6 +74,7 @@ import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
+import info.pelleritoudacity.android.rcapstone.utility.Utility;
 
 import static info.pelleritoudacity.android.rcapstone.utility.PermissionUtil.RequestPermissionExtStorage;
 
@@ -110,6 +111,7 @@ public class MainActivity extends BaseActivity
         super.onCreate(savedInstanceState);
 
         mContext = MainActivity.this;
+
 
         FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
@@ -174,7 +176,6 @@ public class MainActivity extends BaseActivity
             isRefreshing();
             updateOperation();
         }
-        // ATTENTION: This was auto-generated to handle app links.
         Intent appLinkIntent = getIntent();
         String appLinkAction = appLinkIntent.getAction();
         @SuppressWarnings("unused") Uri appLinkData = appLinkIntent.getData();
@@ -191,6 +192,7 @@ public class MainActivity extends BaseActivity
 
         if (menu.findItem(R.id.menu_action_search) == null) {
             getMenuInflater().inflate(R.menu.menu_search, menu);
+
             MenuBase menuBase = new MenuBase(this, R.layout.activity_main);
             menuBase.menuItemSearch(this, getComponentName(), menu);
         }
@@ -202,11 +204,30 @@ public class MainActivity extends BaseActivity
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mModel = savedInstanceState.getParcelable(Costant.EXTRA_PARCEL_MAIN_MODEL);
+
+        if(Utility.isTablet(mContext)) {
+            final int[] position = savedInstanceState.getIntArray(Costant.EXTRA_PARCEL_SCROLL_MAIN);
+            if (position != null) {
+                mNestedScrollView.post(() -> mNestedScrollView.scrollTo(position[0], position[1]));
+            }
+        }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putParcelable(Costant.EXTRA_PARCEL_MAIN_MODEL, mModel);
+
+        if (Utility.isTablet(mContext) && (mNestedScrollView != null)) {
+
+            if (!ActivityUI.isLandscapeOrientation(mContext)) {
+
+                int itemPage = Utility.calculateNoOfColumns(mContext);
+
+                outState.putIntArray(Costant.EXTRA_PARCEL_SCROLL_MAIN,
+                        new int[]{mNestedScrollView.getScrollX(), mNestedScrollView.getScrollY() * itemPage});
+
+            }
+        }
         super.onSaveInstanceState(outState);
     }
 
@@ -243,6 +264,12 @@ public class MainActivity extends BaseActivity
     public void onRefresh() {
         updateOperation();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateOperation();
     }
 
     @Override
@@ -347,14 +374,14 @@ public class MainActivity extends BaseActivity
 
                     case Costant.SEARCH_MAIN_TARGET:
                         Snackbar.make(mContainer, R.string.text_no_search, Costant.DEFAULT_SNACKBAR_DURATION).show();
-                        Preference.setLastTarget(mContext,Costant.DEFAULT_START_VALUE_MAIN_TARGET);
+                        Preference.setLastTarget(mContext, Costant.DEFAULT_START_VALUE_MAIN_TARGET);
                         mModel.setTarget(Costant.DEFAULT_START_VALUE_MAIN_TARGET);
                         updateOperation();
                         break;
 
                     case Costant.FAVORITE_MAIN_TARGET:
                         Snackbar.make(mContainer, R.string.text_no_favorite, Costant.DEFAULT_SNACKBAR_DURATION).show();
-                        Preference.setLastTarget(mContext,Costant.DEFAULT_START_VALUE_MAIN_TARGET);
+                        Preference.setLastTarget(mContext, Costant.DEFAULT_START_VALUE_MAIN_TARGET);
                         mModel.setTarget(Costant.DEFAULT_START_VALUE_MAIN_TARGET);
                         updateOperation();
                         break;
@@ -375,11 +402,13 @@ public class MainActivity extends BaseActivity
             case KeyEvent.KEYCODE_VOLUME_UP:
                 if (action == KeyEvent.ACTION_UP) {
                     mNestedScrollView.pageScroll(View.FOCUS_UP);
+
                 }
                 return true;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
                 if (action == KeyEvent.ACTION_DOWN) {
                     mNestedScrollView.pageScroll(View.FOCUS_DOWN);
+
                 }
                 return true;
             default:

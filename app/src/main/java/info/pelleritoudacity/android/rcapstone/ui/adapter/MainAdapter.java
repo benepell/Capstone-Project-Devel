@@ -78,6 +78,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
     private MediaPlayer mMediaPlayer;
     private final ImaAdsLoader mImaAdsLoader;
 
+
     public MainAdapter(OnMainClick mainListener, Context context, ImaAdsLoader imaAdsLoader) {
         mMainListener = mainListener;
         mContext = context;
@@ -117,7 +118,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
             int mediaType = 0;
 
             mediaType = Preference.isGeneralImages(mContext) && !TextUtils.isEmpty(record.getImagePreviewUrl())
-                            ? Costant.MEDIA_IMAGE_FULL_TYPE : mediaType;
+                    ? Costant.MEDIA_IMAGE_FULL_TYPE : mediaType;
 
             mediaType = Preference.isGeneralVideos(mContext) && !TextUtils.isEmpty(record.getVideoPreviewUrl())
                     ? Costant.MEDIA_VIDEO_PREVIEW_TYPE_MP4 : mediaType;
@@ -192,6 +193,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
                             .color(Color.GRAY)
                             .respectFontBounds(true));
                     */
+                    holder.mImageViewSubReddit.setScaleType(ImageView.ScaleType.FIT_CENTER);
                     holder.mImageViewSubReddit.setImageResource(R.drawable.no_image);
                     holder.mImageViewSubReddit.setVisibility(View.VISIBLE);
                 }
@@ -343,6 +345,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
         WebView mWebViewVimeo;
 
         private String mSubRedditName;
+
         private String mNameRedditId;
         private int mNumComments;
 
@@ -380,6 +383,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
 
             }
         }
+
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -390,18 +394,20 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
         Cursor temp = mCursor;
         this.mCursor = c;
 
-        if (c != null) {
+        if (c != null)  {
             notifyDataSetChanged();
         }
         return temp;
     }
 
+
     public interface OnMainClick {
+
         void mainClick(int position, String category, String strId);
 
         void selectorChange(int position);
 
         void mediaPlayer(MediaPlayer mediaPlayer);
-    }
 
+    }
 }

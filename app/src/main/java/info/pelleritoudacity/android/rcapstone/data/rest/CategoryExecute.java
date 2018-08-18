@@ -25,12 +25,9 @@
  */
 package info.pelleritoudacity.android.rcapstone.data.rest;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
-import java.lang.ref.WeakReference;
 
-import info.pelleritoudacity.android.rcapstone.data.db.Operation.T5Operation;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T5;
 import info.pelleritoudacity.android.rcapstone.data.rest.util.RetrofitClient;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
@@ -43,13 +40,12 @@ import retrofit2.Response;
 public class CategoryExecute {
 
     private static RedditAPI sApi;
-    private final WeakReference<Context> mWeakContext;
+    private final OnRestCallBack mCallback;
 
-    public CategoryExecute(WeakReference<Context> weakReference) {
+    public CategoryExecute(OnRestCallBack callBack) {
 
         sApi = RetrofitClient.createService(Costant.REDDIT_BASE_URL, null);
-
-        mWeakContext = weakReference;
+        mCallback = callBack;
     }
 
     public void syncData() {
@@ -57,8 +53,8 @@ public class CategoryExecute {
             @Override
             public void onResponse(@NonNull Call<T5> call, @NonNull Response<T5> response) {
                 if (response.isSuccessful()) {
-                    T5Operation data = new T5Operation(mWeakContext.get(), response.body());
-                    data.saveData();
+                    mCallback.success(response.body(),response.code());
+
                 }
             }
 
@@ -68,6 +64,12 @@ public class CategoryExecute {
             }
         });
 
+
+    }
+
+    public interface OnRestCallBack {
+
+        void success(T5 response, @SuppressWarnings("unused") int code);
 
     }
 

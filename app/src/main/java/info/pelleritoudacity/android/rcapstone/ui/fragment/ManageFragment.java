@@ -139,7 +139,6 @@ public class ManageFragment extends Fragment
     @Override
     public void onResume() {
         super.onResume();
-
         getLoaderManager().restartLoader(REDDIT_LOADER_ID, null, this);
 
     }

@@ -68,11 +68,13 @@ public class Utility {
     }
 
     public static int calculateNoOfColumns(Context context) {
+
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        float itemWidth =  context.getResources().getDimension(R.dimen.recycler_view_item_width) / displayMetrics.density;
-
-        return (int) (dpWidth / itemWidth);
+        float itemWidth = context.getResources().getDimension(R.dimen.recycler_view_item_width) / displayMetrics.density;
+        int r = (int) (dpWidth / itemWidth);
+        return r < 1 ? 1 : r;
     }
+
 
 }

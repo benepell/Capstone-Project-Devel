@@ -1,147 +1,67 @@
 <!DOCTYPE resources [<!ENTITY app_name "RcapStone">]>
 <resources>
     <string name="app_name">&app_name;</string>
+    <string name="title_app_version">Version</string>
+    <string name="url_app" translatable="false">http://android.pelleritoudacity.info/rcapstone</string>
+    <string name="image_description_app">&app_name; Android Nano degree </string>
+    <string name="app_support_mail" translatable="false">support@pelleritoudacity.info</string>
 
-    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_base">&app_name; </string>
+    <string name="title_activity_subreddit">&app_name; </string>
+    <string name="title_activity_subreddit_detail">&app_name; - Comments </string>
+    <string name="title_activity_settings">&app_name; - Settings</string>
+    <string name="title_activity_manage">&app_name; - Categories </string>
+    <string name="title_activity_login">&app_name; - Login</string>
+    <string name="title_activity_youtube">&app_name; - Youtube Player</string>
 
-    <string name="content_authority" translatable="false">info.pelleritoudacity.android.rcapstone</string>
 
-    <string name="pref_insert_prefs" translatable="false">info.pelleritoudacity.android.rcapstone.pref.insert.prefs</string>
+    <string name="error_state_critical">Uh oh, an error occurred, restart app. </string>
+    <string name="text_no_network">Uh oh! Looks like you\'ve lost internet connection. Please connect to the internet and go back!</string>
+    <string name="error_video">Error loading player: no playable video</string>
+    <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
+
+    <string name="text_log_in">Log into Reddit</string>
+    <string name="text_logout_error">Authentication failed: Permission was denied</string>
 
     <string name="text_time_now">now</string>
-
-    <string name="error_state_critical">Unable to start &app_name; Please, start factory data reset in menu settings or restart app. </string>
-
-    <string name="pref_subreddit_key" translatable="false">info.pelleritoudacity.android.rcapstone.pref.subreddit.key</string>
-    <string name="pref_subreddit_sort" translatable="false">info.pelleritoudacity.android.rcapstone.pref.subreddit.sort</string>
-    <string name="pref_time_sort" translatable="false">info.pelleritoudacity.android.rcapstone.pref.time.sort</string>
-
-    <string name="pref_type_mode" translatable="false">pref.type.mode</string>
-    <string name="pref_last_category" translatable="false">info.pelleritoudacity.android.rcapstone.pref.last.category</string>
-    <string name="pref_last_target" translatable="false">info.pelleritoudacity.android.rcapstone.pref.last.target</string>
-
-    <string name="pref_last_comment" translatable="false">info.pelleritoudacity.android.rcapstone.pref.last.comment</string>
-
-    <string name="pref_login_start" translatable="false">info.pelleritoudacity.android.rcapstone.pref.login.start</string>
-    <string name="pref_login_name" translatable="false">info.pelleritoudacity.android.rcapstone.pref.login.name</string>
-    <string name="pref_login_over18" translatable="false">info.pelleritoudacity.android.rcapstone.pref.login.over18</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="image_description_app">&app_name; Android Nano degree </string>
-    <string name="url_app" translatable="false">http://android.pelleritoudacity.info/rcapstone</string>
-
     <string name="list_snackbar_offline_text">No Internet connection &#8230; swipe here to try again.</string>
+    <string name="text_search_local">Local Search</string>
+    <string name="widget_home">widget home</string>
+    <string name="widget_refresh">widget refresh</string>
+    <string name="text_not_category_widget">No subreddits are added</string>
+    <string name="title_image_widget">image widget</string>
+    <string name="text_widget_category">Category</string>
+    <string name="text_no_search">No item found</string>
+    <string name="text_no_favorite">No Favorite found</string>
 
-    <string name="pref_app_version" translatable="false">pref_app_version</string>
-    <string name="title_app_version">Version</string>
+    <string name="background_image_protection_oval">background image protection oval</string>
+    <string name="background_image_protection">background image protection</string>
+    <string name="image_vote_up">image vote up</string>
+    <string name="image_vote_down">image vote down</string>
+    <string name="favorite_stars">Favorite stars</string>
+    <string name="image_show_comments">image show comments</string>
+    <string name="image_open_browser">image open browser</string>
+    <string name="text_more_replies">more replies…</string>
+    <string name="text_start_login">Please Login</string>
 
-    <string name="pref_privacy" translatable="false">pref_privacy_version</string>
-    <string name="app_url_privacy" translatable="false">https://www.apache.org/licenses/LICENSE-2.0</string>
-
-
-    <string name="app_support_mail" translatable="false">support@pelleritoudacity.info</string>
     <string name="subject_support_mail">Problem with</string>
     <string name="text_mail_intent">Select email application.</string>
 
-    <string name="pref_request_permission" translatable="false">info.pelleritoudacity.android.rcapstone.request.permission.external.storage</string>
-    <string name="pref_write_external_storage" translatable="false">info.pelleritoudacity.android.rcapstone.write.external.storage</string>
-
-    <string name="pref_session_username" translatable="false">info.pelleritoudacity.android.rcapstone.session.username</string>
-    <string name="pref_session_access_token" translatable="false">info.pelleritoudacity.android.rcapstone.session.access.token</string>
-    <string name="pref_session_refresh_token" translatable="false">info.pelleritoudacity.android.rcapstone.session.refresh.token</string>
-    <string name="pref_session_expired" translatable="false">info.pelleritoudacity.android.rcapstone.session.expired</string>
-    <string name="pref_time_token" translatable="false">info.pelleritoudacity.android.rcapstone.time.logged</string>
-
-    <string name="pref_night_mode" translatable="false">info.pelleritoudacity.android.rcapstone.pref_night_mode</string>
     <string name="title_night_mode">Night Mode</string>
     <string name="summary_night_mode">Switch the &app_name; app to the Dark theme, displaying white text on black for a comfortable viewing experience at night</string>
 
-    <string name="pref_adult_filter" translatable="false">info.pelleritoudacity.android.rcapstone.pref_adult_filter</string>
     <string name="title_adult_filter">Adult Filter</string>
     <string name="summary_adult_filter">Prevent access to certain items, search for gifs and count the number of results marked age +18.</string>
 
-    <string name="pref_original_size_content" translatable="false">info.pelleritoudacity.android.rcapstone.pref.original.size.content</string>
     <string name="title_original_size_content">Upload HD Content</string>
     <string name="summary_original_size_content">Enabled high definition content.</string>
 
-    <string name="pref_tab_history" translatable="false">info.pelleritoudacity.android.rcapstone.pref.tab.history</string>
     <string name="title_tab_history">Tab history</string>
     <string name="summary_tab_history">Enabled History tab when press back.</string>
-
-    <string name="pref_sync_frequency" translatable="false">info.pelleritoudacity.android.rcapstone.pref_sync_frequency</string>
-    <string name="pref_title_sync_frequency" translatable="false">Sync Data</string>
-    <string-array name="pref_sync_frequency_titles">
-        <item>5 minutes</item>
-        <item>15 minutes</item>
-        <item>6 hours</item>
-        <item>12 hours</item>
-        <item>24 hours</item>
-        <item>48 hours</item>
-    </string-array>
-    <string-array name="pref_sync_frequency_values" translatable="false">
-        <item>300</item>
-        <item>900</item>
-        <item>21600</item>
-        <item>43200</item>
-        <item>86400</item>
-        <item>172800</item>
-    </string-array>
-
-    <string name="pref_item_page" translatable="false">info.pelleritoudacity.android.rcapstone.pref.item.page</string>
-    <string name="pref_title_item_page" translatable="false">Items Page Result</string>
-    <string-array name="pref_items_page_titles">
-        <item>10 items</item>
-        <item>20 items</item>
-        <item>25 items</item>
-        <item>30 items</item>
-        <item>50 items</item>
-        <item>75 items</item>
-        <item>100 items</item>
-    </string-array>
-    <string-array name="pref_items_page_values" translatable="false">
-        <item>10</item>
-        <item>20</item>
-        <item>25</item>
-        <item>30</item>
-        <item>50</item>
-        <item>75</item>
-        <item>100</item>
-    </string-array>
-
-    <string name="pref_widget_category" translatable="false">info.pelleritoudacity.android.rcapstone.pref.widget.category</string>
-    <string name="pref_widget_width" translatable="false">info.pelleritoudacity.android.rcapstone.pref.widget.width</string>
-
-
-    <string name="pref_depth_page" translatable="false">info.pelleritoudacity.android.rcapstone.pref.depth.page</string>
-    <string name="pref_title_depth_page" translatable="false">Comments Level Depth</string>
-    <string-array name="pref_depth_page_titles">
-        <item>none</item>
-        <item>1 level</item>
-        <item>2 levels</item>
-        <item>3 levels</item>
-        <item>4 levels</item>
-        <item>5 levels</item>
-        <item>6 levels</item>
-        <item>7 levels</item>
-        <item>8 levels</item>
-        <item>9 levels</item>
-        <item>10 levels</item>
-    </string-array>
-    <string-array name="pref_depth_page_values" translatable="false">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
-        <item>11</item>
-    </string-array>
 
     <string name="title_clear_data">Factory data reset</string>
     <string name="summary_clear_data">Delete all data stored on device.</string>
@@ -187,15 +107,10 @@
     <string name="title_menu_managesubs">Manage Subscriptions</string>
     <string name="title_menu_favorite">Favorite</string>
 
-    <string name="title_activity_subreddit">RCapStone </string>
-    <string name="title_activity_subreddit_detail">Comments </string>
-    <string name="title_activity_login">Login</string>
-
-
     <string name="text_login_success">You have successfully logged in</string>
     <string name="text_nav_anonymous">Anonymous</string>
     <string name="title_menu_logout">Logout</string>
-    <string name="text_logout_success">Logout successfly. Anonymous mode is actived</string>
+    <string name="text_logout_success">Logout successfly.</string>
     <string name="reddit_adultcontent_text">Item not available - Enable NSFW content on Reddit</string>
     <string name="reddit_nologinadultcontent_text">Click on the log in to retrieve your personal login information</string>
 
@@ -207,13 +122,7 @@
     <string name="manage_stars_description">enable subreddit link</string>
     <string name="title_menu_restore">restore</string>
 
-    <string name="error_video">Error loading player: no playable video</string>
-    <string name="ad_tag_url"><![CDATA[https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dlinear&correlator=]]></string>
-    <string name="pref_volume_muted" translatable="false">info.pelleritoudacity.android.rcapstone.pref_volume_muted</string>
-
     <string name="image_description_not_available">Description Not Available</string>
-
-    <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
 
     <string name="shortcut_text_popular">Popular Reddit</string>
     <string name="shortcut_long_text_popular">Shortcut long text popular</string>
@@ -233,6 +142,31 @@
     <string name="title_general_self">Self</string>
     <string name="title_general_links">Links</string>
 
+    <string name="default_items_page_titles" translatable="false">25</string>
+    <string name="default_depth_page_titles" translatable="false">6</string>
+
+    <string name="app_url_privacy" translatable="false">https://www.apache.org/licenses/LICENSE-2.0</string>
+
+    <string name="ad_tag_url"><![CDATA[https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dlinear&correlator=]]></string>
+
+    <string name="content_authority" translatable="false">info.pelleritoudacity.android.rcapstone</string>
+
+    <string name="pref_insert_prefs" translatable="false">info.pelleritoudacity.android.rcapstone.pref.insert.prefs</string>
+    <string name="pref_subreddit_key" translatable="false">info.pelleritoudacity.android.rcapstone.pref.subreddit.key</string>
+    <string name="pref_subreddit_sort" translatable="false">info.pelleritoudacity.android.rcapstone.pref.subreddit.sort</string>
+    <string name="pref_time_sort" translatable="false">info.pelleritoudacity.android.rcapstone.pref.time.sort</string>
+
+    <string name="pref_type_mode" translatable="false">pref.type.mode</string>
+    <string name="pref_last_category" translatable="false">info.pelleritoudacity.android.rcapstone.pref.last.category</string>
+    <string name="pref_last_target" translatable="false">info.pelleritoudacity.android.rcapstone.pref.last.target</string>
+
+    <string name="pref_volume_muted" translatable="false">info.pelleritoudacity.android.rcapstone.pref_volume_muted</string>
+    <string name="pref_last_comment" translatable="false">info.pelleritoudacity.android.rcapstone.pref.last.comment</string>
+
+    <string name="pref_login_start" translatable="false">info.pelleritoudacity.android.rcapstone.pref.login.start</string>
+    <string name="pref_login_name" translatable="false">info.pelleritoudacity.android.rcapstone.pref.login.name</string>
+    <string name="pref_login_over18" translatable="false">info.pelleritoudacity.android.rcapstone.pref.login.over18</string>
+
     <string name="pref_general_images" translatable="false">info.pelleritoudacity.android.rcapstone.pref.general.images</string>
     <string name="pref_general_gifs" translatable="false">info.pelleritoudacity.android.rcapstone.pref.general.gifs</string>
     <string name="pref_general_albums" translatable="false">info.pelleritoudacity.android.rcapstone.pref.general.albums</string>
@@ -241,27 +175,95 @@
     <string name="pref_general_links" translatable="false">info.pelleritoudacity.android.rcapstone.pref.general.links</string>
     <string name="pref_general_init" translatable="false">info.pelleritoudacity.android.rcapstone.pref.general.init</string>
     <string name="pref_more_fragment_more_nested_position_height" translatable="false">info.pelleritoudacity.android.rcapstone.pref.more.nested.position.height</string>
-    <string name="background_image_protection_oval">background image protection oval</string>
-    <string name="background_image_protection">background image protection</string>
-    <string name="image_vote_up">image vote up</string>
-    <string name="image_vote_down">image vote down</string>
-    <string name="favorite_stars">Favorite stars</string>
-    <string name="image_show_comments">image show comments</string>
-    <string name="image_open_browser">image open browser</string>
-    <string name="text_more_replies">more replies…</string>
-    <string name="text_start_login">Please Login</string>
 
-    <string name="default_items_page_titles" translatable="false">25</string>
-    <string name="default_depth_page_titles" translatable="false">6</string>
-    <string name="text_logout_error">Logout error: permission declined</string>
-    <string name="text_log_in">Log in</string>
-    <string name="text_search_local">Local Search</string>
-    <string name="widget_home">widget home</string>
-    <string name="widget_refresh">widget refresh</string>
-    <string name="text_not_category_widget">empty category click here to select it</string>
-    <string name="title_image_widget">image widget</string>
-    <string name="text_widget_category">Category</string>
-    <string name="text_no_search">No item found</string>
-    <string name="text_no_favorite">No Favorite found</string>
-    <string name="text_no_network">Network not found</string>
+    <string name="pref_request_permission" translatable="false">info.pelleritoudacity.android.rcapstone.request.permission.external.storage</string>
+    <string name="pref_write_external_storage" translatable="false">info.pelleritoudacity.android.rcapstone.write.external.storage</string>
+
+    <string name="pref_session_username" translatable="false">info.pelleritoudacity.android.rcapstone.session.username</string>
+    <string name="pref_session_access_token" translatable="false">info.pelleritoudacity.android.rcapstone.session.access.token</string>
+    <string name="pref_session_refresh_token" translatable="false">info.pelleritoudacity.android.rcapstone.session.refresh.token</string>
+    <string name="pref_session_expired" translatable="false">info.pelleritoudacity.android.rcapstone.session.expired</string>
+    <string name="pref_time_token" translatable="false">info.pelleritoudacity.android.rcapstone.time.logged</string>
+
+    <string name="pref_night_mode" translatable="false">info.pelleritoudacity.android.rcapstone.pref_night_mode</string>
+
+    <string name="pref_app_version" translatable="false">pref_app_version</string>
+    <string name="pref_privacy" translatable="false">pref_privacy_version</string>
+    <string name="pref_adult_filter" translatable="false">info.pelleritoudacity.android.rcapstone.pref_adult_filter</string>
+    <string name="pref_original_size_content" translatable="false">info.pelleritoudacity.android.rcapstone.pref.original.size.content</string>
+    <string name="pref_tab_history" translatable="false">info.pelleritoudacity.android.rcapstone.pref.tab.history</string>
+
+    <string name="pref_sync_frequency" translatable="false">info.pelleritoudacity.android.rcapstone.pref_sync_frequency</string>
+    <string name="pref_title_sync_frequency" translatable="false">Sync Data</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>5 minutes</item>
+        <item>15 minutes</item>
+        <item>6 hours</item>
+        <item>12 hours</item>
+        <item>24 hours</item>
+        <item>48 hours</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values" translatable="false">
+        <item>300</item>
+        <item>900</item>
+        <item>21600</item>
+        <item>43200</item>
+        <item>86400</item>
+        <item>172800</item>
+    </string-array>
+
+    <string name="pref_item_page" translatable="false">info.pelleritoudacity.android.rcapstone.pref.item.page</string>
+    <string name="pref_title_item_page" translatable="false">Items Page Result</string>
+    <string-array name="pref_items_page_titles">
+        <item>10 items</item>
+        <item>20 items</item>
+        <item>25 items</item>
+        <item>30 items</item>
+        <item>50 items</item>
+        <item>75 items</item>
+        <item>100 items</item>
+    </string-array>
+    <string-array name="pref_items_page_values" translatable="false">
+        <item>10</item>
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
+        <item>50</item>
+        <item>75</item>
+        <item>100</item>
+    </string-array>
+
+    <string name="pref_widget_category" translatable="false">info.pelleritoudacity.android.rcapstone.pref.widget.category</string>
+    <string name="pref_widget_width" translatable="false">info.pelleritoudacity.android.rcapstone.pref.widget.width</string>
+
+    <string name="pref_depth_page" translatable="false">info.pelleritoudacity.android.rcapstone.pref.depth.page</string>
+    <string name="pref_title_depth_page" translatable="false">Comments Level Depth</string>
+    <string-array name="pref_depth_page_titles">
+        <item>none</item>
+        <item>1 level</item>
+        <item>2 levels</item>
+        <item>3 levels</item>
+        <item>4 levels</item>
+        <item>5 levels</item>
+        <item>6 levels</item>
+        <item>7 levels</item>
+        <item>8 levels</item>
+        <item>9 levels</item>
+        <item>10 levels</item>
+    </string-array>
+    <string-array name="pref_depth_page_values" translatable="false">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+    </string-array>
+
+
 </resources>

@@ -41,6 +41,8 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
+import info.pelleritoudacity.android.rcapstone.data.db.Operation.T5Operation;
+import info.pelleritoudacity.android.rcapstone.data.model.reddit.T5;
 import info.pelleritoudacity.android.rcapstone.data.rest.CategoryExecute;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.ManageFragment;
 import info.pelleritoudacity.android.rcapstone.utility.ActivityUI;
@@ -50,7 +52,7 @@ import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import timber.log.Timber;
 
-public class ManageActivity extends BaseActivity {
+public class ManageActivity extends BaseActivity implements CategoryExecute.OnRestCallBack {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.nested_scrollview_submanage)
@@ -60,18 +62,20 @@ public class ManageActivity extends BaseActivity {
     @BindView(R.id.submanage_container)
     public CoordinatorLayout mContainer;
 
+    private WeakReference<Context> mWeakContext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setLayoutResource(R.layout.activity_manage);
         super.onCreate(savedInstanceState);
 
-        WeakReference<Context> mWeakContext = new WeakReference<>(getApplicationContext());
+        mWeakContext = new WeakReference<>(getApplicationContext());
 
         if (Preference.isInsertPrefs(getApplicationContext())) {
             new ManageAsyncTask(mWeakContext).execute();
 
         } else if ((!Preference.isInsertPrefs(getApplicationContext()) && (NetworkUtil.isOnline(getApplicationContext())))) {
-            new CategoryExecute(new WeakReference<>(getApplicationContext())).syncData();
+            new CategoryExecute(this).syncData();
 
         } else {
             Snackbar.make(mContainer, R.string.text_manage_nolinks, Snackbar.LENGTH_LONG).show();
@@ -108,6 +112,13 @@ public class ManageActivity extends BaseActivity {
 
             }
         }
+    }
+
+    @Override
+    public void success(T5 response, int code) {
+        T5Operation data = new T5Operation(mWeakContext.get(), response);
+        data.saveData();
+        startFragment(false);
     }
 
     private static class ManageAsyncTask extends AsyncTask<Void, Void, Cursor> {
