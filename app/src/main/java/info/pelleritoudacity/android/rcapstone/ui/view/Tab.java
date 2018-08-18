@@ -54,11 +54,13 @@ public class Tab implements TabLayout.OnTabSelectedListener {
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-        int position = tab.getPosition();
+        if (mTabLayout != null) {
+            int position = tab.getPosition();
 
-        addHistory(mTabList.get(position));
+            addHistory(mTabList.get(position));
 
-        mListener.tabSelected(mTabList.get(position));
+            mListener.tabSelected(mTabList.get(position));
+        }
     }
 
     @Override
@@ -67,19 +69,22 @@ public class Tab implements TabLayout.OnTabSelectedListener {
 
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
-        mListener.tabReselected(tab.getPosition(), mTabList.get(tab.getPosition()));
+        if (mTabLayout != null) {
+            mListener.tabReselected(tab.getPosition(), mTabList.get(tab.getPosition()));
+        }
     }
 
     public void initTab() {
-        createTab();
-        mTabLayout.setTabGravity(android.support.design.widget.TabLayout.GRAVITY_FILL);
-        mTabLayout.addOnTabSelectedListener(this);
-
+        if (mTabLayout != null) {
+            createTab();
+            mTabLayout.setTabGravity(android.support.design.widget.TabLayout.GRAVITY_FILL);
+            mTabLayout.addOnTabSelectedListener(this);
+        }
 
     }
 
     private void createTab() {
-        if (mTabList != null) {
+        if ((mTabLayout != null) && (mTabList != null)) {
             mTabLayout.removeAllTabs();
             for (String string : mTabList) {
                 mTabLayout.addTab(mTabLayout.newTab().setText(string));
@@ -88,7 +93,7 @@ public class Tab implements TabLayout.OnTabSelectedListener {
     }
 
     public void positionSelected(String category) {
-        if (!TextUtils.isEmpty(category)) {
+        if ((mTabLayout != null) && (!TextUtils.isEmpty(category))) {
             int indexText = mTabList.indexOf(category);
 
             if (indexText >= 0) {
@@ -123,10 +128,10 @@ public class Tab implements TabLayout.OnTabSelectedListener {
     }
 
     public void updateTabPosition() {
-        if (Preference.getLastCategory(mContext) != null) {
+        if ((mTabLayout != null) && (Preference.getLastCategory(mContext) != null)) {
 
             int position = mTabList.indexOf(Preference.getLastCategory(mContext));
-            if ((position > 0) && (mTabLayout != null) && (position < mTabLayout.getTabCount())) {
+            if (position > 0 && position < mTabLayout.getTabCount()) {
                 position -= 1;
                 int right = ((ViewGroup) mTabLayout.getChildAt(0)).getChildAt(position).getRight();
                 mTabLayout.scrollTo(right, 0);

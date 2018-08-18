@@ -60,6 +60,7 @@ import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapter;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
 import info.pelleritoudacity.android.rcapstone.ui.helper.MainHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
+import info.pelleritoudacity.android.rcapstone.utility.ActivityUI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtil;
@@ -67,6 +68,7 @@ import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+import info.pelleritoudacity.android.rcapstone.utility.Utility;
 
 import static info.pelleritoudacity.android.rcapstone.utility.NumberUtil.numberFormat;
 
@@ -188,15 +190,15 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
                     break;
 
                 default: {
-                    /*holder.mImageViewSubReddit.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_broken_image)
-                            .sizeDp(300)
-                            .color(Color.GRAY)
-                            .respectFontBounds(true));
-                    */
                     holder.mImageViewSubReddit.setScaleType(ImageView.ScaleType.FIT_CENTER);
                     holder.mImageViewSubReddit.setImageResource(R.drawable.no_image);
                     holder.mImageViewSubReddit.setVisibility(View.VISIBLE);
                 }
+            }
+
+            if (Utility.isTablet(mContext) && ActivityUI.isLandscapeOrientation(mContext)) {
+                holder.mImageViewSubReddit.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
             }
 
             holder.mTextViewTitle.setText(TextUtil.textFromHtml(record.getTitle()));
@@ -223,7 +225,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
             cardBottomModel.setLinkComment(
                     TextUtil.buildCommentLink(record.getSubRedditNamePrefix(), record.getNameIdReddit()));
 
-            cardBottomModel.setPosition(holder.getAdapterPosition());
+            cardBottomModel.setPosition(position);
             cardBottomModel.setScore(record.getScore());
             cardBottomModel.setDirScore(record.getDirScore());
             cardBottomModel.setSaved(record.isSaved());
@@ -234,7 +236,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
 
             selectorHelper.cardBottomLink(cardBottomModel);
 
-            holder.bind(record.getSubReddit(), record.getNameIdReddit(), record.getNumComments());
+            holder.bind(position,record.getSubReddit(), record.getNameIdReddit(), record.getNumComments());
 
         }
     }
@@ -345,7 +347,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
         WebView mWebViewVimeo;
 
         private String mSubRedditName;
-
+        private int mPosition;
         private String mNameRedditId;
         private int mNumComments;
 
@@ -356,7 +358,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
 
         }
 
-        void bind(String subRedditName, String nameRedditId, int numComments) {
+        void bind(int position,String subRedditName, String nameRedditId, int numComments) {
+            mPosition = position;
             mSubRedditName = subRedditName;
             mNameRedditId = nameRedditId;
             mNumComments = numComments;
@@ -376,7 +379,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
         public void onClick(View view) {
 
             if (mNumComments > 0) {
-                mMainListener.mainClick(getAdapterPosition(), mSubRedditName, mNameRedditId);
+                mMainListener.mainClick(mPosition, mSubRedditName, mNameRedditId);
 
             } else {
                 Snackbar.make(itemView, mContext.getString(R.string.text_no_comments), Snackbar.LENGTH_LONG).show();
@@ -394,7 +397,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
         Cursor temp = mCursor;
         this.mCursor = c;
 
-        if (c != null)  {
+        if (c != null) {
             notifyDataSetChanged();
         }
         return temp;

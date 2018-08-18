@@ -95,10 +95,10 @@ public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.
                     holder.mImageButtonPreferStars, holder.mImageButtonShowComments, holder.mImageButtonOpenBrowser};
 
             if (!Utility.isTablet(mContext)) {
-                SelectorHelper selectorHelper = new SelectorHelper(this, mContext,holder.itemView);
+                SelectorHelper selectorHelper = new SelectorHelper(this, mContext, holder.itemView);
 
                 CardBottomModel cardBottomModel = new CardBottomModel();
-                cardBottomModel.setPosition(holder.getAdapterPosition());
+                cardBottomModel.setPosition(position);
                 cardBottomModel.setScore(record.getScore());
                 cardBottomModel.setArrayButton(arrayButton);
                 cardBottomModel.setBackgroundColor(strBackGroundColor);

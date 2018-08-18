@@ -119,7 +119,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
 
             selectorHelper.cardBottomLink(cardBottomModel);
 
-            if (holder.getAdapterPosition() != mSelectorPosition) {
+            if (position != mSelectorPosition) {
                 holder.mSelectorContainer.setVisibility(View.GONE);
 
             } else {
@@ -162,6 +162,14 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
                 holder.mTextViewReplies.setVisibility(View.GONE);
 
             }
+
+            holder.mTextViewBodyDetail.setOnClickListener(view -> {
+                clickSelector(position);
+                mListener.clickSelector(position, getItemCount());
+                notifyDataSetChanged();
+            });
+
+            holder.bind(position, getItemCount());
 
         }
     }
@@ -241,24 +249,26 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
         @BindView(R.id.image_open_browser)
         ImageButton mImageButtonOpenBrowser;
 
+        private  int mPosition;
+        private int mItemCount;
+
         SubRedditDetailHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
-
-            mTextViewBodyDetail.setOnClickListener(view -> {
-                clickSelector(getAdapterPosition());
-                mListener.clickSelector(getAdapterPosition(), getItemCount());
-                notifyDataSetChanged();
-            });
         }
 
         @Override
         public void onClick(View view) {
-            clickSelector(getAdapterPosition());
-            mListener.clickSelector(getAdapterPosition(), getItemCount());
+            clickSelector(mPosition);
+            mListener.clickSelector(mPosition, mItemCount);
             notifyDataSetChanged();
 
+        }
+
+        public void bind(int position, int itemCount) {
+            mPosition = position;
+            mItemCount = itemCount;
         }
 
     }

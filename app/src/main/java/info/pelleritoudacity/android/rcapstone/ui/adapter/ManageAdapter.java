@@ -233,7 +233,6 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
 
         RedditHolder(View itemView) {
             super(itemView);
-
             ButterKnife.bind(this, itemView);
 
         }

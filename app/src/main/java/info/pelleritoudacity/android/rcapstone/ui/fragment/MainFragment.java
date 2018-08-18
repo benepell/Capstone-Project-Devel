@@ -97,7 +97,7 @@ public class MainFragment extends Fragment
 
         int spanCount = Utility.calculateNoOfColumns(Objects.requireNonNull(getActivity()));
 
-        if (Utility.isTablet(mContext)  && spanCount > 1 &&
+        if (Utility.isTablet(mContext) && savedInstanceState == null && spanCount > 1 &&
                 (Objects.requireNonNull(getActivity()).getClass().getSimpleName().equals(MainActivity.class.getSimpleName()))) {
 
             mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount,

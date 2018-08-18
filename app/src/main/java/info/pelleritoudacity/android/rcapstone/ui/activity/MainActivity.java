@@ -35,12 +35,14 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -92,6 +94,7 @@ public class MainActivity extends BaseActivity
     public NestedScrollView mNestedScrollView;
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
+    @Nullable
     @BindView(R.id.tab_layout)
     public TabLayout mTabLayout;
 
@@ -112,6 +115,12 @@ public class MainActivity extends BaseActivity
 
         mContext = MainActivity.this;
 
+        if (Utility.isTablet(mContext)) {
+            if ((mNestedScrollView != null) && (ActivityUI.isLandscapeOrientation(mContext) && (savedInstanceState == null))) {
+                // Caused by java.lang.ClassCastException: android.support.v7.widget.LinearLayoutManager$SavedState cannot be cast to android.support.v7.widget.GridLayoutManager
+                mNestedScrollView.setSaveEnabled(false);
+            }
+        }
 
         FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
@@ -205,7 +214,7 @@ public class MainActivity extends BaseActivity
         super.onRestoreInstanceState(savedInstanceState);
         mModel = savedInstanceState.getParcelable(Costant.EXTRA_PARCEL_MAIN_MODEL);
 
-        if(Utility.isTablet(mContext)) {
+        if (Utility.isTablet(mContext)) {
             final int[] position = savedInstanceState.getIntArray(Costant.EXTRA_PARCEL_SCROLL_MAIN);
             if (position != null) {
                 mNestedScrollView.post(() -> mNestedScrollView.scrollTo(position[0], position[1]));
@@ -229,6 +238,7 @@ public class MainActivity extends BaseActivity
             }
         }
         super.onSaveInstanceState(outState);
+
     }
 
     @Override
@@ -264,12 +274,6 @@ public class MainActivity extends BaseActivity
     public void onRefresh() {
         updateOperation();
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        updateOperation();
     }
 
     @Override
