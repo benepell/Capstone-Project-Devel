@@ -42,7 +42,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -90,6 +89,7 @@ public class MainActivity extends BaseActivity
     public CoordinatorLayout mContainer;
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
+    @Nullable
     @BindView(R.id.nested_scrollview_main)
     public NestedScrollView mNestedScrollView;
 
@@ -217,7 +217,7 @@ public class MainActivity extends BaseActivity
         if (Utility.isTablet(mContext)) {
             final int[] position = savedInstanceState.getIntArray(Costant.EXTRA_PARCEL_SCROLL_MAIN);
             if (position != null) {
-                mNestedScrollView.post(() -> mNestedScrollView.scrollTo(position[0], position[1]));
+                Objects.requireNonNull(mNestedScrollView).post(() -> Objects.requireNonNull(mNestedScrollView).scrollTo(position[0], position[1]));
             }
         }
     }
@@ -405,13 +405,13 @@ public class MainActivity extends BaseActivity
         switch (keyCode) {
             case KeyEvent.KEYCODE_VOLUME_UP:
                 if (action == KeyEvent.ACTION_UP) {
-                    mNestedScrollView.pageScroll(View.FOCUS_UP);
+                    Objects.requireNonNull(mNestedScrollView).pageScroll(View.FOCUS_UP);
 
                 }
                 return true;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
                 if (action == KeyEvent.ACTION_DOWN) {
-                    mNestedScrollView.pageScroll(View.FOCUS_DOWN);
+                    Objects.requireNonNull(mNestedScrollView).pageScroll(View.FOCUS_DOWN);
 
                 }
                 return true;

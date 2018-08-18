@@ -266,7 +266,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
 
         }
 
-        public void bind(int position, int itemCount) {
+        void bind(int position, int itemCount) {
             mPosition = position;
             mItemCount = itemCount;
         }
