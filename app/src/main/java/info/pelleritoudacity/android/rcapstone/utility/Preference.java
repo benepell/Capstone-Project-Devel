@@ -343,13 +343,6 @@ public class Preference {
 
     }
 
-    public static Boolean isOriginalSizeContent(Context context) {
-
-        return PrefManager.isGeneralSettings(context,
-                context.getString(Costant.PREFERENCE_ORIGINAL_SIZE_CONTENT));
-
-    }
-
     public static Boolean isNightMode(Context context) {
 
         return PrefManager.isGeneralSettings(context,

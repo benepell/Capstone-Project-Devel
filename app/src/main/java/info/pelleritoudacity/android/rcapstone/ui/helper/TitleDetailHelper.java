@@ -33,7 +33,6 @@ public class TitleDetailHelper {
                     @Override
                     public void onLoadFailed(@Nullable Drawable errorDrawable) {
                         super.onLoadFailed(errorDrawable);
-                        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
                         imageView.setImageResource(R.drawable.no_image);
 
                     }

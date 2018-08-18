@@ -48,7 +48,7 @@ class VideoContentOperation {
         mContext = context;
     }
 
-    public ArrayList<ModelContent> showVideoContent(T3ListingData t3DataChild, boolean originalSize) {
+    public ArrayList<ModelContent> showVideoContent(T3ListingData t3DataChild) {
 
         int sizeResolution = 0;
 
@@ -77,9 +77,8 @@ class VideoContentOperation {
             dataSourceMp4 = mp4.getSource();
             dataResolutionMp4s = mp4.getResolutions();
 
-            if ((dataResolutionMp4s != null) && (!originalSize)) {
+            if (dataResolutionMp4s != null)
                 sizeResolution = t3DataChild.getPreview().getImages().get(0).getVariants().getMp4().getResolutions().size();
-            }
         }
 
         if ((dataResolutionMp4s != null) || (dataSourceMp4 != null)) {

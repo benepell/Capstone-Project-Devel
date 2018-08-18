@@ -88,6 +88,7 @@ public class MediaPlayer {
     private TextView mTvExoCountDown;
     private ImageView mImageMutedPlay;
     private final ImageView mImagePlay;
+    private final ImageView mImagePreview;
 
     private Handler mHandler;
     private final Runnable mRunnableRemainingPlay = this::countDown;
@@ -101,7 +102,7 @@ public class MediaPlayer {
         mTvErrorPlayer = mediaModel.getTvErrorPlayer();
         mImaAdsLoader = mediaModel.getImaAdsLoader();
         mImagePlay = mediaModel.getImagePlay();
-
+        mImagePreview = mediaModel.getImagePreview();
     }
 
     public void initPlayerFullScreen(Uri mediaUri) {
@@ -162,7 +163,6 @@ public class MediaPlayer {
             mTvExoCountDown.setVisibility(View.VISIBLE);
 
             mHandler = new Handler();
-
 
             mPlayer = createPlayer();
 
@@ -334,6 +334,7 @@ public class MediaPlayer {
     private void hiddenPlayer() {
         if (mImagePlay != null) {
             mImagePlay.setVisibility(View.VISIBLE);
+            mImagePreview.setVisibility(View.VISIBLE);
         }
         mPlayerView.setVisibility(View.GONE);
     }
@@ -342,6 +343,7 @@ public class MediaPlayer {
         visibilityProgressBar(false);
         mPlayerView.setVisibility(View.VISIBLE);
         if (mImagePlay != null) {
+            mImagePreview.setVisibility(View.GONE);
             mImagePlay.setVisibility(View.GONE);
 
         }

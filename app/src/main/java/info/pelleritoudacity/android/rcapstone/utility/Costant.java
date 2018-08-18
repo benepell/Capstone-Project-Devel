@@ -266,7 +266,6 @@ public interface Costant {
     int PREFERENCE_LAST_COMMENT = R.string.pref_last_comment;
     int PREFERENCE_REQUEST_PERMISSION = R.string.pref_request_permission;
     int PREFERENCE_GENERAL_INIT = R.string.pref_general_init;
-    int PREFERENCE_ORIGINAL_SIZE_CONTENT = R.string.pref_original_size_content;
     int PREFERENCE_WRITE_EXTERNAL_STORAGE = R.string.pref_write_external_storage;
     int PREFERENCE_NIGHT_MODE = R.string.pref_night_mode;
     int PREFERENCE_GENERAL_IMAGES = R.string.pref_general_images;

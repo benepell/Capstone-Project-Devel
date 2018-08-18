@@ -16,6 +16,8 @@ public class MediaModel {
     private ProgressBar progressBar;
 
     private ImageView imagePlay;
+    private ImageView imagePreview;
+
     private TextView tvErrorPlayer;
 
 
@@ -60,6 +62,14 @@ public class MediaModel {
 
     public void setImagePlay(ImageView imagePlay) {
         this.imagePlay = imagePlay;
+    }
+
+    public ImageView getImagePreview() {
+        return imagePreview;
+    }
+
+    public void setImagePreview(ImageView imagePreview) {
+        this.imagePreview = imagePreview;
     }
 
 }

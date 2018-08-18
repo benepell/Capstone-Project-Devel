@@ -79,20 +79,8 @@ public class MainRecord {
         mRecord.setImagePreviewUrl(mCursor.getString(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_URL)));
 
-        mRecord.setImagePreviewWidth(mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_WIDTH)));
-
-        mRecord.setImagePreviewHeight(mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_HEIGHT)));
-
         mRecord.setVideoPreviewUrl(mCursor.getString(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_URL)));
-
-        mRecord.setVideoPreviewWidth(mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_WIDTH)));
-
-        mRecord.setVideoPreviewHeight(mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_VARIANT_VIDEO_MP4_HEIGHT)));
 
         mRecord.setVideoUrl(mCursor.getString(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_URL)));
@@ -114,13 +102,6 @@ public class MainRecord {
 
         mRecord.setThumbnailUrlOembed(mCursor.getString(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_URL)));
-
-        mRecord.setThumbnailOembedWidth(mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_WIDTH)));
-
-        mRecord.setThumbnailOembedHeight(mCursor.getInt(
-                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_MEDIA_OEMBED_THUMBNAIL_HEIGHT)));
-
 
     }
 }

@@ -144,7 +144,7 @@
                 android:paddingEnd="@dimen/list_padding_horizontal_title"
                 android:paddingStart="@dimen/list_padding_horizontal_title"
                 android:paddingTop="@dimen/list_padding_vertical_title"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 android:visibility="gone" />
 
             <include layout="@layout/inc_player_container" />

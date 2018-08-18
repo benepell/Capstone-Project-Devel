@@ -34,7 +34,6 @@ import java.util.List;
 
 import info.pelleritoudacity.android.rcapstone.data.model.ModelContent;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.Resolution;
-import info.pelleritoudacity.android.rcapstone.data.model.reddit.Source;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3ListingData;
 
 class ImageContentOperation {
@@ -46,7 +45,7 @@ class ImageContentOperation {
     }
 
 
-    public ArrayList<ModelContent> showImageT3(T3ListingData t3DataChild, boolean originalSize) {
+    public ArrayList<ModelContent> showImageT3(T3ListingData t3DataChild) {
 
         int sizeResolution = 0;
         ArrayList<ModelContent> optimizeArrayList;
@@ -59,7 +58,7 @@ class ImageContentOperation {
         int densityDpi = mContext.getResources().getDisplayMetrics().densityDpi;
 
 
-        if ((t3DataChild.getPreview().getImages() != null) && (!originalSize)) {
+        if ((t3DataChild.getPreview().getImages() != null)) {
 
             sizeResolution = t3DataChild.getPreview().getImages().get(0).getResolutions().size();
 
@@ -68,7 +67,6 @@ class ImageContentOperation {
         optimizeArrayList = new ArrayList<>(1);
         modelContentImage = new ModelContent();
         List<Resolution> dataResolution = t3DataChild.getPreview().getImages().get(0).getResolutions();
-
 
 
         int index;
@@ -150,23 +148,15 @@ class ImageContentOperation {
 
 
             default:
-                index = 0;
-                if(originalSize){
-                    Source sourceResolution = t3DataChild.getPreview().getImages().get(index).getSource();
-                    modelContentImage.setUrl(sourceResolution.getUrl());
-                    modelContentImage.setWidth(sourceResolution.getWidth());
-                    modelContentImage.setHeight(sourceResolution.getHeight());
+                modelContentImage.setUrl("");
+                modelContentImage.setWidth(0);
+                modelContentImage.setHeight(0);
 
-                }else {
-                    modelContentImage.setUrl("");
-                    modelContentImage.setWidth(0);
-                    modelContentImage.setHeight(0);
-
-                }
-
-                optimizeArrayList.add(modelContentImage);
-                return optimizeArrayList;
         }
-    }
 
+        optimizeArrayList.add(modelContentImage);
+        return optimizeArrayList;
+    }
 }
+
+

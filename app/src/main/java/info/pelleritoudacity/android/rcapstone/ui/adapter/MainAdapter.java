@@ -142,7 +142,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
                     holder.mPlayerLayout.setVisibility(View.GONE);
 
                     mainHelper.imageReddit(holder.mImageViewSubReddit,
-                            TextUtil.textFromHtml(record.getImagePreviewUrl()), record.getImagePreviewWidth(), record.getImagePreviewHeight(),
+                            TextUtil.textFromHtml(record.getImagePreviewUrl()),
                             TextUtil.textFromHtml(record.getTitle()));
                     holder.mImageViewSubReddit.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     holder.mImageViewSubReddit.setVisibility(View.VISIBLE);
@@ -160,12 +160,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
                     mediaModel.setProgressBar(holder.mExoProgressBar);
                     mediaModel.setTvErrorPlayer(holder.mTVErrorPlayer);
                     mediaModel.setImagePlay(holder.mImagePlay);
+                    mediaModel.setImagePreview(holder.mImagePreview);
 
                     mMediaPlayer = new MediaPlayer(mContext, mediaModel);
                     mMainListener.mediaPlayer(mMediaPlayer);
 
-                    mainHelper.loadVideoFirstFrame(mMediaPlayer, holder.mPlayerLayout, holder.mImagePlay, holder.mExoProgressBar,
-                            TextUtil.textFromHtml(record.getVideoPreviewUrl()), record.getVideoPreviewWidth(), record.getVideoPreviewHeight());
+                    mainHelper.loadVideoFirstFrame(mMediaPlayer, holder.mPlayerLayout, holder.mImagePreview, holder.mImagePlay, holder.mExoProgressBar,
+                            TextUtil.textFromHtml(record.getVideoPreviewUrl()));
 
                     holder.mImageViewSubReddit.setVisibility(View.GONE);
                     break;
@@ -181,9 +182,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
 
                 case Costant.MEDIA_VIDEO_TYPE_YOUTUBE:
 
-                    mainHelper.youtubeVideoFirstFrame(holder.mPlayerLayout, holder.mImagePlay, holder.mExoProgressBar,
+                    mainHelper.youtubeVideoFirstFrame(holder.mPlayerLayout, holder.mImagePreview, holder.mImagePlay, holder.mExoProgressBar,
                             TextUtil.textFromHtml(record.getThumbnailUrlOembed()),
-                            record.getThumbnailOembedWidth(), record.getThumbnailOembedHeight(),
                             TextUtil.textFromHtml(record.getVideoUrl()), record.getTitle());
 
                     holder.mImageViewSubReddit.setVisibility(View.GONE);
@@ -236,7 +236,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
 
             selectorHelper.cardBottomLink(cardBottomModel);
 
-            holder.bind(position,record.getSubReddit(), record.getNameIdReddit(), record.getNumComments());
+            holder.bind(position, record.getSubReddit(), record.getNameIdReddit(), record.getNumComments());
 
         }
     }
@@ -289,6 +289,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
         @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
         @BindView(R.id.id_player_layout)
         FrameLayout mPlayerLayout;
+
+        @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
+        @BindView(R.id.image_subreddit_preview)
+        ImageView mImagePreview;
 
         @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
         @BindView(R.id.image_subreddit_play)
@@ -358,7 +362,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
 
         }
 
-        void bind(int position,String subRedditName, String nameRedditId, int numComments) {
+        void bind(int position, String subRedditName, String nameRedditId, int numComments) {
             mPosition = position;
             mSubRedditName = subRedditName;
             mNameRedditId = nameRedditId;

@@ -3,13 +3,11 @@ package info.pelleritoudacity.android.rcapstone.ui.helper;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -19,8 +17,12 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 
@@ -35,9 +37,15 @@ import info.pelleritoudacity.android.rcapstone.utility.Costant;
 public class MainHelper {
 
     private final Context mContext;
+    private final RequestOptions options;
 
     public MainHelper(Context context) {
         mContext = context;
+
+        options = new RequestOptions()
+                .placeholder(R.drawable.no_image)
+                .error(R.drawable.no_image)
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -74,108 +82,104 @@ public class MainHelper {
         view.setVisibility(View.VISIBLE);
     }
 
+    public void loadVideoFirstFrame(MediaPlayer mediaPlayer, FrameLayout layout, ImageView imageView, ImageView imagePlay, ProgressBar progressBar,
+                                    String videoPreviewUrl)  {
 
-    public void loadVideoFirstFrame(MediaPlayer mediaPlayer, FrameLayout layout, ImageView imageView, ProgressBar progressBar,
-                                    String videoPreviewUrl, int videoPreviewWidth, int videoPreviewHeight) {
+        imagePlay.setVisibility(View.VISIBLE);
+        imageView.setVisibility(View.VISIBLE);
+
         Glide.with(mContext)
-                .asBitmap()
                 .load(videoPreviewUrl)
-                .into(new SimpleTarget<Bitmap>(videoPreviewWidth, videoPreviewHeight) {
-
+                .listener(new RequestListener<Drawable>() {
                     @Override
-                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                        super.onLoadFailed(errorDrawable);
-                        layout.setBackgroundResource(R.drawable.no_image);
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        progressBar.setVisibility(View.GONE);
+                        imagePlay.setVisibility(View.GONE);
+                        return false;
                     }
 
                     @Override
-                    public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
-                        layout.setBackground(new BitmapDrawable(mContext.getResources(), resource));
-                        layout.setVisibility(View.VISIBLE);
-
-                        imageView.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_play_circle)
-                                .color(Color.WHITE)
-                                .sizeDp(72)
-                                .respectFontBounds(true));
-
-                        imageView.setOnClickListener(v -> {
-                            progressBar.setVisibility(View.VISIBLE);
-                            mediaPlayer.initPlayer(Uri.parse(videoPreviewUrl));
-                            layout.setVisibility(View.VISIBLE);
-                        });
-
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        return false;
                     }
+                })
+                .apply(options)
+                .into(imageView);
 
-                });
+        layout.setVisibility(View.VISIBLE);
+        imagePlay.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_play_circle)
+                .color(Color.WHITE)
+                .sizeDp(72)
+                .respectFontBounds(true));
+
+        imagePlay.setOnClickListener(v -> {
+            progressBar.setVisibility(View.VISIBLE);
+            mediaPlayer.initPlayer(Uri.parse(videoPreviewUrl));
+            layout.setVisibility(View.VISIBLE);
+        });
 
     }
 
-    public void youtubeVideoFirstFrame(FrameLayout layout, ImageView imageView, ProgressBar progressBar,
-                                       String thumbnailUrl, int thumbnailWidth, int thumbnailHeight,
-                                       String videoUrl,  String title) {
+    public void youtubeVideoFirstFrame(FrameLayout layout, ImageView imageView, ImageView imagePlay, ProgressBar
+            progressBar,
+                                       String thumbnailUrl,
+                                       String videoUrl, String title) {
+
+        imagePlay.setVisibility(View.VISIBLE);
+        imageView.setVisibility(View.VISIBLE);
+
         Glide.with(mContext)
-                .asBitmap()
                 .load(thumbnailUrl)
-                .into(new SimpleTarget<Bitmap>(thumbnailWidth, thumbnailHeight) {
-
+                .listener(new RequestListener<Drawable>() {
                     @Override
-                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                        super.onLoadFailed(errorDrawable);
-                        layout.setBackgroundResource(R.drawable.no_image);
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        imagePlay.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
+                        return false;
                     }
 
                     @Override
-                    public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
-                        layout.setBackground(new BitmapDrawable(mContext.getResources(), resource));
-                        layout.setVisibility(View.VISIBLE);
-
-                        imageView.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_play_circle)
-                                .color(Color.WHITE)
-                                .sizeDp(72)
-                                .respectFontBounds(true));
-
-                        imageView.setOnClickListener(v -> {
-                            progressBar.setVisibility(View.VISIBLE);
-                            mContext.startActivity(new Intent(mContext,
-                                    YoutubeActivity.class)
-                                    .putExtra(Costant.EXTRA_YOUTUBE_PARAM, videoUrl)
-                                    .putExtra(Costant.EXTRA_YOUTUBE_TITLE, title)
-
-                            );
-                            layout.setVisibility(View.VISIBLE);
-                            progressBar.setVisibility(View.GONE);
-                        });
-
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        return false;
                     }
+                })
+                .apply(options)
+                .into(imageView);
 
-                });
+        layout.setVisibility(View.VISIBLE);
+
+        imagePlay.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_play_circle)
+                .color(Color.WHITE)
+                .sizeDp(72)
+                .respectFontBounds(true));
+
+        imagePlay.setOnClickListener(v -> {
+            progressBar.setVisibility(View.VISIBLE);
+            mContext.startActivity(new Intent(mContext,
+                    YoutubeActivity.class)
+                    .putExtra(Costant.EXTRA_YOUTUBE_PARAM, videoUrl)
+                    .putExtra(Costant.EXTRA_YOUTUBE_TITLE, title)
+            );
+            layout.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
+        });
 
     }
 
-    public void imageReddit(ImageView imageView,  String imagePreviewUrl,
-                            int imagePreviewWidth, int imagePreviewHeight, String contentDescription) {
+
+    public void imageReddit(ImageView imageView, String imagePreviewUrl,String contentDescription) {
+
+        imageView.setVisibility(View.VISIBLE);
+
         Glide.with(mContext)
-                .asBitmap()
                 .load(imagePreviewUrl)
-                .into(new SimpleTarget<Bitmap>(imagePreviewWidth, imagePreviewHeight) {
+                .apply(options)
+                .into(imageView);
 
-                    @Override
-                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                        super.onLoadFailed(errorDrawable);
-                        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                        imageView.setImageResource(R.drawable.no_image);
+        if(!TextUtils.isEmpty(contentDescription)){
+            imageView.setContentDescription(contentDescription);
 
+        }
 
-                    }
-
-                    @Override
-                    public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
-                            imageView.setImageBitmap(resource);
-                            imageView.setContentDescription(contentDescription);
-
-
-                    }
-                });
     }
-
 }

@@ -1,19 +1,14 @@
 package info.pelleritoudacity.android.rcapstone.data.model.record;
 
 
+@SuppressWarnings("ALL")
 public class RecordAdapter {
 
     private int idReddit;
     private int score;
     private int dirScore;
     private int numComments;
-    private int imagePreviewWidth;
-    private int imagePreviewHeight;
-    private int videoPreviewWidth;
-    private int videoPreviewHeight;
     private int videoOembedHeight;
-    private int thumbnailOembedWidth;
-    private int thumbnailOembedHeight;
     @SuppressWarnings("SpellCheckingInspection")
     private int videoOembedWidth;
     private int subRedditSubscriptions;
@@ -79,37 +74,6 @@ public class RecordAdapter {
         this.numComments = numComments;
     }
 
-    public int getImagePreviewWidth() {
-        return imagePreviewWidth;
-    }
-
-    public void setImagePreviewWidth(int imagePreviewWidth) {
-        this.imagePreviewWidth = imagePreviewWidth;
-    }
-
-    public int getImagePreviewHeight() {
-        return imagePreviewHeight;
-    }
-
-    public void setImagePreviewHeight(int imagePreviewHeight) {
-        this.imagePreviewHeight = imagePreviewHeight;
-    }
-
-    public int getVideoPreviewWidth() {
-        return videoPreviewWidth;
-    }
-
-    public void setVideoPreviewWidth(int videoPreviewWidth) {
-        this.videoPreviewWidth = videoPreviewWidth;
-    }
-
-    public int getVideoPreviewHeight() {
-        return videoPreviewHeight;
-    }
-
-    public void setVideoPreviewHeight(int videoPreviewHeight) {
-        this.videoPreviewHeight = videoPreviewHeight;
-    }
 
     @SuppressWarnings("unused")
     public int getVideoOembedHeight() {
@@ -120,32 +84,12 @@ public class RecordAdapter {
         this.videoOembedHeight = videoOembedHeight;
     }
 
-    public int getThumbnailOembedWidth() {
-        return thumbnailOembedWidth;
-    }
-
-    public void setThumbnailOembedWidth(int thumbnailOembedWidth) {
-        this.thumbnailOembedWidth = thumbnailOembedWidth;
-    }
-
-    public int getThumbnailOembedHeight() {
-        return thumbnailOembedHeight;
-    }
-
-    public void setThumbnailOembedHeight(int thumbnailOembedHeight) {
-        this.thumbnailOembedHeight = thumbnailOembedHeight;
-    }
-
-    @SuppressWarnings("unused")
-    public int getVideoOembedWidth() {
-        return videoOembedWidth;
-    }
 
     public void setVideoOembedWidth(int videoOembedWidth) {
         this.videoOembedWidth = videoOembedWidth;
     }
 
-    @SuppressWarnings("unused")
+
     public int getSubRedditSubscriptions() {
         return subRedditSubscriptions;
     }

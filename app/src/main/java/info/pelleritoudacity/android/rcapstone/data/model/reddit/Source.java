@@ -70,6 +70,7 @@ public class Source implements Parcelable
     public Source() {
     }
 
+    @SuppressWarnings("unused")
     public String getUrl() {
         return url;
     }
@@ -79,6 +80,7 @@ public class Source implements Parcelable
         this.url = url;
     }
 
+    @SuppressWarnings("unused")
     public Integer getWidth() {
         return width;
     }
@@ -88,6 +90,7 @@ public class Source implements Parcelable
         this.width = width;
     }
 
+    @SuppressWarnings("unused")
     public Integer getHeight() {
         return height;
     }

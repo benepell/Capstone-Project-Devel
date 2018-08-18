@@ -115,13 +115,6 @@ public class MainActivity extends BaseActivity
 
         mContext = MainActivity.this;
 
-        if (Utility.isTablet(mContext)) {
-            if ((mNestedScrollView != null) && (ActivityUI.isLandscapeOrientation(mContext) && (savedInstanceState == null))) {
-                // Caused by java.lang.ClassCastException: android.support.v7.widget.LinearLayoutManager$SavedState cannot be cast to android.support.v7.widget.GridLayoutManager
-                mNestedScrollView.setSaveEnabled(false);
-            }
-        }
-
         FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         if (Util.SDK_INT > 23) {
@@ -538,25 +531,24 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    private void restoreTabletState(Bundle savedInstanceState){
+    private void restoreTabletState(Bundle savedInstanceState) {
         if (Utility.isTablet(mContext)) {
             final int[] position = savedInstanceState.getIntArray(Costant.EXTRA_PARCEL_SCROLL_MAIN);
+
             if (position != null) {
                 Objects.requireNonNull(mNestedScrollView).post(() -> Objects.requireNonNull(mNestedScrollView).scrollTo(position[0], position[1]));
+
             }
         }
     }
 
-    private void saveTabletState(Bundle outState){
+    private void saveTabletState(Bundle outState) {
         if (Utility.isTablet(mContext) && (mNestedScrollView != null)) {
-
             if (!ActivityUI.isLandscapeOrientation(mContext)) {
-
                 int itemPage = Utility.calculateNoOfColumns(mContext);
 
                 outState.putIntArray(Costant.EXTRA_PARCEL_SCROLL_MAIN,
                         new int[]{mNestedScrollView.getScrollX(), mNestedScrollView.getScrollY() * itemPage});
-
             }
         }
 

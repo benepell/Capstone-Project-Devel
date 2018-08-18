@@ -18,6 +18,13 @@
         android:visibility="gone"
         app:controller_layout_id="@layout/playback_control_view" />
 
+    <ImageView
+        android:id="@+id/image_subreddit_preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/background_image_protection_oval"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/image_subreddit_play"
@@ -25,16 +32,16 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/background_protection_oval"
-        android:visibility="visible"
-        android:contentDescription="@string/background_image_protection_oval" />
+        android:contentDescription="@string/background_image_protection_oval"
+        android:visibility="gone" />
 
 
     <ProgressBar
         android:id="@+id/exo_progressBar"
         style="?android:attr/progressBarStyleLarge"
-        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:visibility="gone" />
 
     <TextView
@@ -42,8 +49,8 @@
         style="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
         android:textColor="@color/red_A400"
         android:visibility="gone" />
 

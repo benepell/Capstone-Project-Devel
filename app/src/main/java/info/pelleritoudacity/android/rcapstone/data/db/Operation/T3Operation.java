@@ -109,9 +109,8 @@ public class T3Operation {
 
                     ArrayList<ModelContent> modelContentImageArrayList = new ArrayList<>();
 
-                    boolean isOriginalSizeContent = Preference.isOriginalSizeContent(mContext);
 
-                    ArrayList<ModelContent> optimizeArrayList = imageContentOperation.showImageT3(t3Model, isOriginalSizeContent);
+                    ArrayList<ModelContent> optimizeArrayList = imageContentOperation.showImageT3(t3Model);
 
                     if (optimizeArrayList != null) {
                         modelContentImageArrayList.add(optimizeArrayList.get(0));
@@ -141,7 +140,7 @@ public class T3Operation {
                     if (variants != null) {
 
                         ArrayList<ModelContent> modelContentArrayList = new ArrayList<>();
-                        ArrayList<ModelContent> arrayList = videoContentOperation.showVideoContent(t3Model, isOriginalSizeContent);
+                        ArrayList<ModelContent> arrayList = videoContentOperation.showVideoContent(t3Model);
                         if (arrayList != null) {
                             modelContentArrayList.add(arrayList.get(0));
 
