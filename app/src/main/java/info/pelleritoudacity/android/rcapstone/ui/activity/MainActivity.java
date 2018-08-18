@@ -214,32 +214,18 @@ public class MainActivity extends BaseActivity
         super.onRestoreInstanceState(savedInstanceState);
         mModel = savedInstanceState.getParcelable(Costant.EXTRA_PARCEL_MAIN_MODEL);
 
-        if (Utility.isTablet(mContext)) {
-            final int[] position = savedInstanceState.getIntArray(Costant.EXTRA_PARCEL_SCROLL_MAIN);
-            if (position != null) {
-                Objects.requireNonNull(mNestedScrollView).post(() -> Objects.requireNonNull(mNestedScrollView).scrollTo(position[0], position[1]));
-            }
-        }
+        restoreTabletState(savedInstanceState);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putParcelable(Costant.EXTRA_PARCEL_MAIN_MODEL, mModel);
 
-        if (Utility.isTablet(mContext) && (mNestedScrollView != null)) {
-
-            if (!ActivityUI.isLandscapeOrientation(mContext)) {
-
-                int itemPage = Utility.calculateNoOfColumns(mContext);
-
-                outState.putIntArray(Costant.EXTRA_PARCEL_SCROLL_MAIN,
-                        new int[]{mNestedScrollView.getScrollX(), mNestedScrollView.getScrollY() * itemPage});
-
-            }
-        }
+        saveTabletState(outState);
         super.onSaveInstanceState(outState);
 
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
@@ -551,4 +537,29 @@ public class MainActivity extends BaseActivity
             updateOperation();
         }
     }
+
+    private void restoreTabletState(Bundle savedInstanceState){
+        if (Utility.isTablet(mContext)) {
+            final int[] position = savedInstanceState.getIntArray(Costant.EXTRA_PARCEL_SCROLL_MAIN);
+            if (position != null) {
+                Objects.requireNonNull(mNestedScrollView).post(() -> Objects.requireNonNull(mNestedScrollView).scrollTo(position[0], position[1]));
+            }
+        }
+    }
+
+    private void saveTabletState(Bundle outState){
+        if (Utility.isTablet(mContext) && (mNestedScrollView != null)) {
+
+            if (!ActivityUI.isLandscapeOrientation(mContext)) {
+
+                int itemPage = Utility.calculateNoOfColumns(mContext);
+
+                outState.putIntArray(Costant.EXTRA_PARCEL_SCROLL_MAIN,
+                        new int[]{mNestedScrollView.getScrollX(), mNestedScrollView.getScrollY() * itemPage});
+
+            }
+        }
+
+    }
+
 }
