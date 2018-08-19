@@ -13,6 +13,7 @@
     <string name="title_activity_manage">&app_name; - Categories </string>
     <string name="title_activity_login">&app_name; - Login</string>
     <string name="title_activity_youtube">&app_name; - Youtube Player</string>
+    <string name="title_activity_webview">&app_name;</string>
 
 
     <string name="error_state_critical">Uh oh, an error occurred, restart app. </string>
@@ -99,7 +100,7 @@
     <string name="title_filter_year">Year</string>
     <string name="title_filter_all">All time</string>
 
-    <string name="title_menu_create">Create Post</string>
+    <string name="title_menu_create">Create Post by Reddit</string>
     <string name="text_handle_description">handle image</string>
     <string name="title_menu_managesubs">Manage Subscriptions</string>
     <string name="title_menu_favorite">Favorite</string>

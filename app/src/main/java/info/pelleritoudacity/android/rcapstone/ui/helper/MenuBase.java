@@ -28,6 +28,7 @@ import info.pelleritoudacity.android.rcapstone.ui.activity.ManageActivity;
 import info.pelleritoudacity.android.rcapstone.ui.activity.SettingsActivity;
 import info.pelleritoudacity.android.rcapstone.ui.activity.DetailActivity;
 import info.pelleritoudacity.android.rcapstone.data.other.TabData;
+import info.pelleritoudacity.android.rcapstone.ui.activity.WebviewActivity;
 import info.pelleritoudacity.android.rcapstone.utility.ActivityUI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
@@ -70,6 +71,10 @@ public class MenuBase {
                 }else {
                     Toast.makeText(compatActivity,compatActivity.getText(R.string.text_no_network),Toast.LENGTH_LONG).show();
                 }
+                return;
+
+            case R.id.menu_action_create:
+                compatActivity.startActivity(new Intent(compatActivity, WebviewActivity.class));
                 return;
 
             case R.id.menu_action_settings:

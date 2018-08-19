@@ -31,6 +31,7 @@
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
+
             <intent-filter
                 android:autoVerify="true"
                 tools:targetApi="m">
@@ -94,14 +95,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />
         </activity>
-
         <activity android:name=".ui.activity.FullScreenActivity" />
-
         <activity
             android:name=".ui.activity.OptionWidgetActivity"
             android:noHistory="true"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
 
+        <activity
+            android:name=".ui.activity.WebviewActivity"
+            android:label="@string/title_activity_webview"
+            android:theme="@style/AppThemeLight.NoActionBar"/>
 
         <provider
             android:name=".data.db.ContentProvider"
@@ -119,7 +122,6 @@
                 android:resource="@xml/widget_info" />
         </receiver>
 
-
         <service
             android:name=".service.FirebaseRefreshTokenService"
             android:exported="false">
@@ -127,8 +129,6 @@
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
             </intent-filter>
         </service>
-
-
         <service
             android:name=".service.RemoteWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
