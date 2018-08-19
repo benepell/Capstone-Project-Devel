@@ -3,10 +3,13 @@ package info.pelleritoudacity.android.rcapstone.ui.activity;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import com.google.android.exoplayer2.util.Util;
 
 import butterknife.BindView;
 import info.pelleritoudacity.android.rcapstone.R;
@@ -48,13 +51,14 @@ public class WebviewActivity extends BaseActivity {
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
                 if (url.contains(Costant.REDDIT_WEBVIEW_USE_APP)) {
+                    mWebview.setVisibility(View.INVISIBLE);
                     finish();
                 }
 
             }
         });
-
         mWebview.loadUrl(url);
     }
+
 
 }
