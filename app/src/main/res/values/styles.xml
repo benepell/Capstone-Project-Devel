@@ -84,7 +84,6 @@
         <item name="android:textColorSecondary">@color/grey_400</item>
     </style>
 
-
     <style name="ScrollBarStyle">
         <item name="android:scrollbarFadeDuration">2</item>
         <item name="android:scrollbars">vertical</item>

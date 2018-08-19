@@ -30,6 +30,7 @@ package info.pelleritoudacity.android.rcapstone.service;
 import java.util.List;
 import java.util.Map;
 
+import info.pelleritoudacity.android.rcapstone.data.model.reddit.SubmitData;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T1;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T5;
@@ -141,6 +142,19 @@ public interface RedditAPI {
                            @Path(value = "subreddit_name", encoded = true) String subreddit_name,
                            @QueryMap Map<String, String> options
     );
+
+    @FormUrlEncoded
+    @POST("/api/comment")
+    @Headers("User-Agent: " + Costant.REDDIT_USER_AGENT)
+    Call<SubmitData> postCommentAuth(@Header("Authorization") String authorization,
+                                     @FieldMap Map<String, String> options);
+
+    @FormUrlEncoded
+    @POST("/api/del")
+    @Headers("User-Agent: " + Costant.REDDIT_USER_AGENT)
+    Call<ResponseBody> postDelAuth(@Header("Authorization") String authorization,
+                                      @Field("id") String id);
+
 
 
 }

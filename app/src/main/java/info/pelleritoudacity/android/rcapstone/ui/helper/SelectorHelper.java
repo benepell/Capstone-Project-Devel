@@ -1,5 +1,6 @@
 package info.pelleritoudacity.android.rcapstone.ui.helper;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -7,10 +8,15 @@ import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
+
+import java.util.Objects;
 
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
@@ -19,6 +25,7 @@ import info.pelleritoudacity.android.rcapstone.data.rest.PrefExecute;
 import info.pelleritoudacity.android.rcapstone.data.rest.VoteExecute;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
+import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import okhttp3.ResponseBody;
 import timber.log.Timber;
 
@@ -26,6 +33,7 @@ public class SelectorHelper {
     private final Context mContext;
     private final OnSelector mListener;
     private final View mItemView;
+    private boolean isDeleteComment;
 
     public SelectorHelper(OnSelector listener, Context context, View itemView) {
 
@@ -103,10 +111,21 @@ public class SelectorHelper {
 
             buttonStars.setBackgroundColor(Color.parseColor(model.getBackgroundColor()));
 
-            buttonComments.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_comment_outline)
-                    .color(Color.GRAY)
-                    .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
-                    .respectFontBounds(true));
+            if (Preference.getSessionUsername(mContext).compareTo(model.getAuthor()) != 0) {
+                buttonComments.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_comment_outline)
+                        .color(Color.GRAY)
+                        .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
+                        .respectFontBounds(true));
+                isDeleteComment = false;
+
+            } else {
+                buttonComments.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_comment_outline)
+                        .color(Color.RED)
+                        .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
+                        .respectFontBounds(true));
+
+                isDeleteComment = true;
+            }
 
             buttonComments.setBackgroundColor(Color.parseColor(model.getBackgroundColor()));
 
@@ -268,14 +287,83 @@ public class SelectorHelper {
                             .setFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT)));
                 }
 
+                buttonComments.setOnClickListener(view -> {
+
+                            if (model.isLogged()) {
+                                getUserComment(model.getTitle(), model.getCategory());
+
+                            } else {
+                                Snackbar.make(mItemView, R.string.text_start_login, Snackbar.LENGTH_LONG).show();
+
+                            }
+                        }
+                );
 
             }
 
         }
     }
 
+    private void getUserComment(String title, String fullname) {
+        final Dialog dialog = new Dialog(mContext);
+        dialog.setContentView(R.layout.comment_input_dialog);
+
+        int width = (int) (mContext.getResources().getDisplayMetrics().widthPixels * 0.95);
+        int height = (int) (mContext.getResources().getDisplayMetrics().heightPixels * 0.6);
+
+        Objects.requireNonNull(dialog.getWindow()).setLayout(width, height);
+        dialog.show();
+
+        TextView tvTitle = dialog.findViewById(R.id.title_comment_selector);
+        EditText editText = dialog.findViewById(R.id.edit_comment_selector);
+        Button cancel = dialog.findViewById(R.id.button_cancel_selector);
+        Button button = dialog.findViewById(R.id.button_comment_selector);
+        Button delete = dialog.findViewById(R.id.button_delete_selector);
+
+
+
+        if (editText != null && button != null && cancel != null && tvTitle != null && delete !=null) {
+
+            if(isDeleteComment){
+                delete.setVisibility(View.VISIBLE);
+
+                delete.setOnClickListener(view-> mListener.deleteComments(mItemView, dialog, fullname));
+
+            }else {
+                delete.setVisibility(View.GONE);
+
+            }
+
+            tvTitle.setText(title);
+
+            cancel.setOnClickListener(view -> dialog.cancel());
+
+            button.setOnClickListener(view -> {
+
+                        String text = editText.getText().toString();
+                        if (!TextUtils.isEmpty(text)) {
+                            mListener.comments(mItemView, dialog, title, editText.getText().toString(), fullname);
+
+                        } else {
+                            Snackbar.make(mItemView, R.string.editext_no_comment, Snackbar.LENGTH_LONG).show();
+
+                        }
+
+                    }
+
+            );
+        }
+
+    }
+
+
     public interface OnSelector {
         void vote(int position, int score, boolean voteUp, int dir, String category);
+
+        @SuppressWarnings("unused")
+        void comments(View view, Dialog dialog, String title, String text, String fullname);
+
+        void deleteComments(View view, Dialog dialog,  String fullname);
 
         void stars(int position);
     }

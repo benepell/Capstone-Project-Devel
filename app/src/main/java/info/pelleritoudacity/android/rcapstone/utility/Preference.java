@@ -155,6 +155,18 @@ public class Preference {
 
     }
 
+    public static String getSessionUsername(Context context) {
+
+        return PrefManager.getStringPref(context, Costant.PREFERENCE_SESSION_USERNAME);
+
+    }
+
+    public static void setSessionUsername(Context context, String s) {
+
+        PrefManager.putStringPref(context, Costant.PREFERENCE_SESSION_USERNAME, s);
+
+    }
+
     public static void setLastTarget(Context context, String s) {
 
         PrefManager.putStringPref(context, Costant.PREFERENCE_LAST_TARGET, s);

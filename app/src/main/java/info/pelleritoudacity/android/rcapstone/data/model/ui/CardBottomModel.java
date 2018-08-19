@@ -10,6 +10,12 @@ public class CardBottomModel implements Parcelable {
     private String backgroundColor;
     private String linkComment;
     private String category;
+    private String title;
+    private String textComment;
+    private String fullname;
+    private String author;
+
+
     private int position;
     private int score;
     private int dirScore;
@@ -20,6 +26,10 @@ public class CardBottomModel implements Parcelable {
         backgroundColor = in.readString();
         linkComment = in.readString();
         category = in.readString();
+        textComment = in.readString();
+        fullname = in.readString();
+        author = in.readString();
+        title = in.readString();
         position = in.readInt();
         score = in.readInt();
         dirScore = in.readInt();
@@ -70,6 +80,42 @@ public class CardBottomModel implements Parcelable {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    @SuppressWarnings("unused")
+    public String getTextComment() {
+        return textComment;
+    }
+
+    @SuppressWarnings("unused")
+    public void setTextComment(String textComment) {
+        this.textComment = textComment;
+    }
+
+    @SuppressWarnings("unused")
+    public String getFullname() {
+        return fullname;
+    }
+
+    @SuppressWarnings("unused")
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
@@ -137,6 +183,10 @@ public class CardBottomModel implements Parcelable {
         dest.writeString(backgroundColor);
         dest.writeString(linkComment);
         dest.writeString(category);
+        dest.writeString(textComment);
+        dest.writeString(fullname);
+        dest.writeString(author);
+        dest.writeString(title);
         dest.writeInt(position);
         dest.writeInt(score);
         dest.writeInt(dirScore);

@@ -26,6 +26,7 @@
 
 package info.pelleritoudacity.android.rcapstone.ui.adapter;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
@@ -54,7 +55,10 @@ import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.Record.MainRecord;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.model.MediaModel;
+import info.pelleritoudacity.android.rcapstone.data.model.reddit.SubmitData;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.CardBottomModel;
+import info.pelleritoudacity.android.rcapstone.data.rest.CommentExecute;
+import info.pelleritoudacity.android.rcapstone.data.rest.DelExecute;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
 import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapter;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
@@ -69,6 +73,7 @@ import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
+import okhttp3.ResponseBody;
 
 import static info.pelleritoudacity.android.rcapstone.utility.NumberUtil.numberFormat;
 
@@ -214,7 +219,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
                             mContext.getString(R.string.text_comments_subreddit))
             );
 
-            SelectorHelper selectorHelper = new SelectorHelper(this, mContext, holder.itemView);
+            SelectorHelper mSelectorHelper = new SelectorHelper(this, mContext, holder.itemView);
 
             CardBottomModel cardBottomModel = new CardBottomModel();
 
@@ -233,8 +238,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
             cardBottomModel.setBackgroundColor(null);
             cardBottomModel.setOnline(NetworkUtil.isOnline(mContext));
             cardBottomModel.setLogged(PermissionUtil.isLogged(mContext));
+            cardBottomModel.setTitle(record.getTitle());
+            cardBottomModel.setAuthor(record.getAuthor());
 
-            selectorHelper.cardBottomLink(cardBottomModel);
+            mSelectorHelper.cardBottomLink(cardBottomModel);
 
             holder.bind(position, record.getSubReddit(), record.getNameIdReddit(), record.getNumComments());
 
@@ -261,6 +268,59 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
         mMainListener.selectorChange(position);
 
     }
+
+    @Override
+    public void comments(View view,Dialog dialog,String title, String text, String fullname) {
+            new CommentExecute(new CommentExecute.OnRestCallBack() {
+                @Override
+                public void success(SubmitData response, int code) {
+                    dialog.dismiss();
+                    if(response.isSuccess()){
+                        Snackbar.make(view, mContext.getString(R.string.text_comment_saved), Snackbar.LENGTH_LONG).show();
+                    }else {
+                        Snackbar.make(view, mContext.getString(R.string.text_error_comment), Snackbar.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void unexpectedError(Throwable tList) {
+                    dialog.dismiss();
+                    Snackbar.make(view, mContext.getString(R.string.text_error_comment), Snackbar.LENGTH_LONG).show();
+
+                }
+            }, PermissionUtil.getToken(mContext),text,fullname ).postData();
+    }
+
+    @Override
+    public void deleteComments(View view, Dialog dialog, String fullname) {
+        if(!TextUtils.isEmpty(fullname)) {
+
+            new DelExecute(new DelExecute.OnRestCallBack() {
+                @Override
+                public void success(ResponseBody response, int code) {
+                    if(code==200){
+                        Snackbar.make(view, mContext.getString(R.string.text_comment_deleted), Snackbar.LENGTH_LONG).show();
+
+                    }else {
+                        Snackbar.make(view, mContext.getString(R.string.text_error_comment), Snackbar.LENGTH_LONG).show();
+
+                    }
+
+                    dialog.dismiss();
+
+                }
+
+                @Override
+                public void unexpectedError(Throwable tList) {
+                    dialog.dismiss();
+                    Snackbar.make(view, mContext.getString(R.string.text_error_comment), Snackbar.LENGTH_LONG).show();
+
+                }
+            },PermissionUtil.getToken(mContext),fullname).delData();
+
+        }
+    }
+
 
     @Override
     public void stars(int position) {
@@ -351,6 +411,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
         WebView mWebViewVimeo;
 
         private String mSubRedditName;
+
         private int mPosition;
         private String mNameRedditId;
         private int mNumComments;
@@ -391,6 +452,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
             }
         }
 
+
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -407,8 +469,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
         return temp;
     }
 
-
     public interface OnMainClick {
+
 
         void mainClick(int position, String category, String strId);
 
@@ -416,5 +478,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
 
         void mediaPlayer(MediaPlayer mediaPlayer);
 
+
     }
+
 }

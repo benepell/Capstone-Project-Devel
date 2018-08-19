@@ -1,9 +1,11 @@
 package info.pelleritoudacity.android.rcapstone.ui.adapter;
 
 
+import android.app.Dialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -20,7 +22,10 @@ import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.Record.TitleDetailRecord;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapterTitle;
+import info.pelleritoudacity.android.rcapstone.data.model.reddit.SubmitData;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.CardBottomModel;
+import info.pelleritoudacity.android.rcapstone.data.rest.CommentExecute;
+import info.pelleritoudacity.android.rcapstone.data.rest.DelExecute;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.TitleDetailHelper;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
@@ -30,6 +35,7 @@ import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
+import okhttp3.ResponseBody;
 
 import static info.pelleritoudacity.android.rcapstone.utility.NumberUtil.numberFormat;
 
@@ -104,9 +110,11 @@ public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.
                 cardBottomModel.setBackgroundColor(strBackGroundColor);
                 cardBottomModel.setLinkComment(TextUtil.buildCommentDetailLink(record.getPermanentLink()));
                 cardBottomModel.setCategory(record.getSubRedditName());
+                cardBottomModel.setTitle(record.getTitle());
                 cardBottomModel.setSaved(record.isSaved());
                 cardBottomModel.setLogged(PermissionUtil.isLogged(mContext));
                 cardBottomModel.setOnline(NetworkUtil.isOnline(mContext));
+                cardBottomModel.setAuthor(record.getAuthor());
 
                 selectorHelper.cardBottomLink(cardBottomModel);
 
@@ -138,6 +146,58 @@ public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.
     public void vote(int position, int score, boolean voteUp, int dir, String linkId) {
         new DataUtils(mContext).updateVote(Contract.T3dataEntry.CONTENT_URI, score, voteUp, dir, linkId);
         mListener.selectorChange(position);
+    }
+
+    @Override
+    public void comments(View view, Dialog dialog, String title, String text, String fullname) {
+        new CommentExecute(new CommentExecute.OnRestCallBack() {
+            @Override
+            public void success(SubmitData response, int code) {
+                dialog.dismiss();
+                if(response.isSuccess()){
+                    Snackbar.make(view, mContext.getString(R.string.text_comment_saved), Snackbar.LENGTH_LONG).show();
+                }else {
+                    Snackbar.make(view, mContext.getString(R.string.text_error_comment), Snackbar.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void unexpectedError(Throwable tList) {
+                dialog.dismiss();
+                Snackbar.make(view, mContext.getString(R.string.text_error_comment), Snackbar.LENGTH_LONG).show();
+
+            }
+        }, PermissionUtil.getToken(mContext),text,fullname ).postData();
+    }
+
+    @Override
+    public void deleteComments(View view, Dialog dialog, String fullname) {
+        if(!TextUtils.isEmpty(fullname)) {
+
+            new DelExecute(new DelExecute.OnRestCallBack() {
+                @Override
+                public void success(ResponseBody response, int code) {
+                    if(code==200){
+                        Snackbar.make(view, mContext.getString(R.string.text_comment_deleted), Snackbar.LENGTH_LONG).show();
+
+                    }else {
+                        Snackbar.make(view, mContext.getString(R.string.text_error_comment), Snackbar.LENGTH_LONG).show();
+
+                    }
+
+                    dialog.dismiss();
+
+                }
+
+                @Override
+                public void unexpectedError(Throwable tList) {
+                    dialog.dismiss();
+                    Snackbar.make(view, mContext.getString(R.string.text_error_comment), Snackbar.LENGTH_LONG).show();
+
+                }
+            },PermissionUtil.getToken(mContext),fullname).delData();
+
+        }
     }
 
     @Override

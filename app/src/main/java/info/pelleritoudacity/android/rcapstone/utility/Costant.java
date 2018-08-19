@@ -249,6 +249,7 @@ public interface Costant {
 
     int PREFERENCE_INSERT_PREFS = R.string.pref_insert_prefs;
     int PREFERENCE_LOGIN_START = R.string.pref_login_start;
+    int PREFERENCE_SESSION_USERNAME = R.string.pref_session_username;
     int PREFERENCE_SESSION_ACCESS_TOKEN = R.string.pref_session_access_token;
     int PREFERENCE_SESSION_REFRESH_TOKEN = R.string.pref_session_refresh_token;
     int PREFERENCE_SUBREDDIT_KEY = R.string.pref_subreddit_key;

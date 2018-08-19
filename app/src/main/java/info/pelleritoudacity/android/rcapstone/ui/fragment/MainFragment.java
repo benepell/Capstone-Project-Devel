@@ -141,7 +141,7 @@ public class MainFragment extends Fragment
     @Override
     public void onResume() {
         super.onResume();
-        if (isStateSaved()) {
+        if (!isStateSaved()) {
             getLoaderManager().restartLoader(SUBREDDIT_LOADER_ID, null, this).forceLoad();
         }
         if (mMediaPlayer != null) {

@@ -9,6 +9,7 @@ import com.google.gson.GsonBuilder;
 import java.util.concurrent.TimeUnit;
 
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.More;
+import info.pelleritoudacity.android.rcapstone.data.model.reddit.SubmitData;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T1;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
@@ -33,6 +34,9 @@ public class RetrofitClient {
 
                 } else if (clazz.equals(More.class)) {
                     gsonBuilder.registerTypeAdapter(More.class, new MoreDeserializer());
+
+                }else if(clazz.equals(SubmitData.class)){
+                    gsonBuilder.registerTypeAdapter(SubmitData.class,new SubmitDeserializer());
 
                 }
 
@@ -76,4 +80,3 @@ public class RetrofitClient {
     }
 
 }
-

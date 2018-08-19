@@ -61,6 +61,9 @@ public class MainRecord {
         mRecord.setTitle(mCursor.getString(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_TITLE)));
 
+        mRecord.setAuthor(mCursor.getString(
+                mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_AUTHOR)));
+
         mRecord.setDomain(mCursor.getString(
                 mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_DOMAIN)));
 

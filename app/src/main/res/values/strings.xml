@@ -232,6 +232,14 @@
 
     <string name="pref_depth_page" translatable="false">info.pelleritoudacity.android.rcapstone.pref.depth.page</string>
     <string name="pref_title_depth_page" translatable="false">Comments Level Depth</string>
+    <string name="hint_edit_comment_selector">Your Comment…</string>
+    <string name="text_cancel_selector">Cancel</string>
+    <string name="text_delete_selector">delete post</string>
+    <string name="text_button_selector">Reply</string>
+    <string name="editext_no_comment">no comment</string>
+    <string name="text_comment_saved">Comment saved</string>
+    <string name="text_comment_deleted">Comment deleted</string>
+    <string name="text_error_comment">Please try again in a minute</string>
     <string-array name="pref_depth_page_titles">
         <item>none</item>
         <item>1 level</item>

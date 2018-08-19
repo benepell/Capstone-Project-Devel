@@ -130,9 +130,9 @@ public class DetailFragment extends Fragment
     @Override
     public void onResume() {
         super.onResume();
-
-        getLoaderManager().restartLoader(SUBREDDIT_DETAIL_LOADER_ID, null, this);
-
+        if (!isStateSaved()) {
+            getLoaderManager().restartLoader(SUBREDDIT_DETAIL_LOADER_ID, null, this);
+        }
     }
 
     @Override

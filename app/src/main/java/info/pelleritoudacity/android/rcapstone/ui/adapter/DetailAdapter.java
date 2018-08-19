@@ -1,5 +1,6 @@
 package info.pelleritoudacity.android.rcapstone.ui.adapter;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -22,8 +23,11 @@ import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.Record.DetailRecord;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapterDetail;
+import info.pelleritoudacity.android.rcapstone.data.model.reddit.SubmitData;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.CardBottomModel;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
+import info.pelleritoudacity.android.rcapstone.data.rest.CommentExecute;
+import info.pelleritoudacity.android.rcapstone.data.rest.DelExecute;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.DetailHelper;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
@@ -32,6 +36,7 @@ import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+import okhttp3.ResponseBody;
 
 public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditDetailHolder> implements SelectorHelper.OnSelector {
 
@@ -116,6 +121,8 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
             cardBottomModel.setSaved(record.isSaved());
             cardBottomModel.setOnline(NetworkUtil.isOnline(mContext));
             cardBottomModel.setLogged(PermissionUtil.isLogged(mContext));
+            cardBottomModel.setTitle(record.getBody());
+            cardBottomModel.setAuthor(record.getAuthor());
 
             selectorHelper.cardBottomLink(cardBottomModel);
 
@@ -183,6 +190,58 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
     public void vote(int position, int score, boolean voteUp, int dir, String linkId) {
         new DataUtils(mContext).updateVote(Contract.T1dataEntry.CONTENT_URI, score, voteUp, dir, linkId);
         mListener.selectorChange(position);
+    }
+
+    @Override
+    public void comments(View view, Dialog dialog, String title, String text, String fullname) {
+        new CommentExecute(new CommentExecute.OnRestCallBack() {
+            @Override
+            public void success(SubmitData response, int code) {
+                dialog.dismiss();
+                if(response.isSuccess()){
+                    Snackbar.make(view, mContext.getString(R.string.text_comment_saved), Snackbar.LENGTH_LONG).show();
+                }else {
+                    Snackbar.make(view, mContext.getString(R.string.text_error_comment), Snackbar.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void unexpectedError(Throwable tList) {
+                dialog.dismiss();
+                Snackbar.make(view, mContext.getString(R.string.text_error_comment), Snackbar.LENGTH_LONG).show();
+
+            }
+        }, PermissionUtil.getToken(mContext),text,fullname ).postData();
+    }
+
+    @Override
+    public void deleteComments(View view, Dialog dialog, String fullname) {
+        if(!TextUtils.isEmpty(fullname)) {
+
+            new DelExecute(new DelExecute.OnRestCallBack() {
+                @Override
+                public void success(ResponseBody response, int code) {
+                    if(code==200){
+                        Snackbar.make(view, mContext.getString(R.string.text_comment_deleted), Snackbar.LENGTH_LONG).show();
+
+                    }else {
+                        Snackbar.make(view, mContext.getString(R.string.text_error_comment), Snackbar.LENGTH_LONG).show();
+
+                    }
+
+                    dialog.dismiss();
+
+                }
+
+                @Override
+                public void unexpectedError(Throwable tList) {
+                    dialog.dismiss();
+                    Snackbar.make(view, mContext.getString(R.string.text_error_comment), Snackbar.LENGTH_LONG).show();
+
+                }
+            },PermissionUtil.getToken(mContext),fullname).delData();
+
+        }
     }
 
     @Override

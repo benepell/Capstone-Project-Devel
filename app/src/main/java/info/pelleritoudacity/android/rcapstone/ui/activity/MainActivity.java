@@ -174,10 +174,6 @@ public class MainActivity extends BaseActivity
 
         mTab.positionSelected(mModel.getCategory());
 
-        if ((savedInstanceState == null) || (getIntent().getBooleanExtra(Costant.EXTRA_ACTIVITY_REDDIT_REFRESH, false))) {
-            isRefreshing();
-            updateOperation();
-        }
         Intent appLinkIntent = getIntent();
         String appLinkAction = appLinkIntent.getAction();
         @SuppressWarnings("unused") Uri appLinkData = appLinkIntent.getData();
@@ -187,6 +183,11 @@ public class MainActivity extends BaseActivity
         bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, mModel.getCategory());
         bundle.putString(FirebaseAnalytics.Param.ITEM_LIST, appLinkAction);
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
+        if ((savedInstanceState == null) || (getIntent().getBooleanExtra(Costant.EXTRA_ACTIVITY_REDDIT_REFRESH, false))) {
+            isRefreshing();
+            updateOperation();
+        }
     }
 
     @Override

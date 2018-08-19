@@ -26,6 +26,7 @@ public class RecordAdapter {
     private String subRedditNamePrefix;
     private String domain;
     private String title;
+    private String author;
     private String videoPreviewUrl;
     private String thumbnailUrlOembed;
     private String videoUrl;
@@ -170,6 +171,15 @@ public class RecordAdapter {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
 
     public String getVideoPreviewUrl() {
         return videoPreviewUrl;
