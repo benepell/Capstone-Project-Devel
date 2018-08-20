@@ -32,8 +32,11 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -44,6 +47,7 @@ import java.lang.ref.WeakReference;
 import java.util.Objects;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.RedditToken;
@@ -56,7 +60,7 @@ import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import timber.log.Timber;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends AppCompatActivity {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.login_webview)
@@ -64,8 +68,16 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        setLayoutResource(R.layout.activity_login);
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            setTheme(R.style.AppThemeDark);
+        }
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        setContentView(R.layout.activity_login);
+
+        Timber.plant(new Timber.DebugTree());
+        ButterKnife.bind(this);
 
         if (!Preference.isLoginStart(getApplicationContext())) {
             if (NetworkUtil.isOnline(getApplicationContext())) {
@@ -117,7 +129,13 @@ public class LoginActivity extends BaseActivity {
         mWebview.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                if (url.contains("code=")) {
+                if (url.equals("http://"+ Costant.REDDIT_ABOUT_URL+ "/") ||
+                        url.equals("http://"+ Costant.REDDIT_ABOUT_URL + "/.compact")) {
+                    mWebview.setVisibility(View.INVISIBLE);
+                    finish();
+
+                } else if (url.contains("code=")) {
+
                     Uri uri = Uri.parse(url);
 
                     if (Objects.requireNonNull(uri).getQueryParameter("error") != null) {

@@ -25,5 +25,7 @@
 
     <dimen name="recycler_view_item_width">600dp</dimen>
 
+    <dimen name="exoplayer_media_height">200dp</dimen>
+
 
 </resources>

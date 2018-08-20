@@ -94,7 +94,6 @@ public class MainExecute {
 
                         @Override
                         public void onFailure(@NonNull Call<T3> call, @NonNull Throwable t) {
-                            mCallBack.unexpectedError(t);
                         }
                     });
         } else {
@@ -108,7 +107,6 @@ public class MainExecute {
 
                         @Override
                         public void onFailure(@NonNull Call<T3> call, @NonNull Throwable t) {
-                            mCallBack.unexpectedError(t);
                         }
                     });
 
@@ -124,7 +122,6 @@ public class MainExecute {
         @SuppressWarnings("unused")
         void success(List<T3> response, int code);
 
-        void unexpectedError(Throwable tList);
     }
 
 

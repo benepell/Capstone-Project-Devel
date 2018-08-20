@@ -9,11 +9,10 @@
     android:visibility="gone"
     tools:ignore="MergeRootFrame">
 
-
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:id="@+id/pv_subreddit"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/exoplayer_media_height"
         android:orientation="horizontal"
         android:visibility="gone"
         app:controller_layout_id="@layout/playback_control_view" />

@@ -27,6 +27,7 @@
 package info.pelleritoudacity.android.rcapstone.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -34,25 +35,33 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.WindowManager;
+import android.widget.Toast;
+
+import com.mikepenz.iconics.IconicsDrawable;
+import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.Operation.T5Operation;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T5;
 import info.pelleritoudacity.android.rcapstone.data.rest.CategoryExecute;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.ManageFragment;
-import info.pelleritoudacity.android.rcapstone.utility.ActivityUI;
-import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import timber.log.Timber;
 
-public class ManageActivity extends BaseActivity implements CategoryExecute.OnRestCallBack {
+public class ManageActivity extends AppCompatActivity implements CategoryExecute.OnRestCallBack {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.nested_scrollview_submanage)
@@ -63,14 +72,26 @@ public class ManageActivity extends BaseActivity implements CategoryExecute.OnRe
     public CoordinatorLayout mContainer;
 
     private WeakReference<Context> mWeakContext;
+    private boolean isAdded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setLayoutResource(R.layout.activity_manage);
         super.onCreate(savedInstanceState);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        setContentView(R.layout.activity_manage);
+
+        Timber.plant(new Timber.DebugTree());
+        ButterKnife.bind(this);
 
         mWeakContext = new WeakReference<>(getApplicationContext());
 
+        updateOperation();
+
+    }
+
+    private void updateOperation() {
         if (Preference.isInsertPrefs(getApplicationContext())) {
             new ManageAsyncTask(mWeakContext).execute();
 
@@ -81,11 +102,10 @@ public class ManageActivity extends BaseActivity implements CategoryExecute.OnRe
             Snackbar.make(mContainer, R.string.text_manage_nolinks, Snackbar.LENGTH_LONG).show();
 
         }
+        if (!isAdded) {
+            startFragment(false);
 
-        if (getIntent() != null) {
-            startFragment(getIntent().getIntExtra(Costant.EXTRA_RESTORE_MANAGE, 0) != 0);
         }
-
     }
 
     private void startFragment(boolean restoreManage) {
@@ -104,13 +124,13 @@ public class ManageActivity extends BaseActivity implements CategoryExecute.OnRe
                                 R.anim.layout_animation_from_right,
                                 R.anim.layout_animation_from_right)
                         .replace(R.id.fragment_list_container, manageFragment).commit();
+                isAdded = true;
             }
 
-        } else {
-            if (mNestedScrollView == null) {
-                ActivityUI.startRefresh(getApplicationContext(), ManageActivity.class);
+        } else if (mNestedScrollView == null) {
+            isAdded = true;
+            updateOperation();
 
-            }
         }
     }
 
@@ -180,6 +200,55 @@ public class ManageActivity extends BaseActivity implements CategoryExecute.OnRe
 
             }
         }
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.manage_menu, menu);
+        MenuItem menuItemRestore = menu.findItem(R.id.menu_action_restore);
+        menuItemRestore.setIcon(
+                new IconicsDrawable(getApplicationContext(), MaterialDesignIconic.Icon.gmi_undo)
+                        .colorRes(R.color.white)
+                        .sizeDp(24)
+                        .respectFontBounds(true));
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.menu_action_restore:
+                startFragment(true);
+                return true;
+
+            case R.id.menu_action_login:
+                if (NetworkUtil.isOnline(this)) {
+                    startActivity(new Intent(this, LoginActivity.class));
+                } else {
+                    Toast.makeText(this, getText(R.string.text_no_network), Toast.LENGTH_LONG).show();
+                }
+                return true;
+
+            case R.id.menu_action_logout:
+                startActivity(new Intent(this, LoginActivity.class));
+                return true;
+
+            case R.id.menu_action_refresh:
+                if (NetworkUtil.isOnline(this)) {
+                    recreate();
+                } else {
+                    Toast.makeText(this, getText(R.string.text_no_network), Toast.LENGTH_LONG).show();
+                }
+                return true;
+
+            case R.id.menu_action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+        }
+        return false;
 
     }
 }

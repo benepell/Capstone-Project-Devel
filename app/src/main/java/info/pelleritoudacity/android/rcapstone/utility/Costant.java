@@ -110,7 +110,6 @@ public interface Costant {
     String EXTRA_ACTIVITY_REDDIT_RESET = "info.pelleritoudacity.android.rcapstone.extra.activity.subreddit.reset";
     String EXTRA_ACTIVITY_REDDIT_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.subreddit.refresh";
     String EXTRA_ACTIVITY_DETAIL_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.detail.refresh";
-    String EXTRA_ACTIVITY_MANAGE_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.manage.refresh";
 
     String EXTRA_WIDGET_ID = "info.pelleritoudacity.android.rcapstone.extra.widget.id";
 

@@ -48,7 +48,7 @@ public class RestMoreExecute {
 
             @Override
             public void onFailure(@NonNull Call<More> call, @NonNull Throwable t) {
-                mCallback.unexpectedError(t);
+
             }
         });
 
@@ -58,7 +58,6 @@ public class RestMoreExecute {
 
         void success(More response, @SuppressWarnings("unused") int code);
 
-        void unexpectedError(Throwable tList);
     }
 
 }

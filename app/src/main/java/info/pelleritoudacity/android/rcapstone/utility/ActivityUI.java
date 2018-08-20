@@ -27,16 +27,10 @@
 package info.pelleritoudacity.android.rcapstone.utility;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
-
-import info.pelleritoudacity.android.rcapstone.ui.activity.DetailActivity;
-import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
-import info.pelleritoudacity.android.rcapstone.ui.activity.ManageActivity;
-import info.pelleritoudacity.android.rcapstone.ui.activity.YoutubeActivity;
 
 public class ActivityUI {
 
@@ -68,13 +62,6 @@ public class ActivityUI {
         }
     }
 
-    public static void youtubeFullScreen(YoutubeActivity appCompatActivity) {
-        if (appCompatActivity != null) {
-            appCompatActivity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        }
-    }
-
     public static boolean isLandscapeOrientation(Context context) {
         return context != null && context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
@@ -83,26 +70,6 @@ public class ActivityUI {
         return context != null && context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
     }
 
-    public static void startRefresh(Context context, Class clazz) {
 
-        if ((clazz == null) || context == null) return;
-
-        Intent intentMain = new Intent(context, clazz);
-
-        if (clazz.equals(MainActivity.class)) {
-            intentMain.putExtra(Costant.EXTRA_ACTIVITY_REDDIT_REFRESH, true);
-
-        } else if (clazz.equals(DetailActivity.class)) {
-            intentMain.putExtra(Costant.EXTRA_ACTIVITY_DETAIL_REFRESH, true);
-
-        } else if (clazz.equals(ManageActivity.class)) {
-            intentMain.putExtra(Costant.EXTRA_ACTIVITY_MANAGE_REFRESH, true);
-
-        }
-
-        intentMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        context.startActivity(intentMain);
-
-    }
 
 }

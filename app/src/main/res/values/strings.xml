@@ -6,7 +6,6 @@
     <string name="image_description_app">&app_name; Android Nano degree </string>
     <string name="app_support_mail" translatable="false">support@pelleritoudacity.info</string>
 
-    <string name="title_activity_base">&app_name; </string>
     <string name="title_activity_subreddit">&app_name; </string>
     <string name="title_activity_subreddit_detail">&app_name; - Comments </string>
     <string name="title_activity_settings">&app_name; - Settings</string>

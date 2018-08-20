@@ -3,21 +3,23 @@ package info.pelleritoudacity.android.rcapstone.ui.activity;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.google.android.exoplayer2.util.Util;
-
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
+import timber.log.Timber;
 
 
-public class WebviewActivity extends BaseActivity {
+public class WebviewActivity extends AppCompatActivity {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.reddit_webview)
@@ -25,8 +27,13 @@ public class WebviewActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setLayoutResource(R.layout.activity_webview);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_webview);
+
+        Timber.plant(new Timber.DebugTree());
+        ButterKnife.bind(this);
 
         getWebview(Preference.getLastCategory(getApplicationContext()));
 

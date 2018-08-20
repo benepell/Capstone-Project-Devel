@@ -78,7 +78,7 @@ public class RestDetailExecute {
 
                 @Override
                 public void onFailure(@NonNull Call<List<T1>> call, @NonNull Throwable t) {
-                    mCallback.unexpectedError(t);
+
                 }
             });
 
@@ -94,7 +94,7 @@ public class RestDetailExecute {
 
                         @Override
                         public void onFailure(@NonNull Call<List<T1>> call, @NonNull Throwable t) {
-                            mCallback.unexpectedError(t);
+
                         }
                     });
 
@@ -105,7 +105,6 @@ public class RestDetailExecute {
 
         void success(List<T1> response, @SuppressWarnings("unused") int code);
 
-        void unexpectedError(Throwable tList);
     }
 
 }
