@@ -8,7 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:layoutAnimation="@anim/layout_animation_fall_down"
         android:nestedScrollingEnabled="false"
         android:scrollbars="none" />
 </FrameLayout>

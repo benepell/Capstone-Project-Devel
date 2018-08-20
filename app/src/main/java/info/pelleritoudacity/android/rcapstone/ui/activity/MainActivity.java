@@ -231,6 +231,7 @@ public class MainActivity extends AppCompatActivity
             Preference.setLastCategory(mContext, Costant.DEFAULT_SUBREDDIT_CATEGORY.split(Costant.STRING_SEPARATOR)[0]);
 
         } else {
+
             mModel.setCategory(Preference.getLastCategory(mContext));
             mModel.setTarget(Preference.getLastTarget(mContext));
 
@@ -261,9 +262,7 @@ public class MainActivity extends AppCompatActivity
         MenuItem itemGeneralImages = menu.findItem(R.id.action_general_images);
         MenuItem itemGeneralVideos = menu.findItem(R.id.action_general_videos);
         MenuItem itemGeneralGifs = menu.findItem(R.id.action_general_gifs);
-        MenuItem itemGeneralAlbums = menu.findItem(R.id.action_general_albums);
         MenuItem itemGeneralLinks = menu.findItem(R.id.action_general_links);
-        MenuItem itemGeneralSelf = menu.findItem(R.id.action_general_self);
 
         MenuItem menuItemLogin = menu.findItem(R.id.menu_action_login);
         MenuItem menuItemLogout = menu.findItem(R.id.menu_action_logout);
@@ -277,16 +276,12 @@ public class MainActivity extends AppCompatActivity
             Preference.setGeneralImages(mContext, Costant.DEFAULT_GENERAL_SETTINGS);
             Preference.setGeneralVideos(mContext, Costant.DEFAULT_GENERAL_SETTINGS);
             Preference.setGeneralGifs(mContext, Costant.DEFAULT_GENERAL_SETTINGS);
-            Preference.setGeneralAlbums(mContext, Costant.DEFAULT_GENERAL_SETTINGS);
             Preference.setGeneralLinks(mContext, Costant.DEFAULT_GENERAL_SETTINGS);
-            Preference.setGeneralSelf(mContext, Costant.DEFAULT_GENERAL_SETTINGS);
 
             itemGeneralImages.setChecked(Costant.DEFAULT_GENERAL_SETTINGS);
             itemGeneralVideos.setChecked(Costant.DEFAULT_GENERAL_SETTINGS);
             itemGeneralGifs.setChecked(Costant.DEFAULT_GENERAL_SETTINGS);
-            itemGeneralAlbums.setChecked(Costant.DEFAULT_GENERAL_SETTINGS);
             itemGeneralLinks.setChecked(Costant.DEFAULT_GENERAL_SETTINGS);
-            itemGeneralSelf.setChecked(Costant.DEFAULT_GENERAL_SETTINGS);
 
             Preference.setGeneralInit(mContext, true);
 
@@ -306,14 +301,6 @@ public class MainActivity extends AppCompatActivity
 
             }
 
-            if (Preference.isGeneralAlbums(mContext)) {
-                itemGeneralAlbums.setChecked(true);
-
-            } else {
-                itemGeneralAlbums.setChecked(false);
-
-            }
-
             if (Preference.isGeneralVideos(mContext)) {
                 itemGeneralVideos.setChecked(true);
 
@@ -327,14 +314,6 @@ public class MainActivity extends AppCompatActivity
 
             } else {
                 itemGeneralLinks.setChecked(false);
-
-            }
-
-            if (Preference.isGeneralSelf(mContext)) {
-                itemGeneralSelf.setChecked(true);
-
-            } else {
-                itemGeneralSelf.setChecked(false);
 
             }
         }
@@ -593,18 +572,8 @@ public class MainActivity extends AppCompatActivity
                 updateOperation(false);
                 break;
 
-            case R.id.action_general_albums:
-                Preference.setGeneralAlbums(mContext, !Preference.isGeneralAlbums(mContext));
-                updateOperation(false);
-                break;
-
             case R.id.action_general_videos:
                 Preference.setGeneralVideos(mContext, !Preference.isGeneralVideos(mContext));
-                updateOperation(false);
-                break;
-
-            case R.id.action_general_self:
-                Preference.setGeneralSelf(mContext, !Preference.isGeneralSelf(mContext));
                 updateOperation(false);
                 break;
 
@@ -734,7 +703,6 @@ public class MainActivity extends AppCompatActivity
         }
 
     }
-
 
     @Override
     public void success(RedditAboutMe response, int code) {

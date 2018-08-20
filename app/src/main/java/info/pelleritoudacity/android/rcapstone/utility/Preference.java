@@ -288,17 +288,6 @@ public class Preference {
 
     }
 
-    public static Boolean isGeneralAlbums(Context context) {
-
-        return PrefManager.getBoolPref(context, Costant.PREFERENCE_GENERAL_ALBUMS);
-
-    }
-
-    public static void setGeneralAlbums(Context context, Boolean b) {
-
-        PrefManager.putBoolPref(context, Costant.PREFERENCE_GENERAL_ALBUMS, b);
-
-    }
 
     public static Boolean isGeneralLinks(Context context) {
 
@@ -324,17 +313,6 @@ public class Preference {
 
     }
 
-    public static Boolean isGeneralSelf(Context context) {
-
-        return PrefManager.getBoolPref(context, Costant.PREFERENCE_GENERAL_SELF);
-
-    }
-
-    public static void setGeneralSelf(Context context, Boolean b) {
-
-        PrefManager.putBoolPref(context, Costant.PREFERENCE_GENERAL_SELF, b);
-
-    }
 
     public static Boolean isGeneralImages(Context context) {
 

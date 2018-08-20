@@ -134,9 +134,7 @@
     <string name="shortcut_disabled_message_favorite">Shortcut disabled text favorite</string>
     <string name="title_general_images">Images</string>
     <string name="title_general_gifs">Gifs</string>
-    <string name="title_general_albums">Albums</string>
     <string name="title_general_videos">Videos</string>
-    <string name="title_general_self">Self</string>
     <string name="title_general_links">Links</string>
 
     <string name="default_items_page_titles" translatable="false">25</string>

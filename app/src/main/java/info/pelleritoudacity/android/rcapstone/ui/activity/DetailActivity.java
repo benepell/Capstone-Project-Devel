@@ -22,6 +22,7 @@ import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.TypefaceSpan;
 import android.view.Menu;
@@ -29,6 +30,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -342,9 +344,7 @@ public class DetailActivity extends AppCompatActivity
             MenuItem itemGeneralImages = menu.findItem(R.id.action_general_images);
             MenuItem itemGeneralVideos = menu.findItem(R.id.action_general_videos);
             MenuItem itemGeneralGifs = menu.findItem(R.id.action_general_gifs);
-            MenuItem itemGeneralAlbums = menu.findItem(R.id.action_general_albums);
             MenuItem itemGeneralLinks = menu.findItem(R.id.action_general_links);
-            MenuItem itemGeneralSelf = menu.findItem(R.id.action_general_self);
 
 
             menuItemFilter.setIcon(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_sort)
@@ -356,16 +356,12 @@ public class DetailActivity extends AppCompatActivity
                 Preference.setGeneralImages(mContext, Costant.DEFAULT_GENERAL_SETTINGS);
                 Preference.setGeneralVideos(mContext, Costant.DEFAULT_GENERAL_SETTINGS);
                 Preference.setGeneralGifs(mContext, Costant.DEFAULT_GENERAL_SETTINGS);
-                Preference.setGeneralAlbums(mContext, Costant.DEFAULT_GENERAL_SETTINGS);
                 Preference.setGeneralLinks(mContext, Costant.DEFAULT_GENERAL_SETTINGS);
-                Preference.setGeneralSelf(mContext, Costant.DEFAULT_GENERAL_SETTINGS);
 
                 itemGeneralImages.setChecked(Costant.DEFAULT_GENERAL_SETTINGS);
                 itemGeneralVideos.setChecked(Costant.DEFAULT_GENERAL_SETTINGS);
                 itemGeneralGifs.setChecked(Costant.DEFAULT_GENERAL_SETTINGS);
-                itemGeneralAlbums.setChecked(Costant.DEFAULT_GENERAL_SETTINGS);
                 itemGeneralLinks.setChecked(Costant.DEFAULT_GENERAL_SETTINGS);
-                itemGeneralSelf.setChecked(Costant.DEFAULT_GENERAL_SETTINGS);
 
                 Preference.setGeneralInit(mContext, true);
 
@@ -385,14 +381,6 @@ public class DetailActivity extends AppCompatActivity
 
                 }
 
-                if (Preference.isGeneralAlbums(mContext)) {
-                    itemGeneralAlbums.setChecked(true);
-
-                } else {
-                    itemGeneralAlbums.setChecked(false);
-
-                }
-
                 if (Preference.isGeneralVideos(mContext)) {
                     itemGeneralVideos.setChecked(true);
 
@@ -409,13 +397,6 @@ public class DetailActivity extends AppCompatActivity
 
                 }
 
-                if (Preference.isGeneralSelf(mContext)) {
-                    itemGeneralSelf.setChecked(true);
-
-                } else {
-                    itemGeneralSelf.setChecked(false);
-
-                }
             }
 
             if (menu.findItem(R.id.menu_action_search) == null) {
@@ -609,18 +590,8 @@ public class DetailActivity extends AppCompatActivity
                 updateOperation(false);
                 break;
 
-            case R.id.action_general_albums:
-                Preference.setGeneralAlbums(mContext, !Preference.isGeneralAlbums(mContext));
-                updateOperation(false);
-                break;
-
             case R.id.action_general_videos:
                 Preference.setGeneralVideos(mContext, !Preference.isGeneralVideos(mContext));
-                updateOperation(false);
-                break;
-
-            case R.id.action_general_self:
-                Preference.setGeneralSelf(mContext, !Preference.isGeneralSelf(mContext));
                 updateOperation(false);
                 break;
 
@@ -808,9 +779,15 @@ public class DetailActivity extends AppCompatActivity
         mNavigationView.setNavigationItemSelectedListener(this);
         View mNavHeaderView = mNavigationView.inflateHeaderView(R.layout.nav_header_base);
 
+        if (mNavHeaderView != null) {
+            TextView loginNameNavHeader = mNavHeaderView.findViewById(R.id.tv_nav_name);
+            if (!TextUtils.isEmpty(Preference.getSessionUsername(mContext))) {
+                loginNameNavHeader.setText(Preference.getSessionUsername(mContext));
+            }
+        }
 
         if (Preference.isNightMode(this)) {
-            LinearLayout navContainer = mNavHeaderView.findViewById(R.id.nav_container);
+            LinearLayout navContainer = Objects.requireNonNull(mNavHeaderView).findViewById(R.id.nav_container);
             navContainer.setBackgroundResource(R.drawable.dark_side_nav_bar);
         }
 
@@ -903,6 +880,7 @@ public class DetailActivity extends AppCompatActivity
         if (Preference.isNightMode(mContext)) {
             colorTheme = Color.WHITE;
         }
+
 
         ArrayList<String> tabArrayList = new TabData(mContext).getTabArrayList();
 

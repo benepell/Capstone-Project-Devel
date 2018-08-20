@@ -9,7 +9,7 @@
         android:shortcutLongLabel="@string/shortcut_long_text_all"
         android:shortcutShortLabel="@string/shortcut_text_all">
         <intent
-            android:action="info.pelleritoudacity.android.rcapstone.menu.shortcut.launcher.all"
+            android:action="info.pelleritoudacity.android.rcapstone.shortcut.all"
             android:targetClass="info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity"
             android:targetPackage="info.pelleritoudacity.android.rcapstone.free.debug" />
     </shortcut>
@@ -23,7 +23,7 @@
         android:shortcutLongLabel="@string/shortcut_long_text_popular"
         android:shortcutShortLabel="@string/shortcut_text_popular">
         <intent
-            android:action="info.pelleritoudacity.android.rcapstone.menu.shortcut.launcher.popular"
+            android:action="info.pelleritoudacity.android.rcapstone.shortcut.popular"
             android:targetClass="info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity"
             android:targetPackage="info.pelleritoudacity.android.rcapstone.free.debug" />
     </shortcut>
@@ -37,7 +37,7 @@
         android:shortcutLongLabel="@string/shortcut_long_text_favorite"
         android:shortcutShortLabel="@string/shortcut_text_favorite">
         <intent
-            android:action="info.pelleritoudacity.android.rcapstone.menu.shortcut.launcher.favorite"
+            android:action="info.pelleritoudacity.android.rcapstone.shortcut.favorite"
             android:targetClass="info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity"
             android:targetPackage="info.pelleritoudacity.android.rcapstone.free.debug" />
     </shortcut>

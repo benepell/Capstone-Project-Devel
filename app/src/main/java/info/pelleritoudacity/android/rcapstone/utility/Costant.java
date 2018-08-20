@@ -171,7 +171,6 @@ public interface Costant {
     String ACTION_SHORTCUT_POPULAR = "info.pelleritoudacity.android.rcapstone.shortcut.popular";
     String ACTION_SHORTCUT_ALL = "info.pelleritoudacity.android.rcapstone.shortcut.all";
     String ACTION_SHORTCUT_FAVORITE = "info.pelleritoudacity.android.rcapstone.shortcut.favorite";
-
     String USER_AGENT_MEDIA = "info.pelleritoudacity.android.rcapstone.exo.player.media";
 
     int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 10;
@@ -271,9 +270,7 @@ public interface Costant {
     int PREFERENCE_NIGHT_MODE = R.string.pref_night_mode;
     int PREFERENCE_GENERAL_IMAGES = R.string.pref_general_images;
     int PREFERENCE_GENERAL_GIFS = R.string.pref_general_gifs;
-    int PREFERENCE_GENERAL_ALBUMS = R.string.pref_general_albums;
     int PREFERENCE_GENERAL_VIDEOS = R.string.pref_general_videos;
-    int PREFERENCE_GENERAL_SELF = R.string.pref_general_self;
     int PREFERENCE_GENERAL_LINKS = R.string.pref_general_links;
     int PREFERENCE_WIDGET_CATEGORY = R.string.pref_widget_category;
     int PREFERENCE_WIDGET_WIDTH = R.string.pref_widget_width;

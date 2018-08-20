@@ -35,23 +35,9 @@
                 app:actionLayout="@layout/action_layout_styled_checkbox"
                 app:showAsAction="ifRoom|withText" />
             <item
-                android:id="@+id/action_general_albums"
-                android:checkable="true"
-                android:title="@string/title_general_albums"
-                app:actionLayout="@layout/action_layout_styled_checkbox"
-                app:showAsAction="ifRoom|withText" />
-
-            <item
                 android:id="@+id/action_general_videos"
                 android:checkable="true"
                 android:title="@string/title_general_videos"
-                app:actionLayout="@layout/action_layout_styled_checkbox"
-                app:showAsAction="ifRoom|withText" />
-
-            <item
-                android:id="@+id/action_general_self"
-                android:checkable="true"
-                android:title="@string/title_general_self"
                 app:actionLayout="@layout/action_layout_styled_checkbox"
                 app:showAsAction="ifRoom|withText" />
 
