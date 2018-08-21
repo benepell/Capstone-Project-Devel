@@ -43,8 +43,8 @@ public class MainHelper {
         mContext = context;
 
         options = new RequestOptions()
+                .placeholder(R.drawable.download_in_progress)
                 .error(R.drawable.no_image)
-                .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
     }
 
@@ -83,7 +83,7 @@ public class MainHelper {
     }
 
     public void loadVideoFirstFrame(MediaPlayer mediaPlayer, FrameLayout layout, ImageView imageView, ImageView imagePlay, ProgressBar progressBar,
-                                    String videoPreviewUrl)  {
+                                    String videoPreviewUrl) throws OutOfMemoryError {
 
         imagePlay.setVisibility(View.VISIBLE);
         imageView.setVisibility(View.VISIBLE);

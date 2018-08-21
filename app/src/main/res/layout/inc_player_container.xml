@@ -20,7 +20,7 @@
     <ImageView
         android:id="@+id/image_subreddit_preview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/exoplayer_media_height"
         android:scaleType="centerCrop"
         android:contentDescription="@string/background_image_protection_oval"
         android:visibility="gone" />
