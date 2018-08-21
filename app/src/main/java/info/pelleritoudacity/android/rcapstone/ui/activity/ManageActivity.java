@@ -40,7 +40,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
@@ -228,7 +227,7 @@ public class ManageActivity extends AppCompatActivity implements CategoryExecute
                 if (NetworkUtil.isOnline(this)) {
                     startActivity(new Intent(this, LoginActivity.class));
                 } else {
-                    Toast.makeText(this, getText(R.string.text_no_network), Toast.LENGTH_LONG).show();
+                    Snackbar.make(mContainer, R.string.text_no_network, Snackbar.LENGTH_LONG).show();
                 }
                 return true;
 
@@ -240,7 +239,7 @@ public class ManageActivity extends AppCompatActivity implements CategoryExecute
                 if (NetworkUtil.isOnline(this)) {
                     recreate();
                 } else {
-                    Toast.makeText(this, getText(R.string.text_no_network), Toast.LENGTH_LONG).show();
+                    Snackbar.make(mContainer, R.string.text_no_network, Snackbar.LENGTH_LONG).show();
                 }
                 return true;
 

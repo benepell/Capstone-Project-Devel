@@ -25,7 +25,7 @@ public class MenuLauncher {
 
     public void showMenu() {
 
-        if(menuWidgetLauncher(mIntent)){
+        if (menuWidgetLauncher(mIntent)) {
             saveLastPreference();
             return;
         }
@@ -40,10 +40,10 @@ public class MenuLauncher {
             return;
         }
 
-        if(menuHistoryLink()){
+        if (menuHistoryLink()) {
             //noinspection UnnecessaryReturnStatement
             return;
-        }else {
+        } else {
             menuDefaultValue();
             saveLastPreference();
 
@@ -51,7 +51,7 @@ public class MenuLauncher {
     }
 
     private boolean menuWidgetLauncher(Intent intent) {
-        if ((intent.getIntExtra(Costant.EXTRA_WIDGET_ID,0)>0) &&
+        if ((intent.getIntExtra(Costant.EXTRA_WIDGET_ID, 0) > 0) &&
                 (!TextUtils.isEmpty(intent.getStringExtra(Costant.EXTRA_WIDGET_SERVICE_CATEGORY)))) {
 
             setCategory(intent.getStringExtra(Costant.EXTRA_WIDGET_SERVICE_CATEGORY));
@@ -63,7 +63,7 @@ public class MenuLauncher {
     }
 
 
-    private void menuDefaultValue(){
+    private void menuDefaultValue() {
         setCategory(TextUtil.stringToArray(Costant.DEFAULT_SUBREDDIT_CATEGORY).get(0));
         setTarget(Costant.DEFAULT_START_VALUE_MAIN_TARGET);
     }

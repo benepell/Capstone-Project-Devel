@@ -70,6 +70,4 @@ public class ActivityUI {
         return context != null && context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
     }
 
-
-
 }

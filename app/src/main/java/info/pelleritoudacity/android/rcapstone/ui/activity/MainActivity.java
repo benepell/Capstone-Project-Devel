@@ -63,7 +63,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.exoplayer2.util.Util;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -403,7 +402,8 @@ public class MainActivity extends AppCompatActivity
                     updateOperation(true);
 
                 } else {
-                    Toast.makeText(mContext, getText(R.string.text_no_network), Toast.LENGTH_LONG).show();
+                    Snackbar.make(mContainer, R.string.text_no_network, Snackbar.LENGTH_LONG).show();
+
                 }
                 break;
 
@@ -445,7 +445,7 @@ public class MainActivity extends AppCompatActivity
                 if (NetworkUtil.isOnline(mContext)) {
                     startActivity(new Intent(this, LoginActivity.class));
                 } else {
-                    Toast.makeText(this, getText(R.string.text_no_network), Toast.LENGTH_LONG).show();
+                    Snackbar.make(mContainer, R.string.text_no_network, Snackbar.LENGTH_LONG).show();
                 }
 
                 return true;
@@ -460,12 +460,16 @@ public class MainActivity extends AppCompatActivity
                 if (NetworkUtil.isOnline(mContext)) {
                     updateOperation(true);
                 } else {
-                    Toast.makeText(this, getText(R.string.text_no_network), Toast.LENGTH_LONG).show();
+                    Snackbar.make(mContainer, R.string.text_no_network, Snackbar.LENGTH_LONG).show();
                 }
                 return true;
 
             case R.id.menu_action_create:
-                startActivity(new Intent(this, WebviewActivity.class));
+                if (PermissionUtil.isLogged(mContext)) {
+                    startActivity(new Intent(this, WebviewActivity.class));
+                } else {
+                    Snackbar.make(mContainer, R.string.text_start_login, Snackbar.LENGTH_LONG).show();
+                }
                 return true;
 
             case R.id.menu_action_settings:

@@ -43,8 +43,8 @@ public class MainHelper {
         mContext = context;
 
         options = new RequestOptions()
-                .placeholder(R.drawable.no_image)
                 .error(R.drawable.no_image)
+                .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
     }
 
