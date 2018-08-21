@@ -61,6 +61,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -131,6 +132,10 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.nav_view)
     public NavigationView mNavigationView;
+
+    @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
+    @BindView(R.id.img_no_internet_main)
+    public ImageView mImgNoNetwork;
 
     private long startTimeoutRefresh;
     private Context mContext;
@@ -757,7 +762,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void unexpectedError(Throwable tList) {
-
+            Timber.e("START ERROR %s", tList.getMessage());
     }
 
     @Override
@@ -771,7 +776,17 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void mainFragmentResult(int count) {
+
         if (mModel != null) {
+
+            if(!NetworkUtil.isOnline(mContext)) {
+                if (count == 0) {
+                    mImgNoNetwork.setVisibility(View.VISIBLE);
+                } else {
+                    mImgNoNetwork.setVisibility(View.GONE);
+                }
+            }
+
             if (count == 0) {
                 switch (mModel.getTarget()) {
 
@@ -863,7 +878,7 @@ public class MainActivity extends AppCompatActivity
                 mModel.setCategory(Preference.getLastCategory(getApplicationContext()));
                 mModel.setTarget(Preference.getLastTarget(getApplicationContext()));
                 createUI(mModel);
-
+                mRefreshLayout.setRefreshing(false);
                 Snackbar.make(mContainer, R.string.list_snackbar_offline_text, Snackbar.LENGTH_LONG).show();
 
             } else {
