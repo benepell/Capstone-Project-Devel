@@ -45,6 +45,7 @@ public class MainHelper {
         options = new RequestOptions()
                 .placeholder(R.drawable.download_in_progress)
                 .error(R.drawable.no_image)
+                .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
     }
 
