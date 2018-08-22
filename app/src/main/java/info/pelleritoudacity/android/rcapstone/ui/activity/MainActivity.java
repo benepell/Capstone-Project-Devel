@@ -201,8 +201,8 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        ArrayList<String> mTabArrayList = new TabData(mContext).getTabArrayList();
-        mTab = new Tab(this, mContext, mTabLayout, mTabArrayList);
+        ArrayList<String>tabArrayList = new TabData(mContext).getTabArrayList();
+        mTab = new Tab(this, mContext, mTabLayout, tabArrayList);
         mTab.initTab();
 
         Preference.setVolumeMuted(mContext, Costant.IS_MUTED_AUDIO);
@@ -223,8 +223,9 @@ public class MainActivity extends AppCompatActivity
 
         mLauncherMenu.showMenu();
 
-        if (getIntent().getBooleanExtra(Costant.EXTRA_ACTIVITY_REDDIT_RESET, false)) {
+        if (Preference.isFactoryDataReset(mContext)) {
             Snackbar.make(mContainer, R.string.text_dialog_confirm_reset, Snackbar.LENGTH_LONG).show();
+            Preference.setFactoryDataReset(mContext, false);
         }
 
 
@@ -762,7 +763,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void unexpectedError(Throwable tList) {
-            Timber.e("START ERROR %s", tList.getMessage());
+        Timber.e("START ERROR %s", tList.getMessage());
     }
 
     @Override
@@ -779,7 +780,7 @@ public class MainActivity extends AppCompatActivity
 
         if (mModel != null) {
 
-            if(!NetworkUtil.isOnline(mContext)) {
+            if (!NetworkUtil.isOnline(mContext)) {
                 if (count == 0) {
                     mImgNoNetwork.setVisibility(View.VISIBLE);
                 } else {
@@ -863,6 +864,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (System.currentTimeMillis() - startTimeoutRefresh > Costant.DEFAULT_OPERATION_REFRESH) {
+            mImgNoNetwork.setVisibility(View.GONE);
             startTimeoutRefresh = System.currentTimeMillis();
 
             if (Preference.getLastTarget(mContext).equals(Costant.WIDGET_MAIN_TARGET)) {
@@ -1127,7 +1129,7 @@ public class MainActivity extends AppCompatActivity
 
         for (String string : tabArrayList) {
 
-            TypefaceSpan typefaceSpan = new TypefaceSpan("/font/roboto_thin.ttf"); // OR  THIS
+            TypefaceSpan typefaceSpan = new TypefaceSpan("/font/roboto_thin.ttf");
             SpannableStringBuilder title = new SpannableStringBuilder(string);
             title.setSpan(typefaceSpan, 0, title.length(), 0);
             title.setSpan(new ForegroundColorSpan(colorTheme), 0, title.length(), 0);

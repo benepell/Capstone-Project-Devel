@@ -43,7 +43,6 @@ import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.rest.RevokeTokenExecute;
 import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
-import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import timber.log.Timber;
 
@@ -66,7 +65,12 @@ public class FactoryDataReset extends DialogPreference {
         dialog.setTitle(R.string.title_dialog_confirm);
         dialog.setMessage(R.string.text_clear_data);
         dialog.setCancelable(true);
-        dialog.setPositiveButton(R.string.text_positive_dialog_confirm, (dialog1, which) -> new ResetAsyncTask(mWeakReference).execute());
+
+        dialog.setPositiveButton(R.string.text_positive_dialog_confirm, (dialog1, which) ->
+                new ResetAsyncTask(mWeakReference).execute()
+
+        );
+
         dialog.setNegativeButton(R.string.text_dialog_confirm_no_reset, (dlg, which) -> dlg.cancel());
 
         AlertDialog al = dialog.create();
@@ -127,12 +131,13 @@ public class FactoryDataReset extends DialogPreference {
                 Preference.clearAll(context);
                 new DataUtils(context).clearDataPrivacy();
 
+                Preference.setFactoryDataReset(context,true);
                 context.startActivity(new Intent(context, MainActivity.class)
-                        .putExtra(Costant.EXTRA_ACTIVITY_REDDIT_RESET, true)
                         .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 );
             }
         }
     }
+
 
 }

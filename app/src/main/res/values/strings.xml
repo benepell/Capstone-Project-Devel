@@ -228,6 +228,8 @@
     <string name="pref_widget_category" translatable="false">info.pelleritoudacity.android.rcapstone.pref.widget.category</string>
     <string name="pref_widget_width" translatable="false">info.pelleritoudacity.android.rcapstone.pref.widget.width</string>
 
+    <string name="pref_factory_data_reset" translatable="false">info.pelleritoudacity.android.rcapstone.pref.factory.data.reset</string>
+
     <string name="pref_depth_page" translatable="false">info.pelleritoudacity.android.rcapstone.pref.depth.page</string>
     <string name="pref_title_depth_page" translatable="false">Comments Level Depth</string>
     <string name="hint_edit_comment_selector">Your Comment…</string>

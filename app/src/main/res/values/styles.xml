@@ -61,7 +61,7 @@
         <item name="colorAccent">@color/light_green_A700</item>
         <item name="android:colorBackground">@color/colorBackgroundDark</item>
 
-        <item name="android:itemBackground">@color/grey_600</item>
+        <item name="android:itemBackground">@color/colorBackgroundDark</item>
         <item name="android:background">@color/colorBackgroundDark</item>
 
         <item name="android:textColor">@color/white</item>

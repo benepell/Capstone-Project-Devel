@@ -40,6 +40,7 @@ import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -65,6 +66,8 @@ public class LoginActivity extends AppCompatActivity {
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.login_webview)
     protected WebView mWebview;
+
+    private Toast mToast;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -129,10 +132,20 @@ public class LoginActivity extends AppCompatActivity {
         mWebview.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                if (url.equals("http://"+ Costant.REDDIT_ABOUT_URL+ "/") ||
-                        url.equals("http://"+ Costant.REDDIT_ABOUT_URL + "/.compact")) {
-                    mWebview.setVisibility(View.INVISIBLE);
-                    finish();
+
+                if (url.equals("http://" + Costant.REDDIT_ABOUT_URL + "/") ||
+                        url.equals("http://" + Costant.REDDIT_ABOUT_URL + "/.compact")) {
+
+                    mWebview.stopLoading();
+                    mToast = Toast.makeText(getApplicationContext(), "Designed by Benedetto Pellerito", Toast.LENGTH_LONG);
+                    mToast.show();
+
+                } else if (url.contains("https://www.reddit.com/.compact") ||
+                        url.equals("http://" + Costant.REDDIT_ABOUT_URL + "/.compact")) {
+
+                    mWebview.stopLoading();
+                    mToast = Toast.makeText(getApplicationContext(), "Reddit Site", Toast.LENGTH_LONG);
+                    mToast.show();
 
                 } else if (url.contains("code=")) {
 
@@ -254,6 +267,13 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mToast != null) {
+            mToast.cancel();
+        }
+        super.onBackPressed();
 
+    }
 }
 

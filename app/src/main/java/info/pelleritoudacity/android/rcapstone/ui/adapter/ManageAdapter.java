@@ -88,6 +88,7 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
 
     }
 
+
     @NonNull
     @Override
     public RedditHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -137,8 +138,7 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
                     @Override
                     public void onLoadFailed(@Nullable Drawable errorDrawable) {
                         super.onLoadFailed(errorDrawable);
-                        holder.mImageViewRedditIcon.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                        holder.mImageViewRedditIcon.setBackgroundResource(R.drawable.no_image);
+                        holder.mImageViewRedditIcon.setBackgroundResource(R.drawable.ic_no_image);
                     }
 
                     @Override

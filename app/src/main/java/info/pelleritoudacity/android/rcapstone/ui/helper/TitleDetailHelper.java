@@ -33,7 +33,7 @@ public class TitleDetailHelper {
                     @Override
                     public void onLoadFailed(@Nullable Drawable errorDrawable) {
                         super.onLoadFailed(errorDrawable);
-                        imageView.setImageResource(R.drawable.no_image);
+                        imageView.setImageResource(R.drawable.ic_no_image);
 
                     }
 

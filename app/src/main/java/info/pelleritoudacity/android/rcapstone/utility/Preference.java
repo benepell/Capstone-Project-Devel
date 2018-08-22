@@ -42,7 +42,8 @@ public class Preference {
             R.string.pref_general_init,
             R.string.pref_more_fragment_more_nested_position_height,
             R.string.pref_widget_category,
-            R.string.pref_widget_width
+            R.string.pref_widget_width,
+            R.string.pref_factory_data_reset
 
     };
 
@@ -80,6 +81,18 @@ public class Preference {
     public static void setLoginStart(Context context, Boolean b) {
 
         PrefManager.putBoolPref(context, Costant.PREFERENCE_LOGIN_START, b);
+
+    }
+
+    public static Boolean isFactoryDataReset(Context context) {
+
+        return PrefManager.getBoolPref(context, Costant.PREFERENCE_FACTORY_DATA_RESET);
+
+    }
+
+    public static void setFactoryDataReset(Context context, Boolean b) {
+
+        PrefManager.putBoolPref(context, Costant.PREFERENCE_FACTORY_DATA_RESET, b);
 
     }
 

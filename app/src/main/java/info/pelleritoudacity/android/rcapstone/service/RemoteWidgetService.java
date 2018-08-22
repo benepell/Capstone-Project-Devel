@@ -163,7 +163,7 @@ public class RemoteWidgetService extends RemoteViewsService {
                     }
 
                 } else {
-                    views.setImageViewResource(R.id.img_widget_name, R.drawable.no_image);
+                    views.setImageViewResource(R.id.img_widget_name, R.drawable.ic_no_image);
 
                 }
 

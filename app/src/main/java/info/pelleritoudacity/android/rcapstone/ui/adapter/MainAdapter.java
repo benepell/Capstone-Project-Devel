@@ -195,8 +195,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
                     break;
 
                 default: {
-                    holder.mImageViewSubReddit.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                    holder.mImageViewSubReddit.setImageResource(R.drawable.no_image);
+                    holder.mImageViewSubReddit.setImageResource(R.drawable.ic_no_image);
                     holder.mImageViewSubReddit.setVisibility(View.VISIBLE);
                 }
             }

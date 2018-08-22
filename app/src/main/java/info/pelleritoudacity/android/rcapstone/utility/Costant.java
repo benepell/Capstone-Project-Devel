@@ -107,7 +107,6 @@ public interface Costant {
 
     String EXTRA_FRAGMENT_PARCEL_SUBREDDIT_DETAIL = "info.pelleritoudacity.android.rcapstone.extra.fragment.parcel.subreddit.detail";
 
-    String EXTRA_ACTIVITY_REDDIT_RESET = "info.pelleritoudacity.android.rcapstone.extra.activity.subreddit.reset";
     String EXTRA_ACTIVITY_REDDIT_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.subreddit.refresh";
     String EXTRA_ACTIVITY_DETAIL_REFRESH = "info.pelleritoudacity.android.rcapstone.extra.activity.detail.refresh";
 
@@ -274,5 +273,6 @@ public interface Costant {
     int PREFERENCE_GENERAL_LINKS = R.string.pref_general_links;
     int PREFERENCE_WIDGET_CATEGORY = R.string.pref_widget_category;
     int PREFERENCE_WIDGET_WIDTH = R.string.pref_widget_width;
+    int PREFERENCE_FACTORY_DATA_RESET = R.string.pref_factory_data_reset;
 
 }

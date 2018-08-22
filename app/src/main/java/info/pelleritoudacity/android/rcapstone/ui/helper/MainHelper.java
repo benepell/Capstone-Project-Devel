@@ -43,9 +43,9 @@ public class MainHelper {
         mContext = context;
 
         options = new RequestOptions()
-                .placeholder(R.drawable.download_in_progress)
-                .error(R.drawable.no_image)
                 .centerCrop()
+                .placeholder(R.drawable.download_in_progress)
+                .error(R.drawable.ic_no_image)
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
     }
 

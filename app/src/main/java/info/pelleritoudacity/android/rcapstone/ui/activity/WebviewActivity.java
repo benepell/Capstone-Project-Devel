@@ -10,6 +10,7 @@ import android.webkit.CookieManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,6 +25,7 @@ public class WebviewActivity extends AppCompatActivity {
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.reddit_webview)
     protected WebView mWebview;
+    private Toast mToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,7 @@ public class WebviewActivity extends AppCompatActivity {
 
         String url;
         if (!category.startsWith("/")) {
-            category = "/r/".concat(category);
+            category = "r/".concat(category);
         }
 
         url = Costant.REDDIT_BASE_URL + category + "/" + "submit";
@@ -57,9 +59,19 @@ public class WebviewActivity extends AppCompatActivity {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
+
                 if (url.contains(Costant.REDDIT_WEBVIEW_USE_APP)) {
+
                     mWebview.setVisibility(View.INVISIBLE);
                     finish();
+
+                }else if (url.contains("https://www.reddit.com/.compact") ||
+                        url.equals("http://" + Costant.REDDIT_ABOUT_URL + "/.compact")) {
+
+                    mWebview.stopLoading();
+                    mToast = Toast.makeText(getApplicationContext(), "Reddit Site", Toast.LENGTH_LONG);
+                    mToast.show();
+
                 }
 
             }
@@ -67,5 +79,12 @@ public class WebviewActivity extends AppCompatActivity {
         mWebview.loadUrl(url);
     }
 
+    @Override
+    public void onBackPressed() {
+        if(mToast!=null){
+            mToast.cancel();
+        }
+        super.onBackPressed();
 
+    }
 }
