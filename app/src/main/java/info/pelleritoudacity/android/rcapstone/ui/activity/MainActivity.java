@@ -92,12 +92,10 @@ import info.pelleritoudacity.android.rcapstone.ui.fragment.MainFragment;
 import info.pelleritoudacity.android.rcapstone.ui.helper.Authenticator;
 import info.pelleritoudacity.android.rcapstone.ui.helper.MenuLauncher;
 import info.pelleritoudacity.android.rcapstone.ui.view.Tab;
-import info.pelleritoudacity.android.rcapstone.utility.ActivityUI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
-import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.PermissionUtil.RequestPermissionExtStorage;
@@ -201,7 +199,7 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        ArrayList<String>tabArrayList = new TabData(mContext).getTabArrayList();
+        ArrayList<String> tabArrayList = new TabData(mContext).getTabArrayList();
         mTab = new Tab(this, mContext, mTabLayout, tabArrayList);
         mTab.initTab();
 
@@ -268,6 +266,8 @@ public class MainActivity extends AppCompatActivity
         MenuItem itemGeneralVideos = menu.findItem(R.id.action_general_videos);
         MenuItem itemGeneralGifs = menu.findItem(R.id.action_general_gifs);
         MenuItem itemGeneralLinks = menu.findItem(R.id.action_general_links);
+        MenuItem itemGeneralAlbums = menu.findItem(R.id.action_general_albums);
+        MenuItem itemGeneralSelf = menu.findItem(R.id.action_general_self);
 
         MenuItem menuItemLogin = menu.findItem(R.id.menu_action_login);
         MenuItem menuItemLogout = menu.findItem(R.id.menu_action_logout);
@@ -282,11 +282,15 @@ public class MainActivity extends AppCompatActivity
             Preference.setGeneralVideos(mContext, Costant.DEFAULT_GENERAL_SETTINGS);
             Preference.setGeneralGifs(mContext, Costant.DEFAULT_GENERAL_SETTINGS);
             Preference.setGeneralLinks(mContext, Costant.DEFAULT_GENERAL_SETTINGS);
+            Preference.setGeneralAlbums(mContext, Costant.DEFAULT_GENERAL_SETTINGS);
+            Preference.setGeneralSelf(mContext, Costant.DEFAULT_GENERAL_SETTINGS);
 
             itemGeneralImages.setChecked(Costant.DEFAULT_GENERAL_SETTINGS);
             itemGeneralVideos.setChecked(Costant.DEFAULT_GENERAL_SETTINGS);
             itemGeneralGifs.setChecked(Costant.DEFAULT_GENERAL_SETTINGS);
             itemGeneralLinks.setChecked(Costant.DEFAULT_GENERAL_SETTINGS);
+            itemGeneralAlbums.setChecked(Costant.DEFAULT_GENERAL_SETTINGS);
+            itemGeneralSelf.setChecked(Costant.DEFAULT_GENERAL_SETTINGS);
 
             Preference.setGeneralInit(mContext, true);
 
@@ -319,6 +323,22 @@ public class MainActivity extends AppCompatActivity
 
             } else {
                 itemGeneralLinks.setChecked(false);
+
+            }
+
+            if (Preference.isGeneralAlbums(mContext)) {
+                itemGeneralAlbums.setChecked(true);
+
+            } else {
+                itemGeneralAlbums.setChecked(false);
+
+            }
+
+            if (Preference.isGeneralSelf(mContext)) {
+                itemGeneralSelf.setChecked(true);
+
+            } else {
+                itemGeneralSelf.setChecked(false);
 
             }
         }
@@ -582,8 +602,18 @@ public class MainActivity extends AppCompatActivity
                 updateOperation(false);
                 break;
 
+            case R.id.action_general_albums:
+                Preference.setGeneralAlbums(mContext, !Preference.isGeneralAlbums(mContext));
+                updateOperation(false);
+                break;
+
             case R.id.action_general_videos:
                 Preference.setGeneralVideos(mContext, !Preference.isGeneralVideos(mContext));
+                updateOperation(false);
+                break;
+
+            case R.id.action_general_self:
+                Preference.setGeneralSelf(mContext, !Preference.isGeneralSelf(mContext));
                 updateOperation(false);
                 break;
 
@@ -603,14 +633,11 @@ public class MainActivity extends AppCompatActivity
         super.onRestoreInstanceState(savedInstanceState);
         mModel = savedInstanceState.getParcelable(Costant.EXTRA_PARCEL_MAIN_MODEL);
 
-        restoreTabletState(savedInstanceState);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putParcelable(Costant.EXTRA_PARCEL_MAIN_MODEL, mModel);
-
-        saveTabletState(outState);
         super.onSaveInstanceState(outState);
 
     }
@@ -645,6 +672,7 @@ public class MainActivity extends AppCompatActivity
         return super.shouldShowRequestPermissionRationale(permission);
     }
 
+
     @Override
     public void onRefresh() {
         updateOperation(false);
@@ -663,7 +691,6 @@ public class MainActivity extends AppCompatActivity
                 mLauncherMenu.setCategory(category);
                 mLauncherMenu.setTarget(Costant.TAB_MAIN_TARGET);
                 mLauncherMenu.saveLastPreference();
-                isRefreshing();
 
                 mModel.setCategory(category);
                 mModel.setTarget(Costant.TAB_MAIN_TARGET);
@@ -859,7 +886,7 @@ public class MainActivity extends AppCompatActivity
 
     private void updateOperation(boolean refresh) {
 
-        if ((refresh) && (mRefreshLayout != null)) {
+        if ((NetworkUtil.isOnline(mContext))&&(refresh) && (mRefreshLayout != null)) {
             mRefreshLayout.setRefreshing(true);
         }
 
@@ -953,14 +980,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void isRefreshing() {
-        if ((mContext != null) && mRefreshLayout != null) {
-            if (NetworkUtil.isOnline(mContext)) {
-                mRefreshLayout.setRefreshing(true);
-            }
-        }
-    }
-
     private void closeSearch(MainModel m) {
         if (Preference.getLastTarget(mContext).equals(Costant.SEARCH_MAIN_TARGET) &&
                 (!TextUtils.isEmpty(m.getQuerySearch()))) {
@@ -970,29 +989,6 @@ public class MainActivity extends AppCompatActivity
             mRefreshLayout.setRefreshing(true);
             updateOperation(false);
         }
-    }
-
-    private void restoreTabletState(Bundle savedInstanceState) {
-        if (Utility.isTablet(mContext)) {
-            final int[] position = savedInstanceState.getIntArray(Costant.EXTRA_PARCEL_SCROLL_MAIN);
-
-            if (position != null) {
-                Objects.requireNonNull(mNestedScrollView).post(() -> Objects.requireNonNull(mNestedScrollView).scrollTo(position[0], position[1]));
-
-            }
-        }
-    }
-
-    private void saveTabletState(Bundle outState) {
-        if (Utility.isTablet(mContext) && (mNestedScrollView != null)) {
-            if (!ActivityUI.isLandscapeOrientation(mContext)) {
-                int itemPage = Utility.calculateNoOfColumns(mContext);
-
-                outState.putIntArray(Costant.EXTRA_PARCEL_SCROLL_MAIN,
-                        new int[]{mNestedScrollView.getScrollX(), mNestedScrollView.getScrollY() * itemPage});
-            }
-        }
-
     }
 
     private void initToolBar() {

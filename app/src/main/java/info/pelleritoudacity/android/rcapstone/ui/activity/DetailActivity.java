@@ -344,6 +344,8 @@ public class DetailActivity extends AppCompatActivity
             MenuItem itemGeneralVideos = menu.findItem(R.id.action_general_videos);
             MenuItem itemGeneralGifs = menu.findItem(R.id.action_general_gifs);
             MenuItem itemGeneralLinks = menu.findItem(R.id.action_general_links);
+            MenuItem itemGeneralAlbums = menu.findItem(R.id.action_general_albums);
+            MenuItem itemGeneralSelf = menu.findItem(R.id.action_general_self);
 
 
             menuItemFilter.setIcon(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_sort)
@@ -356,11 +358,15 @@ public class DetailActivity extends AppCompatActivity
                 Preference.setGeneralVideos(mContext, Costant.DEFAULT_GENERAL_SETTINGS);
                 Preference.setGeneralGifs(mContext, Costant.DEFAULT_GENERAL_SETTINGS);
                 Preference.setGeneralLinks(mContext, Costant.DEFAULT_GENERAL_SETTINGS);
+                Preference.setGeneralAlbums(mContext, Costant.DEFAULT_GENERAL_SETTINGS);
+                Preference.setGeneralSelf(mContext, Costant.DEFAULT_GENERAL_SETTINGS);
 
                 itemGeneralImages.setChecked(Costant.DEFAULT_GENERAL_SETTINGS);
                 itemGeneralVideos.setChecked(Costant.DEFAULT_GENERAL_SETTINGS);
                 itemGeneralGifs.setChecked(Costant.DEFAULT_GENERAL_SETTINGS);
                 itemGeneralLinks.setChecked(Costant.DEFAULT_GENERAL_SETTINGS);
+                itemGeneralAlbums.setChecked(Costant.DEFAULT_GENERAL_SETTINGS);
+                itemGeneralSelf.setChecked(Costant.DEFAULT_GENERAL_SETTINGS);
 
                 Preference.setGeneralInit(mContext, true);
 
@@ -393,6 +399,22 @@ public class DetailActivity extends AppCompatActivity
 
                 } else {
                     itemGeneralLinks.setChecked(false);
+
+                }
+
+                if (Preference.isGeneralAlbums(mContext)) {
+                    itemGeneralAlbums.setChecked(true);
+
+                } else {
+                    itemGeneralAlbums.setChecked(false);
+
+                }
+
+                if (Preference.isGeneralSelf(mContext)) {
+                    itemGeneralSelf.setChecked(true);
+
+                } else {
+                    itemGeneralSelf.setChecked(false);
 
                 }
 
@@ -593,8 +615,18 @@ public class DetailActivity extends AppCompatActivity
                 updateOperation(false);
                 break;
 
+            case R.id.action_general_albums:
+                Preference.setGeneralAlbums(mContext, !Preference.isGeneralAlbums(mContext));
+                updateOperation(false);
+                break;
+
             case R.id.action_general_videos:
                 Preference.setGeneralVideos(mContext, !Preference.isGeneralVideos(mContext));
+                updateOperation(false);
+                break;
+
+            case R.id.action_general_self:
+                Preference.setGeneralSelf(mContext, !Preference.isGeneralSelf(mContext));
                 updateOperation(false);
                 break;
 

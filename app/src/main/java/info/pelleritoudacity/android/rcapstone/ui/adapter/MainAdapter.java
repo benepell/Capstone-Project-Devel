@@ -195,8 +195,14 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
                     break;
 
                 default: {
-                    holder.mImageViewSubReddit.setImageResource(R.drawable.ic_no_image);
-                    holder.mImageViewSubReddit.setVisibility(View.VISIBLE);
+                    if(Preference.isGeneralImages(mContext)) {
+                        holder.mImageViewSubReddit.setImageResource(R.drawable.ic_no_image);
+                        holder.mImageViewSubReddit.setVisibility(View.VISIBLE);
+
+                    }else {
+                        holder.mImageViewSubReddit.setVisibility(View.INVISIBLE);
+
+                    }
                 }
             }
 

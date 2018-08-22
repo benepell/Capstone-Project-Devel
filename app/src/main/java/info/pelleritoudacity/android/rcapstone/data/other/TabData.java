@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
-import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.TextUtil.stringToArray;
 

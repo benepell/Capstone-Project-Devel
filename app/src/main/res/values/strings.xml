@@ -136,6 +136,8 @@
     <string name="title_general_gifs">Gifs</string>
     <string name="title_general_videos">Videos</string>
     <string name="title_general_links">Links</string>
+    <string name="title_general_albums">Albums</string>
+    <string name="title_general_self">Self</string>
 
     <string name="default_items_page_titles" translatable="false">25</string>
     <string name="default_depth_page_titles" translatable="false">6</string>

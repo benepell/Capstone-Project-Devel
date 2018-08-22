@@ -94,7 +94,6 @@ public interface Costant {
     String EXTRA_SUBREDDIT_CATEGORY = "info.pelleritoudacity.android.rcapstone.extra.subreddit.category";
     String EXTRA_SUBREDDIT_DETAIL_CATEGORY = "info.pelleritoudacity.android.rcapstone.extra.subreddit.detail.category";
     String EXTRA_PARCEL_MAIN_MODEL = "info.pelleritoudacity.android.rcapstone.extra.parcel.main.model";
-    String EXTRA_PARCEL_SCROLL_MAIN = "info.pelleritoudacity.android.rcapstone.extra.parcel.scroll.main";
     String EXTRA_PARCEL_DETAIL_MODEL = "info.pelleritoudacity.android.rcapstone.extra.parcel.detail.model";
     String EXTRA_PARCEL_MORE_DETAIL_MODEL = "info.pelleritoudacity.android.rcapstone.extra.parcel.more.detail.model";
     String EXTRA_SUBREDDIT_DETAIL_STR_ID = "info.pelleritoudacity.android.rcapstone.extra.subreddit.detail.str.id";
@@ -270,6 +269,8 @@ public interface Costant {
     int PREFERENCE_GENERAL_IMAGES = R.string.pref_general_images;
     int PREFERENCE_GENERAL_GIFS = R.string.pref_general_gifs;
     int PREFERENCE_GENERAL_VIDEOS = R.string.pref_general_videos;
+    int PREFERENCE_GENERAL_SELF = R.string.pref_general_self;
+    int PREFERENCE_GENERAL_ALBUMS = R.string.pref_general_albums;
     int PREFERENCE_GENERAL_LINKS = R.string.pref_general_links;
     int PREFERENCE_WIDGET_CATEGORY = R.string.pref_widget_category;
     int PREFERENCE_WIDGET_WIDTH = R.string.pref_widget_width;

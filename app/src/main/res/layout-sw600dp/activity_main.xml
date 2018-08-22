@@ -41,6 +41,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:contentDescription="@string/text_no_network"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/no_internet"
                         android:visibility="gone" />
 

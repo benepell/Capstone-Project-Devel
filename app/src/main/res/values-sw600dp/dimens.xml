@@ -13,7 +13,7 @@
     <dimen name="list_side_margin">8dp</dimen>
     <dimen name="list_card_elevation">8dp</dimen>
 
-    <dimen name="recycler_view_item_width">600dp</dimen>
+    <dimen name="recycler_view_item_width">350dp</dimen>
 
     <dimen name="exoplayer_media_height">200dp</dimen>
 
