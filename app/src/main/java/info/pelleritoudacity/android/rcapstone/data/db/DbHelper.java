@@ -74,7 +74,7 @@ class DbHelper extends SQLiteOpenHelper {
                         Contract.DataEntry.COLUMN_NAME_MODHASH + " TEXT, " +
                         Contract.DataEntry.COLUMN_NAME_WHITELIST_STATUS + " TEXT, " +
                         Contract.DataEntry.COLUMN_NAME_CHILDRENS + " INTEGER , " +
-                        Contract.DataEntry.COLUMN_NAME_BEFORE + " BLOB  " +
+                        Contract.DataEntry.COLUMN_NAME_BEFORE + " TEXT  " +
                         ");";
 
         final String SQL_CREATE_T5DATA_TABLE =

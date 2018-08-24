@@ -45,6 +45,7 @@ import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import timber.log.Timber;
 
+@SuppressWarnings("ALL")
 public class DataUtils {
 
     private final Context mContext;
@@ -201,85 +202,6 @@ public class DataUtils {
         return count > 0;
     }
 
-    public boolean updateManageRestore() {
-
-        int count;
-
-        Uri uri = Contract.PrefSubRedditEntry.CONTENT_URI;
-
-        int i = 1;
-        String where;
-        String[] selectionArgs = new String[1];
-        do {
-
-            where = Contract.PrefSubRedditEntry.COLUMN_NAME_BACKUP_POSITION + " =?";
-            selectionArgs[0] = String.valueOf(i);
-
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED, Costant.RESTORE_SUBREDDIT_ITEMS);
-            contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION, i);
-            contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE, Costant.DEFAULT_SUBREDDIT_VISIBLE);
-
-            count = mContext.getContentResolver().update(uri, contentValues, where, selectionArgs);
-            i++;
-
-        } while (count > 0);
-
-        String stringPref = restorePrefFromDb();
-
-        if (!TextUtils.isEmpty(restorePrefFromDb())) {
-            Preference.setSubredditKey(mContext, stringPref);
-
-        } else {
-
-            return false;
-        }
-
-        return true;
-    }
-
-    private String restorePrefFromDb() {
-        Cursor cursor = null;
-        String stringPref = "";
-        try {
-            cursor = mContext.getContentResolver().query(Contract.PrefSubRedditEntry.CONTENT_URI, null, null, null, null);
-
-            if ((cursor != null) && (!cursor.isClosed())) {
-
-                String name;
-                int i = 0;
-
-                while (cursor.moveToNext()) {
-                    i += 1;
-                    name = cursor.getString(cursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME));
-                    if (!TextUtils.isEmpty(name)) {
-                        if (i < cursor.getCount()) {
-                            //noinspection StringConcatenationInLoop
-                            stringPref += name + Costant.STRING_SEPARATOR;
-                        } else {
-                            //noinspection StringConcatenationInLoop
-                            stringPref += name;
-                        }
-                    }
-                }
-            }
-
-        } catch (Exception e) {
-
-            Timber.e("restore pref from db error %s", e.getMessage());
-
-        } finally {
-
-            if ((cursor != null) && (!cursor.isClosed())) {
-                cursor.close();
-            }
-
-        }
-
-        return stringPref;
-    }
-
-
     private String restoreStarsOrderFromDb() {
         Cursor cursor = null;
         String stringPref = "";
@@ -338,36 +260,6 @@ public class DataUtils {
         return stringPref;
     }
 
-
-    public boolean updateVisibleStar(int visible, String category) {
-
-        int count;
-
-        Uri uri = Contract.PrefSubRedditEntry.CONTENT_URI;
-        String where = Contract.PrefSubRedditEntry.COLUMN_NAME_NAME + " =?";
-        String[] selectionArgs = {category};
-
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE, visible);
-
-        count = mContext.getContentResolver().update(uri, contentValues, where, selectionArgs);
-
-        if ((!TextUtils.isEmpty(category)) &&
-                (visible == Costant.DEFAULT_SUBREDDIT_VISIBLE) &&
-                (count > 0)) {
-
-            String stringPref = restoreStarsOrderFromDb();
-            if (!TextUtils.isEmpty(stringPref)) {
-                Preference.setSubredditKey(mContext, stringPref);
-
-            }
-
-        }
-
-        return count > 0;
-    }
-
-
     public void updateLocalDbStars(Uri uri, int visible, String category) {
 
         if (uri == null) return;
@@ -381,6 +273,73 @@ public class DataUtils {
 
     }
 
+    public void updateVote(Uri uri, int numVotes, boolean voteUp, int actionVote, String nameId) {
+
+        int dir = 0;
+        if ((TextUtils.isEmpty(nameId))) {
+            return;
+        }
+
+        switch (actionVote) {
+            case -1:
+                dir = -1;
+                numVotes -= 1;
+                break;
+            case 1:
+                dir = 1;
+                numVotes += 1;
+                break;
+            case 0:
+                if (voteUp) {
+                    numVotes -= 1;
+                } else {
+                    numVotes += 1;
+                }
+
+        }
+
+        String where = null;
+        String[] selectionArgs = new String[0];
+        if (uri.equals(Contract.T3dataEntry.CONTENT_URI)) {
+            where = Contract.T3dataEntry.COLUMN_NAME_NAME + " =?";
+            selectionArgs = new String[]{nameId};
+
+        } else if (uri.equals(Contract.T1dataEntry.CONTENT_URI)) {
+            where = Contract.T1dataEntry.COLUMN_NAME_NAME + " =?";
+            selectionArgs = new String[]{nameId};
+
+        }
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Contract.T3dataEntry.COLUMN_NAME_SCORE, numVotes);
+        contentValues.put(Contract.T3dataEntry.COLUMN_NAME_DIR_SCORE, dir);
+
+        if (where != null) {
+            mContext.getContentResolver().update(uri, contentValues, where, selectionArgs);
+
+        }
+    }
+
+    public void clearDataPrivacy() {
+        clearDataAll();
+        Preference.clearAll(mContext);
+    }
+
+    public String stringInQuestionMark(String s) {
+
+        String r = "";
+
+        if (!TextUtils.isEmpty(s)) {
+            String[] arrS = s.split(Costant.STRING_SEPARATOR);
+            for (String s1 : arrS) {
+                //noinspection StringConcatenationInLoop
+                r += "?,";
+            }
+            r = r.substring(0, r.length() - 1);
+
+        }
+        return r;
+    }
 
     public boolean moveManage(int fromPosition, int toPosition) {
 
@@ -461,73 +420,137 @@ public class DataUtils {
         return count > 0;
     }
 
-    public void updateVote(Uri uri, int numVotes, boolean voteUp, int actionVote, String nameId) {
+    public boolean updateVisibleStar(int visible, String category) {
 
-        int dir = 0;
-        if ((TextUtils.isEmpty(nameId))) {
-            return;
-        }
+        int count;
 
-        switch (actionVote) {
-            case -1:
-                dir = -1;
-                numVotes -= 1;
-                break;
-            case 1:
-                dir = 1;
-                numVotes += 1;
-                break;
-            case 0:
-                if (voteUp) {
-                    numVotes -= 1;
-                } else {
-                    numVotes += 1;
-                }
-
-        }
-
-        String where = null;
-        String[] selectionArgs = new String[0];
-        if (uri.equals(Contract.T3dataEntry.CONTENT_URI)) {
-            where = Contract.T3dataEntry.COLUMN_NAME_NAME + " =?";
-            selectionArgs = new String[]{nameId};
-
-        } else if (uri.equals(Contract.T1dataEntry.CONTENT_URI)) {
-            where = Contract.T1dataEntry.COLUMN_NAME_NAME + " =?";
-            selectionArgs = new String[]{nameId};
-
-        }
+        Uri uri = Contract.PrefSubRedditEntry.CONTENT_URI;
+        String where = Contract.PrefSubRedditEntry.COLUMN_NAME_NAME + " =?";
+        String[] selectionArgs = {category};
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Contract.T3dataEntry.COLUMN_NAME_SCORE, numVotes);
-        contentValues.put(Contract.T3dataEntry.COLUMN_NAME_DIR_SCORE, dir);
+        contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE, visible);
 
-        if (where != null) {
-            mContext.getContentResolver().update(uri, contentValues, where, selectionArgs);
+        count = mContext.getContentResolver().update(uri, contentValues, where, selectionArgs);
 
-        }
-    }
+        if ((!TextUtils.isEmpty(category)) &&
+                (visible == Costant.DEFAULT_SUBREDDIT_VISIBLE) &&
+                (count > 0)) {
 
-    public void clearDataPrivacy() {
-        clearDataAll();
-        Preference.clearAll(mContext);
-    }
+            String stringPref = restoreStarsOrderFromDb();
+            if (!TextUtils.isEmpty(stringPref)) {
+                Preference.setSubredditKey(mContext, stringPref);
 
-    public String stringInQuestionMark(String s) {
-
-        String r = "";
-
-        if (!TextUtils.isEmpty(s)) {
-            String[] arrS = s.split(Costant.STRING_SEPARATOR);
-            for (String s1 : arrS) {
-                //noinspection StringConcatenationInLoop
-                r += "?,";
             }
-            r = r.substring(0, r.length() - 1);
 
         }
-        return r;
+
+        return count > 0;
     }
 
+    public String restorePrefFromDb() {
+        Cursor cursor = null;
+        String stringPref = "";
+        try {
+            cursor = mContext.getContentResolver().query(Contract.PrefSubRedditEntry.CONTENT_URI, null, null, null, null);
+
+            if ((cursor != null) && (!cursor.isClosed())) {
+
+                String name;
+                int i = 0;
+
+                while (cursor.moveToNext()) {
+                    i += 1;
+                    name = cursor.getString(cursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME));
+                    if (!TextUtils.isEmpty(name)) {
+                        if (i < cursor.getCount()) {
+                            //noinspection StringConcatenationInLoop
+                            stringPref += name + Costant.STRING_SEPARATOR;
+                        } else {
+                            //noinspection StringConcatenationInLoop
+                            stringPref += name;
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+
+            Timber.e("restore pref from db error %s", e.getMessage());
+
+        } finally {
+
+            if ((cursor != null) && (!cursor.isClosed())) {
+                cursor.close();
+            }
+
+        }
+
+        return stringPref;
+    }
+
+    public boolean updateManageRestore() {
+
+        int count;
+
+        Uri uri = Contract.PrefSubRedditEntry.CONTENT_URI;
+
+        int i = 1;
+        String where;
+        String[] selectionArgs = new String[1];
+        do {
+
+            where = Contract.PrefSubRedditEntry.COLUMN_NAME_BACKUP_POSITION + " =?";
+            selectionArgs[0] = String.valueOf(i);
+
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED, Costant.RESTORE_SUBREDDIT_ITEMS);
+            contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION, i);
+            contentValues.put(Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE, Costant.DEFAULT_SUBREDDIT_VISIBLE);
+
+            count = mContext.getContentResolver().update(uri, contentValues, where, selectionArgs);
+            i++;
+
+        } while (count > 0);
+
+        String stringPref = restorePrefFromDb();
+
+        if (!TextUtils.isEmpty(restorePrefFromDb())) {
+            Preference.setSubredditKey(mContext, stringPref);
+
+        } else {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public void insertDefaultSubreddit() {
+
+        try {
+            String[] arrCategory = Costant.DEFAULT_SUBREDDIT_CATEGORY.split(Costant.STRING_SEPARATOR);
+            String[] arrIcon = Costant.DEFAULT_SUBREDDIT_ICON.split(Costant.STRING_SEPARATOR);
+            int size = arrCategory.length;
+
+            ContentValues[] arrCV = new ContentValues[size];
+
+            for (int i = 0; i < size; i++) {
+                arrCV[i] = new ContentValues();
+                arrCV[i].put(Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION, 1+i);
+                arrCV[i].put(Contract.PrefSubRedditEntry.COLUMN_NAME_BACKUP_POSITION, 1  +i);
+                arrCV[i].put(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME, arrCategory[i]);
+                arrCV[i].put(Contract.PrefSubRedditEntry.COLUMN_NAME_IMAGE, arrIcon[i]);
+                arrCV[i].put(Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE, Costant.DEFAULT_SUBREDDIT_VISIBLE);
+            }
+
+            mContext.getContentResolver().bulkInsert(Contract.PrefSubRedditEntry.CONTENT_URI, arrCV);
+
+        } catch (Exception e) {
+            Timber.e("DATABASE isRecordData %s", e.getMessage());
+
+        }
+
+    }
 
 }

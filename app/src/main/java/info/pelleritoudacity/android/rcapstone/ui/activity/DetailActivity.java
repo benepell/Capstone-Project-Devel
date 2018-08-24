@@ -95,6 +95,8 @@ public class DetailActivity extends AppCompatActivity
     private DetailModel model;
     private DetailHelper mDetailHelper;
     private long startTimeoutRefresh;
+    private SearchView mSearchView;
+    private String mSearchString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,6 +141,7 @@ public class DetailActivity extends AppCompatActivity
 
             updateOperation(true);
         } else {
+            mSearchString = savedInstanceState.getString(Costant.EXTRA_SEARCH_DETAIL);
             model = savedInstanceState.getParcelable(Costant.EXTRA_PARCEL_ACTIVITY_DETAIL);
 
         }
@@ -157,11 +160,18 @@ public class DetailActivity extends AppCompatActivity
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         model = savedInstanceState.getParcelable(Costant.EXTRA_PARCEL_ACTIVITY_DETAIL);
+        mSearchString = savedInstanceState.getString(Costant.EXTRA_SEARCH_DETAIL);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putParcelable(Costant.EXTRA_PARCEL_ACTIVITY_DETAIL, model);
+
+        if (mSearchView != null) {
+            outState.putString(Costant.EXTRA_SEARCH_DETAIL, mSearchView.getQuery().toString());
+
+        }
+
         super.onSaveInstanceState(outState);
 
     }
@@ -432,13 +442,19 @@ public class DetailActivity extends AppCompatActivity
 
                 SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 
-                SearchView searchView = (SearchView) menuItemSearch.getActionView();
-                if (searchView != null) {
-                    searchView.setSearchableInfo(Objects.requireNonNull(searchManager).getSearchableInfo(getComponentName()));
+                mSearchView = (SearchView) menuItemSearch.getActionView();
+                if (mSearchView != null) {
+                    mSearchView.setSearchableInfo(Objects.requireNonNull(searchManager).getSearchableInfo(getComponentName()));
 
-                    searchView.setQueryHint(getString(R.string.text_search_local));
-                    searchView.setOnQueryTextListener(this);
-                    searchView.setIconified(false);
+                    mSearchView.setQueryHint(getString(R.string.text_search_local));
+                    mSearchView.setOnQueryTextListener(this);
+                    mSearchView.setIconified(false);
+
+                    if (!TextUtils.isEmpty(mSearchString)) {
+                        menuItemSearch.expandActionView();
+                        mSearchView.setQuery(mSearchString, true);
+                        mSearchView.clearFocus();
+                    }
 
                 }
             }

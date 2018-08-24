@@ -168,7 +168,7 @@ public class MainHelper {
     }
 
 
-    public void imageReddit(ImageView imageView, String imagePreviewUrl,String contentDescription) {
+    public void imageReddit(ImageView imageView, String imagePreviewUrl, String contentDescription) {
 
         imageView.setVisibility(View.VISIBLE);
 
@@ -177,10 +177,12 @@ public class MainHelper {
                 .apply(options)
                 .into(imageView);
 
-        if(!TextUtils.isEmpty(contentDescription)){
+        if (!TextUtils.isEmpty(contentDescription)) {
             imageView.setContentDescription(contentDescription);
 
         }
 
     }
+
+
 }

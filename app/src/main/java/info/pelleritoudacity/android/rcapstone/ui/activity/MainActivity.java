@@ -143,6 +143,8 @@ public class MainActivity extends AppCompatActivity
     private Tab mTab;
     private MainModel mModel;
     private MenuLauncher mLauncherMenu;
+    private SearchView mSearchView;
+    private String mSearchString;
 
 
     @Override
@@ -165,7 +167,6 @@ public class MainActivity extends AppCompatActivity
 
         FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mRefreshLayout.setOnRefreshListener(this);
-
         initToolBar();
 
         if (TextUtils.isEmpty(Preference.getSubredditSort(getApplicationContext()))) {
@@ -193,6 +194,8 @@ public class MainActivity extends AppCompatActivity
 
         if (savedInstanceState != null) {
             mModel = savedInstanceState.getParcelable(Costant.EXTRA_PARCEL_MAIN_MODEL);
+            mSearchString = savedInstanceState.getString(Costant.EXTRA_SEARCH_SUBSCRIBE);
+
 
         } else if (mModel == null) {
             mModel = new MainModel();
@@ -208,6 +211,7 @@ public class MainActivity extends AppCompatActivity
         new Authenticator(mContext).initLogin(mContainer, getIntent());
 
         mLauncherMenu = new MenuLauncher(mContext, getIntent());
+
 
         if (getIntent() != null) {
             mModel.setQuerySearch(getIntent().getStringExtra(Costant.EXTRA_MAIN_SEARCH));
@@ -255,6 +259,7 @@ public class MainActivity extends AppCompatActivity
         if ((savedInstanceState == null) || (getIntent().getBooleanExtra(Costant.EXTRA_ACTIVITY_REDDIT_REFRESH, false))) {
             updateOperation(true);
         }
+
     }
 
     @Override
@@ -355,13 +360,19 @@ public class MainActivity extends AppCompatActivity
 
             SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 
-            SearchView searchView = (SearchView) menuItemSearch.getActionView();
-            if (searchView != null) {
-                searchView.setSearchableInfo(Objects.requireNonNull(searchManager).getSearchableInfo(getComponentName()));
+            mSearchView = (SearchView) menuItemSearch.getActionView();
+            if (mSearchView != null) {
+                mSearchView.setSearchableInfo(Objects.requireNonNull(searchManager).getSearchableInfo(getComponentName()));
 
-                searchView.setQueryHint(getString(R.string.text_search_local));
-                searchView.setOnQueryTextListener(this);
-                searchView.setIconified(false);
+                mSearchView.setQueryHint(getString(R.string.text_search_local));
+                mSearchView.setOnQueryTextListener(this);
+                mSearchView.setIconified(false);
+
+                if (!TextUtils.isEmpty(mSearchString)) {
+                    menuItemSearch.expandActionView();
+                    mSearchView.setQuery(mSearchString, true);
+                    mSearchView.clearFocus();
+                }
 
             }
         }
@@ -460,10 +471,7 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.menu_action_restore:
 
-                startActivity(new Intent(this, ManageActivity.class)
-                        .putExtra(Costant.EXTRA_RESTORE_MANAGE, Costant.RESTORE_MANAGE_RESTORE)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                );
+                updateOperation(true);
                 return true;
 
             case R.id.menu_action_login:
@@ -632,12 +640,15 @@ public class MainActivity extends AppCompatActivity
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mModel = savedInstanceState.getParcelable(Costant.EXTRA_PARCEL_MAIN_MODEL);
-
+        mSearchString = savedInstanceState.getString(Costant.EXTRA_SEARCH_MAIN);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putParcelable(Costant.EXTRA_PARCEL_MAIN_MODEL, mModel);
+        if (mSearchView != null) {
+            outState.putString(Costant.EXTRA_SEARCH_MAIN, mSearchView.getQuery().toString());
+        }
         super.onSaveInstanceState(outState);
 
     }
@@ -886,7 +897,7 @@ public class MainActivity extends AppCompatActivity
 
     private void updateOperation(boolean refresh) {
 
-        if ((NetworkUtil.isOnline(mContext))&&(refresh) && (mRefreshLayout != null)) {
+        if ((NetworkUtil.isOnline(mContext)) && (refresh) && (mRefreshLayout != null)) {
             mRefreshLayout.setRefreshing(true);
         }
 
@@ -1145,5 +1156,6 @@ public class MainActivity extends AppCompatActivity
 
         }
     }
+
 
 }

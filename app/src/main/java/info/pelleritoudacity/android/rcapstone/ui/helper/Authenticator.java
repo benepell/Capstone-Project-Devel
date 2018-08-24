@@ -19,6 +19,7 @@ public class Authenticator {
 
     private final Context mContext;
 
+
     public Authenticator(Context context) {
         mContext = context;
     }
@@ -53,7 +54,6 @@ public class Authenticator {
 
                     break;
             }
-
             loginFirebaseDispatcher(mContext, isLogged);
         }
     }
@@ -74,5 +74,6 @@ public class Authenticator {
             }
         }
     }
+
 
 }

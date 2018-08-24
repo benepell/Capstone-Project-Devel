@@ -50,9 +50,11 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
+import info.pelleritoudacity.android.rcapstone.data.db.Operation.T5Operation;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.RedditToken;
 import info.pelleritoudacity.android.rcapstone.data.rest.AccessTokenExecute;
+import info.pelleritoudacity.android.rcapstone.data.rest.MineExecute;
 import info.pelleritoudacity.android.rcapstone.data.rest.RevokeTokenExecute;
 import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
@@ -172,7 +174,8 @@ public class LoginActivity extends AppCompatActivity {
                                             PermissionUtil.setToken(getApplicationContext(), strAccessToken);
                                             Preference.setSessionRefreshToken(getApplicationContext(), strRefreshToken);
                                             Preference.setLoginStart(getApplicationContext(), true);
-                                            responseActivity(Costant.PROCESS_LOGIN_OK);
+
+                                            updateSubredditLogin(getApplicationContext());
 
                                         }
 
@@ -275,5 +278,28 @@ public class LoginActivity extends AppCompatActivity {
         super.onBackPressed();
 
     }
+
+    private void updateSubredditLogin(Context context) {
+        if (PermissionUtil.isLogged(context)) {
+            new MineExecute((response, code) -> {
+                T5Operation data = new T5Operation(context, response);
+                data.saveData();
+
+                DataUtils dataUtils = new DataUtils(context);
+                String pref = dataUtils.restorePrefFromDb();
+
+                if (!TextUtils.isEmpty(pref)) {
+                    Preference.setSubredditKey(context, pref);
+
+                }
+
+                responseActivity(Costant.PROCESS_LOGIN_OK);
+
+            }, context, PermissionUtil.getToken(context),
+                    Costant.MINE_WHERE_SUBSCRIBER).getMine();
+
+        }
+    }
+
 }
 

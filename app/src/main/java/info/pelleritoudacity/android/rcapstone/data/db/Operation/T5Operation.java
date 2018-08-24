@@ -50,19 +50,17 @@ public class T5Operation {
         mModelT5 = modelT5;
     }
 
-    private boolean insertDataPrefSubReddit() {
+    private int insertDataPrefSubReddit() {
 
-        if (mModelT5 == null) return false;
+        if (mModelT5 == null) return 0;
 
         int t5Size = mModelT5.getData().getChildren().size();
-        int position;
+        int position = Costant.DEFAULT_SUBREDDIT_CATEGORY.split(Costant.STRING_SEPARATOR).length +1;
         ContentValues[] arrCV = new ContentValues[t5Size];
 
         DataUtils dataUtils = new DataUtils(mContext);
 
         for (int i = 0; i < t5Size; i++) {
-
-            position = i + 1;
 
             T5Data t5Model = mModelT5.getData().getChildren().get(i).getData();
 
@@ -80,20 +78,20 @@ public class T5Operation {
                     Costant.DEFAULT_SUBREDDIT_VISIBLE);
 
             arrCV[i].put(Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION,
-                    position);
+                    position + i);
 
             arrCV[i].put(Contract.PrefSubRedditEntry.COLUMN_NAME_BACKUP_POSITION,
-                    position);
+                    position + i);
+
         }
 
         try {
-            int countPrefSubData = mContext.getContentResolver().bulkInsert(Contract.PrefSubRedditEntry.CONTENT_URI, arrCV);
-            return countPrefSubData != 0;
+            return mContext.getContentResolver().bulkInsert(Contract.PrefSubRedditEntry.CONTENT_URI, arrCV);
 
         } catch (IllegalStateException e) {
             Timber.e("insert data error %s", e.getMessage());
         }
-        return false;
+        return 0;
     }
 
     private boolean insertData() {
@@ -122,7 +120,7 @@ public class T5Operation {
         if (dataModel.getBefore() == null) {
             dataCV.putNull(Contract.DataEntry.COLUMN_NAME_BEFORE);
         } else {
-            dataCV.put(Contract.DataEntry.COLUMN_NAME_BEFORE, (byte) dataModel.getBefore());
+            dataCV.put(Contract.DataEntry.COLUMN_NAME_BEFORE, dataModel.getBefore());
         }
 
         int childrenId;
@@ -130,7 +128,6 @@ public class T5Operation {
         int t5Size = mModelT5.getData().getChildren().size();
 
         DataUtils dataUtils = new DataUtils(mContext);
-
 
         ContentValues[] arrCV = new ContentValues[t5Size];
 
@@ -345,14 +342,18 @@ public class T5Operation {
 
     public void saveData() {
         DataUtils dataUtils = new DataUtils(mContext);
-        if (dataUtils.isRecordData()) clearData();
-        if (insertData()) {
+        if (!Preference.isInsertPrefs(mContext)) {
+            clearData();
+        }
 
-            if (!Preference.isInsertPrefs(mContext)) {
-                if (insertDataPrefSubReddit()) {
-                    Preference.setInsertPrefs(mContext, true);
-                }
+        if (insertData()) {
+            // todo add flag add default category
+            int startPosition = insertDataPrefSubReddit();
+            if (startPosition > 0) {
+                Preference.setInsertPrefs(mContext, true);
+                dataUtils.insertDefaultSubreddit();
             }
+
         }
     }
 

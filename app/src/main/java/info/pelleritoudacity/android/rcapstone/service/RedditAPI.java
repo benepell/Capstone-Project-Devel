@@ -153,7 +153,27 @@ public interface RedditAPI {
     @POST("/api/del")
     @Headers("User-Agent: " + Costant.REDDIT_USER_AGENT)
     Call<ResponseBody> postDelAuth(@Header("Authorization") String authorization,
-                                      @Field("id") String id);
+                                   @Field("id") String id);
+
+    @GET("/search")
+    @Headers("User-Agent: " + Costant.REDDIT_USER_AGENT)
+    Call<T5> getSearchAuth(@Header("Authorization") String authorization,
+                                     @QueryMap Map<String, String> options
+    );
+
+    @GET("/subreddits/mine/{where}")
+    @Headers("User-Agent: " + Costant.REDDIT_USER_AGENT)
+    Call<T5> getMineAuth(@Header("Authorization") String authorization,
+                               @Path(value = "where", encoded = true) String where,
+                               @QueryMap Map<String, String> options
+    );
+
+    @FormUrlEncoded
+    @POST("/api/subscribe")
+    @Headers("User-Agent: " + Costant.REDDIT_USER_AGENT)
+    Call<ResponseBody> postSubscribe(@Header("Authorization") String authorization,
+                                           @Field("action") String subscribe,
+                                           @Field("sr") String fullname);
 
 
 

@@ -26,9 +26,11 @@
 
 package info.pelleritoudacity.android.rcapstone.ui.activity;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -37,9 +39,12 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 
 import com.mikepenz.iconics.IconicsDrawable;
@@ -47,21 +52,27 @@ import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.Operation.T5Operation;
-import info.pelleritoudacity.android.rcapstone.data.model.reddit.T5;
-import info.pelleritoudacity.android.rcapstone.data.rest.CategoryExecute;
+import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
+import info.pelleritoudacity.android.rcapstone.data.rest.MineExecute;
+import info.pelleritoudacity.android.rcapstone.data.rest.SearchExecute;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.ManageFragment;
+import info.pelleritoudacity.android.rcapstone.ui.fragment.SubscribeFragment;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
+import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import timber.log.Timber;
 
-public class ManageActivity extends AppCompatActivity implements CategoryExecute.OnRestCallBack {
+public class ManageActivity extends AppCompatActivity
+        implements SearchView.OnQueryTextListener {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.nested_scrollview_submanage)
@@ -73,6 +84,8 @@ public class ManageActivity extends AppCompatActivity implements CategoryExecute
 
     private WeakReference<Context> mWeakContext;
     private boolean isAdded;
+    private SearchView mSearchView;
+    private String mSearchString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,26 +103,36 @@ public class ManageActivity extends AppCompatActivity implements CategoryExecute
         ButterKnife.bind(this);
 
         mWeakContext = new WeakReference<>(getApplicationContext());
+        if (savedInstanceState != null) {
+            mSearchString = savedInstanceState.getString(Costant.EXTRA_SEARCH_SUBSCRIBE);
 
-        updateOperation();
+        }
+
+        if(TextUtils.isEmpty(mSearchString)){
+            updateOperation();
+
+        }
 
     }
 
     private void updateOperation() {
-        if (Preference.isInsertPrefs(getApplicationContext())) {
+
+        Context context = mWeakContext.get();
+
+        if (!NetworkUtil.isOnline(context)) {
             new ManageAsyncTask(mWeakContext).execute();
 
-        } else if ((!Preference.isInsertPrefs(getApplicationContext()) && (NetworkUtil.isOnline(getApplicationContext())))) {
-            new CategoryExecute(this).syncData();
-
-        } else {
-            Snackbar.make(mContainer, R.string.text_manage_nolinks, Snackbar.LENGTH_LONG).show();
-
-        }
-        if (!isAdded) {
+        } else if (!PermissionUtil.isLogged(context)) {
+            DataUtils dataUtils = new DataUtils(context);
+            dataUtils.insertDefaultSubreddit();
             startFragment(false);
 
         }
+
+        if (!isAdded) {
+            startFragment(false);
+        }
+
     }
 
     private void startFragment(boolean restoreManage) {
@@ -136,13 +159,42 @@ public class ManageActivity extends AppCompatActivity implements CategoryExecute
             updateOperation();
 
         }
+
     }
 
     @Override
-    public void success(T5 response, int code) {
-        T5Operation data = new T5Operation(mWeakContext.get(), response);
-        data.saveData();
-        startFragment(false);
+    protected void onResume() {
+        super.onResume();
+        updateSubreddit(mWeakContext.get());
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        Context context = mWeakContext.get();
+        subscribeUpdateOperation(context,query);
+
+        return false;
+    }
+
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mSearchString = savedInstanceState.getString(Costant.EXTRA_SEARCH_SUBSCRIBE);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if (mSearchView != null) {
+            outState.putString(Costant.EXTRA_SEARCH_SUBSCRIBE, mSearchView.getQuery().toString());
+
+        }
+        super.onSaveInstanceState(outState);
     }
 
     private static class ManageAsyncTask extends AsyncTask<Void, Void, Cursor> {
@@ -217,6 +269,7 @@ public class ManageActivity extends AppCompatActivity implements CategoryExecute
                         .colorRes(R.color.white)
                         .sizeDp(24)
                         .respectFontBounds(true));
+
         return true;
     }
 
@@ -240,6 +293,14 @@ public class ManageActivity extends AppCompatActivity implements CategoryExecute
                 startActivity(new Intent(this, LoginActivity.class));
                 return true;
 
+            case R.id.menu_action_create:
+                if (PermissionUtil.isLogged(getApplicationContext())) {
+                    startActivity(new Intent(this, WebviewActivity.class));
+                } else {
+                    Snackbar.make(mContainer, R.string.text_start_login, Snackbar.LENGTH_LONG).show();
+                }
+                return true;
+
             case R.id.menu_action_refresh:
                 if (NetworkUtil.isOnline(this)) {
                     recreate();
@@ -255,4 +316,92 @@ public class ManageActivity extends AppCompatActivity implements CategoryExecute
         return false;
 
     }
+
+    @Override
+    protected boolean onPrepareOptionsPanel(View view, Menu menu) {
+
+        Context context = mWeakContext.get();
+
+        if (menu.findItem(R.id.menu_action_search) == null) {
+            getMenuInflater().inflate(R.menu.menu_search, menu);
+
+            MenuItem menuItemSearch = menu.findItem(R.id.menu_action_search);
+
+            menuItemSearch.setIcon(new IconicsDrawable(context, MaterialDesignIconic.Icon.gmi_search)
+                    .color(Color.WHITE)
+                    .sizeDp(24)
+                    .respectFontBounds(true));
+
+            SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
+
+            mSearchView = (SearchView) menuItemSearch.getActionView();
+            if (mSearchView != null) {
+                mSearchView.setSearchableInfo(Objects.requireNonNull(searchManager).getSearchableInfo(getComponentName()));
+
+                mSearchView.setQueryHint(getString(R.string.text_subscribe_search));
+                mSearchView.setOnQueryTextListener(this);
+                mSearchView.setIconified(false);
+
+            }
+
+            MenuItem menuItemLogin = menu.findItem(R.id.menu_action_login);
+            MenuItem menuItemLogout = menu.findItem(R.id.menu_action_logout);
+
+
+            if (Preference.isLoginStart(context)) {
+                menuItemLogin.setVisible(false);
+                menuItemLogout.setVisible(true);
+
+            } else {
+                menuItemLogin.setVisible(true);
+                menuItemLogout.setVisible(false);
+
+            }
+
+
+            if (!TextUtils.isEmpty(mSearchString)) {
+                menuItemSearch.expandActionView();
+                mSearchView.setQuery(mSearchString, true);
+                mSearchView.clearFocus();
+
+                MenuItem menuItemRestore = menu.findItem(R.id.menu_action_restore);
+                menuItemRestore.setVisible(false);
+            }
+
+
+        }
+
+        return true;
+
+    }
+
+    private void subscribeUpdateOperation(Context context,String search){
+        new SearchExecute((response, code) -> {
+            SubscribeFragment fragment = SubscribeFragment.newInstance(response);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_list_container, fragment).commit();
+
+        }, context, PermissionUtil.getToken(context), search).getSearch();
+
+    }
+
+    private void updateSubreddit(Context context){
+        new MineExecute((response, code) -> {
+            T5Operation data = new T5Operation(context, response);
+            data.saveData();
+
+            DataUtils dataUtils = new DataUtils(context);
+            String pref = dataUtils.restorePrefFromDb();
+
+            if (!TextUtils.isEmpty(pref)) {
+                Preference.setSubredditKey(context, pref);
+
+            }
+
+        }, context, PermissionUtil.getToken(context),
+                Costant.MINE_WHERE_SUBSCRIBER).getMine();
+
+    }
+
 }

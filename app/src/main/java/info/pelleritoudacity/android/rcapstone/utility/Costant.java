@@ -87,6 +87,7 @@ public interface Costant {
     String DETAIL_MORE_REPLIES = "1";
     String NONE_DETAIL_MORE_REPLIES = "0";
 
+    @SuppressWarnings("unused")
     int RESTORE_MANAGE_RESTORE = 1;
 
     String EXTRA_LOGIN_SUCCESS = "info.pelleritoudacity.android.rcapstone.extra.login.success";
@@ -100,7 +101,12 @@ public interface Costant {
     String EXTRA_SUBREDDIT_DETAIL_POSITION = "info.pelleritoudacity.android.rcapstone.extra.subreddit.detail.position";
     String EXTRA_FRAGMENT_PARCEL_MAIN = "info.pelleritoudacity.android.rcapstone.extra.fragment.parcel.main";
     String EXTRA_FRAGMENT_SUBREDDIT_SELECTED = "info.pelleritoudacity.android.rcapstone.extra.fragment.subreddit.selected";
+    String EXTRA_FRAGMENT_PARCEL_SUBSCRIBE = "info.pelleritoudacity.android.rcapstone.extra.fragment.parcel.subscribe";
     String EXTRA_FRAGMENT_STRING_ID = "info.pelleritoudacity.android.rcapstone.extra.fragment.string.id";
+
+    String EXTRA_SEARCH_SUBSCRIBE = "info.pelleritoudacity.android.rcapstone.extra.search.subscribe";
+    String EXTRA_SEARCH_MAIN = "info.pelleritoudacity.android.rcapstone.extra.search.main";
+    String EXTRA_SEARCH_DETAIL = "info.pelleritoudacity.android.rcapstone.extra.search.detail";
 
     String EXTRA_FRAGMENT_MANAGE_RESTORE = "info.pelleritoudacity.android.rcapstone.extra.fragment.manage.restore";
 
@@ -161,6 +167,7 @@ public interface Costant {
     int PROCESS_LOGIN_ERROR = 3;
     int PROCESS_LOGOUT_ERROR = 4;
 
+    @SuppressWarnings("unused")
     String EXTRA_RESTORE_MANAGE = "info.pelleritoudacity.android.rcapstone.extra.restore.manage";
 
     String EXTRA_YOUTUBE_PARAM = "info.pelleritoudacity.android.rcapstone.extra.youtube.param";
@@ -179,6 +186,24 @@ public interface Costant {
 
     String DEFAULT_SUBREDDIT_CATEGORY = "AskReddit,politics,worldnews,nba,videos,funny," +
             "todayilearned,soccer,cfb,gaming,movies,news,gifs,aww,wtf,showerthoughts,technology";
+
+    String DEFAULT_SUBREDDIT_ICON = "https://b.thumbs.redditmedia.com/EndDxMGB-FTZ2MGtjepQ06cQEkZw_YQAsOUudpb9nSQ.png," +
+            "https://a.thumbs.redditmedia.com/ZaSYxoONdAREm1_u_sid_fjcgvBTNeFQV--8tz6fZC0.png," +
+            "https://b.thumbs.redditmedia.com/EndDxMGB-FTZ2MGtjepQ06cQEkZw_YQAsOUudpb9nSQ.png," +
+            "https://styles.redditmedia.com/t5_2qo4s/styles/communityIcon_1podsfdai4301.png," +
+            "https://b.thumbs.redditmedia.com/uzAOgdCtLKNxNqirjgcwrJkpWHtTDzIr7L3vnhOMF2o.png," +
+            "https://a.thumbs.redditmedia.com/kIpBoUR8zJLMQlF8azhN-kSBsjVUidHjvZNLuHDONm8.png," +
+            "https://b.thumbs.redditmedia.com/B7IpR8P1mEsQIjdizK5x79s5aGfJUtKk3u2ksGZ9n2Q.png," +
+            "https://b.thumbs.redditmedia.com/NojkQWzGBAau2dP3q0NTY5uJisbRx_q3ithIT5iLypE.png," +
+            "https://b.thumbs.redditmedia.com/JGr0BtccIxlp8u8bnrEsJZf8YZKMk6g4u3C90dvhxbk.png," +
+            "https://b.thumbs.redditmedia.com/0PgZl68jAxA6T1BH6uvUQ5Bz1F1GrrJLCL8oi2Gz0Ak.png," +
+            "https://b.thumbs.redditmedia.com/EndDxMGB-FTZ2MGtjepQ06cQEkZw_YQAsOUudpb9nSQ.png," +
+            "https://a.thumbs.redditmedia.com/E0Bkwgwe5TkVLflBA7WMe9fMSC7DV2UOeff-UpNJeb0.png," +
+            "https://b.thumbs.redditmedia.com/EndDxMGB-FTZ2MGtjepQ06cQEkZw_YQAsOUudpb9nSQ.png," +
+            "https://styles.redditmedia.com/t5_2qh1o/styles/communityIcon_vzx333xor7101.png," +
+            "https://styles.redditmedia.com/t5_2qh61/styles/communityIcon_mdifybb3r2z01.png," +
+            "https://styles.redditmedia.com/t5_2szyo/styles/communityIcon_z7dkyeif8kzz.png," +
+            "https://b.thumbs.redditmedia.com/J_fCwTYJkoM-way-eaOHv8AOHoF_jNXNqOvPrQ7bINY.png";
 
 
     int DEFAULT_SUBREDDIT_ITEMS = 3;
@@ -213,6 +238,21 @@ public interface Costant {
     String DEFAULT_MORE_KIND = "more";
     String DEFAULT_COMMENT_KIND = "t1";
 
+    String SEARCH_TYPE_SUBREDDITS = "sr";
+    @SuppressWarnings("unused")
+    String SEARCH_TYPE_USER = "user";
+    @SuppressWarnings("unused")
+    String SEARCH_TYPE_LINK = "link";
+
+    String MINE_WHERE_SUBSCRIBER = "subscriber";
+    @SuppressWarnings("unused")
+    String MINE_WHERE_CONTRIBUTOR = "contributor";
+    @SuppressWarnings("unused")
+    String MINE_WHERE_MODERATOR = "moderator";
+    @SuppressWarnings("unused")
+    String MINE_WHERE_STREAMS = "streams";
+
+
     int LEVEL_DEPTH_PADDING = 20;
 
     String JSON_REPLIES_EMPTY = "\"replies\":\"\"";
@@ -243,6 +283,9 @@ public interface Costant {
     String LABEL_TIME_NOTHING = "";
 
     int TIME_APPROX_NOW = 60 * 60 * 2;
+
+    String DOT =  "\u2022";
+
 
     int PREFERENCE_INSERT_PREFS = R.string.pref_insert_prefs;
     int PREFERENCE_LOGIN_START = R.string.pref_login_start;

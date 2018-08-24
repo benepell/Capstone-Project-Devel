@@ -30,6 +30,7 @@
 
     <string name="list_snackbar_offline_text">No Internet connection &#8230; swipe here to try again.</string>
     <string name="text_search_local">Local Search</string>
+    <string name="text_subscribe_search">Subscribe Search</string>
     <string name="widget_home">widget home</string>
     <string name="widget_refresh">widget refresh</string>
     <string name="text_not_category_widget">No subreddits are added</string>
@@ -114,7 +115,6 @@
     <string name="text_no_comments">comments not present</string>
 
     <string name="text_comments_subreddit">comments</string>
-    <string name="text_manage_nolinks">No Archive Available for Manage Subscriptions.</string>
     <string name="text_icon_description">icon link description</string>
     <string name="manage_stars_description">enable subreddit link</string>
     <string name="title_menu_restore">restore</string>
@@ -242,6 +242,13 @@
     <string name="text_comment_saved">Comment saved</string>
     <string name="text_comment_deleted">Comment deleted</string>
     <string name="text_error_comment">Please try again in a minute</string>
+    <string name="text_pvt">private</string>
+    <string name="text_unsubscribe">unsubscribe</string>
+    <string name="text_subscribe">subscribe</string>
+    <string name="text_subscribers">%s subscribers</string>
+    <string name="text_no_subscribers">no subscribers</string>
+    <string name="text_no_title">title not available</string>
+    <string name="text_no_display_name_prefix">prefix not available</string>
     <string-array name="pref_depth_page_titles">
         <item>none</item>
         <item>1 level</item>

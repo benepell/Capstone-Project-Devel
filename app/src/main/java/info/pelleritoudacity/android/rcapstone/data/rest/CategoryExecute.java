@@ -37,7 +37,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class CategoryExecute {
+@SuppressWarnings("unused")
+class CategoryExecute {
 
     private static RedditAPI sApi;
     private final OnRestCallBack mCallback;
@@ -67,7 +68,7 @@ public class CategoryExecute {
 
     }
 
-    public interface OnRestCallBack {
+    interface OnRestCallBack {
 
         void success(T5 response, @SuppressWarnings("unused") int code);
 

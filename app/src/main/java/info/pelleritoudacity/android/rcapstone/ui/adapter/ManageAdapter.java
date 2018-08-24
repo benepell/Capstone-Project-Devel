@@ -163,7 +163,6 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
 
         holder.mImageViewRedditIcon.setContentDescription(name);
 
-
         holder.mTextViewRedditName.setText(name);
 
     }

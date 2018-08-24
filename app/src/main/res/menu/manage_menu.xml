@@ -52,6 +52,7 @@
     </item>
 
     <item
+        android:id="@+id/menu_action_create"
         android:enabled="true"
         android:title="@string/title_menu_create"
         android:visible="true" />

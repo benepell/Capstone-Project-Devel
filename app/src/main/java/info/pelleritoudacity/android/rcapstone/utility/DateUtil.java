@@ -30,11 +30,15 @@ import android.text.format.DateUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import info.pelleritoudacity.android.rcapstone.R;
+
+import static info.pelleritoudacity.android.rcapstone.utility.Costant.DOT;
 
 public class DateUtil {
 
@@ -91,6 +95,38 @@ public class DateUtil {
 
         return simpleDateFormat.format(timemillis);
 
+    }
+    public static String timeFormat(String timeDoubleString) {
+        String dateString;
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        long currentTime = calendar.getTimeInMillis() / 1000L;
+        double pastTime = Double.valueOf(timeDoubleString);
+        long secAgo = currentTime - ((long) pastTime);
+        if (secAgo >= 31536000) {
+            int date = (int) secAgo / 31536000;
+            dateString = DOT + String.valueOf(date);
+            dateString += (date == 1) ? "yr" : "yrs";
+        } else if (secAgo >= 2592000) {
+            int date = (int) secAgo / 2592000;
+            dateString = DOT + String.valueOf(date) + "m";
+        } else if (secAgo >= 604800) {
+            int date = (int) secAgo / 604800;
+            dateString = DOT + String.valueOf(date) + "wk";
+        } else if (secAgo >= 86400) {
+            int date = (int) secAgo / 86400;
+            dateString = DOT + String.valueOf(date);
+            dateString += (date == 1) ? "day" : "days";
+        } else if (secAgo >= 3600) {
+            int date = (int) secAgo / 3600;
+            dateString = DOT + String.valueOf(date);
+            dateString += (date == 1) ? "hr" : "hrs";
+        } else if (secAgo >= 60) {
+            int date = (int) secAgo / 60;
+            dateString = DOT + String.valueOf(date) + "min";
+        } else {
+            dateString = DOT + String.valueOf(secAgo) + "sec";
+        }
+        return dateString;
     }
 
 }

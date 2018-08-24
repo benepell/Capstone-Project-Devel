@@ -27,7 +27,7 @@ public class T5Listing implements Parcelable
     private List<T5ListingData> children = null;
     @SerializedName("before")
     @Expose
-    private Object before;
+    private String before;
     public final static Parcelable.Creator<T5Listing> CREATOR = new Creator<T5Listing>() {
 
 
@@ -52,7 +52,7 @@ public class T5Listing implements Parcelable
         this.modhash = ((String) in.readValue((String.class.getClassLoader())));
         this.whitelistStatus = ((String) in.readValue((String.class.getClassLoader())));
         in.readList(this.children, (T5ListingData.class.getClassLoader()));
-        this.before = in.readValue((Object.class.getClassLoader()));
+        this.before = (String) in.readValue(String.class.getClassLoader());
     }
 
     public T5Listing() {
@@ -103,12 +103,12 @@ public class T5Listing implements Parcelable
         this.children = children;
     }
 
-    public Object getBefore() {
+    public String getBefore() {
         return before;
     }
 
     @SuppressWarnings("unused")
-    public void setBefore(Object before) {
+    public void setBefore(String before) {
         this.before = before;
     }
 
