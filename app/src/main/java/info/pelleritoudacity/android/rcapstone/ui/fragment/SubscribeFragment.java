@@ -20,7 +20,7 @@ import info.pelleritoudacity.android.rcapstone.data.model.reddit.T5;
 import info.pelleritoudacity.android.rcapstone.ui.adapter.SubscribeAdapter;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 
-public class SubscribeFragment extends Fragment {
+public class SubscribeFragment extends Fragment implements SubscribeAdapter.OnRestCallBack {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.rv_fragment_subscribe)
@@ -28,11 +28,23 @@ public class SubscribeFragment extends Fragment {
 
     private Context mContext;
     private Unbinder unbinder;
-    private SubscribeAdapter mAdapter;
     private T5 mModelT5;
+    private OnRestCallBack mListener;
+    private SubscribeAdapter mAdapter;
 
     public SubscribeFragment() {
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mListener = (OnRestCallBack) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().getLocalClassName() + "must implement OnRestCallBack");
+        }
+    }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,7 +81,7 @@ public class SubscribeFragment extends Fragment {
 
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new SubscribeAdapter(mContext, mModelT5);
+       mAdapter = new SubscribeAdapter(this,mContext, mModelT5);
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -94,10 +106,26 @@ public class SubscribeFragment extends Fragment {
     }
 
     @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
     }
 
 
+    @Override
+    public void onClickSubscribe(int position, String fullname) {
+        mAdapter.notifyItemChanged(position);
+        mListener.onClickSubscribe(position,fullname);
+    }
+
+    public interface OnRestCallBack {
+        void onClickSubscribe(int position, String fullname);
+
+    }
 }

@@ -724,11 +724,20 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onQueryTextSubmit(String s) {
-        mModel.setQuerySearch(s);
-        mModel.setCategory(Preference.getLastCategory(mContext));
-        mModel.setQuerySearch(s);
-        Preference.setLastTarget(mContext, Costant.SEARCH_MAIN_TARGET);
-        updateOperation(false);
+
+        if (s.length() < 3) {
+            Snackbar.make(mContainer, R.string.text_digit_subscript, Snackbar.LENGTH_LONG).show();
+
+        }else {
+            mModel.setQuerySearch(s);
+            mModel.setCategory(Preference.getLastCategory(mContext));
+            mModel.setQuerySearch(s);
+            Preference.setLastTarget(mContext, Costant.SEARCH_MAIN_TARGET);
+            updateOperation(false);
+
+
+        }
+
         return false;
     }
 
@@ -1152,6 +1161,7 @@ public class MainActivity extends AppCompatActivity
                 updateOperation(true);
                 mDrawer.closeDrawer(GravityCompat.START);
                 return true;
+
             });
 
         }

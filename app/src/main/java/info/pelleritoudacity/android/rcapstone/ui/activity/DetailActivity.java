@@ -179,22 +179,28 @@ public class DetailActivity extends AppCompatActivity
     @Override
     public boolean onQueryTextSubmit(String s) {
 
-        model.setStrQuerySearch(s);
+        if (s.length() < 3) {
+            Snackbar.make(mContainer, R.string.text_digit_subscript, Snackbar.LENGTH_LONG).show();
 
-        switch (model.getTarget()) {
-            case Costant.DETAIL_TARGET_NO_UPDATE:
-            case Costant.DETAIL_TARGET:
-                model.setTarget(Costant.SEARCH_DETAIL_TARGET);
-                updateOperation(false);
-                break;
+        } else {
+            model.setStrQuerySearch(s);
 
-            case Costant.MORE_DETAIL_TARGET:
-                model.setTarget(Costant.MORE_SEARCH_DETAIL_TARGET);
-                updateOperation(false);
-                break;
+            switch (model.getTarget()) {
+                case Costant.DETAIL_TARGET_NO_UPDATE:
+                case Costant.DETAIL_TARGET:
+                    model.setTarget(Costant.SEARCH_DETAIL_TARGET);
+                    updateOperation(false);
+                    break;
 
-            default:
-                return false;
+                case Costant.MORE_DETAIL_TARGET:
+                    model.setTarget(Costant.MORE_SEARCH_DETAIL_TARGET);
+                    updateOperation(false);
+                    break;
+
+                default:
+                    return true;
+            }
+
         }
         return true;
     }

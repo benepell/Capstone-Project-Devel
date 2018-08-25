@@ -39,6 +39,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -72,15 +73,16 @@ import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import timber.log.Timber;
 
 public class ManageActivity extends AppCompatActivity
-        implements SearchView.OnQueryTextListener {
+        implements SearchView.OnQueryTextListener, SubscribeFragment.OnRestCallBack {
+
+    @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
+    @BindView(R.id.submanage_container)
+    public CoordinatorLayout mContainer;
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.nested_scrollview_submanage)
     public NestedScrollView mNestedScrollView;
 
-    @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
-    @BindView(R.id.submanage_container)
-    public CoordinatorLayout mContainer;
 
     private WeakReference<Context> mWeakContext;
     private boolean isAdded;
@@ -108,7 +110,7 @@ public class ManageActivity extends AppCompatActivity
 
         }
 
-        if(TextUtils.isEmpty(mSearchString)){
+        if (TextUtils.isEmpty(mSearchString)) {
             updateOperation();
 
         }
@@ -163,15 +165,9 @@ public class ManageActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        updateSubreddit(mWeakContext.get());
-    }
-
-    @Override
     public boolean onQueryTextSubmit(String query) {
         Context context = mWeakContext.get();
-        subscribeUpdateOperation(context,query);
+        subscribeUpdateOperation(context, query);
 
         return false;
     }
@@ -195,6 +191,13 @@ public class ManageActivity extends AppCompatActivity
 
         }
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onClickSubscribe(int position, String fullname) {
+        if (position > RecyclerView.NO_POSITION) {
+            updateSubreddit(mWeakContext.get());
+        }
     }
 
     private static class ManageAsyncTask extends AsyncTask<Void, Void, Cursor> {
@@ -376,7 +379,20 @@ public class ManageActivity extends AppCompatActivity
 
     }
 
-    private void subscribeUpdateOperation(Context context,String search){
+    private void subscribeUpdateOperation(Context context, String search) {
+
+        if (!PermissionUtil.isLogged(context)) {
+            Snackbar.make(mContainer, R.string.text_start_login, Snackbar.LENGTH_LONG).show();
+            return;
+
+        }
+
+        if (search.length() < 3) {
+            Snackbar.make(mContainer, R.string.text_digit_subscript, Snackbar.LENGTH_LONG).show();
+            return;
+
+        }
+
         new SearchExecute((response, code) -> {
             SubscribeFragment fragment = SubscribeFragment.newInstance(response);
             getSupportFragmentManager().beginTransaction()
@@ -384,9 +400,10 @@ public class ManageActivity extends AppCompatActivity
 
         }, context, PermissionUtil.getToken(context), search).getSearch();
 
+
     }
 
-    private void updateSubreddit(Context context){
+    private void updateSubreddit(Context context) {
         new MineExecute((response, code) -> {
             T5Operation data = new T5Operation(context, response);
             data.saveData();

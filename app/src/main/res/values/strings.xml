@@ -248,7 +248,7 @@
     <string name="text_subscribers">%s subscribers</string>
     <string name="text_no_subscribers">no subscribers</string>
     <string name="text_no_title">title not available</string>
-    <string name="text_no_display_name_prefix">prefix not available</string>
+    <string name="text_digit_subscript">The search must be at least 3 characters long</string>
     <string-array name="pref_depth_page_titles">
         <item>none</item>
         <item>1 level</item>

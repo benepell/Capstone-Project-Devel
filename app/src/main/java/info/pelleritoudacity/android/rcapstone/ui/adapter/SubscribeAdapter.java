@@ -26,8 +26,10 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeAdapter.Subs
 
     private final Context mContext;
     private final T5 mModelT5;
+    private final OnRestCallBack mListener;
 
-    public SubscribeAdapter(Context context, T5 modelT5) {
+    public SubscribeAdapter(OnRestCallBack listener,Context context, T5 modelT5) {
+        mListener = listener;
         mContext = context;
         mModelT5 = modelT5;
     }
@@ -48,7 +50,6 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeAdapter.Subs
 
         String fullname = null;
         String title = null;
-        String displayNamePrefix = null;
         Integer subscribers = null;
         Double createUtc = null;
         Object userIsSubscriber = null;
@@ -177,15 +178,21 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeAdapter.Subs
         new PostExecute((response, code) -> {
             if (code == 200) {
                 if(subscribe){
-                    model.getData().getChildren().get(position).getData().setUserIsSubscriber(Boolean.valueOf(true));
+                    model.getData().getChildren().get(position).getData().setUserIsSubscriber(Boolean.TRUE);
 
                 }else {
-                    model.getData().getChildren().get(position).getData().setUserIsSubscriber(Boolean.valueOf(false));
+                    model.getData().getChildren().get(position).getData().setUserIsSubscriber(Boolean.FALSE);
 
                 }
-                notifyItemChanged(position);
+                mListener.onClickSubscribe(position,fullname);
+
             }
         }, PermissionUtil.getToken(context), action, fullname).postSubcribe();
+
+    }
+
+    public interface OnRestCallBack {
+        void onClickSubscribe(int position, String fullname);
 
     }
 }
