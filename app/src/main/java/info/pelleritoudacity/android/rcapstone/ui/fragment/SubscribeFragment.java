@@ -124,8 +124,13 @@ public class SubscribeFragment extends Fragment implements SubscribeAdapter.OnRe
         mListener.onClickSubscribe(position);
     }
 
+    @Override
+    public void onClickCategory(int position, String category) {
+        mListener.onClickCategory(category);
+    }
+
     public interface OnRestCallBack {
         void onClickSubscribe(int position);
-
+        void onClickCategory(String category);
     }
 }

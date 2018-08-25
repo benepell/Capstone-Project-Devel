@@ -17,6 +17,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.SearchView;
@@ -29,10 +30,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
+import com.google.android.exoplayer2.util.Util;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 
@@ -97,6 +101,7 @@ public class DetailActivity extends AppCompatActivity
     private long startTimeoutRefresh;
     private SearchView mSearchView;
     private String mSearchString;
+    private AlertDialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -533,6 +538,14 @@ public class DetailActivity extends AppCompatActivity
                 }
                 return true;
 
+            case R.id.menu_action_subscribe:
+                if (PermissionUtil.isLogged(mContext)) {
+                    showDialogSearch();
+                } else {
+                    Snackbar.make(mContainer, R.string.text_start_login, Snackbar.LENGTH_LONG).show();
+                }
+                return true;
+
             case R.id.menu_action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
@@ -663,8 +676,34 @@ public class DetailActivity extends AppCompatActivity
 
     }
 
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (Util.SDK_INT <= 23) {
+            if (mDialog != null) {
+                mDialog.dismiss();
+            }
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (Util.SDK_INT > 23) {
+            if (mDialog != null) {
+                mDialog.dismiss();
+            }
+        }
+    }
+
     @Override
     public void onBackPressed() {
+
+        if (mDialog != null) {
+            mDialog.dismiss();
+        }
+
         if ((mDrawer != null) & (Objects.requireNonNull(mDrawer).isDrawerOpen(GravityCompat.START))) {
             mDrawer.closeDrawer(GravityCompat.START);
 
@@ -997,4 +1036,32 @@ public class DetailActivity extends AppCompatActivity
 
         startActivity(intent);
     }
+
+    private void showDialogSearch() {
+
+        mDialog = new AlertDialog.Builder(this)
+                .setView(R.layout.dialog_search)
+                .create();
+        mDialog.show();
+
+        TextView title = mDialog.findViewById(R.id.dialog_title_search);
+        EditText editText = mDialog.findViewById(R.id.editext_dialog_search);
+        Button cancel = mDialog.findViewById(R.id.dialog_cancel_subscribe);
+        Button submit = mDialog.findViewById(R.id.dialog_submit_subscribe);
+
+        if(Preference.isNightMode(mContext)) {
+            Objects.requireNonNull(title).setBackgroundColor(Color.DKGRAY);
+        }
+
+        Objects.requireNonNull(cancel).setOnClickListener(view -> mDialog.dismiss());
+
+        Objects.requireNonNull(submit).setOnClickListener(view -> {
+            if (Objects.requireNonNull(editText).getText().length() > 2) {
+                startActivity(new Intent(this, ManageActivity.class)
+                        .putExtra(Costant.EXTRA_SEARCH_SUBSCRIBE, editText.getText().toString()));
+            }
+        });
+
+    }
+
 }

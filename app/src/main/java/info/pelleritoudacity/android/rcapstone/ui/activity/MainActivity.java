@@ -48,6 +48,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.SearchView;
@@ -61,6 +62,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -145,6 +148,7 @@ public class MainActivity extends AppCompatActivity
     private MenuLauncher mLauncherMenu;
     private SearchView mSearchView;
     private String mSearchString;
+    private AlertDialog mDialog;
 
 
     @Override
@@ -259,6 +263,7 @@ public class MainActivity extends AppCompatActivity
         if ((savedInstanceState == null) || (getIntent().getBooleanExtra(Costant.EXTRA_ACTIVITY_REDDIT_REFRESH, false))) {
             updateOperation(true);
         }
+
 
     }
 
@@ -506,6 +511,14 @@ public class MainActivity extends AppCompatActivity
                 }
                 return true;
 
+            case R.id.menu_action_subscribe:
+                if (PermissionUtil.isLogged(mContext)) {
+                    showDialogSearch();
+                } else {
+                    Snackbar.make(mContainer, R.string.text_start_login, Snackbar.LENGTH_LONG).show();
+                }
+                return true;
+
             case R.id.menu_action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
@@ -637,6 +650,26 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        if (Util.SDK_INT <= 23) {
+            if (mDialog != null) {
+                mDialog.dismiss();
+            }
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (Util.SDK_INT > 23) {
+            if (mDialog != null) {
+                mDialog.dismiss();
+            }
+        }
+    }
+
+    @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mModel = savedInstanceState.getParcelable(Costant.EXTRA_PARCEL_MAIN_MODEL);
@@ -728,7 +761,7 @@ public class MainActivity extends AppCompatActivity
         if (s.length() < 3) {
             Snackbar.make(mContainer, R.string.text_digit_subscript, Snackbar.LENGTH_LONG).show();
 
-        }else {
+        } else {
             mModel.setQuerySearch(s);
             mModel.setCategory(Preference.getLastCategory(mContext));
             mModel.setQuerySearch(s);
@@ -884,6 +917,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+
+        if (mDialog != null) {
+            mDialog.dismiss();
+        }
 
         if ((mDrawer != null) & (Objects.requireNonNull(mDrawer).isDrawerOpen(GravityCompat.START))) {
             mDrawer.closeDrawer(GravityCompat.START);
@@ -1167,5 +1204,30 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    private void showDialogSearch() {
+
+        mDialog = new AlertDialog.Builder(this)
+                .setView(R.layout.dialog_search)
+                .create();
+        mDialog.show();
+
+        TextView title = mDialog.findViewById(R.id.dialog_title_search);
+        EditText editText = mDialog.findViewById(R.id.editext_dialog_search);
+        Button cancel = mDialog.findViewById(R.id.dialog_cancel_subscribe);
+        Button submit = mDialog.findViewById(R.id.dialog_submit_subscribe);
+
+        if(Preference.isNightMode(mContext)) {
+            Objects.requireNonNull(title).setBackgroundColor(Color.DKGRAY);
+        }
+        Objects.requireNonNull(cancel).setOnClickListener(view -> mDialog.dismiss());
+
+        Objects.requireNonNull(submit).setOnClickListener(view -> {
+            if (Objects.requireNonNull(editText).getText().length() > 2) {
+                startActivity(new Intent(this, ManageActivity.class)
+                        .putExtra(Costant.EXTRA_SEARCH_SUBSCRIBE, editText.getText().toString()));
+            }
+        });
+
+    }
 
 }

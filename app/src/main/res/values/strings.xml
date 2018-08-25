@@ -80,6 +80,7 @@
     <string name="title_menu_mode_search">Search</string>
 
     <string name="title_menu_subscriptions">Subscription:</string>
+    <string name="title_menu_subscribe">Search Subscribe</string>
     <string name="title_menu_mode_refresh">Refresh</string>
     <string name="title_menu_mode_settings">Settings</string>
 
@@ -249,6 +250,9 @@
     <string name="text_no_subscribers">no subscribers</string>
     <string name="text_no_title">title not available</string>
     <string name="text_digit_subscript">The search must be at least 3 characters long</string>
+    <string name="search_subscribe_hint">search subscribe (min 3 digit)</string>
+    <string name="text_cancel_dialog">cancel</string>
+    <string name="text_dialog_search">Search</string>
     <string-array name="pref_depth_page_titles">
         <item>none</item>
         <item>1 level</item>

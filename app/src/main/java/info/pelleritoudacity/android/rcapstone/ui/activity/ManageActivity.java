@@ -108,6 +108,12 @@ public class ManageActivity extends AppCompatActivity
         if (savedInstanceState != null) {
             mSearchString = savedInstanceState.getString(Costant.EXTRA_SEARCH_SUBSCRIBE);
 
+        }else {
+            if(getIntent()!=null){
+                mSearchString = getIntent().getStringExtra(Costant.EXTRA_SEARCH_SUBSCRIBE);
+
+            }
+
         }
 
         if (TextUtils.isEmpty(mSearchString)) {
@@ -198,6 +204,11 @@ public class ManageActivity extends AppCompatActivity
         if (position > RecyclerView.NO_POSITION) {
             updateSubreddit(mWeakContext.get());
         }
+    }
+
+    @Override
+    public void onClickCategory(String category) {
+        startCategory(category);
     }
 
     private static class ManageAsyncTask extends AsyncTask<Void, Void, Cursor> {
@@ -419,6 +430,14 @@ public class ManageActivity extends AppCompatActivity
         }, context, PermissionUtil.getToken(context),
                 Costant.MINE_WHERE_SUBSCRIBER).getMine();
 
+    }
+
+    private void startCategory(String category) {
+        String filterCat = TextUtil.normalizeSubRedditLink("/".concat(category));
+        Intent intent = new Intent(mWeakContext.get(), MainActivity.class);
+        intent.putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, filterCat);
+        intent.putExtra(Costant.EXTRA_MAIN_TARGET, Costant.DEFAULT_START_VALUE_MAIN_TARGET);
+        startActivity(intent);
     }
 
 }

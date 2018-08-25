@@ -28,7 +28,7 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeAdapter.Subs
     private final T5 mModelT5;
     private final OnRestCallBack mListener;
 
-    public SubscribeAdapter(OnRestCallBack listener,Context context, T5 modelT5) {
+    public SubscribeAdapter(OnRestCallBack listener, Context context, T5 modelT5) {
         mListener = listener;
         mContext = context;
         mModelT5 = modelT5;
@@ -49,6 +49,7 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeAdapter.Subs
     public void onBindViewHolder(@NonNull SubscribeAdapter.SubscribeHolder holder, int position) {
 
         String fullname = null;
+        String displayNamePrefix = null;
         String title = null;
         Integer subscribers = null;
         Double createUtc = null;
@@ -57,6 +58,7 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeAdapter.Subs
         if (mModelT5 != null) {
 
             fullname = mModelT5.getData().getChildren().get(position).getData().getName();
+            displayNamePrefix = mModelT5.getData().getChildren().get(position).getData().getDisplayNamePrefixed();
             title = mModelT5.getData().getChildren().get(position).getData().getTitle();
             subscribers = mModelT5.getData().getChildren().get(position).getData().getSubscribers();
             createUtc = mModelT5.getData().getChildren().get(position).getData().getCreatedUtc();
@@ -71,13 +73,22 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeAdapter.Subs
             holder.mButtonIsSubscribe.setText(R.string.text_unsubscribe);
             holder.mButtonIsSubscribe.getBackground().setColorFilter(new LightingColorFilter(0xFF5252, 0xFF5252));
             String finalFullname = fullname;
-            holder.mButtonIsSubscribe.setOnClickListener(v -> postSubscribe(mContext,mModelT5,false, finalFullname,position));
+            holder.mButtonIsSubscribe.setOnClickListener(v -> postSubscribe(mContext, mModelT5, false, finalFullname, position));
 
 
         } else if (userIsSubscriber.equals(false)) {
             holder.mButtonIsSubscribe.setText(R.string.text_subscribe);
             String finalFullname1 = fullname;
-            holder.mButtonIsSubscribe.setOnClickListener(v -> postSubscribe(mContext,mModelT5,true, finalFullname1,position));
+            holder.mButtonIsSubscribe.setOnClickListener(v -> postSubscribe(mContext, mModelT5, true, finalFullname1, position));
+        }
+
+
+        if (TextUtils.isEmpty(displayNamePrefix)) {
+            holder.mTextViewSubscribeName.setText(R.string.text_no_subscribers);
+
+        } else {
+            holder.mTextViewSubscribeName.setText(displayNamePrefix);
+
         }
 
         if (TextUtils.isEmpty(title)) {
@@ -87,7 +98,6 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeAdapter.Subs
             holder.mTextViewTitle.setText(title);
 
         }
-
 
 
         if (subscribers != null) {
@@ -104,7 +114,7 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeAdapter.Subs
 
         }
 
-
+        holder.bind(position,displayNamePrefix);
     }
 
     @Override
@@ -117,6 +127,7 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeAdapter.Subs
         super.onViewDetachedFromWindow(holder);
 
     }
+
 
 
     public class SubscribeHolder extends RecyclerView.ViewHolder
@@ -146,6 +157,8 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeAdapter.Subs
         @BindView(R.id.tv_is_over18)
         TextView mTextViewIsOver;
 
+        private int mPosition;
+        private String mName;
 
         SubscribeHolder(View itemView) {
             super(itemView);
@@ -166,21 +179,28 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeAdapter.Subs
 
         @Override
         public void onClick(View view) {
+            mListener.onClickCategory(mPosition,mName);
+        }
+
+        void bind(int position, String name){
+            mPosition = position;
+            mName = name;
 
         }
 
+
     }
 
-    private void postSubscribe(Context context,T5 model,boolean subscribe, String fullname,int position) {
+    private void postSubscribe(Context context, T5 model, boolean subscribe, String fullname, int position) {
 
         String action = (subscribe) ? "sub" : "unsub";
 
         new PostExecute((response, code) -> {
             if (code == 200) {
-                if(subscribe){
+                if (subscribe) {
                     model.getData().getChildren().get(position).getData().setUserIsSubscriber(Boolean.TRUE);
 
-                }else {
+                } else {
                     model.getData().getChildren().get(position).getData().setUserIsSubscriber(Boolean.FALSE);
 
                 }
@@ -193,6 +213,6 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeAdapter.Subs
 
     public interface OnRestCallBack {
         void onClickSubscribe(int position);
-
+        void onClickCategory(int position,String category);
     }
 }
