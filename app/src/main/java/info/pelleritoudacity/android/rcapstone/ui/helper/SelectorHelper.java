@@ -320,7 +320,10 @@ public class SelectorHelper {
         Button button = dialog.findViewById(R.id.button_comment_selector);
         Button delete = dialog.findViewById(R.id.button_delete_selector);
 
+        if(Preference.isNightMode(mContext)){
+            tvTitle.setBackgroundColor(Color.DKGRAY);
 
+        }
 
         if (editText != null && button != null && cancel != null && tvTitle != null && delete !=null) {
 

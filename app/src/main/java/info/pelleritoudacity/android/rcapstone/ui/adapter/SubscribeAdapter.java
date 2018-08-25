@@ -114,7 +114,7 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeAdapter.Subs
 
         }
 
-        holder.bind(position,displayNamePrefix);
+        holder.bind(displayNamePrefix);
     }
 
     @Override
@@ -157,7 +157,6 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeAdapter.Subs
         @BindView(R.id.tv_is_over18)
         TextView mTextViewIsOver;
 
-        private int mPosition;
         private String mName;
 
         SubscribeHolder(View itemView) {
@@ -179,11 +178,10 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeAdapter.Subs
 
         @Override
         public void onClick(View view) {
-            mListener.onClickCategory(mPosition,mName);
+            mListener.onClickCategory(mName);
         }
 
-        void bind(int position, String name){
-            mPosition = position;
+        void bind(String name){
             mName = name;
 
         }
@@ -213,6 +211,6 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeAdapter.Subs
 
     public interface OnRestCallBack {
         void onClickSubscribe(int position);
-        void onClickCategory(int position,String category);
+        void onClickCategory(String category);
     }
 }

@@ -125,7 +125,7 @@ public class SubscribeFragment extends Fragment implements SubscribeAdapter.OnRe
     }
 
     @Override
-    public void onClickCategory(int position, String category) {
+    public void onClickCategory(String category) {
         mListener.onClickCategory(category);
     }
 

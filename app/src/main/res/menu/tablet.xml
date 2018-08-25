@@ -19,6 +19,12 @@
         android:visible="true" />
 
     <item
+        android:id="@+id/menu_action_subscribe"
+        android:enabled="true"
+        android:title="@string/title_menu_subscribe"
+        android:visible="true" />
+
+    <item
         android:id="@+id/menu_action_refresh"
         android:enabled="true"
         android:title="@string/title_menu_mode_refresh"
