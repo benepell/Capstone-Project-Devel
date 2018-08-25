@@ -184,7 +184,7 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeAdapter.Subs
                     model.getData().getChildren().get(position).getData().setUserIsSubscriber(Boolean.FALSE);
 
                 }
-                mListener.onClickSubscribe(position,fullname);
+                mListener.onClickSubscribe(position);
 
             }
         }, PermissionUtil.getToken(context), action, fullname).postSubcribe();
@@ -192,7 +192,7 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeAdapter.Subs
     }
 
     public interface OnRestCallBack {
-        void onClickSubscribe(int position, String fullname);
+        void onClickSubscribe(int position);
 
     }
 }

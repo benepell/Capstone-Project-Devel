@@ -119,13 +119,13 @@ public class SubscribeFragment extends Fragment implements SubscribeAdapter.OnRe
 
 
     @Override
-    public void onClickSubscribe(int position, String fullname) {
+    public void onClickSubscribe(int position) {
         mAdapter.notifyItemChanged(position);
-        mListener.onClickSubscribe(position,fullname);
+        mListener.onClickSubscribe(position);
     }
 
     public interface OnRestCallBack {
-        void onClickSubscribe(int position, String fullname);
+        void onClickSubscribe(int position);
 
     }
 }

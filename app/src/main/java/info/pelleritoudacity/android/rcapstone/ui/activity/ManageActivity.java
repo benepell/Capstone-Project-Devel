@@ -194,7 +194,7 @@ public class ManageActivity extends AppCompatActivity
     }
 
     @Override
-    public void onClickSubscribe(int position, String fullname) {
+    public void onClickSubscribe(int position) {
         if (position > RecyclerView.NO_POSITION) {
             updateSubreddit(mWeakContext.get());
         }
