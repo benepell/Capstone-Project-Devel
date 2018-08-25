@@ -37,6 +37,7 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.RecyclerView;
@@ -47,7 +48,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import com.google.android.exoplayer2.util.Util;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 
@@ -88,6 +93,7 @@ public class ManageActivity extends AppCompatActivity
     private boolean isAdded;
     private SearchView mSearchView;
     private String mSearchString;
+    private AlertDialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,8 +114,8 @@ public class ManageActivity extends AppCompatActivity
         if (savedInstanceState != null) {
             mSearchString = savedInstanceState.getString(Costant.EXTRA_SEARCH_SUBSCRIBE);
 
-        }else {
-            if(getIntent()!=null){
+        } else {
+            if (getIntent() != null) {
                 mSearchString = getIntent().getStringExtra(Costant.EXTRA_SEARCH_SUBSCRIBE);
 
             }
@@ -122,6 +128,27 @@ public class ManageActivity extends AppCompatActivity
         }
 
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (Util.SDK_INT <= 23) {
+            if (mDialog != null) {
+                mDialog.dismiss();
+            }
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (Util.SDK_INT > 23) {
+            if (mDialog != null) {
+                mDialog.dismiss();
+            }
+        }
+    }
+
 
     private void updateOperation() {
 
@@ -211,67 +238,6 @@ public class ManageActivity extends AppCompatActivity
         startCategory(category);
     }
 
-    private static class ManageAsyncTask extends AsyncTask<Void, Void, Cursor> {
-
-        private final WeakReference<Context> mWeakContext;
-
-        ManageAsyncTask(WeakReference<Context> weakContext) {
-            mWeakContext = weakContext;
-        }
-
-        @Override
-        protected Cursor doInBackground(Void... voids) {
-
-            try {
-
-                Context context = mWeakContext.get();
-
-                Uri uri = Contract.PrefSubRedditEntry.CONTENT_URI;
-                String selection = Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED + " =?" + " AND " +
-                        Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE + " =?";
-                String[] selectionArgs = {String.valueOf(0), String.valueOf(1)};
-
-                return context.getContentResolver().query(uri,
-                        null,
-                        selection,
-                        selectionArgs,
-                        null);
-
-            } catch (Exception e) {
-                Timber.e("Failed to asynchronously load data. ");
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Cursor cursor) {
-            super.onPostExecute(cursor);
-
-            Context context = mWeakContext.get();
-
-            try {
-                ArrayList<String> arrayList = new ArrayList<>(cursor.getCount());
-
-                String name;
-                if (!cursor.isClosed()) {
-                    while (cursor.moveToNext()) {
-                        name = TextUtil.normalizeSubRedditLink(
-                                cursor.getString(cursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME)));
-
-                        arrayList.add(name);
-                        Preference.setSubredditKey(context, TextUtil.arrayToString(arrayList));
-                    }
-                }
-
-            } finally {
-                if ((cursor != null) && (!cursor.isClosed())) {
-                    cursor.close();
-                }
-
-            }
-        }
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -314,6 +280,15 @@ public class ManageActivity extends AppCompatActivity
                     Snackbar.make(mContainer, R.string.text_start_login, Snackbar.LENGTH_LONG).show();
                 }
                 return true;
+
+            case R.id.menu_action_subscribe:
+                if (PermissionUtil.isLogged(getApplicationContext())) {
+                    showDialogSearch();
+                } else {
+                    Snackbar.make(mContainer, R.string.text_start_login, Snackbar.LENGTH_LONG).show();
+                }
+                return true;
+
 
             case R.id.menu_action_refresh:
                 if (NetworkUtil.isOnline(this)) {
@@ -390,6 +365,80 @@ public class ManageActivity extends AppCompatActivity
 
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mDialog != null) {
+            mDialog.dismiss();
+
+        } else {
+            super.onBackPressed();
+
+        }
+    }
+
+    private static class ManageAsyncTask extends AsyncTask<Void, Void, Cursor> {
+
+        private final WeakReference<Context> mWeakContext;
+
+        ManageAsyncTask(WeakReference<Context> weakContext) {
+            mWeakContext = weakContext;
+        }
+
+        @Override
+        protected Cursor doInBackground(Void... voids) {
+
+            try {
+
+                Context context = mWeakContext.get();
+
+                Uri uri = Contract.PrefSubRedditEntry.CONTENT_URI;
+                String selection = Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED + " =?" + " AND " +
+                        Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE + " =?";
+                String[] selectionArgs = {String.valueOf(0), String.valueOf(1)};
+
+                return context.getContentResolver().query(uri,
+                        null,
+                        selection,
+                        selectionArgs,
+                        null);
+
+            } catch (Exception e) {
+                Timber.e("Failed to asynchronously load data. ");
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Cursor cursor) {
+            super.onPostExecute(cursor);
+
+            Context context = mWeakContext.get();
+
+            try {
+                ArrayList<String> arrayList = new ArrayList<>(cursor.getCount());
+
+                String name;
+                if (!cursor.isClosed()) {
+                    while (cursor.moveToNext()) {
+                        name = TextUtil.normalizeSubRedditLink(
+                                cursor.getString(cursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME)));
+
+                        arrayList.add(name);
+                        Preference.setSubredditKey(context, TextUtil.arrayToString(arrayList));
+                    }
+                }
+
+            } finally {
+                if ((cursor != null) && (!cursor.isClosed())) {
+                    cursor.close();
+                }
+
+            }
+        }
+
+    }
+
+
     private void subscribeUpdateOperation(Context context, String search) {
 
         if (!PermissionUtil.isLogged(context)) {
@@ -405,9 +454,15 @@ public class ManageActivity extends AppCompatActivity
         }
 
         new SearchExecute((response, code) -> {
+
             SubscribeFragment fragment = SubscribeFragment.newInstance(response);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_list_container, fragment).commit();
+
+            if (mDialog != null) {
+                mDialog.dismiss();
+
+            }
 
         }, context, PermissionUtil.getToken(context), search).getSearch();
 
@@ -438,6 +493,33 @@ public class ManageActivity extends AppCompatActivity
         intent.putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, filterCat);
         intent.putExtra(Costant.EXTRA_MAIN_TARGET, Costant.DEFAULT_START_VALUE_MAIN_TARGET);
         startActivity(intent);
+    }
+
+    private void showDialogSearch() {
+
+        mDialog = new AlertDialog.Builder(this)
+                .setView(R.layout.dialog_search)
+                .create();
+        mDialog.show();
+
+        TextView title = mDialog.findViewById(R.id.dialog_title_search);
+        EditText editText = mDialog.findViewById(R.id.editext_dialog_search);
+        Button cancel = mDialog.findViewById(R.id.dialog_cancel_subscribe);
+        Button submit = mDialog.findViewById(R.id.dialog_submit_subscribe);
+
+        if (Preference.isNightMode(this)) {
+            Objects.requireNonNull(title).setBackgroundColor(Color.DKGRAY);
+        }
+        Objects.requireNonNull(cancel).setOnClickListener(view -> mDialog.dismiss());
+
+        Objects.requireNonNull(submit).setOnClickListener(view -> {
+            if (Objects.requireNonNull(editText).getText().length() > 2) {
+                mSearchString = editText.getText().toString();
+                subscribeUpdateOperation(this, mSearchString);
+
+            }
+        });
+
     }
 
 }

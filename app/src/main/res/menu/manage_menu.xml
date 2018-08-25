@@ -52,16 +52,23 @@
     </item>
 
     <item
+        android:id="@+id/menu_action_refresh"
+        android:enabled="true"
+        android:title="@string/title_menu_mode_refresh"
+        android:visible="true" />
+
+    <item
         android:id="@+id/menu_action_create"
         android:enabled="true"
         android:title="@string/title_menu_create"
         android:visible="true" />
 
     <item
-        android:id="@+id/menu_action_refresh"
+        android:id="@+id/menu_action_subscribe"
         android:enabled="true"
-        android:title="@string/title_menu_mode_refresh"
+        android:title="@string/title_menu_subscribe"
         android:visible="true" />
+
 
     <item
         android:id="@+id/menu_action_settings"

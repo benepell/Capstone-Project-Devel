@@ -67,7 +67,6 @@
     </item>
 
 
-
     <item
         android:id="@+id/submenu_filter_posts"
         android:enabled="true"
@@ -75,7 +74,7 @@
         android:visible="true"
         app:showAsAction="ifRoom">
 
-    <menu xmlns:android="http://schemas.android.com/apk/res/android"
+        <menu xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto">
             <item
                 android:id="@+id/submenu_filter_hot"
@@ -178,6 +177,12 @@
         </menu>
     </item>
 
+    <item
+        android:id="@+id/menu_action_refresh"
+        android:enabled="true"
+        android:title="@string/title_menu_mode_refresh"
+        android:visible="true"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/menu_action_create"
@@ -191,12 +196,6 @@
         android:title="@string/title_menu_subscribe"
         android:visible="true" />
 
-    <item
-        android:id="@+id/menu_action_refresh"
-        android:enabled="true"
-        android:title="@string/title_menu_mode_refresh"
-        android:visible="true"
-        app:showAsAction="never" />
 
     <item
         android:id="@+id/menu_action_settings"
