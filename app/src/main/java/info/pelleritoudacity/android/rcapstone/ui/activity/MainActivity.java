@@ -51,6 +51,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableStringBuilder;
@@ -755,10 +756,13 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void tabReselected(int position, String category) {
-        if (position > 0) {
+        if (position > RecyclerView.NO_POSITION) {
             mModel.setCategory(category);
             mModel.setPositionTab(position);
             closeSearch(mModel);
+            Preference.setLastCategory(mContext,category);
+            Preference.setLastTarget(mContext,Costant.TAB_MAIN_TARGET);
+            updateOperation(false);
         }
     }
 
