@@ -114,7 +114,7 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeAdapter.Subs
 
         }
 
-        holder.bind(displayNamePrefix);
+        holder.bind(displayNamePrefix, fullname, userIsSubscriber);
     }
 
     @Override
@@ -127,7 +127,6 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeAdapter.Subs
         super.onViewDetachedFromWindow(holder);
 
     }
-
 
 
     public class SubscribeHolder extends RecyclerView.ViewHolder
@@ -158,6 +157,8 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeAdapter.Subs
         TextView mTextViewIsOver;
 
         private String mName;
+        private String mFullname;
+        private Object mUserIsSubscriber;
 
         SubscribeHolder(View itemView) {
             super(itemView);
@@ -178,12 +179,14 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeAdapter.Subs
 
         @Override
         public void onClick(View view) {
-            mListener.onClickCategory(mName);
+                mListener.onClickCategory(mName, mFullname,mUserIsSubscriber);
+
         }
 
-        void bind(String name){
+        void bind(String name, String fullname, Object userIsSubscriber) {
             mName = name;
-
+            mFullname = fullname;
+            mUserIsSubscriber = userIsSubscriber;
         }
 
 
@@ -211,6 +214,7 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeAdapter.Subs
 
     public interface OnRestCallBack {
         void onClickSubscribe(int position);
-        void onClickCategory(String category);
+
+        void onClickCategory(String category, String fullname, Object userIsSubscriber);
     }
 }

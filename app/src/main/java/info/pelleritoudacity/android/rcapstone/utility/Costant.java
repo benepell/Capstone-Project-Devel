@@ -105,6 +105,7 @@ public interface Costant {
     String EXTRA_FRAGMENT_STRING_ID = "info.pelleritoudacity.android.rcapstone.extra.fragment.string.id";
 
     String EXTRA_SEARCH_SUBSCRIBE = "info.pelleritoudacity.android.rcapstone.extra.search.subscribe";
+    String EXTRA_SEARCH_TYPE = "info.pelleritoudacity.android.rcapstone.extra.search.type";
     String EXTRA_SEARCH_MAIN = "info.pelleritoudacity.android.rcapstone.extra.search.main";
     String EXTRA_SEARCH_DETAIL = "info.pelleritoudacity.android.rcapstone.extra.search.detail";
 

@@ -93,6 +93,7 @@ public class ManageActivity extends AppCompatActivity
     private boolean isAdded;
     private SearchView mSearchView;
     private String mSearchString;
+    private String mTypeString;
     private AlertDialog mDialog;
 
     @Override
@@ -113,10 +114,15 @@ public class ManageActivity extends AppCompatActivity
         mWeakContext = new WeakReference<>(getApplicationContext());
         if (savedInstanceState != null) {
             mSearchString = savedInstanceState.getString(Costant.EXTRA_SEARCH_SUBSCRIBE);
+            mTypeString = savedInstanceState.getString(Costant.EXTRA_SEARCH_TYPE);
 
         } else {
             if (getIntent() != null) {
                 mSearchString = getIntent().getStringExtra(Costant.EXTRA_SEARCH_SUBSCRIBE);
+                mTypeString = getIntent().getStringExtra(Costant.EXTRA_SEARCH_TYPE);
+
+            } else {
+                mTypeString = Costant.SEARCH_TYPE_SUBREDDITS;
 
             }
 
@@ -200,7 +206,7 @@ public class ManageActivity extends AppCompatActivity
     @Override
     public boolean onQueryTextSubmit(String query) {
         Context context = mWeakContext.get();
-        subscribeUpdateOperation(context, query);
+        subscribeUpdateOperation(context, query, mTypeString);
 
         return false;
     }
@@ -215,12 +221,14 @@ public class ManageActivity extends AppCompatActivity
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mSearchString = savedInstanceState.getString(Costant.EXTRA_SEARCH_SUBSCRIBE);
+        mTypeString = savedInstanceState.getString(Costant.EXTRA_SEARCH_TYPE);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         if (mSearchView != null) {
             outState.putString(Costant.EXTRA_SEARCH_SUBSCRIBE, mSearchView.getQuery().toString());
+            outState.putString(Costant.EXTRA_SEARCH_TYPE, mTypeString);
 
         }
         super.onSaveInstanceState(outState);
@@ -234,8 +242,24 @@ public class ManageActivity extends AppCompatActivity
     }
 
     @Override
-    public void onClickCategory(String category) {
-        startCategory(category);
+    public void onClickCategory(String category, String fullname, Object userIsSubscriber) {
+        if (userIsSubscriber != null) {
+            switch (mTypeString) {
+                case Costant.SEARCH_TYPE_SUBREDDITS:
+                    startCategory(category);
+                    break;
+
+                case Costant.SEARCH_TYPE_LINK:
+                    startLink(category, fullname);
+                    break;
+
+            }
+            startCategory(category);
+        } else {
+            Snackbar.make(mContainer, R.string.text_private_category, Snackbar.LENGTH_LONG).show();
+
+
+        }
     }
 
 
@@ -439,7 +463,7 @@ public class ManageActivity extends AppCompatActivity
     }
 
 
-    private void subscribeUpdateOperation(Context context, String search) {
+    private void subscribeUpdateOperation(Context context, String search, String type) {
 
         if (!PermissionUtil.isLogged(context)) {
             Snackbar.make(mContainer, R.string.text_start_login, Snackbar.LENGTH_LONG).show();
@@ -464,7 +488,7 @@ public class ManageActivity extends AppCompatActivity
 
             }
 
-        }, context, PermissionUtil.getToken(context), search).getSearch();
+        }, context, PermissionUtil.getToken(context), search, type).getSearch();
 
 
     }
@@ -488,15 +512,30 @@ public class ManageActivity extends AppCompatActivity
     }
 
     private void startCategory(String category) {
-        String filterCat = TextUtil.normalizeSubRedditLink("/".concat(category));
+        String filterCat = null;
+        if (!TextUtils.isEmpty(category)) {
+            filterCat = TextUtil.normalizeSubRedditLink("/".concat(category));
+        }
         Intent intent = new Intent(mWeakContext.get(), MainActivity.class);
         intent.putExtra(Costant.EXTRA_SUBREDDIT_CATEGORY, filterCat);
         intent.putExtra(Costant.EXTRA_MAIN_TARGET, Costant.DEFAULT_START_VALUE_MAIN_TARGET);
         startActivity(intent);
     }
 
-    private void showDialogSearch() {
+    private void startLink(String category, String strId) {
+        String filterCat = null;
+        if (!TextUtils.isEmpty(category)) {
+            filterCat = TextUtil.normalizeSubRedditLink("/".concat(category));
 
+        }
+        Intent intent = new Intent(mWeakContext.get(), MainActivity.class);
+        intent.putExtra(Costant.EXTRA_SUBREDDIT_DETAIL_POSITION, RecyclerView.NO_POSITION);
+        intent.putExtra(Costant.EXTRA_SUBREDDIT_DETAIL_CATEGORY, filterCat);
+        intent.putExtra(Costant.EXTRA_SUBREDDIT_DETAIL_STR_ID, strId);
+        startActivity(intent);
+    }
+
+    private void showDialogSearch() {
         mDialog = new AlertDialog.Builder(this)
                 .setView(R.layout.dialog_search)
                 .create();
@@ -515,7 +554,7 @@ public class ManageActivity extends AppCompatActivity
         Objects.requireNonNull(submit).setOnClickListener(view -> {
             if (Objects.requireNonNull(editText).getText().length() > 2) {
                 mSearchString = editText.getText().toString();
-                subscribeUpdateOperation(this, mSearchString);
+                subscribeUpdateOperation(this, mSearchString, Costant.SEARCH_TYPE_SUBREDDITS);
 
             }
         });

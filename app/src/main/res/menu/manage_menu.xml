@@ -64,10 +64,25 @@
         android:visible="true" />
 
     <item
-        android:id="@+id/menu_action_subscribe"
         android:enabled="true"
-        android:title="@string/title_menu_subscribe"
-        android:visible="true" />
+        android:title="@string/title_menu_search"
+        android:visible="true">
+        <menu>
+            <item
+                android:id="@+id/menu_action_subscribe"
+                android:enabled="true"
+                android:title="@string/title_menu_subscribe"
+                android:visible="true" />
+
+            <item
+                android:id="@+id/menu_action_link"
+                android:enabled="true"
+                android:title="@string/title_menu_link"
+                android:visible="true" />
+
+        </menu>
+
+    </item>
 
 
     <item

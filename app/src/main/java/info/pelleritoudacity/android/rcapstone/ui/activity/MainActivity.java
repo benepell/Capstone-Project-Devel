@@ -513,7 +513,14 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.menu_action_subscribe:
                 if (PermissionUtil.isLogged(mContext)) {
-                    showDialogSearch();
+                    showDialogSearch(Costant.SEARCH_TYPE_SUBREDDITS);
+                } else {
+                    Snackbar.make(mContainer, R.string.text_start_login, Snackbar.LENGTH_LONG).show();
+                }
+                return true;
+            case R.id.menu_action_link:
+                if (PermissionUtil.isLogged(mContext)) {
+                    showDialogSearch(Costant.SEARCH_TYPE_LINK);
                 } else {
                     Snackbar.make(mContainer, R.string.text_start_login, Snackbar.LENGTH_LONG).show();
                 }
@@ -1204,7 +1211,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void showDialogSearch() {
+    private void showDialogSearch(String type) {
 
         mDialog = new AlertDialog.Builder(this)
                 .setView(R.layout.dialog_search)
@@ -1224,7 +1231,8 @@ public class MainActivity extends AppCompatActivity
         Objects.requireNonNull(submit).setOnClickListener(view -> {
             if (Objects.requireNonNull(editText).getText().length() > 2) {
                 startActivity(new Intent(this, ManageActivity.class)
-                        .putExtra(Costant.EXTRA_SEARCH_SUBSCRIBE, editText.getText().toString()));
+                        .putExtra(Costant.EXTRA_SEARCH_SUBSCRIBE, editText.getText().toString())
+                        .putExtra(Costant.EXTRA_SEARCH_TYPE, type));
             }
         });
 

@@ -23,9 +23,10 @@ public class SearchExecute {
     private final OnRestCallBack mCallback;
     private final String mCode;
     private final String mStrSearch;
+    private final String mType;
     private final Context mContext;
 
-    public SearchExecute(OnRestCallBack callback, Context context, String code, String strSearch) {
+    public SearchExecute(OnRestCallBack callback, Context context, String code, String strSearch, String type) {
 
         sApi = RetrofitClient.createService(Costant.REDDIT_OAUTH_URL, null);
 
@@ -33,6 +34,7 @@ public class SearchExecute {
         mContext = context;
         mCode = code;
         mStrSearch = strSearch;
+        mType = type;
 
     }
 
@@ -41,7 +43,7 @@ public class SearchExecute {
         HashMap<String, String> mFieldMap;
 
         mFieldMap = new HashMap<>();
-        mFieldMap.put("type", Costant.SEARCH_TYPE_SUBREDDITS);
+        mFieldMap.put("type", mType);
         mFieldMap.put("limit", String.valueOf(Preference.getGeneralSettingsItemPage(mContext)));
         mFieldMap.put("q", mStrSearch);
         mFieldMap.put("after", "");
