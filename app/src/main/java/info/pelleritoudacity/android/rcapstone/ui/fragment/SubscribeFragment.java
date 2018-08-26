@@ -81,7 +81,7 @@ public class SubscribeFragment extends Fragment implements SubscribeAdapter.OnRe
 
         mRecyclerView.setHasFixedSize(true);
 
-       mAdapter = new SubscribeAdapter(this,mContext, mModelT5);
+        mAdapter = new SubscribeAdapter(this, mContext, mModelT5);
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -120,17 +120,20 @@ public class SubscribeFragment extends Fragment implements SubscribeAdapter.OnRe
 
     @Override
     public void onClickSubscribe(int position) {
-        mAdapter.notifyItemChanged(position);
+        if (position > RecyclerView.NO_POSITION) {
+            mAdapter.notifyItemChanged(position);
+        }
         mListener.onClickSubscribe(position);
     }
 
     @Override
     public void onClickCategory(String category, String fullname, Object userIsSubscriber) {
-        mListener.onClickCategory(category,fullname,userIsSubscriber);
+        mListener.onClickCategory(category, fullname, userIsSubscriber);
     }
 
     public interface OnRestCallBack {
         void onClickSubscribe(int position);
+
         void onClickCategory(String category, String fullname, Object userIsSubscriber);
     }
 }

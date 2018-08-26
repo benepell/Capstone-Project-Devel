@@ -760,9 +760,10 @@ public class MainActivity extends AppCompatActivity
             mModel.setCategory(category);
             mModel.setPositionTab(position);
             closeSearch(mModel);
-            Preference.setLastCategory(mContext,category);
-            Preference.setLastTarget(mContext,Costant.TAB_MAIN_TARGET);
+            Preference.setLastCategory(mContext, category);
+            Preference.setLastTarget(mContext, Costant.TAB_MAIN_TARGET);
             updateOperation(false);
+
         }
     }
 
@@ -1227,7 +1228,7 @@ public class MainActivity extends AppCompatActivity
         Button cancel = mDialog.findViewById(R.id.dialog_cancel_subscribe);
         Button submit = mDialog.findViewById(R.id.dialog_submit_subscribe);
 
-        if(Preference.isNightMode(mContext)) {
+        if (Preference.isNightMode(mContext)) {
             Objects.requireNonNull(title).setBackgroundColor(Color.DKGRAY);
         }
         Objects.requireNonNull(cancel).setOnClickListener(view -> mDialog.dismiss());

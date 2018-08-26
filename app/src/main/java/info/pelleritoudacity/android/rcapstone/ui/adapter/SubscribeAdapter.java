@@ -194,21 +194,21 @@ public class SubscribeAdapter extends RecyclerView.Adapter<SubscribeAdapter.Subs
 
     private void postSubscribe(Context context, T5 model, boolean subscribe, String fullname, int position) {
 
-        String action = (subscribe) ? "sub" : "unsub";
+            String action = (subscribe) ? "sub" : "unsub";
 
-        new PostExecute((response, code) -> {
-            if (code == 200) {
-                if (subscribe) {
-                    model.getData().getChildren().get(position).getData().setUserIsSubscriber(Boolean.TRUE);
+            new PostExecute((response, code) -> {
+                if (code == 200) {
+                    if (subscribe) {
+                        model.getData().getChildren().get(position).getData().setUserIsSubscriber(Boolean.TRUE);
 
-                } else {
-                    model.getData().getChildren().get(position).getData().setUserIsSubscriber(Boolean.FALSE);
+                    } else {
+                        model.getData().getChildren().get(position).getData().setUserIsSubscriber(Boolean.FALSE);
+
+                    }
+                    mListener.onClickSubscribe(position);
 
                 }
-                mListener.onClickSubscribe(position);
-
-            }
-        }, PermissionUtil.getToken(context), action, fullname).postSubcribe();
+            }, PermissionUtil.getToken(context), action, fullname).postSubcribe();
 
     }
 

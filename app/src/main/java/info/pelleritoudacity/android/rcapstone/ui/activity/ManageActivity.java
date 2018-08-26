@@ -206,6 +206,12 @@ public class ManageActivity extends AppCompatActivity
     @Override
     public boolean onQueryTextSubmit(String query) {
         Context context = mWeakContext.get();
+
+        if(TextUtils.isEmpty(mTypeString)){
+            mTypeString = Costant.SEARCH_TYPE_SUBREDDITS;
+
+        }
+
         subscribeUpdateOperation(context, query, mTypeString);
 
         return false;
@@ -236,9 +242,11 @@ public class ManageActivity extends AppCompatActivity
 
     @Override
     public void onClickSubscribe(int position) {
-        if (position > RecyclerView.NO_POSITION) {
+        if ((position > RecyclerView.NO_POSITION)) {
             updateSubreddit(mWeakContext.get());
+
         }
+
     }
 
     @Override
