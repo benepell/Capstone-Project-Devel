@@ -21,7 +21,7 @@ import info.pelleritoudacity.android.rcapstone.utility.ActivityUI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import timber.log.Timber;
 
-public class FullScreenActivity extends AppCompatActivity {
+public  class FullScreenActivity extends AppCompatActivity {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.id_player_full_layout)

@@ -26,6 +26,7 @@
 
 package info.pelleritoudacity.android.rcapstone.widget;
 
+
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;

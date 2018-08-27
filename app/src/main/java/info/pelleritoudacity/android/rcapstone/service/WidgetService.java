@@ -26,6 +26,7 @@
 
 package info.pelleritoudacity.android.rcapstone.service;
 
+
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
@@ -38,7 +39,6 @@ import info.pelleritoudacity.android.rcapstone.ui.activity.OptionWidgetActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.widget.WidgetUtil;
-
 
 public class WidgetService extends IntentService {
 

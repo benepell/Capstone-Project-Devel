@@ -109,7 +109,7 @@
 
         <provider
             android:name=".data.db.ContentProvider"
-            android:authorities="@string/content_authority"
+            android:authorities="info.pelleritoudacity.android.rcapstone.paid"
             android:exported="false"
             tools:ignore="ManifestResource" />
 

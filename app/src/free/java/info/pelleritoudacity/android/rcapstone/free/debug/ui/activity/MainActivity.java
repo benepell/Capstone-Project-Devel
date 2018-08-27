@@ -1,3 +1,4 @@
+
 package info.pelleritoudacity.android.rcapstone.free.debug.ui.activity;
 
 /*
@@ -27,11 +28,9 @@ package info.pelleritoudacity.android.rcapstone.free.debug.ui.activity;
  */
 
 
-import android.Manifest;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -40,7 +39,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.NestedScrollView;
@@ -94,11 +92,6 @@ import info.pelleritoudacity.android.rcapstone.data.rest.RefreshTokenExecute;
 import info.pelleritoudacity.android.rcapstone.free.debug.ui.fragment.MainFragment;
 import info.pelleritoudacity.android.rcapstone.free.debug.ui.helper.AdsHelper;
 import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
-import info.pelleritoudacity.android.rcapstone.ui.activity.DetailActivity;
-import info.pelleritoudacity.android.rcapstone.ui.activity.LoginActivity;
-import info.pelleritoudacity.android.rcapstone.ui.activity.ManageActivity;
-import info.pelleritoudacity.android.rcapstone.ui.activity.SettingsActivity;
-import info.pelleritoudacity.android.rcapstone.ui.activity.WebviewActivity;
 import info.pelleritoudacity.android.rcapstone.ui.helper.Authenticator;
 import info.pelleritoudacity.android.rcapstone.ui.helper.MenuLauncher;
 import info.pelleritoudacity.android.rcapstone.ui.view.Tab;
@@ -108,12 +101,10 @@ import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import timber.log.Timber;
 
-import static info.pelleritoudacity.android.rcapstone.utility.PermissionUtil.RequestPermissionExtStorage;
-
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AboutMeExecute.OnRestCallBack, MainExecute.OnRestCallBack,
         Tab.OnTabListener, SwipeRefreshLayout.OnRefreshListener,
-        ActivityCompat.OnRequestPermissionsResultCallback, SearchView.OnQueryTextListener, MainFragment.OnMainClick {
+        SearchView.OnQueryTextListener, MainFragment.OnMainClick {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.main_container)
@@ -161,14 +152,14 @@ public class MainActivity extends AppCompatActivity
     private String mSearchString;
     private AlertDialog mDialog;
     private AdsHelper mAdsHelper;
-
+    private int countAds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.AppThemeDark);
         }
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         mContext = MainActivity.this;
@@ -176,15 +167,11 @@ public class MainActivity extends AppCompatActivity
         Timber.plant(new Timber.DebugTree());
         ButterKnife.bind(this);
 
-        if (Util.SDK_INT > 23) {
-            RequestPermissionExtStorage(MainActivity.this);
-            Preference.setRequestPermission(getApplicationContext(), false);
-        }
-
         FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mRefreshLayout.setOnRefreshListener(this);
-        mAdsHelper = new AdsHelper(this,mContainer,mAdView);
+        mAdsHelper = new AdsHelper(this, mContainer, mAdView);
         mAdsHelper.initAds();
+        mAdsHelper.initInterstitialAd();
         initToolBar();
 
 
@@ -282,7 +269,6 @@ public class MainActivity extends AppCompatActivity
 
 
     }
-
 
 
     @Override
@@ -723,35 +709,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case Costant.PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Preference.setWriteExternalStorage(mContext, true);
-                    Preference.setRequestPermission(mContext, false);
-                }
-            }
-        }
-    }
-
-    @Override
-    public boolean shouldShowRequestPermissionRationale(@NonNull String permission) {
-        if ((!Objects.equals(permission, Manifest.permission.WRITE_EXTERNAL_STORAGE)) ||
-                (Preference.isWriteExternalStorage(mContext) ||
-                        Preference.isRequestPermission(mContext))) {
-            return super.shouldShowRequestPermissionRationale(permission);
-        }
-        ActivityCompat.requestPermissions(MainActivity.this,
-                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                Costant.PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
-        Preference.setRequestPermission(mContext, true);
-        return super.shouldShowRequestPermissionRationale(permission);
-    }
-
 
     @Override
     public void onRefresh() {
@@ -997,6 +954,11 @@ public class MainActivity extends AppCompatActivity
     private void updateOperation(boolean refresh) {
 
         if ((NetworkUtil.isOnline(mContext)) && (refresh) && (mRefreshLayout != null)) {
+            countAds ++;
+            if (countAds % 5 == 0) {
+                mAdsHelper.showInterstitial();
+            }
+
             mRefreshLayout.setRefreshing(true);
         }
 
@@ -1283,8 +1245,5 @@ public class MainActivity extends AppCompatActivity
         });
 
     }
-
-
-    
 
 }

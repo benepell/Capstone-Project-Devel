@@ -31,7 +31,7 @@ import java.nio.charset.StandardCharsets;
 
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.free.debug.media.MediaPlayer;
-import info.pelleritoudacity.android.rcapstone.ui.activity.YoutubeActivity;
+import info.pelleritoudacity.android.rcapstone.free.debug.ui.activity.YoutubeActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 
 public class MainHelper {

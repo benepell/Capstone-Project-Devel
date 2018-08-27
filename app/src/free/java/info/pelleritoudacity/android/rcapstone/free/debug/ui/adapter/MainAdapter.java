@@ -66,7 +66,6 @@ import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
 import info.pelleritoudacity.android.rcapstone.utility.ActivityUI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
-import info.pelleritoudacity.android.rcapstone.utility.ImageUtil;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
 import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
@@ -437,16 +436,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
             mSubRedditName = subRedditName;
             mNameRedditId = nameRedditId;
             mNumComments = numComments;
-        }
-
-        @Override
-        public void onItemSelected() {
-            itemView.setBackgroundColor(ImageUtil.getColor(mContext, R.color.colorBackgroundItemSelected));
-        }
-
-        @Override
-        public void onItemClear() {
-            itemView.setBackgroundColor(ImageUtil.getColor(mContext, R.color.colorBackgroundItemNoSelected));
         }
 
         @Override

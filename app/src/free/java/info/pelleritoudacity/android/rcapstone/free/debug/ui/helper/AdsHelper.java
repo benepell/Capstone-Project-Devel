@@ -9,6 +9,7 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 
 import info.pelleritoudacity.android.rcapstone.R;
@@ -18,6 +19,8 @@ public class AdsHelper {
     private final Context mContext;
     private final AdView mAdView;
     private final View mContainer;
+    private InterstitialAd mInterstitialAd;
+    private boolean isInitMobile;
 
     public AdsHelper(Context context, View container, AdView mAdView) {
         mContext = context;
@@ -27,18 +30,35 @@ public class AdsHelper {
 
 
     public void initAds() {
+
         MobileAds.initialize(mContext, mContext.getResources().getString(R.string.ads_app_id));
+        isInitMobile = true;
 
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .build();
-
-        mAdView.loadAd(adRequest);
+        startBannerAd();
 
         adsErrorListener();
 
     }
 
+    public void initInterstitialAd() {
+
+        if (!isInitMobile) {
+            MobileAds.initialize(mContext, mContext.getResources().getString(R.string.ads_app_id));
+        }
+        mInterstitialAd= new InterstitialAd(mContext);
+
+        mInterstitialAd.setAdUnitId(mContext.getResources().getString(R.string.ad_unit_id));
+
+        startInterstitialAd();
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                startInterstitialAd();
+            }
+        });
+
+    }
 
     private void adsErrorListener() {
         mAdView.setAdListener(new AdListener() {
@@ -67,6 +87,31 @@ public class AdsHelper {
 
         });
     }
+
+    private void startBannerAd(){
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+
+        mAdView.loadAd(adRequest);
+
+    }
+
+    private void startInterstitialAd() {
+
+        if (!mInterstitialAd.isLoading() && !mInterstitialAd.isLoaded()) {
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mInterstitialAd.loadAd(adRequest);
+        }
+
+    }
+
+    public void showInterstitial() {
+        if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        }
+    }
+
 
     public void snackAds(int resource) {
         Snackbar snackbar = Snackbar.make(mContainer, resource, Snackbar.LENGTH_LONG);

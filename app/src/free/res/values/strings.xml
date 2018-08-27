@@ -7,12 +7,17 @@
 
     <string name="ads_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
     <string name="ad_size_constant" translatable="false">BANNER</string>
 
     <string name="error_load_banner_internal_error">Error loading banner INTERNAL ERROR</string>
     <string name="error_load_banner_invalid_request">Error loading banner INVALID REQUEST</string>
     <string name="error_load_banner_network_error">Error loading banner NETWORK ERROR</string>
     <string name="error_load_banner_no_fill">Error loading banner NO FILL</string>
+
+    <string name="pref_title_depth_page" translatable="false">Comments Level Depth - no free version available</string>
+    <string name="pref_title_item_page" translatable="false">Items Page Result - no free version available </string>
+    <string name="title_adult_filter">Adult Filter - no free version available</string>
 
 
 

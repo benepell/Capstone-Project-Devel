@@ -1,4 +1,4 @@
-package info.pelleritoudacity.android.rcapstone.ui.activity;
+package info.pelleritoudacity.android.rcapstone.free.debug.ui.activity;
 
 
 import android.app.SearchManager;
@@ -35,7 +35,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
 import com.google.android.exoplayer2.util.Util;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
@@ -50,13 +49,13 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.Operation.T1Operation;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
+import info.pelleritoudacity.android.rcapstone.data.model.reddit.More;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T1;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
-import info.pelleritoudacity.android.rcapstone.data.model.reddit.More;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.MainModel;
 import info.pelleritoudacity.android.rcapstone.data.other.TabData;
-import info.pelleritoudacity.android.rcapstone.data.rest.RestMoreExecute;
 import info.pelleritoudacity.android.rcapstone.data.rest.RestDetailExecute;
+import info.pelleritoudacity.android.rcapstone.data.rest.RestMoreExecute;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.DetailFragment;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.MainFragment;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.TitleDetailFragment;
@@ -67,6 +66,7 @@ import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
+
 public class DetailActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, RestDetailExecute.OnRestCallBack,
         DetailFragment.OnFragmentInteractionListener, RestMoreExecute.OnRestCallBack,
@@ -325,7 +325,7 @@ public class DetailActivity extends AppCompatActivity
             case R.id.nav_mode_subscriptions:
                 Preference.setTypeMode(mContext, Costant.NAV_MODE_SUBSCRIPTIONS);
                 item.setEnabled(true);
-                startActivity(new Intent(this, ManageActivity.class));
+                startActivity(new Intent(this,ManageActivity.class));
                 break;
 
             case R.id.nav_mode_favorite:

@@ -31,13 +31,6 @@ import info.pelleritoudacity.android.rcapstone.BuildConfig;
 
 public interface Costant {
 
-    String REDDIT_OAUTH_URL = "https://oauth.reddit.com/";
-
-    String REDDIT_CLIENT_ID = BuildConfig.REDDIT_CLIENT_ID;
-
-    String DEFAULT_COLOR_INDICATOR = "#00000000" + "," + "#FF1744" + "," + "#2979FF" ;
-
-    String DEFAULT_COLOR_BACKGROUND = "#00000000" + "," + "#FFEBEE" + "," + "#E3F2FD";
-
+    String CONTENT_AUTHORITY = "info.pelleritoudacity.android.rcapstone.free";
 
 }

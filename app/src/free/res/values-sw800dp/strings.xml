@@ -13,5 +13,8 @@
     <string name="error_load_banner_network_error">Error loading banner NETWORK ERROR</string>
     <string name="error_load_banner_no_fill">Error loading banner NO FILL</string>
 
+    <string name="pref_title_depth_page" translatable="false">Comments Level Depth - no free version available</string>
+    <string name="pref_title_item_page" translatable="false">Items Page Result - no free version available </string>
+    <string name="title_adult_filter">Adult Filter - no free version available</string>
 
 </resources>

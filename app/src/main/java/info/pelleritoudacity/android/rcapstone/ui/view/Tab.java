@@ -111,6 +111,7 @@ public class Tab implements TabLayout.OnTabSelectedListener {
 
         mTabHistory.add(category);
 
+
     }
 
     public String getHistoryPosition() {
