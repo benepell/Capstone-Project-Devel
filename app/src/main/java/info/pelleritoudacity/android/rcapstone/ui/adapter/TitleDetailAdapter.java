@@ -201,6 +201,11 @@ public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.
     }
 
     @Override
+    public void snackMsg(int resource) {
+        mListener.snackMsg(resource);
+    }
+
+    @Override
     public void stars(int position) {
         mListener.selectorChange(position);
     }
@@ -279,5 +284,6 @@ public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.
 
     public interface OnVoteChange {
         void selectorChange(int position);
+        void snackMsg(int resource);
     }
 }

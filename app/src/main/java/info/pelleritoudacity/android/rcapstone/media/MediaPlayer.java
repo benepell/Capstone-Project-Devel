@@ -41,10 +41,8 @@ import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.ads.AdsMediaSource;
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
@@ -81,7 +79,6 @@ public class MediaPlayer {
 
     private final PlayerView mPlayerView;
     private SimpleExoPlayer mPlayer;
-    private final ImaAdsLoader mImaAdsLoader;
 
     private final ProgressBar mProgressBar;
     private final TextView mTvErrorPlayer;
@@ -100,7 +97,6 @@ public class MediaPlayer {
         mPlayerView = mediaModel.getPlayerView();
         mProgressBar = mediaModel.getProgressBar();
         mTvErrorPlayer = mediaModel.getTvErrorPlayer();
-        mImaAdsLoader = mediaModel.getImaAdsLoader();
         mImagePlay = mediaModel.getImagePlay();
         mImagePreview = mediaModel.getImagePreview();
     }
@@ -118,12 +114,6 @@ public class MediaPlayer {
                 .createMediaSource(mediaUri);
 
         boolean isResume = mResumePosition > 0;
-
-        if ((Costant.IS_IMA_AD_EXTENSION) && (mImaAdsLoader != null)) {
-            mediaSource = new AdsMediaSource(mediaSource, dataSourceFactory, mImaAdsLoader,
-                    mPlayerView.getOverlayFrameLayout());
-
-        }
 
         if (isResume) {
             if (mediaUri.equals(mVideoUri)) {
@@ -175,12 +165,6 @@ public class MediaPlayer {
                     .createMediaSource(mediaUri);
 
             boolean isResume = mResumePosition > 0;
-            if ((Costant.IS_IMA_AD_EXTENSION) && (mImaAdsLoader != null)) {
-                mediaSource = new AdsMediaSource(mediaSource, dataSourceFactory, mImaAdsLoader,
-                        mPlayerView.getOverlayFrameLayout());
-
-            }
-
             if (isResume) {
                 if (mediaUri.equals(mVideoUri)) {
                     mPlayer.seekTo(mResumeWindow, mResumePosition);

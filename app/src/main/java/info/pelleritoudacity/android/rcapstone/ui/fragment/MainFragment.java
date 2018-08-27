@@ -1,5 +1,6 @@
 package info.pelleritoudacity.android.rcapstone.ui.fragment;
 
+
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -17,7 +18,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
 import com.google.android.exoplayer2.util.Util;
 
 import java.util.Objects;
@@ -116,10 +116,7 @@ public class MainFragment extends Fragment
 
         mRecyclerView.setHasFixedSize(true);
 
-        ImaAdsLoader mImaAdsLoader = new ImaAdsLoader(mContext, Uri.parse(getString(R.string.ad_tag_url)));
-        mModel.setIma(true);
-
-        mAdapter = new MainAdapter(this, mContext, mImaAdsLoader);
+        mAdapter = new MainAdapter(this, mContext);
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -205,6 +202,11 @@ public class MainFragment extends Fragment
     @Override
     public void mediaPlayer(MediaPlayer mediaPlayer) {
         mMediaPlayer = mediaPlayer;
+    }
+
+    @Override
+    public void snackMsg(int resource) {
+        mMainListener.snackMsg(resource);
     }
 
     @NonNull
@@ -330,7 +332,7 @@ public class MainFragment extends Fragment
 
     public interface OnMainClick {
         void mainClick(int position, String category, String strId);
-
+        void snackMsg(int resource);
         void mainFragmentResult(int count);
     }
 }

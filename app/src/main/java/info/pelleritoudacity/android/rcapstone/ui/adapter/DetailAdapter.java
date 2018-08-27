@@ -245,6 +245,11 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
     }
 
     @Override
+    public void snackMsg(int resource) {
+       mListener.snackMsg(resource);
+    }
+
+    @Override
     public void stars(int position) {
         mListener.selectorChange(position);
     }
@@ -359,6 +364,8 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
         void clickSelector(int position, int itemCount);
 
         void onClickMore(DetailModel detailModel);
+
+        void snackMsg(int resource);
 
         void selectorChange(int position);
     }

@@ -174,6 +174,7 @@ public class MainActivity extends AppCompatActivity
         mRefreshLayout.setOnRefreshListener(this);
         initToolBar();
 
+
         if (TextUtils.isEmpty(Preference.getSubredditSort(getApplicationContext()))) {
             Preference.setSubredditSort(getApplicationContext(), Costant.DEFAULT_SORT_BY);
 
@@ -231,7 +232,8 @@ public class MainActivity extends AppCompatActivity
         mLauncherMenu.showMenu();
 
         if (Preference.isFactoryDataReset(mContext)) {
-            Snackbar.make(mContainer, R.string.text_dialog_confirm_reset, Snackbar.LENGTH_LONG).show();
+            Snackbar.make(mContainer,R.string.text_dialog_confirm_reset,Snackbar.LENGTH_LONG).show();
+
             Preference.setFactoryDataReset(mContext, false);
         }
 
@@ -254,7 +256,6 @@ public class MainActivity extends AppCompatActivity
         Intent appLinkIntent = getIntent();
         String appLinkAction = appLinkIntent.getAction();
         @SuppressWarnings("unused") Uri appLinkData = appLinkIntent.getData();
-
 
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, mModel.getCategory());
@@ -400,6 +401,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+
         mDrawer.closeDrawer(GravityCompat.START);
 
         switch (item.getItemId()) {
@@ -445,7 +447,7 @@ public class MainActivity extends AppCompatActivity
                     updateOperation(true);
 
                 } else {
-                    Snackbar.make(mContainer, R.string.text_no_network, Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mContainer,R.string.text_no_network,Snackbar.LENGTH_LONG).show();
 
                 }
                 break;
@@ -485,7 +487,8 @@ public class MainActivity extends AppCompatActivity
                 if (NetworkUtil.isOnline(mContext)) {
                     startActivity(new Intent(this, LoginActivity.class));
                 } else {
-                    Snackbar.make(mContainer, R.string.text_no_network, Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mContainer,R.string.text_no_network,Snackbar.LENGTH_LONG).show();
+
                 }
 
                 return true;
@@ -500,7 +503,8 @@ public class MainActivity extends AppCompatActivity
                 if (NetworkUtil.isOnline(mContext)) {
                     updateOperation(true);
                 } else {
-                    Snackbar.make(mContainer, R.string.text_no_network, Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mContainer,R.string.text_no_network,Snackbar.LENGTH_LONG).show();
+
                 }
                 return true;
 
@@ -508,7 +512,8 @@ public class MainActivity extends AppCompatActivity
                 if (PermissionUtil.isLogged(mContext)) {
                     startActivity(new Intent(this, WebviewActivity.class));
                 } else {
-                    Snackbar.make(mContainer, R.string.text_start_login, Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mContainer,R.string.text_start_login,Snackbar.LENGTH_LONG).show();
+
                 }
                 return true;
 
@@ -516,14 +521,16 @@ public class MainActivity extends AppCompatActivity
                 if (PermissionUtil.isLogged(mContext)) {
                     showDialogSearch(Costant.SEARCH_TYPE_SUBREDDITS);
                 } else {
-                    Snackbar.make(mContainer, R.string.text_start_login, Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mContainer,R.string.text_start_login,Snackbar.LENGTH_LONG).show();
+
                 }
                 return true;
             case R.id.menu_action_link:
                 if (PermissionUtil.isLogged(mContext)) {
                     showDialogSearch(Costant.SEARCH_TYPE_LINK);
                 } else {
-                    Snackbar.make(mContainer, R.string.text_start_login, Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mContainer,R.string.text_start_login,Snackbar.LENGTH_LONG).show();
+
                 }
                 return true;
 
@@ -659,12 +666,13 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onPause() {
-        super.onPause();
         if (Util.SDK_INT <= 23) {
             if (mDialog != null) {
                 mDialog.dismiss();
             }
         }
+
+        super.onPause();
     }
 
     @Override
@@ -693,7 +701,6 @@ public class MainActivity extends AppCompatActivity
         super.onSaveInstanceState(outState);
 
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
@@ -771,7 +778,8 @@ public class MainActivity extends AppCompatActivity
     public boolean onQueryTextSubmit(String s) {
 
         if (s.length() < 3) {
-            Snackbar.make(mContainer, R.string.text_digit_subscript, Snackbar.LENGTH_LONG).show();
+            Snackbar.make(mContainer,R.string.text_digit_subscript,Snackbar.LENGTH_LONG).show();
+
 
         } else {
             mModel.setQuerySearch(s);
@@ -800,7 +808,8 @@ public class MainActivity extends AppCompatActivity
                 createUI(mModel);
 
             } else {
-                Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
+                Snackbar.make(mContainer,R.string.error_state_critical,Snackbar.LENGTH_LONG).show();
+
             }
         }
 
@@ -845,7 +854,8 @@ public class MainActivity extends AppCompatActivity
                     createUI(mModel);
 
                 } else {
-                    Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mContainer,R.string.error_state_critical,Snackbar.LENGTH_LONG).show();
+
                 }
 
                 i--;
@@ -868,6 +878,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public void snackMsg(int resource) {
+        Snackbar.make(mContainer,resource,Snackbar.LENGTH_LONG).show();
+
+    }
+
+    @Override
     public void mainFragmentResult(int count) {
 
         if (mModel != null) {
@@ -884,14 +900,16 @@ public class MainActivity extends AppCompatActivity
                 switch (mModel.getTarget()) {
 
                     case Costant.SEARCH_MAIN_TARGET:
-                        Snackbar.make(mContainer, R.string.text_no_search, Costant.DEFAULT_SNACKBAR_DURATION).show();
+                        Snackbar.make(mContainer,R.string.text_no_search,Snackbar.LENGTH_LONG).show();
+
                         Preference.setLastTarget(mContext, Costant.DEFAULT_START_VALUE_MAIN_TARGET);
                         mModel.setTarget(Costant.DEFAULT_START_VALUE_MAIN_TARGET);
                         updateOperation(false);
                         break;
 
                     case Costant.FAVORITE_MAIN_TARGET:
-                        Snackbar.make(mContainer, R.string.text_no_favorite, Costant.DEFAULT_SNACKBAR_DURATION).show();
+                        Snackbar.make(mContainer,R.string.text_no_favorite,Snackbar.LENGTH_LONG).show();
+
                         Preference.setLastTarget(mContext, Costant.DEFAULT_START_VALUE_MAIN_TARGET);
                         mModel.setTarget(Costant.DEFAULT_START_VALUE_MAIN_TARGET);
                         updateOperation(false);
@@ -953,6 +971,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+
     private void updateOperation(boolean refresh) {
 
         if ((NetworkUtil.isOnline(mContext)) && (refresh) && (mRefreshLayout != null)) {
@@ -977,7 +996,8 @@ public class MainActivity extends AppCompatActivity
                 mModel.setTarget(Preference.getLastTarget(getApplicationContext()));
                 createUI(mModel);
                 mRefreshLayout.setRefreshing(false);
-                Snackbar.make(mContainer, R.string.list_snackbar_offline_text, Snackbar.LENGTH_LONG).show();
+                Snackbar.make(mContainer,R.string.list_snackbar_offline_text,Snackbar.LENGTH_LONG).show();
+
 
             } else {
                 mModel.setCategory(Preference.getLastCategory(getApplicationContext()));

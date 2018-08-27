@@ -13,4 +13,7 @@
     <!-- detail -->
     <dimen name="exoplayer_media_height">200dp</dimen>
 
+    <dimen name="activity_horizontal_margin">64dp</dimen>
+
+
 </resources>

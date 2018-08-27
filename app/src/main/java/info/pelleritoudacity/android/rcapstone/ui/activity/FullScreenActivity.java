@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.util.Util;
 
@@ -67,11 +66,8 @@ public class FullScreenActivity extends AppCompatActivity {
         }
 
 
-        ImaAdsLoader imaAdsLoader = new ImaAdsLoader(mContext, Uri.parse(getString(R.string.ad_tag_url)));
-
         MediaModel mediaModel = new MediaModel();
 
-        mediaModel.setImaAdsLoader(imaAdsLoader);
         mediaModel.setProgressBar(mExoProgressBar);
         mediaModel.setPlayerView(mPlayerView);
         mediaModel.setTvErrorPlayer(mTVErrorPlayer);

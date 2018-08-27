@@ -182,6 +182,11 @@ public class DetailFragment extends Fragment
     }
 
     @Override
+    public void snackMsg(int resource) {
+       mListener.snackMsg(resource);
+    }
+
+    @Override
     public void selectorChange(int position) {
         if (position != RecyclerView.NO_POSITION) {
             getLoaderManager().initLoader(SUBREDDIT_DETAIL_LOADER_ID, null, this);
@@ -298,6 +303,7 @@ public class DetailFragment extends Fragment
 
         void onClickMore(DetailModel detailModel);
 
+        void snackMsg(int resource);
         void detailFragmentResult(int count);
     }
 

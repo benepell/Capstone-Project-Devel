@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
-import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -165,7 +164,7 @@ public class SelectorHelper {
                         }, PermissionUtil.getToken(mContext), dir, model.getCategory())
                                 .postData();
                     } else {
-                        Snackbar.make(mItemView, R.string.text_start_login, Snackbar.LENGTH_LONG).show();
+                        mListener.snackMsg(R.string.text_start_login);
 
                     }
                 });
@@ -195,7 +194,7 @@ public class SelectorHelper {
                         }, PermissionUtil.getToken(mContext), dir, model.getCategory())
                                 .postData();
                     } else {
-                        Snackbar.make(mItemView, R.string.text_start_login, Snackbar.LENGTH_LONG).show();
+                        mListener.snackMsg(R.string.text_start_login);
 
                     }
 
@@ -238,7 +237,7 @@ public class SelectorHelper {
                             }, PermissionUtil.getToken(mContext), model.getCategory()).postSaveData();
 
                         } else {
-                            Snackbar.make(mItemView, R.string.text_start_login, Snackbar.LENGTH_LONG).show();
+                            mListener.snackMsg(R.string.text_start_login);
 
                         }
 
@@ -293,7 +292,7 @@ public class SelectorHelper {
                                 getUserComment(model.getTitle(), model.getCategory());
 
                             } else {
-                                Snackbar.make(mItemView, R.string.text_start_login, Snackbar.LENGTH_LONG).show();
+                                mListener.snackMsg(R.string.text_start_login);
 
                             }
                         }
@@ -320,19 +319,19 @@ public class SelectorHelper {
         Button button = dialog.findViewById(R.id.button_comment_selector);
         Button delete = dialog.findViewById(R.id.button_delete_selector);
 
-        if(Preference.isNightMode(mContext)){
+        if (Preference.isNightMode(mContext)) {
             tvTitle.setBackgroundColor(Color.DKGRAY);
 
         }
 
-        if (editText != null && button != null && cancel != null && tvTitle != null && delete !=null) {
+        if (editText != null && button != null && cancel != null && tvTitle != null && delete != null) {
 
-            if(isDeleteComment){
+            if (isDeleteComment) {
                 delete.setVisibility(View.VISIBLE);
 
-                delete.setOnClickListener(view-> mListener.deleteComments(mItemView, dialog, fullname));
+                delete.setOnClickListener(view -> mListener.deleteComments(mItemView, dialog, fullname));
 
-            }else {
+            } else {
                 delete.setVisibility(View.GONE);
 
             }
@@ -348,7 +347,7 @@ public class SelectorHelper {
                             mListener.comments(mItemView, dialog, title, editText.getText().toString(), fullname);
 
                         } else {
-                            Snackbar.make(mItemView, R.string.editext_no_comment, Snackbar.LENGTH_LONG).show();
+                            mListener.snackMsg(R.string.editext_no_comment);
 
                         }
 
@@ -366,7 +365,9 @@ public class SelectorHelper {
         @SuppressWarnings("unused")
         void comments(View view, Dialog dialog, String title, String text, String fullname);
 
-        void deleteComments(View view, Dialog dialog,  String fullname);
+        void deleteComments(View view, Dialog dialog, String fullname);
+
+        void snackMsg(int resource);
 
         void stars(int position);
     }

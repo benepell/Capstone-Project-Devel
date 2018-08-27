@@ -30,7 +30,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -44,7 +43,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
 import com.google.android.exoplayer2.ui.PlayerView;
 
 
@@ -83,13 +81,11 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
     private Context mContext;
     private final OnMainClick mMainListener;
     private MediaPlayer mMediaPlayer;
-    private final ImaAdsLoader mImaAdsLoader;
 
 
-    public MainAdapter(OnMainClick mainListener, Context context, ImaAdsLoader imaAdsLoader) {
+    public MainAdapter(OnMainClick mainListener, Context context) {
         mMainListener = mainListener;
         mContext = context;
-        mImaAdsLoader = imaAdsLoader;
 
     }
 
@@ -160,7 +156,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
                     }
 
                     MediaModel mediaModel = new MediaModel();
-                    mediaModel.setImaAdsLoader(mImaAdsLoader);
                     mediaModel.setPlayerView(holder.mPlayerView);
                     mediaModel.setProgressBar(holder.mExoProgressBar);
                     mediaModel.setTvErrorPlayer(holder.mTVErrorPlayer);
@@ -281,16 +276,16 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
                 public void success(SubmitData response, int code) {
                     dialog.dismiss();
                     if(response.isSuccess()){
-                        Snackbar.make(view, mContext.getString(R.string.text_comment_saved), Snackbar.LENGTH_LONG).show();
+                        mMainListener.snackMsg(R.string.text_comment_saved);
                     }else {
-                        Snackbar.make(view, mContext.getString(R.string.text_error_comment), Snackbar.LENGTH_LONG).show();
+                        mMainListener.snackMsg(R.string.text_error_comment);
                     }
                 }
 
                 @Override
                 public void unexpectedError(Throwable tList) {
                     dialog.dismiss();
-                    Snackbar.make(view, mContext.getString(R.string.text_error_comment), Snackbar.LENGTH_LONG).show();
+                    mMainListener.snackMsg(R.string.text_error_comment);
 
                 }
             }, PermissionUtil.getToken(mContext),text,fullname ).postData();
@@ -304,10 +299,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
                 @Override
                 public void success(ResponseBody response, int code) {
                     if(code==200){
-                        Snackbar.make(view, mContext.getString(R.string.text_comment_deleted), Snackbar.LENGTH_LONG).show();
+                        mMainListener.snackMsg(R.string.text_comment_deleted);
 
                     }else {
-                        Snackbar.make(view, mContext.getString(R.string.text_error_comment), Snackbar.LENGTH_LONG).show();
+                        mMainListener.snackMsg(R.string.text_error_comment);
 
                     }
 
@@ -318,12 +313,17 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
                 @Override
                 public void unexpectedError(Throwable tList) {
                     dialog.dismiss();
-                    Snackbar.make(view, mContext.getString(R.string.text_error_comment), Snackbar.LENGTH_LONG).show();
+                    mMainListener.snackMsg(R.string.text_error_comment);
 
                 }
             },PermissionUtil.getToken(mContext),fullname).delData();
 
         }
+    }
+
+    @Override
+    public void snackMsg(int resource) {
+        mMainListener.snackMsg(resource);
     }
 
 
@@ -452,7 +452,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
                 mMainListener.mainClick(mPosition, mSubRedditName, mNameRedditId);
 
             } else {
-                Snackbar.make(itemView, mContext.getString(R.string.text_no_comments), Snackbar.LENGTH_LONG).show();
+                mMainListener.snackMsg(R.string.text_no_comments);
 
             }
         }
@@ -483,6 +483,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
 
         void mediaPlayer(MediaPlayer mediaPlayer);
 
+        void snackMsg(int resource);
 
     }
 

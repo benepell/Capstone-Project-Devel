@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="title_app_version">Free Version</string>
+
+    <string name="ad_tag_url"><![CDATA[https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dlinear&correlator=]]></string>
+
+    <string name="ads_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ad_size_constant" translatable="false">BANNER</string>
+
+    <string name="error_load_banner_internal_error">Error loading banner INTERNAL ERROR</string>
+    <string name="error_load_banner_invalid_request">Error loading banner INVALID REQUEST</string>
+    <string name="error_load_banner_network_error">Error loading banner NETWORK ERROR</string>
+    <string name="error_load_banner_no_fill">Error loading banner NO FILL</string>
+
+
+
+</resources>

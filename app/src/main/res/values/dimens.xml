@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <dimen name="base_navigation_padding_vertical">16dp</dimen>
     <dimen name="base_navigation_padding_horizontal">16dp</dimen>
@@ -17,6 +17,8 @@
     <!-- base -->
     <dimen name="base_navigation_bar_height">200dp</dimen>
 
+    <dimen name="activity_horizontal_margin" tools:keep="@dimen/activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
 
     <!-- list -->
     <dimen name="list_app_bar_elevation">4dp</dimen>

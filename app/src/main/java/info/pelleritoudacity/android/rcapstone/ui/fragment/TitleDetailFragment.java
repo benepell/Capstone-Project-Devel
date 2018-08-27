@@ -39,6 +39,7 @@ public class TitleDetailFragment extends Fragment
     RecyclerView mRecyclerView;
 
     private Context mContext;
+    private OnFragmentInteractionListener mListener;
     private Unbinder unbinder;
 
     private String mStrId;
@@ -55,6 +56,17 @@ public class TitleDetailFragment extends Fragment
         fragment.setArguments(bundle);
         return fragment;
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mListener = (OnFragmentInteractionListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().getLocalClassName() + "must implement OnFragmentInteractionListener");
+        }
+    }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -147,6 +159,17 @@ public class TitleDetailFragment extends Fragment
         }
     }
 
+    @Override
+    public void snackMsg(int resource) {
+        mListener.snackMsg(resource);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
     private static class SubRedditDetailFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
 
         Cursor cursorData = null;
@@ -196,9 +219,15 @@ public class TitleDetailFragment extends Fragment
 
         @Override
         public void deliverResult(Cursor data) {
-                cursorData = data;
-                super.deliverResult(data);
+            cursorData = data;
+            super.deliverResult(data);
         }
 
     }
+
+
+    public interface OnFragmentInteractionListener {
+        void snackMsg(int resource);
+    }
+
 }

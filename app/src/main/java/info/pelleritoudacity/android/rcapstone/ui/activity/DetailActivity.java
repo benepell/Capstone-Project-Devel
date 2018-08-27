@@ -71,7 +71,7 @@ import timber.log.Timber;
 public class DetailActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, RestDetailExecute.OnRestCallBack,
         DetailFragment.OnFragmentInteractionListener, RestMoreExecute.OnRestCallBack,
-        SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener, MainFragment.OnMainClick {
+        SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener, MainFragment.OnMainClick, TitleDetailFragment.OnFragmentInteractionListener {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.detail_container)
@@ -237,6 +237,11 @@ public class DetailActivity extends AppCompatActivity
         model.setTarget(Costant.DETAIL_TARGET);
 
         updateOperation(true);
+    }
+
+    @Override
+    public void snackMsg(int resource) {
+        Snackbar.make(mContainer, resource, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -1049,7 +1054,7 @@ public class DetailActivity extends AppCompatActivity
         Button cancel = mDialog.findViewById(R.id.dialog_cancel_subscribe);
         Button submit = mDialog.findViewById(R.id.dialog_submit_subscribe);
 
-        if(Preference.isNightMode(mContext)) {
+        if (Preference.isNightMode(mContext)) {
             Objects.requireNonNull(title).setBackgroundColor(Color.DKGRAY);
         }
 

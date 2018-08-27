@@ -18,35 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeLight.NoActionBar">
 
-        <activity
-            android:name=".ui.activity.MainActivity"
-            android:label="@string/title_activity_subreddit"
-            android:theme="@style/AppThemeLight.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts" />
-
-            <intent-filter
-                android:autoVerify="true"
-                tools:targetApi="m">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="rcapstone.pelleritoudacity.info"
-                    android:path="/searchable"
-                    android:scheme="http" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".ui.activity.MainActivity" />
 
         <activity
             android:name=".ui.activity.DetailActivity"
