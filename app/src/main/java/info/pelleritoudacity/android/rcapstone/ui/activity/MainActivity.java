@@ -39,7 +39,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
@@ -67,9 +66,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.util.Util;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
@@ -80,6 +81,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import info.pelleritoudacity.android.rcapstone.BuildConfig;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.Operation.T3Operation;
@@ -93,6 +95,7 @@ import info.pelleritoudacity.android.rcapstone.data.rest.MainExecute;
 import info.pelleritoudacity.android.rcapstone.data.rest.RefreshTokenExecute;
 import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.MainFragment;
+import info.pelleritoudacity.android.rcapstone.ui.helper.AdsHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.Authenticator;
 import info.pelleritoudacity.android.rcapstone.ui.helper.MenuLauncher;
 import info.pelleritoudacity.android.rcapstone.ui.view.Tab;
@@ -139,6 +142,17 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.img_no_internet_main)
     public ImageView mImgNoNetwork;
 
+    @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
+    @Nullable
+    @BindView(R.id.ad_view)
+    public AdView mAdView;
+
+    @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
+    @Nullable
+    @BindView(R.id.ads_banner_container)
+    public RelativeLayout mAdContainer;
+
+
     private long startTimeoutRefresh;
     private Context mContext;
 
@@ -150,8 +164,11 @@ public class MainActivity extends AppCompatActivity
     private SearchView mSearchView;
     private String mSearchString;
     private AlertDialog mDialog;
+    private AdsHelper mAdsHelper;
+    private int countAds;
 
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
@@ -164,6 +181,20 @@ public class MainActivity extends AppCompatActivity
 
         Timber.plant(new Timber.DebugTree());
         ButterKnife.bind(this);
+
+        if (BuildConfig.FLAVOR.equals("free")) {
+            countAds = 0;
+            Objects.requireNonNull(mAdContainer).setVisibility(View.VISIBLE);
+            mAdsHelper = new AdsHelper(this, mContainer, mAdView);
+            mAdsHelper.initAds();
+            mAdsHelper.initInterstitialAd();
+
+        } else {
+            countAds = -1;
+            mAdsHelper = new AdsHelper(this, mContainer, null);
+
+        }
+
 
         if (Util.SDK_INT > 23) {
             RequestPermissionExtStorage(MainActivity.this);
@@ -232,7 +263,7 @@ public class MainActivity extends AppCompatActivity
         mLauncherMenu.showMenu();
 
         if (Preference.isFactoryDataReset(mContext)) {
-            Snackbar.make(mContainer,R.string.text_dialog_confirm_reset,Snackbar.LENGTH_LONG).show();
+            mAdsHelper.snackAds(R.string.text_dialog_confirm_reset);
 
             Preference.setFactoryDataReset(mContext, false);
         }
@@ -265,7 +296,6 @@ public class MainActivity extends AppCompatActivity
         if ((savedInstanceState == null) || (getIntent().getBooleanExtra(Costant.EXTRA_ACTIVITY_REDDIT_REFRESH, false))) {
             updateOperation(true);
         }
-
 
     }
 
@@ -447,7 +477,7 @@ public class MainActivity extends AppCompatActivity
                     updateOperation(true);
 
                 } else {
-                    Snackbar.make(mContainer,R.string.text_no_network,Snackbar.LENGTH_LONG).show();
+                    mAdsHelper.snackAds(R.string.text_no_network);
 
                 }
                 break;
@@ -487,7 +517,7 @@ public class MainActivity extends AppCompatActivity
                 if (NetworkUtil.isOnline(mContext)) {
                     startActivity(new Intent(this, LoginActivity.class));
                 } else {
-                    Snackbar.make(mContainer,R.string.text_no_network,Snackbar.LENGTH_LONG).show();
+                    mAdsHelper.snackAds(R.string.text_no_network);
 
                 }
 
@@ -503,7 +533,7 @@ public class MainActivity extends AppCompatActivity
                 if (NetworkUtil.isOnline(mContext)) {
                     updateOperation(true);
                 } else {
-                    Snackbar.make(mContainer,R.string.text_no_network,Snackbar.LENGTH_LONG).show();
+                    mAdsHelper.snackAds(R.string.text_no_network);
 
                 }
                 return true;
@@ -512,7 +542,7 @@ public class MainActivity extends AppCompatActivity
                 if (PermissionUtil.isLogged(mContext)) {
                     startActivity(new Intent(this, WebviewActivity.class));
                 } else {
-                    Snackbar.make(mContainer,R.string.text_start_login,Snackbar.LENGTH_LONG).show();
+                    mAdsHelper.snackAds(R.string.text_start_login);
 
                 }
                 return true;
@@ -521,7 +551,7 @@ public class MainActivity extends AppCompatActivity
                 if (PermissionUtil.isLogged(mContext)) {
                     showDialogSearch(Costant.SEARCH_TYPE_SUBREDDITS);
                 } else {
-                    Snackbar.make(mContainer,R.string.text_start_login,Snackbar.LENGTH_LONG).show();
+                    mAdsHelper.snackAds(R.string.text_start_login);
 
                 }
                 return true;
@@ -529,7 +559,7 @@ public class MainActivity extends AppCompatActivity
                 if (PermissionUtil.isLogged(mContext)) {
                     showDialogSearch(Costant.SEARCH_TYPE_LINK);
                 } else {
-                    Snackbar.make(mContainer,R.string.text_start_login,Snackbar.LENGTH_LONG).show();
+                    mAdsHelper.snackAds(R.string.text_start_login);
 
                 }
                 return true;
@@ -778,7 +808,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onQueryTextSubmit(String s) {
 
         if (s.length() < 3) {
-            Snackbar.make(mContainer,R.string.text_digit_subscript,Snackbar.LENGTH_LONG).show();
+            mAdsHelper.snackAds(R.string.text_digit_subscript);
 
 
         } else {
@@ -808,7 +838,7 @@ public class MainActivity extends AppCompatActivity
                 createUI(mModel);
 
             } else {
-                Snackbar.make(mContainer,R.string.error_state_critical,Snackbar.LENGTH_LONG).show();
+                mAdsHelper.snackAds(R.string.error_state_critical);
 
             }
         }
@@ -854,7 +884,7 @@ public class MainActivity extends AppCompatActivity
                     createUI(mModel);
 
                 } else {
-                    Snackbar.make(mContainer,R.string.error_state_critical,Snackbar.LENGTH_LONG).show();
+                    mAdsHelper.snackAds(R.string.error_state_critical);
 
                 }
 
@@ -879,7 +909,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void snackMsg(int resource) {
-        Snackbar.make(mContainer,resource,Snackbar.LENGTH_LONG).show();
+        mAdsHelper.snackAds(resource);
 
     }
 
@@ -900,7 +930,7 @@ public class MainActivity extends AppCompatActivity
                 switch (mModel.getTarget()) {
 
                     case Costant.SEARCH_MAIN_TARGET:
-                        Snackbar.make(mContainer,R.string.text_no_search,Snackbar.LENGTH_LONG).show();
+                        mAdsHelper.snackAds(R.string.text_no_search);
 
                         Preference.setLastTarget(mContext, Costant.DEFAULT_START_VALUE_MAIN_TARGET);
                         mModel.setTarget(Costant.DEFAULT_START_VALUE_MAIN_TARGET);
@@ -908,7 +938,7 @@ public class MainActivity extends AppCompatActivity
                         break;
 
                     case Costant.FAVORITE_MAIN_TARGET:
-                        Snackbar.make(mContainer,R.string.text_no_favorite,Snackbar.LENGTH_LONG).show();
+                        mAdsHelper.snackAds(R.string.text_no_favorite);
 
                         Preference.setLastTarget(mContext, Costant.DEFAULT_START_VALUE_MAIN_TARGET);
                         mModel.setTarget(Costant.DEFAULT_START_VALUE_MAIN_TARGET);
@@ -974,6 +1004,13 @@ public class MainActivity extends AppCompatActivity
 
     private void updateOperation(boolean refresh) {
 
+        if (countAds >= 0) {
+            countAds++;
+            if (countAds % 5 == 0) {
+                mAdsHelper.showInterstitial();
+            }
+        }
+
         if ((NetworkUtil.isOnline(mContext)) && (refresh) && (mRefreshLayout != null)) {
             mRefreshLayout.setRefreshing(true);
         }
@@ -996,7 +1033,7 @@ public class MainActivity extends AppCompatActivity
                 mModel.setTarget(Preference.getLastTarget(getApplicationContext()));
                 createUI(mModel);
                 mRefreshLayout.setRefreshing(false);
-                Snackbar.make(mContainer,R.string.list_snackbar_offline_text,Snackbar.LENGTH_LONG).show();
+                mAdsHelper.snackAds(R.string.list_snackbar_offline_text);
 
 
             } else {
@@ -1262,5 +1299,6 @@ public class MainActivity extends AppCompatActivity
         });
 
     }
+
 
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import info.pelleritoudacity.android.rcapstone.R;
 
+@SuppressWarnings("ALL")
 public class Preference {
 
     private Preference() {

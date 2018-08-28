@@ -44,6 +44,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+@SuppressWarnings("ALL")
 public class WidgetExecute {
     private static RedditAPI sApi;
     private final OnRestCallBack mCallBack;
@@ -67,6 +68,7 @@ public class WidgetExecute {
 
     }
 
+    @SuppressWarnings("unused")
     public void getData() {
 
         HashMap<String, String> fieldMap;

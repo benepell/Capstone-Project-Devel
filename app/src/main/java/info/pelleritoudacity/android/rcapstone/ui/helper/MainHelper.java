@@ -1,5 +1,6 @@
 package info.pelleritoudacity.android.rcapstone.ui.helper;
 
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -32,7 +33,6 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
 import info.pelleritoudacity.android.rcapstone.ui.activity.YoutubeActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
-
 
 public class MainHelper {
 

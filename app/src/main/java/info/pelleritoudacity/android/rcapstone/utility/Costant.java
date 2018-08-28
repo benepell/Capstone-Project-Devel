@@ -118,6 +118,7 @@ public interface Costant {
     String EXTRA_WIDGET_ID = "info.pelleritoudacity.android.rcapstone.extra.widget.id";
 
     String EXTRA_WIDGET_SERVICE_CATEGORY = "info.pelleritoudacity.android.rcapstone.extra.widget.service.category";
+    @SuppressWarnings("unused")
     String EXTRA_WIDGET_SERVICE = "info.pelleritoudacity.android.rcapstone.extra.widget.service";
 
     String EXTRA_PARCEL_ACTIVITY_DETAIL = "info.pelleritoudacity.android.rcapstone.extra.parcel.activity.detail";
@@ -130,11 +131,17 @@ public interface Costant {
     String CATEGORY_ALL = "all";
     String CATEGORY_POPULAR = "popular";
     String CATEGORY_FAVORITE = "favorite";
+    @SuppressWarnings("unused")
     String CATEGORY_HOT = "hot";
+    @SuppressWarnings("unused")
     String CATEGORY_BEST = "best";
+    @SuppressWarnings("unused")
     String CATEGORY_NEW = "new";
+    @SuppressWarnings("unused")
     String CATEGORY_TOP = "top";
+    @SuppressWarnings("unused")
     String CATEGORY_RISING = "rising";
+    @SuppressWarnings("unused")
     String CATEGORY_CONTROVERSIAL = "controversial";
 
 
@@ -146,13 +153,20 @@ public interface Costant {
     String WIDGET_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.widget.main.target";
     String ALL_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.all.main.target";
     String POPULAR_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.popular.main.target";
+    @SuppressWarnings("unused")
     String HOT_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.hot.main.target";
+    @SuppressWarnings("unused")
     String BEST_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.best.main.target";
+    @SuppressWarnings("unused")
     String NEW_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.new.main.target";
+    @SuppressWarnings("unused")
     String TOP_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.top.main.target";
+    @SuppressWarnings("unused")
     String RISING_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.rising.main.target";
+    @SuppressWarnings("unused")
     String CONTROVERSIAL_MAIN_TARGET = "info.pelleritoudacity.android.rcapstone.controversial.main.target";
 
+    @SuppressWarnings("unused")
     int WIDTH_ENABLE_IMAGE = 200;
 
     int DETAIL_TARGET_NO_UPDATE = 200;
@@ -259,6 +273,7 @@ public interface Costant {
     String JSON_REPLIES_REPLACE = "\"replies\":{\"kind\":\"ReplaceString\"}";
 
 
+    @SuppressWarnings("unused")
     String DEFAULT_CATEGORY_WIDGET = "best,hot,new,popular,top,rising,controversial";
 
     String DEFAULT_COLOR_INDICATOR = "#00000000" + "," + "#FF1744" + "," + "#2979FF" + "," + "#76FF03" + "," +

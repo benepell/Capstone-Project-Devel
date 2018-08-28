@@ -47,7 +47,6 @@ public class Contract {
     public static final String PATH_T1MORESDATAS = "_t1moresdatas";
     public static final String PATH_PREFSUBREDDIT = "_prefsubreddit";
 
-
     private Contract() {
     }
 

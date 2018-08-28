@@ -1,5 +1,6 @@
 <resources>
 
+    <!--suppress AndroidDomInspection, AndroidDomInspection -->
     <style name="AppThemeLight" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -16,10 +17,13 @@
         <item name="android:windowAllowReturnTransitionOverlap">true</item>
     </style>
 
+    <!--suppress AndroidDomInspection -->
     <style name="AppThemeLight.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
+    <!--suppress AndroidDomInspection -->
     <style name="AppThemeLight.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!--suppress AndroidDomInspection -->
     <style name="confirmDialogLight" parent="Theme.AppCompat.Dialog.Alert">
         <item name="colorAccent">@color/blue_A700</item>
         <item name="android:background">@color/white</item>
@@ -29,6 +33,7 @@
 
     </style>
 
+    <!--suppress AndroidDomInspection, AndroidDomInspection -->
     <style name="AppThemeDark" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="colorPrimary">@color/grey_600</item>
         <item name="colorPrimaryDark">@color/grey_800</item>
@@ -54,6 +59,7 @@
         <item name="android:windowAllowReturnTransitionOverlap">true</item>
     </style>
 
+    <!--suppress AndroidDomInspection -->
     <style name="AppThemeSettingsDark" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="colorPrimary">@color/grey_600</item>
         <item name="colorPrimaryDark">@color/black</item>
@@ -78,6 +84,7 @@
         <item name="android:windowAllowReturnTransitionOverlap">true</item>
     </style>
 
+    <!--suppress AndroidDomInspection -->
     <style name="confirmDialogDark" parent="Theme.AppCompat.Dialog.Alert">
         <item name="colorAccent">@color/light_green_A700</item>
         <item name="android:background">@color/grey_600</item>

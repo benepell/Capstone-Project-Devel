@@ -26,6 +26,7 @@
 
 package info.pelleritoudacity.android.rcapstone.ui.adapter;
 
+
 import android.app.Dialog;
 import android.content.Context;
 import android.database.Cursor;
@@ -43,8 +44,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
 import com.google.android.exoplayer2.ui.PlayerView;
-
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,12 +54,12 @@ import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.Record.MainRecord;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.model.MediaModel;
+import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapter;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.SubmitData;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.CardBottomModel;
 import info.pelleritoudacity.android.rcapstone.data.rest.CommentExecute;
 import info.pelleritoudacity.android.rcapstone.data.rest.DelExecute;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
-import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapter;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
 import info.pelleritoudacity.android.rcapstone.ui.helper.MainHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
@@ -81,12 +82,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
     private Context mContext;
     private final OnMainClick mMainListener;
     private MediaPlayer mMediaPlayer;
+    private final ImaAdsLoader mImaAdsLoader;
 
 
-    public MainAdapter(OnMainClick mainListener, Context context) {
+    public MainAdapter(OnMainClick mainListener, Context context, ImaAdsLoader imaAdsLoader) {
         mMainListener = mainListener;
         mContext = context;
-
+        mImaAdsLoader = imaAdsLoader;
     }
 
     @NonNull
@@ -156,6 +158,12 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
                     }
 
                     MediaModel mediaModel = new MediaModel();
+
+                    if(mImaAdsLoader!=null){
+                        mediaModel.setImaAdsLoader(mImaAdsLoader);
+
+                    }
+
                     mediaModel.setPlayerView(holder.mPlayerView);
                     mediaModel.setProgressBar(holder.mExoProgressBar);
                     mediaModel.setTvErrorPlayer(holder.mTVErrorPlayer);
@@ -270,25 +278,25 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
     }
 
     @Override
-    public void comments(View view,Dialog dialog,String title, String text, String fullname) {
-            new CommentExecute(new CommentExecute.OnRestCallBack() {
-                @Override
-                public void success(SubmitData response, int code) {
-                    dialog.dismiss();
-                    if(response.isSuccess()){
-                        mMainListener.snackMsg(R.string.text_comment_saved);
-                    }else {
-                        mMainListener.snackMsg(R.string.text_error_comment);
-                    }
-                }
-
-                @Override
-                public void unexpectedError(Throwable tList) {
-                    dialog.dismiss();
+    public void comments(View view, Dialog dialog, String title, String text, String fullname) {
+        new CommentExecute(new CommentExecute.OnRestCallBack() {
+            @Override
+            public void success(SubmitData response, int code) {
+                dialog.dismiss();
+                if(response.isSuccess()){
+                    mMainListener.snackMsg(R.string.text_comment_saved);
+                }else {
                     mMainListener.snackMsg(R.string.text_error_comment);
-
                 }
-            }, PermissionUtil.getToken(mContext),text,fullname ).postData();
+            }
+
+            @Override
+            public void unexpectedError(Throwable tList) {
+                dialog.dismiss();
+                mMainListener.snackMsg(R.string.text_error_comment);
+
+            }
+        }, PermissionUtil.getToken(mContext),text,fullname ).postData();
     }
 
     @Override

@@ -5,6 +5,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <supports-screens android:xlargeScreens="true" />
 
     <application
         android:allowBackup="false"
@@ -15,7 +18,7 @@
         android:theme="@style/AppThemeLight.NoActionBar">
 
         <activity
-            android:name=".free.debug.ui.activity.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:label="@string/title_activity_subreddit"
             android:theme="@style/AppThemeLight.NoActionBar">
             <intent-filter>
@@ -43,9 +46,9 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
-
+        
         <activity
-            android:name=".free.debug.ui.activity.DetailActivity"
+            android:name=".ui.activity.DetailActivity"
             android:label="@string/title_activity_subreddit_detail"
             android:theme="@style/AppThemeLight.NoActionBar">
             <intent-filter>
@@ -54,18 +57,18 @@
         </activity>
 
         <activity
-            android:name=".free.debug.ui.activity.SettingsActivity"
+            android:name=".ui.activity.SettingsActivity"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".free.debug.ui.activity.MainActivity"
+            android:parentActivityName=".ui.activity.MainActivity"
             android:theme="@style/AppThemeLight">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".free.debug.ui.activity.MainActivity" />
+                android:value=".ui.activity.MainActivity" />
         </activity>
 
         <activity
-            android:name=".free.debug.ui.activity.ManageActivity"
+            android:name=".ui.activity.ManageActivity"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_manage"
             android:noHistory="true"
@@ -73,35 +76,29 @@
             android:theme="@style/AppThemeLight">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".free.debug.ui.activity.MainActivity" />
+                android:value=".ui.activity.MainActivity" />
         </activity>
         <activity
-            android:name=".free.debug.ui.activity.LoginActivity"
+            android:name=".ui.activity.LoginActivity"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_login"
             android:launchMode="singleTop"
             android:noHistory="true"
-            android:parentActivityName=".free.debug.ui.activity.MainActivity"
+            android:parentActivityName=".ui.activity.MainActivity"
             android:theme="@style/AppThemeLight" />
         <activity
-            android:name=".free.debug.ui.activity.YoutubeActivity"
+            android:name=".ui.activity.YoutubeActivity"
             android:label="@string/title_activity_youtube"
-            android:parentActivityName=".free.debug.ui.activity.MainActivity"
+            android:parentActivityName=".ui.activity.MainActivity"
             android:theme="@style/AppThemeLight">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />
         </activity>
-        <activity android:name=".free.debug.ui.activity.FullScreenActivity" />
+        <activity android:name=".ui.activity.FullScreenActivity" />
 
         <activity
-            android:name=".ui.activity.OptionWidgetActivity"
-            android:noHistory="true"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
-
-
-        <activity
-            android:name=".free.debug.ui.activity.WebviewActivity"
+            android:name=".ui.activity.WebviewActivity"
             android:label="@string/title_activity_webview"
             android:theme="@style/AppThemeLight.NoActionBar" />
 
@@ -118,29 +115,6 @@
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
             </intent-filter>
         </service>
-
-        <receiver android:name=".widget.WidgetProvider">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info" />
-        </receiver>
-
-        <service
-            android:name=".service.FirebaseRefreshTokenService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
-            </intent-filter>
-        </service>
-        <service
-            android:name=".service.RemoteWidgetService"
-            android:permission="android.permission.BIND_REMOTEVIEWS" />
-        <service android:name=".service.WidgetService" />
-
 
     </application>
 

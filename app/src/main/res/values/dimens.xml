@@ -11,8 +11,8 @@
 
     <dimen name="list_padding_vertical_author">8dp</dimen>
     <dimen name="list_padding_horizontal_author">8dp</dimen>
-    <dimen name="widget_min_width">180dp</dimen>
-    <dimen name="widget_min_height">180dp</dimen>
+    <dimen name="widget_min_width" tools:ignore="UnusedResources">180dp</dimen>
+    <dimen name="widget_min_height" tools:ignore="UnusedResources">180dp</dimen>
 
     <!-- base -->
     <dimen name="base_navigation_bar_height">200dp</dimen>

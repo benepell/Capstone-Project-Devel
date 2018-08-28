@@ -11,7 +11,6 @@
 
     <application
         android:allowBackup="false"
-        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -97,8 +96,9 @@
                 android:value=".ui.activity.MainActivity" />
         </activity>
         <activity android:name=".ui.activity.FullScreenActivity" />
+        <!--suppress AndroidDomInspection -->
         <activity
-            android:name=".ui.activity.OptionWidgetActivity"
+            android:name=".paid.debug.ui.activity.OptionWidgetActivity"
             android:noHistory="true"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
 
@@ -113,11 +113,13 @@
             android:exported="false"
             tools:ignore="ManifestResource" />
 
-        <receiver android:name=".widget.WidgetProvider">
+        <!--suppress AndroidDomInspection -->
+        <receiver android:name=".paid.debug.ui.widget.WidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
+            <!--suppress AndroidDomInspection -->
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info" />
@@ -130,10 +132,12 @@
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
             </intent-filter>
         </service>
+        <!--suppress AndroidDomInspection -->
         <service
-            android:name=".service.RemoteWidgetService"
+            android:name=".paid.debug.ui.service.RemoteWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
-        <service android:name=".service.WidgetService" />
+        <!--suppress AndroidDomInspection -->
+        <service android:name=".paid.debug.ui.service.WidgetService" />
 
 
     </application>

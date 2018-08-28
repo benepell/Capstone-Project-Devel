@@ -26,9 +26,11 @@
 
 package info.pelleritoudacity.android.rcapstone.data.rest;
 
+
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -42,7 +44,7 @@ import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
+
 
 public class MainExecute {
     private static RedditAPI sApi;
@@ -88,7 +90,7 @@ public class MainExecute {
             sApi.getSubRedditAuth(TextUtil.authCode(PermissionUtil.getToken(mContext)), mCategory, fieldMap)
                     .enqueue(new Callback<T3>() {
                         @Override
-                        public void onResponse(@NonNull Call<T3> call, @NonNull Response<T3> response) {
+                        public void onResponse(@NonNull Call<T3> call, @NonNull retrofit2.Response<T3> response) {
                             mCallBack.success(response.body(), response.code());
                         }
 
@@ -101,7 +103,7 @@ public class MainExecute {
             sApi.getSubReddit(mCategory, fieldMap)
                     .enqueue(new Callback<T3>() {
                         @Override
-                        public void onResponse(@NonNull Call<T3> call, @NonNull Response<T3> response) {
+                        public void onResponse(@NonNull Call<T3> call, @NonNull retrofit2.Response<T3> response) {
                             mCallBack.success(response.body(), response.code());
                         }
 

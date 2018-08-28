@@ -4,9 +4,12 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
 import com.google.android.exoplayer2.ui.PlayerView;
 
 public class MediaModel {
+
+    private ImaAdsLoader imaAdsLoader;
 
     private PlayerView playerView;
 
@@ -19,6 +22,14 @@ public class MediaModel {
 
 
     public MediaModel() {
+    }
+
+    public ImaAdsLoader getImaAdsLoader() {
+        return imaAdsLoader;
+    }
+
+    public void setImaAdsLoader(ImaAdsLoader imaAdsLoader) {
+        this.imaAdsLoader = imaAdsLoader;
     }
 
     public PlayerView getPlayerView() {

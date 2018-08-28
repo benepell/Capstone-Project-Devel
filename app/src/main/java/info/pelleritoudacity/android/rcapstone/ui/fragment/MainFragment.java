@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
 import com.google.android.exoplayer2.util.Util;
 
 import java.util.Objects;
@@ -25,6 +26,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import info.pelleritoudacity.android.rcapstone.BuildConfig;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.MainModel;
@@ -87,6 +89,7 @@ public class MainFragment extends Fragment
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -116,7 +119,17 @@ public class MainFragment extends Fragment
 
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new MainAdapter(this, mContext);
+
+        if(BuildConfig.FLAVOR.equals("free")){
+            ImaAdsLoader mImaAdsLoader = new ImaAdsLoader(mContext, Uri.parse(getString(R.string.ad_tag_url)));
+            mModel.setIma(true);
+
+            mAdapter = new MainAdapter(this, mContext, mImaAdsLoader);
+
+        }else {
+            mAdapter = new MainAdapter(this, mContext, null);
+
+        }
 
         mRecyclerView.setAdapter(mAdapter);
 

@@ -9,11 +9,13 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.util.Util;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import info.pelleritoudacity.android.rcapstone.BuildConfig;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.model.MediaModel;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
@@ -42,6 +44,7 @@ public  class FullScreenActivity extends AppCompatActivity {
     private String mVideoUri;
     private MediaPlayer mMediaPlayer;
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +70,11 @@ public  class FullScreenActivity extends AppCompatActivity {
 
 
         MediaModel mediaModel = new MediaModel();
+
+        if(BuildConfig.FLAVOR.equals("free")) {
+            ImaAdsLoader imaAdsLoader = new ImaAdsLoader(mContext, Uri.parse(getString(R.string.ad_tag_url)));
+            mediaModel.setImaAdsLoader(imaAdsLoader);
+        }
 
         mediaModel.setProgressBar(mExoProgressBar);
         mediaModel.setPlayerView(mPlayerView);
