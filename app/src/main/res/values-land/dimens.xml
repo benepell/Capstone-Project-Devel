@@ -21,4 +21,7 @@
 
     <dimen name="exoplayer_media_height">200dp</dimen>
 
+    <dimen name="tablet_margin">16dp</dimen>
+    <dimen name="min_height_category_widget">40dp</dimen>
+
 </resources>

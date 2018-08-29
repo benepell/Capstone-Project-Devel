@@ -14,7 +14,7 @@
         android:gravity="center"
         android:contentDescription="@string/widget_home"
         android:text="@string/text_widget_category"
-        android:minHeight="40dp"
+        android:minHeight="@dimen/min_height_category_widget"
         android:textColor="@color/white" />
 
     <RadioGroup

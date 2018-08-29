@@ -25,8 +25,6 @@ allprojects {
         sdkVersion = 27
         androidSupportVersion = "$sdkVersion.1.1"
 
-        androidSupportConstraintVersion = "1.1.2"
-
         timberVersion = "4.7.1"
         butterKnifeVersion = "8.8.1"
 
@@ -43,9 +41,9 @@ allprojects {
         okHttpVersion = "3.11.0"
 
         firebaseJobDispVersion = "0.8.5"
-        firebaseCoreVersion = "16.0.1"
-        firebaseAdsVersion = "15.0.1"
-        firebaseCrashVersion = "16.0.1"
+        firebaseCoreVersion = "16.0.3"
+        googleAdsVersion = "15.0.1"
+        firebaseCrashVersion = "16.2.0"
 
         mikepenzIconicsVersion = "3.0.4@aar"
         mikepenzMaterialDesignIconicsVersion = "2.2.0.4@aar"

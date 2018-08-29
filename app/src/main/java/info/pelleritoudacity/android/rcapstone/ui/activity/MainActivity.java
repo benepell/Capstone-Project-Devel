@@ -178,8 +178,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         mContext = MainActivity.this;
-
-        Timber.plant(new Timber.DebugTree());
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
         ButterKnife.bind(this);
 
         if (BuildConfig.FLAVOR.equals("free")) {

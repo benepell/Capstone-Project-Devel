@@ -14,14 +14,12 @@
     <dimen name="widget_min_width" tools:ignore="UnusedResources">180dp</dimen>
     <dimen name="widget_min_height" tools:ignore="UnusedResources">180dp</dimen>
 
-    <!-- base -->
     <dimen name="base_navigation_bar_height">200dp</dimen>
 
     <dimen name="activity_horizontal_margin" tools:keep="@dimen/activity_horizontal_margin">16dp
     </dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <!-- list -->
     <dimen name="list_app_bar_elevation">4dp</dimen>
     <dimen name="list_side_margin">4dp</dimen>
     <dimen name="list_card_elevation">2dp</dimen>
@@ -29,7 +27,8 @@
     <dimen name="recycler_view_item_width">600dp</dimen>
 
     <dimen name="exoplayer_media_height">200dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
 
+    <dimen name="tablet_margin">16dp</dimen>
+    <dimen name="min_height_category_widget">40dp</dimen>
 
 </resources>

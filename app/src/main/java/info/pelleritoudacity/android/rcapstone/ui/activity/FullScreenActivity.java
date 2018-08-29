@@ -52,7 +52,9 @@ public  class FullScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_full_screen);
 
         Context mContext = FullScreenActivity.this;
-        Timber.plant(new Timber.DebugTree());
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
         ButterKnife.bind(this);
 
 

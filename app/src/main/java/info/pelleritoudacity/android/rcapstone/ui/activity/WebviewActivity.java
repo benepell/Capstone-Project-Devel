@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import info.pelleritoudacity.android.rcapstone.BuildConfig;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
@@ -33,8 +34,10 @@ public class WebviewActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
 
-        Timber.plant(new Timber.DebugTree());
         ButterKnife.bind(this);
 
         getWebview(Preference.getLastCategory(getApplicationContext()));

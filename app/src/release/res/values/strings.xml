@@ -1,5 +1,5 @@
 <!DOCTYPE resources [<!ENTITY app_name "RcapStone">]>
-<!--suppress CheckTagEmptyBody, CheckTagEmptyBody, CheckTagEmptyBody, CheckTagEmptyBody, CheckTagEmptyBody -->
+<!--suppress CheckTagEmptyBody, CheckTagEmptyBody, CheckTagEmptyBody, CheckTagEmptyBody, CheckTagEmptyBody, CheckTagEmptyBody -->
 <resources>
     <string name="app_name">&app_name;</string>
     <string name="title_app_version">Version</string>

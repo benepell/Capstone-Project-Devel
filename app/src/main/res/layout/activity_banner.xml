@@ -1,0 +1,23 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ads_banner_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/activity_vertical_margin"
+    android:visibility="gone"
+    tools:context=".ui.activity.MainActivity"
+    tools:ignore="MergeRootFrame">
+
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/ad_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        ads:adSize="@string/ad_size_constant"
+        ads:adUnitId="@string/banner_ad_unit_id" />
+
+
+</RelativeLayout>

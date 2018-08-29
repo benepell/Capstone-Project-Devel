@@ -56,6 +56,8 @@ public interface Costant {
     int MEDIA_VIDEO_PREVIEW_TYPE_MP4 = 300;
     int MEDIA_IMAGE_FULL_TYPE = 400;
 
+    float MIN_MEMORY_FREE_GLIDE = 50;
+
     String REDDIT_AUTHORIZATION = "Authorization";
     String REDDIT_BEARER = "Bearer ";
     String REDDIT_AUTH_URL = "www.reddit.com";

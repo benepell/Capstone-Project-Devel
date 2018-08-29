@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         tools:context=".ui.activity.MainActivity">
 
-        <include layout="@layout/app_tab_layout" />
+        <include layout="@layout/app_tab_layout"/>
 
         <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/swipe_refresh_main"

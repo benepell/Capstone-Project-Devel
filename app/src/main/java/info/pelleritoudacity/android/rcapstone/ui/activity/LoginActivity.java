@@ -49,6 +49,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import info.pelleritoudacity.android.rcapstone.BuildConfig;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Operation.T5Operation;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
@@ -80,8 +81,10 @@ public class LoginActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_login);
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
 
-        Timber.plant(new Timber.DebugTree());
         ButterKnife.bind(this);
 
         if (!Preference.isLoginStart(getApplicationContext())) {

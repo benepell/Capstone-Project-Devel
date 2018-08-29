@@ -33,6 +33,7 @@ import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
 import info.pelleritoudacity.android.rcapstone.ui.activity.YoutubeActivity;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
+import info.pelleritoudacity.android.rcapstone.utility.MemoryUtil;
 
 public class MainHelper {
 
@@ -46,7 +47,7 @@ public class MainHelper {
                 .centerCrop()
                 .placeholder(R.drawable.download_in_progress)
                 .error(R.drawable.ic_no_image)
-                .diskCacheStrategy(DiskCacheStrategy.ALL);
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -89,36 +90,41 @@ public class MainHelper {
         imagePlay.setVisibility(View.VISIBLE);
         imageView.setVisibility(View.VISIBLE);
 
-        Glide.with(mContext)
-                .load(videoPreviewUrl)
-                .listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        progressBar.setVisibility(View.GONE);
-                        imagePlay.setVisibility(View.GONE);
-                        return false;
-                    }
+        if (MemoryUtil.megabytesFree() > Costant.MIN_MEMORY_FREE_GLIDE) {
 
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        return false;
-                    }
-                })
-                .apply(options)
-                .into(imageView);
+            Glide.with(mContext)
+                    .load(videoPreviewUrl)
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            progressBar.setVisibility(View.GONE);
+                            imagePlay.setVisibility(View.GONE);
+                            return false;
+                        }
 
-        layout.setVisibility(View.VISIBLE);
-        imagePlay.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_play_circle)
-                .color(Color.WHITE)
-                .sizeDp(72)
-                .respectFontBounds(true));
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            return false;
+                        }
+                    })
+                    .apply(options)
+                    .into(imageView);
 
-        imagePlay.setOnClickListener(v -> {
-            progressBar.setVisibility(View.VISIBLE);
-            mediaPlayer.initPlayer(Uri.parse(videoPreviewUrl));
             layout.setVisibility(View.VISIBLE);
-        });
+            imagePlay.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_play_circle)
+                    .color(Color.WHITE)
+                    .sizeDp(72)
+                    .respectFontBounds(true));
 
+            imagePlay.setOnClickListener(v -> {
+                progressBar.setVisibility(View.VISIBLE);
+                mediaPlayer.initPlayer(Uri.parse(videoPreviewUrl));
+                layout.setVisibility(View.VISIBLE);
+            });
+        }else {
+            Glide.with(mContext).pauseAllRequests();
+
+        }
     }
 
     public void youtubeVideoFirstFrame(FrameLayout layout, ImageView imageView, ImageView imagePlay, ProgressBar
@@ -129,42 +135,46 @@ public class MainHelper {
         imagePlay.setVisibility(View.VISIBLE);
         imageView.setVisibility(View.VISIBLE);
 
-        Glide.with(mContext)
-                .load(thumbnailUrl)
-                .listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        imagePlay.setVisibility(View.GONE);
-                        progressBar.setVisibility(View.GONE);
-                        return false;
-                    }
+        if (MemoryUtil.megabytesFree() > Costant.MIN_MEMORY_FREE_GLIDE) {
+            Glide.with(mContext)
+                    .load(thumbnailUrl)
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            imagePlay.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.GONE);
+                            return false;
+                        }
 
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        return false;
-                    }
-                })
-                .apply(options)
-                .into(imageView);
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            return false;
+                        }
+                    })
+                    .apply(options)
+                    .into(imageView);
 
-        layout.setVisibility(View.VISIBLE);
-
-        imagePlay.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_play_circle)
-                .color(Color.WHITE)
-                .sizeDp(72)
-                .respectFontBounds(true));
-
-        imagePlay.setOnClickListener(v -> {
-            progressBar.setVisibility(View.VISIBLE);
-            mContext.startActivity(new Intent(mContext,
-                    YoutubeActivity.class)
-                    .putExtra(Costant.EXTRA_YOUTUBE_PARAM, videoUrl)
-                    .putExtra(Costant.EXTRA_YOUTUBE_TITLE, title)
-            );
             layout.setVisibility(View.VISIBLE);
-            progressBar.setVisibility(View.GONE);
-        });
 
+            imagePlay.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_play_circle)
+                    .color(Color.WHITE)
+                    .sizeDp(72)
+                    .respectFontBounds(true));
+
+            imagePlay.setOnClickListener(v -> {
+                progressBar.setVisibility(View.VISIBLE);
+                mContext.startActivity(new Intent(mContext,
+                        YoutubeActivity.class)
+                        .putExtra(Costant.EXTRA_YOUTUBE_PARAM, videoUrl)
+                        .putExtra(Costant.EXTRA_YOUTUBE_TITLE, title)
+                );
+                layout.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+            });
+        }else {
+            Glide.with(mContext).pauseAllRequests();
+
+        }
     }
 
 
@@ -172,16 +182,21 @@ public class MainHelper {
 
         imageView.setVisibility(View.VISIBLE);
 
-        Glide.with(mContext)
-                .load(imagePreviewUrl)
-                .apply(options)
-                .into(imageView);
+        if (MemoryUtil.megabytesFree() > Costant.MIN_MEMORY_FREE_GLIDE) {
 
-        if (!TextUtils.isEmpty(contentDescription)) {
-            imageView.setContentDescription(contentDescription);
+            Glide.with(mContext)
+                    .load(imagePreviewUrl)
+                    .apply(options)
+                    .into(imageView);
+
+            if (!TextUtils.isEmpty(contentDescription)) {
+                imageView.setContentDescription(contentDescription);
+
+            }
+        }else {
+            Glide.with(mContext).pauseAllRequests();
 
         }
-
     }
 
 

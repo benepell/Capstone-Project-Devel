@@ -34,8 +34,7 @@ import info.pelleritoudacity.android.rcapstone.BuildConfig;
 
 @SuppressWarnings("WeakerAccess")
 public class Contract {
-    public static final String CONTENT_AUTHORITY = "info.pelleritoudacity.android.rcapstone" + "." + BuildConfig.FLAVOR;
-
+    public static final String CONTENT_AUTHORITY = BuildConfig.APPLICATION_ID.concat(".provider");
     @SuppressWarnings("WeakerAccess")
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 

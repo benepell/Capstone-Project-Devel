@@ -46,6 +46,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import info.pelleritoudacity.android.rcapstone.BuildConfig;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.Operation.T1Operation;
@@ -119,8 +120,9 @@ public class DetailActivity extends AppCompatActivity
         }
 
         mContext = getApplicationContext();
-
-        Timber.plant(new Timber.DebugTree());
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
         ButterKnife.bind(this);
 
         initToolBar();

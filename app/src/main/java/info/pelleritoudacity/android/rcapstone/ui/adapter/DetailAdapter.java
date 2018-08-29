@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,22 +84,20 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
             holder.mTextViewPostedOnDetail.setText(DateUtil.getDiffTimeMinute(mContext, record.getCreated()));
 
             holder.mTextViewPointsDetail.setText(String.valueOf(record.getScore()));
+
             if (!TextUtils.isEmpty(record.getTitle()))
-                holder.mTextViewBodyDetail.setText(TextUtil.textFromHtml(record.getTitle()));
+                holder.mTextViewBodyDetail.setText(record.getTitle());
 
             if (!TextUtils.isEmpty(record.getBody())) {
-                holder.mTextViewBodyDetail.setText(TextUtil.textFromHtml(record.getBody()));
+                holder.mTextViewBodyDetail.setText(record.getBody());
 
             }
-            holder.mTextViewBodyDetail.setClickable(Preference.isGeneralLinks(mContext));
 
             if (Preference.isGeneralLinks(mContext)) {
                 holder.mTextViewBodyDetail.setClickable(true);
-                holder.mTextViewBodyDetail.setAutoLinkMask(Linkify.ALL);
             } else {
                 holder.mTextViewBodyDetail.setClickable(false);
             }
-
             DetailHelper detailHelper = new DetailHelper(mContext);
             detailHelper.initDepthIndicator(holder.mDepthIndicator, holder.mCardLinear, record.getDepth(), true, false);
             String strBackGroundColor = detailHelper.initDepthIndicator(holder.mDepthSelect, holder.mSelectorContainer, record.getDepth(), true, true);

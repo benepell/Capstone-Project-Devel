@@ -62,6 +62,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import info.pelleritoudacity.android.rcapstone.BuildConfig;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.Contract;
 import info.pelleritoudacity.android.rcapstone.data.db.Operation.T5Operation;
@@ -107,8 +108,10 @@ public class ManageActivity extends AppCompatActivity
 
         }
         setContentView(R.layout.activity_manage);
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
 
-        Timber.plant(new Timber.DebugTree());
         ButterKnife.bind(this);
 
         mWeakContext = new WeakReference<>(getApplicationContext());
