@@ -42,15 +42,21 @@ public class   YoutubeActivity extends YouTubeFailureRecoveryActivity {
         Timber.plant(new Timber.DebugTree());
         ButterKnife.bind(this);
 
-        YouTubePlayerFragment youTubePlayerFragment =
-                (YouTubePlayerFragment) getFragmentManager().findFragmentById(R.id.youtube_fragment);
-        youTubePlayerFragment.initialize(Costant.YOUTUBE_DEVELOPER_KEY, this);
-
         Intent intent = getIntent();
 
         if (intent != null) {
             mYoutubeStr = intent.getStringExtra(Costant.EXTRA_YOUTUBE_PARAM);
             mYoutubeTitle = intent.getStringExtra(Costant.EXTRA_YOUTUBE_TITLE);
+        }
+
+        YouTubePlayerFragment youTubePlayerFragment =
+                (YouTubePlayerFragment) getFragmentManager().findFragmentById(R.id.youtube_fragment);
+        if(!TextUtils.isEmpty(Costant.YOUTUBE_DEVELOPER_KEY)) {
+            youTubePlayerFragment.initialize(Costant.YOUTUBE_DEVELOPER_KEY, this);
+
+        }else {
+            mYoutubeTitle = getString(R.string.no_api_key_youtube);
+            Timber.d("YoutubeDev Developer key cannot be null or empty");
         }
 
         mToolbar.setTitle(mYoutubeTitle);

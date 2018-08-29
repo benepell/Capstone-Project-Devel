@@ -85,8 +85,14 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         if (!Preference.isLoginStart(getApplicationContext())) {
-            if (NetworkUtil.isOnline(getApplicationContext())) {
+            if (TextUtils.isEmpty(loginUrl()) || TextUtils.isEmpty(Costant.REDDIT_CLIENT_ID) ||
+                    TextUtils.isEmpty(Costant.REDDIT_STATE_RANDOM)) {
+
+                setTitle("ERROR REDDIT INIT EMPTY");
+
+            } else if (NetworkUtil.isOnline(getApplicationContext())) {
                 createLogin(loginUrl());
+
             }
 
         } else {
@@ -99,6 +105,25 @@ public class LoginActivity extends AppCompatActivity {
     private String loginUrl() {
 
         Uri.Builder builder = new Uri.Builder();
+
+        String auth;
+
+        if (TextUtils.isEmpty(Costant.REDDIT_ABOUT_URL)) {
+            return "";
+
+        } else {
+            auth = Costant.REDDIT_ABOUT_URL;
+
+        }
+
+
+        if (auth.contains("http://")) {
+            auth = auth.replace("http://", "");
+
+        } else if (auth.contains("https://")) {
+            auth = auth.replace("https://", "");
+
+        }
 
         builder
                 .scheme("https")
@@ -114,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
                         new Uri.Builder()
 
                                 .scheme("http")
-                                .authority(Costant.REDDIT_ABOUT_URL)
+                                .authority(auth)
                                 .appendPath("my_redirect").build().toString()
                 )
 
@@ -135,8 +160,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
 
-                if (url.equals("http://" + Costant.REDDIT_ABOUT_URL + "/") ||
-                        url.equals("http://" + Costant.REDDIT_ABOUT_URL + "/.compact")) {
+                if (url.equals("https://" + Costant.REDDIT_ABOUT_URL + "/") ||
+                        url.equals("https://" + Costant.REDDIT_ABOUT_URL + "/.compact")) {
 
                     mWebview.stopLoading();
                     mToast = Toast.makeText(getApplicationContext(), "Designed by Benedetto Pellerito", Toast.LENGTH_LONG);
