@@ -39,10 +39,10 @@ Connect to Reddit API
 * Banner ads will be shown only in a free version
 
 ## Screens
-![](https://user-images.githubusercontent.com/18085976/48204155-73e10c80-e369-11e8-82df-34851f48cc29.png =200x)
-![](https://user-images.githubusercontent.com/18085976/48204190-88bda000-e369-11e8-9477-f4a20b6daea6.png =200x)
-![](https://user-images.githubusercontent.com/18085976/48204207-9115db00-e369-11e8-8018-9693181ae5e9.png =200x)
-![](https://user-images.githubusercontent.com/18085976/48204227-9bd07000-e369-11e8-82fe-96cdfa9e7b76.png =200x)
+<img src="https://user-images.githubusercontent.com/18085976/48204155-73e10c80-e369-11e8-82df-34851f48cc29.png" width="200" height="200")
+<img src="https://user-images.githubusercontent.com/18085976/48204190-88bda000-e369-11e8-9477-f4a20b6daea6.png width="200" height="200")
+<img src="https://user-images.githubusercontent.com/18085976/48204207-9115db00-e369-11e8-8018-9693181ae5e9.png width="200" height="200")
+<img src="https://user-images.githubusercontent.com/18085976/48204227-9bd07000-e369-11e8-82fe-96cdfa9e7b76.png width="200" height="200")
 
 ## Libraries
 
@@ -54,12 +54,13 @@ Connect to Reddit API
 * [Butter Knife](https://jakewharton.github.io/butterknife/)
 * [Apache Common Version](http://commons.apache.org/)
 * [Exoplayer](https://github.com/google/ExoPlayer/)
-* [Firebase jobdispatcher ](https://github.com/firebase/firebase-jobdispatcher-android/)
-* [Firebase Analytics ](https://firebase.google.com/docs/android/setup)
-* [Firebase Ads ](https://firebase.google.com/docs/admob/admob-firebase)
-* [Firebase Crash ](https://firebase.google.com/docs/crash/)
-* [Espresso](https://developer.android.com/training/testing/espresso/index.html)
-* [Android-Iconics](https://github.com/mikepenz/Android-Iconics)
+* [Firebase jobdispatcher ](https://g<img src="ithub.com/firebase/firebase-jobdispatcher-android/)
+* [Firebase Analytics ](https://fireb<img src="google.com/docs/android/setup)
+* [Firebase Ads ](https://firebase.go<img src=".com/docs/admob/admob-firebase)
+* [Firebarc="ithub.com/firebase/fish ](https://firebase.google.com/docs/crash/)
+* [Espresso](https://develo rc="ithub.com/firebase/firoid.com/training/testing/espresso/index.html)
+* [Android-Iconics](https://rc="ithub.com/firebase/fi
+com/mikepenz/Android-Iconics)
 
 ## License
 
