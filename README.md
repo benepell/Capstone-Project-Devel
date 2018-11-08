@@ -42,6 +42,7 @@ Connect to Reddit API
 
 ## Libraries
 
+* [YouTube Android Player API](https://developers.google.com/youtube/android/player/setup)
 * [Glide](https://github.com/bumptech/glide)
 * [Picasso](http://square.github.io/picasso/)
 * [OkHttp](https://github.com/square/okhttp)
