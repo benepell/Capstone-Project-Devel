@@ -39,10 +39,10 @@ Connect to Reddit API
 * Banner ads will be shown only in a free version
 
 ## Screens
-![screen](https://user-images.githubusercontent.com/18085976/48204155-73e10c80-e369-11e8-82df-34851f48cc29.png | width=200)
-![screen](https://user-images.githubusercontent.com/18085976/48204190-88bda000-e369-11e8-9477-f4a20b6daea6.png | width=200)
-![screen](https://user-images.githubusercontent.com/18085976/48204207-9115db00-e369-11e8-8018-9693181ae5e9.png | width=200)
-![screen](https://user-images.githubusercontent.com/18085976/48204227-9bd07000-e369-11e8-82fe-96cdfa9e7b76.png | width=200)
+![screen](https://user-images.githubusercontent.com/18085976/48204155-73e10c80-e369-11e8-82df-34851f48cc29.png =200x)
+![screen](https://user-images.githubusercontent.com/18085976/48204190-88bda000-e369-11e8-9477-f4a20b6daea6.png =200x)
+![screen](https://user-images.githubusercontent.com/18085976/48204207-9115db00-e369-11e8-8018-9693181ae5e9.png =200x)
+![screen](https://user-images.githubusercontent.com/18085976/48204227-9bd07000-e369-11e8-82fe-96cdfa9e7b76.png =200x)
 
 ## Libraries
 
