@@ -39,9 +39,10 @@ Connect to Reddit API
 * Banner ads will be shown only in a free version
 
 ## Screens
-<!--
-![screen](https://user-images.githubusercontent.com/18085976/32411293-8fe77754-c1ad-11e7-860f-2062db16e73a.png)
--->
+![screen](https://github.com/benepell/Capstone-Project/issues/2)
+![screen](https://github.com/benepell/Capstone-Project/issues/3)
+![screen](https://github.com/benepell/Capstone-Project/issues/4)
+![screen](https://github.com/benepell/Capstone-Project/issues/5)
 
 ## Libraries
 
