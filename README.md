@@ -39,7 +39,7 @@ Connect to Reddit API
 * Banner ads will be shown only in a free version
 
 ## Screens
-
+![screeen](https://user-images.githubusercontent.com/18085976/48212482-f83c8b00-e37b-11e8-91df-476fa7e77090.png)
 
 ## Libraries
 
