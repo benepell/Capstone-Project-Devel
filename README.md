@@ -51,13 +51,12 @@ Connect to Reddit API
 * [Butter Knife](https://jakewharton.github.io/butterknife/)
 * [Apache Common Version](http://commons.apache.org/)
 * [Exoplayer](https://github.com/google/ExoPlayer/)
-* [Firebase jobdispatcher ](https://g<img src="ithub.com/firebase/firebase-jobdispatcher-android/)
-* [Firebase Analytics ](https://fireb<img src="google.com/docs/android/setup)
-* [Firebase Ads ](https://firebase.go<img src=".com/docs/admob/admob-firebase)
+* [Firebase jobdispatcher ](https://github.com/firebase/firebase-jobdispatcher-android/)
+* [Firebase Analytics ](https://firebase.google.com/docs/analytics/android/start/)
+* [Firebase Ads ](https://firebase.google.com/docs/admob/admob-firebase)
 * [Firebarc="ithub.com/firebase/fish ](https://firebase.google.com/docs/crash/)
-* [Espresso](https://develo rc="ithub.com/firebase/firoid.com/training/testing/espresso/index.html)
-* [Android-Iconics](https://rc="ithub.com/firebase/fi
-com/mikepenz/Android-Iconics)
+* [Espresso](https://github.com/firebase/firoid.com/training/testing/espresso/index.html)
+* [Android-Iconics](https://github.com/mikepenz/Android-Iconics)
 
 ## License
 
