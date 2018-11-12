@@ -69,12 +69,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.gms.ads.AdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 
+import io.fabric.sdk.android.Fabric;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -175,6 +177,7 @@ public class MainActivity extends AppCompatActivity
             setTheme(R.style.AppThemeDark);
         }
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
 
         mContext = MainActivity.this;

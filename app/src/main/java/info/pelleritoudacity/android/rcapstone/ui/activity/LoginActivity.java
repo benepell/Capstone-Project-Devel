@@ -188,7 +188,7 @@ public class LoginActivity extends AppCompatActivity {
                     } else {
 
                         String state = uri.getQueryParameter("state");
-                        if (state.equals(Costant.REDDIT_STATE_RANDOM)) {
+                        if (Objects.requireNonNull(state).equals(Costant.REDDIT_STATE_RANDOM)) {
 
                             String code = uri.getQueryParameter("code");
                             new AccessTokenExecute(new AccessTokenExecute.OnRestCallBack() {

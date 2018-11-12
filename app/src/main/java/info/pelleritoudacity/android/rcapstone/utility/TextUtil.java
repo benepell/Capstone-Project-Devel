@@ -137,12 +137,12 @@ public class TextUtil {
             Timber.e("youtube value error %s", e.getMessage());
         }
 
-        if (Objects.requireNonNull(uri).getAuthority().equals("www.youtube.com") ||
-                Objects.requireNonNull(uri).getAuthority().equals("m.youtube.com")) {
+        if (Objects.requireNonNull(Objects.requireNonNull(uri).getAuthority()).equals("www.youtube.com") ||
+                Objects.requireNonNull(Objects.requireNonNull(uri).getAuthority()).equals("m.youtube.com")) {
 
             String v = uri.getQueryParameter("v");
 
-            if ((v == null) && (uri.getEncodedPath().equals("/attribution_link"))) {
+            if ((v == null) && (Objects.requireNonNull(uri.getEncodedPath()).equals("/attribution_link"))) {
 
                 return Uri.parse(uri.getQueryParameter("u")).getQueryParameter("v");
 
@@ -150,11 +150,11 @@ public class TextUtil {
 
             return v;
 
-        } else if (uri.getAuthority().equals("youtu.be")) {
+        } else if (Objects.requireNonNull(uri.getAuthority()).equals("youtu.be")) {
 
             youtubeUrl = uri.getEncodedPath();
 
-            nSearchLeft = youtubeUrl.indexOf("/");
+            nSearchLeft = Objects.requireNonNull(youtubeUrl).indexOf("/");
             nSearchRight = youtubeUrl.indexOf("&");
 
             if (nSearchLeft >= 0) {

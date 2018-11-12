@@ -88,7 +88,7 @@ public class ContentProvider extends android.content.ContentProvider {
         uriMatcher.addURI(Contract.CONTENT_AUTHORITY, Contract.PATH_T1MORESDATAS + "/#", T1MORESDATA_WITH_ID);
 
         uriMatcher.addURI(Contract.CONTENT_AUTHORITY, Contract.PATH_PREFSUBREDDIT, PREFSUBREDDITS);
-        uriMatcher.addURI(Contract.CONTENT_AUTHORITY, Contract.PATH_T3DATAS + "/#", PREFSUBREDDIT_WITH_ID);
+        uriMatcher.addURI(Contract.CONTENT_AUTHORITY, Contract.PATH_PREFSUBREDDIT + "/#", PREFSUBREDDIT_WITH_ID);
 
 
         return uriMatcher;

@@ -1,6 +1,7 @@
 package info.pelleritoudacity.android.rcapstone.ui.view;
 
 import android.graphics.Rect;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -15,8 +16,8 @@ public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
     } 
  
     @Override 
-    public void getItemOffsets(final Rect outRect, final View view, RecyclerView parent,
-                               RecyclerView.State state) {
+    public void getItemOffsets(@NonNull final Rect outRect, @NonNull final View view, @NonNull RecyclerView parent,
+                               @NonNull RecyclerView.State state) {
         final int position = parent.getChildLayoutPosition(view);
         final int column = position % mSpanCount;
         final int parentWidth = parent.getWidth();

@@ -230,7 +230,6 @@ public interface Costant {
     boolean DEFAULT_GENERAL_SETTINGS = true;
 
     boolean IS_IMA_AD_EXTENSION = true;
-    boolean IS_RENDERING_VIDEO = false;
     boolean IS_AUTOPLAY_VIDEO = true;
     boolean IS_REPEAT_VIDEO = true;
     boolean IS_VIDEO_FULL = true;

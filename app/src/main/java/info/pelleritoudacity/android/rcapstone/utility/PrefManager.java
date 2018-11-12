@@ -29,6 +29,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.preference.PreferenceManager;
 
+import java.util.Objects;
+
 import info.pelleritoudacity.android.rcapstone.R;
 import timber.log.Timber;
 
@@ -56,7 +58,7 @@ public class PrefManager {
                 PreferenceManager.getDefaultSharedPreferences(context);
 
         return Integer.valueOf(
-                sharedPref.getString(context.getString(key), "0"));
+                Objects.requireNonNull(sharedPref.getString(context.getString(key), "0")));
     }
 
     static void clearGeneralSettings(Context context) {

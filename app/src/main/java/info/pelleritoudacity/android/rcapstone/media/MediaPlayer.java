@@ -35,24 +35,15 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.android.exoplayer2.DefaultLoadControl;
-import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ads.AdsMediaSource;
-import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelection;
-import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.PlayerView;
-import com.google.android.exoplayer2.upstream.BandwidthMeter;
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
@@ -429,25 +420,7 @@ public class MediaPlayer {
     }
 
     private SimpleExoPlayer createPlayer() {
-
-        int extensionRendererMode;
-
-        if (Costant.IS_RENDERING_VIDEO) {
-            extensionRendererMode = DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON;
-
-        } else {
-            extensionRendererMode = DefaultRenderersFactory.EXTENSION_RENDERER_MODE_OFF;
-
-        }
-
-        BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-        TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
-        TrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
-        LoadControl loadControl = new DefaultLoadControl();
-
-        return ExoPlayerFactory.newSimpleInstance(
-                new DefaultRenderersFactory(mContext, extensionRendererMode)
-                , trackSelector, loadControl);
+        return ExoPlayerFactory.newSimpleInstance(mContext);
 
     }
 

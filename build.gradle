@@ -7,7 +7,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath 'com.android.tools.build:gradle:3.2.1'
         classpath 'com.google.gms:google-services:4.0.1'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -22,17 +22,17 @@ allprojects {
 
     ext {
         minSdkVersion = 21
-        sdkVersion = 27
-        androidSupportVersion = "$sdkVersion.1.1"
+        sdkVersion = 28
+        androidSupportVersion = "$sdkVersion.0.0"
 
         timberVersion = "4.7.1"
-        butterKnifeVersion = "8.8.1"
+        butterKnifeVersion = "9.0.0-rc1"
 
         apacheCommonsVersion = "2.6"
 
-        exoPlayerVersion = "2.8.2"
+        exoPlayerVersion = "2.9.0"
 
-        glideVersion = "4.7.1"
+        glideVersion = "4.8.0"
         glideOkHttpIntegretionVersion = glideVersion + "@aar"
 
         picassoVersion = "2.71828"
@@ -41,9 +41,9 @@ allprojects {
         okHttpVersion = "3.11.0"
 
         firebaseJobDispVersion = "0.8.5"
-        firebaseCoreVersion = "16.0.3"
-        googleAdsVersion = "15.0.1"
-        firebaseCrashVersion = "16.2.0"
+        firebaseCoreVersion = "16.0.4"
+        crashAnalyticsVersion = "2.9.5"
+        crashFabricToolsGradle = "1.26.1"
 
         mikepenzIconicsVersion = "3.0.4@aar"
         mikepenzMaterialDesignIconicsVersion = "2.2.0.4@aar"

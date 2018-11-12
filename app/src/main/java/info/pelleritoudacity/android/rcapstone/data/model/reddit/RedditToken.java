@@ -26,6 +26,8 @@
 
 package info.pelleritoudacity.android.rcapstone.data.model.reddit;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -102,7 +104,8 @@ public class RedditToken {
         this.access_token = access_token;
     } 
  
-    @Override 
+    @NonNull
+    @Override
     public String toString() {
         return "RedditToken{" + 
                 "scope='" + scope + '\'' +
