@@ -1,0 +1,161 @@
+{
+  "project_info": {
+    "project_number": "741380584144",
+    "firebase_url": "https://rcapstone-be3a9.firebaseio.com",
+    "project_id": "rcapstone-be3a9",
+    "storage_bucket": "rcapstone-be3a9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:741380584144:android:c946cfd1163390fd",
+        "android_client_info": {
+          "package_name": "info.pelleritoudacity.android.rcapstone.free.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "741380584144-ebofm382i11p9183nfhqcua1i38rhohm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "info.pelleritoudacity.android.rcapstone.free.debug",
+            "certificate_hash": "b46f169e697ab9b009cd492875f56d1672ac1d77"
+          }
+        },
+        {
+          "client_id": "741380584144-e868e9po08mtc5nm03o2trj1rseagc7a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3YoFTw3nFez2lVnx3V_VIAk8vYRbnr_c"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "741380584144-e868e9po08mtc5nm03o2trj1rseagc7a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:741380584144:android:803d7d400c2a3761",
+        "android_client_info": {
+          "package_name": "info.pelleritoudacity.android.rcapstone.free.release"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "741380584144-e868e9po08mtc5nm03o2trj1rseagc7a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3YoFTw3nFez2lVnx3V_VIAk8vYRbnr_c"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:741380584144:android:2ab500fac69f47e4",
+        "android_client_info": {
+          "package_name": "info.pelleritoudacity.android.rcapstone.paid.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "741380584144-fajdassm7ds7djlqcn5ts5rdfif8g60p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "info.pelleritoudacity.android.rcapstone.paid.debug",
+            "certificate_hash": "b46f169e697ab9b009cd492875f56d1672ac1d77"
+          }
+        },
+        {
+          "client_id": "741380584144-e868e9po08mtc5nm03o2trj1rseagc7a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3YoFTw3nFez2lVnx3V_VIAk8vYRbnr_c"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "741380584144-e868e9po08mtc5nm03o2trj1rseagc7a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:741380584144:android:1b38fcaa12817ed9",
+        "android_client_info": {
+          "package_name": "info.pelleritoudacity.android.rcapstone.paid.release"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "741380584144-e868e9po08mtc5nm03o2trj1rseagc7a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3YoFTw3nFez2lVnx3V_VIAk8vYRbnr_c"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
