@@ -38,6 +38,7 @@ import android.support.annotation.Nullable;
 
 import timber.log.Timber;
 
+
 public class ContentProvider extends android.content.ContentProvider {
 
     private DbHelper mDbHelper;

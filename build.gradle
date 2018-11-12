@@ -8,7 +8,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath 'com.google.gms:google-services:4.0.1'
+        classpath 'com.google.gms:google-services:4.2.0'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -41,12 +41,13 @@ allprojects {
         okHttpVersion = "3.11.0"
 
         firebaseJobDispVersion = "0.8.5"
-        firebaseCoreVersion = "16.0.4"
-        crashAnalyticsVersion = "2.9.5"
-        crashFabricToolsGradle = "1.26.1"
+        firebaseCoreVersion = "16.0.5"
 
-        mikepenzIconicsVersion = "3.0.4@aar"
-        mikepenzMaterialDesignIconicsVersion = "2.2.0.4@aar"
+        crashFabricToolsGradle = "1.26.1"
+        crashAnalyticsVersion = "2.9.6"
+
+        mikepenzIconicsVersion = "3.1.0@aar"
+        mikepenzMaterialDesignIconicsVersion = "2.2.0.5@aar"
 
         testJunitVersion = "4.12"
         espressoVersion = "3.0.2"

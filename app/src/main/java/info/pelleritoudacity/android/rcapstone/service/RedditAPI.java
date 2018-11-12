@@ -158,22 +158,22 @@ public interface RedditAPI {
     @GET("/search")
     @Headers("User-Agent: " + Costant.REDDIT_USER_AGENT)
     Call<T5> getSearchAuth(@Header("Authorization") String authorization,
-                                     @QueryMap Map<String, String> options
+                           @QueryMap Map<String, String> options
     );
 
     @GET("/subreddits/mine/{where}")
     @Headers("User-Agent: " + Costant.REDDIT_USER_AGENT)
     Call<T5> getMineAuth(@Header("Authorization") String authorization,
-                               @Path(value = "where", encoded = true) String where,
-                               @QueryMap Map<String, String> options
+                         @Path(value = "where", encoded = true) String where,
+                         @QueryMap Map<String, String> options
     );
 
     @FormUrlEncoded
     @POST("/api/subscribe")
     @Headers("User-Agent: " + Costant.REDDIT_USER_AGENT)
     Call<ResponseBody> postSubscribe(@Header("Authorization") String authorization,
-                                           @Field("action") String subscribe,
-                                           @Field("sr") String fullname);
+                                     @Field("action") String subscribe,
+                                     @Field("sr") String fullname);
 
 
 

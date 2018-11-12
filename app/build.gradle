@@ -20,16 +20,16 @@ android {
 
         release_free {
             keyAlias 'release_free'
-            keyPassword 'XXX'
+            keyPassword ''
             storeFile file("$projectDir/keyStore/rcapstone_free_release.jks")
-            storePassword 'XXX'
+            storePassword ''
         }
 
         release_paid {
             keyAlias 'release_paid'
-            keyPassword 'XXX'
+            keyPassword ''
             storeFile file("$projectDir/keyStore/rcapstone_paid_release.jks")
-            storePassword 'XXX'
+            storePassword ''
         }
 
     }
@@ -57,12 +57,12 @@ android {
     }
     buildTypes.each {
         //  REDDIT BASE URL  - url: https://www.reddit.com/prefs/apps/
-        it.buildConfigField 'String', 'REDDIT_CLIENT_ID', '"XXX"'
-        it.buildConfigField 'String', 'REDDIT_SECRET_STATE', '"XXX"'
-        it.buildConfigField 'String', 'REDDIT_ABOUT_URL', '"XXX"'
-        it.buildConfigField 'String', 'REDDIT_REDIRECT_URL', '"XXX"'
+        it.buildConfigField 'String', 'REDDIT_CLIENT_ID', '""'
+        it.buildConfigField 'String', 'REDDIT_SECRET_STATE', '""'
+        it.buildConfigField 'String', 'REDDIT_ABOUT_URL', '""'
+        it.buildConfigField 'String', 'REDDIT_REDIRECT_URL', '""'
 
-        it.buildConfigField 'String', 'YOUTUBE_DEVELOPER_KEY', '"XXX"'
+        it.buildConfigField 'String', 'YOUTUBE_DEVELOPER_KEY', '""'
 
 
     }
@@ -115,10 +115,15 @@ dependencies {
     implementation "com.squareup.picasso:picasso:${rootProject.ext.picassoVersion}"
     implementation "com.mikepenz:iconics-core:${rootProject.ext.mikepenzIconicsVersion}"
     implementation "com.mikepenz:material-design-iconic-typeface:${rootProject.ext.mikepenzMaterialDesignIconicsVersion}"
-    implementation "com.firebase:firebase-jobdispatcher:${rootProject.ext.firebaseJobDispVersion}"
+
 
     implementation "com.google.firebase:firebase-core:${rootProject.ext.firebaseCoreVersion}"
     implementation "com.crashlytics.sdk.android:crashlytics:${rootProject.ext.crashAnalyticsVersion}"
+
+    implementation "com.firebase:firebase-jobdispatcher:${rootProject.ext.firebaseJobDispVersion}"
+
+    // todo fix conflict to version 17.1.0
+    implementation 'com.google.firebase:firebase-ads:15.0.1'
 
     implementation "com.android.support.test.espresso:espresso-idling-resource:${rootProject.ext.espressoVersion}"
     testImplementation "junit:junit:${rootProject.ext.testJunitVersion}"
