@@ -37,6 +37,7 @@ public class RecordAdapterTitle {
         this.numComments = numComments;
     }
 
+    @SuppressWarnings("unused")
     public int getImagePreviewWidth() {
         return imagePreviewWidth;
     }
@@ -45,6 +46,7 @@ public class RecordAdapterTitle {
         this.imagePreviewWidth = imagePreviewWidth;
     }
 
+    @SuppressWarnings("unused")
     public int getImagePreviewHeight() {
         return imagePreviewHeight;
     }

@@ -27,25 +27,36 @@ package info.pelleritoudacity.android.rcapstone.utility;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
+import android.os.Build;
 
 public class NetworkUtil {
 
     public static boolean isOnline(Context context) {
 
-        ConnectivityManager connMgr = (ConnectivityManager)
-                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        final ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        if (connMgr != null) {
+        if (cm != null) {
+            if (Build.VERSION.SDK_INT < 23) {
+                final NetworkInfo ni = cm.getActiveNetworkInfo();
 
-            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+                if (ni != null) {
+                    return (ni.isConnected() && (ni.getSubtype() > 0));
+                }
+            } else {
+                final Network n = cm.getActiveNetwork();
 
-            return (networkInfo != null) && (networkInfo.getState() == NetworkInfo.State.CONNECTED);
+                if (n != null) {
+                    final NetworkCapabilities nc = cm.getNetworkCapabilities(n);
 
+                    return (nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI));
+                }
+            }
         }
 
         return false;
-
     }
 
 }
