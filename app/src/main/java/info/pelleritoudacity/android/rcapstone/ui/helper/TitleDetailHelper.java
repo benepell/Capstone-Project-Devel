@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.Request;
+import com.bumptech.glide.request.target.SizeReadyCallback;
+import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 
 import info.pelleritoudacity.android.rcapstone.R;
@@ -24,24 +26,68 @@ public class TitleDetailHelper {
         this.mContext = mContext;
     }
 
-    public void imageReddit(ImageView imageView, String image, String imageDescription, int imgWidth, int imgHeight) {
+    public void imageReddit(ImageView imageView, String image, String imageDescription) {
         Glide.with(mContext)
                 .asBitmap()
                 .load(TextUtil.textFromHtml(image))
-                .into(new SimpleTarget<Bitmap>(imgWidth, imgHeight) {
+                .into(new Target<Bitmap>() {
+                    @Override
+                    public void onLoadStarted(@Nullable Drawable placeholder) {
+
+                    }
 
                     @Override
                     public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                        super.onLoadFailed(errorDrawable);
                         imageView.setImageResource(R.drawable.ic_no_image);
 
                     }
 
                     @Override
-                    public void onResourceReady(@NonNull Bitmap resource, Transition<? super Bitmap> transition) {
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                         ImageUtil.createRoundImage(mContext, imageView, resource);
                         imageView.setContentDescription(imageDescription);
                         imageView.setVisibility(View.VISIBLE);
+
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                    }
+
+                    @Override
+                    public void getSize(@NonNull SizeReadyCallback cb) {
+
+                    }
+
+                    @Override
+                    public void removeCallback(@NonNull SizeReadyCallback cb) {
+
+                    }
+
+                    @Override
+                    public void setRequest(@Nullable Request request) {
+
+                    }
+
+                    @Nullable
+                    @Override
+                    public Request getRequest() {
+                        return null;
+                    }
+
+                    @Override
+                    public void onStart() {
+
+                    }
+
+                    @Override
+                    public void onStop() {
+
+                    }
+
+                    @Override
+                    public void onDestroy() {
 
                     }
                 });

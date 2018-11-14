@@ -130,7 +130,7 @@ public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.
                     (!TextUtils.isEmpty(record.getImagePreviewUrl()))) {
 
                 helper.imageReddit(holder.mImageViewSubRedditSmall, record.getImagePreviewUrl(),
-                        record.getTitle(), record.getImagePreviewWidth(), record.getImagePreviewHeight());
+                        record.getTitle());
 
             }
 
