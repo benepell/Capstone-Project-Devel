@@ -3,7 +3,6 @@ package info.pelleritoudacity.android.rcapstone.ui.helper;
 import android.content.Context;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
-import android.text.TextUtils;
 import android.view.View;
 
 import com.google.android.exoplayer2.util.Util;
@@ -11,7 +10,6 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.MobileAds;
 
 import info.pelleritoudacity.android.rcapstone.BuildConfig;
 import info.pelleritoudacity.android.rcapstone.R;
@@ -22,7 +20,6 @@ public class AdsHelper {
     private final AdView mAdView;
     private final View mContainer;
     private InterstitialAd mInterstitialAd;
-    private boolean isInitMobile;
 
     public AdsHelper(Context context, View container, AdView mAdView) {
         mContext = context;
@@ -33,40 +30,26 @@ public class AdsHelper {
 
     public void initAds() {
 
-        String adsAppId = mContext.getResources().getString(R.string.ads_app_id);
+        startBannerAd();
 
-        if (!TextUtils.isEmpty(adsAppId)) {
+        adsErrorListener();
 
-            MobileAds.initialize(mContext, adsAppId);
-            isInitMobile = true;
-
-            startBannerAd();
-
-            adsErrorListener();
-        }
     }
 
     public void initInterstitialAd() {
 
-        String adsAppId = mContext.getResources().getString(R.string.ads_app_id);
-        if (!TextUtils.isEmpty(adsAppId)) {
+        mInterstitialAd = new InterstitialAd(mContext);
 
-            if (!isInitMobile) {
-                MobileAds.initialize(mContext, mContext.getResources().getString(R.string.ads_app_id));
+        mInterstitialAd.setAdUnitId(mContext.getResources().getString(R.string.ad_unit_id));
+
+        startInterstitialAd();
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                startInterstitialAd();
             }
-            mInterstitialAd = new InterstitialAd(mContext);
-
-            mInterstitialAd.setAdUnitId(mContext.getResources().getString(R.string.ad_unit_id));
-
-            startInterstitialAd();
-
-            mInterstitialAd.setAdListener(new AdListener() {
-                @Override
-                public void onAdClosed() {
-                    startInterstitialAd();
-                }
-            });
-        }
+        });
     }
 
     private void adsErrorListener() {
