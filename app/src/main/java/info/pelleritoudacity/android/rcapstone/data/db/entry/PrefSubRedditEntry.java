@@ -98,6 +98,6 @@ public class PrefSubRedditEntry {
     }
 
     public void setTimeLastModified(Date timeLastModified) {
-        timeLastModified = timeLastModified;
+        this.timeLastModified = timeLastModified;
     }
 }
