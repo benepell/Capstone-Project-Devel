@@ -1,0 +1,65 @@
+package info.pelleritoudacity.android.rcapstone.data.db.viewmodel;
+
+import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
+import android.arch.lifecycle.LiveData;
+import android.support.annotation.NonNull;
+
+import java.util.List;
+
+import info.pelleritoudacity.android.rcapstone.data.db.AppDatabase;
+import info.pelleritoudacity.android.rcapstone.data.db.entry.DataEntry;
+import info.pelleritoudacity.android.rcapstone.data.db.entry.PrefSubRedditEntry;
+import info.pelleritoudacity.android.rcapstone.data.db.entry.RedditEntry;
+import info.pelleritoudacity.android.rcapstone.data.db.entry.T1Entry;
+import info.pelleritoudacity.android.rcapstone.data.db.entry.T1MoreEntry;
+import info.pelleritoudacity.android.rcapstone.data.db.entry.T3Entry;
+import info.pelleritoudacity.android.rcapstone.data.db.entry.T5Entry;
+
+public class MainViewModel extends AndroidViewModel {
+
+    private LiveData<List<DataEntry>> dataRecords;
+    private LiveData<List<RedditEntry>> redditRecords;
+    private LiveData<List<PrefSubRedditEntry>> prefSubRedditRecords;
+    private LiveData<List<T1Entry>> t1Records;
+    private LiveData<List<T1MoreEntry>> t1MoreRecords;
+    private LiveData<List<T3Entry>> t3Records;
+    private LiveData<List<T5Entry>> t5Records;
+
+    public MainViewModel(@NonNull Application application) {
+        super(application);
+        AppDatabase db = AppDatabase.getInstance(this.getApplication());
+        this.dataRecords = db.dataDao().loadAllRecords();
+        this.redditRecords = db.redditDao().loadAllRecords();
+        this.prefSubRedditRecords = db.prefSubRedditDao().loadAllRecords();
+        this.t1Records = db.t1Dao().loadAllRecords();
+        this.t1MoreRecords = db.t1MoreDao().loadAllRecords();
+        this.t3Records = db.t3Dao().loadAllRecords();
+        this.t5Records = db.t5Dao().loadAllRecords();
+    }
+
+    public LiveData<List<DataEntry>> getDataRecords() {
+        return dataRecords;
+    }
+
+    public LiveData<List<RedditEntry>> getRedditRecords() {
+        return redditRecords;
+    }
+
+    public LiveData<List<T1Entry>> getT1Records() {
+        return t1Records;
+    }
+
+    public LiveData<List<T1MoreEntry>> getT1MoreRecords() {
+        return t1MoreRecords;
+    }
+
+    public LiveData<List<T3Entry>> getT3Records() {
+        return t3Records;
+    }
+
+    public LiveData<List<T5Entry>> getT5Records() {
+        return t5Records;
+    }
+
+}
