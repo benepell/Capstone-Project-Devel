@@ -40,6 +40,10 @@ public class T1MoreEntry {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public Date getTimeLastModified() {
         return timeLastModified;
     }
