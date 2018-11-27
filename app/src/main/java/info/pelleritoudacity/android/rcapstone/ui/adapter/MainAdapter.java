@@ -75,7 +75,6 @@ import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import okhttp3.ResponseBody;
-import timber.log.Timber;
 
 import static info.pelleritoudacity.android.rcapstone.utility.NumberUtil.numberFormat;
 
@@ -198,8 +197,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
                         mainHelper.youtubeVideoFirstFrame(holder.mPlayerLayout, holder.mImagePreview, holder.mImagePlay, holder.mExoProgressBar,
                                 TextUtil.textFromHtml(record.getThumbnailUrlOembed()),
                                 TextUtil.textFromHtml(record.getVideoUrl()), record.getTitle());
-                        Timber.d("Benny mod getThumbnailUrlOembed():%s - videourl:%s - title:%s",
-                                record.getThumbnailUrlOembed(),record.getVideoUrl(),record.getTitle());
 
                         holder.mImageViewSubReddit.setVisibility(View.GONE);
                         break;
