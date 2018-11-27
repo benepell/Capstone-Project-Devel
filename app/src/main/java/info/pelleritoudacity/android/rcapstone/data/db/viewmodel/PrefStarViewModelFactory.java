@@ -19,6 +19,7 @@ public class PrefStarViewModelFactory extends ViewModelProvider.NewInstanceFacto
         mVisible = visible;
     }
 
+    @SuppressWarnings("unchecked")
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {

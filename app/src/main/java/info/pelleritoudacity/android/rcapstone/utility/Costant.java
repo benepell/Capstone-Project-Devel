@@ -73,11 +73,6 @@ public interface Costant {
 
     String TOKEN_SYNC_TAG = "rcapstone-token-sync";
 
-    int REDDIT_LOADER_ID = 1;
-    int SUBREDDIT_LOADER_ID = 2;
-    int SUBREDDIT_DETAIL_LOADER_ID = 3;
-    int SUBREDDIT_SELECTED_LOADER_ID = 4;
-
     int NAV_MODE_HOME = 1;
     int NAV_MODE_POPOLAR = 2;
     int NAV_MODE_ALL = 3;

@@ -10,16 +10,17 @@ import info.pelleritoudacity.android.rcapstone.data.db.entry.PrefSubRedditEntry;
 public class PrefViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     private final AppDatabase mDb;
-    private final PrefSubRedditEntry entry;
+    private final PrefSubRedditEntry mEntry;
 
     public PrefViewModelFactory(AppDatabase mDb, PrefSubRedditEntry entry) {
         this.mDb = mDb;
-        this.entry = entry;
+        mEntry = entry;
     }
 
+    @SuppressWarnings("unchecked")
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new PrefViewModel(mDb,entry);
+        return (T) new PrefViewModel(mDb,mEntry);
     }
 }

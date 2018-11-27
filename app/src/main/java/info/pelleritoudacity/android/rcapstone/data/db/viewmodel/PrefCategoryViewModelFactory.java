@@ -19,6 +19,7 @@ public class PrefCategoryViewModelFactory extends ViewModelProvider.NewInstanceF
         mVisible = visible;
     }
 
+    @SuppressWarnings("unchecked")
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {

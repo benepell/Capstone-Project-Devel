@@ -11,6 +11,7 @@ import info.pelleritoudacity.android.rcapstone.data.db.entry.PrefSubRedditEntry;
 public class PrefViewModel extends ViewModel {
 
     private final LiveData<List<PrefSubRedditEntry>> records;
+    @SuppressWarnings("FieldCanBeLocal")
     private final PrefSubRedditEntry mEntry;
 
     public PrefViewModel(AppDatabase db, PrefSubRedditEntry entry) {

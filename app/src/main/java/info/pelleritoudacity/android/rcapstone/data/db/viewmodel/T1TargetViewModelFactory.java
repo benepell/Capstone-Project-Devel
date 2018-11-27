@@ -21,6 +21,7 @@ public class T1TargetViewModelFactory extends ViewModelProvider.NewInstanceFacto
         mTarget = target;
     }
 
+    @SuppressWarnings("unchecked")
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {

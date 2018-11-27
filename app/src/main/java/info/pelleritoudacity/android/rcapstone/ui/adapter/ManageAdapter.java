@@ -70,6 +70,7 @@ import info.pelleritoudacity.android.rcapstone.utility.MapUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 
+@SuppressWarnings("WeakerAccess")
 public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHolder> implements ItemTouchHelperAdapter {
 
     private final OnStartDragListener mDragStartListener;

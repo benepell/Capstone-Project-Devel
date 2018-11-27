@@ -17,6 +17,7 @@ public class T3TitleDetailViewModelFactory extends ViewModelProvider.NewInstance
 
     }
 
+    @SuppressWarnings("unchecked")
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {

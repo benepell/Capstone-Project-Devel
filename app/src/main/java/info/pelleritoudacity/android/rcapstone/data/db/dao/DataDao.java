@@ -12,6 +12,7 @@ import java.util.List;
 
 import info.pelleritoudacity.android.rcapstone.data.db.entry.DataEntry;
 
+@SuppressWarnings("unused")
 @Dao
 public interface DataDao {
     @Query("SELECT * FROM _data")
