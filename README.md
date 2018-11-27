@@ -6,10 +6,13 @@
 </a>
 -->
 # Capstone-Project
-It was evaluated by certified Udacity code reviewer and was graded as [Graduated](https://confirm.udacity.com/LD4VZMP4).[Archive Udacity Project](https://github.com/benepell/Capstone-Project/files/2562037/Capstone_Stage1.pdf) 
+It was evaluated by certified Udacity code reviewer and was graded as [Graduated](https://confirm.udacity.com/LD4VZMP4).
 
 ## Project Design
 [Capstone Stage 1](https://github.com/benepell/Capstone-Project/files/2562037/Capstone_Stage1.pdf)
+
+## Project Archived in Udacity
+[Archive](https://github.com/benepell/Capstone-Project/files/2562037/Capstone_Stage1.pdf)
 
 ## Description
 A beautifully client for browse reddit discussion with an easy to use interface.
