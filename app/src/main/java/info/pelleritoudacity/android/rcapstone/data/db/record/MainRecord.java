@@ -63,11 +63,11 @@ public class MainRecord {
 
         mRecord.setImagePreviewUrl(t3.getPreviewImageSourceUrl());
 
-        mRecord.setVideoPreviewUrl(t3.getPreviewVideoMp4Url());
+        mRecord.setVideoPreviewUrl(t3.getVariantVideoMp4Url());
 
         mRecord.setVideoUrl(t3.getUrl());
 
-        mRecord.setVideoTypeOembed(t3.getMediaOembedType());
+        mRecord.setVideoTypeOembed(t3.getMediaType());
 
         mRecord.setVideoFrameOembed(t3.getMediaOembedHtml());
 
