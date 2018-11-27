@@ -90,7 +90,7 @@
             android:name=".ui.activity.YoutubeActivity"
             android:label="@string/title_activity_youtube"
             android:parentActivityName=".ui.activity.MainActivity"
-            android:theme="@style/AppThemeLight">
+            android:theme="@style/AppThemeLight.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />

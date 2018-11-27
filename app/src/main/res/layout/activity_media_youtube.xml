@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/youtube_fragment"
-        android:name="com.google.android.youtube.player.YouTubePlayerFragment"
+        android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"

@@ -37,6 +37,8 @@ public interface Costant {
     String REDDIT_OAUTH_URL = "https://oauth.reddit.com/";
 
     String YOUTUBE_DEVELOPER_KEY = BuildConfig.YOUTUBE_DEVELOPER_KEY;
+    String EXTRA_YOUTUBE_URL = "info.pelleritoudacity.android.rcapstone.extra.youtube.url";
+
     boolean YOUTUBE_CLIENT_AUTOSTART = true;
 
     String REDDIT_CLIENT_ID = BuildConfig.REDDIT_CLIENT_ID;

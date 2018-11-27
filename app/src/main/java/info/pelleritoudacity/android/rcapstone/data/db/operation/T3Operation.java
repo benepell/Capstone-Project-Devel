@@ -46,7 +46,6 @@ import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3Data;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3ListingData;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.Variants;
-import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
@@ -238,7 +237,7 @@ public class T3Operation {
 
             t3.setSubredditId(t3ListingData.getSubredditId());
 
-            if(t3ListingData.getApprovedAtUtc()!=null) {
+            if (t3ListingData.getApprovedAtUtc() != null) {
                 t3.setApprovedAtUtc(t3ListingData.getApprovedAtUtc());
             }
 
@@ -386,7 +385,7 @@ public class T3Operation {
 
     public void saveData(String category, String target) {
         if (!TextUtils.isEmpty(category)) {
-            deleteCategory(category);
+            deleteCategory( category);
 
             insertData(target);
         }
@@ -395,19 +394,7 @@ public class T3Operation {
 
     private void deleteCategory(String category) {
 
-        switch (category) {
-
-            case Costant.DB_TABLE_T3:
-
-                AppExecutors.getInstance().diskIO().execute(() -> mDb.t3Dao().deleteRecordByCategory(category));
-                break;
-
-            case Costant.DB_TABLE_PREFSUBREDDIT:
-
-                AppExecutors.getInstance().diskIO().execute(() -> mDb.prefSubRedditDao().deleteRecordByCategory(category));
-                break;
-
-        }
+        AppExecutors.getInstance().diskIO().execute(() -> mDb.t3Dao().deleteRecordByCategory(category));
 
     }
 
