@@ -18,6 +18,8 @@ public class T3TargetViewModel extends ViewModel {
         switch (target) {
             case Costant.ALL_MAIN_TARGET:
             case Costant.POPULAR_MAIN_TARGET:
+            case Costant.WIDGET_MAIN_TARGET:
+
                 records = db.t3Dao().loadMainTarget(entry.getTarget(), entry.getOver18());
                 break;
 
@@ -29,7 +31,6 @@ public class T3TargetViewModel extends ViewModel {
                 records = db.t3Dao().loadSearchMainTarget(entry.getTitle(), entry.getSubreddit(), entry.getOver18());
                 break;
 
-            case Costant.WIDGET_MAIN_TARGET:
             case Costant.NAVIGATION_MAIN_TARGET:
             default:
                 records = db.t3Dao().loadWidgetDefaultTarget(entry.getSubreddit(), entry.getOver18());

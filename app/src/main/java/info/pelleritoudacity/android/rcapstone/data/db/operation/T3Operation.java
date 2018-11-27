@@ -241,7 +241,11 @@ public class T3Operation {
                 t3.setApprovedAtUtc(t3ListingData.getApprovedAtUtc());
             }
 
-            t3.setWls(t3ListingData.getWls());
+            if (t3ListingData.getWls() == null) {
+                t3.setWls(0);
+            } else {
+                t3.setWls(t3ListingData.getWls());
+            }
 
             t3.setModReasonBy(String.valueOf(t3ListingData.getModReasonBy()));
 
@@ -310,7 +314,13 @@ public class T3Operation {
 
             t3.setHidden(Utility.boolToInt(t3ListingData.getHidden()));
 
-            t3.setPwls(t3ListingData.getPwls());
+            if (t3ListingData.getPwls() == null) {
+                t3.setPwls(0);
+
+            } else {
+                t3.setPwls(t3ListingData.getPwls());
+
+            }
 
             t3.setThumbnail(t3ListingData.getThumbnail());
 
@@ -385,7 +395,7 @@ public class T3Operation {
 
     public void saveData(String category, String target) {
         if (!TextUtils.isEmpty(category)) {
-            deleteCategory( category);
+            deleteCategory(category);
 
             insertData(target);
         }

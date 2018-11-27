@@ -23,6 +23,9 @@ public interface T3Dao {
     @Query("SELECT * FROM _t3 WHERE _target = :target AND _over18 <= :over18 ")
     LiveData<List<T3Entry>> loadMainTarget(String target, int over18);
 
+    @Query("SELECT * FROM _t3 WHERE _target = :target AND _over18 <= :over18 ")
+    List<T3Entry> loadMainWidget(String target, int over18);
+
     @Query("SELECT * FROM _t3 WHERE _saved = :saved ")
     LiveData<List<T3Entry>> loadFavoriteTarget(int saved);
 

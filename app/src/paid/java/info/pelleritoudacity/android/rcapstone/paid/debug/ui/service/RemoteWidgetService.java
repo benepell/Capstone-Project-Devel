@@ -29,7 +29,6 @@ package info.pelleritoudacity.android.rcapstone.paid.debug.ui.service;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Binder;
@@ -40,8 +39,11 @@ import android.widget.RemoteViewsService;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.db.Contract;
+import info.pelleritoudacity.android.rcapstone.data.db.AppDatabase;
+import info.pelleritoudacity.android.rcapstone.data.db.entry.T3Entry;
 import info.pelleritoudacity.android.rcapstone.paid.debug.ui.widget.WidgetUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
@@ -51,94 +53,81 @@ import timber.log.Timber;
 
 public class RemoteWidgetService extends RemoteViewsService {
 
+    private AppDatabase mDb;
+    private Context mContext;
+    private List<T3Entry> records;
+
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
         return new WidgetRemoteViewsFactory(this.getApplicationContext());
     }
 
     class WidgetRemoteViewsFactory implements RemoteViewsFactory {
-        final Context mContext;
-        Cursor mCursor;
 
         WidgetRemoteViewsFactory(Context context) {
             mContext = context;
+
         }
 
         @Override
         public void onCreate() {
+            mDb = AppDatabase.getInstance(mContext);
+
         }
 
         @Override
         public void onDataSetChanged() {
+            WidgetUtil widgetUtil = new WidgetUtil(mContext,mDb);
+
 
             final long identityToken = Binder.clearCallingIdentity();
 
-            try {
 
-                String selection = null;
-                String[] selectionArgs = null;
+            switch (Preference.getWidgetCategory(mContext)) {
+                case Costant.CATEGORY_POPULAR:
+                case Costant.CATEGORY_ALL:
+                case Costant.CATEGORY_HOT:
+                case Costant.CATEGORY_NEW:
+                case Costant.CATEGORY_TOP:
+                case Costant.CATEGORY_RISING:
+                case Costant.CATEGORY_CONTROVERSIAL:
+                case Costant.CATEGORY_BEST:
+                    records = mDb.t3Dao().loadMainWidget(widgetUtil.getMainTarget(Preference.getWidgetCategory(mContext)), 0);
 
-                WidgetUtil widgetUtil = new WidgetUtil(mContext);
-
-
-                switch (Preference.getWidgetCategory(mContext)) {
-                    case Costant.CATEGORY_POPULAR:
-                    case Costant.CATEGORY_ALL:
-                    case Costant.CATEGORY_HOT:
-                    case Costant.CATEGORY_NEW:
-                    case Costant.CATEGORY_TOP:
-                    case Costant.CATEGORY_RISING:
-                    case Costant.CATEGORY_CONTROVERSIAL:
-                    case Costant.CATEGORY_BEST:
-                        selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?" + " AND " +
-                                Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " =?";
-                        selectionArgs = new String[]{widgetUtil.getMainTarget(Preference.getWidgetCategory(mContext)), "0"};
-                }
-
-                mCursor = mContext.getContentResolver().query(Contract.T3dataEntry.CONTENT_URI,
-                        null,
-                        selection, selectionArgs, null);
-
-
-            } catch (Exception e) {
-                Timber.e("widget data set change error %s", e.getMessage());
-
-            } finally {
-                if (mCursor != null) {
-                    mCursor.close();
-                }
-                Binder.restoreCallingIdentity(identityToken);
             }
+
+
+            Binder.restoreCallingIdentity(identityToken);
+
 
         }
 
         @Override
         public void onDestroy() {
-            if (mCursor != null) mCursor.close();
+            //records = null;
         }
 
         @Override
         public int getCount() {
-            return mCursor != null ? mCursor.getCount() : 0;
+            return records != null ? records.size() : 0;
 
         }
 
         @Override
         public RemoteViews getViewAt(int position) {
 
-            if (mCursor == null || mCursor.getCount() == 0) return null;
+            if (records == null || records.size() == 0) return null;
 
+            T3Entry record = records.get(position);
 
-            mCursor.moveToPosition(position);
-
-            int id = mCursor.getInt(mCursor.getColumnIndex(Contract.T3dataEntry._ID));
-            String category = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT));
-            String author = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_AUTHOR));
-            String title = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_TITLE));
-            String numComments = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_NUM_COMMENTS));
-            String categoryPrefix = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT_NAME_PREFIXE));
-            String strImageUrl = mCursor.getString(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_PREVIEW_IMAGE_SOURCE_URL));
-            long createdUtc = mCursor.getLong(mCursor.getColumnIndex(Contract.T3dataEntry.COLUMN_NAME_CREATED_UTC));
+            int id = record.getId();
+            String category = record.getSubreddit();
+            String author = record.getAuthor();
+            String title = record.getTitle();
+            String numComments = String.valueOf( record.getNumComments());
+            String categoryPrefix = record.getSubredditNamePrefix();
+            String strImageUrl = record.getPreviewImageSourceUrl();
+            long createdUtc = record.getCreatedUtc();
 
 
             RemoteViews views = new RemoteViews(mContext.getPackageName(),
@@ -207,6 +196,7 @@ public class RemoteWidgetService extends RemoteViewsService {
         public boolean hasStableIds() {
             return true;
         }
+
 
     }
 

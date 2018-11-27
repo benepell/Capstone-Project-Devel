@@ -35,12 +35,15 @@ import android.text.TextUtils;
 
 import java.util.Objects;
 
+import info.pelleritoudacity.android.rcapstone.data.db.AppDatabase;
 import info.pelleritoudacity.android.rcapstone.paid.debug.ui.activity.OptionWidgetActivity;
 import info.pelleritoudacity.android.rcapstone.paid.debug.ui.widget.WidgetUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 
 public class WidgetService extends IntentService {
+
+    private static AppDatabase mDb;
 
     public WidgetService() {
         super("WidgetService");
@@ -76,6 +79,8 @@ public class WidgetService extends IntentService {
 
     private static void update(Context context) {
 
+        mDb = AppDatabase.getInstance(context);
+
         if (TextUtils.isEmpty(Preference.getWidgetCategory(context))) {
             context.startActivity(new Intent(context, OptionWidgetActivity.class)
                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -83,7 +88,7 @@ public class WidgetService extends IntentService {
             );
 
         } else {
-            new WidgetUtil(context).updateData(Preference.getWidgetCategory(context));
+            new WidgetUtil(context,mDb).updateData(Preference.getWidgetCategory(context));
         }
 
 

@@ -8,6 +8,7 @@ import android.content.Intent;
 
 import java.util.List;
 
+import info.pelleritoudacity.android.rcapstone.data.db.AppDatabase;
 import info.pelleritoudacity.android.rcapstone.data.db.operation.T3Operation;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.data.rest.WidgetExecute;
@@ -18,9 +19,11 @@ import timber.log.Timber;
 public class WidgetUtil {
 
     private final Context mContext;
+    private final AppDatabase mDb;
 
-    public WidgetUtil(Context context) {
+    public WidgetUtil(Context context,AppDatabase db) {
         mContext = context;
+        mDb = db;
     }
 
     public void updateData(String category) {
@@ -36,7 +39,7 @@ public class WidgetUtil {
                 @Override
                 public void success(T3 response, int code) {
 
-                    T3Operation widgetData = new T3Operation(mContext, response);
+                    T3Operation widgetData = new T3Operation(mContext, mDb,response);
 
                     if (code == 200) {
 
