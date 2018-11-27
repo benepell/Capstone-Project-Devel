@@ -3,8 +3,10 @@ package info.pelleritoudacity.android.rcapstone.data.db.entry;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
 
-import java.util.Date;
+
+import info.pelleritoudacity.android.rcapstone.data.db.util.DateConverter;
 
 @Entity(tableName = "_t5")
 public class T5Entry {
@@ -12,8 +14,9 @@ public class T5Entry {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
+    @TypeConverters(DateConverter.class)
     @ColumnInfo(name = "_time_last_modified")
-    private Date timeLastModified;
+    private long timeLastModified;
 
     @ColumnInfo(name = "_suggest_comment_sort")
     private String suggestCommentSort;
@@ -34,7 +37,7 @@ public class T5Entry {
     private String submitTextHtml;
 
     @ColumnInfo(name = "_user_is_banned")
-    private String userIsBanned;
+    private int userIsBanned;
 
     @ColumnInfo(name = "_wiki_enabled")
     private int wikiEnabled;
@@ -109,7 +112,7 @@ public class T5Entry {
     private String description;
 
     @ColumnInfo(name = "_user_is_muted")
-    private String userIsMuted;
+    private int userIsMuted;
 
     @ColumnInfo(name = "_submit_link_label")
     private String submitLinkLabel;
@@ -166,10 +169,11 @@ public class T5Entry {
     private int quarantine;
 
     @ColumnInfo(name = "_created")
-    private int created;
+    private double created;
 
+    @TypeConverters(DateConverter.class)
     @ColumnInfo(name = "_created_utc")
-    private int createdUtc;
+    private long createdUtc;
 
     @ColumnInfo(name = "_banner_size")
     private int bannerSize;
@@ -224,11 +228,11 @@ public class T5Entry {
         this.id = id;
     }
 
-    public Date getTimeLastModified() {
+    public long getTimeLastModified() {
         return timeLastModified;
     }
 
-    public void setTimeLastModified(Date timeLastModified) {
+    public void setTimeLastModified(long timeLastModified) {
         this.timeLastModified = timeLastModified;
     }
 
@@ -280,11 +284,11 @@ public class T5Entry {
         this.submitTextHtml = submitTextHtml;
     }
 
-    public String getUserIsBanned() {
+    public int getUserIsBanned() {
         return userIsBanned;
     }
 
-    public void setUserIsBanned(String userIsBanned) {
+    public void setUserIsBanned(int userIsBanned) {
         this.userIsBanned = userIsBanned;
     }
 
@@ -480,11 +484,11 @@ public class T5Entry {
         this.description = description;
     }
 
-    public String getUserIsMuted() {
+    public int getUserIsMuted() {
         return userIsMuted;
     }
 
-    public void setUserIsMuted(String userIsMuted) {
+    public void setUserIsMuted(int userIsMuted) {
         this.userIsMuted = userIsMuted;
     }
 
@@ -632,19 +636,19 @@ public class T5Entry {
         this.quarantine = quarantine;
     }
 
-    public int getCreated() {
+    public double getCreated() {
         return created;
     }
 
-    public void setCreated(int created) {
+    public void setCreated(double created) {
         this.created = created;
     }
 
-    public int getCreatedUtc() {
+    public long getCreatedUtc() {
         return createdUtc;
     }
 
-    public void setCreatedUtc(int createdUtc) {
+    public void setCreatedUtc(long createdUtc) {
         this.createdUtc = createdUtc;
     }
 

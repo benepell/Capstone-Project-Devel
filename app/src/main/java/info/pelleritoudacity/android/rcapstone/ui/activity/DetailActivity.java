@@ -48,9 +48,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.BuildConfig;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.db.Contract;
-import info.pelleritoudacity.android.rcapstone.data.db.Operation.T1Operation;
-import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
+import info.pelleritoudacity.android.rcapstone.data.db.AppDatabase;
+import info.pelleritoudacity.android.rcapstone.data.db.operation.T1Operation;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T1;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.More;
@@ -68,6 +67,7 @@ import info.pelleritoudacity.android.rcapstone.utility.PermissionUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
 import timber.log.Timber;
+
 public class DetailActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, RestDetailExecute.OnRestCallBack,
         DetailFragment.OnFragmentInteractionListener, RestMoreExecute.OnRestCallBack,
@@ -103,6 +103,8 @@ public class DetailActivity extends AppCompatActivity
     private String mSearchString;
     private AlertDialog mDialog;
 
+    private AppDatabase mDb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
@@ -124,6 +126,8 @@ public class DetailActivity extends AppCompatActivity
             Timber.plant(new Timber.DebugTree());
         }
         ButterKnife.bind(this);
+
+        mDb = AppDatabase.getInstance(getApplicationContext());
 
         initToolBar();
 
@@ -266,12 +270,10 @@ public class DetailActivity extends AppCompatActivity
     @Override
     public void success(List<T1> response, int code) {
         if ((response != null) && (model.getStrId() != null)) {
-            T1Operation data = new T1Operation(getApplicationContext());
-            if (data.saveData(response, model.getStrId())) {
-                startFragment(model, false);
-            } else {
-                Snackbar.make(mContainer, R.string.error_state_critical, Snackbar.LENGTH_LONG).show();
-            }
+            T1Operation data = new T1Operation(getApplicationContext(),mDb);
+            data.saveData(response, model.getStrId());
+            startFragment(model, false);
+
         }
     }
 
@@ -281,13 +283,11 @@ public class DetailActivity extends AppCompatActivity
         if (response != null) {
             if (response.getJson().getData() != null) {
 
-                T1Operation t1moreOperation = new T1Operation(getApplicationContext());
+                T1Operation t1moreOperation = new T1Operation(getApplicationContext(),mDb);
 
-                if (t1moreOperation.saveMoreData(response.getJson())) {
+                t1moreOperation.saveMoreData(response.getJson());
+                startFragment(model, true);
 
-                    startFragment(model, true);
-
-                }
 
             }
 
@@ -742,7 +742,7 @@ public class DetailActivity extends AppCompatActivity
         }
         String tokenLogin = PermissionUtil.getToken(mContext);
 
-        switch (mDetailHelper.getJob(model, isUpdateData(), NetworkUtil.isOnline(mContext))) {
+        switch (mDetailHelper.getJob(model, NetworkUtil.isOnline(mContext))) {
 
             case Costant.DETAIL_TARGET_NO_UPDATE:
 
@@ -839,12 +839,6 @@ public class DetailActivity extends AppCompatActivity
         }
 
 
-    }
-
-    private boolean isUpdateData() {
-        return new DataUtils(mContext).isSyncDataDetail(Contract.T1dataEntry.CONTENT_URI,
-                model, Preference.getGeneralSettingsSyncFrequency(mContext),
-                Preference.getGeneralSettingsItemPage(mContext));
     }
 
     private void initToolBar() {

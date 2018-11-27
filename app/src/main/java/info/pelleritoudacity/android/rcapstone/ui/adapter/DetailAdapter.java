@@ -2,7 +2,6 @@ package info.pelleritoudacity.android.rcapstone.ui.adapter;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -15,11 +14,14 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.db.Contract;
-import info.pelleritoudacity.android.rcapstone.data.db.Record.DetailRecord;
+import info.pelleritoudacity.android.rcapstone.data.db.AppDatabase;
+import info.pelleritoudacity.android.rcapstone.data.db.entry.T1Entry;
+import info.pelleritoudacity.android.rcapstone.data.db.record.DetailRecord;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapterDetail;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.SubmitData;
@@ -41,13 +43,15 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
 
     private final Context mContext;
     private final OnAdapterListener mListener;
-    private Cursor mCursor;
     private int mSelectorPosition = RecyclerView.NO_POSITION;
     private final DetailModel model;
+    private List<T1Entry> mEntry;
+    private final AppDatabase mDb;
 
-    public DetailAdapter(OnAdapterListener listener, Context context, DetailModel detailModel) {
+    public DetailAdapter(OnAdapterListener listener, Context context, AppDatabase db, DetailModel detailModel) {
         mListener = listener;
         mContext = context;
+        mDb = db;
         model = detailModel;
     }
 
@@ -65,9 +69,9 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
     @Override
     public void onBindViewHolder(@NonNull SubRedditDetailHolder holder, int position) {
 
-        mCursor.moveToPosition(position);
+        T1Entry t =  getEntry().get(position);
 
-        DetailRecord recordList = new DetailRecord(mCursor);
+        DetailRecord recordList = new DetailRecord(t);
         RecordAdapterDetail record = null;
         if (recordList.getRecordList() != null) {
             record = recordList.getRecordList().get(0);
@@ -102,7 +106,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
             detailHelper.initDepthIndicator(holder.mDepthIndicator, holder.mCardLinear, record.getDepth(), true, false);
             String strBackGroundColor = detailHelper.initDepthIndicator(holder.mDepthSelect, holder.mSelectorContainer, record.getDepth(), true, true);
 
-            SelectorHelper selectorHelper = new SelectorHelper(this, mContext, holder.itemView);
+            SelectorHelper selectorHelper = new SelectorHelper(this, mContext,mDb, holder.itemView);
 
             ImageButton[] arrayButton = new ImageButton[]{holder.mImageButtonVoteUp, holder.mImageButtonVoteDown,
                     holder.mImageButtonPreferStars, holder.mImageButtonShowComments, holder.mImageButtonOpenBrowser};
@@ -180,12 +184,12 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
 
     @Override
     public int getItemCount() {
-        return (mCursor == null) ? 0 : mCursor.getCount();
+        return (getEntry() == null) ? 0 : getEntry().size();
     }
 
     @Override
     public void vote(int position, int score, boolean voteUp, int dir, String linkId) {
-        new DataUtils(mContext).updateVote(Contract.T1dataEntry.CONTENT_URI, score, voteUp, dir, linkId);
+        new DataUtils(mContext,mDb).updateVote(Costant.DB_TABLE_T1, score, voteUp, dir, linkId);
         mListener.selectorChange(position);
     }
 
@@ -342,20 +346,6 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
         }
     }
 
-    @SuppressWarnings("UnusedReturnValue")
-    public Cursor swapCursor(Cursor c) {
-        if (mCursor == c) {
-            return null;
-        }
-        Cursor temp = mCursor;
-        this.mCursor = c;
-
-        if (c != null) {
-            notifyDataSetChanged();
-        }
-        return temp;
-    }
-
     public interface OnAdapterListener {
 
         void clickSelector(int position, int itemCount);
@@ -366,5 +356,16 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
 
         void selectorChange(int position);
     }
+
+    @SuppressWarnings("WeakerAccess")
+    public List<T1Entry> getEntry() {
+        return mEntry;
+    }
+
+    public void setEntry(List<T1Entry> entry) {
+        mEntry = entry;
+        notifyDataSetChanged();
+    }
+
 
 }

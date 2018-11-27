@@ -66,6 +66,7 @@ public class RestDetailExecute {
             Preference.setSubredditSort(mContext,Costant.DEFAULT_SORT_BY);
         }
 
+
         if (isAutheticate) {
             sApi.getCommentsAuth(TextUtil.authCode(mCode),
                     Preference.getLastCategory(mContext), mModel.getStrId(),

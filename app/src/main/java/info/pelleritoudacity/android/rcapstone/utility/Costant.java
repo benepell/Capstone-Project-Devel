@@ -51,6 +51,10 @@ public interface Costant {
     String BASE_TYPE_YOUTUBE = "youtube.com";
     String BASE_TYPE_VIMEO = "vimeo.com";
 
+    String DB_TABLE_T1 = "t1";
+    String DB_TABLE_T3 = "t3";
+    String DB_TABLE_PREFSUBREDDIT = "prefsubreddit";
+
     int MEDIA_VIDEO_TYPE_YOUTUBE = 100;
     int MEDIA_VIDEO_TYPE_VIMEO = 200;
     int MEDIA_VIDEO_PREVIEW_TYPE_MP4 = 300;
@@ -84,8 +88,8 @@ public interface Costant {
 
     String STRING_SEPARATOR = ",";
 
-    String SUBREDDIT_FAVORITE_SAVED = "1";
-    String DETAIL_MORE_REPLIES = "1";
+    int SUBREDDIT_FAVORITE_SAVED = 1;
+    int DETAIL_MORE_REPLIES = 1;
     String NONE_DETAIL_MORE_REPLIES = "0";
 
     @SuppressWarnings("unused")

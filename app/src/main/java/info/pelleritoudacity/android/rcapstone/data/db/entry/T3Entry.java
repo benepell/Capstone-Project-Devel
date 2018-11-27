@@ -3,8 +3,11 @@ package info.pelleritoudacity.android.rcapstone.data.db.entry;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
 
 import java.util.Date;
+
+import info.pelleritoudacity.android.rcapstone.data.db.util.DateConverter;
 
 @Entity(tableName = "_t3")
 public class T3Entry {
@@ -12,17 +15,25 @@ public class T3Entry {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
+    @TypeConverters(DateConverter.class)
     @ColumnInfo(name = "_time_last_modified")
-    private Date timeLastModified;
+    private long timeLastModified;
 
+    @TypeConverters(DateConverter.class)
     @ColumnInfo(name = "_approved_at_utc")
-    private String approvedAtUtc;
+    private long approvedAtUtc;
 
     @ColumnInfo(name = "_approved_by")
     private String approvedBy;
 
+    @ColumnInfo(name = "_author_flair_text")
+    private String authorFlairText;
+
     @ColumnInfo(name = "_archived")
     private int archived;
+
+    @ColumnInfo(name = "_num_comments")
+    private int numComments;
 
     @ColumnInfo(name = "_author")
     private String author;
@@ -30,8 +41,9 @@ public class T3Entry {
     @ColumnInfo(name = "_author_flair_css_class")
     private String authorFlairCssClass;
 
+    @TypeConverters(DateConverter.class)
     @ColumnInfo(name = "_banned_at_utc")
-    private String bannedAtUtc;
+    private Date bannedAtUtc;
 
     @ColumnInfo(name = "_banned_by")
     private String bannedBy;
@@ -51,11 +63,15 @@ public class T3Entry {
     @ColumnInfo(name = "_contest_mode")
     private int contestMode;
 
-    @ColumnInfo(name = "_created")
-    private String created;
+    @ColumnInfo(name = "_num_reports")
+    private int numReports;
 
+    @ColumnInfo(name = "_created")
+    private int created;
+
+    @TypeConverters(DateConverter.class)
     @ColumnInfo(name = "_created_utc")
-    private String createdUtc;
+    private long createdUtc;
 
     @ColumnInfo(name = "_distinguished")
     private String distinguished;
@@ -93,11 +109,17 @@ public class T3Entry {
     @ColumnInfo(name = "_is_video")
     private int isVideo;
 
+    @ColumnInfo(name = "_num_cross_post")
+    private int numCrossPost;
+
     @ColumnInfo(name = "_likes")
     private String likes;
 
     @ColumnInfo(name = "_link_flair_css_class")
     private String linkFlairCssClass;
+
+    @ColumnInfo(name = "_no_follow")
+    private int NoFollow;
 
     @ColumnInfo(name = "_link_flair_text")
     private String linkFlairText;
@@ -181,7 +203,7 @@ public class T3Entry {
     private String subreddit;
 
     @ColumnInfo(name = "_subreddit_id")
-    private int subredditId;
+    private String subredditId;
 
     @ColumnInfo(name = "_subreddit_name_prefix")
     private String subredditNamePrefix;
@@ -209,6 +231,9 @@ public class T3Entry {
 
     @ColumnInfo(name = "_url")
     private String url;
+
+    @ColumnInfo(name = "_name")
+    private String name;
 
     @ColumnInfo(name = "_user_reports")
     private String userReports;
@@ -312,6 +337,9 @@ public class T3Entry {
     @ColumnInfo(name = "_media_oembed_height")
     private int mediaOembedHeight;
 
+    @ColumnInfo(name = "_media_oembed_thumbnail_url")
+    private String mediaOembedThumbnailUrl;
+
     @ColumnInfo(name = "_media_oembed_thumbnail_width")
     private int mediaOembedThumbnailWidth;
 
@@ -338,19 +366,19 @@ public class T3Entry {
         this.id = id;
     }
 
-    public Date getTimeLastModified() {
+    public long getTimeLastModified() {
         return timeLastModified;
     }
 
-    public void setTimeLastModified(Date timeLastModified) {
+    public void setTimeLastModified(long timeLastModified) {
         this.timeLastModified = timeLastModified;
     }
 
-    public String getApprovedAtUtc() {
+    public long getApprovedAtUtc() {
         return approvedAtUtc;
     }
 
-    public void setApprovedAtUtc(String approvedAtUtc) {
+    public void setApprovedAtUtc(long approvedAtUtc) {
         this.approvedAtUtc = approvedAtUtc;
     }
 
@@ -386,11 +414,11 @@ public class T3Entry {
         this.authorFlairCssClass = authorFlairCssClass;
     }
 
-    public String getBannedAtUtc() {
+    public Date getBannedAtUtc() {
         return bannedAtUtc;
     }
 
-    public void setBannedAtUtc(String bannedAtUtc) {
+    public void setBannedAtUtc(Date bannedAtUtc) {
         this.bannedAtUtc = bannedAtUtc;
     }
 
@@ -442,19 +470,19 @@ public class T3Entry {
         this.contestMode = contestMode;
     }
 
-    public String getCreated() {
+    public int getCreated() {
         return created;
     }
 
-    public void setCreated(String created) {
+    public void setCreated(int created) {
         this.created = created;
     }
 
-    public String getCreatedUtc() {
+    public long getCreatedUtc() {
         return createdUtc;
     }
 
-    public void setCreatedUtc(String createdUtc) {
+    public void setCreatedUtc(long createdUtc) {
         this.createdUtc = createdUtc;
     }
 
@@ -786,11 +814,11 @@ public class T3Entry {
         this.subreddit = subreddit;
     }
 
-    public int getSubredditId() {
+    public String getSubredditId() {
         return subredditId;
     }
 
-    public void setSubredditId(int subredditId) {
+    public void setSubredditId(String subredditId) {
         this.subredditId = subredditId;
     }
 
@@ -1177,4 +1205,61 @@ public class T3Entry {
     public void setMediaOembedAuthorUrl(String mediaOembedAuthorUrl) {
         this.mediaOembedAuthorUrl = mediaOembedAuthorUrl;
     }
+
+    public int getNumReports() {
+        return numReports;
+    }
+
+    public void setNumReports(int numReports) {
+        this.numReports = numReports;
+    }
+
+    public int getNoFollow() {
+        return NoFollow;
+    }
+
+    public void setNoFollow(int noFollow) {
+        NoFollow = noFollow;
+    }
+
+    public int getNumCrossPost() {
+        return numCrossPost;
+    }
+
+    public void setNumCrossPost(int numCrossPost) {
+        this.numCrossPost = numCrossPost;
+    }
+
+    public String getAuthorFlairText() {
+        return authorFlairText;
+    }
+
+    public void setAuthorFlairText(String authorFlairText) {
+        this.authorFlairText = authorFlairText;
+    }
+
+    public int getNumComments() {
+        return numComments;
+    }
+
+    public void setNumComments(int numComments) {
+        this.numComments = numComments;
+    }
+
+    public String getMediaOembedThumbnailUrl() {
+        return mediaOembedThumbnailUrl;
+    }
+
+    public void setMediaOembedThumbnailUrl(String mediaOembedThumbnailUrl) {
+        this.mediaOembedThumbnailUrl = mediaOembedThumbnailUrl;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }

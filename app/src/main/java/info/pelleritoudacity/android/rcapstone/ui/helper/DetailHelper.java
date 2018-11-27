@@ -71,7 +71,7 @@ public class DetailHelper {
         return null;
     }
 
-    public int getJob(DetailModel m, boolean updateData, boolean online) {
+    public int getJob(DetailModel m,  boolean online) {
 
         if (m != null) {
 
@@ -88,9 +88,6 @@ public class DetailHelper {
             }
 
             if (TextUtils.isEmpty(m.getStrArrId())) {
-                if ((updateData || !online)) {
-                    return Costant.DETAIL_TARGET_NO_UPDATE;
-                }
 
                 if (!TextUtils.isEmpty(m.getStrId())) {
                     m.setTarget(Costant.DETAIL_TARGET);

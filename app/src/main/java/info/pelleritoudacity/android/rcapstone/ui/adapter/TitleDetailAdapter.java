@@ -3,7 +3,6 @@ package info.pelleritoudacity.android.rcapstone.ui.adapter;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
@@ -15,11 +14,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.db.Contract;
-import info.pelleritoudacity.android.rcapstone.data.db.Record.TitleDetailRecord;
+import info.pelleritoudacity.android.rcapstone.data.db.AppDatabase;
+import info.pelleritoudacity.android.rcapstone.data.db.entry.T3Entry;
+import info.pelleritoudacity.android.rcapstone.data.db.record.TitleDetailRecord;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapterTitle;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.SubmitData;
@@ -28,6 +30,7 @@ import info.pelleritoudacity.android.rcapstone.data.rest.CommentExecute;
 import info.pelleritoudacity.android.rcapstone.data.rest.DelExecute;
 import info.pelleritoudacity.android.rcapstone.ui.helper.SelectorHelper;
 import info.pelleritoudacity.android.rcapstone.ui.helper.TitleDetailHelper;
+import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.DateUtil;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtil;
 import info.pelleritoudacity.android.rcapstone.utility.NetworkUtil;
@@ -42,12 +45,14 @@ import static info.pelleritoudacity.android.rcapstone.utility.NumberUtil.numberF
 public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.SubRedditSelectedHolder> implements SelectorHelper.OnSelector {
 
     private final Context mContext;
-    private Cursor mCursor;
     private final OnVoteChange mListener;
+    private final AppDatabase mDb;
+    private List<T3Entry> mEntry;
 
-    public TitleDetailAdapter(OnVoteChange listener, Context context) {
+    public TitleDetailAdapter(OnVoteChange listener, Context context, AppDatabase db) {
         mListener = listener;
         mContext = context;
+        mDb = db;
     }
 
     @NonNull
@@ -64,9 +69,9 @@ public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.
     @Override
     public void onBindViewHolder(@NonNull SubRedditSelectedHolder holder, int position) {
 
-        mCursor.moveToPosition(position);
+        T3Entry t = getEntry().get(position);
 
-        TitleDetailRecord recordList = new TitleDetailRecord(mCursor);
+        TitleDetailRecord recordList = new TitleDetailRecord(t);
 
         RecordAdapterTitle record = null;
         if (recordList.getRecordList() != null) {
@@ -101,7 +106,7 @@ public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.
                     holder.mImageButtonPreferStars, holder.mImageButtonShowComments, holder.mImageButtonOpenBrowser};
 
             if (!Utility.isTablet(mContext)) {
-                SelectorHelper selectorHelper = new SelectorHelper(this, mContext, holder.itemView);
+                SelectorHelper selectorHelper = new SelectorHelper(this, mContext,mDb, holder.itemView);
 
                 CardBottomModel cardBottomModel = new CardBottomModel();
                 cardBottomModel.setPosition(position);
@@ -139,12 +144,12 @@ public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.
 
     @Override
     public int getItemCount() {
-        return (mCursor == null) ? 0 : mCursor.getCount();
+        return (getEntry()== null) ? 0 : 1;
     }
 
     @Override
     public void vote(int position, int score, boolean voteUp, int dir, String linkId) {
-        new DataUtils(mContext).updateVote(Contract.T3dataEntry.CONTENT_URI, score, voteUp, dir, linkId);
+        new DataUtils(mContext,mDb).updateVote(Costant.DB_TABLE_T3, score, voteUp, dir, linkId);
         mListener.selectorChange(position);
     }
 
@@ -268,22 +273,18 @@ public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.
 
     }
 
-    @SuppressWarnings("UnusedReturnValue")
-    public Cursor swapCursor(Cursor c) {
-        if (mCursor == c) {
-            return null;
-        }
-        Cursor temp = mCursor;
-        this.mCursor = c;
-
-        if (c != null) {
-            notifyDataSetChanged();
-        }
-        return temp;
-    }
 
     public interface OnVoteChange {
         void selectorChange(int position);
         void snackMsg(int resource);
+    }
+    @SuppressWarnings("WeakerAccess")
+    public List<T3Entry> getEntry() {
+        return mEntry;
+    }
+
+    public void setEntry(List<T3Entry> entry) {
+        mEntry = entry;
+        notifyDataSetChanged();
     }
 }

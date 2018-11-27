@@ -18,6 +18,7 @@ import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic
 import java.util.Objects;
 
 import info.pelleritoudacity.android.rcapstone.R;
+import info.pelleritoudacity.android.rcapstone.data.db.AppDatabase;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.CardBottomModel;
 import info.pelleritoudacity.android.rcapstone.data.rest.PrefExecute;
@@ -32,11 +33,13 @@ public class SelectorHelper {
     private final Context mContext;
     private final OnSelector mListener;
     private final View mItemView;
+    private final AppDatabase mDb;
     private boolean isDeleteComment;
 
-    public SelectorHelper(OnSelector listener, Context context, View itemView) {
+    public SelectorHelper(OnSelector listener, Context context, AppDatabase db, View itemView) {
 
         mContext = context;
+        mDb = db;
         mListener = listener;
         mItemView = itemView;
     }
@@ -109,21 +112,23 @@ public class SelectorHelper {
             }
 
             buttonStars.setBackgroundColor(Color.parseColor(model.getBackgroundColor()));
+            //  todo ...livedata.... fix getAuthor
+            if (model.getAuthor() != null) {
+                if (Preference.getSessionUsername(mContext).compareTo(model.getAuthor()) != 0) {
+                    buttonComments.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_comment_outline)
+                            .color(Color.GRAY)
+                            .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
+                            .respectFontBounds(true));
+                    isDeleteComment = false;
 
-            if (Preference.getSessionUsername(mContext).compareTo(model.getAuthor()) != 0) {
-                buttonComments.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_comment_outline)
-                        .color(Color.GRAY)
-                        .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
-                        .respectFontBounds(true));
-                isDeleteComment = false;
+                } else {
+                    buttonComments.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_comment_outline)
+                            .color(Color.RED)
+                            .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
+                            .respectFontBounds(true));
 
-            } else {
-                buttonComments.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_comment_outline)
-                        .color(Color.RED)
-                        .sizeDp(mContext.getResources().getInteger(R.integer.icon_card_bottom))
-                        .respectFontBounds(true));
-
-                isDeleteComment = true;
+                    isDeleteComment = true;
+                }
             }
 
             buttonComments.setBackgroundColor(Color.parseColor(model.getBackgroundColor()));
@@ -208,20 +213,17 @@ public class SelectorHelper {
                                 @Override
                                 public void success(ResponseBody response, int code) {
                                     if (code == 200) {
-                                        Uri uri;
                                         String groupCategory = model.getCategory().substring(0, 2);
                                         int visibleStar = model.isSaved() ? 0 : 1;
 
                                         switch (groupCategory) {
                                             case "t3":
-                                                uri = info.pelleritoudacity.android.rcapstone.data.db.Contract.T3dataEntry.CONTENT_URI;
-                                                new DataUtils(mContext).updateLocalDbStars(uri, visibleStar, model.getCategory());
+                                                new DataUtils(mContext, mDb).updateLocalDbStars(visibleStar, model.getCategory());
                                                 mListener.stars(model.getPosition());
                                                 break;
 
                                             case "t1":
-                                                uri = info.pelleritoudacity.android.rcapstone.data.db.Contract.T1dataEntry.CONTENT_URI;
-                                                new DataUtils(mContext).updateLocalDbStars(uri, visibleStar, model.getCategory());
+                                                new DataUtils(mContext, mDb).updateLocalDbStars(visibleStar, model.getCategory());
                                                 mListener.stars(model.getPosition());
                                                 break;
                                         }
@@ -249,20 +251,17 @@ public class SelectorHelper {
                         @Override
                         public void success(ResponseBody response, int code) {
                             if (code == 200) {
-                                Uri uri;
                                 String groupCategory = model.getCategory().substring(0, 2);
                                 int visibleStar = model.isSaved() ? 0 : 1;
 
                                 switch (groupCategory) {
                                     case "t3":
-                                        uri = info.pelleritoudacity.android.rcapstone.data.db.Contract.T3dataEntry.CONTENT_URI;
-                                        new DataUtils(mContext).updateLocalDbStars(uri, visibleStar, model.getCategory());
+                                        new DataUtils(mContext, mDb).updateLocalDbStars(visibleStar, model.getCategory());
                                         mListener.stars(model.getPosition());
                                         break;
 
                                     case "t1":
-                                        uri = info.pelleritoudacity.android.rcapstone.data.db.Contract.T1dataEntry.CONTENT_URI;
-                                        new DataUtils(mContext).updateLocalDbStars(uri, visibleStar, model.getCategory());
+                                        new DataUtils(mContext, mDb).updateLocalDbStars(visibleStar, model.getCategory());
                                         mListener.stars(model.getPosition());
                                         break;
                                 }

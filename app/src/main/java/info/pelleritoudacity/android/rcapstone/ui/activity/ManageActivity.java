@@ -27,12 +27,10 @@
 package info.pelleritoudacity.android.rcapstone.ui.activity;
 
 import android.app.SearchManager;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Color;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -64,9 +62,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.BuildConfig;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.db.Contract;
-import info.pelleritoudacity.android.rcapstone.data.db.Operation.T5Operation;
-import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
+import info.pelleritoudacity.android.rcapstone.data.db.AppDatabase;
+import info.pelleritoudacity.android.rcapstone.data.db.operation.T5Operation;
+import info.pelleritoudacity.android.rcapstone.data.db.viewmodel.MainViewModel;
+import info.pelleritoudacity.android.rcapstone.data.db.viewmodel.PrefCategoryViewModel;
+import info.pelleritoudacity.android.rcapstone.data.db.viewmodel.PrefCategoryViewModelFactory;
 import info.pelleritoudacity.android.rcapstone.data.rest.MineExecute;
 import info.pelleritoudacity.android.rcapstone.data.rest.SearchExecute;
 import info.pelleritoudacity.android.rcapstone.ui.fragment.ManageFragment;
@@ -96,6 +96,7 @@ public class ManageActivity extends AppCompatActivity
     private String mSearchString;
     private String mTypeString;
     private AlertDialog mDialog;
+    private AppDatabase mDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +115,7 @@ public class ManageActivity extends AppCompatActivity
 
         ButterKnife.bind(this);
 
+        mDb = AppDatabase.getInstance(getApplicationContext());
         mWeakContext = new WeakReference<>(getApplicationContext());
         if (savedInstanceState != null) {
             mSearchString = savedInstanceState.getString(Costant.EXTRA_SEARCH_SUBSCRIBE);
@@ -164,11 +166,11 @@ public class ManageActivity extends AppCompatActivity
         Context context = mWeakContext.get();
 
         if (!NetworkUtil.isOnline(context)) {
-            new ManageAsyncTask(mWeakContext).execute();
+            manage();
 
         } else if (!PermissionUtil.isLogged(context)) {
-            DataUtils dataUtils = new DataUtils(context);
-            dataUtils.insertDefaultSubreddit();
+            T5Operation util = new T5Operation(getApplicationContext(), mDb, null);
+            util.insertDefaultSubreddit();
             startFragment(false);
 
         }
@@ -210,7 +212,7 @@ public class ManageActivity extends AppCompatActivity
     public boolean onQueryTextSubmit(String query) {
         Context context = mWeakContext.get();
 
-        if(TextUtils.isEmpty(mTypeString)){
+        if (TextUtils.isEmpty(mTypeString)) {
             mTypeString = Costant.SEARCH_TYPE_SUBREDDITS;
 
         }
@@ -410,68 +412,24 @@ public class ManageActivity extends AppCompatActivity
         }
     }
 
-    private static class ManageAsyncTask extends AsyncTask<Void, Void, Cursor> {
+    private void manage() {
+        PrefCategoryViewModelFactory factory = new PrefCategoryViewModelFactory(mDb, 0, 1);
+        PrefCategoryViewModel viewModel = ViewModelProviders.of(this, factory).get(PrefCategoryViewModel.class);
 
-        private final WeakReference<Context> mWeakContext;
-
-        ManageAsyncTask(WeakReference<Context> weakContext) {
-            mWeakContext = weakContext;
-        }
-
-        @Override
-        protected Cursor doInBackground(Void... voids) {
-
-            try {
-
-                Context context = mWeakContext.get();
-
-                Uri uri = Contract.PrefSubRedditEntry.CONTENT_URI;
-                String selection = Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED + " =?" + " AND " +
-                        Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE + " =?";
-                String[] selectionArgs = {String.valueOf(0), String.valueOf(1)};
-
-                return context.getContentResolver().query(uri,
-                        null,
-                        selection,
-                        selectionArgs,
-                        null);
-
-            } catch (Exception e) {
-                Timber.e("Failed to asynchronously load data. ");
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Cursor cursor) {
-            super.onPostExecute(cursor);
-
-            Context context = mWeakContext.get();
-
-            try {
-                ArrayList<String> arrayList = new ArrayList<>(cursor.getCount());
-
+        viewModel.getTask().observe(this, prefSubRedditEntries -> {
+            if (prefSubRedditEntries != null) {
                 String name;
-                if (!cursor.isClosed()) {
-                    while (cursor.moveToNext()) {
-                        name = TextUtil.normalizeSubRedditLink(
-                                cursor.getString(cursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME)));
+                ArrayList<String> arrayList = new ArrayList<>(prefSubRedditEntries.size());
+                for (int i = 0; i < prefSubRedditEntries.size(); i++) {
+                    name = TextUtil.normalizeSubRedditLink(prefSubRedditEntries.get(i).getName());
 
-                        arrayList.add(name);
-                        Preference.setSubredditKey(context, TextUtil.arrayToString(arrayList));
-                    }
+                    arrayList.add(name);
+                    Preference.setSubredditKey(getApplicationContext(), TextUtil.arrayToString(arrayList));
+
                 }
-
-            } finally {
-                if ((cursor != null) && (!cursor.isClosed())) {
-                    cursor.close();
-                }
-
             }
-        }
-
+        });
     }
-
 
     private void subscribeUpdateOperation(Context context, String search, String type) {
 
@@ -505,11 +463,10 @@ public class ManageActivity extends AppCompatActivity
 
     private void updateSubreddit(Context context) {
         new MineExecute((response, code) -> {
-            T5Operation data = new T5Operation(context, response);
+            T5Operation data = new T5Operation(context, mDb, response);
             data.saveData();
 
-            DataUtils dataUtils = new DataUtils(context);
-            String pref = dataUtils.restorePrefFromDb();
+            String pref = restorePrefFromDb();
 
             if (!TextUtils.isEmpty(pref)) {
                 Preference.setSubredditKey(context, pref);
@@ -520,6 +477,32 @@ public class ManageActivity extends AppCompatActivity
                 Costant.MINE_WHERE_SUBSCRIBER).getMine();
 
     }
+
+    private String restorePrefFromDb() {
+        final String[] stringPref = {""};
+
+        MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        viewModel.getPrefSubRedditRecords().observe(this, prefSubRedditEntries -> {
+            for (int j = 0; j < Objects.requireNonNull(prefSubRedditEntries).size(); j++) {
+                if (TextUtils.isEmpty(prefSubRedditEntries.get(j).getName())) {
+                    if (j == prefSubRedditEntries.size() - 1) {
+                        stringPref[0] += prefSubRedditEntries.get(j).getName();
+
+                    } else {
+                        stringPref[0] += prefSubRedditEntries.get(j).getName() + Costant.STRING_SEPARATOR;
+
+                    }
+
+                }
+            }
+        });
+
+        Preference.setSubredditKey(getApplicationContext(), stringPref[0]);
+
+        return stringPref[0];
+
+    }
+
 
     private void startCategory(String category) {
         String filterCat = null;

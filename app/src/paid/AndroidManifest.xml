@@ -107,12 +107,6 @@
             android:label="@string/title_activity_webview"
             android:theme="@style/AppThemeLight.NoActionBar"/>
 
-        <provider
-            android:name=".data.db.ContentProvider"
-            android:authorities="${applicationId}.provider"
-            android:exported="false"
-            tools:ignore="ManifestResource" />
-
         <!--suppress AndroidDomInspection -->
         <receiver android:name=".paid.debug.ui.widget.WidgetProvider">
             <intent-filter>

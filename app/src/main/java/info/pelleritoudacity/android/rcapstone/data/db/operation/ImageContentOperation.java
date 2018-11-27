@@ -24,7 +24,7 @@
  * limitations under the License.
  */
 
-package info.pelleritoudacity.android.rcapstone.data.db.Operation;
+package info.pelleritoudacity.android.rcapstone.data.db.operation;
 
 import android.content.Context;
 import android.util.DisplayMetrics;

@@ -3,8 +3,10 @@ package info.pelleritoudacity.android.rcapstone.data.db.entry;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
 
-import java.util.Date;
+
+import info.pelleritoudacity.android.rcapstone.data.db.util.DateConverter;
 
 @Entity(tableName = "_pref_sub_reddit")
 public class PrefSubRedditEntry {
@@ -30,8 +32,9 @@ public class PrefSubRedditEntry {
     @ColumnInfo(name = "_backup_position")
     private int backupPosition;
 
+    @TypeConverters(DateConverter.class)
     @ColumnInfo(name = "_time_last_modified")
-    private Date timeLastModified;
+    private long timeLastModified;
 
     public PrefSubRedditEntry() {
     }
@@ -93,11 +96,11 @@ public class PrefSubRedditEntry {
         this.backupPosition = backupPosition;
     }
 
-    public Date getTimeLastModified() {
+    public long getTimeLastModified() {
         return timeLastModified;
     }
 
-    public void setTimeLastModified(Date timeLastModified) {
+    public void setTimeLastModified(long timeLastModified) {
         this.timeLastModified = timeLastModified;
     }
 }

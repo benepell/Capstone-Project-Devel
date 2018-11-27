@@ -3,8 +3,10 @@ package info.pelleritoudacity.android.rcapstone.data.db.entry;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
 
-import java.util.Date;
+
+import info.pelleritoudacity.android.rcapstone.data.db.util.DateConverter;
 
 @Entity(tableName = "_t1")
 public class T1Entry {
@@ -12,8 +14,9 @@ public class T1Entry {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
+    @TypeConverters(DateConverter.class)
     @ColumnInfo(name = "_time_last_modified")
-    private Date timeLastModified;
+    private long timeLastModified;
 
     @ColumnInfo(name = "_more_replies")
     private int moreReplies;
@@ -28,10 +31,11 @@ public class T1Entry {
     private String subreddit;
 
     @ColumnInfo(name = "_subreddit_id")
-    private int subredditId;
+    private String subredditId;
 
+    @TypeConverters(DateConverter.class)
     @ColumnInfo(name = "_approved_at_utc")
-    private String approvedAtUtc;
+    private Long approvedAtUtc;
 
     @ColumnInfo(name = "_wls")
     private int wls;
@@ -46,7 +50,7 @@ public class T1Entry {
     private String numReports;
 
     @ColumnInfo(name = "_link_id")
-    private int linkId;
+    private String linkId;
 
     @ColumnInfo(name = "_removal_reason")
     private int removalReason;
@@ -90,8 +94,9 @@ public class T1Entry {
     @ColumnInfo(name = "_children_id")
     private String childrenId;
 
+    @TypeConverters(DateConverter.class)
     @ColumnInfo(name = "_banned_at_utc")
-    private String bannedAtUtc;
+    private long bannedAtUtc;
 
     @ColumnInfo(name = "_mod_reason_title")
     private String modReasonTitle;
@@ -211,7 +216,7 @@ public class T1Entry {
     private int hideScore;
 
     @ColumnInfo(name = "_created")
-    private String created;
+    private Long created;
 
     @ColumnInfo(name = "_url")
     private String url;
@@ -228,8 +233,9 @@ public class T1Entry {
     @ColumnInfo(name = "_title")
     private String title;
 
+    @TypeConverters(DateConverter.class)
     @ColumnInfo(name = "_created_utc")
-    private String createdUtc;
+    private Long createdUtc;
 
     @ColumnInfo(name = "_ups")
     private int ups;
@@ -279,11 +285,11 @@ public class T1Entry {
     }
 
 
-    public Date getTimeLastModified() {
+    public long getTimeLastModified() {
         return timeLastModified;
     }
 
-    public void setTimeLastModified(Date timeLastModified) {
+    public void setTimeLastModified(long timeLastModified) {
         this.timeLastModified = timeLastModified;
     }
 
@@ -319,19 +325,19 @@ public class T1Entry {
         this.subreddit = subreddit;
     }
 
-    public int getSubredditId() {
+    public String getSubredditId() {
         return subredditId;
     }
 
-    public void setSubredditId(int subredditId) {
+    public void setSubredditId(String subredditId) {
         this.subredditId = subredditId;
     }
 
-    public String getApprovedAtUtc() {
+    public Long getApprovedAtUtc() {
         return approvedAtUtc;
     }
 
-    public void setApprovedAtUtc(String approvedAtUtc) {
+    public void setApprovedAtUtc(Long approvedAtUtc) {
         this.approvedAtUtc = approvedAtUtc;
     }
 
@@ -367,11 +373,11 @@ public class T1Entry {
         this.numReports = numReports;
     }
 
-    public int getLinkId() {
+    public String getLinkId() {
         return linkId;
     }
 
-    public void setLinkId(int linkId) {
+    public void setLinkId(String linkId) {
         this.linkId = linkId;
     }
 
@@ -487,11 +493,11 @@ public class T1Entry {
         this.childrenId = childrenId;
     }
 
-    public String getBannedAtUtc() {
+    public long getBannedAtUtc() {
         return bannedAtUtc;
     }
 
-    public void setBannedAtUtc(String bannedAtUtc) {
+    public void setBannedAtUtc(long bannedAtUtc) {
         this.bannedAtUtc = bannedAtUtc;
     }
 
@@ -807,11 +813,11 @@ public class T1Entry {
         this.hideScore = hideScore;
     }
 
-    public String getCreated() {
+    public Long getCreated() {
         return created;
     }
 
-    public void setCreated(String created) {
+    public void setCreated(Long created) {
         this.created = created;
     }
 
@@ -855,11 +861,11 @@ public class T1Entry {
         this.title = title;
     }
 
-    public String getCreatedUtc() {
+    public Long getCreatedUtc() {
         return createdUtc;
     }
 
-    public void setCreatedUtc(String createdUtc) {
+    public void setCreatedUtc(Long createdUtc) {
         this.createdUtc = createdUtc;
     }
 

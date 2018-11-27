@@ -3,10 +3,10 @@ package info.pelleritoudacity.android.rcapstone.data.model.record;
 public class RecordAdapterDetail {
 
     private int mId;
-    private int createdUtc;
+    private Long createdUtc;
     private int depth;
     private int voteDowns;
-    private int created;
+    private long created;
     private int numComments;
     private int score;
     private int dirScore;
@@ -29,7 +29,7 @@ public class RecordAdapterDetail {
     private String subRedditName;
     private String ups;
     private String title;
-    private String approvedAtUtc;
+    private Long approvedAtUtc;
     private String author;
     private String stickied;
     private String permanentLink;
@@ -112,11 +112,11 @@ public class RecordAdapterDetail {
     }
 
     @SuppressWarnings("unused")
-    public String getApprovedAtUtc() {
+    public Long getApprovedAtUtc() {
         return approvedAtUtc;
     }
 
-    public void setApprovedAtUtc(String approvedAtUtc) {
+    public void setApprovedAtUtc(Long approvedAtUtc) {
         this.approvedAtUtc = approvedAtUtc;
     }
 
@@ -216,11 +216,11 @@ public class RecordAdapterDetail {
         mId = id;
     }
 
-    public int getCreated() {
+    public long getCreated() {
         return created;
     }
 
-    public void setCreated(int created) {
+    public void setCreated(long created) {
         this.created = created;
     }
 
@@ -259,11 +259,11 @@ public class RecordAdapterDetail {
     }
 
     @SuppressWarnings("unused")
-    public int getCreatedUtc() {
+    public Long getCreatedUtc() {
         return createdUtc;
     }
 
-    public void setCreatedUtc(int createdUtc) {
+    public void setCreatedUtc(Long createdUtc) {
         this.createdUtc = createdUtc;
     }
 

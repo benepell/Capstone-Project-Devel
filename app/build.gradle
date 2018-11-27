@@ -20,16 +20,16 @@ android {
 
         release_free {
             keyAlias 'release_free'
-            keyPassword ''
+            keyPassword 'udacity'
             storeFile file("$projectDir/keyStore/rcapstone_free_release.jks")
-            storePassword ''
+            storePassword 'udacityrelease'
         }
 
         release_paid {
             keyAlias 'release_paid'
-            keyPassword ''
+            keyPassword 'udacityreleasepaid'
             storeFile file("$projectDir/keyStore/rcapstone_paid_release.jks")
-            storePassword ''
+            storePassword 'udacity'
         }
 
     }
@@ -57,12 +57,12 @@ android {
     }
     buildTypes.each {
         //  REDDIT BASE URL  - url: https://www.reddit.com/prefs/apps/
-        it.buildConfigField 'String', 'REDDIT_CLIENT_ID', '""'
-        it.buildConfigField 'String', 'REDDIT_SECRET_STATE', '""'
-        it.buildConfigField 'String', 'REDDIT_ABOUT_URL', '""'
-        it.buildConfigField 'String', 'REDDIT_REDIRECT_URL', '""'
+        it.buildConfigField 'String', 'REDDIT_CLIENT_ID', '"gHRoCv5jZXeEBw"'
+        it.buildConfigField 'String', 'REDDIT_SECRET_STATE', '"RCAPSTONE256"'
+        it.buildConfigField 'String', 'REDDIT_ABOUT_URL', '"http://rcapstone.android.pelleritoudacity.info"'
+        it.buildConfigField 'String', 'REDDIT_REDIRECT_URL', '"http://rcapstone.android.pelleritoudacity.info/my_redirect"'
 
-        it.buildConfigField 'String', 'YOUTUBE_DEVELOPER_KEY', '""'
+        it.buildConfigField 'String', 'YOUTUBE_DEVELOPER_KEY', '"AIzaSyAe8psEXSy9Luv1Dqya-r8x-RGhwyPfJuA"'
 
 
     }
@@ -120,6 +120,13 @@ dependencies {
     implementation "com.google.firebase:firebase-core:${rootProject.ext.firebaseCoreVersion}"
     implementation "com.crashlytics.sdk.android:crashlytics:${rootProject.ext.crashAnalyticsVersion}"
     implementation "com.google.android.gms:play-services-ads:${rootProject.ext.googleAdsVersion}"
+
+    implementation "android.arch.persistence.room:runtime:${rootProject.ext.roomVersion}"
+    annotationProcessor "android.arch.persistence.room:compiler:${rootProject.ext.roomVersion}"
+
+    implementation "android.arch.lifecycle:extensions:${rootProject.ext.archLifecycleVersion}"
+    annotationProcessor "android.arch.lifecycle:compiler:${rootProject.ext.archLifecycleVersion}"
+
 
     implementation "com.android.support.test.espresso:espresso-idling-resource:${rootProject.ext.espressoVersion}"
     testImplementation "junit:junit:${rootProject.ext.testJunitVersion}"

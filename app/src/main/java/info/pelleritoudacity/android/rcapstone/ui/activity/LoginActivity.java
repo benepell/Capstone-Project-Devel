@@ -26,11 +26,11 @@
 
 package info.pelleritoudacity.android.rcapstone.ui.activity;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
@@ -44,15 +44,17 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
-import java.lang.ref.WeakReference;
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.BuildConfig;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.db.Operation.T5Operation;
+import info.pelleritoudacity.android.rcapstone.data.db.AppDatabase;
+import info.pelleritoudacity.android.rcapstone.data.db.AppExecutors;
+import info.pelleritoudacity.android.rcapstone.data.db.operation.T5Operation;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
+import info.pelleritoudacity.android.rcapstone.data.db.viewmodel.MainViewModel;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.RedditToken;
 import info.pelleritoudacity.android.rcapstone.data.rest.AccessTokenExecute;
 import info.pelleritoudacity.android.rcapstone.data.rest.MineExecute;
@@ -71,6 +73,7 @@ public class LoginActivity extends AppCompatActivity {
     protected WebView mWebview;
 
     private Toast mToast;
+    private AppDatabase mDb;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,6 +90,8 @@ public class LoginActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        mDb = AppDatabase.getInstance(getApplicationContext());
+
         if (!Preference.isLoginStart(getApplicationContext())) {
             if (TextUtils.isEmpty(loginUrl()) || TextUtils.isEmpty(Costant.REDDIT_CLIENT_ID) ||
                     TextUtils.isEmpty(Costant.REDDIT_STATE_RANDOM)) {
@@ -99,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
         } else {
-            new LogoutAsyncTask(new WeakReference<>(getApplicationContext())).execute();
+            logout();
 
         }
 
@@ -234,68 +239,46 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private static class LogoutAsyncTask extends AsyncTask<Void, Void, Void> {
+    private void logout() {
 
-        private final WeakReference<Context> mWeakContext;
+        FirebaseRefreshTokenSync.stopLogin(getApplicationContext());
 
-        LogoutAsyncTask(WeakReference<Context> weakContext) {
-            mWeakContext = weakContext;
-        }
+        String token = Preference.getSessionAccessToken(getApplicationContext());
+        if (NetworkUtil.isOnline(getApplicationContext())) {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            Context context = mWeakContext.get();
-
-            if (context != null) {
-                FirebaseRefreshTokenSync.stopLogin(context);
-
-                String token = Preference.getSessionAccessToken(context);
-                if (NetworkUtil.isOnline(context)) {
-
-                    new RevokeTokenExecute(new RevokeTokenExecute.OnRestCallBack() {
-                        @Override
-                        public void success(String response, int code) {
-                            Timber.d("Reset  code:%s", code);
-                        }
-
-                        @Override
-                        public void unexpectedError(Throwable tList) {
-                            Timber.e("Reset Error %s", tList.getMessage());
-                        }
-                    }, token).RevokeTokenData();
-
+            new RevokeTokenExecute(new RevokeTokenExecute.OnRestCallBack() {
+                @Override
+                public void success(String response, int code) {
+                    Timber.d("Reset  code:%s", code);
                 }
 
-                Preference.clearGeneralSettings(context);
-                Preference.clearAll(context);
-                new DataUtils(context).clearDataPrivacy();
+                @Override
+                public void unexpectedError(Throwable tList) {
+                    Timber.e("Reset Error %s", tList.getMessage());
+                }
+            }, token).RevokeTokenData();
 
+        }
+
+        Preference.clearGeneralSettings(getApplicationContext());
+        Preference.clearAll(getApplicationContext());
+        new DataUtils(getApplicationContext(), mDb).clearDataPrivacy();
+
+        AppExecutors.getInstance().diskIO().execute(() -> {
+            if (getApplicationContext() != null) {
+                Glide.get(getApplicationContext()).clearDiskCache();
 
             }
-        }
 
-        @Override
-        protected Void doInBackground(Void... params) {
-            Context context = mWeakContext.get();
-            if (context != null) {
-                Glide.get(context).clearDiskCache();
-
-            }
-
-            return null;
-        }
+        });
 
 
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            Context context = mWeakContext.get();
-            Intent intent = new Intent(context, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            intent.putExtra(Costant.EXTRA_LOGIN_SUCCESS, Costant.PROCESS_LOGOUT_OK);
-            context.startActivity(intent);
-        }
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra(Costant.EXTRA_LOGIN_SUCCESS, Costant.PROCESS_LOGOUT_OK);
+        startActivity(intent);
+
+
     }
 
     @Override
@@ -310,11 +293,10 @@ public class LoginActivity extends AppCompatActivity {
     private void updateSubredditLogin(Context context) {
         if (PermissionUtil.isLogged(context)) {
             new MineExecute((response, code) -> {
-                T5Operation data = new T5Operation(context, response);
+                T5Operation data = new T5Operation(context, mDb, response);
                 data.saveData();
 
-                DataUtils dataUtils = new DataUtils(context);
-                String pref = dataUtils.restorePrefFromDb();
+                String pref = restorePrefFromDb();
 
                 if (!TextUtils.isEmpty(pref)) {
                     Preference.setSubredditKey(context, pref);
@@ -328,6 +310,32 @@ public class LoginActivity extends AppCompatActivity {
 
         }
     }
+
+    private String restorePrefFromDb() {
+        final String[] stringPref = {""};
+
+        MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        viewModel.getPrefSubRedditRecords().observe(this, prefSubRedditEntries -> {
+            for (int j = 0; j < Objects.requireNonNull(prefSubRedditEntries).size(); j++) {
+                if (TextUtils.isEmpty(prefSubRedditEntries.get(j).getName())) {
+                    if (j == prefSubRedditEntries.size() - 1) {
+                        stringPref[0] += prefSubRedditEntries.get(j).getName();
+
+                    } else {
+                        stringPref[0] += prefSubRedditEntries.get(j).getName() + Costant.STRING_SEPARATOR;
+
+                    }
+
+                }
+            }
+        });
+
+        Preference.setSubredditKey(getApplicationContext(), stringPref[0]);
+
+        return stringPref[0];
+
+    }
+
 
 }
 

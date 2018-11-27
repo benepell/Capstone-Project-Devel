@@ -12,7 +12,7 @@ public class T3ListingData implements Parcelable {
 
     @SerializedName("approved_at_utc")
     @Expose
-    private Object approvedAtUtc;
+    private Long approvedAtUtc;
     @SerializedName("subreddit")
     @Expose
     private String subreddit;
@@ -301,7 +301,7 @@ public class T3ListingData implements Parcelable {
     };
 
     T3ListingData(Parcel in) {
-        this.approvedAtUtc = in.readValue((Object.class.getClassLoader()));
+        this.approvedAtUtc = (Long)in.readValue((Long.class.getClassLoader()));
         this.subreddit = ((String) in.readValue((String.class.getClassLoader())));
         this.selftext = ((String) in.readValue((String.class.getClassLoader())));
         in.readList(this.userReports, (java.lang.Object.class.getClassLoader()));
@@ -398,12 +398,12 @@ public class T3ListingData implements Parcelable {
     public T3ListingData() {
     }
 
-    public Object getApprovedAtUtc() {
+    public Long getApprovedAtUtc() {
         return approvedAtUtc;
     }
 
     @SuppressWarnings("unused")
-    public void setApprovedAtUtc(Object approvedAtUtc) {
+    public void setApprovedAtUtc(Long approvedAtUtc) {
         this.approvedAtUtc = approvedAtUtc;
     }
 

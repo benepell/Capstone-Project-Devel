@@ -76,7 +76,9 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 
+import info.pelleritoudacity.android.rcapstone.data.db.AppDatabase;
 import io.fabric.sdk.android.Fabric;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -85,9 +87,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.BuildConfig;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.db.Contract;
-import info.pelleritoudacity.android.rcapstone.data.db.Operation.T3Operation;
-import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
+import info.pelleritoudacity.android.rcapstone.data.db.operation.T3Operation;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.RedditAboutMe;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.MainModel;
@@ -169,6 +169,7 @@ public class MainActivity extends AppCompatActivity
     private AdsHelper mAdsHelper;
     private int countAds;
 
+    private AppDatabase mDb;
 
     @SuppressWarnings("ConstantConditions")
     @Override
@@ -185,6 +186,8 @@ public class MainActivity extends AppCompatActivity
             Timber.plant(new Timber.DebugTree());
         }
         ButterKnife.bind(this);
+
+        mDb = AppDatabase.getInstance(getApplicationContext());
 
         if (BuildConfig.FLAVOR.equals("free")) {
             countAds = 0;
@@ -836,9 +839,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void success(T3 response, int code) {
         if ((getApplicationContext() != null) && (response != null)) {
-            T3Operation data = new T3Operation(getApplicationContext(), response);
+            T3Operation data = new T3Operation(getApplicationContext(), mDb, response);
 
-            if ((mModel.getCategory() != null && mModel.getTarget() != null) && (data.saveData(mModel.getCategory(), mModel.getTarget()))) {
+
+            if ((mModel.getCategory() != null && mModel.getTarget() != null)) {
+                data.saveData(mModel.getCategory(), mModel.getTarget());
                 createUI(mModel);
 
             } else {
@@ -882,9 +887,9 @@ public class MainActivity extends AppCompatActivity
             int i = response.size();
             for (T3 listenerData : response) {
 
-                T3Operation data = new T3Operation(getApplicationContext(), listenerData);
-                if ((mModel.getCategory() != null && mModel.getTarget() != null) && (data.saveData(mModel.getCategory(), mModel.getTarget()))) {
-
+                T3Operation data = new T3Operation(getApplicationContext(), mDb, listenerData);
+                if ((mModel.getCategory() != null && mModel.getTarget() != null)) {
+                    data.saveData(mModel.getCategory(), mModel.getTarget());
                     createUI(mModel);
 
                 } else {
@@ -1064,11 +1069,7 @@ public class MainActivity extends AppCompatActivity
     private void initRest(MainModel m, boolean stateNetworkOnline) {
         if (!TextUtils.isEmpty(m.getCategory())) {
 
-            if ((!stateNetworkOnline) || (
-                    new DataUtils(mContext).isSyncData(Contract.T3dataEntry.CONTENT_URI,
-                            m.getCategory(),
-                            Preference.getGeneralSettingsSyncFrequency(mContext),
-                            Preference.getGeneralSettingsItemPage(mContext)))) {
+            if (!stateNetworkOnline){
 
                 createUI(mModel);
 

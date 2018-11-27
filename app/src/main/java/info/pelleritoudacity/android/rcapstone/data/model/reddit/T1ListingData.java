@@ -16,7 +16,7 @@ public class T1ListingData implements Parcelable {
     private String subredditId;
     @SerializedName("approved_at_utc")
     @Expose
-    private Object approvedAtUtc;
+    private Long approvedAtUtc;
     @SerializedName("ups")
     @Expose
     private Integer ups;
@@ -64,7 +64,7 @@ public class T1ListingData implements Parcelable {
     private String title;
     @SerializedName("banned_at_utc")
     @Expose
-    private Object bannedAtUtc;
+    private Long bannedAtUtc;
     @SerializedName("mod_reason_title")
     @Expose
     private Object modReasonTitle;
@@ -151,7 +151,7 @@ public class T1ListingData implements Parcelable {
     private String name;
     @SerializedName("created")
     @Expose
-    private Double created;
+    private Long created;
     @SerializedName("author_flair_text")
     @Expose
     private Object authorFlairText;
@@ -160,7 +160,7 @@ public class T1ListingData implements Parcelable {
     private String rteMode;
     @SerializedName("created_utc")
     @Expose
-    private Double createdUtc;
+    private Long createdUtc;
     @SerializedName("subreddit_name_prefixed")
     @Expose
     private String subredditNamePrefixed;
@@ -207,7 +207,7 @@ public class T1ListingData implements Parcelable {
     T1ListingData(Parcel in) {
         this.subredditId = ((String) in.readValue((String.class.getClassLoader())));
         this.title = ((String) in.readValue((String.class.getClassLoader())));
-        this.approvedAtUtc = in.readValue((Object.class.getClassLoader()));
+        this.approvedAtUtc = (Long)in.readValue((Long.class.getClassLoader()));
         this.ups = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.modReasonBy = in.readValue((Object.class.getClassLoader()));
         this.bannedBy = in.readValue((Object.class.getClassLoader()));
@@ -222,7 +222,7 @@ public class T1ListingData implements Parcelable {
         in.readList(this.userReports, (java.lang.Object.class.getClassLoader()));
         this.saved = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         this.id = ((String) in.readValue((String.class.getClassLoader())));
-        this.bannedAtUtc = in.readValue((Object.class.getClassLoader()));
+        this.bannedAtUtc = (Long)in.readValue((Long.class.getClassLoader()));
         this.modReasonTitle = in.readValue((Object.class.getClassLoader()));
         this.gilded = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.archived = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
@@ -251,10 +251,10 @@ public class T1ListingData implements Parcelable {
         this.permalink = ((String) in.readValue((String.class.getClassLoader())));
         this.numReports = in.readValue((Object.class.getClassLoader()));
         this.name = ((String) in.readValue((String.class.getClassLoader())));
-        this.created = ((Double) in.readValue((Double.class.getClassLoader())));
+        this.created = ((Long) in.readValue((Long.class.getClassLoader())));
         this.authorFlairText = in.readValue((Object.class.getClassLoader()));
         this.rteMode = ((String) in.readValue((String.class.getClassLoader())));
-        this.createdUtc = ((Double) in.readValue((Double.class.getClassLoader())));
+        this.createdUtc = ((Long) in.readValue((Long.class.getClassLoader())));
         this.subredditNamePrefixed = ((String) in.readValue((String.class.getClassLoader())));
         this.controversiality = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.depth = ((Integer) in.readValue((Integer.class.getClassLoader())));
@@ -287,12 +287,12 @@ public class T1ListingData implements Parcelable {
         this.title = title;
     }
 
-    public Object getApprovedAtUtc() {
+    public Long getApprovedAtUtc() {
         return approvedAtUtc;
     }
 
     @SuppressWarnings("unused")
-    public void setApprovedAtUtc(Object approvedAtUtc) {
+    public void setApprovedAtUtc(Long approvedAtUtc) {
         this.approvedAtUtc = approvedAtUtc;
     }
 
@@ -434,7 +434,7 @@ public class T1ListingData implements Parcelable {
     }
 
     @SuppressWarnings("unused")
-    public void setBannedAtUtc(Object bannedAtUtc) {
+    public void setBannedAtUtc(Long bannedAtUtc) {
         this.bannedAtUtc = bannedAtUtc;
     }
 
@@ -701,12 +701,12 @@ public class T1ListingData implements Parcelable {
         this.name = name;
     }
 
-    public Double getCreated() {
+    public Long getCreated() {
         return created;
     }
 
     @SuppressWarnings("unused")
-    public void setCreated(Double created) {
+    public void setCreated(Long created) {
         this.created = created;
     }
 
@@ -730,12 +730,12 @@ public class T1ListingData implements Parcelable {
         this.rteMode = rteMode;
     }
 
-    public Double getCreatedUtc() {
+    public Long getCreatedUtc() {
         return createdUtc;
     }
 
     @SuppressWarnings("unused")
-    public void setCreatedUtc(Double createdUtc) {
+    public void setCreatedUtc(Long createdUtc) {
         this.createdUtc = createdUtc;
     }
 

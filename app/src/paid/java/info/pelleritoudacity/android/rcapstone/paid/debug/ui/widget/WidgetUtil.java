@@ -8,7 +8,7 @@ import android.content.Intent;
 
 import java.util.List;
 
-import info.pelleritoudacity.android.rcapstone.data.db.Operation.T3Operation;
+import info.pelleritoudacity.android.rcapstone.data.db.operation.T3Operation;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T3;
 import info.pelleritoudacity.android.rcapstone.data.rest.WidgetExecute;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;

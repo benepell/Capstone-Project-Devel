@@ -28,7 +28,6 @@ package info.pelleritoudacity.android.rcapstone.ui.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -53,12 +52,15 @@ import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.db.Contract;
-import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
+import info.pelleritoudacity.android.rcapstone.data.db.AppDatabase;
+import info.pelleritoudacity.android.rcapstone.data.db.AppExecutors;
+import info.pelleritoudacity.android.rcapstone.data.db.entry.PrefSubRedditEntry;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperAdapter;
 import info.pelleritoudacity.android.rcapstone.ui.helper.ItemTouchHelperViewHolder;
 import info.pelleritoudacity.android.rcapstone.ui.helper.OnStartDragListener;
@@ -71,14 +73,17 @@ import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHolder> implements ItemTouchHelperAdapter {
 
     private final OnStartDragListener mDragStartListener;
+    private final AppDatabase mDb;
+
     private final OnSubScriptionClick mListener;
     private ArrayList<String> mArrayList;
     private Context mContext;
-    private Cursor mCursor;
+    private List<PrefSubRedditEntry> mPrefSubRedditEntry;
 
-    public ManageAdapter(Context context, OnSubScriptionClick listener,
+    public ManageAdapter( Context context,AppDatabase db, OnSubScriptionClick listener,
                          OnStartDragListener dragStartListener) {
         mContext = context;
+        mDb = db;
         mListener = listener;
         mDragStartListener = dragStartListener;
         mArrayList = new ArrayList<>();
@@ -106,9 +111,10 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(@NonNull RedditHolder holder, int position) {
-        mCursor.moveToPosition(position);
 
-        String name = mCursor.getString(mCursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME));
+        PrefSubRedditEntry r = mPrefSubRedditEntry.get(position);
+
+        String name = r.getName();
 
         mArrayList.add(position, name);
         mArrayList = MapUtil.removeArrayListDuplicate(mArrayList);
@@ -131,7 +137,7 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
             return false;
         });
 
-        String iconUrl = mCursor.getString(mCursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_IMAGE));
+        String iconUrl = r.getImage();
 
         Glide.with(holder.itemView.getContext().getApplicationContext())
                 .asBitmap()
@@ -195,8 +201,7 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
                 });
 
 
-
-        int visible = mCursor.getInt(mCursor.getColumnIndex(Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE));
+        int visible = r.getVisible();
 
         if (visible != 0) {
             holder.mImageViewRedditStars.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_star).color(Color.RED)
@@ -218,18 +223,16 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
 
     @Override
     public int getItemCount() {
-        return (mCursor == null) ? 0 : mCursor.getCount();
+        return (mPrefSubRedditEntry == null) ? 0 : mPrefSubRedditEntry.size();
     }
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
-        DataUtils moveData = new DataUtils(mContext);
 
-        if (moveData.moveManage(fromPosition, toPosition)) {
-            Collections.swap(mArrayList, fromPosition, toPosition);
-            notifyItemMoved(fromPosition, toPosition);
+        moveManage(fromPosition, toPosition);
+        Collections.swap(mArrayList, fromPosition, toPosition);
+        notifyItemMoved(fromPosition, toPosition);
 
-        }
 
         String string = TextUtil.arrayToString(mArrayList);
 
@@ -259,6 +262,47 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
 
         }
     }
+
+    @SuppressWarnings("WeakerAccess")
+    public void moveManage(int fromPosition, int toPosition) {
+
+        mListener.onItemMove(toPosition);
+
+        if (fromPosition == 0 && toPosition == 0) {
+            return;
+
+        } else {
+
+            fromPosition += 1;
+            toPosition += 1;
+        }
+
+
+        int finalFromPosition = fromPosition;
+        int finalToPosition = toPosition;
+
+        AppExecutors.getInstance().diskIO().execute(() -> mDb.prefSubRedditDao()
+                .updateRecordByManagePosition(finalToPosition, new Date(System.currentTimeMillis()), finalFromPosition));
+
+        if (getPrefSubRedditEntry().get(0).getId() != 0) {
+            int finalFromPosition1 = fromPosition;
+            AppExecutors.getInstance().diskIO().execute(() -> mDb.prefSubRedditDao().updateRecordByDuplicatePosition(finalFromPosition1, getPrefSubRedditEntry().get(0).getId()));
+
+        }
+    }
+
+
+    public List<PrefSubRedditEntry> getPrefSubRedditEntry() {
+        return mPrefSubRedditEntry;
+    }
+
+    public void setPrefSubRedditEntry(List<PrefSubRedditEntry> entry) {
+        mPrefSubRedditEntry = entry;
+        notifyDataSetChanged();
+    }
+
+
+
 
     public class RedditHolder extends RecyclerView.ViewHolder
             implements ItemTouchHelperViewHolder {
@@ -311,23 +355,13 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
 
     }
 
-    @SuppressWarnings("UnusedReturnValue")
-    public Cursor swapCursor(Cursor c) {
-        if (mCursor == c) {
-            return null;
-        }
-        Cursor temp = mCursor;
-        this.mCursor = c;
-
-        if (c != null) {
-            this.notifyDataSetChanged();
-        }
-        return temp;
-    }
 
     public interface OnSubScriptionClick {
         void onClickStar(int visible, String name);
 
         void onItemRemove(@SuppressWarnings("unused") int position, String description);
+        void onItemMove(int toPosition);
     }
+
+
 }

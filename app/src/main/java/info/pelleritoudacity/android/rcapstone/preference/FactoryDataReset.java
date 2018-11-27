@@ -29,16 +29,16 @@ package info.pelleritoudacity.android.rcapstone.preference;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.DialogPreference;
 import android.util.AttributeSet;
 
 import com.bumptech.glide.Glide;
 
-import java.lang.ref.WeakReference;
 
 import info.pelleritoudacity.android.rcapstone.R;
+import info.pelleritoudacity.android.rcapstone.data.db.AppDatabase;
+import info.pelleritoudacity.android.rcapstone.data.db.AppExecutors;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.rest.RevokeTokenExecute;
 import info.pelleritoudacity.android.rcapstone.service.FirebaseRefreshTokenSync;
@@ -48,17 +48,19 @@ import timber.log.Timber;
 
 public class FactoryDataReset extends DialogPreference {
 
-    private final WeakReference<Context> mWeakReference;
+    private final Context mContext;
+    private final AppDatabase mDb;
 
-    public FactoryDataReset(Context context, AttributeSet attrs) {
+    public FactoryDataReset(Context context,AttributeSet attrs) {
         super(context, attrs);
-        mWeakReference = new WeakReference<>(context);
+        mContext = context;
+        mDb = AppDatabase.getInstance(context);
     }
 
     @Override
     protected void onClick() {
         int theme = R.style.confirmDialogLight;
-        if (Preference.isNightMode(mWeakReference.get().getApplicationContext())) {
+        if (Preference.isNightMode(mContext)) {
             theme = R.style.confirmDialogDark;
         }
         AlertDialog.Builder dialog = new AlertDialog.Builder(getContext(), theme);
@@ -67,7 +69,7 @@ public class FactoryDataReset extends DialogPreference {
         dialog.setCancelable(true);
 
         dialog.setPositiveButton(R.string.text_positive_dialog_confirm, (dialog1, which) ->
-                new ResetAsyncTask(mWeakReference).execute()
+                resetTask()
 
         );
 
@@ -77,66 +79,38 @@ public class FactoryDataReset extends DialogPreference {
         al.show();
     }
 
-    private static class ResetAsyncTask extends AsyncTask<Void, Void, Void> {
+    private void resetTask() {
 
-        private final WeakReference<Context> mWeakContext;
+        if (mContext != null) {
+            if (Preference.isLoginStart(mContext)) {
+                FirebaseRefreshTokenSync.stopLogin(mContext);
 
-        ResetAsyncTask(WeakReference<Context> weakContext) {
-            mWeakContext = weakContext;
-        }
+                String token = Preference.getSessionAccessToken(mContext);
+                new RevokeTokenExecute(new RevokeTokenExecute.OnRestCallBack() {
+                    @Override
+                    public void success(String response, int code) {
+                        Timber.d("Reset  code:%s", code);
+                    }
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            Context context = mWeakContext.get();
-            if (context != null) {
-                if (Preference.isLoginStart(context)) {
-                    FirebaseRefreshTokenSync.stopLogin(context);
-
-                    String token = Preference.getSessionAccessToken(context);
-                    new RevokeTokenExecute(new RevokeTokenExecute.OnRestCallBack() {
-                        @Override
-                        public void success(String response, int code) {
-                            Timber.d("Reset  code:%s", code);
-                        }
-
-                        @Override
-                        public void unexpectedError(Throwable tList) {
-                            Timber.e("Reset Error %s", tList.getMessage());
-                        }
-                    }, token).RevokeTokenData();
-                }
-
-
-            }
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            Context context = mWeakContext.get();
-            if (context != null) {
-                Glide.get(context).clearDiskCache();
+                    @Override
+                    public void unexpectedError(Throwable tList) {
+                        Timber.e("Reset Error %s", tList.getMessage());
+                    }
+                }, token).RevokeTokenData();
             }
 
-            return null;
+            AppExecutors.getInstance().diskIO().execute(() -> Glide.get(mContext).clearDiskCache());
+
+            Preference.clearGeneralSettings(mContext);
+            Preference.clearAll(mContext);
+            new DataUtils(mContext,mDb).clearDataPrivacy();
+
+            Preference.setFactoryDataReset(mContext, true);
+            mContext.startActivity(new Intent(mContext, MainActivity.class)
+                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            );
         }
 
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            Context context = mWeakContext.get();
-            if (context != null) {
-                Preference.clearGeneralSettings(context);
-                Preference.clearAll(context);
-                new DataUtils(context).clearDataPrivacy();
-
-                Preference.setFactoryDataReset(context,true);
-                context.startActivity(new Intent(context, MainActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                );
-            }
-        }
     }
 
 

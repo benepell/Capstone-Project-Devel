@@ -3,8 +3,10 @@ package info.pelleritoudacity.android.rcapstone.data.db.entry;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
 
-import java.util.Date;
+
+import info.pelleritoudacity.android.rcapstone.data.db.util.DateConverter;
 
 @Entity(tableName = "_t1More")
 public class T1MoreEntry {
@@ -12,8 +14,9 @@ public class T1MoreEntry {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
+    @TypeConverters(DateConverter.class)
     @ColumnInfo(name = "_time_last_modified")
-    private Date timeLastModified;
+    private long timeLastModified;
 
     @ColumnInfo(name = "_more_count")
     private int moreCount;
@@ -25,7 +28,7 @@ public class T1MoreEntry {
     private String moreId;
 
     @ColumnInfo(name = "_mores_parent_id")
-    private int moresParentId;
+    private String moresParentId;
 
     @ColumnInfo(name = "_more_depth")
     private int moreDepth;
@@ -44,11 +47,11 @@ public class T1MoreEntry {
         this.id = id;
     }
 
-    public Date getTimeLastModified() {
+    public long getTimeLastModified() {
         return timeLastModified;
     }
 
-    public void setTimeLastModified(Date timeLastModified) {
+    public void setTimeLastModified(long timeLastModified) {
         this.timeLastModified = timeLastModified;
     }
 
@@ -76,11 +79,11 @@ public class T1MoreEntry {
         this.moreId = moreId;
     }
 
-    public int getMoresParentId() {
+    public String getMoresParentId() {
         return moresParentId;
     }
 
-    public void setMoresParentId(int moresParentId) {
+    public void setMoresParentId(String moresParentId) {
         this.moresParentId = moresParentId;
     }
 

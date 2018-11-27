@@ -69,7 +69,9 @@ public class DateUtil {
 
     }
 
-    public static String getDiffTimeMinute(Context context, long time) {
+    public static String getDiffTimeMinute(Context context, Long time) {
+
+        if (time == null) return  context.getResources().getString(R.string.text_time_now);
 
         long timeDiff = (System.currentTimeMillis() / 1000) - time;
 

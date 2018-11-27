@@ -18,13 +18,13 @@ import info.pelleritoudacity.android.rcapstone.data.db.entry.T5Entry;
 
 public class MainViewModel extends AndroidViewModel {
 
-    private LiveData<List<DataEntry>> dataRecords;
-    private LiveData<List<RedditEntry>> redditRecords;
-    private LiveData<List<PrefSubRedditEntry>> prefSubRedditRecords;
-    private LiveData<List<T1Entry>> t1Records;
-    private LiveData<List<T1MoreEntry>> t1MoreRecords;
-    private LiveData<List<T3Entry>> t3Records;
-    private LiveData<List<T5Entry>> t5Records;
+    private final LiveData<List<DataEntry>> dataRecords;
+    private final LiveData<List<RedditEntry>> redditRecords;
+    private final LiveData<List<PrefSubRedditEntry>> prefSubRedditRecords;
+    private final LiveData<List<T1Entry>> t1Records;
+    private final LiveData<List<T1MoreEntry>> t1MoreRecords;
+    private final LiveData<List<T3Entry>> t3Records;
+    private final LiveData<List<T5Entry>> t5Records;
 
     public MainViewModel(@NonNull Application application) {
         super(application);
@@ -60,6 +60,10 @@ public class MainViewModel extends AndroidViewModel {
 
     public LiveData<List<T5Entry>> getT5Records() {
         return t5Records;
+    }
+
+    public LiveData<List<PrefSubRedditEntry>> getPrefSubRedditRecords() {
+        return prefSubRedditRecords;
     }
 
 }

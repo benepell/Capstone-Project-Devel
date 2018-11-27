@@ -26,32 +26,35 @@
 
 package info.pelleritoudacity.android.rcapstone.ui.fragment;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.AsyncTaskLoader;
-import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.db.Contract;
+import info.pelleritoudacity.android.rcapstone.data.db.AppDatabase;
+import info.pelleritoudacity.android.rcapstone.data.db.AppExecutors;
+import info.pelleritoudacity.android.rcapstone.data.db.entry.PrefSubRedditEntry;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
+import info.pelleritoudacity.android.rcapstone.data.db.viewmodel.PrefStarViewModelFactory;
+import info.pelleritoudacity.android.rcapstone.data.db.viewmodel.PrefStarsViewModel;
+import info.pelleritoudacity.android.rcapstone.data.db.viewmodel.PrefViewModel;
+import info.pelleritoudacity.android.rcapstone.data.db.viewmodel.PrefViewModelFactory;
 import info.pelleritoudacity.android.rcapstone.ui.activity.ManageActivity;
 import info.pelleritoudacity.android.rcapstone.ui.adapter.ManageAdapter;
 import info.pelleritoudacity.android.rcapstone.ui.helper.OnStartDragListener;
@@ -60,23 +63,25 @@ import info.pelleritoudacity.android.rcapstone.ui.helper.SimpleItemTouchHelperCa
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.MapUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
-import timber.log.Timber;
 
-import static info.pelleritoudacity.android.rcapstone.utility.Costant.REDDIT_LOADER_ID;
 
 public class ManageFragment extends Fragment
-        implements ManageAdapter.OnSubScriptionClick, OnStartDragListener, LoaderManager.LoaderCallbacks<Cursor> {
+        implements ManageAdapter.OnSubScriptionClick, OnStartDragListener {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.rv_fragment_manage)
     RecyclerView mRecyclerView;
 
     private ManageAdapter mAdapter;
+    private AppDatabase mDb;
     private ItemTouchHelper mItemTouchHelper;
     private Unbinder unbinder;
     private boolean isRestore;
+    private int mToPosition;
+
 
     public ManageFragment() {
+        mDb = AppDatabase.getInstance(getActivity());
     }
 
     public static ManageFragment newInstance(boolean restore) {
@@ -94,6 +99,8 @@ public class ManageFragment extends Fragment
             isRestore = getArguments().getBoolean(Costant.EXTRA_FRAGMENT_MANAGE_RESTORE);
 
         }
+        mDb = AppDatabase.getInstance(getActivity());
+        setupViewModel();
 
     }
 
@@ -112,7 +119,7 @@ public class ManageFragment extends Fragment
 
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new ManageAdapter(getContext(), this, this);
+        mAdapter = new ManageAdapter(getActivity(), mDb, this, this);
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -128,20 +135,12 @@ public class ManageFragment extends Fragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        getLoaderManager().initLoader(REDDIT_LOADER_ID, null, this);
-
         if (isRestore) {
             alerDialog(getActivity());
         }
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        getLoaderManager().restartLoader(REDDIT_LOADER_ID, null, this);
-
-    }
 
     @Override
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
@@ -150,53 +149,32 @@ public class ManageFragment extends Fragment
 
     @Override
     public void onClickStar(int visible, String name) {
-        DataUtils utils = new DataUtils(getActivity());
         int updateVisibleValue = (visible != 0) ? 0 : 1;
-        utils.updateVisibleStar(updateVisibleValue, name);
-        if (utils.updateVisibleStar(updateVisibleValue, name)) {
+        updateVisibleStar(updateVisibleValue, name);
 
-            if (visible != 0) {
-                MapUtil.removeElementPrefSubreddit(getActivity(), name);
-            } else {
-                MapUtil.addElementPrefSubreddit(getActivity(), name);
-            }
-
-            getLoaderManager().restartLoader(REDDIT_LOADER_ID, null, this);
-
+        if (visible != 0) {
+            MapUtil.removeElementPrefSubreddit(getActivity(), name);
+        } else {
+            MapUtil.addElementPrefSubreddit(getActivity(), name);
         }
 
     }
 
     @Override
     public void onItemRemove(int position, String description) {
-        DataUtils dataUtils = new DataUtils(getActivity());
-        if (dataUtils.updateManageRemoved(description)) {
-            startActivity(new Intent(getActivity(), ManageActivity.class)
-                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_NO_ANIMATION));
-        }
+        DataUtils dataUtils = new DataUtils(getActivity(), mDb);
+        dataUtils.updateManageRemoved(description);
+        startActivity(new Intent(getActivity(), ManageActivity.class)
+                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_NO_ANIMATION));
 
-    }
-
-    @NonNull
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        return new RedditFragmentAsyncTask(Objects.requireNonNull(getActivity()));
-    }
-
-    @Override
-    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-        if ((data != null) && (mAdapter != null)) {
-            mAdapter.swapCursor(data);
-        }
 
     }
 
     @Override
-    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-        if (mAdapter != null) {
-            mAdapter.swapCursor(null);
-        }
+    public void onItemMove(int toPosition) {
+        mToPosition = toPosition;
     }
+
 
     @Override
     public void onDestroyView() {
@@ -217,7 +195,7 @@ public class ManageFragment extends Fragment
             dialog.setCancelable(true);
 
             dialog.setPositiveButton(R.string.text_positive_restore_confirm, (dialog1, which) -> {
-                if (new DataUtils(context).updateManageRestore()) {
+                if (new DataUtils(context, mDb).updateManageRestore()) {
                     startActivity(new Intent(context, ManageActivity.class)
                             .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 }
@@ -232,56 +210,64 @@ public class ManageFragment extends Fragment
 
     }
 
-    private static class RedditFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
+    @SuppressWarnings("WeakerAccess")
+    public void updateVisibleStar(int visible, String category) {
+        AppExecutors.getInstance().diskIO().execute(() -> mDb.prefSubRedditDao().updateRecordByVisibleStar(visible, category));
 
-        Cursor mCursor = null;
+        if ((!TextUtils.isEmpty(category)) &&
+                (visible == Costant.DEFAULT_SUBREDDIT_VISIBLE)) {
 
-        RedditFragmentAsyncTask(@NonNull Context context) {
-            super(context);
-        }
+            String stringPref = restoreStarsOrderFromDb();
+            if (!TextUtils.isEmpty(stringPref)) {
+                Preference.setSubredditKey(getActivity(), stringPref);
 
-        @Override
-        protected void onStartLoading() {
-            if (mCursor != null) {
-                deliverResult(mCursor);
-            } else {
-                forceLoad();
             }
 
         }
 
-        @Nullable
-        @Override
-        public Cursor loadInBackground() {
-            try {
-                String[] projection = {
-                        " Distinct ".concat(Contract.PrefSubRedditEntry.COLUMN_NAME_NAME),
-                        Contract.PrefSubRedditEntry.COLUMN_NAME_IMAGE,
-                        Contract.PrefSubRedditEntry.COLUMN_NAME_VISIBLE,
-                        Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION,
-                        Contract.PrefSubRedditEntry.COLUMN_NAME_TIME_LAST_MODIFIED
-                };
+    }
 
-                return getContext().getContentResolver().query(Contract.PrefSubRedditEntry.CONTENT_URI,
-                        projection,
-                        Contract.PrefSubRedditEntry.COLUMN_NAME_REMOVED + " =?",
-                        new String[]{"0"},
-                        Contract.PrefSubRedditEntry.COLUMN_NAME_POSITION + " ASC");
+    private String restoreStarsOrderFromDb() {
+        final String[] stringPref = {""};
 
+        PrefStarViewModelFactory factoryStars = new PrefStarViewModelFactory(mDb, 0, 1);
+        final PrefStarsViewModel viewModel = ViewModelProviders.of(this, factoryStars).get(PrefStarsViewModel.class);
 
-            } catch (Exception e) {
-                Timber.e(" Manage Failed to asynchronously load data.   ");
-                e.printStackTrace();
+        viewModel.getTask().observe(this, prefSubRedditEntries -> {
+            if (prefSubRedditEntries != null) {
+                String name;
+                int i = 0;
 
-                return null;
+                while (i < prefSubRedditEntries.size()) {
+                    i += 1;
+                    name = prefSubRedditEntries.get(i).getName();
+                    if (!TextUtils.isEmpty(name)) {
+                        if (i < prefSubRedditEntries.size() - 1) {
+                            //noinspection StringConcatenationInLoop
+                            stringPref[0] += name + Costant.STRING_SEPARATOR;
+                        } else {
+                            //noinspection StringConcatenationInLoop
+                            stringPref[0] += name;
+                        }
+                    }
+                }
             }
-        }
 
-        @Override
-        public void deliverResult(Cursor data) {
-            mCursor = data;
-            super.deliverResult(data);
-        }
+        });
+        return stringPref[0];
+    }
+
+    private void setupViewModel() {
+
+        PrefSubRedditEntry entry = new PrefSubRedditEntry();
+        entry.setPosition(mToPosition);
+        PrefViewModelFactory factory = new PrefViewModelFactory(mDb, entry);
+        final PrefViewModel viewModel = ViewModelProviders.of(this, factory).get(PrefViewModel.class);
+        viewModel.getTask().observe(this, prefSubRedditEntries -> {
+            if ((prefSubRedditEntries != null) && (mAdapter != null)) {
+                mAdapter.setPrefSubRedditEntry(prefSubRedditEntries);
+            }
+        });
     }
 
 }

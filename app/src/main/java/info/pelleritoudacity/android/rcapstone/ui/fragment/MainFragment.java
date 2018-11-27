@@ -1,16 +1,13 @@
 package info.pelleritoudacity.android.rcapstone.ui.fragment;
 
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.AsyncTaskLoader;
-import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,7 +25,10 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import info.pelleritoudacity.android.rcapstone.BuildConfig;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.db.Contract;
+import info.pelleritoudacity.android.rcapstone.data.db.AppDatabase;
+import info.pelleritoudacity.android.rcapstone.data.db.entry.T3Entry;
+import info.pelleritoudacity.android.rcapstone.data.db.viewmodel.T3TargetViewModel;
+import info.pelleritoudacity.android.rcapstone.data.db.viewmodel.T3TargetViewModelFactory;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.MainModel;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
 import info.pelleritoudacity.android.rcapstone.ui.activity.MainActivity;
@@ -36,13 +36,10 @@ import info.pelleritoudacity.android.rcapstone.ui.adapter.MainAdapter;
 import info.pelleritoudacity.android.rcapstone.ui.view.GridSpacingItemDecoration;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.Utility;
-import timber.log.Timber;
 
-import static info.pelleritoudacity.android.rcapstone.utility.Costant.SUBREDDIT_LOADER_ID;
 
 public class MainFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<Cursor>, MainAdapter.OnMainClick {
-
+        implements MainAdapter.OnMainClick {
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.rv_fragment_main)
     RecyclerView mRecyclerView;
@@ -55,6 +52,7 @@ public class MainFragment extends Fragment
     private MediaPlayer mMediaPlayer;
     private MainAdapter mAdapter;
     private OnMainClick mMainListener;
+    private AppDatabase mDb;
 
     public MainFragment() {
     }
@@ -87,6 +85,10 @@ public class MainFragment extends Fragment
             mModel = getArguments().getParcelable(Costant.EXTRA_FRAGMENT_PARCEL_MAIN);
 
         }
+
+        mDb = AppDatabase.getInstance(getActivity());
+        setupViewModel();
+
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -100,7 +102,7 @@ public class MainFragment extends Fragment
 
         int spanCount = Utility.calculateNoOfColumns(Objects.requireNonNull(getActivity()));
 
-        if (Utility.isTablet(mContext)  &&
+        if (Utility.isTablet(mContext) &&
                 (Objects.requireNonNull(getActivity()).getClass().getSimpleName().equals(MainActivity.class.getSimpleName()))) {
 
             mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount,
@@ -120,14 +122,14 @@ public class MainFragment extends Fragment
         mRecyclerView.setHasFixedSize(true);
 
 
-        if(BuildConfig.FLAVOR.equals("free")){
+        if (BuildConfig.FLAVOR.equals("free")) {
             ImaAdsLoader mImaAdsLoader = new ImaAdsLoader(mContext, Uri.parse(getString(R.string.ad_tag_url)));
             mModel.setIma(true);
 
-            mAdapter = new MainAdapter(this, mContext, mImaAdsLoader);
+            mAdapter = new MainAdapter(this, mDb, mContext, mImaAdsLoader);
 
-        }else {
-            mAdapter = new MainAdapter(this, mContext, null);
+        } else {
+            mAdapter = new MainAdapter(this, mDb, mContext, null);
 
         }
 
@@ -140,20 +142,65 @@ public class MainFragment extends Fragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        getLoaderManager().initLoader(SUBREDDIT_LOADER_ID, null, this).forceLoad();
-
         if (savedInstanceState != null) {
             mModel = savedInstanceState.getParcelable(Costant.EXTRA_FRAGMENT_PARCEL_MAIN);
         }
 
     }
 
+    private void setupViewModel() {
+        T3Entry t3Entry = new T3Entry();
+
+        switch (mModel.getTarget()) {
+            case Costant.ALL_MAIN_TARGET:
+            case Costant.POPULAR_MAIN_TARGET:
+
+                t3Entry.setTarget(mModel.getTarget());
+                t3Entry.setOver18(Utility.boolToInt(mModel.isOver18()));
+                break;
+
+            case Costant.FAVORITE_MAIN_TARGET:
+                t3Entry.setSaved(Costant.SUBREDDIT_FAVORITE_SAVED);
+                break;
+
+            case Costant.SEARCH_MAIN_TARGET:
+                t3Entry.setTitle("%" + mModel.getQuerySearch() + "%");
+                t3Entry.setSubreddit(mModel.getCategory());
+                t3Entry.setOver18(Utility.boolToInt(mModel.isOver18()));
+
+                break;
+
+            case Costant.WIDGET_MAIN_TARGET:
+            case Costant.NAVIGATION_MAIN_TARGET:
+            default:
+                t3Entry.setSubreddit(mModel.getCategory());
+                t3Entry.setOver18(Utility.boolToInt(mModel.isOver18()));
+
+        }
+
+        T3TargetViewModelFactory factory = new T3TargetViewModelFactory(mDb, t3Entry, mModel.getTarget());
+        final T3TargetViewModel viewModel = ViewModelProviders.of(this, factory).get(T3TargetViewModel.class);
+
+        viewModel.getTask().observe(this, t3Entries -> {
+                    if ((t3Entries != null) && (mAdapter != null)) {
+
+                        mAdapter.setEntry(t3Entries);
+
+                        if ((mRecyclerView != null) && (mModel.getPosition() > 0)) {
+
+                            mRecyclerView.scrollToPosition(mModel.getPosition());
+                        }
+                        mMainListener.mainFragmentResult(t3Entries.size());
+                    }
+                }
+        );
+
+
+    }
+
     @Override
     public void onResume() {
         super.onResume();
-        if (!isStateSaved()) {
-            getLoaderManager().restartLoader(SUBREDDIT_LOADER_ID, null, this).forceLoad();
-        }
         if (mMediaPlayer != null) {
             mMediaPlayer.setResume(mMediaPlayer.getResumeWindow(), mMediaPlayer.getResumePosition(), mMediaPlayer.getVideoUri());
         }
@@ -202,9 +249,6 @@ public class MainFragment extends Fragment
 
     @Override
     public void selectorChange(int position) {
-        if (position != RecyclerView.NO_POSITION) {
-            getLoaderManager().restartLoader(SUBREDDIT_LOADER_ID, null, this).forceLoad();
-        }
     }
 
     @Override
@@ -222,31 +266,6 @@ public class MainFragment extends Fragment
         mMainListener.snackMsg(resource);
     }
 
-    @NonNull
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        return new MainFragmentAsyncTask(Objects.requireNonNull(getActivity()), mModel);
-    }
-
-    @Override
-    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-        if ((data != null) && (mAdapter != null)) {
-            mAdapter.swapCursor(data);
-
-            if ((mRecyclerView != null) && (mModel.getPosition() > 0)) {
-
-                mRecyclerView.scrollToPosition(mModel.getPosition());
-            }
-            mMainListener.mainFragmentResult(data.getCount());
-        }
-
-    }
-
-    @Override
-    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-        mAdapter.swapCursor(null);
-
-    }
 
     @Override
     public void onDetach() {
@@ -260,92 +279,11 @@ public class MainFragment extends Fragment
         unbinder.unbind();
     }
 
-    private static class MainFragmentAsyncTask extends AsyncTaskLoader<Cursor> {
-
-        Cursor cursorData = null;
-        private final MainModel model;
-
-        MainFragmentAsyncTask(@NonNull Context context, MainModel model) {
-            super(context);
-            this.model = model;
-        }
-
-        @Override
-        protected void onStartLoading() {
-            if (cursorData != null) {
-                deliverResult(cursorData);
-            } else {
-                forceLoad();
-            }
-        }
-
-        @Nullable
-        @Override
-        public Cursor loadInBackground() {
-            try {
-                Uri uri = Contract.T3dataEntry.CONTENT_URI;
-                String selection;
-                String[] selectionArgs;
-
-                String strOver18 = String.valueOf(Utility.boolToInt(model.isOver18()));
-
-                switch (model.getTarget()) {
-                    case Costant.ALL_MAIN_TARGET:
-                        selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?" + " AND " +
-                                Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " <=?";
-                        selectionArgs = new String[]{model.getTarget(), strOver18};
-                        break;
-
-                    case Costant.POPULAR_MAIN_TARGET:
-                        selection = Contract.T3dataEntry.COLUMN_NAME_TARGET + " =?" + " AND " +
-                                Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " <=?";
-                        selectionArgs = new String[]{model.getTarget(), strOver18};
-                        break;
-
-                    case Costant.FAVORITE_MAIN_TARGET:
-
-                        selection = Contract.T3dataEntry.COLUMN_NAME_SAVED + " =?";
-                        selectionArgs = new String[]{Costant.SUBREDDIT_FAVORITE_SAVED};
-                        break;
-
-                    case Costant.SEARCH_MAIN_TARGET:
-                        selection = Contract.T3dataEntry.COLUMN_NAME_TITLE + " like ?" + " AND " +
-                                Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " LIKE ?" + " AND " +
-                                Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " <=?";
-                        selectionArgs = new String[]{"%" + model.getQuerySearch() + "%", model.getCategory(), strOver18,};
-                        break;
-
-                    case Costant.WIDGET_MAIN_TARGET:
-                    case Costant.NAVIGATION_MAIN_TARGET:
-                    default:
-                        selection = Contract.T3dataEntry.COLUMN_NAME_SUBREDDIT + " LIKE ?" + " AND " +
-                                Contract.T3dataEntry.COLUMN_NAME_OVER_18 + " <=?";
-                        selectionArgs = new String[]{model.getCategory(), strOver18};
-
-                }
-
-                return getContext().getContentResolver().query(uri,
-                        null,
-                        selection,
-                        selectionArgs,
-                        null);
-
-            } catch (Exception e) {
-                Timber.e("Failed to asynchronously load data. main fragment %s ", e.getMessage());
-                return null;
-            }
-        }
-
-        @Override
-        public void deliverResult(Cursor data) {
-            cursorData = data;
-            super.deliverResult(data);
-        }
-    }
-
     public interface OnMainClick {
         void mainClick(int position, String category, String strId);
+
         void snackMsg(int resource);
+
         void mainFragmentResult(int count);
     }
 }

@@ -29,7 +29,6 @@ package info.pelleritoudacity.android.rcapstone.ui.adapter;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -47,11 +46,14 @@ import android.widget.TextView;
 import com.google.android.exoplayer2.ext.ima.ImaAdsLoader;
 import com.google.android.exoplayer2.ui.PlayerView;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
-import info.pelleritoudacity.android.rcapstone.data.db.Contract;
-import info.pelleritoudacity.android.rcapstone.data.db.Record.MainRecord;
+import info.pelleritoudacity.android.rcapstone.data.db.AppDatabase;
+import info.pelleritoudacity.android.rcapstone.data.db.entry.T3Entry;
+import info.pelleritoudacity.android.rcapstone.data.db.record.MainRecord;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
 import info.pelleritoudacity.android.rcapstone.data.model.MediaModel;
 import info.pelleritoudacity.android.rcapstone.data.model.record.RecordAdapter;
@@ -78,15 +80,17 @@ import static info.pelleritoudacity.android.rcapstone.utility.NumberUtil.numberF
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolder> implements SelectorHelper.OnSelector {
 
-    private Cursor mCursor;
     private Context mContext;
     private final OnMainClick mMainListener;
     private MediaPlayer mMediaPlayer;
     private final ImaAdsLoader mImaAdsLoader;
+    private List<T3Entry> mEntry;
+    private final AppDatabase mDb;
 
 
-    public MainAdapter(OnMainClick mainListener, Context context, ImaAdsLoader imaAdsLoader) {
+    public MainAdapter(OnMainClick mainListener, AppDatabase db, Context context, ImaAdsLoader imaAdsLoader) {
         mMainListener = mainListener;
+        mDb = db;
         mContext = context;
         mImaAdsLoader = imaAdsLoader;
     }
@@ -106,159 +110,161 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
     @Override
     public void onBindViewHolder(@NonNull SubRedditHolder holder, int position) {
 
-        mCursor.moveToPosition(position);
+        if (mEntry != null) {
+            MainRecord recordList = new MainRecord(mEntry.get(position));
+            RecordAdapter record = null;
+            if (recordList.getRecordList() != null) {
+                record = recordList.getRecordList().get(0);
 
-        MainRecord recordList = new MainRecord(mCursor);
-        RecordAdapter record = null;
-        if (recordList.getRecordList() != null) {
-            record = recordList.getRecordList().get(0);
+            }
 
-        }
+            if (record != null) {
 
-        if (record != null) {
-            holder.mTextViewCreatedUtc.setText(DateUtil.getDiffTimeMinute(mContext, record.getCreatedUtc()));
+                holder.mTextViewCreatedUtc.setText(DateUtil.getDiffTimeMinute(mContext, record.getCreatedUtc()));
 
-            MainHelper mainHelper = new MainHelper(mContext);
+                MainHelper mainHelper = new MainHelper(mContext);
 
-            int mediaType = 0;
+                int mediaType = 0;
 
-            mediaType = Preference.isGeneralImages(mContext) && !TextUtils.isEmpty(record.getImagePreviewUrl())
-                    ? Costant.MEDIA_IMAGE_FULL_TYPE : mediaType;
+                mediaType = Preference.isGeneralImages(mContext) && !TextUtils.isEmpty(record.getImagePreviewUrl())
+                        ? Costant.MEDIA_IMAGE_FULL_TYPE : mediaType;
 
-            mediaType = Preference.isGeneralVideos(mContext) && !TextUtils.isEmpty(record.getVideoPreviewUrl())
-                    ? Costant.MEDIA_VIDEO_PREVIEW_TYPE_MP4 : mediaType;
+                mediaType = Preference.isGeneralVideos(mContext) && !TextUtils.isEmpty(record.getVideoPreviewUrl())
+                        ? Costant.MEDIA_VIDEO_PREVIEW_TYPE_MP4 : mediaType;
 
-            mediaType = Preference.isGeneralVideos(mContext) && (!TextUtils.isEmpty(record.getVideoUrl()) && !TextUtils.isEmpty(record.getVideoTypeOembed()) &&
-                    record.getVideoTypeOembed().equals(Costant.BASE_TYPE_VIMEO))
-                    ? Costant.MEDIA_VIDEO_TYPE_VIMEO : mediaType;
+                mediaType = Preference.isGeneralVideos(mContext) && (!TextUtils.isEmpty(record.getVideoUrl()) && !TextUtils.isEmpty(record.getVideoTypeOembed()) &&
+                        record.getVideoTypeOembed().equals(Costant.BASE_TYPE_VIMEO))
+                        ? Costant.MEDIA_VIDEO_TYPE_VIMEO : mediaType;
 
-            mediaType = Preference.isGeneralVideos(mContext) && !TextUtils.isEmpty(record.getVideoFrameOembed()) &&
-                    !TextUtils.isEmpty(record.getVideoTypeOembed()) &&
-                    (record.getVideoTypeOembed().equals(Costant.BASE_TYPE_YOUTUBE) ||
-                            record.getVideoTypeOembed().equals("m.".concat(Costant.BASE_TYPE_YOUTUBE)))
-                    ? Costant.MEDIA_VIDEO_TYPE_YOUTUBE : mediaType;
+                mediaType = Preference.isGeneralVideos(mContext) && !TextUtils.isEmpty(record.getVideoFrameOembed()) &&
+                        !TextUtils.isEmpty(record.getVideoTypeOembed()) &&
+                        (record.getVideoTypeOembed().equals(Costant.BASE_TYPE_YOUTUBE) ||
+                                record.getVideoTypeOembed().equals("m.".concat(Costant.BASE_TYPE_YOUTUBE)))
+                        ? Costant.MEDIA_VIDEO_TYPE_YOUTUBE : mediaType;
 
-            switch (mediaType) {
+                switch (mediaType) {
 
-                case Costant.MEDIA_IMAGE_FULL_TYPE:
+                    case Costant.MEDIA_IMAGE_FULL_TYPE:
 
-                    holder.mPlayerLayout.setVisibility(View.GONE);
+                        holder.mPlayerLayout.setVisibility(View.GONE);
 
-                    mainHelper.imageReddit(holder.mImageViewSubReddit,
-                            TextUtil.textFromHtml(record.getImagePreviewUrl()),
-                            TextUtil.textFromHtml(record.getTitle()));
-                    holder.mImageViewSubReddit.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    holder.mImageViewSubReddit.setVisibility(View.VISIBLE);
-                    break;
-
-                case Costant.MEDIA_VIDEO_PREVIEW_TYPE_MP4:
-
-                    if (mMediaPlayer != null) {
-                        mMediaPlayer.releasePlayer();
-                    }
-
-                    MediaModel mediaModel = new MediaModel();
-
-                    if(mImaAdsLoader!=null){
-                        mediaModel.setImaAdsLoader(mImaAdsLoader);
-
-                    }
-
-                    mediaModel.setPlayerView(holder.mPlayerView);
-                    mediaModel.setProgressBar(holder.mExoProgressBar);
-                    mediaModel.setTvErrorPlayer(holder.mTVErrorPlayer);
-                    mediaModel.setImagePlay(holder.mImagePlay);
-                    mediaModel.setImagePreview(holder.mImagePreview);
-
-                    mMediaPlayer = new MediaPlayer(mContext, mediaModel);
-                    mMainListener.mediaPlayer(mMediaPlayer);
-
-                    mainHelper.loadVideoFirstFrame(mMediaPlayer, holder.mPlayerLayout, holder.mImagePreview, holder.mImagePlay, holder.mExoProgressBar,
-                            TextUtil.textFromHtml(record.getVideoPreviewUrl()));
-
-                    holder.mImageViewSubReddit.setVisibility(View.GONE);
-                    break;
-
-                case Costant.MEDIA_VIDEO_TYPE_VIMEO:
-
-                    mainHelper.loadWebviewVimeo(holder.mWebViewVimeo,
-                            TextUtil.textFromHtml(record.getVideoFrameOembed()));
-
-                    holder.mImageViewSubReddit.setVisibility(View.GONE);
-                    holder.mPlayerLayout.setVisibility(View.GONE);
-                    break;
-
-                case Costant.MEDIA_VIDEO_TYPE_YOUTUBE:
-
-                    mainHelper.youtubeVideoFirstFrame(holder.mPlayerLayout, holder.mImagePreview, holder.mImagePlay, holder.mExoProgressBar,
-                            TextUtil.textFromHtml(record.getThumbnailUrlOembed()),
-                            TextUtil.textFromHtml(record.getVideoUrl()), record.getTitle());
-
-                    holder.mImageViewSubReddit.setVisibility(View.GONE);
-                    break;
-
-                default: {
-                    if(Preference.isGeneralImages(mContext)) {
-                        holder.mImageViewSubReddit.setImageResource(R.drawable.ic_no_image);
+                        mainHelper.imageReddit(holder.mImageViewSubReddit,
+                                TextUtil.textFromHtml(record.getImagePreviewUrl()),
+                                TextUtil.textFromHtml(record.getTitle()));
+                        holder.mImageViewSubReddit.setScaleType(ImageView.ScaleType.CENTER_CROP);
                         holder.mImageViewSubReddit.setVisibility(View.VISIBLE);
+                        break;
 
-                    }else {
-                        holder.mImageViewSubReddit.setVisibility(View.INVISIBLE);
+                    case Costant.MEDIA_VIDEO_PREVIEW_TYPE_MP4:
 
+                        if (mMediaPlayer != null) {
+                            mMediaPlayer.releasePlayer();
+                        }
+
+                        MediaModel mediaModel = new MediaModel();
+
+                        if (mImaAdsLoader != null) {
+                            mediaModel.setImaAdsLoader(mImaAdsLoader);
+
+                        }
+
+                        mediaModel.setPlayerView(holder.mPlayerView);
+                        mediaModel.setProgressBar(holder.mExoProgressBar);
+                        mediaModel.setTvErrorPlayer(holder.mTVErrorPlayer);
+                        mediaModel.setImagePlay(holder.mImagePlay);
+                        mediaModel.setImagePreview(holder.mImagePreview);
+
+                        mMediaPlayer = new MediaPlayer(mContext, mediaModel);
+                        mMainListener.mediaPlayer(mMediaPlayer);
+
+                        mainHelper.loadVideoFirstFrame(mMediaPlayer, holder.mPlayerLayout, holder.mImagePreview, holder.mImagePlay, holder.mExoProgressBar,
+                                TextUtil.textFromHtml(record.getVideoPreviewUrl()));
+
+                        holder.mImageViewSubReddit.setVisibility(View.GONE);
+                        break;
+
+                    case Costant.MEDIA_VIDEO_TYPE_VIMEO:
+
+                        mainHelper.loadWebviewVimeo(holder.mWebViewVimeo,
+                                TextUtil.textFromHtml(record.getVideoFrameOembed()));
+
+                        holder.mImageViewSubReddit.setVisibility(View.GONE);
+                        holder.mPlayerLayout.setVisibility(View.GONE);
+                        break;
+
+                    case Costant.MEDIA_VIDEO_TYPE_YOUTUBE:
+
+                        mainHelper.youtubeVideoFirstFrame(holder.mPlayerLayout, holder.mImagePreview, holder.mImagePlay, holder.mExoProgressBar,
+                                TextUtil.textFromHtml(record.getThumbnailUrlOembed()),
+                                TextUtil.textFromHtml(record.getVideoUrl()), record.getTitle());
+
+                        holder.mImageViewSubReddit.setVisibility(View.GONE);
+                        break;
+
+                    default: {
+                        if (Preference.isGeneralImages(mContext)) {
+                            holder.mImageViewSubReddit.setImageResource(R.drawable.ic_no_image);
+                            holder.mImageViewSubReddit.setVisibility(View.VISIBLE);
+
+                        } else {
+                            holder.mImageViewSubReddit.setVisibility(View.INVISIBLE);
+
+                        }
                     }
                 }
+
+                if (Utility.isTablet(mContext) && ActivityUI.isLandscapeOrientation(mContext)) {
+                    holder.mImageViewSubReddit.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
+                }
+
+                holder.mTextViewTitle.setText(TextUtil.textFromHtml(record.getTitle()));
+
+                holder.mTextViewSubRedditNamePrefix.setText(record.getSubRedditNamePrefix());
+
+                holder.mTextViewDomain.setText(record.getDomain());
+
+                holder.mTextViewScore.setText(numberFormat(record.getScore()));
+
+                holder.mTextViewNumComments.setText(
+                        String.format("%s %s", String.valueOf(record.getNumComments()),
+                                mContext.getString(R.string.text_comments_subreddit))
+                );
+
+                SelectorHelper mSelectorHelper = new SelectorHelper(this, mContext, mDb, holder.itemView);
+
+                CardBottomModel cardBottomModel = new CardBottomModel();
+
+                ImageButton[] arrayButton = new ImageButton[]{holder.mImageButtonVoteUp, holder.mImageButtonVoteDown,
+                        holder.mImageButtonPreferStars, holder.mImageButtonShowComments, holder.mImageButtonOpenBrowser};
+
+                cardBottomModel.setArrayButton(arrayButton);
+                cardBottomModel.setLinkComment(
+                        TextUtil.buildCommentLink(record.getSubRedditNamePrefix(), record.getNameIdReddit()));
+
+                cardBottomModel.setPosition(position);
+                cardBottomModel.setScore(record.getScore());
+                cardBottomModel.setDirScore(record.getDirScore());
+                cardBottomModel.setSaved(record.isSaved());
+                cardBottomModel.setCategory(record.getNameReddit());
+                cardBottomModel.setBackgroundColor(null);
+                cardBottomModel.setOnline(NetworkUtil.isOnline(mContext));
+                cardBottomModel.setLogged(PermissionUtil.isLogged(mContext));
+                cardBottomModel.setTitle(record.getTitle());
+                cardBottomModel.setAuthor(record.getAuthor());
+
+                mSelectorHelper.cardBottomLink(cardBottomModel);
+
+                holder.bind(position, record.getSubReddit(), record.getNameIdReddit(), record.getNumComments());
+
             }
-
-            if (Utility.isTablet(mContext) && ActivityUI.isLandscapeOrientation(mContext)) {
-                holder.mImageViewSubReddit.setScaleType(ImageView.ScaleType.FIT_CENTER);
-
-            }
-
-            holder.mTextViewTitle.setText(TextUtil.textFromHtml(record.getTitle()));
-
-            holder.mTextViewSubRedditNamePrefix.setText(record.getSubRedditNamePrefix());
-
-            holder.mTextViewDomain.setText(record.getDomain());
-
-            holder.mTextViewScore.setText(numberFormat(record.getScore()));
-
-            holder.mTextViewNumComments.setText(
-                    String.format("%s %s", String.valueOf(record.getNumComments()),
-                            mContext.getString(R.string.text_comments_subreddit))
-            );
-
-            SelectorHelper mSelectorHelper = new SelectorHelper(this, mContext, holder.itemView);
-
-            CardBottomModel cardBottomModel = new CardBottomModel();
-
-            ImageButton[] arrayButton = new ImageButton[]{holder.mImageButtonVoteUp, holder.mImageButtonVoteDown,
-                    holder.mImageButtonPreferStars, holder.mImageButtonShowComments, holder.mImageButtonOpenBrowser};
-
-            cardBottomModel.setArrayButton(arrayButton);
-            cardBottomModel.setLinkComment(
-                    TextUtil.buildCommentLink(record.getSubRedditNamePrefix(), record.getNameIdReddit()));
-
-            cardBottomModel.setPosition(position);
-            cardBottomModel.setScore(record.getScore());
-            cardBottomModel.setDirScore(record.getDirScore());
-            cardBottomModel.setSaved(record.isSaved());
-            cardBottomModel.setCategory(record.getNameReddit());
-            cardBottomModel.setBackgroundColor(null);
-            cardBottomModel.setOnline(NetworkUtil.isOnline(mContext));
-            cardBottomModel.setLogged(PermissionUtil.isLogged(mContext));
-            cardBottomModel.setTitle(record.getTitle());
-            cardBottomModel.setAuthor(record.getAuthor());
-
-            mSelectorHelper.cardBottomLink(cardBottomModel);
-
-            holder.bind(position, record.getSubReddit(), record.getNameIdReddit(), record.getNumComments());
-
         }
+
     }
 
     @Override
     public int getItemCount() {
-        return (mCursor == null) ? 0 : mCursor.getCount();
+        return (mEntry == null) ? 0 : mEntry.size();
     }
 
     @Override
@@ -272,7 +278,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
 
     @Override
     public void vote(int position, int score, boolean voteUp, int dir, String linkId) {
-        new DataUtils(mContext).updateVote(Contract.T3dataEntry.CONTENT_URI, score, voteUp, dir, linkId);
+        new DataUtils(mContext, mDb).updateVote(Costant.DB_TABLE_T3, score, voteUp, dir, linkId);
         mMainListener.selectorChange(position);
 
     }
@@ -283,9 +289,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
             @Override
             public void success(SubmitData response, int code) {
                 dialog.dismiss();
-                if(response.isSuccess()){
+                if (response.isSuccess()) {
                     mMainListener.snackMsg(R.string.text_comment_saved);
-                }else {
+                } else {
                     mMainListener.snackMsg(R.string.text_error_comment);
                 }
             }
@@ -296,20 +302,20 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
                 mMainListener.snackMsg(R.string.text_error_comment);
 
             }
-        }, PermissionUtil.getToken(mContext),text,fullname ).postData();
+        }, PermissionUtil.getToken(mContext), text, fullname).postData();
     }
 
     @Override
     public void deleteComments(View view, Dialog dialog, String fullname) {
-        if(!TextUtils.isEmpty(fullname)) {
+        if (!TextUtils.isEmpty(fullname)) {
 
             new DelExecute(new DelExecute.OnRestCallBack() {
                 @Override
                 public void success(ResponseBody response, int code) {
-                    if(code==200){
+                    if (code == 200) {
                         mMainListener.snackMsg(R.string.text_comment_deleted);
 
-                    }else {
+                    } else {
                         mMainListener.snackMsg(R.string.text_error_comment);
 
                     }
@@ -324,10 +330,20 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
                     mMainListener.snackMsg(R.string.text_error_comment);
 
                 }
-            },PermissionUtil.getToken(mContext),fullname).delData();
+            }, PermissionUtil.getToken(mContext), fullname).delData();
 
         }
     }
+
+    public List<T3Entry> getEntry() {
+        return mEntry;
+    }
+
+    public void setEntry(List<T3Entry> entry) {
+        mEntry = entry;
+        notifyDataSetChanged();
+    }
+
 
     @Override
     public void snackMsg(int resource) {
@@ -468,23 +484,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
 
     }
 
-    @SuppressWarnings("UnusedReturnValue")
-    public Cursor swapCursor(Cursor c) {
-        if (mCursor == c) {
-            return null;
-        }
-        Cursor temp = mCursor;
-        this.mCursor = c;
-
-        if (c != null) {
-            notifyDataSetChanged();
-        }
-        return temp;
-    }
 
     public interface OnMainClick {
-
-
         void mainClick(int position, String category, String strId);
 
         void selectorChange(int position);
