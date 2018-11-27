@@ -57,12 +57,12 @@ android {
     }
     buildTypes.each {
         //  REDDIT BASE URL  - url: https://www.reddit.com/prefs/apps/
-        it.buildConfigField 'String', 'REDDIT_CLIENT_ID', '"gHRoCv5jZXeEBw"'
-        it.buildConfigField 'String', 'REDDIT_SECRET_STATE', '"RCAPSTONE256"'
-        it.buildConfigField 'String', 'REDDIT_ABOUT_URL', '"http://rcapstone.android.pelleritoudacity.info"'
-        it.buildConfigField 'String', 'REDDIT_REDIRECT_URL', '"http://rcapstone.android.pelleritoudacity.info/my_redirect"'
+        it.buildConfigField 'String', 'REDDIT_CLIENT_ID', '""'
+        it.buildConfigField 'String', 'REDDIT_SECRET_STATE', '""'
+        it.buildConfigField 'String', 'REDDIT_ABOUT_URL', '""'
+        it.buildConfigField 'String', 'REDDIT_REDIRECT_URL', '""'
 
-        it.buildConfigField 'String', 'YOUTUBE_DEVELOPER_KEY', '"AIzaSyAe8psEXSy9Luv1Dqya-r8x-RGhwyPfJuA"'
+        it.buildConfigField 'String', 'YOUTUBE_DEVELOPER_KEY', '""'
 
 
     }
