@@ -45,7 +45,7 @@ Connect to Reddit API
 ![screeen](https://user-images.githubusercontent.com/18085976/48212482-f83c8b00-e37b-11e8-91df-476fa7e77090.png)
 
 ## Libraries
-
+* [DB:Room Persistence Library](https://developer.android.com/topic/libraries/architecture/room.html)
 * [YouTube Android Player API](https://developers.google.com/youtube/android/player/setup)
 * [Glide](https://github.com/bumptech/glide)
 * [Picasso](http://square.github.io/picasso/)
