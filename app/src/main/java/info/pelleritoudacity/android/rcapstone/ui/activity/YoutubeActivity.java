@@ -110,27 +110,4 @@ public class YoutubeActivity extends AppCompatActivity implements YouTubePlayer.
         }
     }
 
-   /* @Override
-    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player,
-                                        boolean wasRestored) {
-        if (!wasRestored) {
-            if (!TextUtils.isEmpty(mYoutubeStr)) {
-                String v = TextUtil.youtubeValue(mYoutubeStr);
-
-                if (Costant.YOUTUBE_CLIENT_AUTOSTART) {
-                    player.loadVideo(v);
-
-                } else {
-                    player.cueVideo(v);
-
-                }
-            }
-        }
-    }
-
-    @Override
-    protected YouTubePlayer.Provider getYouTubePlayerProvider() {
-        return (YouTubePlayerFragment) getFragmentManager().findFragmentById(R.id.youtube_fragment);
-    }
-*/
 }
