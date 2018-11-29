@@ -4,9 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
-import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
-import android.arch.persistence.room.Update;
 
 import java.util.List;
 
@@ -16,9 +14,6 @@ import info.pelleritoudacity.android.rcapstone.data.db.entry.T1Entry;
 public interface T1Dao {
     @Query("SELECT * FROM _t1")
     LiveData<List<T1Entry>> loadAllRecords();
-
-    @Query("SELECT * FROM _t1 WHERE id = :id")
-    LiveData<T1Entry> loadRecordById(int id);
 
     @Query("SELECT * FROM _t1 WHERE _link_id = :linkId AND _more_replies =:moreReplies AND _over18 <= :over18 ")
     LiveData<List<T1Entry>> loadDetailTarget(String linkId, String moreReplies, int over18);
@@ -34,12 +29,6 @@ public interface T1Dao {
 
     @Insert
     void insertRecord(T1Entry entry);
-
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateRecord(T1Entry entry);
-
-    @Query("UPDATE _t1 set _name = :name WHERE id = :id")
-    int updateRecordById(String name, int id);
 
     @Query("UPDATE _t1 SET _num_comments = :numComments , _more_comments = :moreComments  WHERE  _name_id = :nameId")
     void updateRecordMoreComments(int numComments, String moreComments, String nameId);

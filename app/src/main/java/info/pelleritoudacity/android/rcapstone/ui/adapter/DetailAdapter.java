@@ -354,7 +354,8 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.SubRedditD
 
         void snackMsg(int resource);
 
-        void selectorChange(int position);
+        @SuppressWarnings("EmptyMethod")
+        void selectorChange(@SuppressWarnings("unused") int position);
     }
 
     @SuppressWarnings("WeakerAccess")

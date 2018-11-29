@@ -112,7 +112,6 @@ public class SelectorHelper {
             }
 
             buttonStars.setBackgroundColor(Color.parseColor(model.getBackgroundColor()));
-            //  todo ...livedata.... fix getAuthor
             if (model.getAuthor() != null) {
                 if (Preference.getSessionUsername(mContext).compareTo(model.getAuthor()) != 0) {
                     buttonComments.setImageDrawable(new IconicsDrawable(mContext, MaterialDesignIconic.Icon.gmi_comment_outline)

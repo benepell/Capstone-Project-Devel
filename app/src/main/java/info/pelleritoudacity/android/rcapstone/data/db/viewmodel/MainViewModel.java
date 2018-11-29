@@ -16,6 +16,7 @@ import info.pelleritoudacity.android.rcapstone.data.db.entry.T1MoreEntry;
 import info.pelleritoudacity.android.rcapstone.data.db.entry.T3Entry;
 import info.pelleritoudacity.android.rcapstone.data.db.entry.T5Entry;
 
+@SuppressWarnings("unused")
 public class MainViewModel extends AndroidViewModel {
 
     private final LiveData<List<DataEntry>> dataRecords;

@@ -277,6 +277,8 @@ public class T3Operation {
 
             t3.setNameId(t3ListingData.getId());
 
+            t3.setName(t3ListingData.getName());
+
             if (t3ListingData.getBannedAtUtc() != null) {
                 t3.setBannedAtUtc(new Date((long) t3ListingData.getBannedAtUtc()));
             }

@@ -71,7 +71,7 @@ public class DetailHelper {
         return null;
     }
 
-    public int getJob(DetailModel m,  boolean online) {
+    public int getJob(DetailModel m, @SuppressWarnings("unused") boolean online) {
 
         if (m != null) {
 

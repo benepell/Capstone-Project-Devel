@@ -77,7 +77,7 @@ public class RemoteWidgetService extends RemoteViewsService {
 
         @Override
         public void onDataSetChanged() {
-            WidgetUtil widgetUtil = new WidgetUtil(mContext,mDb);
+            WidgetUtil widgetUtil = new WidgetUtil(mContext, mDb);
 
 
             final long identityToken = Binder.clearCallingIdentity();
@@ -104,7 +104,7 @@ public class RemoteWidgetService extends RemoteViewsService {
 
         @Override
         public void onDestroy() {
-            //records = null;
+            //records = null; 
         }
 
         @Override
@@ -124,7 +124,7 @@ public class RemoteWidgetService extends RemoteViewsService {
             String category = record.getSubreddit();
             String author = record.getAuthor();
             String title = record.getTitle();
-            String numComments = String.valueOf( record.getNumComments());
+            String numComments = String.valueOf(record.getNumComments());
             String categoryPrefix = record.getSubredditNamePrefix();
             String strImageUrl = record.getPreviewImageSourceUrl();
             long createdUtc = record.getCreatedUtc();
@@ -201,4 +201,4 @@ public class RemoteWidgetService extends RemoteViewsService {
     }
 
 
-}
+} 

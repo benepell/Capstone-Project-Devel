@@ -88,7 +88,7 @@ public class WidgetService extends IntentService {
             );
 
         } else {
-            new WidgetUtil(context,mDb).updateData(Preference.getWidgetCategory(context));
+            new WidgetUtil(context, mDb).updateData(Preference.getWidgetCategory(context));
         }
 
 

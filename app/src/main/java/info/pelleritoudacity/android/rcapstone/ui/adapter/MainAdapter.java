@@ -335,6 +335,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
         }
     }
 
+    @SuppressWarnings("unused")
     public List<T3Entry> getEntry() {
         return mEntry;
     }
@@ -488,7 +489,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.SubRedditHolde
     public interface OnMainClick {
         void mainClick(int position, String category, String strId);
 
-        void selectorChange(int position);
+        @SuppressWarnings("EmptyMethod")
+        void selectorChange(@SuppressWarnings("unused") int position);
 
         void mediaPlayer(MediaPlayer mediaPlayer);
 

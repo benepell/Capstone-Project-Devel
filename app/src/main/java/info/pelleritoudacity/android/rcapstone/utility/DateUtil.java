@@ -28,13 +28,10 @@ package info.pelleritoudacity.android.rcapstone.utility;
 import android.content.Context;
 import android.text.format.DateUtils;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
 
 import info.pelleritoudacity.android.rcapstone.R;
 
@@ -42,7 +39,7 @@ import static info.pelleritoudacity.android.rcapstone.utility.Costant.DOT;
 
 public class DateUtil {
 
-    public static int getSecondsTimeStamp(String timestamp) {
+  /*  public static int getSecondsTimeStamp(String timestamp) {
 
         Date date;
         try {
@@ -68,7 +65,7 @@ public class DateUtil {
         return dateFormat.format(System.currentTimeMillis());
 
     }
-
+*/
     public static String getDiffTimeMinute(Context context, Long time) {
 
         if (time == null) return  context.getResources().getString(R.string.text_time_now);

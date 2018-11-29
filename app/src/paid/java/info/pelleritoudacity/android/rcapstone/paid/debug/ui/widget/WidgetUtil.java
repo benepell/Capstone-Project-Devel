@@ -21,7 +21,7 @@ public class WidgetUtil {
     private final Context mContext;
     private final AppDatabase mDb;
 
-    public WidgetUtil(Context context,AppDatabase db) {
+    public WidgetUtil(Context context, AppDatabase db) {
         mContext = context;
         mDb = db;
     }
@@ -39,7 +39,7 @@ public class WidgetUtil {
                 @Override
                 public void success(T3 response, int code) {
 
-                    T3Operation widgetData = new T3Operation(mContext, mDb,response);
+                    T3Operation widgetData = new T3Operation(mContext, mDb, response);
 
                     if (code == 200) {
 

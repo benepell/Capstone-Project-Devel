@@ -52,7 +52,7 @@ public class TitleDetailRecord {
 
         mRecord.setDomain(t3.getDomain());
 
-//        mRecord.setCreatedUtc((long) DateUtil.getSecondsTimeStamp(t3.getCreatedUtc()));
+        mRecord.setCreatedUtc(t3.getCreatedUtc());
 
         mRecord.setScore(t3.getScore());
 

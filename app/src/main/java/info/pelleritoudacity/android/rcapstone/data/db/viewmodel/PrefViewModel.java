@@ -12,11 +12,9 @@ public class PrefViewModel extends ViewModel {
 
     private final LiveData<List<PrefSubRedditEntry>> records;
     @SuppressWarnings("FieldCanBeLocal")
-    private final PrefSubRedditEntry mEntry;
 
     public PrefViewModel(AppDatabase db, PrefSubRedditEntry entry) {
-        records = db.prefSubRedditDao().loadAllRecords();
-        mEntry = entry;
+        records = db.prefSubRedditDao().loadRecordByPosition(entry.getPosition());
     }
 
     public LiveData<List<PrefSubRedditEntry>> getTask(){return records;}

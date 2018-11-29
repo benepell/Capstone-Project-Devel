@@ -106,7 +106,7 @@ public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.
                     holder.mImageButtonPreferStars, holder.mImageButtonShowComments, holder.mImageButtonOpenBrowser};
 
             if (!Utility.isTablet(mContext)) {
-                SelectorHelper selectorHelper = new SelectorHelper(this, mContext,mDb, holder.itemView);
+                SelectorHelper selectorHelper = new SelectorHelper(this, mContext, mDb, holder.itemView);
 
                 CardBottomModel cardBottomModel = new CardBottomModel();
                 cardBottomModel.setPosition(position);
@@ -144,12 +144,12 @@ public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.
 
     @Override
     public int getItemCount() {
-        return (getEntry()== null) ? 0 : 1;
+        return (getEntry() == null) ? 0 : 1;
     }
 
     @Override
     public void vote(int position, int score, boolean voteUp, int dir, String linkId) {
-        new DataUtils(mContext,mDb).updateVote(Costant.DB_TABLE_T3, score, voteUp, dir, linkId);
+        new DataUtils(mContext, mDb).updateVote(Costant.DB_TABLE_T3, score, voteUp, dir, linkId);
         mListener.selectorChange(position);
     }
 
@@ -159,9 +159,9 @@ public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.
             @Override
             public void success(SubmitData response, int code) {
                 dialog.dismiss();
-                if(response.isSuccess()){
+                if (response.isSuccess()) {
                     Snackbar.make(view, mContext.getString(R.string.text_comment_saved), Snackbar.LENGTH_LONG).show();
-                }else {
+                } else {
                     Snackbar.make(view, mContext.getString(R.string.text_error_comment), Snackbar.LENGTH_LONG).show();
                 }
             }
@@ -172,20 +172,20 @@ public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.
                 Snackbar.make(view, mContext.getString(R.string.text_error_comment), Snackbar.LENGTH_LONG).show();
 
             }
-        }, PermissionUtil.getToken(mContext),text,fullname ).postData();
+        }, PermissionUtil.getToken(mContext), text, fullname).postData();
     }
 
     @Override
     public void deleteComments(View view, Dialog dialog, String fullname) {
-        if(!TextUtils.isEmpty(fullname)) {
+        if (!TextUtils.isEmpty(fullname)) {
 
             new DelExecute(new DelExecute.OnRestCallBack() {
                 @Override
                 public void success(ResponseBody response, int code) {
-                    if(code==200){
+                    if (code == 200) {
                         Snackbar.make(view, mContext.getString(R.string.text_comment_deleted), Snackbar.LENGTH_LONG).show();
 
-                    }else {
+                    } else {
                         Snackbar.make(view, mContext.getString(R.string.text_error_comment), Snackbar.LENGTH_LONG).show();
 
                     }
@@ -200,7 +200,7 @@ public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.
                     Snackbar.make(view, mContext.getString(R.string.text_error_comment), Snackbar.LENGTH_LONG).show();
 
                 }
-            },PermissionUtil.getToken(mContext),fullname).delData();
+            }, PermissionUtil.getToken(mContext), fullname).delData();
 
         }
     }
@@ -273,11 +273,13 @@ public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.
 
     }
 
-
     public interface OnVoteChange {
-        void selectorChange(int position);
+        @SuppressWarnings("EmptyMethod")
+        void selectorChange(@SuppressWarnings("unused") int position);
+
         void snackMsg(int resource);
     }
+
     @SuppressWarnings("WeakerAccess")
     public List<T3Entry> getEntry() {
         return mEntry;

@@ -13,10 +13,14 @@ import java.util.List;
 
 import info.pelleritoudacity.android.rcapstone.data.db.entry.PrefSubRedditEntry;
 
+@SuppressWarnings("ALL")
 @Dao
 public interface PrefSubRedditDao {
     @Query("SELECT * FROM _pref_sub_reddit")
     LiveData<List<PrefSubRedditEntry>> loadAllRecords();
+
+    @Query("SELECT * FROM _pref_sub_reddit WHERE _position = :position ")
+    LiveData<List<PrefSubRedditEntry>> loadRecordByPosition(int position);
 
     @Query("SELECT * FROM _pref_sub_reddit WHERE id = :id")
     LiveData<PrefSubRedditEntry> loadRecordById(int id);
