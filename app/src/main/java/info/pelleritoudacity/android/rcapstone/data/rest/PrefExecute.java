@@ -19,7 +19,6 @@ public class PrefExecute {
     private final String mId;
     private static RedditAPI sApi;
 
-
     public PrefExecute(OnRestCallBack callback, String code, String id) {
 
         sApi = RetrofitClient.createService(Costant.REDDIT_OAUTH_URL, null);

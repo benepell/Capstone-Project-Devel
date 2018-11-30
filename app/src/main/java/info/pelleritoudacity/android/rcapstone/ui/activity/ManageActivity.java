@@ -279,13 +279,12 @@ public class ManageActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.manage_menu, menu);
-        MenuItem menuItemRestore = menu.findItem(R.id.menu_action_restore);
-        menuItemRestore.setIcon(
+        // todo crash .....
+        //        MenuItem menuItemRestore = menu.findItem(R.id.menu_action_restore);
+       /* menuItemRestore.setIcon(
                 new IconicsDrawable(getApplicationContext(), MaterialDesignIconic.Icon.gmi_undo)
                         .colorRes(R.color.white)
-                        .sizeDp(24)
-                        .respectFontBounds(true));
-
+                        .sizeDp(24));*/
         return true;
     }
 

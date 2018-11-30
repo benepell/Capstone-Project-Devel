@@ -81,7 +81,7 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
     private Context mContext;
     private List<PrefSubRedditEntry> mPrefSubRedditEntry;
 
-    public ManageAdapter( Context context,AppDatabase db, OnSubScriptionClick listener,
+    public ManageAdapter(Context context, AppDatabase db, OnSubScriptionClick listener,
                          OnStartDragListener dragStartListener) {
         mContext = context;
         mDb = db;
@@ -284,12 +284,10 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
 
         AppExecutors.getInstance().diskIO().execute(() -> mDb.prefSubRedditDao()
                 .updateRecordByManagePosition(finalToPosition, new Date(System.currentTimeMillis()), finalFromPosition));
+        // todo fix crash manage subscription menu
+            AppExecutors.getInstance().diskIO().execute(() -> mDb.prefSubRedditDao().updateRecordByDuplicatePosition(finalFromPosition, getPrefSubRedditEntry().get(0).getId()));
 
-        if (getPrefSubRedditEntry().get(0).getId() != 0) {
-            int finalFromPosition1 = fromPosition;
-            AppExecutors.getInstance().diskIO().execute(() -> mDb.prefSubRedditDao().updateRecordByDuplicatePosition(finalFromPosition1, getPrefSubRedditEntry().get(0).getId()));
 
-        }
     }
 
 
@@ -301,8 +299,6 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
         mPrefSubRedditEntry = entry;
         notifyDataSetChanged();
     }
-
-
 
 
     public class RedditHolder extends RecyclerView.ViewHolder
@@ -361,6 +357,7 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
         void onClickStar(int visible, String name);
 
         void onItemRemove(@SuppressWarnings("unused") int position, String description);
+
         void onItemMove(int toPosition);
     }
 

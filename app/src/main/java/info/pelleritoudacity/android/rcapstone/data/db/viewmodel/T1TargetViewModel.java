@@ -8,7 +8,6 @@ import java.util.List;
 import info.pelleritoudacity.android.rcapstone.data.db.AppDatabase;
 import info.pelleritoudacity.android.rcapstone.data.db.entry.T1Entry;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
-import timber.log.Timber;
 
 public class T1TargetViewModel extends ViewModel {
 
@@ -18,9 +17,7 @@ public class T1TargetViewModel extends ViewModel {
 
         switch (target) {
             case Costant.DETAIL_TARGET:
-                // todo query problem ....
                 records = db.t1Dao().loadDetailTarget(Costant.STR_PARENT_LINK + entry.getNameId(), Costant.NONE_DETAIL_MORE_REPLIES, entry.getOver18());
-                Timber.d("Benny detail_target detail query%s",Costant.STR_PARENT_LINK +Costant.STR_PARENT_LINK + entry.getNameId());
                 break;
 
             case Costant.MORE_DETAIL_TARGET:

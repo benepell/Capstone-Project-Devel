@@ -264,7 +264,7 @@ public class ManageFragment extends Fragment
         PrefViewModelFactory factory = new PrefViewModelFactory(mDb, entry);
         final PrefViewModel viewModel = ViewModelProviders.of(this, factory).get(PrefViewModel.class);
         viewModel.getTask().observe(this, prefSubRedditEntries -> {
-            if ((prefSubRedditEntries != null) && (mAdapter != null)) {
+            if ((prefSubRedditEntries != null)  && (mAdapter != null)) {
                 mAdapter.setPrefSubRedditEntry(prefSubRedditEntries);
             }
         });

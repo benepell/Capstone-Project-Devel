@@ -69,6 +69,8 @@ public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.
     @Override
     public void onBindViewHolder(@NonNull SubRedditSelectedHolder holder, int position) {
 
+        if ((getEntry() == null) || (getEntry().size() == 0)) return;
+
         T3Entry t = getEntry().get(position);
 
         TitleDetailRecord recordList = new TitleDetailRecord(t);
@@ -79,7 +81,6 @@ public class TitleDetailAdapter extends RecyclerView.Adapter<TitleDetailAdapter.
         }
 
         if (record != null) {
-
 
             holder.mTextViewTitle.setText(record.getTitle());
             holder.mTextViewTitle.setClickable(Preference.isGeneralLinks(mContext));

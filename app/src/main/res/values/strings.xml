@@ -122,7 +122,7 @@
     <string name="text_comments_subreddit">comments</string>
     <string name="text_icon_description">icon link description</string>
     <string name="manage_stars_description">enable subreddit link</string>
-    <string name="title_menu_restore">restore</string>
+    <string name="title_menu_restore">undo</string>
 
     <string name="image_description_not_available">Description Not Available</string>
 
