@@ -8,6 +8,7 @@ import android.arch.persistence.room.TypeConverters;
 
 import info.pelleritoudacity.android.rcapstone.data.db.util.DateConverter;
 
+@SuppressWarnings("unused")
 @Entity(tableName = "_t1More")
 public class T1MoreEntry {
 
@@ -47,6 +48,7 @@ public class T1MoreEntry {
         this.id = id;
     }
 
+    @SuppressWarnings("unused")
     public long getTimeLastModified() {
         return timeLastModified;
     }
@@ -55,6 +57,7 @@ public class T1MoreEntry {
         this.timeLastModified = timeLastModified;
     }
 
+    @SuppressWarnings("unused")
     public int getMoreCount() {
         return moreCount;
     }
@@ -63,6 +66,7 @@ public class T1MoreEntry {
         this.moreCount = moreCount;
     }
 
+    @SuppressWarnings("unused")
     public String getMoreName() {
         return moreName;
     }
@@ -71,6 +75,7 @@ public class T1MoreEntry {
         this.moreName = moreName;
     }
 
+    @SuppressWarnings("unused")
     public String getMoreId() {
         return moreId;
     }
@@ -79,6 +84,7 @@ public class T1MoreEntry {
         this.moreId = moreId;
     }
 
+    @SuppressWarnings("unused")
     public String getMoresParentId() {
         return moresParentId;
     }
@@ -87,6 +93,7 @@ public class T1MoreEntry {
         this.moresParentId = moresParentId;
     }
 
+    @SuppressWarnings("unused")
     public int getMoreDepth() {
         return moreDepth;
     }
@@ -95,6 +102,7 @@ public class T1MoreEntry {
         this.moreDepth = moreDepth;
     }
 
+    @SuppressWarnings("unused")
     public String getMoreChildren() {
         return moreChildren;
     }

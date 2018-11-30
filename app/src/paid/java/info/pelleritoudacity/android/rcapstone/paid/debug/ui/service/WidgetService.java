@@ -43,8 +43,6 @@ import info.pelleritoudacity.android.rcapstone.utility.Preference;
 
 public class WidgetService extends IntentService {
 
-    private static AppDatabase mDb;
-
     public WidgetService() {
         super("WidgetService");
     }
@@ -79,7 +77,7 @@ public class WidgetService extends IntentService {
 
     private static void update(Context context) {
 
-        mDb = AppDatabase.getInstance(context);
+        AppDatabase db = AppDatabase.getInstance(context);
 
         if (TextUtils.isEmpty(Preference.getWidgetCategory(context))) {
             context.startActivity(new Intent(context, OptionWidgetActivity.class)
@@ -88,7 +86,7 @@ public class WidgetService extends IntentService {
             );
 
         } else {
-            new WidgetUtil(context, mDb).updateData(Preference.getWidgetCategory(context));
+            new WidgetUtil(context, db).updateData(Preference.getWidgetCategory(context));
         }
 
 
