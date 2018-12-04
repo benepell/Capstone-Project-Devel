@@ -69,6 +69,7 @@ import info.pelleritoudacity.android.rcapstone.utility.ImageUtil;
 import info.pelleritoudacity.android.rcapstone.utility.MapUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
+import timber.log.Timber;
 
 @SuppressWarnings("WeakerAccess")
 public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHolder> implements ItemTouchHelperAdapter {
@@ -116,10 +117,9 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
         PrefSubRedditEntry r = mPrefSubRedditEntry.get(position);
 
         String name = r.getName();
+        Timber.d("Benny name%s",name);
 
         mArrayList.add(position, name);
-        mArrayList = MapUtil.removeArrayListDuplicate(mArrayList);
-
         int colorImageHandle = Color.BLACK;
 
         if (Preference.isNightMode(mContext)) {
@@ -224,7 +224,7 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
 
     @Override
     public int getItemCount() {
-        return (mPrefSubRedditEntry == null) ? 0 : mPrefSubRedditEntry.size();
+        return (mPrefSubRedditEntry == null) ? 0 :  mPrefSubRedditEntry.size();
     }
 
     @Override
@@ -233,7 +233,6 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
         moveManage(fromPosition, toPosition);
         Collections.swap(mArrayList, fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
-
 
         String string = TextUtil.arrayToString(mArrayList);
 
@@ -284,8 +283,7 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
 
         AppExecutors.getInstance().diskIO().execute(() -> mDb.prefSubRedditDao()
                 .updateRecordByManagePosition(finalToPosition, new Date(System.currentTimeMillis()), finalFromPosition));
-        // todo fix crash manage subscription menu
-            AppExecutors.getInstance().diskIO().execute(() -> mDb.prefSubRedditDao().updateRecordByDuplicatePosition(finalFromPosition, getPrefSubRedditEntry().get(0).getId()));
+        AppExecutors.getInstance().diskIO().execute(() -> mDb.prefSubRedditDao().updateRecordByDuplicatePosition(finalFromPosition, getPrefSubRedditEntry().get(0).getId()));
 
 
     }
@@ -360,6 +358,5 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
 
         void onItemMove(int toPosition);
     }
-
 
 }

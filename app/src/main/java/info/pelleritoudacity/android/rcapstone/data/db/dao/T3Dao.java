@@ -30,6 +30,7 @@ public interface T3Dao {
     @Query("SELECT * FROM _t3 WHERE (_name_id LIKE :nameId AND _over18 <= :over18 )")
     LiveData<List<T3Entry>> loadTitleDetail(String nameId,int over18);
 
+    @SuppressWarnings("unused")
     @Query("SELECT * FROM _t3 WHERE _target = :target AND _over18 <= :over18 ")
     List<T3Entry> loadMainWidget(String target, int over18);
 

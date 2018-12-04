@@ -16,30 +16,27 @@ import info.pelleritoudacity.android.rcapstone.data.db.entry.PrefSubRedditEntry;
 @SuppressWarnings("ALL")
 @Dao
 public interface PrefSubRedditDao {
+
     @Query("SELECT * FROM _pref_sub_reddit")
     LiveData<List<PrefSubRedditEntry>> loadAllRecords();
 
-    @Query("SELECT * FROM _pref_sub_reddit WHERE _position = :position ")
-    LiveData<List<PrefSubRedditEntry>> loadRecordByPosition(int position);
+    @Query("SELECT * FROM _pref_sub_reddit WHERE _removed = :removed ")
+    LiveData<List<PrefSubRedditEntry>> loadRecordByRemoved(int removed);
 
     @Query("SELECT * FROM _pref_sub_reddit WHERE id = :id")
     LiveData<PrefSubRedditEntry> loadRecordById(int id);
 
-//    SELECT DISTINCT _name,_image,_visible,_position,_time_last_modified  FROM _pref_sub_reddit WHERE (_removed = :removed AND _visible = :visible)")
     @Query(" SELECT *  FROM _pref_sub_reddit WHERE (_removed = :removed AND _visible = :visible)")
     LiveData<List<PrefSubRedditEntry>> loadRecordByStar(int removed, int visible);
 
     @Query(" SELECT * FROM _pref_sub_reddit WHERE (_removed = :removed AND _visible = :visible)")
     LiveData<List<PrefSubRedditEntry>> loadRecordByCategory(int removed, int visible);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertRecord(PrefSubRedditEntry entry);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateRecord(PrefSubRedditEntry entry);
-
-    @Query("UPDATE _pref_sub_reddit set _name = :name WHERE id = :id")
-    int updateRecordById(String name, int id);
 
     @Query("UPDATE _pref_sub_reddit set _removed = :removed, _position = :position, _visible = :visible WHERE _backup_position = :backupPosition")
     int updateRecordByBackupPosition(int removed, int position, int visible, int backupPosition);

@@ -14,7 +14,7 @@ public class PrefViewModel extends ViewModel {
     @SuppressWarnings("FieldCanBeLocal")
 
     public PrefViewModel(AppDatabase db, PrefSubRedditEntry entry) {
-        records = db.prefSubRedditDao().loadRecordByPosition(entry.getPosition());
+        records = db.prefSubRedditDao().loadRecordByRemoved(entry.getRemoved());
     }
 
     public LiveData<List<PrefSubRedditEntry>> getTask(){return records;}

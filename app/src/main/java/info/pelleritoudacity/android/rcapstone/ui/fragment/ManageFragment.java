@@ -26,6 +26,7 @@
 
 package info.pelleritoudacity.android.rcapstone.ui.fragment;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
@@ -43,6 +44,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -51,6 +54,7 @@ import info.pelleritoudacity.android.rcapstone.data.db.AppDatabase;
 import info.pelleritoudacity.android.rcapstone.data.db.AppExecutors;
 import info.pelleritoudacity.android.rcapstone.data.db.entry.PrefSubRedditEntry;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
+import info.pelleritoudacity.android.rcapstone.data.db.viewmodel.MainViewModel;
 import info.pelleritoudacity.android.rcapstone.data.db.viewmodel.PrefStarViewModelFactory;
 import info.pelleritoudacity.android.rcapstone.data.db.viewmodel.PrefStarsViewModel;
 import info.pelleritoudacity.android.rcapstone.data.db.viewmodel.PrefViewModel;
@@ -260,7 +264,7 @@ public class ManageFragment extends Fragment
     private void setupViewModel() {
 
         PrefSubRedditEntry entry = new PrefSubRedditEntry();
-        entry.setPosition(mToPosition);
+        entry.setRemoved(0);
         PrefViewModelFactory factory = new PrefViewModelFactory(mDb, entry);
         final PrefViewModel viewModel = ViewModelProviders.of(this, factory).get(PrefViewModel.class);
         viewModel.getTask().observe(this, prefSubRedditEntries -> {
