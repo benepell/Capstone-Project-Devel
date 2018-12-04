@@ -81,6 +81,7 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
     private ArrayList<String> mArrayList;
     private Context mContext;
     private List<PrefSubRedditEntry> mPrefSubRedditEntry;
+    private boolean isMoveManage;
 
     public ManageAdapter(Context context, AppDatabase db, OnSubScriptionClick listener,
                          OnStartDragListener dragStartListener) {
@@ -223,7 +224,7 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
 
     @Override
     public int getItemCount() {
-        return (mPrefSubRedditEntry == null) ? 0 :  mPrefSubRedditEntry.size();
+        return (mPrefSubRedditEntry == null) ? 0 : mPrefSubRedditEntry.size();
     }
 
     @Override
@@ -279,24 +280,25 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
 
         int finalFromPosition = fromPosition;
         int finalToPosition = toPosition;
-
+        isMoveManage = true;
         AppExecutors.getInstance().diskIO().execute(() -> mDb.prefSubRedditDao()
                 .updateRecordByManagePosition(finalToPosition, new Date(System.currentTimeMillis()), finalFromPosition));
-        AppExecutors.getInstance().diskIO().execute(() -> mDb.prefSubRedditDao().updateRecordByDuplicatePosition(finalFromPosition, getPrefSubRedditEntry().get(0).getId()));
+
+        AppExecutors.getInstance().diskIO().execute(() -> mDb.prefSubRedditDao().updateRecordByDuplicatePosition(finalFromPosition, mPrefSubRedditEntry.get(0).getId()));
 
 
-    }
-
-
-    public List<PrefSubRedditEntry> getPrefSubRedditEntry() {
-        return mPrefSubRedditEntry;
     }
 
     public void setPrefSubRedditEntry(List<PrefSubRedditEntry> entry) {
         mPrefSubRedditEntry = entry;
-        notifyDataSetChanged();
+        updateUI();
     }
 
+    private void updateUI() {
+        if (!isMoveManage) {
+            notifyDataSetChanged();
+        }
+    }
 
     public class RedditHolder extends RecyclerView.ViewHolder
             implements ItemTouchHelperViewHolder {
