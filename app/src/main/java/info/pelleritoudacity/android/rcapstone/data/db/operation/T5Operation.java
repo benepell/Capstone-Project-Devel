@@ -280,6 +280,7 @@ public class T5Operation {
     }
 
     public void insertDefaultSubreddit() {
+
         PrefSubRedditEntry p;
 
         String[] arrCategory = Costant.DEFAULT_SUBREDDIT_CATEGORY.split(Costant.STRING_SEPARATOR);

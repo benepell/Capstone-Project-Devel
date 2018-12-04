@@ -55,7 +55,7 @@ public class PrefSubRedditEntry {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NonNull String name) {
         this.name = name;
     }
 

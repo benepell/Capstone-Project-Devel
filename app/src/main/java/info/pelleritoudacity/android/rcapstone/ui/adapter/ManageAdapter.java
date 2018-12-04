@@ -117,7 +117,6 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
         PrefSubRedditEntry r = mPrefSubRedditEntry.get(position);
 
         String name = r.getName();
-        Timber.d("Benny name%s",name);
 
         mArrayList.add(position, name);
         int colorImageHandle = Color.BLACK;

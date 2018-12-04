@@ -26,7 +26,6 @@
 
 package info.pelleritoudacity.android.rcapstone.ui.fragment;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
@@ -44,8 +43,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -54,7 +51,6 @@ import info.pelleritoudacity.android.rcapstone.data.db.AppDatabase;
 import info.pelleritoudacity.android.rcapstone.data.db.AppExecutors;
 import info.pelleritoudacity.android.rcapstone.data.db.entry.PrefSubRedditEntry;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DataUtils;
-import info.pelleritoudacity.android.rcapstone.data.db.viewmodel.MainViewModel;
 import info.pelleritoudacity.android.rcapstone.data.db.viewmodel.PrefStarViewModelFactory;
 import info.pelleritoudacity.android.rcapstone.data.db.viewmodel.PrefStarsViewModel;
 import info.pelleritoudacity.android.rcapstone.data.db.viewmodel.PrefViewModel;
@@ -81,7 +77,6 @@ public class ManageFragment extends Fragment
     private ItemTouchHelper mItemTouchHelper;
     private Unbinder unbinder;
     private boolean isRestore;
-    private int mToPosition;
 
 
     public ManageFragment() {
@@ -176,7 +171,7 @@ public class ManageFragment extends Fragment
 
     @Override
     public void onItemMove(int toPosition) {
-        mToPosition = toPosition;
+
     }
 
 
@@ -199,10 +194,9 @@ public class ManageFragment extends Fragment
             dialog.setCancelable(true);
 
             dialog.setPositiveButton(R.string.text_positive_restore_confirm, (dialog1, which) -> {
-                if (new DataUtils(context, mDb).updateManageRestore()) {
-                    startActivity(new Intent(context, ManageActivity.class)
-                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                }
+                Preference.setSubredditKey(context, "");
+                startActivity(new Intent(context, ManageActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             });
 
             dialog.setNegativeButton(R.string.text_restore_confirm_no_reset, (dlg, which) -> dlg.cancel());
@@ -268,7 +262,7 @@ public class ManageFragment extends Fragment
         PrefViewModelFactory factory = new PrefViewModelFactory(mDb, entry);
         final PrefViewModel viewModel = ViewModelProviders.of(this, factory).get(PrefViewModel.class);
         viewModel.getTask().observe(this, prefSubRedditEntries -> {
-            if ((prefSubRedditEntries != null)  && (mAdapter != null)) {
+            if ((prefSubRedditEntries != null) && (mAdapter != null)) {
                 mAdapter.setPrefSubRedditEntry(prefSubRedditEntries);
             }
         });

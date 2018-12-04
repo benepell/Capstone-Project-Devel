@@ -149,28 +149,4 @@ public class DataUtils {
         return r;
     }
 
-
-    public boolean updateManageRestore() {
-        final int[] count = new int[1];
-        int i = 1;
-        String where;
-        String[] selectionArgs = new String[1];
-        do {
-
-            int finalI = i;
-            AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                @Override
-                public void run() {
-                    count[0] = mDb.prefSubRedditDao()
-                            .updateRecordByBackupPosition(Costant.RESTORE_SUBREDDIT_ITEMS, finalI, Costant.DEFAULT_SUBREDDIT_VISIBLE, finalI);
-                }
-            });
-            i++;
-
-        } while (count[0] > 0);
-
-        return true;
-    }
-
-
 }

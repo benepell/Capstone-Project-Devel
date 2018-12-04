@@ -170,7 +170,9 @@ public class ManageActivity extends AppCompatActivity
 
         } else if (!PermissionUtil.isLogged(context)) {
             T5Operation util = new T5Operation(getApplicationContext(), mDb, null);
-            util.insertDefaultSubreddit();
+            if (TextUtils.isEmpty(Preference.getSubredditKey(getApplicationContext()))) {
+                util.insertDefaultSubreddit();
+            }
             startFragment(false);
 
         }
@@ -279,12 +281,12 @@ public class ManageActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.manage_menu, menu);
-        // todo crash .....
-        //        MenuItem menuItemRestore = menu.findItem(R.id.menu_action_restore);
-       /* menuItemRestore.setIcon(
+        MenuItem menuItemRestore = menu.findItem(R.id.menu_action_restore);
+        menuItemRestore.setIcon(
                 new IconicsDrawable(getApplicationContext(), MaterialDesignIconic.Icon.gmi_undo)
                         .colorRes(R.color.white)
-                        .sizeDp(24));*/
+                        .sizeDp(24)
+                        .respectFontBounds(true));
         return true;
     }
 

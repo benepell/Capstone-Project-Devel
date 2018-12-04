@@ -38,9 +38,6 @@ public interface PrefSubRedditDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateRecord(PrefSubRedditEntry entry);
 
-    @Query("UPDATE _pref_sub_reddit set _removed = :removed, _position = :position, _visible = :visible WHERE _backup_position = :backupPosition")
-    int updateRecordByBackupPosition(int removed, int position, int visible, int backupPosition);
-
     @Query("UPDATE _pref_sub_reddit set _visible = :visible WHERE _name = :category")
     int updateRecordByVisibleStar(int visible, String category);
 
@@ -52,6 +49,9 @@ public interface PrefSubRedditDao {
 
     @Query("UPDATE _pref_sub_reddit set _position = :position WHERE id = :id")
     int updateRecordByDuplicatePosition(int position, int id);
+
+    @Query("UPDATE _pref_sub_reddit set _removed = :removed WHERE _name Like :name")
+    int updateRecordByRemoved(int removed, String name);
 
     @Delete
     void deleteRecord(PrefSubRedditEntry entry);
