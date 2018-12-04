@@ -1,13 +1,13 @@
 package info.pelleritoudacity.android.rcapstone.ui.helper;
 
 
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -29,6 +29,7 @@ import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic
 
 import java.nio.charset.StandardCharsets;
 
+import androidx.annotation.Nullable;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
 import info.pelleritoudacity.android.rcapstone.ui.activity.YoutubeActivity;

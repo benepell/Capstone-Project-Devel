@@ -191,9 +191,15 @@ public class T3Operation {
 
             t3.setMediaOembedHeight(o.getHeight());
 
-            t3.setMediaOembedThumbnailWidth(o.getThumbnailWidth());
+            if(o.getThumbnailWidth()!=null){
+                t3.setMediaOembedThumbnailWidth(o.getThumbnailWidth());
 
-            t3.setMediaOembedThumbnailHeight(o.getThumbnailHeight());
+            }
+
+            if(o.getThumbnailHeight()!=null) {
+                t3.setMediaOembedThumbnailHeight(o.getThumbnailHeight());
+
+            }
 
             t3.setMediaOembedThumbnailUrl(o.getThumbnailUrl());
 

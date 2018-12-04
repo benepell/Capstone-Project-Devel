@@ -223,7 +223,6 @@ public interface Costant {
 
     int DEFAULT_SUBREDDIT_ITEMS = 3;
     int REMOVED_SUBREDDIT_ITEMS = 1;
-    int RESTORE_SUBREDDIT_ITEMS = 0;
 
     int DEFAULT_SUBREDDIT_VISIBLE = 1;
     boolean DEFAULT_GENERAL_SETTINGS = true;

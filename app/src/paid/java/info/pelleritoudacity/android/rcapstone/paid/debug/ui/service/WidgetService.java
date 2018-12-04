@@ -30,11 +30,11 @@ package info.pelleritoudacity.android.rcapstone.paid.debug.ui.service;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import java.util.Objects;
 
+import androidx.annotation.Nullable;
 import info.pelleritoudacity.android.rcapstone.data.db.AppDatabase;
 import info.pelleritoudacity.android.rcapstone.paid.debug.ui.activity.OptionWidgetActivity;
 import info.pelleritoudacity.android.rcapstone.paid.debug.ui.widget.WidgetUtil;

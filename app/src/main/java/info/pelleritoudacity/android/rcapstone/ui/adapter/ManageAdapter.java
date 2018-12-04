@@ -31,9 +31,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -55,6 +52,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.R;
@@ -69,7 +69,6 @@ import info.pelleritoudacity.android.rcapstone.utility.ImageUtil;
 import info.pelleritoudacity.android.rcapstone.utility.MapUtil;
 import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
-import timber.log.Timber;
 
 @SuppressWarnings("WeakerAccess")
 public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHolder> implements ItemTouchHelperAdapter {
@@ -357,7 +356,8 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.RedditHold
 
         void onItemRemove(@SuppressWarnings("unused") int position, String description);
 
-        void onItemMove(int toPosition);
+        @SuppressWarnings("EmptyMethod")
+        void onItemMove(@SuppressWarnings("unused") int toPosition);
     }
 
 }

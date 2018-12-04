@@ -1,10 +1,10 @@
 package info.pelleritoudacity.android.rcapstone.data.db.viewmodel;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.ViewModel;
 
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
 import info.pelleritoudacity.android.rcapstone.data.db.AppDatabase;
 import info.pelleritoudacity.android.rcapstone.data.db.entry.T1Entry;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;

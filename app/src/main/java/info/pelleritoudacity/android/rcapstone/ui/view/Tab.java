@@ -27,9 +27,10 @@
 package info.pelleritoudacity.android.rcapstone.ui.view;
 
 import android.content.Context;
-import android.support.design.widget.TabLayout;
 import android.text.TextUtils;
 import android.view.ViewGroup;
+
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -77,7 +78,7 @@ public class Tab implements TabLayout.OnTabSelectedListener {
     public void initTab() {
         if (mTabLayout != null) {
             createTab();
-            mTabLayout.setTabGravity(android.support.design.widget.TabLayout.GRAVITY_FILL);
+            mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
             mTabLayout.addOnTabSelectedListener(this);
         }
 

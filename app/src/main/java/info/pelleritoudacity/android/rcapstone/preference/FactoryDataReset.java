@@ -29,13 +29,13 @@ package info.pelleritoudacity.android.rcapstone.preference;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.preference.DialogPreference;
 import android.util.AttributeSet;
+
 
 import com.bumptech.glide.Glide;
 
-
+import androidx.appcompat.app.AlertDialog;
+import androidx.preference.DialogPreference;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.data.db.AppDatabase;
 import info.pelleritoudacity.android.rcapstone.data.db.AppExecutors;

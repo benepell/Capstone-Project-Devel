@@ -1,24 +1,24 @@
-<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <SwitchPreferenceCompat
+    <androidx.preference.SwitchPreferenceCompat
         android:defaultValue="false"
         android:key="@string/pref_night_mode"
         android:summary="@string/summary_night_mode"
         android:title="@string/title_night_mode" />
 
-    <SwitchPreferenceCompat
+    <androidx.preference.SwitchPreferenceCompat
         android:defaultValue="true"
         android:key="@string/pref_adult_filter"
         android:summary="@string/summary_adult_filter"
         android:title="@string/title_adult_filter" />
 
-    <SwitchPreferenceCompat
+    <androidx.preference.SwitchPreferenceCompat
         android:defaultValue="true"
         android:key="@string/pref_tab_history"
         android:summary="@string/summary_tab_history"
         android:title="@string/title_tab_history" />
 
-    <ListPreference
+    <androidx.preference.ListPreference
         android:defaultValue="900"
         android:entries="@array/pref_sync_frequency_titles"
         android:entryValues="@array/pref_sync_frequency_values"
@@ -27,7 +27,7 @@
         android:positiveButtonText="@null"
         android:title="@string/pref_title_sync_frequency" />
 
-    <ListPreference
+    <androidx.preference.ListPreference
         android:defaultValue="@string/default_items_page_titles"
         android:entries="@array/pref_items_page_titles"
         android:entryValues="@array/pref_items_page_values"
@@ -36,7 +36,7 @@
         android:positiveButtonText="@null"
         android:title="@string/pref_title_item_page" />
 
-    <ListPreference
+    <androidx.preference.ListPreference
         android:defaultValue="@string/default_depth_page_titles"
         android:entries="@array/pref_depth_page_titles"
         android:entryValues="@array/pref_depth_page_values"
@@ -49,7 +49,7 @@
         android:summary="@string/summary_clear_data"
         android:title="@string/title_clear_data" />
 
-    <PreferenceCategory android:key="pref_cat_1">
+    <androidx.preference.PreferenceCategory android:key="pref_cat_1">
 
         <Preference
             android:key="@string/pref_app_version"
@@ -67,5 +67,5 @@
             android:key="pref_contact"
             android:title="Contact Us" />
 
-    </PreferenceCategory>
-</android.support.v7.preference.PreferenceScreen>
+    </androidx.preference.PreferenceCategory>
+</androidx.preference.PreferenceScreen>

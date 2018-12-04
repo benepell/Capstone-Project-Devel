@@ -1,11 +1,11 @@
 package info.pelleritoudacity.android.rcapstone.data.db;
 
-import android.arch.persistence.room.Database;
-import android.arch.persistence.room.Room;
-import android.arch.persistence.room.RoomDatabase;
-import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
+import androidx.room.Database;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 import info.pelleritoudacity.android.rcapstone.BuildConfig;
 import info.pelleritoudacity.android.rcapstone.data.db.dao.DataDao;
 import info.pelleritoudacity.android.rcapstone.data.db.dao.PrefSubRedditDao;

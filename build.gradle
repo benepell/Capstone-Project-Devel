@@ -24,10 +24,12 @@ allprojects {
     ext {
         minSdkVersion = 21
         sdkVersion = 28
-        androidSupportVersion = "$sdkVersion.0.0"
+        androidCompatVersion = "1.0.2"
+        androidSupportVersion = "1.0.0"
+        googleDesignVersion ="1.0.0"
 
         timberVersion = "4.7.1"
-        butterKnifeVersion = "9.0.0-rc1"
+        butterKnifeVersion = "9.0.0-rc2"
 
         apacheCommonsVersion = "2.6"
 
@@ -41,8 +43,8 @@ allprojects {
         retrofitVersion = "2.4.0"
         okHttpVersion = "3.11.0"
 
-        roomVersion = "1.1.1"
-        archLifecycleVersion = "1.1.1"
+        roomVersion = "2.1.0-alpha02"
+        archLifecycleVersion = "2.0.0"
 
         firebaseJobDispVersion = "0.8.5"
         firebaseCoreVersion = "16.0.5"
@@ -51,12 +53,12 @@ allprojects {
         crashFabricToolsGradle = "1.26.1"
         crashAnalyticsVersion = "2.9.6"
 
-        mikepenzIconicsVersion = "3.0.4@aar"
-        mikepenzMaterialDesignIconicsVersion = "2.2.0.4@aar"
+        mikepenzIconicsVersion = "3.1.0"
+        mikepenzMaterialDesignIconicsVersion = "2.2.0.5@aar"
 
         testJunitVersion = "4.12"
-        espressoVersion = "3.0.2"
-        testRulesVersion = "1.0.1"
+        espressoVersion = "3.1.0"
+        testRulesVersion = "1.1.0"
 
     }
 

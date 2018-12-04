@@ -1,22 +1,23 @@
 package info.pelleritoudacity.android.rcapstone.ui.activity;
 
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerSupportFragment;
+import com.google.android.youtube.player.YouTubePlayerFragment;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 
+
 import java.util.Objects;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.pelleritoudacity.android.rcapstone.BuildConfig;
@@ -31,7 +32,7 @@ public class YoutubeActivity extends AppCompatActivity implements YouTubePlayer.
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.youtube_toolbar)
-    public android.support.v7.widget.Toolbar mToolbar;
+    public Toolbar mToolbar;
 
     private static final int RECOVERY_DIALOG_REQUEST = 1;
 
@@ -59,7 +60,8 @@ public class YoutubeActivity extends AppCompatActivity implements YouTubePlayer.
             mYoutubeTitle = intent.getStringExtra(Costant.EXTRA_YOUTUBE_TITLE);
         }
 
-        YouTubePlayerSupportFragment playerFragment = (YouTubePlayerSupportFragment) getSupportFragmentManager().findFragmentById(R.id.youtube_fragment);
+        //todo youtube YoutubePlayerSupportFragment androidx problem, use deprecated .....
+        YouTubePlayerFragment playerFragment = (YouTubePlayerFragment) getFragmentManager().findFragmentById(R.id.youtube_fragment);
 
         if (!TextUtils.isEmpty(Costant.YOUTUBE_DEVELOPER_KEY)) {
             Objects.requireNonNull(playerFragment).initialize(Costant.YOUTUBE_DEVELOPER_KEY, this);
@@ -100,14 +102,14 @@ public class YoutubeActivity extends AppCompatActivity implements YouTubePlayer.
     }
 
     @Override
-    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult errorReason) {
-
-        if (errorReason.isUserRecoverableError()) {
-            errorReason.getErrorDialog(this, RECOVERY_DIALOG_REQUEST).show();
+    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+        if (youTubeInitializationResult.isUserRecoverableError()) {
+            youTubeInitializationResult.getErrorDialog(this, RECOVERY_DIALOG_REQUEST).show();
         } else {
-            String errorMessage = String.format(getString(R.string.error_player), errorReason.toString());
+            String errorMessage = String.format(getString(R.string.error_player), youTubeInitializationResult.toString());
             Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
         }
     }
+
 
 }

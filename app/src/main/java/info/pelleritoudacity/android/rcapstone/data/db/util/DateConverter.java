@@ -1,8 +1,9 @@
 package info.pelleritoudacity.android.rcapstone.data.db.util;
 
-import android.arch.persistence.room.TypeConverter;
 
 import java.util.Date;
+
+import androidx.room.TypeConverter;
 
 public class DateConverter {
     @TypeConverter

@@ -26,10 +26,11 @@
 
 package info.pelleritoudacity.android.rcapstone.data.model.reddit;
 
-import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import androidx.annotation.NonNull;
 
 public class RedditToken {
  

@@ -2,7 +2,6 @@ package info.pelleritoudacity.android.rcapstone.ui.helper;
 
 import android.content.Context;
 import android.os.Handler;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import com.google.android.exoplayer2.util.Util;
@@ -10,6 +9,7 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.material.snackbar.Snackbar;
 
 import info.pelleritoudacity.android.rcapstone.BuildConfig;
 import info.pelleritoudacity.android.rcapstone.R;

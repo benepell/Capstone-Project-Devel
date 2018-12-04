@@ -2,12 +2,12 @@ package info.pelleritoudacity.android.rcapstone.data.rest;
 
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import java.util.HashMap;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.T1;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
 import info.pelleritoudacity.android.rcapstone.data.rest.util.RetrofitClient;

@@ -1,12 +1,12 @@
 package info.pelleritoudacity.android.rcapstone.data.db.entry;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
-import android.arch.persistence.room.TypeConverters;
-import android.support.annotation.NonNull;
 
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DateConverter;
 
 @Entity(tableName = "_pref_sub_reddit")
@@ -15,10 +15,10 @@ public class PrefSubRedditEntry {
     @ColumnInfo(name = "id")
     private int id;
 
-    @NonNull
     @PrimaryKey
+    @NonNull
     @ColumnInfo(name = "_name")
-    private String name;
+    private String name = "";
 
     @ColumnInfo(name = "_image")
     private String image;
@@ -51,6 +51,7 @@ public class PrefSubRedditEntry {
     }
 
 
+    @NonNull
     public String getName() {
         return name;
     }

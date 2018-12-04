@@ -1,11 +1,11 @@
 package info.pelleritoudacity.android.rcapstone.data.rest;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 
 import java.util.HashMap;
 
+import androidx.annotation.NonNull;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.More;
 import info.pelleritoudacity.android.rcapstone.data.model.ui.DetailModel;
 import info.pelleritoudacity.android.rcapstone.data.rest.util.RetrofitClient;

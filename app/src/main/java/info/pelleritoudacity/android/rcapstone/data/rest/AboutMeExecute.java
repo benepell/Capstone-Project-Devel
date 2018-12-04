@@ -26,8 +26,8 @@
 
 package info.pelleritoudacity.android.rcapstone.data.rest;
 
-import android.support.annotation.NonNull;
 
+import androidx.annotation.NonNull;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.RedditAboutMe;
 import info.pelleritoudacity.android.rcapstone.data.rest.util.RetrofitClient;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;

@@ -2,7 +2,6 @@ package info.pelleritoudacity.android.rcapstone.paid.debug.ui.activity;
 
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -10,6 +9,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import androidx.appcompat.app.AppCompatActivity;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.paid.debug.ui.service.WidgetService;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;

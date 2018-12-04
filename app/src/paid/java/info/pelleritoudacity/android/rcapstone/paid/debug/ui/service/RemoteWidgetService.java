@@ -51,6 +51,7 @@ import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import timber.log.Timber;
 
+
 public class RemoteWidgetService extends RemoteViewsService {
 
     private AppDatabase mDb;

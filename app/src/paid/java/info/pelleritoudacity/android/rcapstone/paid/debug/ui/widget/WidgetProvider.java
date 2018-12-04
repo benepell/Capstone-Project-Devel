@@ -34,13 +34,13 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.RemoteViews;
 
 import java.util.Objects;
 
+import androidx.core.app.TaskStackBuilder;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.paid.debug.ui.activity.OptionWidgetActivity;
 import info.pelleritoudacity.android.rcapstone.paid.debug.ui.service.RemoteWidgetService;

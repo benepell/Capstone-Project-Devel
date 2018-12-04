@@ -27,13 +27,13 @@
 package info.pelleritoudacity.android.rcapstone.data.rest;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Base64;
 
 import java.util.HashMap;
 import java.util.Objects;
 
+import androidx.annotation.NonNull;
 import info.pelleritoudacity.android.rcapstone.data.model.reddit.RedditToken;
 import info.pelleritoudacity.android.rcapstone.data.rest.util.RetrofitClient;
 import info.pelleritoudacity.android.rcapstone.service.RedditAPI;

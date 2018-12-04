@@ -1,11 +1,12 @@
 package info.pelleritoudacity.android.rcapstone.data.db.viewmodel;
 
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
-import android.support.annotation.NonNull;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import info.pelleritoudacity.android.rcapstone.data.db.AppDatabase;
 import info.pelleritoudacity.android.rcapstone.data.db.entry.T3Entry;
+
 
 public class T3TitleDetailViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     private final AppDatabase mDb;

@@ -27,7 +27,6 @@
 package info.pelleritoudacity.android.rcapstone.service;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import com.firebase.jobdispatcher.Constraint;
 import com.firebase.jobdispatcher.Driver;
@@ -37,6 +36,7 @@ import com.firebase.jobdispatcher.Job;
 import com.firebase.jobdispatcher.Lifetime;
 import com.firebase.jobdispatcher.Trigger;
 
+import androidx.annotation.NonNull;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 
 public class FirebaseRefreshTokenSync {

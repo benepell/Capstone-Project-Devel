@@ -28,9 +28,10 @@ package info.pelleritoudacity.android.rcapstone.utility;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ActivityUI {
 

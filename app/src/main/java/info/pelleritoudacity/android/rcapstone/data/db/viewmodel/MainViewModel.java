@@ -1,12 +1,13 @@
 package info.pelleritoudacity.android.rcapstone.data.db.viewmodel;
 
+
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.LiveData;
-import android.support.annotation.NonNull;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import info.pelleritoudacity.android.rcapstone.data.db.AppDatabase;
 import info.pelleritoudacity.android.rcapstone.data.db.entry.DataEntry;
 import info.pelleritoudacity.android.rcapstone.data.db.entry.PrefSubRedditEntry;

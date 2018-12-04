@@ -27,10 +27,10 @@ package info.pelleritoudacity.android.rcapstone.utility;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v7.preference.PreferenceManager;
 
 import java.util.Objects;
 
+import androidx.preference.PreferenceManager;
 import info.pelleritoudacity.android.rcapstone.R;
 import timber.log.Timber;
 
