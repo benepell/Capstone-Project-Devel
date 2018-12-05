@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity
 
         mDb = AppDatabase.getInstance(getApplicationContext());
 
-        if (BuildConfig.FLAVOR.equals("free")) {
+        if ((BuildConfig.FLAVOR.equals("free"))) {
             countAds = 0;
             Objects.requireNonNull(mAdContainer).setVisibility(View.VISIBLE);
             mAdsHelper = new AdsHelper(this, mContainer, mAdView);
