@@ -2,6 +2,7 @@ package info.pelleritoudacity.android.rcapstone.ui.helper;
 
 import android.content.Context;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.google.android.exoplayer2.util.Util;
@@ -38,18 +39,23 @@ public class AdsHelper {
 
     public void initInterstitialAd() {
 
-        mInterstitialAd = new InterstitialAd(mContext);
+        String ad = mContext.getResources().getString(R.string.ad_unit_id);
 
-        mInterstitialAd.setAdUnitId(mContext.getResources().getString(R.string.ad_unit_id));
+        if (!TextUtils.isEmpty(ad)) {
 
-        startInterstitialAd();
+            mInterstitialAd = new InterstitialAd(mContext);
 
-        mInterstitialAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdClosed() {
-                startInterstitialAd();
-            }
-        });
+            mInterstitialAd.setAdUnitId(ad);
+
+            startInterstitialAd();
+
+            mInterstitialAd.setAdListener(new AdListener() {
+                @Override
+                public void onAdClosed() {
+                    startInterstitialAd();
+                }
+            });
+        }
     }
 
     private void adsErrorListener() {

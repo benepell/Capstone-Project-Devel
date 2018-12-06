@@ -47,11 +47,11 @@ allprojects {
         archLifecycleVersion = "2.0.0"
 
         firebaseJobDispVersion = "0.8.5"
-        firebaseCoreVersion = "16.0.5"
-        googleAdsVersion = "17.1.1"
+        firebaseCoreVersion = "16.0.6"
+        googleAdsVersion = "17.1.2"
 
         crashFabricToolsGradle = "1.26.1"
-        crashAnalyticsVersion = "2.9.6"
+        crashAnalyticsVersion = "2.9.7"
 
         mikepenzIconicsVersion = "3.1.0"
         mikepenzMaterialDesignIconicsVersion = "2.2.0.5@aar"

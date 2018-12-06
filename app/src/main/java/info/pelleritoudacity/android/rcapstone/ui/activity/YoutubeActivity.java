@@ -7,16 +7,16 @@ import android.text.TextUtils;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerFragment;
+import com.google.android.youtube.player.YouTubePlayerView;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 
 
 import java.util.Objects;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +28,7 @@ import info.pelleritoudacity.android.rcapstone.utility.Preference;
 import info.pelleritoudacity.android.rcapstone.utility.TextUtil;
 import timber.log.Timber;
 
-public class YoutubeActivity extends AppCompatActivity implements YouTubePlayer.OnInitializedListener {
+public class YoutubeActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 
     @SuppressWarnings({"WeakerAccess", "CanBeFinal", "unused"})
     @BindView(R.id.youtube_toolbar)
@@ -60,16 +60,17 @@ public class YoutubeActivity extends AppCompatActivity implements YouTubePlayer.
             mYoutubeTitle = intent.getStringExtra(Costant.EXTRA_YOUTUBE_TITLE);
         }
 
-        //todo youtube YoutubePlayerSupportFragment androidx problem, use deprecated .....
-        YouTubePlayerFragment playerFragment = (YouTubePlayerFragment) getFragmentManager().findFragmentById(R.id.youtube_fragment);
+        YouTubePlayerView playerView = findViewById(R.id.youtube_player);
 
         if (!TextUtils.isEmpty(Costant.YOUTUBE_DEVELOPER_KEY)) {
-            Objects.requireNonNull(playerFragment).initialize(Costant.YOUTUBE_DEVELOPER_KEY, this);
+            Objects.requireNonNull(playerView).initialize(Costant.YOUTUBE_DEVELOPER_KEY, this);
 
         } else {
             mYoutubeTitle = getString(R.string.no_api_key_youtube);
             Timber.d("YoutubeDev Developer key cannot be null or empty");
         }
+
+
 
         mToolbar.setTitle(mYoutubeTitle);
 
