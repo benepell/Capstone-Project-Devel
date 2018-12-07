@@ -9,6 +9,7 @@ import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DateConverter;
 
+@SuppressWarnings("unused")
 @Entity(tableName = "_t3")
 public class T3Entry {
 

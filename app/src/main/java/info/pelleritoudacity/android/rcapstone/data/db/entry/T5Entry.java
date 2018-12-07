@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 import info.pelleritoudacity.android.rcapstone.data.db.util.DateConverter;
 
+@SuppressWarnings("ALL")
 @Entity(tableName = "_t5")
 public class T5Entry {
 

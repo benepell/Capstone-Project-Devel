@@ -46,6 +46,7 @@ public class PrefSubRedditEntry {
         return id;
     }
 
+    @SuppressWarnings("unused")
     public void setId(int id) {
         this.id = id;
     }
@@ -84,6 +85,7 @@ public class PrefSubRedditEntry {
         this.removed = removed;
     }
 
+    @SuppressWarnings("unused")
     public int getPosition() {
         return position;
     }
@@ -92,6 +94,7 @@ public class PrefSubRedditEntry {
         this.position = position;
     }
 
+    @SuppressWarnings("unused")
     public int getBackupPosition() {
         return backupPosition;
     }
@@ -100,6 +103,7 @@ public class PrefSubRedditEntry {
         this.backupPosition = backupPosition;
     }
 
+    @SuppressWarnings("unused")
     public long getTimeLastModified() {
         return timeLastModified;
     }

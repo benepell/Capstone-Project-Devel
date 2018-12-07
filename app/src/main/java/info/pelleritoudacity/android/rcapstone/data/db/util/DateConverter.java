@@ -5,6 +5,7 @@ import java.util.Date;
 
 import androidx.room.TypeConverter;
 
+@SuppressWarnings("ALL")
 public class DateConverter {
     @TypeConverter
     public static Date toDate(Long timestamp) {

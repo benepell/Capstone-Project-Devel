@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+@SuppressWarnings("unused")
 @Entity(tableName = "_data")
 public class DataEntry {
 
