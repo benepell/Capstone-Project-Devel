@@ -21,14 +21,17 @@ public class RedditEntry {
     public RedditEntry() {
     }
 
+    @SuppressWarnings("unused")
     public int getId() {
         return id;
     }
 
+    @SuppressWarnings("unused")
     public void setId(int id) {
         this.id = id;
     }
 
+    @SuppressWarnings("unused")
     public String getKind() {
 
         return kind;

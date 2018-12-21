@@ -43,7 +43,7 @@ public class NetworkUtil {
                 final NetworkInfo ni = cm.getActiveNetworkInfo();
 
                 if (ni != null) {
-                    return (ni.isConnected() && (ni.getSubtype() > 0));
+                    return (ni.isConnected() && (ni.getSubtype() >= 0));
                 }
             } else {
                 final Network n = cm.getActiveNetwork();
