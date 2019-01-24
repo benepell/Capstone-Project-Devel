@@ -51,7 +51,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.crashlytics.android.Crashlytics;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.gms.ads.AdView;
 import com.google.android.material.navigation.NavigationView;
@@ -77,7 +76,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import info.pelleritoudacity.android.rcapstone.data.db.AppDatabase;
-import io.fabric.sdk.android.Fabric;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -178,7 +176,6 @@ public class MainActivity extends AppCompatActivity
             setTheme(R.style.AppThemeDark);
         }
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
 
         mContext = MainActivity.this;

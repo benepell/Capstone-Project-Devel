@@ -7,7 +7,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'com.android.tools.build:gradle:3.3.0'
         classpath 'com.google.gms:google-services:4.2.0'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -26,10 +26,12 @@ allprojects {
         sdkVersion = 28
         androidCompatVersion = "1.0.2"
         androidSupportVersion = "1.0.0"
+        constraintSupportVersion = "2.0.0-alpha3"
+
         googleDesignVersion ="1.0.0"
 
         timberVersion = "4.7.1"
-        butterKnifeVersion = "9.0.0-rc2"
+        butterKnifeVersion = "10.0.0"
 
         apacheCommonsVersion = "2.6"
 
@@ -43,21 +45,18 @@ allprojects {
         retrofitVersion = "2.4.0"
         okHttpVersion = "3.11.0"
 
-        roomVersion = "2.1.0-alpha02"
+        roomVersion = "2.1.0-alpha03"
         archLifecycleVersion = "2.0.0"
 
         firebaseJobDispVersion = "0.8.5"
         firebaseCoreVersion = "16.0.6"
         googleAdsVersion = "17.1.2"
 
-        crashFabricToolsGradle = "1.26.1"
-        crashAnalyticsVersion = "2.9.7"
-
         mikepenzIconicsVersion = "3.1.0"
         mikepenzMaterialDesignIconicsVersion = "2.2.0.5@aar"
 
         testJunitVersion = "4.12"
-        espressoVersion = "3.1.0"
+        espressoVersion = "3.1.1"
         testRulesVersion = "1.1.0"
 
     }

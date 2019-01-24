@@ -111,6 +111,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    @SuppressWarnings("ConstantConditions")
     private String loginUrl() {
 
         Uri.Builder builder = new Uri.Builder();
