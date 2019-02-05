@@ -57,7 +57,6 @@ Connect to Reddit API
 * [Firebase jobdispatcher ](https://github.com/firebase/firebase-jobdispatcher-android/)
 * [Firebase Analytics ](https://firebase.google.com/docs/analytics/android/start/)
 * [Firebase Ads ](https://firebase.google.com/docs/admob/admob-firebase)
-* [Fabric Crashlytics](https://fabric.io/kits/android/crashlytics)
 * [Espresso](https://github.com/firebase/firoid.com/training/testing/espresso/index.html)
 * [Android-Iconics](https://github.com/mikepenz/Android-Iconics)
 
