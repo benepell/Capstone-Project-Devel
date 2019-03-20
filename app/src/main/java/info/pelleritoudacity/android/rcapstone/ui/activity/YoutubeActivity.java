@@ -20,7 +20,6 @@ import java.util.Objects;
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import info.pelleritoudacity.android.rcapstone.BuildConfig;
 import info.pelleritoudacity.android.rcapstone.R;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
 import info.pelleritoudacity.android.rcapstone.utility.ImageUtil;
@@ -47,9 +46,6 @@ public class YoutubeActivity extends YouTubeBaseActivity implements YouTubePlaye
             setTheme(R.style.AppThemeDark);
         }
         setContentView(R.layout.activity_media_youtube);
-        if (BuildConfig.DEBUG) {
-            Timber.plant(new Timber.DebugTree());
-        }
 
         ButterKnife.bind(this);
 

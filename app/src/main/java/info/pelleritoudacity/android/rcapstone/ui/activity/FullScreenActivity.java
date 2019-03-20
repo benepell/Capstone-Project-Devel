@@ -21,7 +21,6 @@ import info.pelleritoudacity.android.rcapstone.data.model.MediaModel;
 import info.pelleritoudacity.android.rcapstone.media.MediaPlayer;
 import info.pelleritoudacity.android.rcapstone.utility.ActivityUI;
 import info.pelleritoudacity.android.rcapstone.utility.Costant;
-import timber.log.Timber;
 
 public  class FullScreenActivity extends AppCompatActivity {
 
@@ -52,9 +51,6 @@ public  class FullScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_full_screen);
 
         Context mContext = FullScreenActivity.this;
-        if (BuildConfig.DEBUG) {
-            Timber.plant(new Timber.DebugTree());
-        }
         ButterKnife.bind(this);
 
 

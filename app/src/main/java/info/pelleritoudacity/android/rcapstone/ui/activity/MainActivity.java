@@ -180,9 +180,6 @@ public class MainActivity extends AppCompatActivity
 
         mContext = MainActivity.this;
 
-        if (BuildConfig.DEBUG) {
-            Timber.plant(new Timber.DebugTree());
-        }
         ButterKnife.bind(this);
 
         mDb = AppDatabase.getInstance(getApplicationContext());
@@ -302,6 +299,7 @@ public class MainActivity extends AppCompatActivity
             updateOperation(true);
         }
 
+        Timber.d("benny prova");
     }
 
     @Override
